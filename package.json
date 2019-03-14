@@ -17,10 +17,12 @@
     "lint:cypress": "eslint --ext=tsx --ext=js --ext=jsx --fix ./cypress",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:e2e": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
     "test:watch": "react-scripts test --env=jsdom --watch",
-    "e2e:interactive": "start-server-and-test start http://localhost:3000 cy:open",
-    "e2e": "start-server-and-test start http://localhost:3000 cy:run",
+    "e2e:serve": "npm run build:e2e && node ./server/e2e-test-server.js",
+    "e2e:interactive": "start-server-and-test e2e:serve http://localhost:3000 cy:open",
+    "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "eject": "react-scripts eject"
@@ -65,6 +67,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
+    "cross-env": "^5.2.0",
     "cypress": "^3.1.5",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
