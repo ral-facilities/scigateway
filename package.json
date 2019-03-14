@@ -16,7 +16,8 @@
     "lint:js": "eslint --ext=tsx --ext=js --ext=jsx --fix ./src",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom --coverage",
+    "test:watch": "react-scripts test --env=jsdom --watch",
     "eject": "react-scripts eject"
   },
   "lint-staged": {
@@ -34,6 +35,17 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{tsx,js,jsx}",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/setupTests.js"
+    ]
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -43,6 +55,9 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "^5.12.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.16.0",
