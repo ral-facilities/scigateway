@@ -13,7 +13,8 @@ module.exports = {
     "prettier/@typescript-eslint"
   ],
   'plugins': [
-    'prettier'
+    'prettier',
+    'cypress'
   ],
   'rules': {
     'react/jsx-filename-extension': 'off',
