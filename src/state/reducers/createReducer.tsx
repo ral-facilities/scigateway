@@ -10,7 +10,7 @@ function createReducer(
   handlers: { [id: string]: any }
 ): any {
   return function reducer(state = initialState, action: Action) {
-    if (Object.prototype.hasOwnProperty.call(handlers, action.type)) {
+    if (action && Object.prototype.hasOwnProperty.call(handlers, action.type)) {
       return handlers[action.type](state, action.payload);
     }
     return state;

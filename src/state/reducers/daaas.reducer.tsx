@@ -2,7 +2,7 @@ import createReducer from './createReducer';
 import { NotificationType, NotificationPayload } from '../daaas.types';
 import { DaaasState } from '../state.types';
 
-const initialState: DaaasState = {
+export const initialState: DaaasState = {
   notifications: [],
 };
 
