@@ -32,7 +32,9 @@
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "lint-staged": {
     "src/**/*.{tsx,js,jsx,json}": [
@@ -63,7 +65,9 @@
       "!src/index.tsx",
       "!src/serviceWorker.ts",
       "!src/setupTests.js",
-      "!src/state/reducers/App.reducer.tsx"
+      "!src/state/reducers/App.reducer.tsx",
+      "!src/stories/index.js",
+      "!**/*.stories.*"
     ]
   },
   "browserslist": [
@@ -93,6 +97,12 @@
     "lint-staged": "^8.1.5",
     "prettier": "^1.16.4",
     "redux-mock-store": "^1.5.3",
-    "start-server-and-test": "^1.7.11"
+    "start-server-and-test": "^1.7.11",
+    "@storybook/react": "^5.0.3",
+    "@storybook/addon-actions": "^5.0.3",
+    "@storybook/addon-links": "^5.0.3",
+    "@storybook/addons": "^5.0.3",
+    "@babel/core": "^7.3.4",
+    "babel-loader": "^8.0.5"
   }
 }
