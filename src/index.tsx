@@ -6,15 +6,22 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import AppReducer from './state/reducers/App.reducer';
 import { daaasNotification } from './state/actions/daaas.actions';
-import ExampleComponent from './example.component';
 import { Route, Switch } from 'react-router'; // react-router v4
+import MainAppBar from './mainAppBar/mainAppBar.component';
 
 const history = createBrowserHistory();
+
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+  },
+});
 
 const middleware = [thunk, routerMiddleware(history)];
 if (process.env.NODE_ENV === `development`) {
@@ -42,14 +49,13 @@ setTimeout(() => {
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div>
-        <ExampleComponent />
-        <App />
+      <MuiThemeProvider theme={theme}>
+        <MainAppBar />
         <Switch>
           <Route exact path="/" render={() => <div>Match</div>} />
           <Route render={() => <div>Miss</div>} />
         </Switch>
-      </div>
+      </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
