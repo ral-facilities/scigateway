@@ -14,6 +14,7 @@ import AppReducer from './state/reducers/App.reducer';
 import { daaasNotification } from './state/actions/daaas.actions';
 import { Route, Switch } from 'react-router'; // react-router v4
 import MainAppBar from './mainAppBar/mainAppBar.component';
+import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 
 const history = createBrowserHistory();
 
@@ -51,6 +52,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <MuiThemeProvider theme={theme}>
         <MainAppBar />
+        <NavigationDrawer />
         <Switch>
           <Route exact path="/" render={() => <div>Match</div>} />
           <Route render={() => <div>Miss</div>} />

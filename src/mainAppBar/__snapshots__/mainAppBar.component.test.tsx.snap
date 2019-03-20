@@ -29,6 +29,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       <WithStyles(IconButton)
         className="MainAppBar-menuButton-5"
         color="inherit"
+        onClick={[Function]}
       >
         <pure(MenuIcon) />
       </WithStyles(IconButton)>

@@ -12,10 +12,14 @@ import {
   createStyles,
   Theme,
   StyleRules,
+  WithStyles,
 } from '@material-ui/core/styles';
+import { Dispatch, Action } from 'redux';
+import { toggleDrawer } from '../state/actions/daaas.actions';
+import { connect } from 'react-redux';
 
-interface MainAppBarProps {
-  classes: Record<string, string>;
+interface MainAppDispatchProps {
+  toggleDrawer: () => Action;
 }
 
 interface MenuButtonProps {
@@ -57,11 +61,17 @@ export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
   </Button>
 );
 
-const MainAppBar = (props: MainAppBarProps): React.ReactElement => (
+const MainAppBar = (
+  props: MainAppDispatchProps & WithStyles<typeof styles>
+): React.ReactElement => (
   <div className={props.classes.root}>
     <AppBar position="static">
       <Toolbar>
-        <IconButton className={props.classes.menuButton} color="inherit">
+        <IconButton
+          className={props.classes.menuButton}
+          color="inherit"
+          onClick={props.toggleDrawer}
+        >
           <MenuIcon />
         </IconButton>
         <Typography
@@ -88,4 +98,13 @@ const MainAppBar = (props: MainAppBarProps): React.ReactElement => (
   </div>
 );
 
-export default withStyles(styles)(MainAppBar);
+//const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
+  toggleDrawer: () => dispatch(toggleDrawer()),
+});
+
+export default connect(
+  () => ({}),
+  mapDispatchToProps
+)(withStyles(styles)(MainAppBar));
