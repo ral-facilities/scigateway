@@ -1,8 +1,12 @@
-import { combineReducers } from 'redux';
+import { combineReducers, Reducer } from 'redux';
+import { connectRouter } from 'connected-react-router';
 import daaasReducer from './daaas.reducer';
+import { History } from 'history';
 
-const AppReducer = combineReducers({
-  daaas: daaasReducer,
-});
+const AppReducer = (history: History): Reducer =>
+  combineReducers({
+    router: connectRouter(history),
+    daaas: daaasReducer,
+  });
 
 export default AppReducer;
