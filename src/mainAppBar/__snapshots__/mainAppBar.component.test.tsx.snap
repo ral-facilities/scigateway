@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Main app bar component MenuButton renders correctly 1`] = `
+<WithStyles(Button)
+  className="test-class-1"
+>
+  <WithStyles(Typography)
+    color="inherit"
+    noWrap={true}
+    style={
+      Object {
+        "marginTop": 3,
+      }
+    }
+  >
+    test
+  </WithStyles(Typography)>
+</WithStyles(Button)>
+`;
+
+exports[`Main app bar component app bar renders correctly 1`] = `
+<div
+  className="MainAppBar-root-1"
+>
+  <WithStyles(AppBar)
+    position="static"
+  >
+    <WithStyles(Toolbar)>
+      <WithStyles(IconButton)
+        className="MainAppBar-menuButton-5"
+        color="inherit"
+      >
+        <pure(MenuIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(Typography)
+        className="MainAppBar-title-3"
+        color="inherit"
+        noWrap={true}
+        variant="h6"
+      >
+        Data Analysis as a Service
+      </WithStyles(Typography)>
+      <MenuButton
+        buttonClassName="MainAppBar-button-4"
+        buttonText="Contact"
+      />
+      <div
+        className="MainAppBar-grow-2"
+      />
+      <WithStyles(IconButton)
+        className="MainAppBar-button-4"
+      >
+        <pure(HelpOutlineIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(IconButton)
+        className="MainAppBar-button-4"
+      >
+        <pure(AccountCircleIcon) />
+      </WithStyles(IconButton)>
+    </WithStyles(Toolbar)>
+  </WithStyles(AppBar)>
+</div>
+`;

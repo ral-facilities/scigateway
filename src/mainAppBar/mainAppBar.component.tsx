@@ -49,7 +49,7 @@ const styles = (theme: Theme): StyleRules =>
     },
   });
 
-const MenuButton = (props: MenuButtonProps): React.ReactElement => (
+export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
   <Button className={props.buttonClassName}>
     <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
       {props.buttonText}
