@@ -8,14 +8,22 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
+import { IconButton, Divider, Theme } from '@material-ui/core';
+import { toggleDrawer } from '../state/actions/daaas.actions';
+import { Dispatch, Action } from 'redux';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 interface NavigationDrawerProps {
   open: boolean;
 }
 
+interface NavigationDrawerDispatchProps {
+  toggleDrawer: () => Action;
+}
+
 const drawerWidth = 240;
 
-const styles = (): StyleRules =>
+const styles = (theme: Theme): StyleRules =>
   createStyles({
     drawer: {
       width: drawerWidth,
@@ -24,10 +32,21 @@ const styles = (): StyleRules =>
     drawerPaper: {
       width: drawerWidth,
     },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0 8px',
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-end',
+    },
   });
 
+type CombinedNavigationProps = NavigationDrawerDispatchProps &
+  NavigationDrawerProps &
+  WithStyles<typeof styles>;
+
 const NavigationDrawer = (
-  props: NavigationDrawerProps & WithStyles<typeof styles>
+  props: CombinedNavigationProps
 ): React.ReactElement => (
   <Drawer
     className={props.classes.drawer}
@@ -37,11 +56,27 @@ const NavigationDrawer = (
     classes={{
       paper: props.classes.drawerPaper,
     }}
-  />
+  >
+    <div className={props.classes.drawerHeader}>
+      <IconButton onClick={props.toggleDrawer}>
+        <ChevronLeftIcon />
+      </IconButton>
+    </div>
+    <Divider />
+  </Drawer>
 );
 
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   open: state.daaas.drawerOpen,
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(NavigationDrawer));
+const mapDispatchToProps = (
+  dispatch: Dispatch
+): NavigationDrawerDispatchProps => ({
+  toggleDrawer: () => dispatch(toggleDrawer()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(NavigationDrawer));

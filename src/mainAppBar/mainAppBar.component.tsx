@@ -14,9 +14,15 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 import { connect } from 'react-redux';
+import { StateType } from '../state/state.types';
+
+interface MainAppProps {
+  drawerOpen: boolean;
+}
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
@@ -27,10 +33,26 @@ interface MenuButtonProps {
   buttonClassName: string;
 }
 
+const drawerWidth = 240;
+
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
       width: '100%',
+    },
+    appBar: {
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
     grow: {
       flexGrow: 1,
@@ -51,6 +73,9 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: 20,
       color: theme.palette.primary.contrastText,
     },
+    hide: {
+      display: 'none',
+    },
   });
 
 export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
@@ -61,14 +86,24 @@ export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
   </Button>
 );
 
-const MainAppBar = (
-  props: MainAppDispatchProps & WithStyles<typeof styles>
-): React.ReactElement => (
+type CombinedMainAppBarProps = MainAppProps &
+  MainAppDispatchProps &
+  WithStyles<typeof styles>;
+
+const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
   <div className={props.classes.root}>
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      className={classNames(props.classes.appBar, {
+        [props.classes.appBarShift]: props.drawerOpen,
+      })}
+    >
       <Toolbar>
         <IconButton
-          className={props.classes.menuButton}
+          className={classNames(
+            props.classes.menuButton,
+            props.drawerOpen && props.classes.hide
+          )}
           color="inherit"
           onClick={props.toggleDrawer}
         >
@@ -98,13 +133,15 @@ const MainAppBar = (
   </div>
 );
 
-//const mapStateToProps = () => ({});
+const mapStateToProps = (state: StateType): MainAppProps => ({
+  drawerOpen: state.daaas.drawerOpen,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
 
 export default connect(
-  () => ({}),
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(MainAppBar));
