@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
-import MainAppBar from '../mainAppBar/mainAppBar.component';
+import { MainAppBarWithStyles } from '../mainAppBar/mainAppBar.component';
+import { action } from '@storybook/addon-actions';
 
 const placeHolderStyle = {
   height: 150,
@@ -21,7 +21,10 @@ storiesOf('MainAppBar', module)
   })
   .add('default', () => (
     <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10 }}>
-      <MainAppBar />
+      <MainAppBarWithStyles
+        drawerOpen={false}
+        toggleDrawer={action('toggle menu')}
+      />
       <div style={{ display: 'flex' }}>
         <div style={{ width: 180, ...placeHolderStyle }}>Navigation</div>
         <div style={{ width: '100%', ...placeHolderStyle }}>Plugins here</div>

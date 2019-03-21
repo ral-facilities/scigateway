@@ -141,7 +141,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
 
+export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(MainAppBar));
+)(MainAppBarWithStyles);

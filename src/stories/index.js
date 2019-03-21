@@ -7,11 +7,7 @@ const req = require.context('./', true, /\.stories\.tsx$/);
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
     primary: blue,
-  },
-  alarmState: {
-    warning: '#e6c01c',
   },
 });
 

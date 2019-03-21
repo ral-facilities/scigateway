@@ -76,7 +76,9 @@ const mapDispatchToProps = (
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
 
+export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(NavigationDrawer));
+)(NavigationDrawerWithStyles);
