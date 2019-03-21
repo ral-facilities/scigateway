@@ -2,17 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose, AnyAction } from 'redux';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import AppReducer from './state/reducers/App.reducer';
-import { daaasNotification } from './state/actions/daaas.actions';
 import ExampleComponent from './example.component';
 import { Route, Switch } from 'react-router'; // react-router v4
+import { configureSite } from './state/actions/daaas.actions';
+import { StateType } from './state/state.types';
 
 const history = createBrowserHistory();
 
@@ -35,9 +36,9 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-setTimeout(() => {
-  store.dispatch(daaasNotification('test notification'));
-}, 3000);
+// caste dispatch as ThunkDispatch
+const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
+dispatch(configureSite());
 
 ReactDOM.render(
   <Provider store={store}>

@@ -10,6 +10,7 @@
     "@types/react-dom": "16.8.2",
     "@types/react-redux": "^7.0.3",
     "@types/redux-logger": "^3.0.7",
+    "axios": "^0.18.0",
     "connected-react-router": "^5.0.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
