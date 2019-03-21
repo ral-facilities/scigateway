@@ -18,6 +18,52 @@ exports[`Main app bar component MenuButton renders correctly 1`] = `
 </WithStyles(Button)>
 `;
 
+exports[`Main app bar component app bar indented when drawer is open 1`] = `
+<div
+  className="MainAppBar-root-1"
+>
+  <WithStyles(AppBar)
+    className="MainAppBar-appBar-2 MainAppBar-appBarShift-3"
+    position="static"
+  >
+    <WithStyles(Toolbar)>
+      <WithStyles(IconButton)
+        className="MainAppBar-menuButton-7 MainAppBar-hide-8"
+        color="inherit"
+        onClick={[Function]}
+      >
+        <pure(MenuIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(Typography)
+        className="MainAppBar-title-5"
+        color="inherit"
+        noWrap={true}
+        variant="h6"
+      >
+        Data Analysis as a Service
+      </WithStyles(Typography)>
+      <MenuButton
+        buttonClassName="MainAppBar-button-6"
+        buttonText="Contact"
+      />
+      <div
+        className="MainAppBar-grow-4"
+      />
+      <WithStyles(IconButton)
+        className="MainAppBar-button-6"
+      >
+        <pure(HelpOutlineIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(IconButton)
+        className="MainAppBar-button-6"
+      >
+        <pure(AccountCircleIcon) />
+      </WithStyles(IconButton)>
+    </WithStyles(Toolbar)>
+  </WithStyles(AppBar)>
+</div>
+`;
+
 exports[`Main app bar component app bar renders correctly 1`] = `
 <div
   className="MainAppBar-root-1"

@@ -31,6 +31,13 @@ describe('Main app bar component', () => {
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
+  it('app bar indented when drawer is open', () => {
+    state.daaas.drawerOpen = true;
+
+    const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
+    expect(wrapper.dive().dive()).toMatchSnapshot();
+  });
+
   it('MenuButton renders correctly', () => {
     const wrapper = shallow(
       <MenuButton buttonText="test" buttonClassName="test-class-1" />
