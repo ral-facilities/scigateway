@@ -1,9 +1,9 @@
 import React from 'react';
-import MainAppBarComponent, { MenuButton } from './mainAppBar.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
+import NavigationDrawer from './navigationDrawer.component';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 
 describe('Main app bar component', () => {
@@ -26,21 +26,23 @@ describe('Main app bar component', () => {
     mount.cleanUp();
   });
 
-  it('app bar renders correctly', () => {
-    const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
+  it('Navigation drawer renders correctly when open', () => {
+    state.daaas.drawerOpen = true;
+
+    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
-  it('MenuButton renders correctly', () => {
-    const wrapper = shallow(
-      <MenuButton buttonText="test" buttonClassName="test-class-1" />
-    );
-    expect(wrapper).toMatchSnapshot();
+  it('Navigation drawer renders correctly when closed', () => {
+    state.daaas.drawerOpen = false;
+
+    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+    expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
-  it('sends toggleDrawer action when menu clicked', () => {
+  it('sends toggleDrawer action when chevron clicked', () => {
     const testStore = mockStore(state);
-    const wrapper = mount(<MainAppBarComponent store={testStore} />);
+    const wrapper = mount(<NavigationDrawer store={testStore} />);
 
     wrapper
       .find('button')
