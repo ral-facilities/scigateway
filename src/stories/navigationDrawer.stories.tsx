@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 import { NavigationDrawerWithStyles } from '../navigationDrawer/navigationDrawer.component';
+import { FakeReduxAction } from './utils';
 
 const placeHolderStyle = {
   height: 250,
@@ -17,7 +17,7 @@ storiesOf('NavigationDrawer', module).add('default', () => (
   <div>
     <NavigationDrawerWithStyles
       open={true}
-      toggleDrawer={action('toggle menu')}
+      toggleDrawer={FakeReduxAction('toggle menu')}
     />
     <div
       style={{

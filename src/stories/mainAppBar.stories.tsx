@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { MainAppBarWithStyles } from '../mainAppBar/mainAppBar.component';
-import { action } from '@storybook/addon-actions';
+import { FakeReduxAction } from './utils';
 
 const placeHolderStyle = {
   height: 150,
@@ -23,7 +23,7 @@ storiesOf('MainAppBar', module)
     <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10 }}>
       <MainAppBarWithStyles
         drawerOpen={false}
-        toggleDrawer={action('toggle menu')}
+        toggleDrawer={FakeReduxAction('toggle menu')}
       />
       <div style={{ display: 'flex' }}>
         <div style={{ width: 180, ...placeHolderStyle }}>Navigation</div>

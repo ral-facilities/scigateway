@@ -72,6 +72,7 @@
       "!src/setupTests.js",
       "!src/state/reducers/App.reducer.tsx",
       "!src/stories/index.js",
+      "!src/stories/utils.tsx",
       "!**/*.stories.*"
     ]
   },
