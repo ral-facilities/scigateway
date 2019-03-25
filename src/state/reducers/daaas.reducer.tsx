@@ -1,9 +1,14 @@
 import createReducer from './createReducer';
-import { NotificationType, NotificationPayload } from '../daaas.types';
+import {
+  NotificationType,
+  NotificationPayload,
+  ToggleDrawerType,
+} from '../daaas.types';
 import { DaaasState } from '../state.types';
 
 export const initialState: DaaasState = {
   notifications: [],
+  drawerOpen: false,
 };
 
 export function handleNotification(
@@ -16,8 +21,16 @@ export function handleNotification(
   };
 }
 
+export function handleDrawerToggle(state: DaaasState): DaaasState {
+  return {
+    ...state,
+    drawerOpen: !state.drawerOpen,
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
+  [ToggleDrawerType]: handleDrawerToggle,
 });
 
 export default DaaasReducer;

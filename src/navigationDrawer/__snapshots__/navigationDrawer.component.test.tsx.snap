@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Main app bar component Navigation drawer renders correctly when closed 1`] = `
+<WithStyles(Drawer)
+  anchor="left"
+  className="NavigationDrawer-drawer-1"
+  classes={
+    Object {
+      "paper": "NavigationDrawer-drawerPaper-2",
+    }
+  }
+  open={false}
+  variant="persistent"
+>
+  <div
+    className="NavigationDrawer-drawerHeader-3"
+  >
+    <WithStyles(IconButton)
+      onClick={[Function]}
+    >
+      <pure(ChevronLeftIcon) />
+    </WithStyles(IconButton)>
+  </div>
+  <WithStyles(Divider) />
+</WithStyles(Drawer)>
+`;
+
+exports[`Main app bar component Navigation drawer renders correctly when open 1`] = `
+<WithStyles(Drawer)
+  anchor="left"
+  className="NavigationDrawer-drawer-1"
+  classes={
+    Object {
+      "paper": "NavigationDrawer-drawerPaper-2",
+    }
+  }
+  open={true}
+  variant="persistent"
+>
+  <div
+    className="NavigationDrawer-drawerHeader-3"
+  >
+    <WithStyles(IconButton)
+      onClick={[Function]}
+    >
+      <pure(ChevronLeftIcon) />
+    </WithStyles(IconButton)>
+  </div>
+  <WithStyles(Divider) />
+</WithStyles(Drawer)>
+`;

@@ -1,4 +1,4 @@
-import { daaasNotification } from '../actions/daaas.actions';
+import { daaasNotification, toggleDrawer } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
 
@@ -22,5 +22,15 @@ describe('daaas reducer', () => {
     const updatedState = DaaasReducer(state, { type: 'irrelevant action' });
 
     expect(updatedState).toBe(state);
+  });
+
+  it('should toggle the drawer state for a toggleDrawer message', () => {
+    expect(state.drawerOpen).toBeFalsy();
+
+    let updatedState = DaaasReducer(state, toggleDrawer());
+    expect(updatedState.drawerOpen).toBeTruthy();
+
+    updatedState = DaaasReducer(updatedState, toggleDrawer());
+    expect(updatedState.drawerOpen).toBeFalsy();
   });
 });

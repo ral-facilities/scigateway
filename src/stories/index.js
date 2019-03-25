@@ -1,23 +1,23 @@
 import React from 'react';
+import { configure, addDecorator } from '@storybook/react';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { blue } from '@material-ui/core/colors';
 
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+const req = require.context('./', true, /\.stories\.tsx$/);
 
-import { Button, Welcome } from '@storybook/react/demo';
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+  },
+});
 
-storiesOf('Welcome', module).add('to Storybook', () => (
-  <Welcome showApp={linkTo('Button')} />
-));
+const MaterialUIThemeDecorator = storyFn => (
+  <MuiThemeProvider theme={theme}>{storyFn()}</MuiThemeProvider>
+);
+addDecorator(MaterialUIThemeDecorator);
 
-storiesOf('Button', module)
-  .add('with text', () => (
-    <Button onClick={action('clicked')}>Hello Button</Button>
-  ))
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  ));
+function loadStories() {
+  req.keys().forEach(filename => req(filename));
+}
+
+configure(loadStories, module);
