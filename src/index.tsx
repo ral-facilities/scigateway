@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose, AnyAction } from 'redux';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -11,8 +11,10 @@ import blue from '@material-ui/core/colors/blue';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import AppReducer from './state/reducers/App.reducer';
-import { daaasNotification } from './state/actions/daaas.actions';
+import ExampleComponent from './example.component';
 import { Route, Switch } from 'react-router'; // react-router v4
+import { configureSite } from './state/actions/daaas.actions';
+import { StateType } from './state/state.types';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 
@@ -43,9 +45,8 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-setTimeout(() => {
-  store.dispatch(daaasNotification('test notification'));
-}, 3000);
+const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
+dispatch(configureSite());
 
 ReactDOM.render(
   <Provider store={store}>
@@ -57,6 +58,7 @@ ReactDOM.render(
           <Route exact path="/" render={() => <div>Match</div>} />
           <Route render={() => <div>Miss</div>} />
         </Switch>
+        <ExampleComponent />
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,

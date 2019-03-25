@@ -1,0 +1,12 @@
+{
+    "title": "a cool title",
+    "features": {
+        "latest feature": true,
+        "search functionality": false
+    },
+    "plugins": [
+        {
+            "name": "plugin1"
+        }
+    ]
+}
