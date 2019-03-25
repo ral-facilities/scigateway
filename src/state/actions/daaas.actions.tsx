@@ -1,5 +1,3 @@
-import { NotificationType, NotificationPayload } from '../daaas.types';
-import { ActionType, StateType } from '../state.types';
 import axios from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -8,7 +6,7 @@ import {
   NotificationPayload,
   ToggleDrawerType,
 } from '../daaas.types';
-import { ActionType } from '../state.types';
+import { ActionType, StateType } from '../state.types';
 import { Action } from 'redux';
 
 export const daaasNotification = (

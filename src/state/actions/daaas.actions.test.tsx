@@ -1,8 +1,10 @@
 import mockAxios from 'axios';
-import { daaasNotification, configureSite } from './daaas.actions';
-import { NotificationType } from '../daaas.types';
 import { Action } from 'redux';
-import { daaasNotification, toggleDrawer } from './daaas.actions';
+import {
+  daaasNotification,
+  configureSite,
+  toggleDrawer,
+} from './daaas.actions';
 import { NotificationType, ToggleDrawerType } from '../daaas.types';
 
 describe('daaas actions', () => {

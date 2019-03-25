@@ -59,6 +59,7 @@ ReactDOM.render(
           <Route exact path="/" render={() => <div>Match</div>} />
           <Route render={() => <div>Miss</div>} />
         </Switch>
+        <ExampleComponent />
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
