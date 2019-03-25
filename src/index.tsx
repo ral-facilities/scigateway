@@ -45,7 +45,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-// caste dispatch as ThunkDispatch
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
 

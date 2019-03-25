@@ -1,12 +1,10 @@
 import axios from 'axios';
-import { ThunkAction } from 'redux-thunk';
-import { AnyAction } from 'redux';
 import {
   NotificationType,
   NotificationPayload,
   ToggleDrawerType,
 } from '../daaas.types';
-import { ActionType, StateType } from '../state.types';
+import { ActionType, ThunkResult } from '../state.types';
 import { Action } from 'redux';
 
 export const daaasNotification = (
@@ -18,9 +16,7 @@ export const daaasNotification = (
   },
 });
 
-type MyThunkResult<R> = ThunkAction<R, StateType, null, AnyAction>;
-
-export const configureSite = (): MyThunkResult<Promise<void>> => {
+export const configureSite = (): ThunkResult<Promise<void>> => {
   return async dispatch => {
     const res = await axios.get(`/settings.json`);
     const settings = res.data;
