@@ -1,5 +1,6 @@
 export interface DaaasState {
   notifications: string[];
+  drawerOpen: boolean;
 }
 
 export interface StateType {

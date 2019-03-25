@@ -2,6 +2,8 @@ import mockAxios from 'axios';
 import { daaasNotification, configureSite } from './daaas.actions';
 import { NotificationType } from '../daaas.types';
 import { Action } from 'redux';
+import { daaasNotification, toggleDrawer } from './daaas.actions';
+import { NotificationType, ToggleDrawerType } from '../daaas.types';
 
 describe('daaas actions', () => {
   it('daaasNotification should have a message', () => {
@@ -26,5 +28,10 @@ describe('daaas actions', () => {
     await asyncAction(dispatch);
 
     expect(actions[0]).toEqual(daaasNotification('{"title":"new title"}'));
+  });
+
+  it('toggleDrawer only needs a type', () => {
+    const action = toggleDrawer();
+    expect(action.type).toEqual(ToggleDrawerType);
   });
 });

@@ -3,6 +3,13 @@ import { ActionType, StateType } from '../state.types';
 import axios from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
+import {
+  NotificationType,
+  NotificationPayload,
+  ToggleDrawerType,
+} from '../daaas.types';
+import { ActionType } from '../state.types';
+import { Action } from 'redux';
 
 export const daaasNotification = (
   message: string
@@ -22,3 +29,7 @@ export const configureSite = (): MyThunkResult<Promise<void>> => {
     dispatch(daaasNotification(JSON.stringify(settings)));
   };
 };
+
+export const toggleDrawer = (): Action => ({
+  type: ToggleDrawerType,
+});
