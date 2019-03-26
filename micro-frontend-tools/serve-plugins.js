@@ -1,7 +1,8 @@
 var fs = require("fs");
+const path = require('path');
 var exec = require('child_process').exec;
 
-const settingsFilePath = __dirname + "/dev-plugin-settings.json"
+const settingsFilePath = path.join(__dirname, "/dev-plugin-settings.json")
 
 function checkForSettingsFile() {
   

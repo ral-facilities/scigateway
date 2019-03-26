@@ -6,8 +6,8 @@
   },
   "plugins": [
     {
-      "name": "plugin1",
-      "src": "http://localhost:5001/main.js",
+      "name": "demo_plugin",
+      "src": "http://localhost:5002/main.js",
       "enable": true,
       "location": "main"
     }
