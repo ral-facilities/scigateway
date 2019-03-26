@@ -23,12 +23,14 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "single-spa": "^4.1.2",
     "typescript": "3.3.3333"
   },
   "scripts": {
     "lint:js": "eslint --ext=tsx --ext=js --ext=jsx --fix ./src",
     "lint:cypress": "eslint --ext=tsx --ext=js --ext=jsx --fix ./cypress",
-    "start": "react-scripts start",
+    "serve:plugins": "node micro-frontend-tools/serve-plugins.js",
+    "start": "concurrently --kill-others \"npm run serve:plugins\" \"react-scripts start\"",
     "build": "react-scripts build",
     "build:e2e": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
@@ -74,7 +76,8 @@
       "!src/state/reducers/App.reducer.tsx",
       "!src/stories/index.js",
       "!src/stories/utils.tsx",
-      "!**/*.stories.*"
+      "!**/*.stories.*",
+      "!src/state/actions/loadMicroFrontends.tsx"
     ]
   },
   "browserslist": [
@@ -94,11 +97,13 @@
     "@types/history": "^4.7.2",
     "@types/react-router": "^4.4.5",
     "@types/redux-mock-store": "^1.0.0",
+    "@types/single-spa-react": "^2.8.3",
     "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__react": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
     "babel-loader": "^8.0.5",
+    "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "cypress": "^3.1.5",
     "enzyme": "^3.9.0",
@@ -115,6 +120,7 @@
     "lint-staged": "^8.1.5",
     "prettier": "^1.16.4",
     "redux-mock-store": "^1.5.3",
+    "serve": "^10.1.2",
     "start-server-and-test": "^1.7.11"
   }
 }

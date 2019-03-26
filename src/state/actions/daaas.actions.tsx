@@ -6,6 +6,7 @@ import {
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
 import { Action } from 'redux';
+import loadMicroFrontends from './loadMicroFrontends';
 
 export const daaasNotification = (
   message: string
@@ -21,6 +22,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
     const res = await axios.get(`/settings.json`);
     const settings = res.data;
     dispatch(daaasNotification(JSON.stringify(settings)));
+
+    loadMicroFrontends.init(settings.plugins);
   };
 };
 

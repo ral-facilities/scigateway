@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    {
+      "type": "static",
+      "location": "C:\\code\\micro-frontend-test1\\plugin1\\build",
+      "port": 5001
+    },
+    {
+      "type": "static",
+      "location": "C:\\code\\micro-frontend-test1\\plugin1\\build",
+      "port": 5002
+    }
+  ]
+}

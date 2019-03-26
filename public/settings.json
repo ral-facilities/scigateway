@@ -1,12 +1,15 @@
 {
-    "title": "a cool title",
-    "features": {
-        "latest feature": true,
-        "search functionality": false
-    },
-    "plugins": [
-        {
-            "name": "plugin1"
-        }
-    ]
+  "title": "a cool title",
+  "features": {
+    "latest feature": true,
+    "search functionality": false
+  },
+  "plugins": [
+    {
+      "name": "plugin1",
+      "src": "http://localhost:5001/main.js",
+      "enable": true,
+      "location": "main"
+    }
+  ]
 }
