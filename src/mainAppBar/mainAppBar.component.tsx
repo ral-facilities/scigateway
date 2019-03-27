@@ -35,7 +35,7 @@ interface MenuButtonProps {
 
 const drawerWidth = 240;
 
-const styles = (theme: Theme) =>
+const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
       width: '100%',
@@ -78,7 +78,7 @@ const styles = (theme: Theme) =>
     },
   });
 
-export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
+export const MenuButton = (props: MenuButtonProps) => (
   <Button className={props.buttonClassName}>
     <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
       {props.buttonText}
