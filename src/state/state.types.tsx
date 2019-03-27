@@ -1,6 +1,13 @@
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
 
+export interface Plugin {
+  name: string;
+  src: string;
+  enable: boolean;
+  location: 'main' | 'left' | 'right';
+}
+
 export interface DaaasState {
   notifications: string[];
   drawerOpen: boolean;
