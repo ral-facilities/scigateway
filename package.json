@@ -27,7 +27,7 @@
     "typescript": "3.3.3333"
   },
   "scripts": {
-    "lint:js": "eslint --ext=tsx --ext=js --ext=jsx --fix ./src",
+    "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=js --ext=jsx --fix ./src",
     "lint:cypress": "eslint --ext=tsx --ext=js --ext=jsx --fix ./cypress",
     "serve:plugins": "node micro-frontend-tools/serve-plugins.js",
     "start": "concurrently \"npm run serve:plugins\" \"react-scripts start\"",
@@ -46,7 +46,7 @@
   },
   "lint-staged": {
     "src/**/*.{tsx,js,jsx,json}": [
-      "eslint --ext=tsx --ext=js --ext=jsx --fix",
+      "eslint --max-warnings=0 --ext=tsx --ext=js --ext=jsx --fix",
       "prettier --config .prettierrc --write",
       "git add"
     ],
