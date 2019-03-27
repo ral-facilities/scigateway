@@ -35,7 +35,7 @@ interface MenuButtonProps {
 
 const drawerWidth = 240;
 
-const styles = (theme: Theme): StyleRules =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
