@@ -30,7 +30,7 @@
     "lint:js": "eslint --ext=tsx --ext=js --ext=jsx --fix ./src",
     "lint:cypress": "eslint --ext=tsx --ext=js --ext=jsx --fix ./cypress",
     "serve:plugins": "node micro-frontend-tools/serve-plugins.js",
-    "start": "concurrently --kill-others \"npm run serve:plugins\" \"react-scripts start\"",
+    "start": "concurrently \"npm run serve:plugins\" \"react-scripts start\"",
     "build": "react-scripts build",
     "build:e2e": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
