@@ -6,7 +6,7 @@
     },
     "plugins": [
         {
-            "name": "plugin1"
+            "name": "plugin2"
         }
     ]
 }

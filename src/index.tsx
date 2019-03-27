@@ -16,6 +16,7 @@ import { Route, Switch } from 'react-router'; // react-router v4
 import { configureSite } from './state/actions/daaas.actions';
 import { StateType } from './state/state.types';
 import MainAppBar from './mainAppBar/mainAppBar.component';
+import LoginPage from './loginPage/loginPage.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 
 const history = createBrowserHistory();
@@ -59,6 +60,7 @@ ReactDOM.render(
           <Route render={() => <div>Miss</div>} />
         </Switch>
         <ExampleComponent />
+        <LoginPage />
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
