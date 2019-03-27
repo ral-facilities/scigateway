@@ -1,1 +1,13 @@
-{}
+{
+  "title": "e2e tests",
+  "features": {
+  },
+  "plugins": [
+    {
+      "name": "demo_plugin",
+      "src": "/plugins/e2e-plugin/main.js",
+      "enable": true,
+      "location": "main"
+    }
+  ]
+}
