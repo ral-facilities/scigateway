@@ -22,6 +22,9 @@ import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 const history = createBrowserHistory();
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: blue,
   },
