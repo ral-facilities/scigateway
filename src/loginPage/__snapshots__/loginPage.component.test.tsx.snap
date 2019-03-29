@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login page component login page renders correctly 1`] = `
+<div
+  className="LoginPageComponent-root-1"
+>
+  <WithStyles(Paper)
+    className="LoginPageComponent-paper-3"
+  >
+    <WithStyles(Avatar)
+      className="LoginPageComponent-avatar-2"
+    >
+      <pure(LockOutlinedIcon) />
+    </WithStyles(Avatar)>
+    <WithStyles(Typography)
+      component="h1"
+      variant="h5"
+    >
+      Sign in
+    </WithStyles(Typography)>
+    <div>
+      <TextField
+        className="LoginPageComponent-textField-4"
+        label="Username*"
+        onChange={[Function]}
+        required={false}
+        select={false}
+        value=""
+        variant="standard"
+      />
+    </div>
+    <div>
+      <TextField
+        className="LoginPageComponent-textField-4"
+        label="Password*"
+        onChange={[Function]}
+        required={false}
+        select={false}
+        type="password"
+        value=""
+        variant="standard"
+      />
+    </div>
+    <div>
+      <WithStyles(Button)
+        className="LoginPageComponent-button-5"
+        color="primary"
+        onClick={[Function]}
+        variant="contained"
+      >
+        <WithStyles(Typography)
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          sign in
+        </WithStyles(Typography)>
+      </WithStyles(Button)>
+    </div>
+  </WithStyles(Paper)>
+</div>
+`;

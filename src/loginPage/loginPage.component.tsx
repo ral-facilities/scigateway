@@ -151,6 +151,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LoginPageDispatchProps => ({
 export const LoginPageWithStyles = withStyles(styles)(LoginPageComponent);
 
 export default connect(
-  () => {},
+  () => ({}),
   mapDispatchToProps
 )(LoginPageWithStyles);
