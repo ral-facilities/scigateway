@@ -1,6 +1,6 @@
 {
-  "short_name": "DAaaS",
-  "name": "Data Analysis as a Service",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
