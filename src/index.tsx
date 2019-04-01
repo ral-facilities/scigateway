@@ -15,7 +15,9 @@ import { Route, Switch } from 'react-router'; // react-router v4
 import { configureSite } from './state/actions/daaas.actions';
 import { StateType } from './state/state.types';
 import MainAppBar from './mainAppBar/mainAppBar.component';
+import LoginPage from './loginPage/loginPage.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
+import * as log from 'loglevel';
 import DaaasMiddleware, {
   listenToPlugins,
 } from './state/middleware/daaas.middleware';
@@ -23,6 +25,9 @@ import DaaasMiddleware, {
 const history = createBrowserHistory();
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: blue,
   },
@@ -35,6 +40,9 @@ if (process.env.NODE_ENV === `development`) {
   middleware.push(logger);
   // const {whyDidYouUpdate} = require('why-did-you-update');
   // whyDidYouUpdate(React);
+  log.setDefaultLevel(log.levels.DEBUG);
+} else {
+  log.setDefaultLevel(log.levels.ERROR);
 }
 
 /* eslint-disable no-underscore-dangle, @typescript-eslint/no-explicit-any */
@@ -63,6 +71,7 @@ ReactDOM.render(
           <Route render={() => <div>Miss</div>} />
         </Switch>
         <ExampleComponent />
+        <LoginPage />
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
