@@ -17,6 +17,7 @@ storiesOf('NavigationDrawer', module).add('default', () => (
   <div>
     <NavigationDrawerWithStyles
       open={true}
+      plugins={[]}
       toggleDrawer={FakeReduxAction('toggle menu')}
     />
     <div
