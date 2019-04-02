@@ -29,6 +29,10 @@ function loadPluginsFromSettings() {
 }
 
 function servePluginWithOutput(plugin, index) {
+  if (!fs.existsSync(plugin.location)) {
+    console.log(`ERROR: Expected plugin not found at ${plugin.location}`);
+    return;
+  }
   console.log(`Serving plugin ${plugin.location} on port ${plugin.port}`);
   const child = exec(`serve -l ${plugin.port} ${plugin.location}`);
   child.stdout.on('data', function(data) {
