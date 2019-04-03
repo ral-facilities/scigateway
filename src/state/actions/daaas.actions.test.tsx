@@ -6,7 +6,17 @@ import {
   toggleDrawer,
   verifyUsernameAndPassword,
 } from './daaas.actions';
-import { NotificationType, ToggleDrawerType, LoginType } from '../daaas.types';
+import { NotificationType, ToggleDrawerType } from '../daaas.types';
+
+function makeAsyncCall(message: string): void {
+  (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+    Promise.resolve({
+      data: {
+        title: message,
+      },
+    })
+  );
+}
 
 describe('daaas actions', () => {
   it('daaasNotification should have a message', () => {
@@ -17,13 +27,7 @@ describe('daaas actions', () => {
   });
 
   it('configureSite should dispatch a daaasNotification', async () => {
-    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: {
-          title: 'new title',
-        },
-      })
-    );
+    makeAsyncCall('new title');
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -39,10 +43,32 @@ describe('daaas actions', () => {
     expect(action.type).toEqual(ToggleDrawerType);
   });
 
-  it('verifyUsernameAndPassword should dispatch a LoginType action with username and password as payload', () => {
-    const action = verifyUsernameAndPassword('username', 'password');
-    expect(action.type).toEqual(LoginType);
-    expect(action.payload.username).toEqual('username');
-    expect(action.payload.password).toEqual('password');
+  it('given valid credentials verifyUsernameAndPassword should return with a valid token and successful authorisation', async () => {
+    makeAsyncCall('this will be replaced by an API call to get access token');
+
+    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+
+    await asyncAction(dispatch);
+    const response = {
+      payload: { token: 'validLoginToken' },
+      type: 'daaas:auth_success',
+    };
+
+    expect(actions[0]).toEqual(response);
+  });
+
+  it('given invalid credentials verifyUsernameAndPassword should return an authorisation failure', async () => {
+    makeAsyncCall('this will be replaced by an API call to get access token');
+
+    const asyncAction = verifyUsernameAndPassword('INVALID_NAME', 'password');
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+
+    await asyncAction(dispatch);
+    const response = { type: 'daaas:auth_failure' };
+
+    expect(actions[0]).toEqual(response);
   });
 });

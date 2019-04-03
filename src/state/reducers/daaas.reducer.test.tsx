@@ -1,4 +1,9 @@
-import { daaasNotification, toggleDrawer } from '../actions/daaas.actions';
+import {
+  daaasNotification,
+  toggleDrawer,
+  authorised,
+  unauthorised,
+} from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
 
@@ -32,5 +37,25 @@ describe('daaas reducer', () => {
 
     updatedState = DaaasReducer(updatedState, toggleDrawer());
     expect(updatedState.drawerOpen).toBeFalsy();
+  });
+
+  it('successful log in should update authorisation to logged in state', () => {
+    const action = authorised('token');
+    let updatedState = DaaasReducer(state, action);
+    const authorisedState = {
+      token: 'token',
+      failedToLogin: false,
+      loggedIn: true,
+    };
+
+    expect(updatedState.authorisation).toEqual(authorisedState);
+  });
+
+  it('unsuccessful log in should update authorisation to not logged in state', () => {
+    const action = unauthorised();
+    let updatedState = DaaasReducer(state, action);
+    const authorisedState = { token: '', failedToLogin: true, loggedIn: false };
+
+    expect(updatedState.authorisation).toEqual(authorisedState);
   });
 });

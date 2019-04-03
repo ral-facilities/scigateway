@@ -60,6 +60,7 @@ listenToPlugins(store.dispatch);
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
 
+// if state authorised is true, render
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
@@ -68,12 +69,13 @@ ReactDOM.render(
         <NavigationDrawer />
         <Switch>
           <Route exact path="/" render={() => <div>Match</div>} />
+          <Route exact_path="/login" component={LoginPage} />
           <Route render={() => <div>Miss</div>} />
         </Switch>
         <ExampleComponent />
-        <LoginPage />
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );
+// else redirect to login screen
