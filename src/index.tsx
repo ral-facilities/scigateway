@@ -17,6 +17,10 @@ import { StateType } from './state/state.types';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import LoginPage from './loginPage/loginPage.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
+import * as log from 'loglevel';
+import DaaasMiddleware, {
+  listenToPlugins,
+} from './state/middleware/daaas.middleware';
 
 const history = createBrowserHistory();
 
@@ -29,13 +33,16 @@ const theme = createMuiTheme({
   },
 });
 
-const middleware = [thunk, routerMiddleware(history)];
+const middleware = [thunk, routerMiddleware(history), DaaasMiddleware];
 if (process.env.NODE_ENV === `development`) {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const logger = (createLogger as any)();
   middleware.push(logger);
   // const {whyDidYouUpdate} = require('why-did-you-update');
   // whyDidYouUpdate(React);
+  log.setDefaultLevel(log.levels.DEBUG);
+} else {
+  log.setDefaultLevel(log.levels.ERROR);
 }
 
 /* eslint-disable no-underscore-dangle, @typescript-eslint/no-explicit-any */
@@ -47,6 +54,8 @@ const store = createStore(
   AppReducer(history),
   composeEnhancers(applyMiddleware(...middleware))
 );
+
+listenToPlugins(store.dispatch);
 
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
