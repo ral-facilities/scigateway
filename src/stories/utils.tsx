@@ -9,3 +9,11 @@ export const FakeReduxAction = (
   action(message)();
   return { type: 'storybook' };
 };
+
+type FakeAsyncReturnType = () => Promise<void>;
+
+export const FakeAsyncAction = (message: string): FakeAsyncReturnType => () => {
+  return new Promise<void>(resolve => {
+    action(message), resolve();
+  });
+};

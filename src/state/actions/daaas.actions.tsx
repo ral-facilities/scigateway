@@ -3,8 +3,9 @@ import {
   NotificationType,
   NotificationPayload,
   ToggleDrawerType,
-  LoginType,
-  LoginPayload,
+  AuthFailureType,
+  AuthorisedPayload,
+  AuthSuccessType,
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
 import { Action } from 'redux';
@@ -33,13 +34,31 @@ export const toggleDrawer = (): Action => ({
   type: ToggleDrawerType,
 });
 
+export const unauthorised = (): Action => ({
+  type: AuthFailureType,
+});
+
+export const authorised = (token: string): ActionType<AuthorisedPayload> => ({
+  type: AuthSuccessType,
+  payload: {
+    token,
+  },
+});
+
 export const verifyUsernameAndPassword = (
   username: string,
   password: string
-): ActionType<LoginPayload> => ({
-  type: LoginType,
-  payload: {
-    username,
-    password,
-  },
-});
+): ThunkResult<Promise<void>> => {
+  return async dispatch => {
+    // will be replaced with call to login API for authentification
+    const res = axios.get(`/settings.json`).then(() => {
+      if (username === 'INVALID_NAME' && password != null) {
+        console.log(`Axios response was ${res}`);
+        dispatch(unauthorised());
+      } else {
+        const token = 'validLoginToken';
+        dispatch(authorised(token));
+      }
+    });
+  };
+};

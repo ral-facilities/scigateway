@@ -18,6 +18,7 @@ exports[`Login page component login page renders correctly 1`] = `
     >
       Sign in
     </WithStyles(Typography)>
+    <div />
     <div>
       <TextField
         className="LoginPageComponent-textField-4"

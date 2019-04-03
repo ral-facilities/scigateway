@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { FakeReduxAction } from './utils';
+import { FakeAsyncAction } from './utils';
 import { LoginPageWithStyles } from '../loginPage/loginPage.component';
 
 storiesOf('LoginPage', module)
@@ -12,7 +12,8 @@ storiesOf('LoginPage', module)
   .add('default', () => (
     <LoginPageWithStyles
       verifyUsernameAndPassword={(u, p) =>
-        FakeReduxAction(`verify username and password: ${u},${p}`)()
+        FakeAsyncAction(`verify username and password: ${u},${p}`)()
       }
+      failedToLogin
     />
   ));

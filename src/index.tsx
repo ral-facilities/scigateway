@@ -68,10 +68,10 @@ ReactDOM.render(
         <NavigationDrawer />
         <Switch>
           <Route exact path="/" render={() => <div>Match</div>} />
+          <Route exact_path="/login" component={LoginPage} />
           <Route render={() => <div>Miss</div>} />
         </Switch>
         <ExampleComponent />
-        <LoginPage />
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,

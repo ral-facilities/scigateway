@@ -14,7 +14,9 @@ import {
 } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { verifyUsernameAndPassword } from '../state/actions/daaas.actions';
-import { Dispatch, Action } from 'redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { StateType, AuthState } from '../state/state.types';
 
 interface LoginPageState {
   username: string;
@@ -54,13 +56,26 @@ const styles = (theme: Theme): StyleRules =>
     button: {
       marginTop: `${theme.spacing.unit * 3}px`,
     },
+    warning: {
+      marginTop: `${theme.spacing.unit * 3}px`,
+      color: 'red',
+    },
   });
 
-interface LoginPageDispatchProps {
-  verifyUsernameAndPassword: (username: string, password: string) => Action;
+interface LoginPageProps {
+  failedToLogin: boolean;
 }
 
-type CombinedLoginProps = LoginPageDispatchProps & WithStyles<typeof styles>;
+interface LoginPageDispatchProps {
+  verifyUsernameAndPassword: (
+    username: string,
+    password: string
+  ) => Promise<void>;
+}
+
+type CombinedLoginProps = LoginPageProps &
+  LoginPageDispatchProps &
+  WithStyles<typeof styles>;
 
 class LoginPageComponent extends React.Component<
   CombinedLoginProps,
@@ -103,6 +118,15 @@ class LoginPageComponent extends React.Component<
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          {props.failedToLogin ? (
+            <div>
+              <Typography className={props.classes.warning}>
+                Failed to log in. Invalid username or password.
+              </Typography>
+            </div>
+          ) : (
+            <div />
+          )}
           <div>
             <TextField
               className={props.classes.textField}
@@ -143,7 +167,15 @@ class LoginPageComponent extends React.Component<
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): LoginPageDispatchProps => ({
+const mapStateToProps = (state: StateType): AuthState => ({
+  token: state.daaas.authorisation.token,
+  failedToLogin: state.daaas.authorisation.failedToLogin,
+  loggedIn: state.daaas.authorisation.loggedIn,
+});
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StateType, null, AnyAction>
+): LoginPageDispatchProps => ({
   verifyUsernameAndPassword: (username, password) =>
     dispatch(verifyUsernameAndPassword(username, password)),
 });
@@ -151,6 +183,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LoginPageDispatchProps => ({
 export const LoginPageWithStyles = withStyles(styles)(LoginPageComponent);
 
 export default connect(
-  () => ({}),
+  mapStateToProps,
   mapDispatchToProps
 )(LoginPageWithStyles);

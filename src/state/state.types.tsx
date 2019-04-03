@@ -11,6 +11,7 @@ export interface Plugin {
 export interface DaaasState {
   notifications: string[];
   drawerOpen: boolean;
+  authorisation: AuthState;
 }
 
 export interface StateType {
@@ -23,3 +24,9 @@ export interface ActionType<T> {
 }
 
 export type ThunkResult<R> = ThunkAction<R, StateType, null, AnyAction>;
+
+export interface AuthState {
+  token: string;
+  failedToLogin: boolean;
+  loggedIn: boolean;
+}
