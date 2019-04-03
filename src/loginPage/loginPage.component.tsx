@@ -56,6 +56,10 @@ const styles = (theme: Theme): StyleRules =>
     button: {
       marginTop: `${theme.spacing.unit * 3}px`,
     },
+    warning: {
+      marginTop: `${theme.spacing.unit * 3}px`,
+      color: 'red',
+    },
   });
 
 interface LoginPageProps {
@@ -115,7 +119,11 @@ class LoginPageComponent extends React.Component<
             Sign in
           </Typography>
           {props.failedToLogin ? (
-            <div>Failed to log in. Invalid username or password.</div>
+            <div>
+              <Typography className={props.classes.warning}>
+                Failed to log in. Invalid username or password.
+              </Typography>
+            </div>
           ) : (
             <div />
           )}

@@ -8,7 +8,7 @@ import {
 } from './daaas.actions';
 import { NotificationType, ToggleDrawerType } from '../daaas.types';
 
-function makeAsyncCall(message: string): void {
+function mockAxiosGetResponse(message: string): void {
   (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
     Promise.resolve({
       data: {
@@ -27,7 +27,7 @@ describe('daaas actions', () => {
   });
 
   it('configureSite should dispatch a daaasNotification', async () => {
-    makeAsyncCall('new title');
+    mockAxiosGetResponse('new title');
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -44,7 +44,9 @@ describe('daaas actions', () => {
   });
 
   it('given valid credentials verifyUsernameAndPassword should return with a valid token and successful authorisation', async () => {
-    makeAsyncCall('this will be replaced by an API call to get access token');
+    mockAxiosGetResponse(
+      'this will be replaced by an API call to get access token'
+    );
 
     const asyncAction = verifyUsernameAndPassword('username', 'password');
     const actions: Action[] = [];
@@ -60,7 +62,9 @@ describe('daaas actions', () => {
   });
 
   it('given invalid credentials verifyUsernameAndPassword should return an authorisation failure', async () => {
-    makeAsyncCall('this will be replaced by an API call to get access token');
+    mockAxiosGetResponse(
+      'this will be replaced by an API call to get access token'
+    );
 
     const asyncAction = verifyUsernameAndPassword('INVALID_NAME', 'password');
     const actions: Action[] = [];
