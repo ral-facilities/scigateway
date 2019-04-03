@@ -1,16 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import { IconButton, Divider, Theme } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import {
   withStyles,
   createStyles,
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 import { RegisterRoutePayload } from '../state/daaas.types';
@@ -23,7 +25,6 @@ interface NavigationDrawerProps {
 
 interface NavigationDrawerDispatchProps {
   toggleDrawer: () => Action;
-  pushLink: (link: string) => Action;
 }
 
 interface NavigationDrawerContent {
@@ -60,25 +61,33 @@ type CombinedNavigationProps = NavigationDrawerDispatchProps &
   NavigationDrawerProps &
   WithStyles<typeof styles>;
 
-class NavigationDrawer extends Component<CombinedNavigationProps> {
-  private handleClick(link: string): void {
-    const { pushLink } = this.props;
-    console.log(`Caught click; pushing ${link}`);
-    pushLink(link);
-  }
+interface LinkListItemProps extends ListItemProps {
+  to: string;
+}
 
+const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
+  // an `any` is required here to pass the additional properties through to the
+  // ListItem as per the material-ui documentation
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  <ListItem button {...props} component={Link as any} />
+);
+
+class NavigationDrawer extends Component<CombinedNavigationProps> {
   private createLink(plugin: RegisterRoutePayload): React.ReactElement {
     return (
-      <div
-        onClick={() => this.handleClick(plugin.link)}
-        className={this.props.classes.drawerLink}
-      >
-        {plugin.displayName ? plugin.displayName : plugin.plugin}
-      </div>
+      <LinkListItem to={plugin.link}>
+        <ListItemText
+          inset
+          primary={plugin.displayName ? plugin.displayName : plugin.plugin}
+        />
+      </LinkListItem>
     );
   }
 
-  private buildMenu(plugins: RegisterRoutePayload[]): NavigationDrawerContent {
+  // Convert the list of plugins into a structured dataset for rendering
+  private structureMenuData(
+    plugins: RegisterRoutePayload[]
+  ): NavigationDrawerContent {
     const dict: NavigationDrawerContent = {};
     plugins.forEach(p => {
       if (!(p.section in dict)) {
@@ -95,10 +104,13 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   ): React.ReactElement {
     return (
       <Fragment>
-        <Typography variant="h6" className={this.props.classes.drawerSection}>
-          {sectionName}
-        </Typography>
-        {plugins.map(p => this.createLink(p))}
+        <ListItem>
+          <ListItemText
+            primary={sectionName}
+            primaryTypographyProps={{ variant: 'h6' }}
+          />
+        </ListItem>
+        <List component="nav">{plugins.map(p => this.createLink(p))}</List>
       </Fragment>
     );
   }
@@ -106,13 +118,15 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   private renderRoutes(): React.ReactFragment {
     const { plugins } = this.props;
     console.log(plugins);
-    const menuDict = this.buildMenu(plugins);
+    const sectionPlugins = this.structureMenuData(plugins);
     return (
-      <Fragment>
-        {Object.keys(menuDict).map(k =>
-          this.buildMenuSection(k, menuDict[k] as RegisterRoutePayload[])
+      <List>
+        {Object.keys(sectionPlugins).map(section =>
+          this.buildMenuSection(section, sectionPlugins[
+            section
+          ] as RegisterRoutePayload[])
         )}
-      </Fragment>
+      </List>
     );
   }
 
@@ -148,7 +162,6 @@ const mapDispatchToProps = (
   dispatch: Dispatch
 ): NavigationDrawerDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  pushLink: link => dispatch(push(link)),
 });
 
 export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
