@@ -71,8 +71,8 @@ describe('daaas actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
 
     await asyncAction(dispatch);
-    const response = { type: 'daaas:auth_failure' };
+    const expectedResponse = { type: 'daaas:auth_failure' };
 
-    expect(actions[0]).toEqual(response);
+    expect(actions[0]).toEqual(expectedResponse);
   });
 });

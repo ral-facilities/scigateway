@@ -60,7 +60,6 @@ listenToPlugins(store.dispatch);
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
 
-// if state authorised is true, render
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
@@ -78,4 +77,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-// else redirect to login screen

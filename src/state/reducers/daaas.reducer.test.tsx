@@ -54,8 +54,12 @@ describe('daaas reducer', () => {
   it('unsuccessful log in should update authorisation to not logged in state', () => {
     const action = unauthorised();
     let updatedState = DaaasReducer(state, action);
-    const authorisedState = { token: '', failedToLogin: true, loggedIn: false };
+    const unAuthorisedState = {
+      token: '',
+      failedToLogin: true,
+      loggedIn: false,
+    };
 
-    expect(updatedState.authorisation).toEqual(authorisedState);
+    expect(updatedState.authorisation).toEqual(unAuthorisedState);
   });
 });
