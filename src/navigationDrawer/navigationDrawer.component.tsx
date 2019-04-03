@@ -7,6 +7,7 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
@@ -23,6 +24,10 @@ interface NavigationDrawerProps {
 interface NavigationDrawerDispatchProps {
   toggleDrawer: () => Action;
   pushLink: (link: string) => Action;
+}
+
+interface NavigationDrawerContent {
+  [section: string]: RegisterRoutePayload[];
 }
 
 const drawerWidth = 240;
@@ -43,6 +48,12 @@ const styles = (theme: Theme): StyleRules =>
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end',
     },
+    drawerSection: {
+      marginLeft: '6px',
+    },
+    drawerLink: {
+      marginLeft: '18px',
+    },
   });
 
 type CombinedNavigationProps = NavigationDrawerDispatchProps &
@@ -58,16 +69,51 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 
   private createLink(plugin: RegisterRoutePayload): React.ReactElement {
     return (
-      <div onClick={() => this.handleClick(plugin.link)}>
-        {plugin.displayName !== undefined ? plugin.displayName : plugin.plugin}
+      <div
+        onClick={() => this.handleClick(plugin.link)}
+        className={this.props.classes.drawerLink}
+      >
+        {plugin.displayName ? plugin.displayName : plugin.plugin}
       </div>
+    );
+  }
+
+  private buildMenu(plugins: RegisterRoutePayload[]): NavigationDrawerContent {
+    const dict: NavigationDrawerContent = {};
+    plugins.forEach(p => {
+      if (!(p.section in dict)) {
+        dict[p.section] = [];
+      }
+      dict[p.section].push(p);
+    });
+    return dict;
+  }
+
+  private buildMenuSection(
+    sectionName: string,
+    plugins: RegisterRoutePayload[]
+  ): React.ReactElement {
+    return (
+      <Fragment>
+        <Typography variant="h6" className={this.props.classes.drawerSection}>
+          {sectionName}
+        </Typography>
+        {plugins.map(p => this.createLink(p))}
+      </Fragment>
     );
   }
 
   private renderRoutes(): React.ReactFragment {
     const { plugins } = this.props;
     console.log(plugins);
-    return <Fragment>{plugins.map(p => this.createLink(p))}</Fragment>;
+    const menuDict = this.buildMenu(plugins);
+    return (
+      <Fragment>
+        {Object.keys(menuDict).map(k =>
+          this.buildMenuSection(k, menuDict[k] as RegisterRoutePayload[])
+        )}
+      </Fragment>
+    );
   }
 
   public render(): React.ReactElement {
