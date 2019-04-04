@@ -1,4 +1,5 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
+import { RegisterRouteType } from '../daaas.types';
 
 const microFrontendMessageId = 'daaas-frontend';
 
@@ -14,14 +15,29 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
   document.addEventListener(microFrontendMessageId, event => {
     const pluginMessage = event as microFrontendMessageType;
 
-    if (pluginMessage.detail && pluginMessage.detail.type) {
+    if (
+      pluginMessage.detail &&
+      pluginMessage.detail.type &&
+      pluginMessage.detail.type.startsWith('daaas:api:')
+    ) {
       // this is a valid message, send to Redux in the parent app
-      // TODO: limit what types of messages can be sent to the system
-      dispatch(pluginMessage.detail);
+      switch (pluginMessage.detail.type) {
+        case RegisterRouteType:
+          dispatch(pluginMessage.detail);
+          break;
+        default:
+          // log and ignore
+          console.warn(
+            `Unexpected message received from plugin, not dispatched:\nevent.detail = ${JSON.stringify(
+              pluginMessage.detail
+            )}`
+          );
+      }
     } else {
       console.error(
-        'Invalid message received from a plugin:\nevent.detail = ' +
-          JSON.stringify(pluginMessage.detail)
+        `Invalid message received from a plugin:\nevent.detail = ${JSON.stringify(
+          pluginMessage.detail
+        )}`
       );
     }
   });

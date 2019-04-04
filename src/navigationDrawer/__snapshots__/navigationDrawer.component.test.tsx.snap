@@ -22,6 +22,7 @@ exports[`Main app bar component Navigation drawer renders correctly when closed 
     </WithStyles(IconButton)>
   </div>
   <WithStyles(Divider) />
+  <WithStyles(List) />
 </WithStyles(Drawer)>
 `;
 
@@ -47,5 +48,93 @@ exports[`Main app bar component Navigation drawer renders correctly when open 1`
     </WithStyles(IconButton)>
   </div>
   <WithStyles(Divider) />
+  <WithStyles(List) />
+</WithStyles(Drawer)>
+`;
+
+exports[`Main app bar component renders a plugin list grouped by section when open 1`] = `
+<WithStyles(Drawer)
+  anchor="left"
+  className="NavigationDrawer-drawer-1"
+  classes={
+    Object {
+      "paper": "NavigationDrawer-drawerPaper-2",
+    }
+  }
+  open={true}
+  variant="persistent"
+>
+  <div
+    className="NavigationDrawer-drawerHeader-3"
+  >
+    <WithStyles(IconButton)
+      onClick={[Function]}
+    >
+      <pure(ChevronLeftIcon) />
+    </WithStyles(IconButton)>
+  </div>
+  <WithStyles(Divider) />
+  <WithStyles(List)>
+    <WithStyles(ListItem)>
+      <WithStyles(ListItemText)
+        primary="DATA"
+        primaryTypographyProps={
+          Object {
+            "variant": "h6",
+          }
+        }
+      />
+    </WithStyles(ListItem)>
+    <WithStyles(List)
+      component="nav"
+    >
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="data-plugin"
+        />
+      </LinkListItem>
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="data-plugin1"
+        />
+      </LinkListItem>
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="data-plugin2"
+        />
+      </LinkListItem>
+    </WithStyles(List)>
+    <WithStyles(ListItem)>
+      <WithStyles(ListItemText)
+        primary="ANALYSIS"
+        primaryTypographyProps={
+          Object {
+            "variant": "h6",
+          }
+        }
+      />
+    </WithStyles(ListItem)>
+    <WithStyles(List)
+      component="nav"
+    >
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="analysis-plugin"
+        />
+      </LinkListItem>
+    </WithStyles(List)>
+  </WithStyles(List)>
 </WithStyles(Drawer)>
 `;

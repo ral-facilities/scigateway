@@ -2,6 +2,8 @@ import createReducer from './createReducer';
 import {
   NotificationType,
   NotificationPayload,
+  RegisterRouteType,
+  RegisterRoutePayload,
   ToggleDrawerType,
   AuthSuccessType,
   AuthFailureType,
@@ -17,6 +19,7 @@ export const authState: AuthState = {
 
 export const initialState: DaaasState = {
   notifications: [],
+  plugins: [],
   drawerOpen: false,
   authorisation: authState,
 };
@@ -35,6 +38,16 @@ export function handleDrawerToggle(state: DaaasState): DaaasState {
   return {
     ...state,
     drawerOpen: !state.drawerOpen,
+  };
+}
+
+export function handleRegisterPlugin(
+  state: DaaasState,
+  payload: RegisterRoutePayload
+): DaaasState {
+  return {
+    ...state,
+    plugins: [...state.plugins, payload],
   };
 }
 
@@ -73,6 +86,7 @@ export function handleUnsuccessfulLogin(
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
+  [RegisterRouteType]: handleRegisterPlugin,
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
 });
