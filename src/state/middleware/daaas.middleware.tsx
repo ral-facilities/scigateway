@@ -35,7 +35,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
       }
     } else {
       console.error(
-        `Invalid message received from a plugin:\nevent.detail =  ${JSON.stringify(
+        `Invalid message received from a plugin:\nevent.detail = ${JSON.stringify(
           pluginMessage.detail
         )}`
       );

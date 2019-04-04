@@ -1,7 +1,7 @@
 import { GroupedPlugins, RegisterRoutePayload } from './daaas.types';
 
 // Custom comparer for plugin objects, sorts keys by order (asc), then by name (asc)
-const comparePlugins = (
+export const comparePlugins = (
   a: RegisterRoutePayload,
   b: RegisterRoutePayload
 ): number =>
