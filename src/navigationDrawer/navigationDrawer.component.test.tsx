@@ -79,10 +79,11 @@ describe('Main app bar component', () => {
     };
   }
 
-  it('renders a plugin list grouped by section when open', () => {
+  it('renders a plugin list grouped by sections ordered alphabetically when open', () => {
     const dummyPlugins: RegisterRoutePayload[] = [
       buildPlugin(1, 'data-plugin', 'DATA'),
       buildPlugin(2, 'data-plugin2', 'DATA'),
+      buildPlugin(1, 'analysis-plugin2', 'ANALYSIS'),
       buildPlugin(2, 'data-plugin1', 'DATA'),
       buildPlugin(-1, 'analysis-plugin', 'ANALYSIS'),
     ];

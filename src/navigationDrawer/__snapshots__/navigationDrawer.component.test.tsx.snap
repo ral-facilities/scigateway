@@ -52,7 +52,7 @@ exports[`Main app bar component Navigation drawer renders correctly when open 1`
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component renders a plugin list grouped by section when open 1`] = `
+exports[`Main app bar component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -75,6 +75,36 @@ exports[`Main app bar component renders a plugin list grouped by section when op
   </div>
   <WithStyles(Divider) />
   <WithStyles(List)>
+    <WithStyles(ListItem)>
+      <WithStyles(ListItemText)
+        primary="ANALYSIS"
+        primaryTypographyProps={
+          Object {
+            "variant": "h6",
+          }
+        }
+      />
+    </WithStyles(ListItem)>
+    <WithStyles(List)
+      component="nav"
+    >
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="analysis-plugin"
+        />
+      </LinkListItem>
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="analysis-plugin2"
+        />
+      </LinkListItem>
+    </WithStyles(List)>
     <WithStyles(ListItem)>
       <WithStyles(ListItemText)
         primary="DATA"
@@ -110,28 +140,6 @@ exports[`Main app bar component renders a plugin list grouped by section when op
         <WithStyles(ListItemText)
           inset={true}
           primary="data-plugin2"
-        />
-      </LinkListItem>
-    </WithStyles(List)>
-    <WithStyles(ListItem)>
-      <WithStyles(ListItemText)
-        primary="ANALYSIS"
-        primaryTypographyProps={
-          Object {
-            "variant": "h6",
-          }
-        }
-      />
-    </WithStyles(ListItem)>
-    <WithStyles(List)
-      component="nav"
-    >
-      <LinkListItem
-        to="link"
-      >
-        <WithStyles(ListItemText)
-          inset={true}
-          primary="analysis-plugin"
         />
       </LinkListItem>
     </WithStyles(List)>
