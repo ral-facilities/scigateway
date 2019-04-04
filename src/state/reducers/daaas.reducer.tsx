@@ -45,11 +45,9 @@ export function handleRegisterPlugin(
   state: DaaasState,
   payload: RegisterRoutePayload
 ): DaaasState {
-  const newPlugins = state.plugins.slice();
-  newPlugins.push(payload);
   return {
     ...state,
-    plugins: newPlugins,
+    plugins: [...state.plugins, payload],
   };
 }
 
