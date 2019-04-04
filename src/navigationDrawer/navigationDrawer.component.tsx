@@ -17,6 +17,7 @@ import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 import { RegisterRoutePayload } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
+import { structureMenuData } from '../state/pluginhelper';
 
 interface NavigationDrawerProps {
   open: boolean;
@@ -25,10 +26,6 @@ interface NavigationDrawerProps {
 
 interface NavigationDrawerDispatchProps {
   toggleDrawer: () => Action;
-}
-
-interface NavigationDrawerContent {
-  [section: string]: RegisterRoutePayload[];
 }
 
 const drawerWidth = 240;
@@ -84,20 +81,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
     );
   }
 
-  // Convert the list of plugins into a structured dataset for rendering
-  private structureMenuData(
-    plugins: RegisterRoutePayload[]
-  ): NavigationDrawerContent {
-    const dict: NavigationDrawerContent = {};
-    plugins.forEach(p => {
-      if (!(p.section in dict)) {
-        dict[p.section] = [];
-      }
-      dict[p.section].push(p);
-    });
-    return dict;
-  }
-
   private buildMenuSection(
     sectionName: string,
     plugins: RegisterRoutePayload[]
@@ -117,8 +100,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 
   private renderRoutes(): React.ReactFragment {
     const { plugins } = this.props;
-    console.log(plugins);
-    const sectionPlugins = this.structureMenuData(plugins);
+    const sectionPlugins = structureMenuData(plugins);
     return (
       <List>
         {Object.keys(sectionPlugins).map(section =>

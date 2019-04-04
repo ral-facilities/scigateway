@@ -11,4 +11,9 @@ export interface RegisterRoutePayload {
   link: string;
   plugin: string;
   displayName: string;
+  order: number;
+}
+
+export interface GroupedPlugins {
+  [section: string]: RegisterRoutePayload[];
 }
