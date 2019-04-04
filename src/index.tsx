@@ -11,7 +11,7 @@ import blue from '@material-ui/core/colors/blue';
 import './index.css';
 import AppReducer from './state/reducers/App.reducer';
 import ExampleComponent from './example.component';
-import { Route, Switch } from 'react-router'; // react-router v4
+import { Route, Switch, Redirect } from 'react-router'; // react-router v4
 import { configureSite } from './state/actions/daaas.actions';
 import { StateType } from './state/state.types';
 import MainAppBar from './mainAppBar/mainAppBar.component';
@@ -60,14 +60,30 @@ listenToPlugins(store.dispatch);
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
 
+console.log(store.getState().authorisation);
+const loggedIn = false;
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <MuiThemeProvider theme={theme}>
         <MainAppBar />
         <NavigationDrawer />
+
         <Switch>
-          <Route exact path="/" render={() => <div>Match</div>} />
+          <Route
+            exact
+            path="/"
+            render={() =>
+              loggedIn ? (
+                <Redirect to="/">
+                  <div>Match</div>
+                </Redirect>
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
           <Route exact_path="/login" component={LoginPage} />
           <Route render={() => <div>Miss</div>} />
         </Switch>
