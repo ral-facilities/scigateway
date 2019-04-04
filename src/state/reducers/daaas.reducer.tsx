@@ -10,6 +10,7 @@ import {
   AuthorisedPayload,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
+import { buildPluginConfig } from '../pluginhelper';
 
 export const authState: AuthState = {
   token: '',
@@ -47,7 +48,7 @@ export function handleRegisterPlugin(
 ): DaaasState {
   return {
     ...state,
-    plugins: [...state.plugins, payload],
+    plugins: [...state.plugins, buildPluginConfig(payload)],
   };
 }
 

@@ -94,6 +94,11 @@ exports[`Main app bar component renders a plugin list grouped by section when op
         <WithStyles(ListItemText)
           inset={true}
           primary="data-plugin"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
       <LinkListItem
@@ -102,6 +107,11 @@ exports[`Main app bar component renders a plugin list grouped by section when op
         <WithStyles(ListItemText)
           inset={true}
           primary="data-plugin1"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
       <LinkListItem
@@ -110,6 +120,11 @@ exports[`Main app bar component renders a plugin list grouped by section when op
         <WithStyles(ListItemText)
           inset={true}
           primary="data-plugin2"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
     </WithStyles(List)>
@@ -132,6 +147,11 @@ exports[`Main app bar component renders a plugin list grouped by section when op
         <WithStyles(ListItemText)
           inset={true}
           primary="analysis-plugin"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
     </WithStyles(List)>
