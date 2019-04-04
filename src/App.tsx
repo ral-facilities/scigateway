@@ -62,22 +62,8 @@ const pageContent = (): React.ReactNode => (
   </React.Fragment>
 );
 
-// window.addEventListener('single-spa:before-routing-event', evt => {
-//   const originalEvent = (evt as CustomEvent<any>).detail;
-//   console.log('single-spa BEFORE event', originalEvent);
-// });
-// window.addEventListener('single-spa:routing-event', evt => {
-//   const originalEvent = (evt as CustomEvent<any>).detail;
-//   console.log('single-spa event', originalEvent);
-// });
-// window.addEventListener('single-spa:app-change', evt => {
-//   const originalEvent = (evt as CustomEvent<any>).detail;
-//   console.log('single-spa APP-CHANGE event', originalEvent);
-// });
-
 class App extends React.Component {
   public render(): React.ReactElement {
-    console.log('Redrawing App');
     return (
       <div className="App">
         <Provider store={store}>
