@@ -15,13 +15,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/daaas.actions';
-import { RegisterRoutePayload } from '../state/daaas.types';
+import { PluginConfig } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 
 interface NavigationDrawerProps {
   open: boolean;
-  plugins: RegisterRoutePayload[];
+  plugins: PluginConfig[];
 }
 
 interface NavigationDrawerDispatchProps {
@@ -70,12 +70,13 @@ const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
 );
 
 class NavigationDrawer extends Component<CombinedNavigationProps> {
-  private createLink(plugin: RegisterRoutePayload): React.ReactElement {
+  private createLink(plugin: PluginConfig): React.ReactElement {
     return (
       <LinkListItem to={plugin.link}>
         <ListItemText
           inset
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
+          primaryTypographyProps={{ variant: 'subtitle1' }}
         />
       </LinkListItem>
     );
@@ -83,7 +84,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 
   private buildMenuSection(
     sectionName: string,
-    plugins: RegisterRoutePayload[]
+    plugins: PluginConfig[]
   ): React.ReactElement {
     return (
       <Fragment>
@@ -108,7 +109,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           .map(section =>
             this.buildMenuSection(section, sectionPlugins[
               section
-            ] as RegisterRoutePayload[])
+            ] as PluginConfig[])
           )}
       </List>
     );
