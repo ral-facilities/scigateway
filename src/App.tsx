@@ -2,6 +2,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
+import * as log from 'loglevel';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
@@ -33,6 +34,9 @@ if (process.env.NODE_ENV === `development`) {
   middleware.push(logger);
   // const {whyDidYouUpdate} = require('why-did-you-update');
   // whyDidYouUpdate(React);
+  log.setDefaultLevel(log.levels.DEBUG);
+} else {
+  log.setDefaultLevel(log.levels.ERROR);
 }
 
 /* eslint-disable no-underscore-dangle, @typescript-eslint/no-explicit-any */

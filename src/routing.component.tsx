@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router';
 import { StateType } from './state/state.types';
 import { RegisterRoutePayload } from './state/daaas.types';
 import { connect } from 'react-redux';
+import LoginPage from './loginPage/loginPage.component';
 
 interface RoutingProps {
   plugins: RegisterRoutePayload[];
@@ -25,6 +26,7 @@ class Routing extends React.Component<RoutingProps> {
             />
           );
         })}
+        <Route exact_path="/login" component={LoginPage} />
         <Route exact path="/" render={() => <div>Match</div>} />
         <Route render={() => <div>Miss</div>} />
       </Switch>

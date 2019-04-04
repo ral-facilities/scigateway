@@ -7,6 +7,9 @@ import StoryRouter from 'storybook-react-router';
 const req = require.context('./', true, /\.stories\.tsx$/);
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: blue,
   },
