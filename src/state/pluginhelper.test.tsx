@@ -1,4 +1,4 @@
-import { RegisterRoutePayload } from './daaas.types';
+import { PluginConfig } from './daaas.types';
 import { comparePlugins, structureMenuData } from './pluginhelper';
 
 describe('pluginhelper', () => {
@@ -6,7 +6,7 @@ describe('pluginhelper', () => {
     order: number,
     displayName: string,
     section: string
-  ): RegisterRoutePayload {
+  ): PluginConfig {
     return {
       order: order,
       displayName: displayName,
@@ -54,7 +54,7 @@ describe('pluginhelper', () => {
   });
 
   describe('structureMenuData', () => {
-    const testPluginList: RegisterRoutePayload[] = [
+    const testPluginList: PluginConfig[] = [
       buildPlugin(10, 'firstName', 'Data'),
       buildPlugin(10, 'aName', 'Analysis'),
       buildPlugin(5, 'firstName', 'Data'),
