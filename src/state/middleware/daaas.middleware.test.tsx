@@ -15,7 +15,7 @@ describe('daaas middleware', () => {
   };
 
   const registerRouteAction = {
-    type: 'daaas:api:registerroute',
+    type: 'daaas:api:register_route',
     payload: {
       section: 'Analysis',
       link: '/plugin1/analysis2',
