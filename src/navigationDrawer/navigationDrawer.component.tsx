@@ -76,6 +76,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         <ListItemText
           inset
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
+          primaryTypographyProps={{ variant: 'subtitle1' }}
         />
       </LinkListItem>
     );

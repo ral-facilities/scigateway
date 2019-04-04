@@ -23,6 +23,9 @@ const theme = createMuiTheme({
   palette: {
     primary: blue,
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 const history = createBrowserHistory();
