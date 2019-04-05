@@ -4,6 +4,7 @@ export const ConfigureStringsType = 'daaas:configure_strings';
 export const LoginType = 'daaas:login';
 export const NotificationType = 'daaas:notification';
 export const RegisterRouteType = 'daaas:api:register_route';
+export const SignOutType = 'daaas:signout';
 export const ToggleDrawerType = 'daaas:toggledrawer';
 
 export interface NotificationPayload {

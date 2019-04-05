@@ -11,6 +11,7 @@ import {
   AuthorisedPayload,
   AuthSuccessType,
   ApplicationStrings,
+  SignOutType,
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -59,6 +60,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 export const toggleDrawer = (): Action => ({
   type: ToggleDrawerType,
+});
+
+export const signOut = (): Action => ({
+  type: SignOutType,
 });
 
 export const unauthorised = (): Action => ({

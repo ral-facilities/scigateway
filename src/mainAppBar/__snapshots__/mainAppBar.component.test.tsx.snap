@@ -59,6 +59,11 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <pure(AccountCircleIcon) />
       </WithStyles(IconButton)>
+      <ActionButton
+        buttonClassName="MainAppBar-button-6"
+        buttonText="sign out"
+        onClick={[Function]}
+      />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>
@@ -105,6 +110,11 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <pure(AccountCircleIcon) />
       </WithStyles(IconButton)>
+      <ActionButton
+        buttonClassName="MainAppBar-button-6"
+        buttonText="sign out"
+        onClick={[Function]}
+      />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>

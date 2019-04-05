@@ -17,7 +17,7 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleDrawer, signOut } from '../state/actions/daaas.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
@@ -29,11 +29,18 @@ interface MainAppProps {
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
+  signOut: () => Action;
 }
 
 interface MenuButtonProps {
   buttonText: string;
   buttonClassName: string;
+}
+
+interface ActionProps {
+  buttonText: string;
+  buttonClassName: string;
+  onClick: () => Action;
 }
 
 const drawerWidth = 240;
@@ -89,6 +96,14 @@ export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
   </Button>
 );
 
+export const ActionButton = (props: ActionProps): React.ReactElement => (
+  <Button onClick={props.onClick} className={props.buttonClassName}>
+    <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+      {props.buttonText}
+    </Typography>
+  </Button>
+);
+
 type CombinedMainAppBarProps = MainAppProps &
   MainAppDispatchProps &
   WithStyles<typeof styles>;
@@ -131,6 +146,11 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
         <IconButton className={props.classes.button}>
           <AccountCircleIcon />
         </IconButton>
+        <ActionButton
+          buttonText="sign out"
+          buttonClassName={props.classes.button}
+          onClick={props.signOut}
+        />
       </Toolbar>
     </AppBar>
   </div>
@@ -143,6 +163,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
+  signOut: () => dispatch(signOut()),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);

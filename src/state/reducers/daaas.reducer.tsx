@@ -10,6 +10,7 @@ import {
   AuthorisedPayload,
   ConfigureStringsType,
   ConfigureStringsPayload,
+  SignOutType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -96,6 +97,19 @@ export function handleUnsuccessfulLogin(
   };
 }
 
+export function handleSignOut(state: DaaasState): DaaasState {
+  console.log(`User is being signed out`);
+  return {
+    ...state,
+    authorisation: {
+      ...state.authorisation,
+      failedToLogin: false,
+      loggedIn: false,
+      token: '',
+    },
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -103,6 +117,7 @@ const DaaasReducer = createReducer(initialState, {
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
   [ConfigureStringsType]: handleConfigureStrings,
+  [SignOutType]: handleSignOut,
 });
 
 export default DaaasReducer;

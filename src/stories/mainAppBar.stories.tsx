@@ -25,6 +25,7 @@ storiesOf('MainAppBar', module)
         drawerOpen={false}
         res={undefined}
         toggleDrawer={FakeReduxAction('toggle menu')}
+        signOut={FakeReduxAction('sign out')}
       />
       <div style={{ display: 'flex' }}>
         <div style={{ width: 180, ...placeHolderStyle }}>Navigation</div>
