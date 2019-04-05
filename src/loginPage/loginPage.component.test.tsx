@@ -4,6 +4,7 @@ import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
+import { RouterState } from 'connected-react-router';
 
 describe('Login page component', () => {
   let shallow;
@@ -11,18 +12,36 @@ describe('Login page component', () => {
   let mockStore;
   let state: StateType;
 
+  const routerState: RouterState = {
+    action: 'POP',
+    location: {
+      hash: '',
+      key: '',
+      pathname: '/',
+      search: '',
+      state: {},
+    },
+  };
+
   beforeEach(() => {
     shallow = createShallow({});
     mount = createMount();
 
     mockStore = configureStore();
+
     state = {
       daaas: initialState,
+      router: routerState,
     };
   });
 
   it('login page renders correctly', () => {
-    const wrapper = shallow(<LoginPageWithStyles store={mockStore(state)} />);
+    const wrapper = shallow(
+      <LoginPageWithStyles
+        store={mockStore(state)}
+        auth={state.daaas.authorisation}
+      />
+    );
     expect(wrapper.dive()).toMatchSnapshot();
   });
 
@@ -33,6 +52,7 @@ describe('Login page component', () => {
     const wrapper = mount(
       <LoginPageWithStyles
         verifyUsernameAndPassword={mockLoginfn}
+        auth={state.daaas.authorisation}
         store={testStore}
       />
     );
