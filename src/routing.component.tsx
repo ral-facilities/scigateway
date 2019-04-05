@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
 import { StateType, AuthState } from './state/state.types';
-import { RegisterRoutePayload } from './state/daaas.types';
+import { PluginConfig } from './state/daaas.types';
 import { connect } from 'react-redux';
 import LoginPage from './loginPage/loginPage.component';
 import PageNotFound from './pageNotFound/pageNotFound.component';
 
 interface RoutingProps {
-  plugins: RegisterRoutePayload[];
+  plugins: PluginConfig[];
   location: string;
   authorisation: AuthState;
 }

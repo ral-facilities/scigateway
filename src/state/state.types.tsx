@@ -1,6 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { RegisterRoutePayload } from './daaas.types';
+import { PluginConfig } from './daaas.types';
 import { RouterState } from 'connected-react-router';
 
 export interface Plugin {
@@ -12,7 +12,7 @@ export interface Plugin {
 
 export interface DaaasState {
   notifications: string[];
-  plugins: RegisterRoutePayload[];
+  plugins: PluginConfig[];
   drawerOpen: boolean;
   authorisation: AuthState;
 }

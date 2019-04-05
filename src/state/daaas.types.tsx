@@ -18,8 +18,16 @@ export interface RegisterRoutePayload {
   order: number;
 }
 
+export interface PluginConfig {
+  section: string;
+  link: string;
+  plugin: string;
+  displayName: string;
+  order: number;
+}
+
 export interface GroupedPlugins {
-  [section: string]: RegisterRoutePayload[];
+  [section: string]: PluginConfig[];
 }
 
 export interface LoginPayload {

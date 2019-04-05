@@ -1,12 +1,16 @@
-import { RegisterRoutePayload } from './daaas.types';
-import { comparePlugins, structureMenuData } from './pluginhelper';
+import { PluginConfig, RegisterRoutePayload } from './daaas.types';
+import {
+  buildPluginConfig,
+  comparePlugins,
+  structureMenuData,
+} from './pluginhelper';
 
 describe('pluginhelper', () => {
   function buildPlugin(
     order: number,
     displayName: string,
     section: string
-  ): RegisterRoutePayload {
+  ): PluginConfig {
     return {
       order: order,
       displayName: displayName,
@@ -15,6 +19,28 @@ describe('pluginhelper', () => {
       plugin: 'plugin',
     };
   }
+
+  describe('buildPluginConfig', () => {
+    it('returns a PluginConfig object containing all fields from a Request', () => {
+      const request: RegisterRoutePayload = {
+        order: 99,
+        plugin: 'requesting_plugin',
+        link: '/path/to/page',
+        section: 'REQUEST_SECTION',
+        displayName: 'new plugin page',
+      };
+
+      const expected: PluginConfig = {
+        order: 99,
+        plugin: 'requesting_plugin',
+        link: '/path/to/page',
+        section: 'REQUEST_SECTION',
+        displayName: 'new plugin page',
+      };
+
+      expect(buildPluginConfig(request)).toEqual(expected);
+    });
+  });
 
   describe('comparer', () => {
     it('returns zero if order and displayName are equal', () => {
@@ -54,7 +80,7 @@ describe('pluginhelper', () => {
   });
 
   describe('structureMenuData', () => {
-    const testPluginList: RegisterRoutePayload[] = [
+    const testPluginList: PluginConfig[] = [
       buildPlugin(10, 'firstName', 'Data'),
       buildPlugin(10, 'aName', 'Analysis'),
       buildPlugin(5, 'firstName', 'Data'),
