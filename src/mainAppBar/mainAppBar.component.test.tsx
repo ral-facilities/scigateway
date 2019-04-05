@@ -4,7 +4,7 @@ import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
-import { toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleDrawer, signOut } from '../state/actions/daaas.actions';
 
 describe('Main app bar component', () => {
   let shallow;
@@ -56,5 +56,18 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
+  });
+
+  it('sends sign out action when menu clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(<MainAppBarComponent store={testStore} />);
+
+    wrapper
+      .find('button')
+      .last()
+      .simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(signOut());
   });
 });

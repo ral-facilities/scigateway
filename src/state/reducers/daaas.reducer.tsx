@@ -2,10 +2,13 @@ import createReducer from './createReducer';
 import {
   NotificationType,
   NotificationPayload,
+  RegisterRouteType,
+  RegisterRoutePayload,
   ToggleDrawerType,
   AuthSuccessType,
   AuthFailureType,
   AuthorisedPayload,
+  SignOutType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 
@@ -17,6 +20,7 @@ export const authState: AuthState = {
 
 export const initialState: DaaasState = {
   notifications: [],
+  plugins: [],
   drawerOpen: false,
   authorisation: authState,
 };
@@ -35,6 +39,16 @@ export function handleDrawerToggle(state: DaaasState): DaaasState {
   return {
     ...state,
     drawerOpen: !state.drawerOpen,
+  };
+}
+
+export function handleRegisterPlugin(
+  state: DaaasState,
+  payload: RegisterRoutePayload
+): DaaasState {
+  return {
+    ...state,
+    plugins: [...state.plugins, payload],
   };
 }
 
@@ -70,11 +84,26 @@ export function handleUnsuccessfulLogin(
   };
 }
 
+export function handleSignOut(state: DaaasState): DaaasState {
+  console.log(`User is being signed out`);
+  return {
+    ...state,
+    authorisation: {
+      ...state.authorisation,
+      failedToLogin: false,
+      loggedIn: false,
+      token: '',
+    },
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
+  [RegisterRouteType]: handleRegisterPlugin,
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
+  [SignOutType]: handleSignOut,
 });
 
 export default DaaasReducer;

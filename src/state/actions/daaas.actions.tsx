@@ -6,6 +6,7 @@ import {
   AuthFailureType,
   AuthorisedPayload,
   AuthSuccessType,
+  SignOutType,
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
 import { Action } from 'redux';
@@ -32,6 +33,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 export const toggleDrawer = (): Action => ({
   type: ToggleDrawerType,
+});
+
+export const signOut = (): Action => ({
+  type: SignOutType,
 });
 
 export const unauthorised = (): Action => ({

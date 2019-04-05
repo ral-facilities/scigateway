@@ -8,9 +8,21 @@ describe('daaas middleware', () => {
   let store: MockStoreEnhanced;
 
   const action = {
-    type: 'TEST',
+    type: 'daaas:api:test-action',
     payload: {
       broadcast: true,
+    },
+  };
+
+  const registerRouteAction = {
+    type: 'daaas:api:register_route',
+    payload: {
+      section: 'Analysis',
+      link: '/plugin1/analysis2',
+      plugin: 'demo_plugin',
+      displayName: 'Demo Plugin Analysis',
+      order: 4,
+      broadcast: false,
     },
   };
 
@@ -50,14 +62,30 @@ describe('daaas middleware', () => {
     expect(events.length).toEqual(0);
   });
 
-  it('should listen for events and fire actions', () => {
+  it('should listen for events and fire registerroute action', () => {
+    listenToPlugins(store.dispatch);
+
+    handler(new CustomEvent('test', { detail: registerRouteAction }));
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual(registerRouteAction);
+  });
+
+  it('should listen for events and not fire unrecognised action', () => {
+    console.warn = jest.fn();
     listenToPlugins(store.dispatch);
 
     handler(new CustomEvent('test', { detail: action }));
 
     expect(document.addEventListener).toHaveBeenCalled();
-    expect(store.getActions().length).toEqual(1);
-    expect(store.getActions()[0]).toEqual(action);
+    expect(store.getActions().length).toEqual(0);
+
+    expect(console.warn).toHaveBeenCalled();
+    const mockConsole = (console.warn as jest.Mock).mock;
+    expect(mockConsole.calls[0][0]).toContain(
+      'Unexpected message received from plugin, not dispatched'
+    );
   });
 
   it('should not fire actions for events without detail', () => {
