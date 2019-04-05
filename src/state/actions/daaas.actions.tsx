@@ -34,12 +34,10 @@ export const configureStrings = (
 });
 
 export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
-  log.info(`Getting ${path}`);
   return async dispatch => {
     axios
       .get(path)
       .then(res => {
-        log.info(`Got: ${JSON.stringify(res.data)}`);
         dispatch(configureStrings(res.data));
       })
       .catch(error =>
