@@ -50,10 +50,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
   return async dispatch => {
     await axios.get(`/settings.json`).then(res => {
       const settings = res.data;
-      daaasNotification(JSON.stringify(settings));
-      dispatch(loadStrings(settings['ui-strings'])).then(() =>
-        loadMicroFrontends.init(settings.plugins)
-      );
+      dispatch(daaasNotification(JSON.stringify(settings)));
+      dispatch(loadStrings(settings['ui-strings']));
+      loadMicroFrontends.init(settings.plugins);
     });
   };
 };
