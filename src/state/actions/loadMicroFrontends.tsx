@@ -16,29 +16,23 @@ const runScript = async (url: string) => {
   });
 };
 
-const loadReactApp = async (name: string, url: string) => {
-  try {
-    await runScript(url);
-    log.info(`Successfully loaded plugin ${name} from ${url}`);
-  } catch (error) {
-    log.error(`Failed to load plugin ${name} from ${url}`);
-    throw error;
-  }
-
+const loadReactApp = async (name: string) => {
   // Plugins are loaded on to the window and define their own property name so can't guess this at compile time
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   return (window as any)[name];
 };
 
 async function loadApp(name: string, appURL: string) {
+  try {
+    await runScript(appURL);
+    log.info(`Successfully loaded plugin ${name} from ${appURL}`);
+  } catch (error) {
+    log.error(`Failed to load plugin ${name} from ${appURL}`);
+    throw error;
+  }
+
   // register the app with singleSPA and pass a reference to the store of the app as well as a reference to the globalEventDistributor
-  singleSpa.registerApplication(
-    name,
-    () => loadReactApp(name, appURL),
-    (location: URL) => {
-      return location.pathname === '/';
-    }
-  );
+  singleSpa.registerApplication(name, () => loadReactApp(name), () => true);
 }
 
 async function init(plugins: Plugin[]) {

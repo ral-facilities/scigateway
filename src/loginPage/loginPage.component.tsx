@@ -17,6 +17,7 @@ import { verifyUsernameAndPassword } from '../state/actions/daaas.actions';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { StateType, AuthState } from '../state/state.types';
+import { UKRITheme } from '../theming';
 
 interface LoginPageState {
   username: string;
@@ -35,7 +36,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing.unit,
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: (theme as UKRITheme).ukri.orange,
     },
     paper: {
       marginTop: theme.spacing.unit * 8,

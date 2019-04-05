@@ -19,6 +19,7 @@ import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
+import { push } from 'connected-react-router';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -26,6 +27,7 @@ interface MainAppProps {
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
+  navigateToHome: () => Action;
 }
 
 interface MenuButtonProps {
@@ -63,6 +65,7 @@ const styles = (theme: Theme): StyleRules =>
         display: 'block',
       },
       marginRight: 20,
+      cursor: 'pointer',
     },
     button: {
       margin: theme.spacing.unit,
@@ -114,6 +117,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           variant="h6"
           color="inherit"
           noWrap
+          onClick={props.navigateToHome}
         >
           Data Analysis as a Service
         </Typography>
@@ -139,6 +143,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
+  navigateToHome: () => dispatch(push('/')),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);
