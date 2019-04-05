@@ -58,7 +58,7 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('sends sign out action when menu clicked', () => {
+  it('sends sign out action when sign out button is clicked', () => {
     const testStore = mockStore(state);
     const wrapper = mount(<MainAppBarComponent store={testStore} />);
 

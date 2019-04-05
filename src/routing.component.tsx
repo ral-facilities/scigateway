@@ -17,7 +17,12 @@ class Routing extends React.Component<RoutingProps> {
     const { plugins, authorisation } = this.props;
     const authorised = authorisation.loggedIn;
     return (
+      // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
+      // Otherwise render the login component. Successful logins will continue to the requested
+      // route, otherwise they will continue to be prompted to log in.
+      // "/" is always accessible
       <Switch>
+        <Route exact path="/" render={() => <div>Match</div>} />
         {authorised &&
           plugins.map(p => {
             console.log(`Adding Route: ${p.link} ${p.displayName}`);
@@ -29,7 +34,6 @@ class Routing extends React.Component<RoutingProps> {
               />
             );
           })}
-        <Route exact path="/" render={() => <div>Match</div>} />
         <Route render={() => (authorised ? <PageNotFound /> : <LoginPage />)} />
       </Switch>
     );
