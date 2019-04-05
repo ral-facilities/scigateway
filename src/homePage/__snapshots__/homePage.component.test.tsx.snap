@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login page component homepage renders correctly 1`] = `
+exports[`Home page component homepage renders correctly 1`] = `
 <div>
   <WithStyles(Typography)
     variant="body1"

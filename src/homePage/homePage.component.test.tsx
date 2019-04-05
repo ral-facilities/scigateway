@@ -2,7 +2,7 @@ import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 import HomePage from './homePage.component';
 
-describe('Login page component', () => {
+describe('Home page component', () => {
   let shallow;
 
   beforeEach(() => {
