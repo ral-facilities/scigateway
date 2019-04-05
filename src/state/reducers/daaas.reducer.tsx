@@ -48,7 +48,6 @@ export function handleConfigureStrings(
   state: DaaasState,
   payload: ConfigureStringsPayload
 ): DaaasState {
-  console.log(`In reducer, got ${JSON.stringify(payload)}`);
   return {
     ...state,
     res: payload.res,

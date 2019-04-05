@@ -35,7 +35,7 @@ export const configureStrings = (
 
 export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
   return async dispatch => {
-    axios
+    await axios
       .get(path)
       .then(res => {
         dispatch(configureStrings(res.data));
