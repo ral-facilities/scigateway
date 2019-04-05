@@ -1,4 +1,6 @@
 import React from 'react';
+import { Dispatch, Action } from 'redux';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -15,13 +17,14 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/daaas.actions';
-import { connect } from 'react-redux';
+import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
+import { getAppStrings, getString } from '../state/strings';
 
 interface MainAppProps {
   drawerOpen: boolean;
+  res: AppStrings | undefined;
 }
 
 interface MainAppDispatchProps {
@@ -115,10 +118,10 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           color="inherit"
           noWrap
         >
-          Data Analysis as a Service
+          {getString(props.res, 'title')}
         </Typography>
         <MenuButton
-          buttonText="Contact"
+          buttonText={getString(props.res, 'contact')}
           buttonClassName={props.classes.button}
         />
         <div className={props.classes.grow} />
@@ -135,6 +138,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.daaas.drawerOpen,
+  res: getAppStrings(state, 'main-appbar'),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
