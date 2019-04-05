@@ -104,11 +104,13 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
     const sectionPlugins = structureMenuData(plugins);
     return (
       <List>
-        {Object.keys(sectionPlugins).map(section =>
-          this.buildMenuSection(section, sectionPlugins[
-            section
-          ] as PluginConfig[])
-        )}
+        {Object.keys(sectionPlugins)
+          .sort()
+          .map(section =>
+            this.buildMenuSection(section, sectionPlugins[
+              section
+            ] as PluginConfig[])
+          )}
       </List>
     );
   }
