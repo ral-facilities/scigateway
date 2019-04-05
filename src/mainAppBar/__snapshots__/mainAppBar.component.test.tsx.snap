@@ -38,6 +38,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         className="MainAppBar-title-5"
         color="inherit"
         noWrap={true}
+        onClick={[Function]}
         variant="h6"
       >
         Data Analysis as a Service
@@ -84,6 +85,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         className="MainAppBar-title-5"
         color="inherit"
         noWrap={true}
+        onClick={[Function]}
         variant="h6"
       >
         Data Analysis as a Service
