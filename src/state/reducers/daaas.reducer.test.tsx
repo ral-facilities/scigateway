@@ -3,6 +3,7 @@ import {
   toggleDrawer,
   authorised,
   unauthorised,
+  signOut,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
@@ -61,5 +62,23 @@ describe('daaas reducer', () => {
     };
 
     expect(updatedState.authorisation).toEqual(unAuthorisedState);
+  });
+
+  it('should sign user out for a signOut message', () => {
+    const action = signOut();
+    const signInState = {
+      token: 'token',
+      failedToLogin: false,
+      loggedIn: true,
+    };
+
+    let updatedState = DaaasReducer(signInState, action);
+    const signOutState = {
+      token: '',
+      failedToLogin: false,
+      loggedIn: false,
+    };
+
+    expect(updatedState.authorisation).toEqual(signOutState);
   });
 });

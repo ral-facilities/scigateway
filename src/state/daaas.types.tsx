@@ -1,5 +1,6 @@
 export const NotificationType = 'daaas:notification';
 export const ToggleDrawerType = 'daaas:toggledrawer';
+export const SignOutType = 'daaas:signout';
 export const RegisterRouteType = 'daaas:api:register_route';
 export const LoginType = 'daaas:login';
 export const AuthSuccessType = 'daaas:auth_success';
