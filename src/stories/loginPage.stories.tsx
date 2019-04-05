@@ -14,6 +14,7 @@ storiesOf('LoginPage', module)
       verifyUsernameAndPassword={(u, p) =>
         FakeAsyncAction(`verify username and password: ${u},${p}`)()
       }
-      failedToLogin
+      auth={{ loggedIn: false, failedToLogin: false, token: '' }}
+      res={undefined}
     />
   ));
