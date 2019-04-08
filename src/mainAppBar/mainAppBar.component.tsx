@@ -20,6 +20,7 @@ import classNames from 'classnames';
 import { toggleDrawer, signOut } from '../state/actions/daaas.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
+import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
 
 interface MainAppProps {
@@ -29,6 +30,7 @@ interface MainAppProps {
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
+  navigateToHome: () => Action;
   signOut: () => Action;
 }
 
@@ -73,6 +75,7 @@ const styles = (theme: Theme): StyleRules =>
         display: 'block',
       },
       marginRight: 20,
+      cursor: 'pointer',
     },
     button: {
       margin: theme.spacing.unit,
@@ -132,6 +135,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           variant="h6"
           color="inherit"
           noWrap
+          onClick={props.navigateToHome}
         >
           {getString(props.res, 'title')}
         </Typography>
@@ -163,6 +167,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
+  navigateToHome: () => dispatch(push('/')),
   signOut: () => dispatch(signOut()),
 });
 

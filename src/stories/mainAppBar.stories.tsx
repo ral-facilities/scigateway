@@ -25,6 +25,7 @@ storiesOf('MainAppBar', module)
         drawerOpen={false}
         res={undefined}
         toggleDrawer={FakeReduxAction('toggle menu')}
+        navigateToHome={FakeReduxAction('home')}
         signOut={FakeReduxAction('sign out')}
       />
       <div style={{ display: 'flex' }}>

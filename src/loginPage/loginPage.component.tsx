@@ -18,6 +18,7 @@ import {
 import { verifyUsernameAndPassword } from '../state/actions/daaas.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType, AuthState } from '../state/state.types';
+import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 
 interface LoginPageState {
@@ -37,7 +38,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing.unit,
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: (theme as UKRITheme).ukri.orange,
     },
     paper: {
       marginTop: theme.spacing.unit * 8,

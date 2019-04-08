@@ -38,6 +38,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     drawerPaper: {
       width: drawerWidth,
+      background: theme.palette.secondary.main,
     },
     drawerHeader: {
       display: 'flex',
@@ -46,11 +47,11 @@ const styles = (theme: Theme): StyleRules =>
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end',
     },
-    drawerSection: {
-      marginLeft: '6px',
+    sectionTitle: {
+      color: theme.palette.secondary.contrastText,
     },
-    drawerLink: {
-      marginLeft: '18px',
+    menuItem: {
+      color: theme.palette.secondary.contrastText,
     },
   });
 
@@ -77,6 +78,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           inset
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
           primaryTypographyProps={{ variant: 'subtitle1' }}
+          classes={{
+            primary: this.props.classes.menuItem,
+          }}
         />
       </LinkListItem>
     );
@@ -92,6 +96,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           <ListItemText
             primary={sectionName}
             primaryTypographyProps={{ variant: 'h6' }}
+            classes={{
+              primary: this.props.classes.sectionTitle,
+            }}
           />
         </ListItem>
         <List component="nav">{plugins.map(p => this.createLink(p))}</List>

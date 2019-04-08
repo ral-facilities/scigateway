@@ -1,5 +1,4 @@
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import * as log from 'loglevel';
@@ -18,15 +17,7 @@ import DaaasMiddleware, {
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
 import './index.css';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-  },
-  typography: {
-    useNextVariants: true,
-  },
-});
+import { buildTheme } from './theming';
 
 const history = createBrowserHistory();
 
@@ -71,7 +62,9 @@ class App extends React.Component {
       <div className="App">
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <MuiThemeProvider theme={theme}>{pageContent()}</MuiThemeProvider>
+            <MuiThemeProvider theme={buildTheme()}>
+              {pageContent()}
+            </MuiThemeProvider>
           </ConnectedRouter>
         </Provider>
       </div>

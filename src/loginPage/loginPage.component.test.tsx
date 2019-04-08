@@ -4,6 +4,8 @@ import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
+import { buildTheme } from '../theming';
+import { MuiThemeProvider } from '@material-ui/core';
 import { RouterState } from 'connected-react-router';
 
 describe('Login page component', () => {
@@ -35,14 +37,18 @@ describe('Login page component', () => {
     };
   });
 
+  const theme = buildTheme();
+
   it('login page renders correctly', () => {
     const wrapper = shallow(
-      <LoginPageWithStyles
-        store={mockStore(state)}
-        auth={state.daaas.authorisation}
-      />
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithStyles
+          store={mockStore(state)}
+          auth={state.daaas.authorisation}
+        />
+      </MuiThemeProvider>
     );
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
@@ -50,11 +56,13 @@ describe('Login page component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <LoginPageWithStyles
-        verifyUsernameAndPassword={mockLoginfn}
-        auth={state.daaas.authorisation}
-        store={testStore}
-      />
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithStyles
+          verifyUsernameAndPassword={mockLoginfn}
+          store={testStore}
+          auth={state.daaas.authorisation}
+        />
+      </MuiThemeProvider>
     );
 
     const simulateUsernameInput = wrapper.find('input').at(0);

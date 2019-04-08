@@ -77,6 +77,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
   <WithStyles(List)>
     <WithStyles(ListItem)>
       <WithStyles(ListItemText)
+        classes={
+          Object {
+            "primary": "NavigationDrawer-sectionTitle-4",
+          }
+        }
         primary="ANALYSIS"
         primaryTypographyProps={
           Object {
@@ -92,6 +97,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         to="link"
       >
         <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
           inset={true}
           primary="analysis-plugin"
           primaryTypographyProps={
@@ -105,6 +115,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         to="link"
       >
         <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
           inset={true}
           primary="analysis-plugin2"
           primaryTypographyProps={
@@ -117,6 +132,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
     </WithStyles(List)>
     <WithStyles(ListItem)>
       <WithStyles(ListItemText)
+        classes={
+          Object {
+            "primary": "NavigationDrawer-sectionTitle-4",
+          }
+        }
         primary="DATA"
         primaryTypographyProps={
           Object {
@@ -132,6 +152,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         to="link"
       >
         <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
           inset={true}
           primary="data-plugin"
           primaryTypographyProps={
@@ -145,6 +170,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         to="link"
       >
         <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
           inset={true}
           primary="data-plugin1"
           primaryTypographyProps={
@@ -158,6 +188,11 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         to="link"
       >
         <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
           inset={true}
           primary="data-plugin2"
           primaryTypographyProps={
