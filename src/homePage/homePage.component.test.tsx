@@ -1,16 +1,16 @@
 import React from 'react';
-import PageNotFound from './pageNotFound.component';
 import { createShallow } from '@material-ui/core/test-utils';
+import HomePage from './homePage.component';
 
-describe('Page Not found component', () => {
+describe('Home page component', () => {
   let shallow;
 
   beforeEach(() => {
     shallow = createShallow({});
   });
 
-  it('pageNotFound renders correctly', () => {
-    const wrapper = shallow(<PageNotFound />);
+  it('homepage renders correctly', () => {
+    const wrapper = shallow(<HomePage />);
     expect(wrapper).toMatchSnapshot();
   });
 });

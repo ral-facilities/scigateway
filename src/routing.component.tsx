@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router';
 import { StateType, AuthState } from './state/state.types';
 import { PluginConfig } from './state/daaas.types';
 import { connect } from 'react-redux';
+import HomePage from './homePage/homePage.component';
 import LoginPage from './loginPage/loginPage.component';
 import PageNotFound from './pageNotFound/pageNotFound.component';
 
@@ -22,7 +23,7 @@ class Routing extends React.Component<RoutingProps> {
       // route, otherwise they will continue to be prompted to log in.
       // "/" is always accessible
       <Switch>
-        <Route exact path="/" render={() => <div>Match</div>} />
+        <Route exact path="/" component={HomePage} />
         {authorised &&
           plugins.map(p => {
             console.log(`Adding Route: ${p.link} ${p.displayName}`);
@@ -34,7 +35,7 @@ class Routing extends React.Component<RoutingProps> {
               />
             );
           })}
-        <Route render={() => (authorised ? <PageNotFound /> : <LoginPage />)} />
+        <Route component={authorised ? PageNotFound : LoginPage} />
       </Switch>
     );
   }
