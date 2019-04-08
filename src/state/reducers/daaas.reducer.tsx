@@ -8,6 +8,8 @@ import {
   AuthSuccessType,
   AuthFailureType,
   AuthorisedPayload,
+  ConfigureStringsType,
+  ConfigureStringsPayload,
   SignOutType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
@@ -40,6 +42,16 @@ export function handleDrawerToggle(state: DaaasState): DaaasState {
   return {
     ...state,
     drawerOpen: !state.drawerOpen,
+  };
+}
+
+export function handleConfigureStrings(
+  state: DaaasState,
+  payload: ConfigureStringsPayload
+): DaaasState {
+  return {
+    ...state,
+    res: payload.res,
   };
 }
 
@@ -104,6 +116,7 @@ const DaaasReducer = createReducer(initialState, {
   [RegisterRouteType]: handleRegisterPlugin,
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
+  [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
 });
 

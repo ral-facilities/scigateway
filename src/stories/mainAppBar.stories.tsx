@@ -23,6 +23,7 @@ storiesOf('MainAppBar', module)
     <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10 }}>
       <MainAppBarWithStyles
         drawerOpen={false}
+        res={undefined}
         toggleDrawer={FakeReduxAction('toggle menu')}
         signOut={FakeReduxAction('sign out')}
       />
