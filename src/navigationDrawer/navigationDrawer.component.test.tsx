@@ -6,7 +6,7 @@ import NavigationDrawer from './navigationDrawer.component';
 import { initialState } from '../state/reducers/daaas.reducer';
 import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/daaas.actions';
-import { RegisterRoutePayload } from '../state/daaas.types';
+import { PluginConfig } from '../state/daaas.types';
 
 describe('Main app bar component', () => {
   let shallow;
@@ -69,7 +69,7 @@ describe('Main app bar component', () => {
     order: number,
     displayName: string,
     section: string
-  ): RegisterRoutePayload {
+  ): PluginConfig {
     return {
       order: order,
       displayName: displayName,
@@ -79,10 +79,11 @@ describe('Main app bar component', () => {
     };
   }
 
-  it('renders a plugin list grouped by section when open', () => {
-    const dummyPlugins: RegisterRoutePayload[] = [
+  it('renders a plugin list grouped by sections ordered alphabetically when open', () => {
+    const dummyPlugins: PluginConfig[] = [
       buildPlugin(1, 'data-plugin', 'DATA'),
       buildPlugin(2, 'data-plugin2', 'DATA'),
+      buildPlugin(1, 'analysis-plugin2', 'ANALYSIS'),
       buildPlugin(2, 'data-plugin1', 'DATA'),
       buildPlugin(-1, 'analysis-plugin', 'ANALYSIS'),
     ];

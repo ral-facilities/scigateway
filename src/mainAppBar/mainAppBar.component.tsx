@@ -1,4 +1,6 @@
 import React from 'react';
+import { Dispatch, Action } from 'redux';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -15,24 +17,32 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { Dispatch, Action } from 'redux';
-import { toggleDrawer } from '../state/actions/daaas.actions';
-import { connect } from 'react-redux';
+import { toggleDrawer, signOut } from '../state/actions/daaas.actions';
+import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
+import { getAppStrings, getString } from '../state/strings';
 
 interface MainAppProps {
   drawerOpen: boolean;
+  res: AppStrings | undefined;
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
+  signOut: () => Action;
 }
 
 interface MenuButtonProps {
   buttonText: string;
   buttonClassName: string;
+}
+
+interface ActionProps {
+  buttonText: string;
+  buttonClassName: string;
+  onClick: () => Action;
 }
 
 const drawerWidth = 240;
@@ -89,6 +99,14 @@ export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
   </Button>
 );
 
+export const ActionButton = (props: ActionProps): React.ReactElement => (
+  <Button onClick={props.onClick} className={props.buttonClassName}>
+    <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+      {props.buttonText}
+    </Typography>
+  </Button>
+);
+
 type CombinedMainAppBarProps = MainAppProps &
   MainAppDispatchProps &
   WithStyles<typeof styles>;
@@ -119,10 +137,10 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           noWrap
           onClick={props.navigateToHome}
         >
-          Data Analysis as a Service
+          {getString(props.res, 'title')}
         </Typography>
         <MenuButton
-          buttonText="Contact"
+          buttonText={getString(props.res, 'contact')}
           buttonClassName={props.classes.button}
         />
         <div className={props.classes.grow} />
@@ -132,6 +150,11 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
         <IconButton className={props.classes.button}>
           <AccountCircleIcon />
         </IconButton>
+        <ActionButton
+          buttonText="sign out"
+          buttonClassName={props.classes.button}
+          onClick={props.signOut}
+        />
       </Toolbar>
     </AppBar>
   </div>
@@ -139,11 +162,13 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.daaas.drawerOpen,
+  res: getAppStrings(state, 'main-appbar'),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
+  signOut: () => dispatch(signOut()),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);

@@ -52,7 +52,7 @@ exports[`Main app bar component Navigation drawer renders correctly when open 1`
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component renders a plugin list grouped by section when open 1`] = `
+exports[`Main app bar component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -82,7 +82,7 @@ exports[`Main app bar component renders a plugin list grouped by section when op
             "primary": "NavigationDrawer-sectionTitle-4",
           }
         }
-        primary="DATA"
+        primary="ANALYSIS"
         primaryTypographyProps={
           Object {
             "variant": "h6",
@@ -103,7 +103,12 @@ exports[`Main app bar component renders a plugin list grouped by section when op
             }
           }
           inset={true}
-          primary="data-plugin"
+          primary="analysis-plugin"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
       <LinkListItem
@@ -116,7 +121,12 @@ exports[`Main app bar component renders a plugin list grouped by section when op
             }
           }
           inset={true}
-          primary="data-plugin1"
+          primary="analysis-plugin2"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
       <LinkListItem
@@ -161,7 +171,38 @@ exports[`Main app bar component renders a plugin list grouped by section when op
             }
           }
           inset={true}
-          primary="analysis-plugin"
+          primary="data-plugin"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
+        />
+      </LinkListItem>
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="data-plugin1"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
+        />
+      </LinkListItem>
+      <LinkListItem
+        to="link"
+      >
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="data-plugin2"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
         />
       </LinkListItem>
     </WithStyles(List)>

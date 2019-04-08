@@ -16,13 +16,13 @@ exports[`Login page component login page renders correctly 1`] = `
       component="h1"
       variant="h5"
     >
-      Sign in
+      title
     </WithStyles(Typography)>
     <div />
     <div>
       <TextField
         className="LoginPageComponent-textField-4"
-        label="Username*"
+        label="username-placeholder"
         onChange={[Function]}
         required={false}
         select={false}
@@ -33,7 +33,7 @@ exports[`Login page component login page renders correctly 1`] = `
     <div>
       <TextField
         className="LoginPageComponent-textField-4"
-        label="Password*"
+        label="password-placeholder"
         onChange={[Function]}
         required={false}
         select={false}
@@ -58,7 +58,7 @@ exports[`Login page component login page renders correctly 1`] = `
             }
           }
         >
-          sign in
+          login-button
         </WithStyles(Typography)>
       </WithStyles(Button)>
     </div>

@@ -23,8 +23,10 @@ storiesOf('MainAppBar', module)
     <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10 }}>
       <MainAppBarWithStyles
         drawerOpen={false}
+        res={undefined}
         toggleDrawer={FakeReduxAction('toggle menu')}
         navigateToHome={FakeReduxAction('home')}
+        signOut={FakeReduxAction('sign out')}
       />
       <div style={{ display: 'flex' }}>
         <div style={{ width: 180, ...placeHolderStyle }}>Navigation</div>

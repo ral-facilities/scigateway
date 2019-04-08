@@ -1,14 +1,19 @@
 import axios from 'axios';
+import { Action } from 'redux';
+import * as log from 'loglevel';
 import {
+  ConfigureStringsType,
+  ConfigureStringsPayload,
   NotificationType,
   NotificationPayload,
   ToggleDrawerType,
   AuthFailureType,
   AuthorisedPayload,
   AuthSuccessType,
+  ApplicationStrings,
+  SignOutType,
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
-import { Action } from 'redux';
 import loadMicroFrontends from './loadMicroFrontends';
 
 export const daaasNotification = (
@@ -20,18 +25,45 @@ export const daaasNotification = (
   },
 });
 
+export const configureStrings = (
+  appStrings: ApplicationStrings
+): ActionType<ConfigureStringsPayload> => ({
+  type: ConfigureStringsType,
+  payload: {
+    res: appStrings,
+  },
+});
+
+export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
+  return async dispatch => {
+    await axios
+      .get(path)
+      .then(res => {
+        dispatch(configureStrings(res.data));
+      })
+      .catch(error =>
+        log.error(`Failed to read strings from ${path}: ${error}`)
+      );
+  };
+};
+
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async dispatch => {
-    const res = await axios.get(`/settings.json`);
-    const settings = res.data;
-    dispatch(daaasNotification(JSON.stringify(settings)));
-
-    loadMicroFrontends.init(settings.plugins);
+    await axios.get(`/settings.json`).then(res => {
+      const settings = res.data;
+      dispatch(daaasNotification(JSON.stringify(settings)));
+      dispatch(loadStrings(settings['ui-strings']));
+      loadMicroFrontends.init(settings.plugins);
+    });
   };
 };
 
 export const toggleDrawer = (): Action => ({
   type: ToggleDrawerType,
+});
+
+export const signOut = (): Action => ({
+  type: SignOutType,
 });
 
 export const unauthorised = (): Action => ({

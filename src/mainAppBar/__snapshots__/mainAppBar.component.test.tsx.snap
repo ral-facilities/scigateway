@@ -41,11 +41,11 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         onClick={[Function]}
         variant="h6"
       >
-        Data Analysis as a Service
+        title
       </WithStyles(Typography)>
       <MenuButton
         buttonClassName="MainAppBar-button-6"
-        buttonText="Contact"
+        buttonText="contact"
       />
       <div
         className="MainAppBar-grow-4"
@@ -60,6 +60,11 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <pure(AccountCircleIcon) />
       </WithStyles(IconButton)>
+      <ActionButton
+        buttonClassName="MainAppBar-button-6"
+        buttonText="sign out"
+        onClick={[Function]}
+      />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>
@@ -88,11 +93,11 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         onClick={[Function]}
         variant="h6"
       >
-        Data Analysis as a Service
+        title
       </WithStyles(Typography)>
       <MenuButton
         buttonClassName="MainAppBar-button-6"
-        buttonText="Contact"
+        buttonText="contact"
       />
       <div
         className="MainAppBar-grow-4"
@@ -107,6 +112,11 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <pure(AccountCircleIcon) />
       </WithStyles(IconButton)>
+      <ActionButton
+        buttonClassName="MainAppBar-button-6"
+        buttonText="sign out"
+        onClick={[Function]}
+      />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>

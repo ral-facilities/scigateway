@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
@@ -12,12 +15,11 @@ import {
   createStyles,
   WithStyles,
 } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import { verifyUsernameAndPassword } from '../state/actions/daaas.actions';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { AppStrings } from '../state/daaas.types';
 import { StateType, AuthState } from '../state/state.types';
 import { UKRITheme } from '../theming';
+import { getAppStrings, getString } from '../state/strings';
 
 interface LoginPageState {
   username: string;
@@ -64,7 +66,8 @@ const styles = (theme: Theme): StyleRules =>
   });
 
 interface LoginPageProps {
-  failedToLogin: boolean;
+  auth: AuthState;
+  res: AppStrings | undefined;
 }
 
 interface LoginPageDispatchProps {
@@ -117,12 +120,12 @@ class LoginPageComponent extends React.Component<
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {getString(props.res, 'title')}
           </Typography>
-          {props.failedToLogin ? (
+          {props.auth.failedToLogin ? (
             <div>
               <Typography className={props.classes.warning}>
-                Failed to log in. Invalid username or password.
+                {getString(props.res, 'login-error-msg')}
               </Typography>
             </div>
           ) : (
@@ -131,7 +134,7 @@ class LoginPageComponent extends React.Component<
           <div>
             <TextField
               className={props.classes.textField}
-              label="Username*"
+              label={getString(props.res, 'username-placeholder')}
               value={this.state.username}
               onChange={this.updateUserName}
             />
@@ -139,7 +142,7 @@ class LoginPageComponent extends React.Component<
           <div>
             <TextField
               className={props.classes.textField}
-              label="Password*"
+              label={getString(props.res, 'password-placeholder')}
               value={this.state.password}
               onChange={this.updatePassword}
               type="password"
@@ -158,7 +161,7 @@ class LoginPageComponent extends React.Component<
               }
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-                sign in
+                {getString(props.res, 'login-button')}
               </Typography>
             </Button>
           </div>
@@ -168,10 +171,9 @@ class LoginPageComponent extends React.Component<
   }
 }
 
-const mapStateToProps = (state: StateType): AuthState => ({
-  token: state.daaas.authorisation.token,
-  failedToLogin: state.daaas.authorisation.failedToLogin,
-  loggedIn: state.daaas.authorisation.loggedIn,
+const mapStateToProps = (state: StateType): LoginPageProps => ({
+  auth: state.daaas.authorisation,
+  res: getAppStrings(state, 'login'),
 });
 
 const mapDispatchToProps = (

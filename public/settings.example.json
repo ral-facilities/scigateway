@@ -11,5 +11,6 @@
       "enable": true,
       "location": "main"
     }
-  ]
+  ],
+  "ui-strings": "res/default.json"
 }

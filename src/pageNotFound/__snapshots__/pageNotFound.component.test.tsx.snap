@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Not found component pageNotFound renders correctly 1`] = `
+<WithStyles(Typography)
+  style={
+    Object {
+      "padding": 15,
+    }
+  }
+  variant="body1"
+>
+  Page not found. Please check the page address for typos. Click
+   
+  <Link
+    replace={false}
+    to="/"
+  >
+    here
+  </Link>
+   to return to the home page.
+</WithStyles(Typography)>
+`;

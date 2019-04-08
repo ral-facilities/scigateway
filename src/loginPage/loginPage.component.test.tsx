@@ -6,6 +6,7 @@ import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core';
+import { RouterState } from 'connected-react-router';
 
 describe('Login page component', () => {
   let shallow;
@@ -13,13 +14,26 @@ describe('Login page component', () => {
   let mockStore;
   let state: StateType;
 
+  const routerState: RouterState = {
+    action: 'POP',
+    location: {
+      hash: '',
+      key: '',
+      pathname: '/',
+      search: '',
+      state: {},
+    },
+  };
+
   beforeEach(() => {
     shallow = createShallow({});
     mount = createMount();
 
     mockStore = configureStore();
+
     state = {
       daaas: initialState,
+      router: routerState,
     };
   });
 
@@ -28,7 +42,10 @@ describe('Login page component', () => {
   it('login page renders correctly', () => {
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles store={mockStore(state)} />
+        <LoginPageWithStyles
+          store={mockStore(state)}
+          auth={state.daaas.authorisation}
+        />
       </MuiThemeProvider>
     );
     expect(wrapper.dive().dive()).toMatchSnapshot();
@@ -43,6 +60,7 @@ describe('Login page component', () => {
         <LoginPageWithStyles
           verifyUsernameAndPassword={mockLoginfn}
           store={testStore}
+          auth={state.daaas.authorisation}
         />
       </MuiThemeProvider>
     );
