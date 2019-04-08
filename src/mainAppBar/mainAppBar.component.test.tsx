@@ -17,9 +17,7 @@ describe('Main app bar component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = {
-      daaas: initialState,
-    };
+    state = JSON.parse(JSON.stringify({ daaas: initialState }));
   });
 
   afterEach(() => {
@@ -27,6 +25,12 @@ describe('Main app bar component', () => {
   });
 
   it('app bar renders correctly', () => {
+    const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
+    expect(wrapper.dive().dive()).toMatchSnapshot();
+  });
+
+  it('does not render contact button when feature is false', () => {
+    state.daaas.features.showContactButton = false;
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });

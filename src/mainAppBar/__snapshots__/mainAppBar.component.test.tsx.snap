@@ -119,3 +119,50 @@ exports[`Main app bar component app bar renders correctly 1`] = `
   </WithStyles(AppBar)>
 </div>
 `;
+
+exports[`Main app bar component does not render contact button when feature is false 1`] = `
+<div
+  className="MainAppBar-root-1"
+>
+  <WithStyles(AppBar)
+    className="MainAppBar-appBar-2"
+    position="static"
+  >
+    <WithStyles(Toolbar)>
+      <WithStyles(IconButton)
+        className="MainAppBar-menuButton-7"
+        color="inherit"
+        onClick={[Function]}
+      >
+        <pure(MenuIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(Typography)
+        className="MainAppBar-title-5"
+        color="inherit"
+        noWrap={true}
+        variant="h6"
+      >
+        title
+      </WithStyles(Typography)>
+      <div
+        className="MainAppBar-grow-4"
+      />
+      <WithStyles(IconButton)
+        className="MainAppBar-button-6"
+      >
+        <pure(HelpOutlineIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(IconButton)
+        className="MainAppBar-button-6"
+      >
+        <pure(AccountCircleIcon) />
+      </WithStyles(IconButton)>
+      <ActionButton
+        buttonClassName="MainAppBar-button-6"
+        buttonText="sign out"
+        onClick={[Function]}
+      />
+    </WithStyles(Toolbar)>
+  </WithStyles(AppBar)>
+</div>
+`;

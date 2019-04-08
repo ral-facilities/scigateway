@@ -6,6 +6,7 @@ export const NotificationType = 'daaas:notification';
 export const RegisterRouteType = 'daaas:api:register_route';
 export const SignOutType = 'daaas:signout';
 export const ToggleDrawerType = 'daaas:toggledrawer';
+export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
 
 export interface NotificationPayload {
   message: string;
@@ -21,6 +22,14 @@ export interface ConfigureStringsPayload {
 
 export interface ApplicationStrings {
   [section: string]: AppStrings;
+}
+
+export interface FeatureSwitchesPayload {
+  switches: FeatureSwitches;
+}
+
+export interface FeatureSwitches {
+  showContactButton: boolean;
 }
 
 export interface RegisterRoutePayload {

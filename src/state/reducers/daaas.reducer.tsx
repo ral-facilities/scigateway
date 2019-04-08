@@ -11,6 +11,8 @@ import {
   ConfigureStringsType,
   ConfigureStringsPayload,
   SignOutType,
+  FeatureSwitchesPayload,
+  ConfigureFeatureSwitchesType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -26,6 +28,9 @@ export const initialState: DaaasState = {
   plugins: [],
   drawerOpen: false,
   authorisation: authState,
+  features: {
+    showContactButton: true,
+  },
 };
 
 export function handleNotification(
@@ -110,6 +115,16 @@ export function handleSignOut(state: DaaasState): DaaasState {
   };
 }
 
+export function handleConfigureFeatureSwitches(
+  state: DaaasState,
+  payload: FeatureSwitchesPayload
+): DaaasState {
+  return {
+    ...state,
+    features: payload.switches,
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -118,6 +133,7 @@ const DaaasReducer = createReducer(initialState, {
   [AuthFailureType]: handleUnsuccessfulLogin,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
+  [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
 });
 
 export default DaaasReducer;

@@ -25,6 +25,7 @@ import { getAppStrings, getString } from '../state/strings';
 interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
+  showContactButton: boolean;
 }
 
 interface MainAppDispatchProps {
@@ -135,10 +136,12 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
         >
           {getString(props.res, 'title')}
         </Typography>
-        <MenuButton
-          buttonText={getString(props.res, 'contact')}
-          buttonClassName={props.classes.button}
-        />
+        {props.showContactButton ? (
+          <MenuButton
+            buttonText={getString(props.res, 'contact')}
+            buttonClassName={props.classes.button}
+          />
+        ) : null}
         <div className={props.classes.grow} />
         <IconButton className={props.classes.button}>
           <HelpIcon />
@@ -158,6 +161,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.daaas.drawerOpen,
+  showContactButton: state.daaas.features.showContactButton,
   res: getAppStrings(state, 'main-appbar'),
 });
 
