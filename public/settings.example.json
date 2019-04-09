@@ -1,8 +1,7 @@
 {
   "title": "a cool title",
   "features": {
-    "latest feature": true,
-    "search functionality": false
+    "showContactButton": true
   },
   "plugins": [
     {
