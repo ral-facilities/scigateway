@@ -24,6 +24,7 @@ storiesOf('MainAppBar', module)
       <MainAppBarWithStyles
         drawerOpen={false}
         res={undefined}
+        showContactButton={true}
         toggleDrawer={FakeReduxAction('toggle menu')}
         navigateToHome={FakeReduxAction('home')}
         signOut={FakeReduxAction('sign out')}

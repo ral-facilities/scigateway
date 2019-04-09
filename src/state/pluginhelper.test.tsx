@@ -91,22 +91,22 @@ describe('pluginhelper', () => {
     ];
 
     it('separates plugin list into object keyed by section', () => {
-      const strucutredData = structureMenuData(testPluginList);
-      expect(strucutredData['Analysis']).toHaveLength(3);
-      expect(strucutredData['Data']).toHaveLength(4);
+      const structuredData = structureMenuData(testPluginList);
+      expect(structuredData['Analysis']).toHaveLength(3);
+      expect(structuredData['Data']).toHaveLength(4);
     });
 
     it('correctly assigns plugin to section list', () => {
-      const strucutredData = structureMenuData(testPluginList);
-      strucutredData['Analysis'].forEach(plugin =>
+      const structuredData = structureMenuData(testPluginList);
+      structuredData['Analysis'].forEach(plugin =>
         expect(plugin.section).toEqual('Analysis')
       );
     });
 
     it('sorts plugins with comparer', () => {
-      const strucutredData = structureMenuData(testPluginList);
-      const sortedData = strucutredData['Data'].sort(comparePlugins);
-      expect(strucutredData['Data']).toEqual(sortedData);
+      const structuredData = structureMenuData(testPluginList);
+      const sortedData = structuredData['Data'].sort(comparePlugins);
+      expect(structuredData['Data']).toEqual(sortedData);
     });
   });
 });

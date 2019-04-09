@@ -12,6 +12,9 @@ import {
   AuthSuccessType,
   ApplicationStrings,
   SignOutType,
+  FeatureSwitchesPayload,
+  ConfigureFeatureSwitchesType,
+  FeatureSwitches,
   LoadingAuthType,
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
@@ -49,10 +52,22 @@ export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
   };
 };
 
+export const loadFeatureSwitches = (
+  featureSwitches: FeatureSwitches
+): ActionType<FeatureSwitchesPayload> => ({
+  type: ConfigureFeatureSwitchesType,
+  payload: {
+    switches: featureSwitches,
+  },
+});
+
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async dispatch => {
     await axios.get(`/settings.json`).then(res => {
       const settings = res.data;
+      if (settings['features']) {
+        dispatch(loadFeatureSwitches(settings['features']));
+      }
       dispatch(daaasNotification(JSON.stringify(settings)));
 
       const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')

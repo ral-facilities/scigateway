@@ -6,8 +6,14 @@ import {
   verifyUsernameAndPassword,
   loadingAuthentication,
   authorised,
+  loadFeatureSwitches,
+  configureSite,
 } from './daaas.actions';
-import { NotificationType, ToggleDrawerType } from '../daaas.types';
+import {
+  NotificationType,
+  ToggleDrawerType,
+  ConfigureFeatureSwitchesType,
+} from '../daaas.types';
 import { initialState } from '../reducers/daaas.reducer';
 
 jest.useFakeTimers();
@@ -86,5 +92,37 @@ describe('daaas actions', () => {
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(expectedResponse);
+  });
+
+  it('given feature settings loadFeatureSwitches updates state to show feature', () => {
+    const settings = {
+      features: {
+        showContactButton: true,
+      },
+    };
+
+    const action = loadFeatureSwitches(settings['features']);
+    expect(action.type).toEqual(ConfigureFeatureSwitchesType);
+    expect(action.payload.switches).toEqual({ showContactButton: true });
+  });
+
+  it('given a feature switch loadFeatureSwitches is run', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          settings: {
+            features: {
+              'a feature switch setting': true,
+            },
+          },
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+
+    await asyncAction(dispatch);
   });
 });
