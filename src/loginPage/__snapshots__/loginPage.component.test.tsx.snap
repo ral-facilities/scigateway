@@ -6,6 +6,7 @@ exports[`Login page component login page renders correctly 1`] = `
 >
   <WithStyles(Paper)
     className="LoginPageComponent-paper-3"
+    onKeyPress={[Function]}
   >
     <WithStyles(Avatar)
       className="LoginPageComponent-avatar-2"
@@ -18,50 +19,46 @@ exports[`Login page component login page renders correctly 1`] = `
     >
       title
     </WithStyles(Typography)>
-    <div />
-    <div>
-      <TextField
-        className="LoginPageComponent-textField-4"
-        label="username-placeholder"
-        onChange={[Function]}
-        required={false}
-        select={false}
-        value=""
-        variant="standard"
-      />
-    </div>
-    <div>
-      <TextField
-        className="LoginPageComponent-textField-4"
-        label="password-placeholder"
-        onChange={[Function]}
-        required={false}
-        select={false}
-        type="password"
-        value=""
-        variant="standard"
-      />
-    </div>
-    <div>
-      <WithStyles(Button)
-        className="LoginPageComponent-button-5"
-        color="primary"
-        onClick={[Function]}
-        variant="contained"
-      >
-        <WithStyles(Typography)
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
+    <TextField
+      className="LoginPageComponent-textField-4"
+      disabled={false}
+      label="username-placeholder"
+      onChange={[Function]}
+      required={false}
+      select={false}
+      value=""
+      variant="standard"
+    />
+    <TextField
+      className="LoginPageComponent-textField-4"
+      disabled={false}
+      label="password-placeholder"
+      onChange={[Function]}
+      required={false}
+      select={false}
+      type="password"
+      value=""
+      variant="standard"
+    />
+    <WithStyles(Button)
+      className="LoginPageComponent-button-5"
+      color="primary"
+      disabled={true}
+      onClick={[Function]}
+      variant="contained"
+    >
+      <WithStyles(Typography)
+        color="inherit"
+        noWrap={true}
+        style={
+          Object {
+            "marginTop": 3,
           }
-        >
-          login-button
-        </WithStyles(Typography)>
-      </WithStyles(Button)>
-    </div>
+        }
+      >
+        login-button
+      </WithStyles(Typography)>
+    </WithStyles(Button)>
   </WithStyles(Paper)>
 </div>
 `;

@@ -79,6 +79,7 @@
       "!src/state/reducers/App.reducer.tsx",
       "!src/stories/index.js",
       "!src/stories/utils.tsx",
+      "!src/stories/storybookResourceStrings.tsx",
       "!**/*.stories.*",
       "!src/state/actions/loadMicroFrontends.tsx"
     ]

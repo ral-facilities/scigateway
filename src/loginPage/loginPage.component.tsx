@@ -7,6 +7,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import {
   withStyles,
@@ -63,6 +64,9 @@ const styles = (theme: Theme): StyleRules =>
       marginTop: `${theme.spacing.unit * 3}px`,
       color: 'red',
     },
+    spinner: {
+      marginTop: 15,
+    },
   });
 
 interface LoginPageProps {
@@ -111,11 +115,25 @@ class LoginPageComponent extends React.Component<
     });
   }
 
+  private isInputValid(): boolean {
+    return this.state.username !== '' && this.state.password !== '';
+  }
+
   public render(): React.ReactElement {
     const { props } = this;
     return (
       <div className={props.classes.root}>
-        <Paper className={props.classes.paper}>
+        <Paper
+          className={props.classes.paper}
+          onKeyPress={e => {
+            if (e.key === 'Enter' && this.isInputValid()) {
+              props.verifyUsernameAndPassword(
+                this.state.username,
+                this.state.password
+              );
+            }
+          }}
+        >
           <Avatar className={props.classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -123,48 +141,44 @@ class LoginPageComponent extends React.Component<
             {getString(props.res, 'title')}
           </Typography>
           {props.auth.failedToLogin ? (
-            <div>
-              <Typography className={props.classes.warning}>
-                {getString(props.res, 'login-error-msg')}
-              </Typography>
-            </div>
-          ) : (
-            <div />
-          )}
-          <div>
-            <TextField
-              className={props.classes.textField}
-              label={getString(props.res, 'username-placeholder')}
-              value={this.state.username}
-              onChange={this.updateUserName}
-            />
-          </div>
-          <div>
-            <TextField
-              className={props.classes.textField}
-              label={getString(props.res, 'password-placeholder')}
-              value={this.state.password}
-              onChange={this.updatePassword}
-              type="password"
-            />
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              className={props.classes.button}
-              onClick={() =>
-                props.verifyUsernameAndPassword(
-                  this.state.username,
-                  this.state.password
-                )
-              }
-            >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-                {getString(props.res, 'login-button')}
-              </Typography>
-            </Button>
-          </div>
+            <Typography className={props.classes.warning}>
+              {getString(props.res, 'login-error-msg')}
+            </Typography>
+          ) : null}
+          <TextField
+            className={props.classes.textField}
+            label={getString(props.res, 'username-placeholder')}
+            value={this.state.username}
+            onChange={this.updateUserName}
+            disabled={props.auth.loading}
+          />
+          <TextField
+            className={props.classes.textField}
+            label={getString(props.res, 'password-placeholder')}
+            value={this.state.password}
+            onChange={this.updatePassword}
+            type="password"
+            disabled={props.auth.loading}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={props.classes.button}
+            disabled={!this.isInputValid() || props.auth.loading}
+            onClick={() => {
+              props.verifyUsernameAndPassword(
+                this.state.username,
+                this.state.password
+              );
+            }}
+          >
+            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+              {getString(props.res, 'login-button')}
+            </Typography>
+          </Button>
+          {props.auth.loading ? (
+            <CircularProgress className={props.classes.spinner} />
+          ) : null}
         </Paper>
       </div>
     );

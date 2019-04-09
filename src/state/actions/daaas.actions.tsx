@@ -15,9 +15,11 @@ import {
   FeatureSwitchesPayload,
   ConfigureFeatureSwitchesType,
   FeatureSwitches,
+  LoadingAuthType,
 } from '../daaas.types';
 import { ActionType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
+import { push } from 'connected-react-router';
 
 export const daaasNotification = (
   message: string
@@ -67,7 +69,11 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         dispatch(loadFeatureSwitches(settings['features']));
       }
       dispatch(daaasNotification(JSON.stringify(settings)));
-      dispatch(loadStrings(settings['ui-strings']));
+
+      const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
+        ? '/' + settings['ui-strings']
+        : settings['ui-strings'];
+      dispatch(loadStrings(uiStringResourcesPath));
       loadMicroFrontends.init(settings.plugins);
     });
   };
@@ -92,19 +98,35 @@ export const authorised = (token: string): ActionType<AuthorisedPayload> => ({
   },
 });
 
+export const loadingAuthentication = (): Action => ({
+  type: LoadingAuthType,
+});
+
 export const verifyUsernameAndPassword = (
   username: string,
   password: string
 ): ThunkResult<Promise<void>> => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     // will be replaced with call to login API for authentification
-    const res = axios.get(`/settings.json`).then(() => {
+    dispatch(loadingAuthentication());
+    await new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
+      console.log('running after timeout');
       if (username === 'INVALID_NAME' && password != null) {
-        console.log(`Axios response was ${res}`);
         dispatch(unauthorised());
       } else {
         const token = 'validLoginToken';
         dispatch(authorised(token));
+
+        // redirect the user to the original page they were trying to get to
+        // the referrer is added by the redirect in routing.component.tsx
+        const previousRouteState = getState().router.location.state;
+        dispatch(
+          push(
+            previousRouteState && previousRouteState.referrer
+              ? previousRouteState.referrer
+              : '/'
+          )
+        );
       }
     });
   };

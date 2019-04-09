@@ -4,6 +4,7 @@ import {
   authorised,
   unauthorised,
   signOut,
+  loadingAuthentication,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
@@ -40,6 +41,14 @@ describe('daaas reducer', () => {
     expect(updatedState.drawerOpen).toBeFalsy();
   });
 
+  it('loading authentication should update loading state', () => {
+    const action = loadingAuthentication();
+    expect(state.authorisation.loading).toBeFalsy();
+
+    let updatedState = DaaasReducer(state, action);
+    expect(updatedState.authorisation.loading).toBeTruthy();
+  });
+
   it('successful log in should update authorisation to logged in state', () => {
     const action = authorised('token');
     let updatedState = DaaasReducer(state, action);
@@ -47,6 +56,7 @@ describe('daaas reducer', () => {
       token: 'token',
       failedToLogin: false,
       loggedIn: true,
+      loading: false,
     };
 
     expect(updatedState.authorisation).toEqual(authorisedState);
@@ -59,6 +69,7 @@ describe('daaas reducer', () => {
       token: '',
       failedToLogin: true,
       loggedIn: false,
+      loading: false,
     };
 
     expect(updatedState.authorisation).toEqual(unAuthorisedState);
