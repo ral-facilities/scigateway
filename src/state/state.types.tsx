@@ -34,4 +34,5 @@ export interface AuthState {
   token: string;
   failedToLogin: boolean;
   loggedIn: boolean;
+  loading: boolean;
 }

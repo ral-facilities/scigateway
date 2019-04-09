@@ -4,8 +4,13 @@ import {
   daaasNotification,
   toggleDrawer,
   verifyUsernameAndPassword,
+  loadingAuthentication,
+  authorised,
 } from './daaas.actions';
 import { NotificationType, ToggleDrawerType } from '../daaas.types';
+import { initialState } from '../reducers/daaas.reducer';
+
+jest.useFakeTimers();
 
 function mockAxiosGetResponse(message: string): void {
   (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
@@ -38,14 +43,31 @@ describe('daaas actions', () => {
     const asyncAction = verifyUsernameAndPassword('username', 'password');
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const getState = (): any => ({
+      daaas: initialState,
+      router: {
+        location: {
+          state: {
+            referrer: '/destination/after/login',
+          },
+        },
+      },
+    });
 
-    await asyncAction(dispatch);
-    const response = {
-      payload: { token: 'validLoginToken' },
-      type: 'daaas:auth_success',
-    };
+    const action = asyncAction(dispatch, getState);
+    jest.runAllTimers();
+    await action;
 
-    expect(actions[0]).toEqual(response);
+    expect(actions[0]).toEqual(loadingAuthentication());
+    expect(actions[1]).toEqual(authorised('validLoginToken'));
+    expect(actions[2]).toEqual({
+      type: '@@router/CALL_HISTORY_METHOD',
+      payload: {
+        args: ['/destination/after/login'],
+        method: 'push',
+      },
+    });
   });
 
   it('given invalid credentials verifyUsernameAndPassword should return an authorisation failure', async () => {
@@ -57,9 +79,12 @@ describe('daaas actions', () => {
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
 
-    await asyncAction(dispatch);
+    const action = asyncAction(dispatch);
+    jest.runAllTimers();
+    await action;
     const expectedResponse = { type: 'daaas:auth_failure' };
 
-    expect(actions[0]).toEqual(expectedResponse);
+    expect(actions[0]).toEqual(loadingAuthentication());
+    expect(actions[1]).toEqual(expectedResponse);
   });
 });

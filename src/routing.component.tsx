@@ -6,7 +6,7 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
-import { Route, Switch } from 'react-router';
+import { Route, Redirect, Switch } from 'react-router';
 import { StateType, AuthState } from './state/state.types';
 import { PluginConfig } from './state/daaas.types';
 import { connect } from 'react-redux';
@@ -59,18 +59,25 @@ class Routing extends React.Component<
       >
         <Switch>
           <Route exact path="/" component={HomePage} />
-          {authorised &&
-            plugins.map(p => {
-              console.log(`Adding Route: ${p.link} ${p.displayName}`);
-              return (
-                <Route
-                  key={`${p.section}_${p.link}`}
-                  path={p.link}
-                  render={() => <div id={p.plugin}>{p.displayName}</div>}
-                />
-              );
-            })}
-          <Route component={authorised ? PageNotFound : LoginPage} />
+          <Route exact path="/login" component={LoginPage} />
+          {/* ---- All authorised routes below this point ---- */}
+          {!authorised && (
+            <Redirect
+              push
+              to={{
+                pathname: '/login',
+                state: { referrer: this.props.location },
+              }}
+            />
+          )}
+          {plugins.map(p => (
+            <Route
+              key={`${p.section}_${p.link}`}
+              path={p.link}
+              render={() => <div id={p.plugin}>{p.displayName}</div>}
+            />
+          ))}
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     );

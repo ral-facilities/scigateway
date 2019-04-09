@@ -11,6 +11,7 @@ import {
   ConfigureStringsType,
   ConfigureStringsPayload,
   SignOutType,
+  LoadingAuthType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -19,6 +20,7 @@ export const authState: AuthState = {
   token: '',
   failedToLogin: false,
   loggedIn: false,
+  loading: false,
 };
 
 export const initialState: DaaasState = {
@@ -65,6 +67,14 @@ export function handleRegisterPlugin(
   };
 }
 
+export const handleLoadingAuth = (state: DaaasState): DaaasState => ({
+  ...state,
+  authorisation: {
+    ...state.authorisation,
+    loading: true,
+  },
+});
+
 export function handleSuccessfulLogin(
   state: DaaasState,
   payload: AuthorisedPayload
@@ -77,6 +87,7 @@ export function handleSuccessfulLogin(
       failedToLogin: false,
       loggedIn: true,
       token: payload.token,
+      loading: false,
     },
   };
 }
@@ -93,6 +104,7 @@ export function handleUnsuccessfulLogin(
       failedToLogin: true,
       loggedIn: false,
       token: '',
+      loading: false,
     },
   };
 }
@@ -116,6 +128,7 @@ const DaaasReducer = createReducer(initialState, {
   [RegisterRouteType]: handleRegisterPlugin,
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
+  [LoadingAuthType]: handleLoadingAuth,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
 });

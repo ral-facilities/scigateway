@@ -1,5 +1,6 @@
 export const AuthSuccessType = 'daaas:auth_success';
 export const AuthFailureType = 'daaas:auth_failure';
+export const LoadingAuthType = 'daaas:loading_auth';
 export const ConfigureStringsType = 'daaas:configure_strings';
 export const LoginType = 'daaas:login';
 export const NotificationType = 'daaas:notification';

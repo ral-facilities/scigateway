@@ -1,0 +1,15 @@
+import { ApplicationStrings } from '../state/daaas.types';
+
+export const storybookResourceStrings: ApplicationStrings = {
+  'main-appbar': {
+    title: 'Data Analysis as a Service',
+    contact: 'Contact',
+  },
+  login: {
+    title: 'Sign in',
+    'username-placeholder': 'Username*',
+    'password-placeholder': 'Password*',
+    'login-button': 'Sign in',
+    'login-error-msg': 'Failed to log in. Invalid username or password.',
+  },
+};
