@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { MainAppBarWithStyles } from '../mainAppBar/mainAppBar.component';
 import { FakeReduxAction } from './utils';
+import { storybookResourceStrings } from './storybookResourceStrings';
 
 const placeHolderStyle = {
   height: 150,
@@ -23,7 +24,7 @@ storiesOf('MainAppBar', module)
     <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10 }}>
       <MainAppBarWithStyles
         drawerOpen={false}
-        res={undefined}
+        res={storybookResourceStrings['main-appbar']}
         showContactButton={true}
         toggleDrawer={FakeReduxAction('toggle menu')}
         navigateToHome={FakeReduxAction('home')}

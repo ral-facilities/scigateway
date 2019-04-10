@@ -22,6 +22,7 @@ import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
+import { UKRITheme } from '../theming';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -46,8 +47,6 @@ interface ActionProps {
   onClick: () => Action;
 }
 
-const drawerWidth = 240;
-
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
@@ -55,13 +54,13 @@ const styles = (theme: Theme): StyleRules =>
     },
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
+        easing: theme.transitions.easing.easeIn,
         duration: theme.transitions.duration.leavingScreen,
       }),
     },
     appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
+      marginLeft: (theme as UKRITheme).drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,

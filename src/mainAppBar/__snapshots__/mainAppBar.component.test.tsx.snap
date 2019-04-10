@@ -142,6 +142,7 @@ exports[`Main app bar component does not render contact button when feature is f
         className="MainAppBar-title-5"
         color="inherit"
         noWrap={true}
+        onClick={[Function]}
         variant="h6"
       >
         title

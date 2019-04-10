@@ -14,19 +14,20 @@ import HomePage from './homePage/homePage.component';
 import LoginPage from './loginPage/loginPage.component';
 import PageNotFound from './pageNotFound/pageNotFound.component';
 import classNames from 'classnames';
+import { UKRITheme } from './theming';
 
-const drawerWidth = 240;
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     container: {
+      width: '100%',
       transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
+        easing: theme.transitions.easing.easeIn,
         duration: theme.transitions.duration.leavingScreen,
       }),
     },
     containerShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
+      marginLeft: (theme as UKRITheme).drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,

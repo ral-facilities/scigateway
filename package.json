@@ -27,6 +27,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "single-spa": "^4.1.2",
+    "typeface-roboto": "0.0.54",
     "typescript": "3.3.3333"
   },
   "scripts": {

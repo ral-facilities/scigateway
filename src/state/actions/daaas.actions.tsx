@@ -110,7 +110,6 @@ export const verifyUsernameAndPassword = (
     // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
     await new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
-      console.log('running after timeout');
       if (username === 'INVALID_NAME' && password != null) {
         dispatch(unauthorised());
       } else {

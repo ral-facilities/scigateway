@@ -29,6 +29,10 @@ function mockAxiosGetResponse(message: string): void {
 }
 
 describe('daaas actions', () => {
+  beforeEach(() => {
+    (mockAxios.get as jest.Mock).mockReset();
+  });
+
   it('daaasNotification should have a message', () => {
     const action = daaasNotification('test message');
 
@@ -95,13 +99,9 @@ describe('daaas actions', () => {
   });
 
   it('given feature settings loadFeatureSwitches updates state to show feature', () => {
-    const settings = {
-      features: {
-        showContactButton: true,
-      },
-    };
+    const features = { showContactButton: true };
 
-    const action = loadFeatureSwitches(settings['features']);
+    const action = loadFeatureSwitches(features);
     expect(action.type).toEqual(ConfigureFeatureSwitchesType);
     expect(action.payload.switches).toEqual({ showContactButton: true });
   });
@@ -110,11 +110,8 @@ describe('daaas actions', () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          settings: {
-            features: {
-              'a feature switch setting': true,
-            },
-          },
+          features: { showContactButton: true },
+          'ui-strings': '/res/default.json',
         },
       })
     );
@@ -124,5 +121,9 @@ describe('daaas actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
 
     await asyncAction(dispatch);
+
+    expect(actions[0]).toEqual(
+      loadFeatureSwitches({ showContactButton: true })
+    );
   });
 });
