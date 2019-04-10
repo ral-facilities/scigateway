@@ -11,6 +11,6 @@ describe('Page Not found component', () => {
 
   it('pageNotFound renders correctly', () => {
     const wrapper = shallow(<PageNotFound />);
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.dive()).toMatchSnapshot();
   });
 });

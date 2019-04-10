@@ -1,18 +1,55 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import { withStyles, WithStyles, Theme } from '@material-ui/core';
+import BugReportIcon from '@material-ui/icons/BugReport';
+import { StyleRules } from '@material-ui/core/styles';
 
-const styles = {
-  container: {
-    padding: 15,
+const styles = (theme: Theme): StyleRules => ({
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-};
+  bugIcon: {
+    width: '10vw',
+    height: '10vw',
 
-const PageNotFound = (): React.ReactElement => (
-  <Typography variant="body1" style={styles.container}>
-    Page not found. Please check the page address for typos. Click{' '}
-    <Link to="/">here</Link> to return to the home page.
-  </Typography>
+    color: theme.palette.primary.main,
+  },
+  codeText: {
+    fontWeight: 'bold',
+    fontSize: '10vw',
+    color: theme.palette.primary.main,
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  message: {
+    padding: 15,
+    maxWidth: 600,
+    textAlign: 'center',
+  },
+});
+
+const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => (
+  <div>
+    <div className={props.classes.titleContainer}>
+      <BugReportIcon className={props.classes.bugIcon} />
+      <Typography className={props.classes.codeText}>404</Typography>
+    </div>
+    <div className={props.classes.container}>
+      <Typography variant="h2">Page not found</Typography>
+      <Typography variant="body1" className={props.classes.message}>
+        We&apos;re sorry, the page you requested could not be found. Please
+        check the page address for typos. Click <Link to="/">here</Link> to
+        return to the home page or contact support.
+      </Typography>
+    </div>
+  </div>
 );
 
-export default PageNotFound;
+export default withStyles(styles)(PageNotFound);

@@ -1,22 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Page Not found component pageNotFound renders correctly 1`] = `
-<WithStyles(Typography)
-  style={
-    Object {
-      "padding": 15,
-    }
-  }
-  variant="body1"
->
-  Page not found. Please check the page address for typos. Click
-   
-  <Link
-    replace={false}
-    to="/"
+<div>
+  <div
+    className="PageNotFound-titleContainer-1"
   >
-    here
-  </Link>
-   to return to the home page.
-</WithStyles(Typography)>
+    <pure(BugReportIcon)
+      className="PageNotFound-bugIcon-2"
+    />
+    <WithStyles(Typography)
+      className="PageNotFound-codeText-3"
+    >
+      404
+    </WithStyles(Typography)>
+  </div>
+  <div
+    className="PageNotFound-container-4"
+  >
+    <WithStyles(Typography)
+      variant="h2"
+    >
+      Page not found
+    </WithStyles(Typography)>
+    <WithStyles(Typography)
+      className="PageNotFound-message-5"
+      variant="body1"
+    >
+      We're sorry, the page you requested could not be found. Please check the page address for typos. Click 
+      <Link
+        replace={false}
+        to="/"
+      >
+        here
+      </Link>
+       to return to the home page or contact support.
+    </WithStyles(Typography)>
+  </div>
+</div>
 `;
