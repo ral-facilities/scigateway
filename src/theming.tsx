@@ -9,6 +9,7 @@ export interface UKRIThemeOptions extends ThemeOptions {
     green: string;
     grey: string;
   };
+  drawerWidth: number;
 }
 
 export interface UKRITheme extends Theme {
@@ -19,6 +20,7 @@ export interface UKRITheme extends Theme {
     green: string;
     grey: string;
   };
+  drawerWidth: number;
 }
 
 export const buildTheme = (): Theme => {
@@ -41,6 +43,7 @@ export const buildTheme = (): Theme => {
       green: '#008275',
       grey: '#63666A',
     },
+    drawerWidth: 300,
   };
 
   return createMuiTheme(options);

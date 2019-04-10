@@ -18,6 +18,7 @@ import { toggleDrawer } from '../state/actions/daaas.actions';
 import { PluginConfig } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
+import { UKRITheme } from '../theming';
 
 interface NavigationDrawerProps {
   open: boolean;
@@ -28,16 +29,14 @@ interface NavigationDrawerDispatchProps {
   toggleDrawer: () => Action;
 }
 
-const drawerWidth = 240;
-
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     drawer: {
-      width: drawerWidth,
+      width: (theme as UKRITheme).drawerWidth,
       flexShrink: 0,
     },
     drawerPaper: {
-      width: drawerWidth,
+      width: (theme as UKRITheme).drawerWidth,
       background: theme.palette.secondary.main,
     },
     drawerHeader: {
