@@ -2,20 +2,111 @@
 
 exports[`Home page component homepage renders correctly 1`] = `
 <div>
-  <WithStyles(Typography)
-    variant="body1"
+  <div
+    className="HomePage-bigImage-2"
   >
-    DAaaS
-  </WithStyles(Typography)>
-  <WithStyles(Typography)
-    style={
-      Object {
-        "padding": 15,
-      }
-    }
-    variant="body1"
+    <WithStyles(Typography)
+      className="HomePage-title-1"
+      variant="h2"
+    >
+      Data Analysis as a Service
+    </WithStyles(Typography)>
+  </div>
+  <div
+    className="HomePage-howItWorks-3"
   >
-    This is the DAaaS landing page
-  </WithStyles(Typography)>
+    <WithStyles(Typography)
+      className="HomePage-howItWorksTitle-4"
+      variant="h4"
+    >
+      How it works...
+    </WithStyles(Typography)>
+    <WithStyles(Grid)
+      container={true}
+      spacing={24}
+    >
+      <WithStyles(Grid)
+        className="HomePage-howItWorksGridItem-5"
+        item={true}
+        md={4}
+        sm={12}
+      >
+        <WithStyles(Typography)
+          className="HomePage-howItWorksGridItemTitle-6"
+          variant="h5"
+        >
+          1. Explore
+        </WithStyles(Typography)>
+        <img
+          className="HomePage-howItWorksGridItemImage-7"
+          src="explore.jpg"
+        />
+        <WithStyles(Typography)
+          className="HomePage-howItWorksGridItemCaption-8"
+          variant="body1"
+        >
+          Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.
+        </WithStyles(Typography)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        className="HomePage-howItWorksGridItem-5"
+        item={true}
+        md={4}
+        sm={12}
+      >
+        <WithStyles(Typography)
+          className="HomePage-howItWorksGridItemTitle-6"
+          variant="h5"
+        >
+          2. Analyse
+        </WithStyles(Typography)>
+        <img
+          className="HomePage-howItWorksGridItemImage-7"
+          src="analyse.jpg"
+        />
+        <WithStyles(Typography)
+          className="HomePage-howItWorksGridItemCaption-8"
+          variant="body1"
+        >
+          Connect to a virtual environment already equipped with the software and tools to analyse your data.
+        </WithStyles(Typography)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        className="HomePage-howItWorksGridItem-5"
+        item={true}
+        md={4}
+        sm={12}
+      >
+        <WithStyles(Typography)
+          className="HomePage-howItWorksGridItemTitle-6"
+          variant="h5"
+        >
+          3. Record
+        </WithStyles(Typography)>
+        <img
+          className="HomePage-howItWorksGridItemImage-7"
+          src="record.jpg"
+        />
+        <WithStyles(Typography)
+          className="HomePage-howItWorksGridItemCaption-8"
+          variant="body1"
+        >
+          Store your results and findings, making them available to others for review and further research.
+        </WithStyles(Typography)>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+    <WithStyles(Typography)
+      className="HomePage-strapline-9"
+      variant="h6"
+    >
+      transforming the use of real time data processing, computer simulation and data analytics...
+    </WithStyles(Typography)>
+    <WithStyles(Typography)
+      className="HomePage-purpose-10"
+      variant="h5"
+    >
+      ...to deliver more effective research at our national facilities
+    </WithStyles(Typography)>
+  </div>
 </div>
 `;
