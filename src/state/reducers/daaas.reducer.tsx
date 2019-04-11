@@ -17,6 +17,7 @@ import {
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
+import loglevel from 'loglevel';
 
 export const authState: AuthState = {
   token: '',
@@ -84,7 +85,7 @@ export function handleSuccessfulLogin(
   state: DaaasState,
   payload: AuthorisedPayload
 ): DaaasState {
-  console.log(`Successfully logged in with ${payload}`);
+  loglevel.log(`Successfully logged in with ${payload}`);
   return {
     ...state,
     authorisation: {
@@ -101,7 +102,7 @@ export function handleUnsuccessfulLogin(
   state: DaaasState,
   payload: null
 ): DaaasState {
-  console.log(`Failed to log in with ${payload}`);
+  loglevel.log(`Failed to log in with ${payload}`);
   return {
     ...state,
     authorisation: {
@@ -115,7 +116,7 @@ export function handleUnsuccessfulLogin(
 }
 
 export function handleSignOut(state: DaaasState): DaaasState {
-  console.log(`User is being signed out`);
+  loglevel.log(`User is being signed out`);
   return {
     ...state,
     authorisation: {
