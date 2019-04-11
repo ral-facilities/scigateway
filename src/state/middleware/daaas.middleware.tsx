@@ -1,6 +1,6 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
 import { RegisterRouteType } from '../daaas.types';
-import loglevel from 'loglevel';
+import log from 'loglevel';
 
 const microFrontendMessageId = 'daaas-frontend';
 
@@ -28,14 +28,14 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
           break;
         default:
           // log and ignore
-          loglevel.warn(
+          log.warn(
             `Unexpected message received from plugin, not dispatched:\nevent.detail = ${JSON.stringify(
               pluginMessage.detail
             )}`
           );
       }
     } else {
-      loglevel.error(
+      log.error(
         `Invalid message received from a plugin:\nevent.detail = ${JSON.stringify(
           pluginMessage.detail
         )}`

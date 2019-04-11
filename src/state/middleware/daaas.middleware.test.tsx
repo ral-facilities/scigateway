@@ -1,7 +1,7 @@
 import DaaasMiddleware, { listenToPlugins } from './daaas.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
-import loglevel from 'loglevel';
+import log from 'loglevel';
 
 describe('daaas middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
@@ -74,7 +74,7 @@ describe('daaas middleware', () => {
   });
 
   it('should listen for events and not fire unrecognised action', () => {
-    loglevel.warn = jest.fn();
+    log.warn = jest.fn();
     listenToPlugins(store.dispatch);
 
     handler(new CustomEvent('test', { detail: action }));
@@ -82,15 +82,15 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(0);
 
-    expect(loglevel.warn).toHaveBeenCalled();
-    const mockLoglevel = (loglevel.warn as jest.Mock).mock;
-    expect(mockLoglevel.calls[0][0]).toContain(
+    expect(log.warn).toHaveBeenCalled();
+    const mockLog = (log.warn as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toContain(
       'Unexpected message received from plugin, not dispatched'
     );
   });
 
   it('should not fire actions for events without detail', () => {
-    loglevel.error = jest.fn();
+    log.error = jest.fn();
 
     listenToPlugins(store.dispatch);
 
@@ -99,15 +99,15 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(0);
 
-    expect(loglevel.error).toHaveBeenCalled();
-    const mockLoglevel = (loglevel.error as jest.Mock).mock;
-    expect(mockLoglevel.calls[0][0]).toEqual(
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
       'Invalid message received from a plugin:\nevent.detail = null'
     );
   });
 
   it('should not fire actions for events without type on detail', () => {
-    loglevel.error = jest.fn();
+    log.error = jest.fn();
 
     listenToPlugins(store.dispatch);
 
@@ -116,9 +116,9 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(0);
 
-    expect(loglevel.error).toHaveBeenCalled();
-    const mockLoglevel = (loglevel.error as jest.Mock).mock;
-    expect(mockLoglevel.calls[0][0]).toEqual(
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
       'Invalid message received from a plugin:\nevent.detail = {"actionWithoutType":true}'
     );
   });
