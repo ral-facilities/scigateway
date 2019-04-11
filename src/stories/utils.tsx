@@ -1,5 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { AnyAction } from 'redux';
+import log from 'loglevel';
 
 type FakeReduxActionReturnType = () => AnyAction;
 
@@ -13,7 +14,7 @@ export const FakeReduxAction = (
 type FakeAsyncReturnType = () => Promise<void>;
 
 export const FakeAsyncAction = (message: string): FakeAsyncReturnType => () => {
-  console.log('async action called');
+  log.debug('async action called');
   return new Promise<void>(resolve => {
     action(message)();
     resolve();
