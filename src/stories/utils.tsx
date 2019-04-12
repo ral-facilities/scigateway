@@ -8,6 +8,7 @@ import { storybookResourceStrings } from './storybookResourceStrings';
 import { StoryDecorator } from '@storybook/react';
 import { DaaasState } from '../state/state.types';
 import thunk from 'redux-thunk';
+import log from 'loglevel';
 
 type FakeReduxActionReturnType = () => AnyAction;
 
@@ -21,7 +22,7 @@ export const FakeReduxAction = (
 type FakeAsyncReturnType = () => Promise<void>;
 
 export const FakeAsyncAction = (message: string): FakeAsyncReturnType => () => {
-  console.log('async action called');
+  log.debug('async action called');
   return new Promise<void>(resolve => {
     action(message)();
     resolve();
