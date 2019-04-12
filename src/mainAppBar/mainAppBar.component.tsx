@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
   withStyles,
   createStyles,
@@ -17,28 +16,24 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer, signOut } from '../state/actions/daaas.actions';
+import { toggleDrawer } from '../state/actions/daaas.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
 import { UKRITheme } from '../theming';
+import UserProfileComponent from './userProfile.component';
 
 interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
   showContactButton: boolean;
+  loggedIn: boolean;
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
-  signOut: () => Action;
-}
-
-interface MenuButtonProps {
-  buttonText: string;
-  buttonClassName: string;
 }
 
 interface ActionProps {
@@ -86,18 +81,15 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: 20,
       color: theme.palette.primary.contrastText,
     },
+    menuButtonPlaceholder: {
+      marginLeft: -12,
+      marginRight: 20,
+      width: 48,
+    },
     hide: {
       display: 'none',
     },
   });
-
-export const MenuButton = (props: MenuButtonProps): React.ReactElement => (
-  <Button className={props.buttonClassName}>
-    <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-      {props.buttonText}
-    </Typography>
-  </Button>
-);
 
 export const ActionButton = (props: ActionProps): React.ReactElement => (
   <Button onClick={props.onClick} className={props.buttonClassName}>
@@ -120,16 +112,20 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
       })}
     >
       <Toolbar>
-        <IconButton
-          className={classNames(
-            props.classes.menuButton,
-            props.drawerOpen && props.classes.hide
-          )}
-          color="inherit"
-          onClick={props.toggleDrawer}
-        >
-          <MenuIcon />
-        </IconButton>
+        {props.loggedIn ? (
+          <IconButton
+            className={classNames(
+              props.classes.menuButton,
+              props.drawerOpen && props.classes.hide
+            )}
+            color="inherit"
+            onClick={props.toggleDrawer}
+          >
+            <MenuIcon />
+          </IconButton>
+        ) : (
+          <div className={props.classes.menuButtonPlaceholder} />
+        )}
         <Typography
           className={props.classes.title}
           variant="h6"
@@ -140,23 +136,17 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           {getString(props.res, 'title')}
         </Typography>
         {props.showContactButton ? (
-          <MenuButton
-            buttonText={getString(props.res, 'contact')}
-            buttonClassName={props.classes.button}
-          />
+          <Button className={props.classes.button} style={{ paddingTop: 3 }}>
+            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+              {getString(props.res, 'contact')}
+            </Typography>
+          </Button>
         ) : null}
         <div className={props.classes.grow} />
         <IconButton className={props.classes.button}>
           <HelpIcon />
         </IconButton>
-        <IconButton className={props.classes.button}>
-          <AccountCircleIcon />
-        </IconButton>
-        <ActionButton
-          buttonText="sign out"
-          buttonClassName={props.classes.button}
-          onClick={props.signOut}
-        />
+        <UserProfileComponent />
       </Toolbar>
     </AppBar>
   </div>
@@ -165,13 +155,13 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.daaas.drawerOpen,
   showContactButton: state.daaas.features.showContactButton,
+  loggedIn: state.daaas.authorisation.loggedIn,
   res: getAppStrings(state, 'main-appbar'),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
-  signOut: () => dispatch(signOut()),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);

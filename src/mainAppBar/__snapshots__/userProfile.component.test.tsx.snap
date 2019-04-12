@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User profile component renders avatar if signed in 1`] = `
+<div>
+  <div>
+    <WithStyles(IconButton)
+      className="UserProfileComponent-button-1"
+      onClick={[Function]}
+    >
+      <pure(AccountCircleIcon) />
+    </WithStyles(IconButton)>
+    <WithStyles(Menu)
+      anchorEl={null}
+      id="simple-menu"
+      onClose={[Function]}
+      open={false}
+    >
+      <WithStyles(MenuItem)
+        onClick={[Function]}
+      >
+        logout-button
+      </WithStyles(MenuItem)>
+    </WithStyles(Menu)>
+  </div>
+</div>
+`;
+
+exports[`User profile component renders sign in button if not signed in 1`] = `
+<div>
+  <WithStyles(Button)
+    className="UserProfileComponent-button-1"
+    onClick={[Function]}
+  >
+    <WithStyles(Typography)
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(Typography)>
+  </WithStyles(Button)>
+</div>
+`;

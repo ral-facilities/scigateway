@@ -8,6 +8,7 @@
     "username-placeholder": "Username*",
     "password-placeholder": "Password*",
     "login-button": "Sign in",
+    "logout-button": "Sign out",
     "login-error-msg": "Failed to log in. Invalid username or password."
   }
 }

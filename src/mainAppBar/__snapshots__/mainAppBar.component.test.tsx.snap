@@ -1,23 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Main app bar component MenuButton renders correctly 1`] = `
-<WithStyles(Button)
-  className="test-class-1"
->
-  <WithStyles(Typography)
-    color="inherit"
-    noWrap={true}
-    style={
-      Object {
-        "marginTop": 3,
-      }
-    }
-  >
-    test
-  </WithStyles(Typography)>
-</WithStyles(Button)>
-`;
-
 exports[`Main app bar component app bar indented when drawer is open 1`] = `
 <div
   className="MainAppBar-root-1"
@@ -28,7 +10,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
-        className="MainAppBar-menuButton-7 MainAppBar-hide-8"
+        className="MainAppBar-menuButton-7 MainAppBar-hide-9"
         color="inherit"
         onClick={[Function]}
       >
@@ -43,10 +25,26 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         title
       </WithStyles(Typography)>
-      <MenuButton
-        buttonClassName="MainAppBar-button-6"
-        buttonText="contact"
-      />
+      <WithStyles(Button)
+        className="MainAppBar-button-6"
+        style={
+          Object {
+            "paddingTop": 3,
+          }
+        }
+      >
+        <WithStyles(Typography)
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          contact
+        </WithStyles(Typography)>
+      </WithStyles(Button)>
       <div
         className="MainAppBar-grow-4"
       />
@@ -55,16 +53,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
-      <WithStyles(IconButton)
-        className="MainAppBar-button-6"
-      >
-        <pure(AccountCircleIcon) />
-      </WithStyles(IconButton)>
-      <ActionButton
-        buttonClassName="MainAppBar-button-6"
-        buttonText="sign out"
-        onClick={[Function]}
-      />
+      <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>
@@ -95,10 +84,26 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         title
       </WithStyles(Typography)>
-      <MenuButton
-        buttonClassName="MainAppBar-button-6"
-        buttonText="contact"
-      />
+      <WithStyles(Button)
+        className="MainAppBar-button-6"
+        style={
+          Object {
+            "paddingTop": 3,
+          }
+        }
+      >
+        <WithStyles(Typography)
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          contact
+        </WithStyles(Typography)>
+      </WithStyles(Button)>
       <div
         className="MainAppBar-grow-4"
       />
@@ -107,16 +112,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
-      <WithStyles(IconButton)
-        className="MainAppBar-button-6"
-      >
-        <pure(AccountCircleIcon) />
-      </WithStyles(IconButton)>
-      <ActionButton
-        buttonClassName="MainAppBar-button-6"
-        buttonText="sign out"
-        onClick={[Function]}
-      />
+      <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>
@@ -155,16 +151,7 @@ exports[`Main app bar component does not render contact button when feature is f
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
-      <WithStyles(IconButton)
-        className="MainAppBar-button-6"
-      >
-        <pure(AccountCircleIcon) />
-      </WithStyles(IconButton)>
-      <ActionButton
-        buttonClassName="MainAppBar-button-6"
-        buttonText="sign out"
-        onClick={[Function]}
-      />
+      <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
 </div>
