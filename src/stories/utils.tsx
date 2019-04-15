@@ -1,5 +1,13 @@
+import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { AnyAction } from 'redux';
+import { AnyAction, Middleware, Dispatch } from 'redux';
+import { initialState } from '../state/reducers/daaas.reducer';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { storybookResourceStrings } from './storybookResourceStrings';
+import { StoryDecorator } from '@storybook/react';
+import { DaaasState } from '../state/state.types';
+import thunk from 'redux-thunk';
 import log from 'loglevel';
 
 type FakeReduxActionReturnType = () => AnyAction;
@@ -20,3 +28,29 @@ export const FakeAsyncAction = (message: string): FakeAsyncReturnType => () => {
     resolve();
   });
 };
+
+const StorybookMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
+  reduxAction: AnyAction
+): AnyAction => {
+  action(JSON.stringify(reduxAction))();
+
+  return next(reduxAction);
+}) as Middleware;
+
+type StateUpdater = (state: DaaasState) => DaaasState;
+type ReduxDecoratorGeneratorType = (updater: StateUpdater) => StoryDecorator;
+
+/* eslint-disable-next-line react/display-name */
+export const ReduxDecorator: ReduxDecoratorGeneratorType = (stateUpdater => storyFn => {
+  const state = { daaas: initialState };
+  state.daaas.res = storybookResourceStrings;
+  return (
+    <Provider
+      store={configureStore([thunk, StorybookMiddleware])({
+        daaas: stateUpdater(state.daaas),
+      })}
+    >
+      {storyFn()}
+    </Provider>
+  );
+}) as ReduxDecoratorGeneratorType;

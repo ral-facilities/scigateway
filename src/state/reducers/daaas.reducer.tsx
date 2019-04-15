@@ -119,6 +119,7 @@ export function handleSignOut(state: DaaasState): DaaasState {
   log.debug(`User is being signed out`);
   return {
     ...state,
+    drawerOpen: false,
     authorisation: {
       ...state.authorisation,
       failedToLogin: false,
