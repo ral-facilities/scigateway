@@ -68,8 +68,6 @@ const UserProfileComponent = (
             open={getMenuAnchor !== null}
             onClose={closeMenu}
           >
-            {/* <MenuItem onClick={closeMenu}>Profile</MenuItem>
-        <MenuItem onClick={closeMenu}>My account</MenuItem> */}
             <MenuItem onClick={logout}>
               {getString(props.res, 'logout-button')}
             </MenuItem>
