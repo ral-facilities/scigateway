@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Action } from 'redux';
+import { Action, AnyAction } from 'redux';
 import * as log from 'loglevel';
 import {
   ConfigureStringsType,
@@ -17,9 +17,10 @@ import {
   FeatureSwitches,
   LoadingAuthType,
 } from '../daaas.types';
-import { ActionType, ThunkResult } from '../state.types';
+import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
+import { ThunkAction } from 'redux-thunk';
 
 export const daaasNotification = (
   message: string
@@ -83,9 +84,15 @@ export const toggleDrawer = (): Action => ({
   type: ToggleDrawerType,
 });
 
-export const signOut = (): Action => ({
-  type: SignOutType,
-});
+export const signOut = (): ThunkAction<
+  void,
+  StateType,
+  null,
+  AnyAction
+> => dispatch => {
+  dispatch({ type: SignOutType });
+  dispatch(push('/'));
+};
 
 export const unauthorised = (): Action => ({
   type: AuthFailureType,

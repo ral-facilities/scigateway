@@ -3,11 +3,11 @@ import {
   toggleDrawer,
   authorised,
   unauthorised,
-  signOut,
   loadingAuthentication,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
+import { SignOutType } from '../daaas.types';
 
 describe('daaas reducer', () => {
   let state: DaaasState;
@@ -76,7 +76,7 @@ describe('daaas reducer', () => {
   });
 
   it('should sign user out for a signOut message', () => {
-    const action = signOut();
+    const action = { type: SignOutType };
     const signInState = {
       token: 'token',
       failedToLogin: false,

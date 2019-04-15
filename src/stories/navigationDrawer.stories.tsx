@@ -46,10 +46,9 @@ storiesOf('NavigationDrawer', module).add('default', () => (
       style={{
         width: 'calc(100% - 400px)',
         ...placeHolderStyle,
-        marginLeft: 250,
+        marginLeft: 300,
       }}
     >
-      {' '}
       Main App Area
     </div>
   </div>

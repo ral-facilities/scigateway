@@ -1,10 +1,11 @@
 import React from 'react';
-import MainAppBarComponent, { MenuButton } from './mainAppBar.component';
+import MainAppBarComponent from './mainAppBar.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
-import { toggleDrawer, signOut } from '../state/actions/daaas.actions';
+import { toggleDrawer } from '../state/actions/daaas.actions';
+import { Provider } from 'react-redux';
 
 describe('Main app bar component', () => {
   let shallow;
@@ -18,6 +19,7 @@ describe('Main app bar component', () => {
 
     mockStore = configureStore();
     state = JSON.parse(JSON.stringify({ daaas: initialState }));
+    state.daaas.authorisation.loggedIn = true;
   });
 
   afterEach(() => {
@@ -42,16 +44,13 @@ describe('Main app bar component', () => {
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
-  it('MenuButton renders correctly', () => {
-    const wrapper = shallow(
-      <MenuButton buttonText="test" buttonClassName="test-class-1" />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
   it('sends toggleDrawer action when menu clicked', () => {
     const testStore = mockStore(state);
-    const wrapper = mount(<MainAppBarComponent store={testStore} />);
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MainAppBarComponent />
+      </Provider>
+    );
 
     wrapper
       .find('button')
@@ -60,18 +59,5 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
-  });
-
-  it('sends sign out action when sign out button is clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(<MainAppBarComponent store={testStore} />);
-
-    wrapper
-      .find('button')
-      .last()
-      .simulate('click');
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(signOut());
   });
 });
