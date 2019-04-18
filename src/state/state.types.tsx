@@ -15,12 +15,17 @@ export interface Plugin {
 }
 
 export interface DaaasState {
-  notifications: string[];
+  notifications: DaaasNotification[];
   plugins: PluginConfig[];
   drawerOpen: boolean;
   authorisation: AuthState;
   res?: ApplicationStrings;
   features: FeatureSwitches;
+}
+
+export interface DaaasNotification {
+  message: string;
+  id: string;
 }
 
 export interface StateType {
