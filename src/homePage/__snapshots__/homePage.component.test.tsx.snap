@@ -9,7 +9,7 @@ exports[`Home page component homepage renders correctly 1`] = `
       className="HomePage-title-1"
       variant="h2"
     >
-      Data Analysis as a Service
+      title
     </WithStyles(Typography)>
   </div>
   <div
@@ -19,7 +19,7 @@ exports[`Home page component homepage renders correctly 1`] = `
       className="HomePage-howItWorksTitle-4"
       variant="h4"
     >
-      How it works...
+      how-label
     </WithStyles(Typography)>
     <WithStyles(Grid)
       container={true}
@@ -35,7 +35,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           className="HomePage-howItWorksGridItemTitle-6"
           variant="h5"
         >
-          1. Explore
+          explore-label
         </WithStyles(Typography)>
         <img
           className="HomePage-howItWorksGridItemImage-7"
@@ -45,7 +45,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           className="HomePage-howItWorksGridItemCaption-8"
           variant="body1"
         >
-          Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.
+          explore-description
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -58,7 +58,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           className="HomePage-howItWorksGridItemTitle-6"
           variant="h5"
         >
-          2. Analyse
+          analyse-label
         </WithStyles(Typography)>
         <img
           className="HomePage-howItWorksGridItemImage-7"
@@ -68,7 +68,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           className="HomePage-howItWorksGridItemCaption-8"
           variant="body1"
         >
-          Connect to a virtual environment already equipped with the software and tools to analyse your data.
+          analyse-description
         </WithStyles(Typography)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -81,7 +81,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           className="HomePage-howItWorksGridItemTitle-6"
           variant="h5"
         >
-          3. Record
+          record-label
         </WithStyles(Typography)>
         <img
           className="HomePage-howItWorksGridItemImage-7"
@@ -91,7 +91,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           className="HomePage-howItWorksGridItemCaption-8"
           variant="body1"
         >
-          Store your results and findings, making them available to others for review and further research.
+          record-description
         </WithStyles(Typography)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>
@@ -99,13 +99,13 @@ exports[`Home page component homepage renders correctly 1`] = `
       className="HomePage-strapline-9"
       variant="h6"
     >
-      transforming the use of real time data processing, computer simulation and data analytics...
+      banner-one
     </WithStyles(Typography)>
     <WithStyles(Typography)
       className="HomePage-purpose-10"
       variant="h5"
     >
-      ...to deliver more effective research at our national facilities
+      banner-two
     </WithStyles(Typography)>
   </div>
 </div>
