@@ -15,7 +15,7 @@ import {
   ConfigureFeatureSwitchesType,
   LoadingAuthType,
 } from '../daaas.types';
-import { DaaasState, AuthState } from '../state.types';
+import { DaaasNotification, DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
 
@@ -36,13 +36,17 @@ export const initialState: DaaasState = {
   },
 };
 
+function buildNotification(payload: NotificationPayload): DaaasNotification {
+  return { ...payload };
+}
+
 export function handleNotification(
   state: DaaasState,
   payload: NotificationPayload
 ): DaaasState {
   return {
     ...state,
-    notifications: [payload.message],
+    notifications: [...state.notifications, buildNotification(payload)],
   };
 }
 

@@ -1,5 +1,5 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
-import { RegisterRouteType } from '../daaas.types';
+import { NotificationType, RegisterRouteType } from '../daaas.types';
 import log from 'loglevel';
 
 const microFrontendMessageId = 'daaas-frontend';
@@ -24,6 +24,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {
         case RegisterRouteType:
+        case NotificationType:
           dispatch(pluginMessage.detail);
           break;
         default:

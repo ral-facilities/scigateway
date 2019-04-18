@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StateType } from './state/state.types';
+import { DaaasNotification, StateType } from './state/state.types';
 
 interface ExampleComponentProps {
-  notifications: string[];
+  notifications: DaaasNotification[];
 }
 
 const ExampleComponent = (props: ExampleComponentProps): React.ReactElement => (
