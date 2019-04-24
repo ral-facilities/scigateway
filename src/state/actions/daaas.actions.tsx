@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Action, AnyAction } from 'redux';
-import * as log from 'loglevel';
+import log from 'loglevel';
 import {
   ConfigureStringsType,
   ConfigureStringsPayload,
@@ -16,6 +16,8 @@ import {
   ConfigureFeatureSwitchesType,
   FeatureSwitches,
   LoadingAuthType,
+  DismissNotificationType,
+  DismissNotificationPayload,
 } from '../daaas.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -23,11 +25,13 @@ import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
 
 export const daaasNotification = (
-  message: string
+  message: string,
+  severity: string
 ): ActionType<NotificationPayload> => ({
   type: NotificationType,
   payload: {
     message,
+    severity,
   },
 });
 
@@ -69,7 +73,6 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       if (settings['features']) {
         dispatch(loadFeatureSwitches(settings['features']));
       }
-      dispatch(daaasNotification(JSON.stringify(settings)));
 
       const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
         ? '/' + settings['ui-strings']
@@ -135,5 +138,20 @@ export const verifyUsernameAndPassword = (
         );
       }
     });
+  };
+};
+
+export const showDropdown = (): Action => ({
+  type: ToggleDrawerType,
+});
+
+export const dismissMenuItem = (
+  index: number
+): ActionType<DismissNotificationPayload> => {
+  return {
+    type: DismissNotificationType,
+    payload: {
+      index,
+    },
   };
 };

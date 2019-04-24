@@ -7,10 +7,17 @@ export const NotificationType = 'daaas:notification';
 export const RegisterRouteType = 'daaas:api:register_route';
 export const SignOutType = 'daaas:signout';
 export const ToggleDrawerType = 'daaas:toggledrawer';
+export const DismissNotificationType = 'daaas:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
+export const AddNotificationsType = 'daaas:add_notification';
 
 export interface NotificationPayload {
   message: string;
+  severity: string;
+}
+
+export interface AddNotificationsPayload {
+  notifications: NotificationPayload[];
 }
 
 export interface AppStrings {
@@ -66,4 +73,8 @@ export interface AccessPayload {
 
 export interface AuthorisedPayload {
   token: string;
+}
+
+export interface DismissNotificationPayload {
+  index: number;
 }

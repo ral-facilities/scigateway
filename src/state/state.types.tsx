@@ -14,8 +14,13 @@ export interface Plugin {
   location: 'main' | 'left' | 'right';
 }
 
+export interface DaaasNotification {
+  message: string;
+  severity: string;
+}
+
 export interface DaaasState {
-  notifications: string[];
+  notifications: DaaasNotification[];
   plugins: PluginConfig[];
   drawerOpen: boolean;
   authorisation: AuthState;

@@ -1,0 +1,123 @@
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import IconButton from '@material-ui/core/IconButton';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import {
+  Theme,
+  WithStyles,
+  withStyles,
+  Badge,
+  Menu,
+  createStyles,
+} from '@material-ui/core';
+import { StyleRules } from '@material-ui/core/styles';
+import { UKRITheme } from '../theming';
+import { StateType, DaaasNotification } from '../state/state.types';
+import { Dispatch, Action } from 'redux';
+import { dismissMenuItem } from '../state/actions/daaas.actions';
+import { NotificationWithStyles } from './daaasNotification.component';
+
+interface BadgeProps {
+  notifications: DaaasNotification[];
+}
+
+interface BadgeDispatchProps {
+  deleteMenuItem: (index: number) => Action;
+}
+
+const styles = (theme: Theme): StyleRules =>
+  createStyles({
+    root: {},
+    button: {
+      color: theme.palette.primary.contrastText,
+    },
+    badge: {
+      background: (theme as UKRITheme).ukri.orange,
+    },
+    menuItem: {
+      display: 'flex',
+    },
+    message: {
+      flexGrow: 1,
+    },
+    smallButton: {},
+    primary: {},
+    icon: {},
+  });
+
+type CombinedNotificationBadgeProps = BadgeProps &
+  BadgeDispatchProps &
+  WithStyles<typeof styles>;
+
+function buildMenuItems(
+  notifications: DaaasNotification[],
+  dismissNotificationAction: (index: number) => Action
+): JSX.Element[] {
+  const menuItems = notifications.map((notification, index) => (
+    <NotificationWithStyles
+      dismissNotification={() => {
+        return dismissNotificationAction(index);
+      }}
+      message={notification.message}
+      severity={notification.severity}
+      index={index}
+      key={index}
+    />
+  ));
+  return menuItems;
+}
+
+const NotificationBadge = (
+  props: CombinedNotificationBadgeProps
+): React.ReactElement => {
+  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const closeMenu = (): void => setMenuAnchor(null);
+
+  return (
+    <div className={props.classes.root}>
+      <IconButton
+        className={props.classes.button}
+        onClick={e => setMenuAnchor(e.currentTarget)}
+      >
+        <Badge
+          badgeContent={props.notifications ? props.notifications.length : null}
+          color="primary"
+          classes={{
+            colorPrimary: props.classes.badge,
+          }}
+        >
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+      {props.notifications.length ? (
+        <Menu
+          id="notifications-menu"
+          anchorEl={getMenuAnchor}
+          open={getMenuAnchor !== null}
+          onClose={closeMenu}
+        >
+          {buildMenuItems(props.notifications, props.deleteMenuItem)}
+        </Menu>
+      ) : null}
+    </div>
+  );
+};
+
+export const NotificationBadgeWithStyles = withStyles(styles)(
+  NotificationBadge
+);
+
+const mapStateToProps = (state: StateType): BadgeProps => ({
+  notifications: state.daaas.notifications,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): BadgeDispatchProps => ({
+  deleteMenuItem: (index: number) => {
+    return dispatch(dismissMenuItem(index));
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationBadgeWithStyles);
