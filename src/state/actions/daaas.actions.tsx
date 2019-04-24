@@ -73,6 +73,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       if (settings['features']) {
         dispatch(loadFeatureSwitches(settings['features']));
       }
+      dispatch(daaasNotification(JSON.stringify(settings), '-1'));
 
       const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
         ? '/' + settings['ui-strings']

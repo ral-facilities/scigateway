@@ -17,7 +17,7 @@ import {
   DismissNotificationType,
   AddNotificationsType,
 } from '../daaas.types';
-import { DaaasState, AuthState, DaaasNotification } from '../state.types';
+import { DaaasNotification, DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
 

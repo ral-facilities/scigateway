@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StateType, DaaasNotification } from './state/state.types';
+import { DaaasNotification, StateType } from './state/state.types';
 
 interface ExampleComponentProps {
   notifications: DaaasNotification[];
