@@ -155,7 +155,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.daaas.drawerOpen,
   showContactButton: state.daaas.features.showContactButton,
-  loggedIn: state.daaas.authorisation.loggedIn,
+  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
   res: getAppStrings(state, 'main-appbar'),
 });
 

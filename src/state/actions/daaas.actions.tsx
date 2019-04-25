@@ -8,7 +8,6 @@ import {
   NotificationPayload,
   ToggleDrawerType,
   AuthFailureType,
-  AuthorisedPayload,
   AuthSuccessType,
   ApplicationStrings,
   SignOutType,
@@ -16,6 +15,9 @@ import {
   ConfigureFeatureSwitchesType,
   FeatureSwitches,
   LoadingAuthType,
+  RequestPluginRerenderType,
+  AuthProviderPayload,
+  LoadAuthProviderType,
 } from '../daaas.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -62,10 +64,43 @@ export const loadFeatureSwitches = (
   },
 });
 
+export const loadAuthProvider = (
+  authProvider: string
+): ActionType<AuthProviderPayload> => ({
+  type: LoadAuthProviderType,
+  payload: {
+    authProvider,
+  },
+});
+
+export const unauthorised = (): Action => ({
+  type: AuthFailureType,
+});
+
+export const authorised = (): Action => ({
+  type: AuthSuccessType,
+});
+
 export const configureSite = (): ThunkResult<Promise<void>> => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     await axios.get(`/settings.json`).then(res => {
       const settings = res.data;
+
+      dispatch(loadAuthProvider(settings['auth-provider']));
+
+      // after auth provider is set then the token needs to be verified
+      const provider = getState().daaas.authorisation.provider;
+      if (provider.isLoggedIn()) {
+        provider
+          .verifyLogIn()
+          .then(() => {
+            dispatch(authorised());
+          })
+          .catch(() => {
+            dispatch(unauthorised());
+          });
+      }
+
       if (settings['features']) {
         dispatch(loadFeatureSwitches(settings['features']));
       }
@@ -94,17 +129,6 @@ export const signOut = (): ThunkAction<
   dispatch(push('/'));
 };
 
-export const unauthorised = (): Action => ({
-  type: AuthFailureType,
-});
-
-export const authorised = (token: string): ActionType<AuthorisedPayload> => ({
-  type: AuthSuccessType,
-  payload: {
-    token,
-  },
-});
-
 export const loadingAuthentication = (): Action => ({
   type: LoadingAuthType,
 });
@@ -116,12 +140,11 @@ export const verifyUsernameAndPassword = (
   return async (dispatch, getState) => {
     // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
-    await new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
-      if (username === 'INVALID_NAME' && password != null) {
-        dispatch(unauthorised());
-      } else {
-        const token = 'validLoginToken';
-        dispatch(authorised(token));
+    const authProvider = getState().daaas.authorisation.provider;
+    await authProvider
+      .logIn(username, password)
+      .then(() => {
+        dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to
         // the referrer is added by the redirect in routing.component.tsx
@@ -133,7 +156,20 @@ export const verifyUsernameAndPassword = (
               : '/'
           )
         );
-      }
-    });
+      })
+      .catch(() => {
+        // probably want to do something smarter with
+        // err.response.status (e.g. 403 or 500)
+        dispatch(unauthorised());
+      });
   };
 };
+
+export const requestPluginRerender = (): ActionType<{
+  broadcast: boolean;
+}> => ({
+  type: RequestPluginRerenderType,
+  payload: {
+    broadcast: true,
+  },
+});

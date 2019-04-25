@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dispatch, Action, AnyAction } from 'redux';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import {
   IconButton,
   withStyles,
@@ -11,6 +12,10 @@ import {
   WithStyles,
   Button,
   Typography,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
 import { StateType } from '../state/state.types';
@@ -23,6 +28,8 @@ import { push } from 'connected-react-router';
 
 interface UserProfileProps {
   loggedIn: boolean;
+  username: string;
+  avatar: string;
   res: AppStrings | undefined;
 }
 
@@ -36,6 +43,20 @@ const styles = (theme: Theme): StyleRules =>
     button: {
       margin: theme.spacing.unit,
       color: theme.palette.primary.contrastText,
+    },
+    usernameContainer: {
+      paddingTop: 8,
+      paddingBottom: 8,
+      paddingLeft: 15,
+      paddingRight: 15,
+    },
+    username: {
+      paddingTop: 3,
+      fontWeight: 'bold',
+    },
+    avatar: {
+      margin: theme.spacing.unit,
+      cursor: 'pointer',
     },
   });
 
@@ -56,20 +77,42 @@ const UserProfileComponent = (
     <div>
       {props.loggedIn ? (
         <div>
-          <IconButton
-            className={props.classes.button}
-            onClick={e => setMenuAnchor(e.currentTarget)}
-          >
-            <AccountCircleIcon />
-          </IconButton>
+          {props.avatar !== '' ? (
+            <Avatar
+              className={props.classes.avatar}
+              alt="user"
+              src={props.avatar}
+              onClick={e => setMenuAnchor(e.currentTarget)}
+            />
+          ) : (
+            <IconButton
+              className={props.classes.button}
+              onClick={e => setMenuAnchor(e.currentTarget)}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          )}
           <Menu
             id="simple-menu"
             anchorEl={getMenuAnchor}
             open={getMenuAnchor !== null}
             onClose={closeMenu}
           >
+            <div className={props.classes.usernameContainer}>
+              <Typography>Signed in as:</Typography>
+              <Typography className={props.classes.username}>
+                {props.username}
+              </Typography>
+            </div>
+            <Divider />
             <MenuItem onClick={logout}>
-              {getString(props.res, 'logout-button')}
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary={getString(props.res, 'logout-button')}
+              />
             </MenuItem>
           </Menu>
         </div>
@@ -78,7 +121,6 @@ const UserProfileComponent = (
           className={props.classes.button}
           onClick={() => {
             props.signIn();
-            console.log('signing in');
           }}
         >
           <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
@@ -95,7 +137,13 @@ export const UserProfileComponentWithStyles = withStyles(styles)(
 );
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
-  loggedIn: state.daaas.authorisation.loggedIn,
+  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  username: state.daaas.authorisation.provider.user
+    ? state.daaas.authorisation.provider.user.username
+    : 'anonymous',
+  avatar: state.daaas.authorisation.provider.user
+    ? state.daaas.authorisation.provider.user.avatarUrl
+    : '',
   res: getAppStrings(state, 'login'),
 });
 

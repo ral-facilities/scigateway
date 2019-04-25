@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -21,11 +21,7 @@ import { AppStrings } from '../state/daaas.types';
 import { StateType, AuthState } from '../state/state.types';
 import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
-
-interface LoginPageState {
-  username: string;
-  password: string;
-}
+import { Location } from 'history';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -64,6 +60,10 @@ const styles = (theme: Theme): StyleRules =>
       marginTop: `${theme.spacing.unit * 3}px`,
       color: 'red',
     },
+    info: {
+      marginTop: `${theme.spacing.unit * 3}px`,
+      color: theme.palette.primary.main,
+    },
     spinner: {
       marginTop: 15,
     },
@@ -72,6 +72,7 @@ const styles = (theme: Theme): StyleRules =>
 interface LoginPageProps {
   auth: AuthState;
   res: AppStrings | undefined;
+  location: Location;
 }
 
 interface LoginPageDispatchProps {
@@ -85,109 +86,134 @@ type CombinedLoginProps = LoginPageProps &
   LoginPageDispatchProps &
   WithStyles<typeof styles>;
 
-class LoginPageComponent extends React.Component<
-  CombinedLoginProps,
-  LoginPageState,
-  {}
-> {
-  public constructor(props: CombinedLoginProps) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
+const RedirectLoginScreen = (props: CombinedLoginProps): React.ReactElement => (
+  <div className={props.classes.root}>
+    {props.auth.failedToLogin ? (
+      <Typography className={props.classes.warning}>
+        {getString(props.res, 'login-redirect-error-msg')}
+      </Typography>
+    ) : null}
+    <Button
+      variant="contained"
+      color="primary"
+      className={props.classes.button}
+      disabled={props.auth.loading}
+      onClick={() => {
+        if (props.auth.provider.redirectUrl) {
+          window.location.href = props.auth.provider.redirectUrl;
+        }
+      }}
+    >
+      <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+        Login with Github
+      </Typography>
+    </Button>
+  </div>
+);
 
-    this.updateUserName = this.updateUserName.bind(this);
-    this.updatePassword = this.updatePassword.bind(this);
-  }
+const CredentialsLoginScreen = (
+  props: CombinedLoginProps
+): React.ReactElement => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  private updateUserName(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({
-      ...this.state,
-      username: event.currentTarget.value,
-    });
-  }
+  const isInputValid = (): boolean => username !== '' && password !== '';
 
-  private updatePassword(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({
-      ...this.state,
-      password: event.currentTarget.value,
-    });
-  }
+  return (
+    <div
+      className={props.classes.root}
+      onKeyPress={e => {
+        if (
+          !props.auth.provider.redirectUrl &&
+          e.key === 'Enter' &&
+          isInputValid()
+        ) {
+          props.verifyUsernameAndPassword(username, password);
+        }
+      }}
+    >
+      {props.auth.failedToLogin ? (
+        <Typography className={props.classes.warning}>
+          {getString(props.res, 'login-error-msg')}
+        </Typography>
+      ) : null}
+      {props.auth.signedOutDueToTokenExpiry ? (
+        <Typography className={props.classes.info}>
+          {getString(props.res, 'token-expire-msg')}
+        </Typography>
+      ) : null}
+      <TextField
+        className={props.classes.textField}
+        label={getString(props.res, 'username-placeholder')}
+        value={username}
+        onChange={e => setUsername(e.currentTarget.value)}
+        disabled={props.auth.loading}
+      />
+      <TextField
+        className={props.classes.textField}
+        label={getString(props.res, 'password-placeholder')}
+        value={password}
+        onChange={e => setPassword(e.currentTarget.value)}
+        type="password"
+        disabled={props.auth.loading}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        className={props.classes.button}
+        disabled={!isInputValid() || props.auth.loading}
+        onClick={() => {
+          props.verifyUsernameAndPassword(username, password);
+        }}
+      >
+        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          {getString(props.res, 'login-button')}
+        </Typography>
+      </Button>
+    </div>
+  );
+};
 
-  private isInputValid(): boolean {
-    return this.state.username !== '' && this.state.password !== '';
-  }
+const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
+  useEffect(() => {
+    if (
+      props.auth.provider.redirectUrl &&
+      props.location.search &&
+      !props.auth.loading &&
+      !props.auth.failedToLogin
+    ) {
+      if (props.location.search) {
+        props.verifyUsernameAndPassword('', props.location.search);
+      }
+    }
+  });
 
-  public render(): React.ReactElement {
-    const { props } = this;
-    return (
-      <div className={props.classes.root}>
-        <Paper
-          className={props.classes.paper}
-          onKeyPress={e => {
-            if (e.key === 'Enter' && this.isInputValid()) {
-              props.verifyUsernameAndPassword(
-                this.state.username,
-                this.state.password
-              );
-            }
-          }}
-        >
-          <Avatar className={props.classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {getString(props.res, 'title')}
-          </Typography>
-          {props.auth.failedToLogin ? (
-            <Typography className={props.classes.warning}>
-              {getString(props.res, 'login-error-msg')}
-            </Typography>
-          ) : null}
-          <TextField
-            className={props.classes.textField}
-            label={getString(props.res, 'username-placeholder')}
-            value={this.state.username}
-            onChange={this.updateUserName}
-            disabled={props.auth.loading}
-          />
-          <TextField
-            className={props.classes.textField}
-            label={getString(props.res, 'password-placeholder')}
-            value={this.state.password}
-            onChange={this.updatePassword}
-            type="password"
-            disabled={props.auth.loading}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={props.classes.button}
-            disabled={!this.isInputValid() || props.auth.loading}
-            onClick={() => {
-              props.verifyUsernameAndPassword(
-                this.state.username,
-                this.state.password
-              );
-            }}
-          >
-            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-              {getString(props.res, 'login-button')}
-            </Typography>
-          </Button>
-          {props.auth.loading ? (
-            <CircularProgress className={props.classes.spinner} />
-          ) : null}
-        </Paper>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={props.classes.root}>
+      <Paper className={props.classes.paper}>
+        <Avatar className={props.classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          {getString(props.res, 'title')}
+        </Typography>
+        {props.auth.provider.redirectUrl ? (
+          <RedirectLoginScreen {...props} />
+        ) : (
+          <CredentialsLoginScreen {...props} />
+        )}
+        {props.auth.loading ? (
+          <CircularProgress className={props.classes.spinner} />
+        ) : null}
+      </Paper>
+    </div>
+  );
+};
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
   auth: state.daaas.authorisation,
   res: getAppStrings(state, 'login'),
+  location: state.router.location,
 });
 
 const mapDispatchToProps = (

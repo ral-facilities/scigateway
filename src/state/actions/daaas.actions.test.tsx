@@ -31,6 +31,14 @@ function mockAxiosGetResponse(message: string): void {
 describe('daaas actions', () => {
   beforeEach(() => {
     (mockAxios.get as jest.Mock).mockReset();
+
+    (mockAxios.post as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({
+        data: {
+          token: 'token123',
+        },
+      })
+    );
   });
 
   it('daaasNotification should have a message', () => {

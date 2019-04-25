@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MainAppBar from '../mainAppBar/mainAppBar.component';
 import { ReduxDecorator } from './utils';
-import { DaaasState } from '../state/state.types';
+import { DaaasState, AuthProvider } from '../state/state.types';
 
 const placeHolderStyle = {
   height: 150,
@@ -14,13 +14,22 @@ const placeHolderStyle = {
   alignItems: 'center',
 };
 
+const fakeAuthProvider = (loggedIn: boolean): AuthProvider => ({
+  isLoggedIn: () => loggedIn,
+  logOut: () => {},
+  logIn: () => Promise.resolve(),
+  verifyLogIn: () => Promise.resolve(),
+  redirectUrl: null,
+  user: null,
+});
+
 const updateToBeLoggedIn = (state: DaaasState): DaaasState => {
-  state.authorisation.loggedIn = true;
+  state.authorisation.provider = fakeAuthProvider(true);
   return state;
 };
 
 const updateToBeLoggedOut = (state: DaaasState): DaaasState => {
-  state.authorisation.loggedIn = false;
+  state.authorisation.provider = fakeAuthProvider(false);
   return state;
 };
 

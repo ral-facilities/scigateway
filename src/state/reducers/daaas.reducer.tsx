@@ -7,23 +7,28 @@ import {
   ToggleDrawerType,
   AuthSuccessType,
   AuthFailureType,
-  AuthorisedPayload,
   ConfigureStringsType,
   ConfigureStringsPayload,
   SignOutType,
   FeatureSwitchesPayload,
   ConfigureFeatureSwitchesType,
   LoadingAuthType,
+  TokenExpiredType,
+  AuthProviderPayload,
+  LoadAuthProviderType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
+import LoadingAuthProvider from '../../authentication/loadingAuthProvider';
+import GithubAuthProvider from '../../authentication/githubAuthProvider';
 
 export const authState: AuthState = {
-  token: '',
   failedToLogin: false,
-  loggedIn: false,
+  signedOutDueToTokenExpiry: false,
   loading: false,
+  provider: new LoadingAuthProvider(),
 };
 
 export const initialState: DaaasState = {
@@ -81,22 +86,28 @@ export const handleLoadingAuth = (state: DaaasState): DaaasState => ({
   },
 });
 
-export function handleSuccessfulLogin(
-  state: DaaasState,
-  payload: AuthorisedPayload
-): DaaasState {
-  log.debug(`Successfully logged in with ${payload}`);
+export function handleSuccessfulLogin(state: DaaasState): DaaasState {
+  log.debug(`Successfully logged in`);
   return {
     ...state,
     authorisation: {
       ...state.authorisation,
       failedToLogin: false,
-      loggedIn: true,
-      token: payload.token,
+      signedOutDueToTokenExpiry: false,
       loading: false,
     },
   };
 }
+
+const resetAuth = (authorisation: AuthState): AuthState => {
+  authorisation.provider.logOut();
+  return {
+    ...authorisation,
+    failedToLogin: false,
+    signedOutDueToTokenExpiry: false,
+    loading: false,
+  };
+};
 
 export function handleUnsuccessfulLogin(
   state: DaaasState,
@@ -105,12 +116,10 @@ export function handleUnsuccessfulLogin(
   log.debug(`Failed to log in with ${payload}`);
   return {
     ...state,
+    drawerOpen: false,
     authorisation: {
-      ...state.authorisation,
+      ...resetAuth(state.authorisation),
       failedToLogin: true,
-      loggedIn: false,
-      token: '',
-      loading: false,
     },
   };
 }
@@ -120,11 +129,17 @@ export function handleSignOut(state: DaaasState): DaaasState {
   return {
     ...state,
     drawerOpen: false,
+    authorisation: resetAuth(state.authorisation),
+  };
+}
+
+export function handleTokenExpiration(state: DaaasState): DaaasState {
+  return {
+    ...state,
+    drawerOpen: false,
     authorisation: {
-      ...state.authorisation,
-      failedToLogin: false,
-      loggedIn: false,
-      token: '',
+      ...resetAuth(state.authorisation),
+      signedOutDueToTokenExpiry: true,
     },
   };
 }
@@ -139,6 +154,34 @@ export function handleConfigureFeatureSwitches(
   };
 }
 
+export function handleAuthProviderUpdate(
+  state: DaaasState,
+  payload: AuthProviderPayload
+): DaaasState {
+  let provider = state.authorisation.provider;
+  console.log(payload.authProvider);
+  switch (payload.authProvider) {
+    case 'jwt':
+      provider = new JWTAuthProvider();
+      break;
+
+    case 'github':
+      provider = new GithubAuthProvider();
+      break;
+
+    default:
+      break;
+  }
+
+  return {
+    ...state,
+    authorisation: {
+      ...resetAuth(state.authorisation),
+      provider,
+    },
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -146,8 +189,10 @@ const DaaasReducer = createReducer(initialState, {
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
   [LoadingAuthType]: handleLoadingAuth,
+  [LoadAuthProviderType]: handleAuthProviderUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
+  [TokenExpiredType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
 });
 

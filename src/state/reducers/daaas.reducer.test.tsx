@@ -7,7 +7,7 @@ import {
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
-import { SignOutType } from '../daaas.types';
+import { SignOutType, TokenExpiredType } from '../daaas.types';
 
 describe('daaas reducer', () => {
   let state: DaaasState;
@@ -50,13 +50,15 @@ describe('daaas reducer', () => {
   });
 
   it('successful log in should update authorisation to logged in state', () => {
-    const action = authorised('token');
+    const action = authorised();
     let updatedState = DaaasReducer(state, action);
     const authorisedState = {
       token: 'token',
       failedToLogin: false,
       loggedIn: true,
       loading: false,
+      signedOutDueToTokenExpiry: false,
+      tokenExpiryTime: 100,
     };
 
     expect(updatedState.authorisation).toEqual(authorisedState);
@@ -70,6 +72,23 @@ describe('daaas reducer', () => {
       failedToLogin: true,
       loggedIn: false,
       loading: false,
+      signedOutDueToTokenExpiry: false,
+      tokenExpiryTime: 0,
+    };
+
+    expect(updatedState.authorisation).toEqual(unAuthorisedState);
+  });
+
+  it('token expiration should reset authorisation and indicate expiration', () => {
+    const action = { type: TokenExpiredType };
+    let updatedState = DaaasReducer(state, action);
+    const unAuthorisedState = {
+      token: '',
+      failedToLogin: false,
+      loggedIn: false,
+      loading: false,
+      signedOutDueToTokenExpiry: true,
+      tokenExpiryTime: 0,
     };
 
     expect(updatedState.authorisation).toEqual(unAuthorisedState);
@@ -81,6 +100,9 @@ describe('daaas reducer', () => {
       token: 'token',
       failedToLogin: false,
       loggedIn: true,
+      loading: false,
+      signedOutDueToTokenExpiry: false,
+      tokenExpiryTime: 0,
     };
 
     let updatedState = DaaasReducer(signInState, action);
@@ -88,6 +110,9 @@ describe('daaas reducer', () => {
       token: '',
       failedToLogin: false,
       loggedIn: false,
+      loading: false,
+      signedOutDueToTokenExpiry: false,
+      tokenExpiryTime: 0,
     };
 
     expect(updatedState.authorisation).toEqual(signOutState);

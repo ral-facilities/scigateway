@@ -6,6 +6,7 @@ import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 import { Provider } from 'react-redux';
+import TestAuthProvider from '../authentication/testAuthProvider';
 
 describe('Main app bar component', () => {
   let shallow;
@@ -19,7 +20,7 @@ describe('Main app bar component', () => {
 
     mockStore = configureStore();
     state = JSON.parse(JSON.stringify({ daaas: initialState }));
-    state.daaas.authorisation.loggedIn = true;
+    state.daaas.authorisation.provider = new TestAuthProvider('token123');
   });
 
   afterEach(() => {

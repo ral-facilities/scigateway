@@ -3,6 +3,17 @@ import { storiesOf } from '@storybook/react';
 import { FakeAsyncAction } from './utils';
 import { LoginPageWithStyles } from '../loginPage/loginPage.component';
 import { storybookResourceStrings } from './storybookResourceStrings';
+import { AuthProvider } from '../state/state.types';
+import { createLocation } from 'history';
+
+const fakeAuthProvider: AuthProvider = {
+  isLoggedIn: () => true,
+  logOut: () => {},
+  logIn: () => Promise.resolve(),
+  verifyLogIn: () => Promise.resolve(),
+  redirectUrl: null,
+  user: null,
+};
 
 const buildLoginPage = (
   failedToLogin: boolean,
@@ -13,12 +24,13 @@ const buildLoginPage = (
       FakeAsyncAction(`verify username and password: ${u},${p}`)()
     }
     auth={{
-      loggedIn: false,
       failedToLogin,
-      token: '',
+      signedOutDueToTokenExpiry: false,
       loading,
+      provider: fakeAuthProvider,
     }}
     res={storybookResourceStrings.login}
+    location={createLocation('/login')}
   />
 );
 
