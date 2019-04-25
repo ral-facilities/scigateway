@@ -1,12 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login page component login page renders correctly 1`] = `
+exports[`Login page component credential component renders correctly 1`] = `
 <div
-  className="LoginPageComponent-root-1"
+  className="root-1"
+  onKeyPress={[Function]}
+>
+  <TextField
+    disabled={false}
+    label="username-placeholder"
+    onChange={[Function]}
+    required={false}
+    select={false}
+    value=""
+    variant="standard"
+  />
+  <TextField
+    disabled={false}
+    label="password-placeholder"
+    onChange={[Function]}
+    required={false}
+    select={false}
+    type="password"
+    value=""
+    variant="standard"
+  />
+  <WithStyles(Button)
+    color="primary"
+    disabled={true}
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(Typography)
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(Typography)>
+  </WithStyles(Button)>
+</div>
+`;
+
+exports[`Login page component login page renders credential component if no redirect url 1`] = `
+<div
+  className="LoginPageComponent-root-1 root-1"
 >
   <WithStyles(Paper)
     className="LoginPageComponent-paper-3"
-    onKeyPress={[Function]}
   >
     <WithStyles(Avatar)
       className="LoginPageComponent-avatar-2"
@@ -19,46 +63,123 @@ exports[`Login page component login page renders correctly 1`] = `
     >
       title
     </WithStyles(Typography)>
-    <TextField
-      className="LoginPageComponent-textField-4"
-      disabled={false}
-      label="username-placeholder"
-      onChange={[Function]}
-      required={false}
-      select={false}
-      value=""
-      variant="standard"
-    />
-    <TextField
-      className="LoginPageComponent-textField-4"
-      disabled={false}
-      label="password-placeholder"
-      onChange={[Function]}
-      required={false}
-      select={false}
-      type="password"
-      value=""
-      variant="standard"
-    />
-    <WithStyles(Button)
-      className="LoginPageComponent-button-5"
-      color="primary"
-      disabled={true}
-      onClick={[Function]}
-      variant="contained"
-    >
-      <WithStyles(Typography)
-        color="inherit"
-        noWrap={true}
-        style={
-          Object {
-            "marginTop": 3,
-          }
+    <CredentialsLoginScreen
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": false,
+          "provider": TestAuthProvider {
+            "redirectUrl": null,
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenExpiry": false,
         }
-      >
-        login-button
-      </WithStyles(Typography)>
-    </WithStyles(Button)>
+      }
+      classes={
+        Object {
+          "avatar": "LoginPageComponent-avatar-2",
+          "button": "LoginPageComponent-button-5",
+          "info": "LoginPageComponent-info-7",
+          "paper": "LoginPageComponent-paper-3",
+          "root": "LoginPageComponent-root-1 root-1",
+          "spinner": "LoginPageComponent-spinner-8",
+          "textField": "LoginPageComponent-textField-4",
+          "warning": "LoginPageComponent-warning-6",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      verifyUsernameAndPassword={[Function]}
+    />
   </WithStyles(Paper)>
+</div>
+`;
+
+exports[`Login page component login page renders redirect component if redirect url present 1`] = `
+<div
+  className="LoginPageComponent-root-1 root-1"
+>
+  <WithStyles(Paper)
+    className="LoginPageComponent-paper-3"
+  >
+    <WithStyles(Avatar)
+      className="LoginPageComponent-avatar-2"
+    >
+      <pure(LockOutlinedIcon) />
+    </WithStyles(Avatar)>
+    <WithStyles(Typography)
+      component="h1"
+      variant="h5"
+    >
+      title
+    </WithStyles(Typography)>
+    <RedirectLoginScreen
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": false,
+          "provider": TestAuthProvider {
+            "redirectUrl": "test redirect",
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenExpiry": false,
+        }
+      }
+      classes={
+        Object {
+          "avatar": "LoginPageComponent-avatar-2",
+          "button": "LoginPageComponent-button-5",
+          "info": "LoginPageComponent-info-7",
+          "paper": "LoginPageComponent-paper-3",
+          "root": "LoginPageComponent-root-1 root-1",
+          "spinner": "LoginPageComponent-spinner-8",
+          "textField": "LoginPageComponent-textField-4",
+          "warning": "LoginPageComponent-warning-6",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      verifyUsernameAndPassword={[Function]}
+    />
+  </WithStyles(Paper)>
+</div>
+`;
+
+exports[`Login page component redirect component renders correctly 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(Button)
+    color="primary"
+    disabled={false}
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(Typography)
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      Login with Github
+    </WithStyles(Typography)>
+  </WithStyles(Button)>
 </div>
 `;

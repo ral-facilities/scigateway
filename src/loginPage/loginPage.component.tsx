@@ -82,11 +82,13 @@ interface LoginPageDispatchProps {
   ) => Promise<void>;
 }
 
-type CombinedLoginProps = LoginPageProps &
+export type CombinedLoginProps = LoginPageProps &
   LoginPageDispatchProps &
   WithStyles<typeof styles>;
 
-const RedirectLoginScreen = (props: CombinedLoginProps): React.ReactElement => (
+export const RedirectLoginScreen = (
+  props: CombinedLoginProps
+): React.ReactElement => (
   <div className={props.classes.root}>
     {props.auth.failedToLogin ? (
       <Typography className={props.classes.warning}>
@@ -111,7 +113,7 @@ const RedirectLoginScreen = (props: CombinedLoginProps): React.ReactElement => (
   </div>
 );
 
-const CredentialsLoginScreen = (
+export const CredentialsLoginScreen = (
   props: CombinedLoginProps
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
