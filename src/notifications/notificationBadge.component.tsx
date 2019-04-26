@@ -72,7 +72,9 @@ const NotificationBadge = (
 ): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const closeMenu = (): void => setMenuAnchor(null);
-
+  if (getMenuAnchor !== null && props.notifications.length === 0) {
+    closeMenu();
+  }
   return (
     <div className={props.classes.root}>
       <IconButton

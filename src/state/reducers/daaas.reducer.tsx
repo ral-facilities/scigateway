@@ -15,9 +15,8 @@ import {
   ConfigureFeatureSwitchesType,
   LoadingAuthType,
   DismissNotificationType,
-  AddNotificationsType,
 } from '../daaas.types';
-import { DaaasNotification, DaaasState, AuthState } from '../state.types';
+import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
 
@@ -44,7 +43,10 @@ export function handleNotification(
 ): DaaasState {
   return {
     ...state,
-    notifications: [{ message: payload.message, severity: payload.severity }],
+    notifications: [
+      ...state.notifications,
+      { message: payload.message, severity: payload.severity },
+    ],
   };
 }
 
@@ -155,16 +157,6 @@ export function handleDismissNotification(
   };
 }
 
-export function handleAddNotifications(
-  state: DaaasState,
-  payload: { notifications: DaaasNotification[] }
-): DaaasState {
-  return {
-    ...state,
-    notifications: [...state.notifications, ...payload.notifications],
-  };
-}
-
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -176,7 +168,6 @@ const DaaasReducer = createReducer(initialState, {
   [SignOutType]: handleSignOut,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [DismissNotificationType]: handleDismissNotification,
-  [AddNotificationsType]: handleAddNotifications,
 });
 
 export default DaaasReducer;
