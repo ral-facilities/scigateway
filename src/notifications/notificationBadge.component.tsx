@@ -27,7 +27,6 @@ interface BadgeDispatchProps {
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
-    root: {},
     button: {
       color: theme.palette.primary.contrastText,
     },
@@ -40,9 +39,6 @@ const styles = (theme: Theme): StyleRules =>
     message: {
       flexGrow: 1,
     },
-    smallButton: {},
-    primary: {},
-    icon: {},
   });
 
 type CombinedNotificationBadgeProps = BadgeProps &
@@ -72,11 +68,12 @@ const NotificationBadge = (
 ): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const closeMenu = (): void => setMenuAnchor(null);
+  // Ensure menu is closed if no notifications, or all notifications are deleted
   if (getMenuAnchor !== null && props.notifications.length === 0) {
     closeMenu();
   }
   return (
-    <div className={props.classes.root}>
+    <div>
       <IconButton
         className={props.classes.button}
         onClick={e => setMenuAnchor(e.currentTarget)}

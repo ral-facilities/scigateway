@@ -18,14 +18,15 @@ const styles = (): StyleRules => ({
     alignItems: 'center',
   },
   button: {
-    marginLeft: 10,
+    marginLeft: 5,
   },
   deleteIcon: {
     height: 15,
     width: 15,
   },
   severityIcon: {
-    marginRight: 10,
+    marginLeft: 5,
+    marginRight: 5,
     height: 20,
     width: 20,
   },
