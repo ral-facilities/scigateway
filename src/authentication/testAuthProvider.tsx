@@ -13,9 +13,17 @@ export default class TestAuthProvider implements AuthProvider {
     return this.token !== null;
   }
 
-  public logOut(): void {}
+  public logOut(): void {
+    this.token = null;
+  }
 
-  public logIn(): Promise<void> {
+  public logIn(username: string, password: string): Promise<void> {
+    if (username === 'username' && password === 'password') {
+      this.token === 'validLoginToken';
+      return Promise.resolve();
+    }
+
+    this.logOut();
     return Promise.reject('test auth provider');
   }
 

@@ -15,6 +15,8 @@ import {
   ConfigureFeatureSwitchesType,
 } from '../daaas.types';
 import { initialState } from '../reducers/daaas.reducer';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import { StateType } from '../state.types';
 
 jest.useFakeTimers();
 
@@ -61,9 +63,12 @@ describe('daaas actions', () => {
     const asyncAction = verifyUsernameAndPassword('username', 'password');
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const getState = (): any => ({
-      daaas: initialState,
+      daaas: state,
       router: {
         location: {
           state: {
@@ -97,7 +102,11 @@ describe('daaas actions', () => {
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
 
-    const action = asyncAction(dispatch);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+    const getState = (): Partial<StateType> => ({ daaas: state });
+
+    const action = asyncAction(dispatch, getState);
     jest.runAllTimers();
     await action;
     const expectedResponse = { type: 'daaas:auth_failure' };
@@ -127,10 +136,11 @@ describe('daaas actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
 
-    await asyncAction(dispatch);
+    await asyncAction(dispatch, getState);
 
-    expect(actions[0]).toEqual(
+    expect(actions[1]).toEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
   });

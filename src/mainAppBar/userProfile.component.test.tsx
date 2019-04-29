@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
 import { MenuItem } from '@material-ui/core';
 import thunk from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
 
 describe('User profile component', () => {
   let shallow;
@@ -21,7 +22,7 @@ describe('User profile component', () => {
 
     mockStore = configureStore([thunk]);
     state = JSON.parse(JSON.stringify({ daaas: initialState }));
-    state.daaas.authorisation.loggedIn = true;
+    state.daaas.authorisation.provider = new TestAuthProvider('test-token');
   });
 
   afterEach(() => {
@@ -29,14 +30,14 @@ describe('User profile component', () => {
   });
 
   it('renders sign in button if not signed in', () => {
-    state.daaas.authorisation.loggedIn = false;
+    state.daaas.authorisation.provider = new TestAuthProvider(null);
 
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
   it('redirects to login when sign in is pressed', () => {
-    state.daaas.authorisation.loggedIn = false;
+    state.daaas.authorisation.provider = new TestAuthProvider(null);
 
     const testStore = mockStore(state);
     const wrapper = mount(

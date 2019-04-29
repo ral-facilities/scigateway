@@ -8,6 +8,7 @@ import {
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
 import { SignOutType, TokenExpiredType } from '../daaas.types';
+import TestAuthProvider from '../../authentication/testAuthProvider';
 
 describe('daaas reducer', () => {
   let state: DaaasState;
@@ -49,72 +50,46 @@ describe('daaas reducer', () => {
     expect(updatedState.authorisation.loading).toBeTruthy();
   });
 
-  it('successful log in should update authorisation to logged in state', () => {
+  it('successful log in should reset failure flags', () => {
     const action = authorised();
-    let updatedState = DaaasReducer(state, action);
-    const authorisedState = {
-      token: 'token',
-      failedToLogin: false,
-      loggedIn: true,
-      loading: false,
-      signedOutDueToTokenExpiry: false,
-      tokenExpiryTime: 100,
-    };
+    state.authorisation.provider = new TestAuthProvider(null);
 
-    expect(updatedState.authorisation).toEqual(authorisedState);
+    let updatedState = DaaasReducer(state, action);
+
+    expect(updatedState.authorisation.failedToLogin).toBeFalsy();
+    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+    expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
   it('unsuccessful log in should update authorisation to not logged in state', () => {
     const action = unauthorised();
-    let updatedState = DaaasReducer(state, action);
-    const unAuthorisedState = {
-      token: '',
-      failedToLogin: true,
-      loggedIn: false,
-      loading: false,
-      signedOutDueToTokenExpiry: false,
-      tokenExpiryTime: 0,
-    };
+    state.authorisation.provider = new TestAuthProvider('logged in');
 
-    expect(updatedState.authorisation).toEqual(unAuthorisedState);
+    let updatedState = DaaasReducer(state, action);
+
+    expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 
   it('token expiration should reset authorisation and indicate expiration', () => {
     const action = { type: TokenExpiredType };
-    let updatedState = DaaasReducer(state, action);
-    const unAuthorisedState = {
-      token: '',
-      failedToLogin: false,
-      loggedIn: false,
-      loading: false,
-      signedOutDueToTokenExpiry: true,
-      tokenExpiryTime: 0,
-    };
+    state.authorisation.provider = new TestAuthProvider('logged in');
 
-    expect(updatedState.authorisation).toEqual(unAuthorisedState);
+    let updatedState = DaaasReducer(state, action);
+
+    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeTruthy();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 
   it('should sign user out for a signOut message', () => {
-    const action = { type: SignOutType };
-    const signInState = {
-      token: 'token',
-      failedToLogin: false,
-      loggedIn: true,
-      loading: false,
-      signedOutDueToTokenExpiry: false,
-      tokenExpiryTime: 0,
-    };
+    state.authorisation.provider = new TestAuthProvider('signed in');
+    expect(state.authorisation.provider.isLoggedIn()).toBeTruthy();
 
-    let updatedState = DaaasReducer(signInState, action);
-    const signOutState = {
-      token: '',
-      failedToLogin: false,
-      loggedIn: false,
-      loading: false,
-      signedOutDueToTokenExpiry: false,
-      tokenExpiryTime: 0,
-    };
+    let updatedState = DaaasReducer(state, { type: SignOutType });
 
-    expect(updatedState.authorisation).toEqual(signOutState);
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
+    expect(updatedState.authorisation.failedToLogin).toBeFalsy();
+    expect(updatedState.authorisation.loading).toBeFalsy();
+    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
   });
 });
