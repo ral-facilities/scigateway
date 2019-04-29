@@ -12,5 +12,17 @@
     "login-error-msg": "Failed to log in. Invalid username or password.",
     "login-redirect-error-msg": "Failed to log in. Re-direct token is invalid.",
     "token-expire-msg": "Your session token has expired, please sign in again."
+  },
+  "home-page": {
+    "title": "Data Analysis as a Service",
+    "how-label": "How it works...",
+    "explore-label": "1. Explore",
+    "explore-description": "Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.",
+    "analyse-label": "2. Analyse",
+    "analyse-description": "Connect to a virtual environment already equipped with the software and tools to analyse your data.",
+    "record-label": "3. Record",
+    "record-description": "Store your results and findings, making them available to others for review and further research.",
+    "banner-one": "transforming the use of real time data processing, computer simulation and data analytics...",
+    "banner-two": "...to deliver more effective research at our national facilities"
   }
 }
