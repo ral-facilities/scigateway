@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { AppStrings } from '../state/daaas.types';
 import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
+import log from 'loglevel';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -78,7 +79,7 @@ const UserProfileComponent = (
           className={props.classes.button}
           onClick={() => {
             props.signIn();
-            console.log('signing in');
+            log.debug('signing in');
           }}
         >
           <Typography color="inherit" noWrap style={{ marginTop: 3 }}>

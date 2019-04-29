@@ -1,0 +1,31 @@
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { NotificationBadgeWithStyles } from '../notifications/notificationBadge.component';
+import { DaaasNotification } from '../state/state.types';
+import { FakeReduxAction } from './utils';
+
+const buildNotificationBadge = (
+  notifications: DaaasNotification[]
+): React.ReactElement => (
+  <div style={{ background: '#1D4F91' }}>
+    <NotificationBadgeWithStyles
+      notifications={notifications}
+      deleteMenuItem={FakeReduxAction('delete menu item')}
+    />
+  </div>
+);
+
+storiesOf('NotificationBadge', module)
+  .addParameters({
+    info: {
+      text: 'This badge displays notifications for the logged in user.',
+    },
+  })
+
+  .add('default', () => buildNotificationBadge([]))
+  .add('hasNotifications', () => {
+    return buildNotificationBadge([
+      { message: 'a warning message', severity: 'warning' },
+      { message: 'an error message', severity: 'error' },
+    ]);
+  });
