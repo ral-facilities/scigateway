@@ -32,14 +32,6 @@ function mockAxiosGetResponse(message: string): void {
   );
 }
 
-// jest.mock('./loadMicroFrontends', () => {
-//     return {
-//       default: {
-//         init: Promise.resolve()
-//       }
-//     }
-// });
-
 describe('daaas actions', () => {
   beforeEach(() => {
     (mockAxios.get as jest.Mock).mockReset();
