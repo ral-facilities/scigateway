@@ -1,10 +1,13 @@
 export const AuthSuccessType = 'daaas:auth_success';
 export const AuthFailureType = 'daaas:auth_failure';
 export const LoadingAuthType = 'daaas:loading_auth';
+export const LoadAuthProviderType = 'daaas:loading_auth_provider';
+export const TokenExpiredType = 'daaas:expired_token';
 export const ConfigureStringsType = 'daaas:configure_strings';
 export const LoginType = 'daaas:login';
 export const NotificationType = 'daaas:api:notification';
 export const RegisterRouteType = 'daaas:api:register_route';
+export const RequestPluginRerenderType = 'daaas:api:plugin_rerender';
 export const SignOutType = 'daaas:signout';
 export const ToggleDrawerType = 'daaas:toggledrawer';
 export const DismissNotificationType = 'daaas:dismissnotification';
@@ -77,4 +80,8 @@ export interface AuthorisedPayload {
 
 export interface DismissNotificationPayload {
   index: number;
+}
+
+export interface AuthProviderPayload {
+  authProvider: string;
 }

@@ -40,9 +40,23 @@ export interface ActionType<T> {
 
 export type ThunkResult<R> = ThunkAction<R, StateType, null, AnyAction>;
 
+export interface User {
+  username: string;
+  avatarUrl: string;
+}
+
+export interface AuthProvider {
+  isLoggedIn: () => boolean;
+  logOut: () => void;
+  logIn: (username: string, password: string) => Promise<void>;
+  verifyLogIn: () => Promise<void>;
+  redirectUrl: string | null;
+  user: User | null;
+}
+
 export interface AuthState {
-  token: string;
   failedToLogin: boolean;
-  loggedIn: boolean;
+  signedOutDueToTokenExpiry: boolean;
   loading: boolean;
+  provider: AuthProvider;
 }

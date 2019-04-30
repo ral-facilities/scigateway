@@ -15,10 +15,29 @@ exports[`User profile component renders avatar if signed in 1`] = `
       onClose={[Function]}
       open={false}
     >
+      <div
+        className="UserProfileComponent-usernameContainer-2"
+      >
+        <WithStyles(Typography)>
+          Signed in as:
+        </WithStyles(Typography)>
+        <WithStyles(Typography)
+          className="UserProfileComponent-username-3"
+        >
+          anonymous
+        </WithStyles(Typography)>
+      </div>
+      <WithStyles(Divider) />
       <WithStyles(MenuItem)
         onClick={[Function]}
       >
-        logout-button
+        <WithStyles(ListItemIcon)>
+          <pure(ExitToAppIcon) />
+        </WithStyles(ListItemIcon)>
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="logout-button"
+        />
       </WithStyles(MenuItem)>
     </WithStyles(Menu)>
   </div>

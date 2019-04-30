@@ -11,5 +11,6 @@
       "location": "main"
     }
   ],
-  "ui-strings": "res/default.json"
+  "ui-strings": "res/default.json",
+  "auth-provider": "jwt"
 }

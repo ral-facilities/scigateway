@@ -1,51 +1,77 @@
 import React from 'react';
-import { LoginPageWithStyles } from './loginPage.component';
+import {
+  LoginPageWithStyles,
+  CredentialsLoginScreen,
+  RedirectLoginScreen,
+  CombinedLoginProps,
+} from './loginPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
-import { StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/daaas.reducer';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core';
-import { RouterState } from 'connected-react-router';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { createLocation } from 'history';
 
 describe('Login page component', () => {
   let shallow;
   let mount;
-  let mockStore;
-  let state: StateType;
+  let props: CombinedLoginProps;
 
-  const routerState: RouterState = {
-    action: 'POP',
-    location: {
-      hash: '',
-      key: '',
-      pathname: '/',
-      search: '',
-      state: {},
-    },
+  const dummyClasses = {
+    root: 'root-1',
   };
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow();
     mount = createMount();
 
-    mockStore = configureStore();
-
-    state = {
-      daaas: initialState,
-      router: routerState,
+    props = {
+      auth: {
+        loading: false,
+        failedToLogin: false,
+        signedOutDueToTokenExpiry: false,
+        provider: new TestAuthProvider(null),
+      },
+      location: createLocation('/'),
+      res: undefined,
+      verifyUsernameAndPassword: () => Promise.resolve(),
+      classes: dummyClasses,
     };
   });
 
   const theme = buildTheme();
 
-  it('login page renders correctly', () => {
+  it('credential component renders correctly', () => {
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles
-          store={mockStore(state)}
-          auth={state.daaas.authorisation}
-        />
+        <CredentialsLoginScreen {...props} />
+      </MuiThemeProvider>
+    );
+    expect(wrapper.dive()).toMatchSnapshot();
+  });
+
+  it('redirect component renders correctly', () => {
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <RedirectLoginScreen {...props} />
+      </MuiThemeProvider>
+    );
+    expect(wrapper.dive()).toMatchSnapshot();
+  });
+
+  it('login page renders credential component if no redirect url', () => {
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithStyles {...props} />
+      </MuiThemeProvider>
+    );
+    expect(wrapper.dive().dive()).toMatchSnapshot();
+  });
+
+  it('login page renders redirect component if redirect url present', () => {
+    props.auth.provider.redirectUrl = 'test redirect';
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithStyles {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper.dive().dive()).toMatchSnapshot();
@@ -53,15 +79,11 @@ describe('Login page component', () => {
 
   it('on submit verification method should be called with username and password arguments', async () => {
     const mockLoginfn = jest.fn();
-    const testStore = mockStore(state);
+    props.verifyUsernameAndPassword = mockLoginfn;
 
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles
-          verifyUsernameAndPassword={mockLoginfn}
-          store={testStore}
-          auth={state.daaas.authorisation}
-        />
+        <LoginPageWithStyles {...props} />
       </MuiThemeProvider>
     );
 

@@ -11,5 +11,6 @@ export const storybookResourceStrings: ApplicationStrings = {
     'password-placeholder': 'Password*',
     'login-button': 'Sign in',
     'login-error-msg': 'Failed to log in. Invalid username or password.',
+    'login-redirect-error-msg': 'Failed to log in. Re-direct token is invalid.',
   },
 };
