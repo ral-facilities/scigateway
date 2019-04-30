@@ -1,18 +1,18 @@
 import mockAxios from 'axios';
 import { Action } from 'redux';
 import {
-  daaasNotification,
   toggleDrawer,
   verifyUsernameAndPassword,
   loadingAuthentication,
   authorised,
   loadFeatureSwitches,
   configureSite,
+  dismissMenuItem,
 } from './daaas.actions';
 import {
-  NotificationType,
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
+  DismissNotificationType,
 } from '../daaas.types';
 import { initialState } from '../reducers/daaas.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -41,13 +41,6 @@ describe('daaas actions', () => {
         },
       })
     );
-  });
-
-  it('daaasNotification should have a message', () => {
-    const action = daaasNotification('test message');
-
-    expect(action.type).toEqual(NotificationType);
-    expect(action.payload.message).toEqual('test message');
   });
 
   it('toggleDrawer only needs a type', () => {
@@ -143,5 +136,11 @@ describe('daaas actions', () => {
     expect(actions[1]).toEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
+  });
+
+  it('given an index number dismissMenuItem returns a DismissNotificationType with payload', () => {
+    const action = dismissMenuItem(0);
+    expect(action.type).toEqual(DismissNotificationType);
+    expect(action.payload).toEqual({ index: 0 });
   });
 });
