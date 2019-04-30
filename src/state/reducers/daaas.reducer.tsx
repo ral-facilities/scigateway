@@ -163,7 +163,6 @@ export function handleAuthProviderUpdate(
   payload: AuthProviderPayload
 ): DaaasState {
   let provider = state.authorisation.provider;
-  console.log(payload.authProvider);
   switch (payload.authProvider) {
     case 'jwt':
       provider = new JWTAuthProvider();
@@ -174,7 +173,11 @@ export function handleAuthProviderUpdate(
       break;
 
     default:
-      break;
+      throw Error(
+        `Unrecognised auth provider: ${
+          payload.authProvider
+        }, this is a development issue as there is no implementation registered for this provider.`
+      );
   }
 
   return {

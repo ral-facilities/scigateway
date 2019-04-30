@@ -1,6 +1,6 @@
 import React, { Component, ComponentClass } from 'react';
 import { Redirect } from 'react-router-dom';
-import { StateType } from './state/state.types';
+import { StateType, AuthState } from './state/state.types';
 import { AnyAction, Dispatch } from 'redux';
 import { requestPluginRerender } from './state/actions/daaas.actions';
 import { connect } from 'react-redux';
@@ -16,10 +16,11 @@ interface WithAuthDispatchProps {
   requestPluginRerender: () => AnyAction;
 }
 
+const isStartingUpOrLoading = (auth: AuthState): boolean =>
+  auth.provider instanceof LoadingAuthProvider || auth.loading;
+
 const mapStateToProps = (state: StateType): WithAuthProps => ({
-  loading:
-    state.daaas.authorisation.provider instanceof LoadingAuthProvider ||
-    state.daaas.authorisation.loading,
+  loading: isStartingUpOrLoading(state.daaas.authorisation),
   loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
   location: state.router.location.pathname,
 });
