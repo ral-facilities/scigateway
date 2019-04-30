@@ -48,6 +48,16 @@ export const ReduxDecorator: ReduxDecoratorGeneratorType = (stateUpdater => stor
     <Provider
       store={configureStore([thunk, StorybookMiddleware])({
         daaas: stateUpdater(state.daaas),
+        router: {
+          action: 'POP',
+          location: {
+            hash: '',
+            key: '',
+            pathname: '/',
+            search: '',
+            state: {},
+          },
+        },
       })}
     >
       {storyFn()}

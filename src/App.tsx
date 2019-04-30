@@ -18,6 +18,7 @@ import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
 import './index.css';
 import { buildTheme } from './theming';
+import Preloader from './preloader/preloader.component';
 
 const history = createBrowserHistory();
 
@@ -50,6 +51,7 @@ dispatch(configureSite());
 
 const pageContent = (): React.ReactNode => (
   <React.Fragment>
+    <Preloader />
     <MainAppBar />
     <NavigationDrawer />
     <Routing />

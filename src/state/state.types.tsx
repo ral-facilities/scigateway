@@ -18,6 +18,7 @@ export interface DaaasState {
   notifications: DaaasNotification[];
   plugins: PluginConfig[];
   drawerOpen: boolean;
+  siteLoading: boolean;
   authorisation: AuthState;
   res?: ApplicationStrings;
   features: FeatureSwitches;

@@ -11,6 +11,7 @@ export const RequestPluginRerenderType = 'daaas:api:plugin_rerender';
 export const SignOutType = 'daaas:signout';
 export const ToggleDrawerType = 'daaas:toggledrawer';
 export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
+export const SiteLoadingType = 'daaas:site_loading';
 
 export interface NotificationPayload {
   message: string;
@@ -74,4 +75,8 @@ export interface AuthorisedPayload {
 
 export interface AuthProviderPayload {
   authProvider: string;
+}
+
+export interface SiteLoadingPayload {
+  loading: boolean;
 }
