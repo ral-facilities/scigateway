@@ -18,7 +18,7 @@ import {
   Avatar,
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
-import { StateType } from '../state/state.types';
+import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { signOut } from '../state/actions/daaas.actions';
 import { connect } from 'react-redux';
@@ -26,11 +26,11 @@ import { AppStrings } from '../state/daaas.types';
 import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
+import UserInfo from '../authentication/user';
 
 interface UserProfileProps {
   loggedIn: boolean;
-  username: string;
-  avatar: string;
+  user: User;
   res: AppStrings | undefined;
 }
 
@@ -78,11 +78,11 @@ const UserProfileComponent = (
     <div>
       {props.loggedIn ? (
         <div>
-          {props.avatar !== '' ? (
+          {props.user.avatarUrl !== '' ? (
             <Avatar
               className={props.classes.avatar}
               alt="user"
-              src={props.avatar}
+              src={props.user.avatarUrl}
               onClick={e => setMenuAnchor(e.currentTarget)}
             />
           ) : (
@@ -102,7 +102,7 @@ const UserProfileComponent = (
             <div className={props.classes.usernameContainer}>
               <Typography>Signed in as:</Typography>
               <Typography className={props.classes.username}>
-                {props.username}
+                {props.user.username}
               </Typography>
             </div>
             <Divider />
@@ -140,12 +140,7 @@ export const UserProfileComponentWithStyles = withStyles(styles)(
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
   loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
-  username: state.daaas.authorisation.provider.user
-    ? state.daaas.authorisation.provider.user.username
-    : 'anonymous',
-  avatar: state.daaas.authorisation.provider.user
-    ? state.daaas.authorisation.provider.user.avatarUrl
-    : '',
+  user: state.daaas.authorisation.provider.user || new UserInfo('anonymous'),
   res: getAppStrings(state, 'login'),
 });
 
