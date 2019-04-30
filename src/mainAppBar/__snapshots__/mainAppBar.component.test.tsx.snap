@@ -53,6 +53,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
+      <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
@@ -112,6 +113,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
+      <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>
@@ -151,6 +153,7 @@ exports[`Main app bar component does not render contact button when feature is f
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
+      <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(Toolbar)>
   </WithStyles(AppBar)>

@@ -18,8 +18,9 @@ import {
   LoadAuthProviderType,
   SiteLoadingPayload,
   SiteLoadingType,
+  DismissNotificationType,
 } from '../daaas.types';
-import { DaaasNotification, DaaasState, AuthState } from '../state.types';
+import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
@@ -44,17 +45,16 @@ export const initialState: DaaasState = {
   },
 };
 
-function buildNotification(payload: NotificationPayload): DaaasNotification {
-  return { ...payload };
-}
-
 export function handleNotification(
   state: DaaasState,
   payload: NotificationPayload
 ): DaaasState {
   return {
     ...state,
-    notifications: [...state.notifications, buildNotification(payload)],
+    notifications: [
+      ...state.notifications,
+      { message: payload.message, severity: payload.severity },
+    ],
   };
 }
 
@@ -161,12 +161,25 @@ export function handleConfigureFeatureSwitches(
   };
 }
 
+export function handleDismissNotification(
+  state: DaaasState,
+  payload: { index: number }
+): DaaasState {
+  return {
+    ...state,
+    notifications: [
+      ...state.notifications.filter(
+        (_notification, index) => index !== payload.index
+      ),
+    ],
+  };
+}
+
 export function handleAuthProviderUpdate(
   state: DaaasState,
   payload: AuthProviderPayload
 ): DaaasState {
   let provider = state.authorisation.provider;
-  console.log(payload.authProvider);
   switch (payload.authProvider) {
     case 'jwt':
       provider = new JWTAuthProvider();
@@ -177,7 +190,11 @@ export function handleAuthProviderUpdate(
       break;
 
     default:
-      break;
+      throw Error(
+        `Unrecognised auth provider: ${
+          payload.authProvider
+        }, this is a development issue as there is no implementation registered for this provider.`
+      );
   }
 
   return {
@@ -211,6 +228,7 @@ const DaaasReducer = createReducer(initialState, {
   [SignOutType]: handleSignOut,
   [TokenExpiredType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
+  [DismissNotificationType]: handleDismissNotification,
   [SiteLoadingType]: handleSiteLoadingUpdate,
 });
 

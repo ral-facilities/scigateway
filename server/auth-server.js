@@ -9,8 +9,6 @@ const port = 8000
 const jwtSecret = 'abc123456789'
 
 const withAuth = function(req, res, next) {
-  console.log(req.headers.cookie)
-  console.log(req.cookies)
   const token =
     req.body.token ||
     req.query.token ||
@@ -32,15 +30,12 @@ const withAuth = function(req, res, next) {
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
 function isValidLogin(username, password) {
   // this would normally be a database lookup
   return username === 'username' && password === 'password';
 }
 
 app.post('/api/jwt/authenticate', function(req, res) {
-  console.log(req.body)
   const { username, password } = req.body;
 
     if (username === 'error') {
@@ -92,19 +87,12 @@ app.post('/api/github/authenticate', function(req, res) {
 
   let token = '';
 
-  console.log(code);
   axios.post('https://github.com/login/oauth/access_token?' +
             'client_id=9fb0c571fd7b71e383b4&' +
             'client_secret=6960ea90387e3d0ff0a2f62764ab9cc7d5927c46&' +
             `code=${code}`, headers)
   .then((githubResponse) => {
-    console.log(githubResponse.data)
     token = qs.parse(githubResponse.data).access_token;
-    // res.status(200).json({
-    //   token: qs.parse(githubResponse.data).access_token
-    // });
-    console.log(token)
-    console.log('requesting user information')
     return axios.get('https://api.github.com/user', { headers: {'Authorization': `token ${token}`}});
   })
   .then((userResponse) => {
@@ -115,7 +103,6 @@ app.post('/api/github/authenticate', function(req, res) {
     });
   })
   .catch((err) => {
-    //console.log(err)
     res.status(401).json({
       error: 'Invalid token'
     });     
@@ -123,9 +110,7 @@ app.post('/api/github/authenticate', function(req, res) {
 })
 
 app.post('/api/github/checkToken', function(req, res) {
-  console.log('verifying github token')
   const { token } = req.body;
-  console.log(token)
   axios.get('https://api.github.com/user', { headers: {'Authorization': `token ${token}`}})
   .then((userResponse) => {
     res.status(200).json({

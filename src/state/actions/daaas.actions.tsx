@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { Action, AnyAction } from 'redux';
-import * as log from 'loglevel';
+import log from 'loglevel';
 import {
   ConfigureStringsType,
   ConfigureStringsPayload,
-  NotificationType,
-  NotificationPayload,
   ToggleDrawerType,
   AuthFailureType,
   AuthSuccessType,
@@ -15,6 +13,8 @@ import {
   ConfigureFeatureSwitchesType,
   FeatureSwitches,
   LoadingAuthType,
+  DismissNotificationType,
+  DismissNotificationPayload,
   RequestPluginRerenderType,
   AuthProviderPayload,
   LoadAuthProviderType,
@@ -25,17 +25,6 @@ import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
-
-export const daaasNotification = (
-  message: string,
-  id: string
-): ActionType<NotificationPayload> => ({
-  type: NotificationType,
-  payload: {
-    message,
-    id,
-  },
-});
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -121,7 +110,6 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       if (settings['features']) {
         dispatch(loadFeatureSwitches(settings['features']));
       }
-      dispatch(daaasNotification(JSON.stringify(settings), '-1'));
 
       const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
         ? '/' + settings['ui-strings']
@@ -197,3 +185,18 @@ export const requestPluginRerender = (): ActionType<{
     broadcast: true,
   },
 });
+
+export const showDropdown = (): Action => ({
+  type: ToggleDrawerType,
+});
+
+export const dismissMenuItem = (
+  index: number
+): ActionType<DismissNotificationPayload> => {
+  return {
+    type: DismissNotificationType,
+    payload: {
+      index,
+    },
+  };
+};

@@ -23,6 +23,7 @@ import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
 import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
+import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -146,6 +147,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
         <IconButton className={props.classes.button}>
           <HelpIcon />
         </IconButton>
+        {props.loggedIn ? <NotificationBadgeComponent /> : null}
         <UserProfileComponent />
       </Toolbar>
     </AppBar>

@@ -1,9 +1,9 @@
 import {
-  daaasNotification,
   toggleDrawer,
   authorised,
   unauthorised,
   loadingAuthentication,
+  dismissMenuItem,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { DaaasState } from '../state.types';
@@ -15,15 +15,6 @@ describe('daaas reducer', () => {
 
   beforeEach(() => {
     state = initialState;
-  });
-
-  it('should update notifications with notification message', () => {
-    const action = daaasNotification('test message');
-
-    const updatedState = DaaasReducer(state, action);
-
-    expect(updatedState.notifications).toHaveLength(1);
-    expect(updatedState.notifications[0]).toEqual('test message');
   });
 
   it('should return state for actions it does not care about', () => {
@@ -91,5 +82,26 @@ describe('daaas reducer', () => {
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
     expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+  });
+
+  it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
+    const action = dismissMenuItem(2);
+    const notificationsInState = {
+      notifications: [
+        { message: 'message 1', severity: 'warning' },
+        { message: 'message 2', severity: 'error' },
+        { message: 'message 3', severity: 'success' },
+        { message: 'message 4', severity: 'success' },
+      ],
+    };
+
+    let updatedState = DaaasReducer(notificationsInState, action);
+    const updatedNotificationsInState = [
+      { message: 'message 1', severity: 'warning' },
+      { message: 'message 2', severity: 'error' },
+      { message: 'message 4', severity: 'success' },
+    ];
+
+    expect(updatedState.notifications).toEqual(updatedNotificationsInState);
   });
 });
