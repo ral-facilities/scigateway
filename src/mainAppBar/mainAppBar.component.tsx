@@ -147,8 +147,8 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
         <IconButton className={props.classes.button}>
           <HelpIcon />
         </IconButton>
-        <UserProfileComponent />
         {props.loggedIn ? <NotificationBadgeComponent /> : null}
+        <UserProfileComponent />
       </Toolbar>
     </AppBar>
   </div>

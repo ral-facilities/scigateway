@@ -3,7 +3,6 @@ import { createShallow } from '@material-ui/core/test-utils';
 import { NotificationBadgeWithStyles } from './notificationBadge.component';
 import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
-import 'react-testing-library/cleanup-after-each';
 import { Action } from 'redux';
 
 describe('Notification Badge component', () => {
