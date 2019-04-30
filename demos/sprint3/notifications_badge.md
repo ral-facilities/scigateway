@@ -27,4 +27,4 @@
 ```
 )
 6. Show that notifications can also be removed via the delete icon
-7. Architectural diagram will exist for the Websocket server (TBC Nick)
+7. Architectural diagram documented on the project wiki (https://github.com/ral-facilities/daaas-frontend/wiki/Push-notifications)
