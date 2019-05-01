@@ -37,8 +37,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
           dispatch(pluginMessage.detail);
 
           if (pluginMessage.detail.payload.severity != undefined) {
-            const severity = pluginMessage.detail.payload.severity;
-            const message = pluginMessage.detail.payload.message;
+            const { severity, message } = pluginMessage.detail.payload;
             if (severity === 'error') {
               toastr.error('Error', message, toastrMessageOptions);
             } else if (severity === 'warning') {
