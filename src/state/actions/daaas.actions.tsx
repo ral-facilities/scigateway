@@ -18,6 +18,8 @@ import {
   RequestPluginRerenderType,
   AuthProviderPayload,
   LoadAuthProviderType,
+  SiteLoadingType,
+  SiteLoadingPayload,
 } from '../daaas.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -72,6 +74,15 @@ export const authorised = (): Action => ({
   type: AuthSuccessType,
 });
 
+export const siteLoadingUpdate = (
+  loading: boolean
+): ActionType<SiteLoadingPayload> => ({
+  type: SiteLoadingType,
+  payload: {
+    loading,
+  },
+});
+
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     await axios.get(`/settings.json`).then(res => {
@@ -79,10 +90,12 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
       dispatch(loadAuthProvider(settings['auth-provider']));
 
+      const loadingPromises = [];
+
       // after auth provider is set then the token needs to be verified
       const provider = getState().daaas.authorisation.provider;
       if (provider.isLoggedIn()) {
-        provider
+        const verifyingLogin = provider
           .verifyLogIn()
           .then(() => {
             dispatch(authorised());
@@ -90,6 +103,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           .catch(() => {
             dispatch(unauthorised());
           });
+
+        loadingPromises.push(verifyingLogin);
       }
 
       if (settings['features']) {
@@ -99,8 +114,15 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
         ? '/' + settings['ui-strings']
         : settings['ui-strings'];
-      dispatch(loadStrings(uiStringResourcesPath));
-      loadMicroFrontends.init(settings.plugins);
+      const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
+      loadingPromises.push(loadingResources);
+
+      const loadingPlugins = loadMicroFrontends.init(settings.plugins);
+      loadingPromises.push(loadingPlugins);
+
+      Promise.all(loadingPromises).then(() => {
+        dispatch(siteLoadingUpdate(false));
+      });
     });
   };
 };

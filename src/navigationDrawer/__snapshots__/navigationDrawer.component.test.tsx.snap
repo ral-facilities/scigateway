@@ -94,6 +94,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
       component="nav"
     >
       <LinkListItem
+        key="0"
         to="link"
       >
         <WithStyles(ListItemText)
@@ -112,6 +113,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         />
       </LinkListItem>
       <LinkListItem
+        key="1"
         to="link"
       >
         <WithStyles(ListItemText)
@@ -149,6 +151,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
       component="nav"
     >
       <LinkListItem
+        key="0"
         to="link"
       >
         <WithStyles(ListItemText)
@@ -167,6 +170,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         />
       </LinkListItem>
       <LinkListItem
+        key="1"
         to="link"
       >
         <WithStyles(ListItemText)
@@ -185,6 +189,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         />
       </LinkListItem>
       <LinkListItem
+        key="2"
         to="link"
       >
         <WithStyles(ListItemText)

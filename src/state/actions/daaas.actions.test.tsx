@@ -8,6 +8,7 @@ import {
   loadFeatureSwitches,
   configureSite,
   dismissMenuItem,
+  siteLoadingUpdate,
 } from './daaas.actions';
 import {
   ToggleDrawerType,
@@ -17,6 +18,7 @@ import {
 import { initialState } from '../reducers/daaas.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
+import loadMicroFrontends from './loadMicroFrontends';
 
 jest.useFakeTimers();
 
@@ -136,6 +138,37 @@ describe('daaas actions', () => {
     expect(actions[1]).toEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
+  });
+
+  it('dispatches a site loading update after settings are loaded', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          features: { showContactButton: true },
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    loadMicroFrontends.init = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): void | Promise<void> => {
+      if (typeof action === 'function') {
+        action(dispatch);
+        return Promise.resolve();
+      } else {
+        actions.push(action);
+      }
+    };
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions[actions.length - 1]).toEqual(siteLoadingUpdate(false));
   });
 
   it('given an index number dismissMenuItem returns a DismissNotificationType with payload', () => {

@@ -16,6 +16,8 @@ import {
   TokenExpiredType,
   AuthProviderPayload,
   LoadAuthProviderType,
+  SiteLoadingPayload,
+  SiteLoadingType,
   DismissNotificationType,
   PluginConfig,
 } from '../daaas.types';
@@ -37,6 +39,7 @@ export const initialState: DaaasState = {
   notifications: [],
   plugins: [],
   drawerOpen: false,
+  siteLoading: true,
   authorisation: authState,
   features: {
     showContactButton: true,
@@ -219,6 +222,16 @@ export function handleAuthProviderUpdate(
   };
 }
 
+export function handleSiteLoadingUpdate(
+  state: DaaasState,
+  payload: SiteLoadingPayload
+): DaaasState {
+  return {
+    ...state,
+    siteLoading: payload.loading,
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -232,6 +245,7 @@ const DaaasReducer = createReducer(initialState, {
   [TokenExpiredType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [DismissNotificationType]: handleDismissNotification,
+  [SiteLoadingType]: handleSiteLoadingUpdate,
 });
 
 export default DaaasReducer;

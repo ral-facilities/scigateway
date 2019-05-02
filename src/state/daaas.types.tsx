@@ -13,6 +13,7 @@ export const ToggleDrawerType = 'daaas:toggledrawer';
 export const DismissNotificationType = 'daaas:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
 export const AddNotificationsType = 'daaas:add_notification';
+export const SiteLoadingType = 'daaas:site_loading';
 
 export interface NotificationPayload {
   message: string;
@@ -84,4 +85,8 @@ export interface DismissNotificationPayload {
 
 export interface AuthProviderPayload {
   authProvider: string;
+}
+
+export interface SiteLoadingPayload {
+  loading: boolean;
 }

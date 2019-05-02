@@ -70,9 +70,9 @@ const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
 );
 
 class NavigationDrawer extends Component<CombinedNavigationProps> {
-  private createLink(plugin: PluginConfig): React.ReactElement {
+  private createLink(plugin: PluginConfig, index: number): React.ReactElement {
     return (
-      <LinkListItem to={plugin.link}>
+      <LinkListItem key={index} to={plugin.link}>
         <ListItemText
           inset
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
@@ -87,10 +87,11 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 
   private buildMenuSection(
     sectionName: string,
-    plugins: PluginConfig[]
+    plugins: PluginConfig[],
+    index: number
   ): React.ReactElement {
     return (
-      <Fragment>
+      <Fragment key={index}>
         <ListItem>
           <ListItemText
             primary={sectionName}
@@ -100,7 +101,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
             }}
           />
         </ListItem>
-        <List component="nav">{plugins.map(p => this.createLink(p))}</List>
+        <List component="nav">
+          {plugins.map((p, i) => this.createLink(p, i))}
+        </List>
       </Fragment>
     );
   }
@@ -112,10 +115,12 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
       <List>
         {Object.keys(sectionPlugins)
           .sort()
-          .map(section =>
-            this.buildMenuSection(section, sectionPlugins[
-              section
-            ] as PluginConfig[])
+          .map((section, i) =>
+            this.buildMenuSection(
+              section,
+              sectionPlugins[section] as PluginConfig[],
+              i
+            )
           )}
       </List>
     );

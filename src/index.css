@@ -16,3 +16,9 @@ code {
 .top-center {
   top: 70px !important
 }
+
+@keyframes rotate {
+  to {
+    transform: rotateZ(360deg);
+  }
+}
