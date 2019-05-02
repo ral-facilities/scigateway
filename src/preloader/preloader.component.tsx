@@ -3,7 +3,7 @@ import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
 
 const colors = ['#8C4799', '#1D4F91', '#C34613', '#008275', '#63666A'];
-const inner = 140;
+const innerRadius = 140;
 const border = 8;
 const spacing = 1;
 
@@ -12,8 +12,8 @@ const style = {
     position: 'relative' as 'relative',
     display: 'block',
     margin: 'auto',
-    width: inner + colors.length * 2 * (border + spacing),
-    height: inner + colors.length * 2 * (border + spacing),
+    width: innerRadius + colors.length * 2 * (border + spacing),
+    height: innerRadius + colors.length * 2 * (border + spacing),
     animation: 'rotate 10s infinite linear',
   },
   wrapper: {
@@ -45,7 +45,7 @@ interface SpinnerStyle {
   [id: string]: string | number;
 }
 const spinnerStyle = (index: number): SpinnerStyle => {
-  const size = inner + index * 2 * (border + spacing);
+  const size = innerRadius + index * 2 * (border + spacing);
 
   return {
     position: 'absolute' as 'absolute',
@@ -54,8 +54,8 @@ const spinnerStyle = (index: number): SpinnerStyle => {
     left: '50%',
     border: `solid ${border}px transparent`,
     borderBottom: 'none',
-    borderTopLeftRadius: inner + index * border,
-    borderTopRightRadius: inner + index * border,
+    borderTopLeftRadius: innerRadius + index * border,
+    borderTopRightRadius: innerRadius + index * border,
     borderColor: colors[index % colors.length],
     height: size / 2,
     width: size,
@@ -66,7 +66,6 @@ const spinnerStyle = (index: number): SpinnerStyle => {
     animationDuration: '3s',
     animationTimingFunction: `cubic-bezier(.09, ${0.3 * index}, ${0.12 *
       index}, .03)`,
-    //animation: 'rotate-loader 3s infinte cubic-bezier(0.09,0.6,0.8, 0.03)',
     transformOrigin: '50% 100% 0',
     boxSizing: 'border-box' as 'border-box',
   };

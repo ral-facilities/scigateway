@@ -10,10 +10,6 @@ export default class GithubAuthProvider extends BaseAuthProvider {
   }
 
   public logIn(username: string, password: string): Promise<void> {
-    if (this.isLoggedIn()) {
-      return Promise.resolve();
-    }
-
     const params = qs.parse(password);
 
     // remove existing credentials so they can be refreshed
@@ -28,7 +24,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
         this.storeUser(res.data.username, res.data.avatar);
         return;
       })
-      .catch(this.handleAuthError);
+      .catch(err => super.handleAuthError(err));
   }
 
   public verifyLogIn(): Promise<void> {
@@ -36,6 +32,6 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       .then(res => {
         this.storeUser(res.data.username, res.data.avatar);
       })
-      .catch(this.handleAuthError);
+      .catch(err => super.handleAuthError(err));
   }
 }

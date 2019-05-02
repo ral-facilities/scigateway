@@ -20,7 +20,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
         this.storeUser(username);
         return;
       })
-      .catch(this.handleAuthError);
+      .catch(err => this.handleAuthError(err));
   }
 
   public verifyLogIn(): Promise<void> {
@@ -28,6 +28,6 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       token: this.token,
     })
       .then(() => {})
-      .catch(this.handleAuthError);
+      .catch(err => this.handleAuthError(err));
   }
 }
