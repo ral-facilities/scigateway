@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
 import { NotificationType, RegisterRouteType } from '../daaas.types';
 import log from 'loglevel';
+import { toastr } from 'react-redux-toastr';
 
 const microFrontendMessageId = 'daaas-frontend';
 
@@ -11,6 +12,11 @@ const broadcastToPlugins = (action: AnyAction): void => {
 };
 
 type microFrontendMessageType = CustomEvent<AnyAction>;
+
+const toastrMessageOptions = {
+  removeOnHover: false,
+  removeOnHoverTimeOut: 0,
+};
 
 export const listenToPlugins = (dispatch: Dispatch): void => {
   document.addEventListener(microFrontendMessageId, event => {
@@ -24,8 +30,20 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {
         case RegisterRouteType:
+          dispatch(pluginMessage.detail);
+          break;
+
         case NotificationType:
           dispatch(pluginMessage.detail);
+
+          if (pluginMessage.detail.payload.severity != undefined) {
+            const { severity, message } = pluginMessage.detail.payload;
+            if (severity === 'error') {
+              toastr.error('Error', message, toastrMessageOptions);
+            } else if (severity === 'warning') {
+              toastr.warning('Warning', message, toastrMessageOptions);
+            }
+          }
           break;
         default:
           // log and ignore

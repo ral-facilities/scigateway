@@ -186,10 +186,6 @@ export const requestPluginRerender = (): ActionType<{
   },
 });
 
-export const showDropdown = (): Action => ({
-  type: ToggleDrawerType,
-});
-
 export const dismissMenuItem = (
   index: number
 ): ActionType<DismissNotificationPayload> => {

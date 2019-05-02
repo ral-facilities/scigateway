@@ -1,3 +1,4 @@
+import log from 'loglevel';
 import {
   toggleDrawer,
   authorised,
@@ -6,8 +7,8 @@ import {
   dismissMenuItem,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
-import { DaaasState } from '../state.types';
 import { SignOutType, TokenExpiredType } from '../daaas.types';
+import { DaaasState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 
 describe('daaas reducer', () => {
@@ -103,5 +104,97 @@ describe('daaas reducer', () => {
     ];
 
     expect(updatedState.notifications).toEqual(updatedNotificationsInState);
+  });
+
+  describe('register route', () => {
+    const basePayload = {
+      section: 'dummy-section',
+      link: 'initial/route',
+      plugin: 'demo_plugin',
+      displayName: 'Route Label',
+      order: 10,
+    };
+    const registerRouteAction = 'daaas:api:register_route';
+
+    it('should register a plugin in State', () => {
+      const action = {
+        type: 'daaas:api:register_route',
+        payload: basePayload,
+      };
+      const updatedState = DaaasReducer(state, action);
+
+      expect(updatedState.plugins).toEqual([
+        {
+          section: action.payload.section,
+          link: action.payload.link,
+          plugin: action.payload.plugin,
+          displayName: action.payload.displayName,
+          order: action.payload.order,
+        },
+      ]);
+    });
+
+    it('should register plugin with duplicate displayname and section data in State', () => {
+      const baseAction = {
+        type: registerRouteAction,
+        payload: basePayload,
+      };
+      const initialPluginState = DaaasReducer(state, baseAction);
+      const updatedState = DaaasReducer(initialPluginState, {
+        type: registerRouteAction,
+        payload: {
+          ...basePayload,
+          link: 'second/route',
+        },
+      });
+
+      expect(updatedState.plugins.length).toBe(2);
+      expect(updatedState.plugins).toContainEqual({
+        section: basePayload.section,
+        link: 'second/route',
+        plugin: basePayload.plugin,
+        displayName: basePayload.displayName,
+        order: basePayload.order,
+      });
+      expect(updatedState.plugins).toContainEqual({
+        section: basePayload.section,
+        link: basePayload.link,
+        plugin: basePayload.plugin,
+        displayName: basePayload.displayName,
+        order: basePayload.order,
+      });
+    });
+
+    it('should log error and not register plugin with duplicate route in State', () => {
+      log.error = jest.fn();
+      const duplicatePayload = {
+        ...basePayload,
+        displayName: 'Duplicate Route',
+      };
+      const initialPluginState = DaaasReducer(state, {
+        type: 'daaas:api:register_route',
+        payload: basePayload,
+      });
+      const updatedState = DaaasReducer(initialPluginState, {
+        type: 'daaas:api:register_route',
+        payload: duplicatePayload,
+      });
+
+      expect(updatedState.plugins.length).toBe(1);
+      expect(updatedState.plugins).toContainEqual({
+        section: basePayload.section,
+        link: basePayload.link,
+        plugin: basePayload.plugin,
+        displayName: basePayload.displayName,
+        order: basePayload.order,
+      });
+
+      expect(log.error).toHaveBeenCalled();
+      const mockLog = (log.error as jest.Mock).mock;
+      const call = mockLog.calls[0][0];
+      expect(call).toContain(duplicatePayload.plugin);
+      expect(call).toContain(duplicatePayload.link);
+      expect(call).toContain(duplicatePayload.displayName);
+    });
   });
 });

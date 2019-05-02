@@ -19,6 +19,7 @@ import { StateType } from './state/state.types';
 import './index.css';
 import { buildTheme } from './theming';
 import Preloader from './preloader/preloader.component';
+import ReduxToastr from 'react-redux-toastr';
 
 const history = createBrowserHistory();
 
@@ -58,6 +59,17 @@ const pageContent = (): React.ReactNode => (
   </React.Fragment>
 );
 
+const toastrConfig = (): React.ReactElement => (
+  <ReduxToastr
+    timeOut={0}
+    newestOnTop={false}
+    closeOnToastrClick={true}
+    position="top-center"
+    transitionIn="fadeIn"
+    transitionOut="fadeOut"
+  />
+);
+
 class App extends React.Component {
   public render(): React.ReactElement {
     return (
@@ -65,6 +77,7 @@ class App extends React.Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <MuiThemeProvider theme={buildTheme()}>
+              {toastrConfig()}
               {pageContent()}
             </MuiThemeProvider>
           </ConnectedRouter>

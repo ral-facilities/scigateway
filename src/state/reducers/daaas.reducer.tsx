@@ -19,6 +19,7 @@ import {
   SiteLoadingPayload,
   SiteLoadingType,
   DismissNotificationType,
+  PluginConfig,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -75,13 +76,28 @@ export function handleConfigureStrings(
   };
 }
 
+const updatePlugins = (
+  existingPlugins: PluginConfig[],
+  payload: RegisterRoutePayload
+): PluginConfig[] => {
+  if (!existingPlugins.some(p => p.link === payload.link)) {
+    return [...existingPlugins, buildPluginConfig(payload)];
+  }
+
+  log.error(
+    `Duplicate plugin route identified: ${payload.link}.
+     ${payload.plugin}:'${payload.displayName}' not registered`
+  );
+  return existingPlugins;
+};
+
 export function handleRegisterPlugin(
   state: DaaasState,
   payload: RegisterRoutePayload
 ): DaaasState {
   return {
     ...state,
-    plugins: [...state.plugins, buildPluginConfig(payload)],
+    plugins: updatePlugins(state.plugins, payload),
   };
 }
 
