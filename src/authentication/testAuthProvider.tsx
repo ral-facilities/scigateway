@@ -20,7 +20,7 @@ export default class TestAuthProvider implements AuthProvider {
 
   public logIn(username: string, password: string): Promise<void> {
     if (username === 'username' && password === 'password') {
-      this.token === 'validLoginToken';
+      this.token = 'validLoginToken';
       return Promise.resolve();
     }
 
