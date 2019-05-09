@@ -104,6 +104,7 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
           </Typography>
           <img
             src={ExploreImage}
+            alt=""
             className={props.classes.howItWorksGridItemImage}
           />
           <Typography
@@ -122,6 +123,7 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
           </Typography>
           <img
             src={AnalyseImage}
+            alt=""
             className={props.classes.howItWorksGridItemImage}
           />
           <Typography
@@ -140,6 +142,7 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
           </Typography>
           <img
             src={RecordImage}
+            alt=""
             className={props.classes.howItWorksGridItemImage}
           />
           <Typography
