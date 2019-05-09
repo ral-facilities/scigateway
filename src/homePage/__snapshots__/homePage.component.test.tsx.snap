@@ -38,6 +38,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           explore-label
         </WithStyles(Typography)>
         <img
+          alt=""
           className="HomePage-howItWorksGridItemImage-7"
           src="explore.jpg"
         />
@@ -61,6 +62,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           analyse-label
         </WithStyles(Typography)>
         <img
+          alt=""
           className="HomePage-howItWorksGridItemImage-7"
           src="analyse.jpg"
         />
@@ -84,6 +86,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           record-label
         </WithStyles(Typography)>
         <img
+          alt=""
           className="HomePage-howItWorksGridItemImage-7"
           src="record.jpg"
         />
