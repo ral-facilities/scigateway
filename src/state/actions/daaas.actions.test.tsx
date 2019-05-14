@@ -9,11 +9,13 @@ import {
   configureSite,
   dismissMenuItem,
   siteLoadingUpdate,
+  toggleHelp,
 } from './daaas.actions';
 import {
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
   DismissNotificationType,
+  ToggleHelpType,
 } from '../daaas.types';
 import { initialState } from '../reducers/daaas.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -175,5 +177,10 @@ describe('daaas actions', () => {
     const action = dismissMenuItem(0);
     expect(action.type).toEqual(DismissNotificationType);
     expect(action.payload).toEqual({ index: 0 });
+  });
+
+  it('toggleHelp only needs a type', () => {
+    const action = toggleHelp();
+    expect(action.type).toEqual(ToggleHelpType);
   });
 });

@@ -73,7 +73,7 @@ const NotificationBadge = (
     closeMenu();
   }
   return (
-    <div>
+    <div className="tour-notifications">
       <IconButton
         className={props.classes.button}
         onClick={e => setMenuAnchor(e.currentTarget)}

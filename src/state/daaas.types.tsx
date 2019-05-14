@@ -14,6 +14,7 @@ export const DismissNotificationType = 'daaas:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
 export const AddNotificationsType = 'daaas:add_notification';
 export const SiteLoadingType = 'daaas:site_loading';
+export const ToggleHelpType = 'daaas:toggle_help';
 
 export interface NotificationPayload {
   message: string;

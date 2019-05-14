@@ -5,6 +5,7 @@ import {
   unauthorised,
   loadingAuthentication,
   dismissMenuItem,
+  showHelpUpdate,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { SignOutType, TokenExpiredType } from '../daaas.types';
@@ -32,6 +33,16 @@ describe('daaas reducer', () => {
 
     updatedState = DaaasReducer(updatedState, toggleDrawer());
     expect(updatedState.drawerOpen).toBeFalsy();
+  });
+
+  it('should toggle the showHelp state for a showHelpUpdate message', () => {
+    expect(state.showHelp).toBeFalsy();
+
+    let updatedState = DaaasReducer(state, showHelpUpdate(true));
+    expect(updatedState.showHelp).toBeTruthy();
+
+    updatedState = DaaasReducer(updatedState, showHelpUpdate(false));
+    expect(updatedState.showHelp).toBeFalsy();
   });
 
   it('loading authentication should update loading state', () => {

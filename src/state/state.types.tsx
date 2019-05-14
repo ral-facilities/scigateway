@@ -24,6 +24,7 @@ export interface DaaasState {
   plugins: PluginConfig[];
   drawerOpen: boolean;
   siteLoading: boolean;
+  showHelp: boolean;
   authorisation: AuthState;
   res?: ApplicationStrings;
   features: FeatureSwitches;

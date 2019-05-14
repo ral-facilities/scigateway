@@ -20,6 +20,7 @@ import {
   LoadAuthProviderType,
   SiteLoadingType,
   SiteLoadingPayload,
+  ToggleHelpType,
 } from '../daaas.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -129,6 +130,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 export const toggleDrawer = (): Action => ({
   type: ToggleDrawerType,
+});
+
+export const toggleHelp = (): Action => ({
+  type: ToggleHelpType,
 });
 
 export const signOut = (): ThunkAction<
