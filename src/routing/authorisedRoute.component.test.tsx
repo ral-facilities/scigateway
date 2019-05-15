@@ -17,7 +17,6 @@ describe('AuthorisedRoute component', () => {
   );
 
   beforeEach(() => {
-    console.log('before each');
     shallow = createShallow({});
 
     state = {
@@ -27,8 +26,7 @@ describe('AuthorisedRoute component', () => {
         location: createLocation('/'),
       },
     };
-    console.log(state);
-    console.log(initialState);
+
     mockStore = configureStore();
   });
 
