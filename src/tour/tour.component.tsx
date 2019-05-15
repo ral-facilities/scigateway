@@ -6,6 +6,8 @@ import Joyride, {
   ACTIONS,
   EVENTS,
 } from 'react-joyride';
+import { Theme, withTheme } from '@material-ui/core/styles';
+import { UKRITheme } from '../theming';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
 import { toggleHelp } from '../state/actions/daaas.actions';
@@ -40,7 +42,7 @@ interface TourDispatchProps {
   dismissHelp: () => Action;
 }
 
-type CombinedTourProps = TourProps & TourDispatchProps;
+type CombinedTourProps = TourProps & TourDispatchProps & { theme: Theme };
 
 const Tour = (props: CombinedTourProps): React.ReactElement => {
   const [stepIndex, setStepIndex] = useState(0);
@@ -80,6 +82,11 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
       callback={(data: CallBackProps) =>
         handleJoyrideCallback(data, props.dismissHelp, setStepIndex)
       }
+      styles={{
+        options: {
+          primaryColor: (props.theme as UKRITheme).ukri.orange,
+        },
+      }}
     />
   );
 };
@@ -94,7 +101,9 @@ const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
   dismissHelp: () => dispatch(toggleHelp()),
 });
 
+export const TourWithStyles = withTheme()(Tour);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Tour);
+)(TourWithStyles);

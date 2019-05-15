@@ -8,6 +8,8 @@ import { createLocation } from 'history';
 import { toggleHelp } from '../state/actions/daaas.actions';
 import { Provider } from 'react-redux';
 import Joyride from 'react-joyride';
+import { buildTheme } from '../theming';
+import { MuiThemeProvider } from '@material-ui/core';
 
 jest.mock('popper.js', () => {
   const PopperJS = jest.requireActual('popper.js');
@@ -29,6 +31,7 @@ describe('Tour component', () => {
   let mount;
   let mockStore;
   let state: StateType;
+  const theme = buildTheme();
 
   beforeEach(() => {
     shallow = createShallow({});
@@ -47,8 +50,17 @@ describe('Tour component', () => {
   it('renders correctly', () => {
     state.daaas.showHelp = true;
 
-    const wrapper = shallow(<Tour store={mockStore(state)} />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <Tour store={mockStore(state)} />
+      </MuiThemeProvider>
+    );
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+    ).toMatchSnapshot();
   });
 
   it('shows next tooltip when next is clicked', () => {
@@ -56,13 +68,15 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <Provider store={testStore}>
-        <div>
-          <Tour />
-          <div className="tour-title" />
-          <div className="tour-user-profile" />
-        </div>
-      </Provider>
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <div>
+            <Tour />
+            <div className="tour-title" />
+            <div className="tour-user-profile" />
+          </div>
+        </Provider>
+      </MuiThemeProvider>
     );
 
     let joyride: Joyride = wrapper.find('Joyride').instance();
@@ -82,13 +96,15 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <Provider store={testStore}>
-        <div>
-          <Tour />
-          <div className="tour-title" />
-          <div className="tour-user-profile" />
-        </div>
-      </Provider>
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <div>
+            <Tour />
+            <div className="tour-title" />
+            <div className="tour-user-profile" />
+          </div>
+        </Provider>
+      </MuiThemeProvider>
     );
 
     let joyride: Joyride = wrapper.find('Joyride').instance();
@@ -110,12 +126,14 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <Provider store={testStore}>
-        <div>
-          <Tour />
-          <div className="tour-title" />
-        </div>
-      </Provider>
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <div>
+            <Tour />
+            <div className="tour-title" />
+          </div>
+        </Provider>
+      </MuiThemeProvider>
     );
 
     wrapper
@@ -132,9 +150,19 @@ describe('Tour component', () => {
     state.daaas.showHelp = true;
     state.daaas.features.showContactButton = false;
 
-    const wrapper = shallow(<Tour store={mockStore(state)} />);
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <Tour store={mockStore(state)} />
+      </MuiThemeProvider>
+    );
 
-    expect(wrapper.dive().props().steps).not.toContain({
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+        .props().steps
+    ).not.toContain({
       target: '.tour-contact',
       content: 'contact',
     });

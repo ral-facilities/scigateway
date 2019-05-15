@@ -45,5 +45,12 @@ exports[`Tour component renders correctly 1`] = `
       },
     ]
   }
+  styles={
+    Object {
+      "options": Object {
+        "primaryColor": "#C34613",
+      },
+    }
+  }
 />
 `;
