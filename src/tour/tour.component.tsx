@@ -19,11 +19,13 @@ const handleJoyrideCallback = (
   setStepIndex: React.Dispatch<React.SetStateAction<number>>
 ): void => {
   const { status, action, index, type } = data;
-  if (status === STATUS.FINISHED || action === ACTIONS.CLOSE) {
+  if (
+    status === STATUS.FINISHED ||
+    (type === EVENTS.STEP_AFTER && action === ACTIONS.CLOSE)
+  ) {
     setStepIndex(0);
     dismissHelp();
   } else if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
-    console.log(type);
     setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
   }
 };

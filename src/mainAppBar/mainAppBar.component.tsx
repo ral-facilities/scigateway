@@ -149,7 +149,11 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           </Button>
         ) : null}
         <div className={props.classes.grow} />
-        <IconButton className={props.classes.button} onClick={props.toggleHelp}>
+        <IconButton
+          className={props.classes.button}
+          onClick={props.toggleHelp}
+          aria-label="Help"
+        >
           <HelpIcon />
         </IconButton>
         {props.loggedIn ? <NotificationBadgeComponent /> : null}

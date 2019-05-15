@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tour component renders correctly 1`] = `
+<Joyride
+  callback={[Function]}
+  continuous={true}
+  debug={false}
+  disableCloseOnEsc={false}
+  disableOverlay={false}
+  disableOverlayClose={false}
+  disableScrollParentFix={false}
+  disableScrolling={false}
+  getHelpers={[Function]}
+  hideBackButton={false}
+  run={true}
+  scrollOffset={20}
+  scrollToFirstStep={false}
+  showProgress={false}
+  showSkipButton={false}
+  spotlightClicks={false}
+  spotlightPadding={10}
+  stepIndex={0}
+  steps={
+    Array [
+      Object {
+        "content": "title",
+        "disableBeacon": true,
+        "target": ".tour-title",
+      },
+      Object {
+        "content": "user-profile",
+        "target": ".tour-user-profile",
+      },
+      Object {
+        "content": "notifications",
+        "target": ".tour-notifications",
+      },
+      Object {
+        "content": "nav-menu",
+        "target": ".tour-nav-menu",
+      },
+      Object {
+        "content": "contact",
+        "target": ".tour-contact",
+      },
+    ]
+  }
+/>
+`;
