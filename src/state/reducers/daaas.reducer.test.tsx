@@ -5,11 +5,20 @@ import {
   unauthorised,
   loadingAuthentication,
   dismissMenuItem,
+  siteLoadingUpdate,
+  loadAuthProvider,
+  configureStrings,
+  loadFeatureSwitches,
 } from '../actions/daaas.actions';
-import DaaasReducer, { initialState } from './daaas.reducer';
+import DaaasReducer, {
+  initialState,
+  handleAuthProviderUpdate,
+} from './daaas.reducer';
 import { SignOutType, TokenExpiredType } from '../daaas.types';
 import { DaaasState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
+import GithubAuthProvider from '../../authentication/githubAuthProvider';
 
 describe('daaas reducer', () => {
   let state: DaaasState;
@@ -32,6 +41,16 @@ describe('daaas reducer', () => {
 
     updatedState = DaaasReducer(updatedState, toggleDrawer());
     expect(updatedState.drawerOpen).toBeFalsy();
+  });
+
+  it('should update siteLoading when handleSiteLoadingUpdate message is sent', () => {
+    expect(state.siteLoading).toBeTruthy();
+
+    let updatedState = DaaasReducer(state, siteLoadingUpdate(false));
+    expect(updatedState.siteLoading).toBeFalsy();
+
+    updatedState = DaaasReducer(updatedState, siteLoadingUpdate(true));
+    expect(updatedState.siteLoading).toBeTruthy();
   });
 
   it('loading authentication should update loading state', () => {
@@ -83,6 +102,63 @@ describe('daaas reducer', () => {
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
     expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+  });
+
+  it('should change auth provider when a LoadAuthProvider action is sent', () => {
+    let updatedState = DaaasReducer(state, loadAuthProvider('jwt'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(JWTAuthProvider);
+
+    updatedState = DaaasReducer(state, loadAuthProvider('github'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      GithubAuthProvider
+    );
+  });
+
+  it('should throw error when unrecognised auth provider is attempted to be loaded', () => {
+    expect(() =>
+      handleAuthProviderUpdate(state, { authProvider: 'unrecognised' })
+    ).toThrow();
+  });
+
+  it('should update notification list when new notification is recieved', () => {
+    expect(state.notifications.length).toEqual(0);
+
+    const action = {
+      type: 'daaas:api:notification',
+      payload: { message: 'test notification', severity: 'success' },
+    };
+    const updatedState = DaaasReducer(state, action);
+
+    expect(updatedState.notifications.length).toEqual(1);
+    expect(updatedState.notifications[0]).toEqual({
+      message: 'test notification',
+      severity: 'success',
+    });
+  });
+
+  it('should set res property when configure strings action is sent', () => {
+    expect(state).not.toHaveProperty('res');
+
+    const updatedState = DaaasReducer(
+      state,
+      configureStrings({ testSection: { testId: 'test' } })
+    );
+
+    expect(updatedState).toHaveProperty('res');
+    expect(updatedState.res).toEqual({ testSection: { testId: 'test' } });
+  });
+
+  it('should set feature switches property when configure feature switches action is sent', () => {
+    expect(state.features.showContactButton).toBeTruthy();
+
+    const updatedState = DaaasReducer(
+      state,
+      loadFeatureSwitches({ showContactButton: false })
+    );
+
+    expect(updatedState.features.showContactButton).toBeFalsy();
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
