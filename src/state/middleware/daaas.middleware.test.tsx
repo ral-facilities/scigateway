@@ -2,6 +2,7 @@ import DaaasMiddleware, { listenToPlugins } from './daaas.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
+import { toastr } from 'react-redux-toastr';
 
 describe('daaas middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
@@ -71,6 +72,82 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
+  });
+
+  describe('notifications', () => {
+    it('should listen for notification events and fire notification action even if no severity', () => {
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+        },
+      };
+
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(document.addEventListener).toHaveBeenCalled();
+      expect(store.getActions().length).toEqual(1);
+      expect(store.getActions()[0]).toEqual(notificationAction);
+    });
+
+    it('should listen for notification events and fire notification action for success event', () => {
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+          severity: 'success',
+        },
+      };
+
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(document.addEventListener).toHaveBeenCalled();
+      expect(store.getActions().length).toEqual(1);
+      expect(store.getActions()[0]).toEqual(notificationAction);
+    });
+
+    it('should listen for notification events and create toast for error', () => {
+      toastr.error = jest.fn();
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+          severity: 'error',
+        },
+      };
+
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(toastr.error).toHaveBeenCalled();
+      const mockToastr = (toastr.error as jest.Mock).mock;
+      expect(mockToastr.calls[0][0]).toContain('Error');
+      expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
+
+    it('should listen for notification events and create toast for warning', () => {
+      toastr.warning = jest.fn();
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+          severity: 'warning',
+        },
+      };
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(toastr.warning).toHaveBeenCalled();
+      const mockToastr = (toastr.warning as jest.Mock).mock;
+      expect(mockToastr.calls[0][0]).toContain('Warning');
+      expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
   });
 
   it('should listen for events and not fire unrecognised action', () => {
