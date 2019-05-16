@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Routing component renders component with no plugin routes 1`] = `
+<div
+  className="Routing-container-1"
+>
+  <Switch>
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/login"
+    />
+    <Route
+      component={[Function]}
+    />
+  </Switch>
+</div>
+`;
+
+exports[`Routing component renders component with plugins 1`] = `
+<div
+  className="Routing-container-1"
+>
+  <Switch>
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/login"
+    />
+    <Route
+      component={[Function]}
+      key="test section_test link"
+      path="test link"
+    />
+    <Route
+      component={[Function]}
+      key="test section 2_test link 2"
+      path="test link 2"
+    />
+    <Route
+      component={[Function]}
+    />
+  </Switch>
+</div>
+`;
+
+exports[`Routing component renders placeholder for a plugin 1`] = `
+<div
+  id="test_id"
+>
+  test_id
+</div>
+`;

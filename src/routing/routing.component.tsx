@@ -42,10 +42,9 @@ interface RoutingProps {
   drawerOpen: boolean;
 }
 
-/* eslint-disable-next-line react/display-name */
-const PluginPlaceHolder = (id: string): (() => React.ReactElement) => () => (
-  <div id={id}>{id}</div>
-);
+export const PluginPlaceHolder = (id: string): (() => React.ReactElement) =>
+  /* eslint-disable-next-line react/display-name */
+  () => <div id={id}>{id}</div>;
 
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>
