@@ -207,7 +207,49 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
           }
         />
       </LinkListItem>
+      <LinkListItem
+        key="3"
+        to="plugin_link"
+      >
+        <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
+          inset={true}
+          primary="data-plugin-no-displayname"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
+        />
+      </LinkListItem>
     </WithStyles(List)>
   </WithStyles(List)>
 </WithStyles(Drawer)>
+`;
+
+exports[`Main app bar component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
+<WithStyles(ListItem)
+  button={true}
+  component={[Function]}
+  to="plugin_link"
+>
+  <WithStyles(ListItemText)
+    classes={
+      Object {
+        "primary": "NavigationDrawer-menuItem-5",
+      }
+    }
+    inset={true}
+    primary="data-plugin-no-displayname"
+    primaryTypographyProps={
+      Object {
+        "variant": "subtitle1",
+      }
+    }
+  />
+</WithStyles(ListItem)>
 `;
