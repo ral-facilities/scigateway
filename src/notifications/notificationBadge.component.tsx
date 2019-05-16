@@ -88,7 +88,7 @@ const NotificationBadge = (
           <NotificationsIcon />
         </Badge>
       </IconButton>
-      {props.notifications.length ? (
+      {props.notifications && props.notifications.length ? (
         <Menu
           id="notifications-menu"
           anchorEl={getMenuAnchor}
