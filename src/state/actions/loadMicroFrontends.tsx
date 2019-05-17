@@ -3,6 +3,7 @@
 import * as singleSpa from 'single-spa';
 import { Plugin } from '../state.types';
 import * as log from 'loglevel';
+import { NotificationType } from '../daaas.types';
 
 const runScript = async (url: string) => {
   return new Promise((resolve, reject) => {
@@ -42,7 +43,21 @@ async function init(plugins: Plugin[]) {
           log.debug(`Successfully loaded plugin ${p.name} from ${p.src}`);
         })
         .catch(() => {
+          // TODO: record error back on server somewhere
           log.error(`Failed to load plugin ${p.name} from ${p.src}`);
+          // TODO: display more user friendly message?
+          document.dispatchEvent(
+            new CustomEvent('daaas-frontend', {
+              detail: {
+                type: NotificationType,
+                payload: {
+                  message: `Failed to load plugin ${p.name} from ${p.src}. 
+                            Try reloading the page and if the error persists contact the support team`,
+                  severity: 'error',
+                },
+              },
+            })
+          );
         });
       loadingPromises.push(loadingPromise);
     });
