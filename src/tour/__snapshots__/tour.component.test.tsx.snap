@@ -23,25 +23,13 @@ exports[`Tour component renders correctly 1`] = `
   steps={
     Array [
       Object {
-        "content": "title",
+        "content": "Test 1",
         "disableBeacon": true,
-        "target": ".tour-title",
+        "target": ".test-1",
       },
       Object {
-        "content": "user-profile",
-        "target": ".tour-user-profile",
-      },
-      Object {
-        "content": "notifications",
-        "target": ".tour-notifications",
-      },
-      Object {
-        "content": "nav-menu",
-        "target": ".tour-nav-menu",
-      },
-      Object {
-        "content": "contact",
-        "target": ".tour-contact",
+        "content": "Test 2",
+        "target": ".test-2",
       },
     ]
   }

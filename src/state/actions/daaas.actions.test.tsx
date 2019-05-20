@@ -10,12 +10,14 @@ import {
   dismissMenuItem,
   siteLoadingUpdate,
   toggleHelp,
+  addHelpTourSteps,
 } from './daaas.actions';
 import {
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
   DismissNotificationType,
   ToggleHelpType,
+  AddHelpTourStepsType,
 } from '../daaas.types';
 import { initialState } from '../reducers/daaas.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -182,5 +184,15 @@ describe('daaas actions', () => {
   it('toggleHelp only needs a type', () => {
     const action = toggleHelp();
     expect(action.type).toEqual(ToggleHelpType);
+  });
+
+  it('given a steps array addHelpTourSteps returns a AddHelpTourStepsType with payload', () => {
+    const action = addHelpTourSteps([{ target: '.test', content: 'test' }]);
+    expect(action.type).toEqual(AddHelpTourStepsType);
+    expect(action.payload.steps.length).toEqual(1);
+    expect(action.payload.steps[0]).toEqual({
+      target: '.test',
+      content: 'test',
+    });
   });
 });

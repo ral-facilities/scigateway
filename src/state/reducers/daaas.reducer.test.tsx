@@ -6,6 +6,7 @@ import {
   loadingAuthentication,
   dismissMenuItem,
   toggleHelp,
+  addHelpTourSteps,
 } from '../actions/daaas.actions';
 import DaaasReducer, { initialState } from './daaas.reducer';
 import { SignOutType, TokenExpiredType } from '../daaas.types';
@@ -43,6 +44,48 @@ describe('daaas reducer', () => {
 
     updatedState = DaaasReducer(updatedState, toggleHelp());
     expect(updatedState.showHelp).toBeFalsy();
+  });
+
+  it('should add steps to the helpTour state array for addHelpTourSteps message', () => {
+    expect(state.helpSteps.length).toEqual(0);
+
+    const steps = [
+      {
+        target: '.test-1',
+        content: 'test 1',
+      },
+      {
+        target: '.test-2',
+        content: 'test 2',
+      },
+    ];
+
+    let updatedState = DaaasReducer(state, addHelpTourSteps(steps));
+    expect(updatedState.helpSteps.length).toEqual(2);
+    expect(updatedState.helpSteps[0]).toEqual({
+      target: '.test-1',
+      content: 'test 1',
+    });
+    expect(updatedState.helpSteps[1]).toEqual({
+      target: '.test-2',
+      content: 'test 2',
+    });
+
+    updatedState = DaaasReducer(
+      updatedState,
+      addHelpTourSteps([
+        {
+          target: '.test-3',
+          content: 'test 3',
+        },
+      ])
+    );
+
+    expect(updatedState.helpSteps.length).toEqual(3);
+    expect(updatedState.helpSteps[2]).toEqual({
+      target: '.test-3',
+      content: 'test 3',
+    });
   });
 
   it('loading authentication should update loading state', () => {

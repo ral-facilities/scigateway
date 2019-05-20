@@ -38,7 +38,19 @@ describe('Tour component', () => {
     mount = createMount();
 
     state = {
-      daaas: initialState,
+      daaas: {
+        ...initialState,
+        helpSteps: [
+          {
+            target: '.test-1',
+            content: 'Test 1',
+          },
+          {
+            target: '.test-2',
+            content: 'Test 2',
+          },
+        ],
+      },
       router: {
         action: 'POP',
         location: createLocation('/'),
@@ -72,8 +84,8 @@ describe('Tour component', () => {
         <Provider store={testStore}>
           <div>
             <Tour />
-            <div className="tour-title" />
-            <div className="tour-user-profile" />
+            <div className="test-1" />
+            <div className="test-2" />
           </div>
         </Provider>
       </MuiThemeProvider>
@@ -100,8 +112,8 @@ describe('Tour component', () => {
         <Provider store={testStore}>
           <div>
             <Tour />
-            <div className="tour-title" />
-            <div className="tour-user-profile" />
+            <div className="test-1" />
+            <div className="test-2" />
           </div>
         </Provider>
       </MuiThemeProvider>
@@ -130,7 +142,7 @@ describe('Tour component', () => {
         <Provider store={testStore}>
           <div>
             <Tour />
-            <div className="tour-title" />
+            <div className="test-1" />
           </div>
         </Provider>
       </MuiThemeProvider>
@@ -144,27 +156,5 @@ describe('Tour component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleHelp());
-  });
-
-  it('does not have contact button step if showContactButton feature flag is false', () => {
-    state.daaas.showHelp = true;
-    state.daaas.features.showContactButton = false;
-
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <Tour store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
-
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .props().steps
-    ).not.toContain({
-      target: '.tour-contact',
-      content: 'contact',
-    });
   });
 });

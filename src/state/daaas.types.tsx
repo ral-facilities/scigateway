@@ -1,3 +1,5 @@
+import { Step } from 'react-joyride';
+
 export const AuthSuccessType = 'daaas:auth_success';
 export const AuthFailureType = 'daaas:auth_failure';
 export const LoadingAuthType = 'daaas:loading_auth';
@@ -15,6 +17,7 @@ export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
 export const AddNotificationsType = 'daaas:add_notification';
 export const SiteLoadingType = 'daaas:site_loading';
 export const ToggleHelpType = 'daaas:toggle_help';
+export const AddHelpTourStepsType = 'daaas:add_help_tour_steps';
 
 export interface NotificationPayload {
   message: string;
@@ -90,4 +93,8 @@ export interface AuthProviderPayload {
 
 export interface SiteLoadingPayload {
   loading: boolean;
+}
+
+export interface AddHelpTourStepsPayload {
+  steps: Step[];
 }

@@ -21,11 +21,14 @@ import {
   SiteLoadingType,
   SiteLoadingPayload,
   ToggleHelpType,
+  AddHelpTourStepsType,
+  AddHelpTourStepsPayload,
 } from '../daaas.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
+import { Step } from 'react-joyride';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -55,6 +58,15 @@ export const loadFeatureSwitches = (
   type: ConfigureFeatureSwitchesType,
   payload: {
     switches: featureSwitches,
+  },
+});
+
+export const addHelpTourSteps = (
+  steps: Step[]
+): ActionType<AddHelpTourStepsPayload> => ({
+  type: AddHelpTourStepsType,
+  payload: {
+    steps,
   },
 });
 
@@ -111,6 +123,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       if (settings['features']) {
         dispatch(loadFeatureSwitches(settings['features']));
       }
+
+      dispatch(addHelpTourSteps(settings['help-tour-steps']));
 
       const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
         ? '/' + settings['ui-strings']

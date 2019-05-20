@@ -12,8 +12,6 @@ import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
 import { toggleHelp } from '../state/actions/daaas.actions';
 import { Dispatch, Action } from 'redux';
-import { getAppStrings, getString } from '../state/strings';
-import { AppStrings } from '../state/daaas.types';
 
 const handleJoyrideCallback = (
   data: CallBackProps,
@@ -35,7 +33,7 @@ const handleJoyrideCallback = (
 interface TourProps {
   showHelp: boolean;
   showContactButton: boolean;
-  res: AppStrings | undefined;
+  helpSteps: Step[];
 }
 
 interface TourDispatchProps {
@@ -46,33 +44,12 @@ type CombinedTourProps = TourProps & TourDispatchProps & { theme: Theme };
 
 const Tour = (props: CombinedTourProps): React.ReactElement => {
   const [stepIndex, setStepIndex] = useState(0);
-  const steps: Step[] = [
-    {
-      target: '.tour-title',
-      disableBeacon: true,
-      content: getString(props.res, 'title'),
-    },
-    {
-      target: '.tour-user-profile',
-      content: getString(props.res, 'user-profile'),
-    },
-    {
-      target: '.tour-notifications',
-      content: getString(props.res, 'notifications'),
-    },
-    {
-      target: '.tour-nav-menu',
-      content: getString(props.res, 'nav-menu'),
-    },
-    ...(props.showContactButton
-      ? [
-          {
-            target: '.tour-contact',
-            content: getString(props.res, 'contact'),
-          },
-        ]
-      : []),
-  ];
+
+  const steps = props.helpSteps;
+  if (steps[0]) {
+    steps[0] = { ...steps[0], disableBeacon: true };
+  }
+
   return (
     <Joyride
       steps={steps}
@@ -93,8 +70,8 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
 
 const mapStateToProps = (state: StateType): TourProps => ({
   showHelp: state.daaas.showHelp,
+  helpSteps: state.daaas.helpSteps,
   showContactButton: state.daaas.features.showContactButton,
-  res: getAppStrings(state, 'tour'),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({

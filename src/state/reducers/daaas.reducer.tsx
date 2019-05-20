@@ -21,6 +21,8 @@ import {
   DismissNotificationType,
   PluginConfig,
   ToggleHelpType,
+  AddHelpTourStepsPayload,
+  AddHelpTourStepsType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -42,6 +44,7 @@ export const initialState: DaaasState = {
   drawerOpen: false,
   siteLoading: true,
   showHelp: false,
+  helpSteps: [],
   authorisation: authState,
   features: {
     showContactButton: true,
@@ -241,6 +244,16 @@ export function handleToggleHelp(state: DaaasState): DaaasState {
   };
 }
 
+export function handleAddHelpTourSteps(
+  state: DaaasState,
+  payload: AddHelpTourStepsPayload
+): DaaasState {
+  return {
+    ...state,
+    helpSteps: [...state.helpSteps, ...payload.steps],
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -256,6 +269,7 @@ const DaaasReducer = createReducer(initialState, {
   [DismissNotificationType]: handleDismissNotification,
   [SiteLoadingType]: handleSiteLoadingUpdate,
   [ToggleHelpType]: handleToggleHelp,
+  [AddHelpTourStepsType]: handleAddHelpTourSteps,
 });
 
 export default DaaasReducer;
