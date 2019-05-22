@@ -37,12 +37,6 @@ interface MainAppDispatchProps {
   navigateToHome: () => Action;
 }
 
-interface ActionProps {
-  buttonText: string;
-  buttonClassName: string;
-  onClick: () => Action;
-}
-
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
@@ -91,14 +85,6 @@ const styles = (theme: Theme): StyleRules =>
       display: 'none',
     },
   });
-
-export const ActionButton = (props: ActionProps): React.ReactElement => (
-  <Button onClick={props.onClick} className={props.buttonClassName}>
-    <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-      {props.buttonText}
-    </Typography>
-  </Button>
-);
 
 type CombinedMainAppBarProps = MainAppProps &
   MainAppDispatchProps &
