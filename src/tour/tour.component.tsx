@@ -15,7 +15,6 @@ import { Dispatch, Action } from 'redux';
 
 interface TourProps {
   showHelp: boolean;
-  showContactButton: boolean;
   helpSteps: Step[];
   drawerOpen: boolean;
   loggedIn: boolean;
@@ -125,7 +124,6 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
 const mapStateToProps = (state: StateType): TourProps => ({
   showHelp: state.daaas.showHelp,
   helpSteps: state.daaas.helpSteps,
-  showContactButton: state.daaas.features.showContactButton,
   drawerOpen: state.daaas.drawerOpen,
   loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
 });
