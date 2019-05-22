@@ -24,12 +24,5 @@
     "record-description": "Store your results and findings, making them available to others for review and further research.",
     "banner-one": "transforming the use of real time data processing, computer simulation and data analytics...",
     "banner-two": "...to deliver more effective research at our national facilities"
-  },
-  "tour": {
-    "title": "Hello, and welcome to the daaas-frontend! This tour will show you the important features of the app!",
-    "user-profile": "Click here to sign in if you're not logged in, or sign out or manage your account if you are logged in",
-    "notifications": "Click here to see any notifications you have",
-    "nav-menu": "Click here to open the navigation menu",
-    "contact": "Click here to contact the support team with any issues or feedback"
   }
 }
