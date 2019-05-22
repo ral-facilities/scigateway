@@ -2,6 +2,7 @@ import { AnyAction, Dispatch, Middleware } from 'redux';
 import { NotificationType, RegisterRouteType } from '../daaas.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
+import { addHelpTourSteps } from '../actions/daaas.actions';
 
 const microFrontendMessageId = 'daaas-frontend';
 
@@ -31,6 +32,19 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
       switch (pluginMessage.detail.type) {
         case RegisterRouteType:
           dispatch(pluginMessage.detail);
+          if ('helpText' in pluginMessage.detail.payload) {
+            dispatch(
+              addHelpTourSteps([
+                {
+                  target: `#plugin-link-${pluginMessage.detail.payload.link.replace(
+                    /\//g,
+                    '-'
+                  )}`,
+                  content: pluginMessage.detail.payload.helpText,
+                },
+              ])
+            );
+          }
           break;
 
         case NotificationType:

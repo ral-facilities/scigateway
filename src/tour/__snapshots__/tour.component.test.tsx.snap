@@ -29,6 +29,7 @@ exports[`Tour component renders correctly 1`] = `
       },
       Object {
         "content": "Test 2",
+        "disableBeacon": true,
         "target": ".test-2",
       },
     ]
@@ -37,6 +38,7 @@ exports[`Tour component renders correctly 1`] = `
     Object {
       "options": Object {
         "primaryColor": "#C34613",
+        "zIndex": 1500,
       },
     }
   }

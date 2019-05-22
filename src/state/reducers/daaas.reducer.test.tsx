@@ -88,6 +88,33 @@ describe('daaas reducer', () => {
     });
   });
 
+  it('should not add steps when a duplicate target property is found', () => {
+    log.error = jest.fn();
+    state.helpSteps = [];
+
+    const steps = [
+      {
+        target: '.test-1',
+        content: 'test 1',
+      },
+    ];
+
+    let updatedState = DaaasReducer(state, addHelpTourSteps(steps));
+    expect(updatedState.helpSteps.length).toEqual(1);
+    expect(updatedState.helpSteps[0]).toEqual({
+      target: '.test-1',
+      content: 'test 1',
+    });
+
+    updatedState = DaaasReducer(updatedState, addHelpTourSteps(steps));
+
+    expect(updatedState.helpSteps.length).toEqual(1);
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    const call = mockLog.calls[0][0];
+    expect(call).toEqual('Duplicate help step target identified: .test-1.');
+  });
+
   it('loading authentication should update loading state', () => {
     const action = loadingAuthentication();
     expect(state.authorisation.loading).toBeFalsy();
@@ -167,6 +194,7 @@ describe('daaas reducer', () => {
       plugin: 'demo_plugin',
       displayName: 'Route Label',
       order: 10,
+      helpText: 'help',
     };
     const registerRouteAction = 'daaas:api:register_route';
 
@@ -184,6 +212,7 @@ describe('daaas reducer', () => {
           plugin: action.payload.plugin,
           displayName: action.payload.displayName,
           order: action.payload.order,
+          helpText: action.payload.helpText,
         },
       ]);
     });
@@ -209,6 +238,7 @@ describe('daaas reducer', () => {
         plugin: basePayload.plugin,
         displayName: basePayload.displayName,
         order: basePayload.order,
+        helpText: basePayload.helpText,
       });
       expect(updatedState.plugins).toContainEqual({
         section: basePayload.section,
@@ -216,6 +246,7 @@ describe('daaas reducer', () => {
         plugin: basePayload.plugin,
         displayName: basePayload.displayName,
         order: basePayload.order,
+        helpText: basePayload.helpText,
       });
     });
 
@@ -241,6 +272,7 @@ describe('daaas reducer', () => {
         plugin: basePayload.plugin,
         displayName: basePayload.displayName,
         order: basePayload.order,
+        helpText: basePayload.helpText,
       });
 
       expect(log.error).toHaveBeenCalled();

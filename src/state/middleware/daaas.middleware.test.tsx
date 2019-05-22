@@ -2,6 +2,7 @@ import DaaasMiddleware, { listenToPlugins } from './daaas.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
+import { AddHelpTourStepsType } from '../daaas.types';
 
 describe('daaas middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
@@ -71,6 +72,39 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
+  });
+
+  it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {
+    listenToPlugins(store.dispatch);
+
+    let registerRouteActionWithHelp = {
+      ...registerRouteAction,
+      payload: {
+        ...registerRouteAction.payload,
+        helpText: 'Help text test',
+      },
+    };
+
+    handler(
+      new CustomEvent('test', {
+        detail: registerRouteActionWithHelp,
+      })
+    );
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(2);
+    expect(store.getActions()[0]).toEqual(registerRouteActionWithHelp);
+    expect(store.getActions()[1]).toEqual({
+      type: AddHelpTourStepsType,
+      payload: {
+        steps: [
+          {
+            target: '#plugin-link--plugin1-analysis2',
+            content: 'Help text test',
+          },
+        ],
+      },
+    });
   });
 
   it('should listen for events and not fire unrecognised action', () => {
