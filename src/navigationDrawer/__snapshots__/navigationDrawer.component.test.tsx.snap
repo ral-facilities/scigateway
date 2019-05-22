@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Main app bar component Navigation drawer renders correctly when closed 1`] = `
+exports[`Navigation drawer component Navigation drawer renders correctly when closed 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -26,7 +26,7 @@ exports[`Main app bar component Navigation drawer renders correctly when closed 
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component Navigation drawer renders correctly when open 1`] = `
+exports[`Navigation drawer component Navigation drawer renders correctly when open 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -52,7 +52,7 @@ exports[`Main app bar component Navigation drawer renders correctly when open 1`
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
+exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -231,7 +231,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
+exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
 <WithStyles(ListItem)
   button={true}
   component={[Function]}
