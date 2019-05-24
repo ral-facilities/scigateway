@@ -44,7 +44,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
         case NotificationType:
           dispatch(pluginMessage.detail);
 
-          if (pluginMessage.detail.payload.severity != undefined) {
+          if (pluginMessage.detail.payload.severity !== undefined) {
             const { severity, message } = pluginMessage.detail.payload;
             if (severity === 'error') {
               toastr.error('Error', message, toastrMessageOptions);

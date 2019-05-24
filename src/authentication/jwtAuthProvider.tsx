@@ -2,10 +2,6 @@ import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
 
 export default class JWTAuthProvider extends BaseAuthProvider {
-  public constructor() {
-    super();
-  }
-
   public logIn(username: string, password: string): Promise<void> {
     if (this.isLoggedIn()) {
       return Promise.resolve();
