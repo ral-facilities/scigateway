@@ -28,7 +28,6 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
     >
       We're sorry, the page you requested could not be found. Please check the page address for typos. Click 
       <Link
-        replace={false}
         to="/"
       >
         here
