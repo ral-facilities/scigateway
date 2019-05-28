@@ -23,3 +23,26 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+function login(
+  username: string,
+  password: string
+): Cypress.Chainable<Cypress.Response> {
+  return cy
+    .request('POST', '/api/jwt/authenticate', {
+      username: username,
+      password: password,
+    })
+    .then(response => {
+      window.localStorage.setItem('daaas:token', response.body.token);
+    });
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace Cypress {
+  interface Chainable<Subject = any> {
+    login: typeof login;
+  }
+}
+
+Cypress.Commands.add('login', login);
