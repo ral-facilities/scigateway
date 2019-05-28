@@ -13,7 +13,7 @@ import {
   FeatureSwitchesPayload,
   ConfigureFeatureSwitchesType,
   LoadingAuthType,
-  TokenExpiredType,
+  InvalidateTokenType,
   AuthProviderPayload,
   LoadAuthProviderType,
   SiteLoadingPayload,
@@ -30,7 +30,7 @@ import GithubAuthProvider from '../../authentication/githubAuthProvider';
 
 export const authState: AuthState = {
   failedToLogin: false,
-  signedOutDueToTokenExpiry: false,
+  signedOutDueToTokenInvalidation: false,
   loading: false,
   provider: new LoadingAuthProvider(),
 };
@@ -116,7 +116,7 @@ export function handleSuccessfulLogin(state: DaaasState): DaaasState {
     authorisation: {
       ...state.authorisation,
       failedToLogin: false,
-      signedOutDueToTokenExpiry: false,
+      signedOutDueToTokenInvalidation: false,
       loading: false,
     },
   };
@@ -127,7 +127,7 @@ const resetAuth = (authorisation: AuthState): AuthState => {
   return {
     ...authorisation,
     failedToLogin: false,
-    signedOutDueToTokenExpiry: false,
+    signedOutDueToTokenInvalidation: false,
     loading: false,
   };
 };
@@ -162,7 +162,7 @@ export function handleTokenExpiration(state: DaaasState): DaaasState {
     drawerOpen: false,
     authorisation: {
       ...resetAuth(state.authorisation),
-      signedOutDueToTokenExpiry: true,
+      signedOutDueToTokenInvalidation: true,
     },
   };
 }
@@ -242,7 +242,7 @@ const DaaasReducer = createReducer(initialState, {
   [LoadAuthProviderType]: handleAuthProviderUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
-  [TokenExpiredType]: handleTokenExpiration,
+  [InvalidateTokenType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [DismissNotificationType]: handleDismissNotification,
   [SiteLoadingType]: handleSiteLoadingUpdate,

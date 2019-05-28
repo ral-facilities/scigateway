@@ -57,7 +57,7 @@ export interface AuthProvider {
 
 export interface AuthState {
   failedToLogin: boolean;
-  signedOutDueToTokenExpiry: boolean;
+  signedOutDueToTokenInvalidation: boolean;
   loading: boolean;
   provider: AuthProvider;
 }
