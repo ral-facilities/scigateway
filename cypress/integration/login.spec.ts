@@ -22,29 +22,26 @@ describe('Login', () => {
     cy.contains('Username*')
       .parent()
       .find('input')
-      .type('username');
+      .as('usernameInput');
+
+    cy.get('@usernameInput').type('username');
 
     cy.contains('Username*')
       .parent()
       .parent()
       .contains('button', 'Sign in')
-      .should('be.disabled');
+      .as('signInButton');
 
-    cy.contains('Username*')
-      .parent()
-      .find('input')
-      .clear();
+    cy.get('@signInButton').should('be.disabled');
+
+    cy.get('@usernameInput').clear();
 
     cy.contains('Password*')
       .parent()
       .find('input')
       .type('password');
 
-    cy.contains('Username*')
-      .parent()
-      .parent()
-      .contains('button', 'Sign in')
-      .should('be.disabled');
+    cy.get('@signInButton').should('be.disabled');
   });
 
   it('should not login given incorrect credentials', () => {
