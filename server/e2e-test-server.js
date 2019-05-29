@@ -6,12 +6,10 @@ var axios = require('axios');
 var app = express();
 
 app.get('/settings.json', function(req, res) {
-  console.log('getting settings');
   res.sendFile(path.join(__dirname, 'e2e-settings.json'));
 });
 
 app.get('/plugins/*', function(req, res) {
-  console.log(req.originalUrl.replace('/plugins/', ''));
   res.sendFile(path.join(__dirname, req.originalUrl.replace('/plugins/', '')));
 });
 
