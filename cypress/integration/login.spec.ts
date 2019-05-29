@@ -98,4 +98,22 @@ describe('Login', () => {
       .first()
       .should('not.contain', 'contact');
   });
+
+  it('should logout successfully', () => {
+    cy.login('username', 'password');
+    cy.visit('/');
+    cy.title().should('equal', 'DAaaS');
+
+    cy.get('header button')
+      .last()
+      .click();
+
+    cy.contains('Sign out').click();
+
+    cy.contains('Sign in').should('be.visible');
+
+    cy.window().then(
+      window => expect(window.localStorage.getItem('daaas:token')).be.null
+    );
+  });
 });
