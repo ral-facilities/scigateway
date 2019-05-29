@@ -1,6 +1,4 @@
 describe('DAaaS frontend', () => {
-  beforeEach(() => {});
-
   it('should load correctly', () => {
     cy.visit('/');
     cy.title().should('equal', 'DAaaS');
