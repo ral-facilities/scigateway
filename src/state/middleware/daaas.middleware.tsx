@@ -2,6 +2,16 @@ import { AnyAction, Dispatch, Middleware } from 'redux';
 import { NotificationType, RegisterRouteType } from '../daaas.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
+import ReactGA from 'react-ga';
+
+const trackPage = (page: string): void => {
+  ReactGA.set({
+    page,
+  });
+  ReactGA.pageview(page);
+};
+
+let currentPage = '';
 
 const microFrontendMessageId = 'daaas-frontend';
 
@@ -69,6 +79,17 @@ const DaaasMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
 ): AnyAction => {
   if (action.payload && action.payload.broadcast) {
     broadcastToPlugins(action);
+  }
+
+  if (action.type === '@@router/LOCATION_CHANGE') {
+    const nextPage = `${action.payload.location.pathname}${
+      action.payload.location.search
+    }`;
+
+    if (currentPage !== nextPage) {
+      currentPage = nextPage;
+      trackPage(nextPage);
+    }
   }
 
   return next(action);

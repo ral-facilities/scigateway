@@ -25,6 +25,7 @@ import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
+import ReactGA from 'react-ga';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -87,6 +88,11 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     await axios.get(`/settings.json`).then(res => {
       const settings = res.data;
+
+      if (settings['ga-tracking-id']) {
+        ReactGA.initialize(settings['ga-tracking-id']);
+        ReactGA.set({ anonymizeIp: true });
+      }
 
       dispatch(loadAuthProvider(settings['auth-provider']));
 
