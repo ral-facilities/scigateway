@@ -67,9 +67,9 @@ describe('Login', () => {
 
   it('should login given correct credentials', () => {
     cy.visit('/login');
-    cy.get('button')
-      .first()
-      .should('contain', 'contact');
+    cy.get('button[aria-label="Open navigation menu"]').should(
+      'not.be.visible'
+    );
 
     cy.contains('Username*')
       .parent()
@@ -91,9 +91,7 @@ describe('Login', () => {
     cy.window().then(
       window => expect(window.localStorage.getItem('daaas:token')).not.be.null
     );
-    cy.get('button')
-      .first()
-      .should('not.contain', 'contact');
+    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
   });
 
   it('should logout successfully', () => {
@@ -101,9 +99,7 @@ describe('Login', () => {
     cy.visit('/');
     cy.title().should('equal', 'DAaaS');
 
-    cy.get('header button')
-      .last()
-      .click();
+    cy.get('[aria-label="Open user menu"]').click();
 
     cy.contains('Sign out').click();
 

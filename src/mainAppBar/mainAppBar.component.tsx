@@ -121,6 +121,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
             )}
             color="inherit"
             onClick={props.toggleDrawer}
+            aria-label="Open navigation menu"
           >
             <MenuIcon />
           </IconButton>
