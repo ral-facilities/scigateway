@@ -22,7 +22,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
     return Axios.post('/api/github/authenticate', { code: params.code })
       .then(res => {
         ReactGA.event({
-          category: 'login',
+          category: 'Login',
           action: 'Sucessfully logged in via Github',
         });
         this.storeToken(res.data.token);
@@ -31,7 +31,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       })
       .catch(err => {
         ReactGA.event({
-          category: 'login',
+          category: 'Login',
           action: 'Failed to log in via Github',
         });
         this.handleAuthError(err);

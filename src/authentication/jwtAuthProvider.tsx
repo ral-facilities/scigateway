@@ -14,7 +14,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
     })
       .then(res => {
         ReactGA.event({
-          category: 'login',
+          category: 'Login',
           action: 'Sucessfully logged in via JWT',
         });
         this.storeToken(res.data.token);
@@ -23,7 +23,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       })
       .catch(err => {
         ReactGA.event({
-          category: 'login',
+          category: 'Login',
           action: 'Failed to log in via JWT',
         });
         this.handleAuthError(err);

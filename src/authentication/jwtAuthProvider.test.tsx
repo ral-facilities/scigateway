@@ -1,5 +1,6 @@
 import mockAxios from 'axios';
 import JWTAuthProvider from './jwtAuthProvider';
+import ReactGA from 'react-ga';
 
 describe('jwt auth provider', () => {
   let jwtAuthProvider: JWTAuthProvider;
@@ -13,6 +14,11 @@ describe('jwt auth provider', () => {
     window.localStorage.__proto__.setItem = jest.fn();
 
     jwtAuthProvider = new JWTAuthProvider();
+    ReactGA.initialize('test id', { testMode: true, titleCase: false });
+  });
+
+  afterEach(() => {
+    ReactGA.testModeAPI.resetCalls();
   });
 
   it('should load the token when built', () => {
@@ -45,6 +51,13 @@ describe('jwt auth provider', () => {
 
     expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
     expect(jwtAuthProvider.user.username).toBe('user');
+
+    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
+    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
+      eventAction: 'Sucessfully logged in via JWT',
+      eventCategory: 'Login',
+      hitType: 'event',
+    });
   });
 
   it('should log the user out for an invalid login attempt', async () => {
@@ -63,6 +76,13 @@ describe('jwt auth provider', () => {
 
     expect(localStorage.removeItem).toBeCalledWith('daaas:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+
+    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
+    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
+      eventAction: 'Failed to log in via JWT',
+      eventCategory: 'Login',
+      hitType: 'event',
+    });
   });
 
   it('should call api to verify token', async () => {
