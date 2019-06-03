@@ -27,6 +27,7 @@ export interface DaaasState {
   authorisation: AuthState;
   res?: ApplicationStrings;
   features: FeatureSwitches;
+  analytics?: AnalyticsState;
 }
 
 export interface StateType {
@@ -60,4 +61,9 @@ export interface AuthState {
   signedOutDueToTokenExpiry: boolean;
   loading: boolean;
   provider: AuthProvider;
+}
+
+export interface AnalyticsState {
+  id: string;
+  initialised: boolean;
 }

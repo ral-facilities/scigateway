@@ -20,6 +20,9 @@ import {
   SiteLoadingType,
   DismissNotificationType,
   PluginConfig,
+  ConfigureAnalyticsType,
+  ConfigureAnalyticsPayload,
+  InitialiseAnalyticsType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -232,6 +235,37 @@ export function handleSiteLoadingUpdate(
   };
 }
 
+export function handleConfigureAnalytics(
+  state: DaaasState,
+  payload: ConfigureAnalyticsPayload
+): DaaasState {
+  return {
+    ...state,
+    analytics: {
+      id: payload.id,
+      initialised: false,
+    },
+  };
+}
+
+export function handleInitialiseAnalytics(state: DaaasState): DaaasState {
+  if (state.analytics) {
+    return {
+      ...state,
+      analytics: {
+        id: state.analytics.id,
+        initialised: true,
+      },
+    };
+  } else {
+    log.error(
+      `Attempted to initialise analytics without analytics configuration - 
+      configureAnalytics needs to be performed before initialising`
+    );
+    return state;
+  }
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -246,6 +280,8 @@ const DaaasReducer = createReducer(initialState, {
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [DismissNotificationType]: handleDismissNotification,
   [SiteLoadingType]: handleSiteLoadingUpdate,
+  [ConfigureAnalyticsType]: handleConfigureAnalytics,
+  [InitialiseAnalyticsType]: handleInitialiseAnalytics,
 });
 
 export default DaaasReducer;

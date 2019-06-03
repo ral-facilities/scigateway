@@ -20,12 +20,14 @@ import {
   LoadAuthProviderType,
   SiteLoadingType,
   SiteLoadingPayload,
+  ConfigureAnalyticsPayload,
+  ConfigureAnalyticsType,
+  InitialiseAnalyticsType,
 } from '../daaas.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
-import ReactGA from 'react-ga';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -84,14 +86,26 @@ export const siteLoadingUpdate = (
   },
 });
 
+export const configureAnalytics = (
+  id: string
+): ActionType<ConfigureAnalyticsPayload> => ({
+  type: ConfigureAnalyticsType,
+  payload: {
+    id,
+  },
+});
+
+export const initialiseAnalytics = (): Action => ({
+  type: InitialiseAnalyticsType,
+});
+
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     await axios.get(`/settings.json`).then(res => {
       const settings = res.data;
 
       if (settings['ga-tracking-id']) {
-        ReactGA.initialize(settings['ga-tracking-id']);
-        ReactGA.set({ anonymizeIp: true });
+        dispatch(configureAnalytics(settings['ga-tracking-id']));
       }
 
       dispatch(loadAuthProvider(settings['auth-provider']));

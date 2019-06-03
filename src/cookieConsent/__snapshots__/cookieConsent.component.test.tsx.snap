@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cookie consent component should render correctly 1`] = `
+<WithStyles(Snackbar)
+  ContentProps={
+    Object {
+      "className": "CookieConsent-root-1",
+    }
+  }
+  action={
+    Array [
+      <WithStyles(Button)
+        className="CookieConsent-button-2"
+        onClick={[Function]}
+        size="small"
+        variant="outlined"
+      >
+        Decline
+      </WithStyles(Button)>,
+      <WithStyles(Button)
+        className="CookieConsent-button-2"
+        color="primary"
+        onClick={[Function]}
+        size="small"
+        variant="contained"
+      >
+        Accept
+      </WithStyles(Button)>,
+    ]
+  }
+  anchorOrigin={
+    Object {
+      "horizontal": "left",
+      "vertical": "bottom",
+    }
+  }
+  message={
+    <span>
+      Cookie message
+    </span>
+  }
+  open={true}
+/>
+`;

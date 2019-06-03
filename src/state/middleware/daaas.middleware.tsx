@@ -1,8 +1,9 @@
-import { AnyAction, Dispatch, Middleware } from 'redux';
+import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { NotificationType, RegisterRouteType } from '../daaas.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import ReactGA from 'react-ga';
+import { StateType } from '../state.types';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -73,15 +74,19 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
   });
 };
 
-// this would normally be store => next => action but we don't need store
-const DaaasMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
-  action: AnyAction
-): AnyAction => {
+const DaaasMiddleware: Middleware = ((
+  store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
+) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
+  const state = store.getState();
   if (action.payload && action.payload.broadcast) {
     broadcastToPlugins(action);
   }
 
-  if (action.type === '@@router/LOCATION_CHANGE') {
+  if (
+    action.type === '@@router/LOCATION_CHANGE' &&
+    state.daaas.analytics &&
+    state.daaas.analytics.initialised
+  ) {
     const nextPage = `${action.payload.location.pathname}${
       action.payload.location.search
     }`;

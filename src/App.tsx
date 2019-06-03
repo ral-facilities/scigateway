@@ -19,6 +19,7 @@ import { StateType } from './state/state.types';
 import './index.css';
 import { buildTheme } from './theming';
 import Preloader from './preloader/preloader.component';
+import CookieConsent from './cookieConsent/cookieConsent.component';
 import ReduxToastr from 'react-redux-toastr';
 
 const history = createBrowserHistory();
@@ -55,6 +56,7 @@ const pageContent = (): React.ReactNode => (
     <Preloader />
     <MainAppBar />
     <NavigationDrawer />
+    <CookieConsent />
     <Routing />
   </React.Fragment>
 );

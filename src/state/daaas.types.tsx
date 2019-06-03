@@ -14,6 +14,8 @@ export const DismissNotificationType = 'daaas:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
 export const AddNotificationsType = 'daaas:add_notification';
 export const SiteLoadingType = 'daaas:site_loading';
+export const ConfigureAnalyticsType = 'daaas:configure_analytics';
+export const InitialiseAnalyticsType = 'daaas:initialise_analytics';
 
 export interface NotificationPayload {
   message: string;
@@ -89,4 +91,8 @@ export interface AuthProviderPayload {
 
 export interface SiteLoadingPayload {
   loading: boolean;
+}
+
+export interface ConfigureAnalyticsPayload {
+  id: string;
 }

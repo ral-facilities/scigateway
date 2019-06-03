@@ -9,11 +9,15 @@ import {
   configureSite,
   dismissMenuItem,
   siteLoadingUpdate,
+  configureAnalytics,
+  initialiseAnalytics,
 } from './daaas.actions';
 import {
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
   DismissNotificationType,
+  ConfigureAnalyticsType,
+  InitialiseAnalyticsType,
 } from '../daaas.types';
 import { initialState } from '../reducers/daaas.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -175,5 +179,16 @@ describe('daaas actions', () => {
     const action = dismissMenuItem(0);
     expect(action.type).toEqual(DismissNotificationType);
     expect(action.payload).toEqual({ index: 0 });
+  });
+
+  it('given an id configureAnalytics returns a ConfigureAnalytics type with payload', () => {
+    const action = configureAnalytics('test id');
+    expect(action.type).toEqual(ConfigureAnalyticsType);
+    expect(action.payload).toEqual({ id: 'test id' });
+  });
+
+  it('initialiseAnalytics returns an InitialiseAnalyticsType', () => {
+    const action = initialiseAnalytics();
+    expect(action.type).toEqual(InitialiseAnalyticsType);
   });
 });
