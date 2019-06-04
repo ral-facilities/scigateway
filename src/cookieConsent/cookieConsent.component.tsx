@@ -16,7 +16,7 @@ import { Action } from 'redux';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { getAppStrings } from '../state/strings';
+import { getAppStrings, getString } from '../state/strings';
 import { AppStrings } from '../state/daaas.types';
 
 const styles = (theme: Theme): StyleRules =>
@@ -95,7 +95,7 @@ const CookieConsent = (
       }}
       ContentProps={{ className: props.classes.root }}
       open={open}
-      message={<div>{props.res.text}</div>}
+      message={<div>{getString(props.res, 'text')}</div>}
       action={[
         <Button
           key="decline"
@@ -104,7 +104,7 @@ const CookieConsent = (
           size="small"
           onClick={handleDecline}
         >
-          Decline
+          {getString(props.res, 'decline-button')}
         </Button>,
         <Button
           key="accept"
@@ -114,7 +114,7 @@ const CookieConsent = (
           size="small"
           onClick={handleAccept}
         >
-          Accept
+          {getString(props.res, 'accept-button')}
         </Button>,
       ]}
     />

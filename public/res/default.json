@@ -26,6 +26,8 @@
     "banner-two": "...to deliver more effective research at our national facilities"
   },
   "cookie-consent": {
-    "text": "Example cookie consent message: http://www.aboutcookies.org.uk/"
+    "text": "Example cookie consent message: http://www.aboutcookies.org.uk/",
+    "accept-button": "Accept",
+    "decline-button": "Decline"
   }
 }
