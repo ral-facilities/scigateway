@@ -24,5 +24,8 @@
     "record-description": "Store your results and findings, making them available to others for review and further research.",
     "banner-one": "transforming the use of real time data processing, computer simulation and data analytics...",
     "banner-two": "...to deliver more effective research at our national facilities"
+  },
+  "cookie-consent": {
+    "text": "Example cookie consent message: http://www.aboutcookies.org.uk/"
   }
 }

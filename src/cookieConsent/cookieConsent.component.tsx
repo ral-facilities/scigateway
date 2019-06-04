@@ -16,6 +16,8 @@ import { Action } from 'redux';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { getAppStrings } from '../state/strings';
+import { AppStrings } from '../state/daaas.types';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -28,18 +30,26 @@ const styles = (theme: Theme): StyleRules =>
     },
   });
 
-interface CookieConsentProps {
+interface CookieConsentStateProps {
   analytics?: AnalyticsState;
+  res: AppStrings | undefined;
 }
 
 interface CookieConsentDispatchProps {
   initialiseAnalytics: () => Action;
 }
 
+interface CookieConsentProps {
+  daysCookieValidFor?: number;
+}
+
+type CombinedCookieConsentProps = CookieConsentProps &
+  CookieConsentStateProps &
+  CookieConsentDispatchProps &
+  WithStyles<typeof styles>;
+
 const CookieConsent = (
-  props: CookieConsentProps &
-    CookieConsentDispatchProps &
-    WithStyles<typeof styles>
+  props: CombinedCookieConsentProps
 ): React.ReactElement => {
   const [open, setOpen] = React.useState(true);
 
@@ -62,14 +72,18 @@ const CookieConsent = (
   const handleDecline = (
     event: React.SyntheticEvent | React.MouseEvent
   ): void => {
-    Cookies.set('cookie-consent', 'false', { expires: 1 / 1440 });
+    Cookies.set('cookie-consent', 'false', {
+      expires: props.daysCookieValidFor,
+    });
     setOpen(false);
   };
 
   const handleAccept = (
     event: React.SyntheticEvent | React.MouseEvent
   ): void => {
-    Cookies.set('cookie-consent', 'true', { expires: 1 / 1440 });
+    Cookies.set('cookie-consent', 'true', {
+      expires: props.daysCookieValidFor,
+    });
     setOpen(false);
   };
 
@@ -81,7 +95,7 @@ const CookieConsent = (
       }}
       ContentProps={{ className: props.classes.root }}
       open={open}
-      message={<span>Cookie message</span>}
+      message={<div>{props.res.text}</div>}
       action={[
         <Button
           key="decline"
@@ -107,8 +121,11 @@ const CookieConsent = (
   );
 };
 
-const mapStateToProps = (state: StateType): CookieConsentProps => ({
+CookieConsent.defaultProps = { daysCookieValidFor: 365 };
+
+const mapStateToProps = (state: StateType): CookieConsentStateProps => ({
   analytics: state.daaas.analytics,
+  res: getAppStrings(state, 'cookie-consent'),
 });
 
 const mapDispatchToProps = (
