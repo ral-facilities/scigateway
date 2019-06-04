@@ -13,4 +13,7 @@ export const storybookResourceStrings: ApplicationStrings = {
     'login-error-msg': 'Failed to log in. Invalid username or password.',
     'login-redirect-error-msg': 'Failed to log in. Re-direct token is invalid.',
   },
+  'cookie-consent': {
+    text: 'Example cookie consent message',
+  },
 };
