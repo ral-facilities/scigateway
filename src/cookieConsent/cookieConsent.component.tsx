@@ -18,11 +18,12 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { getAppStrings, getString } from '../state/strings';
 import { AppStrings } from '../state/daaas.types';
+import { push } from 'connected-react-router';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      backgroundColor: (theme as UKRITheme).ukri.purple,
+      backgroundColor: (theme as UKRITheme).ukri.green,
     },
     button: {
       color: theme.palette.primary.contrastText,
@@ -33,10 +34,13 @@ const styles = (theme: Theme): StyleRules =>
 interface CookieConsentStateProps {
   analytics?: AnalyticsState;
   res: AppStrings | undefined;
+  location: string;
+  loading: boolean;
 }
 
 interface CookieConsentDispatchProps {
   initialiseAnalytics: () => Action;
+  navigateToCookies: () => Action;
 }
 
 interface CookieConsentProps {
@@ -51,39 +55,47 @@ type CombinedCookieConsentProps = CookieConsentProps &
 const CookieConsent = (
   props: CombinedCookieConsentProps
 ): React.ReactElement => {
-  const [open, setOpen] = React.useState(true);
-
-  if (open && Cookies.get('cookie-consent')) {
-    setOpen(false);
-  }
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
+    const consentCookie = Cookies.getJSON('cookie-consent');
     if (
       props.analytics &&
       !props.analytics.initialised &&
-      Cookies.get('cookie-consent') === 'true'
+      consentCookie &&
+      consentCookie.analytics
     ) {
-      ReactGA.initialize(props.analytics.id, { titleCase: false });
+      ReactGA.initialize(props.analytics.id, {
+        titleCase: false,
+        gaOptions: {
+          cookieExpires: 60 * 60 * 24 * 365,
+        },
+      });
       ReactGA.set({ anonymizeIp: true });
       props.initialiseAnalytics();
     }
-  });
 
-  const handleDecline = (
-    event: React.SyntheticEvent | React.MouseEvent
-  ): void => {
-    Cookies.set('cookie-consent', 'false', {
-      expires: props.daysCookieValidFor,
-    });
-    setOpen(false);
-  };
+    if (
+      props.loading ||
+      Cookies.getJSON('cookie-consent') ||
+      props.location === '/cookies'
+    ) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [props]);
 
   const handleAccept = (
     event: React.SyntheticEvent | React.MouseEvent
   ): void => {
-    Cookies.set('cookie-consent', 'true', {
-      expires: props.daysCookieValidFor,
-    });
+    Cookies.set(
+      'cookie-consent',
+      { analytics: true },
+      {
+        expires: props.daysCookieValidFor,
+      }
+    );
     setOpen(false);
   };
 
@@ -102,9 +114,9 @@ const CookieConsent = (
           variant="outlined"
           className={props.classes.button}
           size="small"
-          onClick={handleDecline}
+          onClick={props.navigateToCookies}
         >
-          {getString(props.res, 'decline-button')}
+          {getString(props.res, 'manage-preferences-button')}
         </Button>,
         <Button
           key="accept"
@@ -126,12 +138,15 @@ CookieConsent.defaultProps = { daysCookieValidFor: 365 };
 const mapStateToProps = (state: StateType): CookieConsentStateProps => ({
   analytics: state.daaas.analytics,
   res: getAppStrings(state, 'cookie-consent'),
+  location: state.router.location.pathname,
+  loading: state.daaas.siteLoading,
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch
 ): CookieConsentDispatchProps => ({
   initialiseAnalytics: () => dispatch(initialiseAnalytics()),
+  navigateToCookies: () => dispatch(push('/cookies')),
 });
 
 export const CookieConsentWithStyles = withStyles(styles)(CookieConsent);

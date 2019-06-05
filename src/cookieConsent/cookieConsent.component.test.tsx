@@ -8,8 +8,10 @@ import { initialiseAnalytics } from '../state/actions/daaas.actions';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core';
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
+import { createLocation } from 'history';
+import { push } from 'connected-react-router';
 
 describe('Cookie consent component', () => {
   let shallow;
@@ -22,7 +24,17 @@ describe('Cookie consent component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ daaas: initialState }));
+    state = JSON.parse(
+      JSON.stringify({
+        daaas: initialState,
+        router: { location: createLocation('/') },
+      })
+    );
+    state.daaas.siteLoading = false;
+    state.daaas.analytics = {
+      id: 'test id',
+      initialised: false,
+    };
   });
 
   afterEach(() => {
@@ -45,8 +57,7 @@ describe('Cookie consent component', () => {
     ).toMatchSnapshot();
   });
 
-  it('should set cookie to false upon user decline', () => {
-    Cookie.set = jest.fn();
+  it('should navigate to cookie page on user clicking manage preferences', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
@@ -61,15 +72,12 @@ describe('Cookie consent component', () => {
       .first()
       .simulate('click');
 
-    expect(Cookie.set).toHaveBeenCalled();
-    const mockCookie = (Cookie.set as jest.Mock).mock;
-    const callArguments = mockCookie.calls[0];
-    expect(callArguments[0]).toEqual('cookie-consent');
-    expect(callArguments[1]).toEqual('false');
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/cookies'));
   });
 
   it('should set cookie to true upon user accept', () => {
-    Cookie.set = jest.fn();
+    Cookies.set = jest.fn();
     const testStore = mockStore(state);
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
@@ -84,42 +92,19 @@ describe('Cookie consent component', () => {
       .last()
       .simulate('click');
 
-    expect(Cookie.set).toHaveBeenCalled();
-    const mockCookie = (Cookie.set as jest.Mock).mock;
-    const callArguments = mockCookie.calls[0];
+    expect(Cookies.set).toHaveBeenCalled();
+    const mockCookies = (Cookies.set as jest.Mock).mock;
+    const callArguments = mockCookies.calls[0];
     expect(callArguments[0]).toEqual('cookie-consent');
-    expect(callArguments[1]).toEqual('true');
-  });
-
-  it('should set open to false if cookie-consent cookie is set', () => {
-    Cookie.get = jest
-      .fn()
-      .mockImplementation(name => (name === 'cookie-consent' ? 'true' : null));
-
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CookieConsent store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
-
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .prop('open')
-    ).toBeFalsy();
+    expect(callArguments[1]).toEqual({ analytics: true });
   });
 
   it("initalises analytics if cookie consent is true but analytics hasn't yet been initialised", () => {
-    state.daaas.analytics = {
-      id: 'test id',
-      initialised: false,
-    };
-
-    Cookie.get = jest
+    Cookies.getJSON = jest
       .fn()
-      .mockImplementation(name => (name === 'cookie-consent' ? 'true' : null));
+      .mockImplementationOnce(name =>
+        name === 'cookie-consent' ? { analytics: true } : null
+      );
 
     ReactGA.initialize = jest.fn();
     ReactGA.set = jest.fn();
@@ -139,11 +124,72 @@ describe('Cookie consent component', () => {
     expect(ReactGA.initialize).toHaveBeenCalled();
     expect(ReactGA.initialize).toHaveBeenCalledWith('test id', {
       titleCase: false,
+      gaOptions: {
+        cookieExpires: 60 * 60 * 24 * 365,
+      },
     });
 
     expect(ReactGA.set).toHaveBeenCalled();
     expect(ReactGA.set).toHaveBeenCalledWith({
       anonymizeIp: true,
     });
+  });
+
+  it('should set open to false if cookie-consent cookie is set', () => {
+    Cookies.get = jest
+      .fn()
+      .mockImplementationOnce(name =>
+        name === 'cookie-consent' ? { analytics: true } : null
+      );
+
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <CookieConsent store={mockStore(state)} />
+      </MuiThemeProvider>
+    );
+
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+        .prop('open')
+    ).toBeFalsy();
+  });
+
+  it('should set open to false if site is loading', () => {
+    state.daaas.siteLoading = false;
+
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <CookieConsent store={mockStore(state)} />
+      </MuiThemeProvider>
+    );
+
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+        .prop('open')
+    ).toBeFalsy();
+  });
+
+  it('should set open to false if on /cookies page', () => {
+    state.router.location = createLocation('/cookies');
+
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <CookieConsent store={mockStore(state)} />
+      </MuiThemeProvider>
+    );
+
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+        .prop('open')
+    ).toBeFalsy();
   });
 });
