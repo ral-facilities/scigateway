@@ -66,7 +66,7 @@ const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
     'cookie-consent',
     { analytics },
     {
-      expires: 1 / 1440,
+      expires: 365,
     }
   );
   window.location.reload();
