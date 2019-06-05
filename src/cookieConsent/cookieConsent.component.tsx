@@ -19,6 +19,7 @@ import { Dispatch } from 'redux';
 import { getAppStrings, getString } from '../state/strings';
 import { AppStrings } from '../state/daaas.types';
 import { push } from 'connected-react-router';
+import { Location } from 'history';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -34,7 +35,7 @@ const styles = (theme: Theme): StyleRules =>
 interface CookieConsentStateProps {
   analytics?: AnalyticsState;
   res: AppStrings | undefined;
-  location: string;
+  location: Location;
   loading: boolean;
 }
 
@@ -63,17 +64,23 @@ const CookieConsent = (
       ReactGA.initialize(props.analytics.id, {
         titleCase: false,
         gaOptions: {
-          cookieExpires: 60 * 60 * 24 * 365,
+          cookieExpires: 60 * 60 * 24 * 365, // one year
         },
       });
-      ReactGA.set({ anonymizeIp: true });
+      const page = `${props.location.pathname}${props.location.search}`;
+      ReactGA.set({
+        anonymizeIp: true,
+        page,
+      });
+      // need to send initial pageview
+      ReactGA.pageview(page);
       props.initialiseAnalytics();
     }
 
     if (
       props.loading ||
       Cookies.getJSON('cookie-consent') ||
-      props.location === '/cookies'
+      props.location.pathname === '/cookies'
     ) {
       setOpen(false);
     } else {
@@ -131,7 +138,7 @@ const CookieConsent = (
 const mapStateToProps = (state: StateType): CookieConsentStateProps => ({
   analytics: state.daaas.analytics,
   res: getAppStrings(state, 'cookie-consent'),
-  location: state.router.location.pathname,
+  location: state.router.location,
   loading: state.daaas.siteLoading,
 });
 

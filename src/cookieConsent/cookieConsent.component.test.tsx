@@ -108,6 +108,7 @@ describe('Cookie consent component', () => {
 
     ReactGA.initialize = jest.fn();
     ReactGA.set = jest.fn();
+    ReactGA.pageview = jest.fn();
 
     const testStore = mockStore(state);
     mount(
@@ -132,7 +133,11 @@ describe('Cookie consent component', () => {
     expect(ReactGA.set).toHaveBeenCalled();
     expect(ReactGA.set).toHaveBeenCalledWith({
       anonymizeIp: true,
+      page: '/',
     });
+
+    expect(ReactGA.pageview).toHaveBeenCalled();
+    expect(ReactGA.pageview).toHaveBeenCalledWith('/');
   });
 
   it('should set open to false if cookie-consent cookie is set', () => {
