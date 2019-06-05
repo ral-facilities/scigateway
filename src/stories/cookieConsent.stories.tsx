@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import CookieConsent from '../cookieConsent/cookieConsent.component';
 import { ReduxDecorator } from './utils';
+import Cookies from 'js-cookie';
 
 storiesOf('CookieConsent', module)
   .addParameters({
@@ -10,9 +11,17 @@ storiesOf('CookieConsent', module)
         The cookie for this demo is set to expire after a second`,
     },
   })
-  .addDecorator(ReduxDecorator(state => state))
-  .add('default', () => (
-    <div>
-      <CookieConsent daysCookieValidFor={10 / 86400} />
-    </div>
-  ));
+  .addDecorator(
+    ReduxDecorator(state => ({
+      ...state,
+      siteLoading: false,
+    }))
+  )
+  .add('default', () => {
+    Cookies.remove('cookie-consent');
+    return (
+      <div>
+        <CookieConsent />
+      </div>
+    );
+  });

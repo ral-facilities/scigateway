@@ -56,7 +56,7 @@ const pageContent = (): React.ReactNode => (
     <Preloader />
     <MainAppBar />
     <NavigationDrawer />
-    <CookieConsent daysCookieValidFor={365} />
+    <CookieConsent />
     <Routing />
   </React.Fragment>
 );

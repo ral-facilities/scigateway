@@ -43,12 +43,7 @@ interface CookieConsentDispatchProps {
   navigateToCookies: () => Action;
 }
 
-interface CookieConsentProps {
-  daysCookieValidFor?: number;
-}
-
-type CombinedCookieConsentProps = CookieConsentProps &
-  CookieConsentStateProps &
+type CombinedCookieConsentProps = CookieConsentStateProps &
   CookieConsentDispatchProps &
   WithStyles<typeof styles>;
 
@@ -93,7 +88,7 @@ const CookieConsent = (
       'cookie-consent',
       { analytics: true },
       {
-        expires: props.daysCookieValidFor,
+        expires: 365,
       }
     );
     setOpen(false);
@@ -132,8 +127,6 @@ const CookieConsent = (
     />
   );
 };
-
-CookieConsent.defaultProps = { daysCookieValidFor: 365 };
 
 const mapStateToProps = (state: StateType): CookieConsentStateProps => ({
   analytics: state.daaas.analytics,
