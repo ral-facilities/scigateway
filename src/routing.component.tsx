@@ -12,6 +12,7 @@ import { PluginConfig } from './state/daaas.types';
 import { connect } from 'react-redux';
 import HomePage from './homePage/homePage.component';
 import LoginPage from './loginPage/loginPage.component';
+import CookiesPage from './cookieConsent/cookiesPage.component';
 import PageNotFound from './pageNotFound/pageNotFound.component';
 import classNames from 'classnames';
 import { UKRITheme } from './theming';
@@ -64,6 +65,7 @@ class Routing extends React.Component<
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/cookies" component={CookiesPage} />
           {this.props.plugins.map(p => (
             <Route
               key={`${p.section}_${p.link}`}
