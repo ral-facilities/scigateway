@@ -16,6 +16,6 @@ export const storybookResourceStrings: ApplicationStrings = {
   'cookie-consent': {
     text: 'Example cookie consent message',
     'accept-button': 'Accept',
-    'decline-button': 'Decline',
+    'manage-preferences-button': 'Manage Preferences',
   },
 };
