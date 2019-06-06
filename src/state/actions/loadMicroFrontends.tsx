@@ -45,7 +45,6 @@ async function init(plugins: Plugin[]) {
         .catch(() => {
           // TODO: record error back on server somewhere
           log.error(`Failed to load plugin ${p.name} from ${p.src}`);
-          // TODO: display more user friendly message?
           document.dispatchEvent(
             new CustomEvent('daaas-frontend', {
               detail: {
