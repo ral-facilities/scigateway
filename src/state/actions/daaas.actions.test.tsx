@@ -46,6 +46,10 @@ describe('daaas actions', () => {
         },
       })
     );
+
+    loadMicroFrontends.init = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
   });
 
   it('toggleDrawer only needs a type', () => {
@@ -190,10 +194,6 @@ describe('daaas actions', () => {
       })
     );
 
-    loadMicroFrontends.init = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve());
-
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): void | Promise<void> => {
@@ -228,10 +228,6 @@ describe('daaas actions', () => {
         },
       })
     );
-
-    loadMicroFrontends.init = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve());
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
