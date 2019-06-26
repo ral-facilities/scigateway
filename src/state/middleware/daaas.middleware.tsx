@@ -1,5 +1,9 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
-import { NotificationType, RegisterRouteType } from '../daaas.types';
+import {
+  NotificationType,
+  RegisterRouteType,
+  RequestPluginRerenderType,
+} from '../daaas.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 
@@ -29,6 +33,10 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
     ) {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {
+        case RequestPluginRerenderType:
+          //ignore events sent from the parent app
+          break;
+
         case RegisterRouteType:
           dispatch(pluginMessage.detail);
           break;
