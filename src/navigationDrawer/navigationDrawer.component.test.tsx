@@ -42,14 +42,24 @@ describe('Main app bar component', () => {
     state.daaas.drawerOpen = true;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+    ).toMatchSnapshot();
   });
 
   it('Navigation drawer renders correctly when closed', () => {
     state.daaas.drawerOpen = false;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+    ).toMatchSnapshot();
   });
 
   it('sends toggleDrawer action when chevron clicked', () => {
@@ -91,6 +101,11 @@ describe('Main app bar component', () => {
     state.daaas.drawerOpen = true;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+    ).toMatchSnapshot();
   });
 });

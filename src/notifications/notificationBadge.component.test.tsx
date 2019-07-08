@@ -9,7 +9,7 @@ describe('Notification Badge component', () => {
   let shallow;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
   });
 
   const theme = buildTheme();
@@ -24,6 +24,6 @@ describe('Notification Badge component', () => {
       </MuiThemeProvider>
     );
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });
