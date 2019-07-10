@@ -90,6 +90,11 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       .then(res => {
         const settings = res.data;
 
+        // if settings is a string, it is invalid JSON. Use JSON.parse to give detailed error info
+        if (typeof settings === 'string') {
+          JSON.parse(settings);
+        }
+
         dispatch(loadAuthProvider(settings['auth-provider']));
 
         const loadingPromises = [];
