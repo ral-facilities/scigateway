@@ -85,45 +85,55 @@ export const siteLoadingUpdate = (
 
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
-    await axios.get(`/settings.json`).then(res => {
-      const settings = res.data;
+    await axios
+      .get(`/settings.json`)
+      .then(res => {
+        const settings = res.data;
 
-      dispatch(loadAuthProvider(settings['auth-provider']));
+        // invalid settings.json - Use JSON.parse to give detailed error info
+        if (typeof settings !== 'object') {
+          throw Error('Invalid format');
+        }
 
-      const loadingPromises = [];
+        dispatch(loadAuthProvider(settings['auth-provider']));
 
-      // after auth provider is set then the token needs to be verified
-      const provider = getState().daaas.authorisation.provider;
-      if (provider.isLoggedIn()) {
-        const verifyingLogin = provider
-          .verifyLogIn()
-          .then(() => {
-            dispatch(authorised());
-          })
-          .catch(() => {
-            dispatch(unauthorised());
-          });
+        const loadingPromises = [];
 
-        loadingPromises.push(verifyingLogin);
-      }
+        // after auth provider is set then the token needs to be verified
+        const provider = getState().daaas.authorisation.provider;
+        if (provider.isLoggedIn()) {
+          const verifyingLogin = provider
+            .verifyLogIn()
+            .then(() => {
+              dispatch(authorised());
+            })
+            .catch(() => {
+              dispatch(unauthorised());
+            });
 
-      if (settings['features']) {
-        dispatch(loadFeatureSwitches(settings['features']));
-      }
+          loadingPromises.push(verifyingLogin);
+        }
 
-      const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
-        ? '/' + settings['ui-strings']
-        : settings['ui-strings'];
-      const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
-      loadingPromises.push(loadingResources);
+        if (settings['features']) {
+          dispatch(loadFeatureSwitches(settings['features']));
+        }
 
-      const loadingPlugins = loadMicroFrontends.init(settings.plugins);
-      loadingPromises.push(loadingPlugins);
+        const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
+          ? '/' + settings['ui-strings']
+          : settings['ui-strings'];
+        const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
+        loadingPromises.push(loadingResources);
 
-      Promise.all(loadingPromises).then(() => {
-        dispatch(siteLoadingUpdate(false));
+        const loadingPlugins = loadMicroFrontends.init(settings.plugins);
+        loadingPromises.push(loadingPlugins);
+
+        Promise.all(loadingPromises).then(() => {
+          dispatch(siteLoadingUpdate(false));
+        });
+      })
+      .catch(error => {
+        log.error(`Error loading settings.json: ${error.message}`);
       });
-    });
   };
 };
 
