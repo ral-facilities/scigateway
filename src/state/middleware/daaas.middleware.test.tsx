@@ -162,11 +162,13 @@ describe('daaas middleware', () => {
     const mockLog = (log.warn as jest.Mock).mock;
 
     listenToPlugins(store.dispatch);
-    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
 
+    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
+    expect(store.getActions().length).toEqual(1);
     expect(events.length).toEqual(1);
     expect(events[0].detail).toEqual(requestPluginRerenderAction);
 
+    handler(new CustomEvent('test', { detail: requestPluginRerenderAction }));
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(mockLog.calls.length).toBe(0);
