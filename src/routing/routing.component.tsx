@@ -44,7 +44,7 @@ interface RoutingProps {
 
 export const PluginPlaceHolder = (id: string): (() => React.ReactElement) =>
   /* eslint-disable-next-line react/display-name */
-  () => <div id={id}>{id}</div>;
+  () => <div id={id}>{id} failed to load correctly</div>;
 
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>

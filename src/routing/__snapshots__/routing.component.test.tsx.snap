@@ -59,5 +59,6 @@ exports[`Routing component renders placeholder for a plugin 1`] = `
   id="test_id"
 >
   test_id
+   failed to load correctly
 </div>
 `;
