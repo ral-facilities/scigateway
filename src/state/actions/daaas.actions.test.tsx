@@ -257,6 +257,46 @@ describe('daaas actions', () => {
     expect(action.payload).toEqual({ index: 0 });
   });
 
+  it('logs an error if settings.json fails to be loaded', async () => {
+    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+      Promise.reject({})
+    );
+    log.error = jest.fn();
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    await asyncAction(dispatch, getState);
+
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      expect.stringContaining('Error loading settings.json: ')
+    );
+  });
+
+  it('logs an error if settings.json is invalid JSON object', async () => {
+    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({
+        data: 1,
+      })
+    );
+    log.error = jest.fn();
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    await asyncAction(dispatch, getState);
+
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading settings.json: Invalid format'
+    );
+  });
+
   it('logs an error if loadStrings fails to resolve', async () => {
     (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
       Promise.reject({})
