@@ -3,6 +3,7 @@
 import * as singleSpa from 'single-spa';
 import { Plugin } from '../state.types';
 import * as log from 'loglevel';
+import { NotificationType } from '../daaas.types';
 
 const runScript = async (url: string) => {
   return new Promise((resolve, reject) => {
@@ -23,13 +24,7 @@ const loadReactApp = async (name: string) => {
 };
 
 async function loadApp(name: string, appURL: string) {
-  try {
-    await runScript(appURL);
-    log.info(`Successfully loaded plugin ${name} from ${appURL}`);
-  } catch (error) {
-    log.error(`Failed to load plugin ${name} from ${appURL}`);
-    throw error;
-  }
+  await runScript(appURL);
 
   // register the app with singleSPA and pass a reference to the store of the app as well as a reference to the globalEventDistributor
   singleSpa.registerApplication(name, () => loadReactApp(name), () => true);
@@ -42,7 +37,28 @@ async function init(plugins: Plugin[]) {
   plugins
     .filter(p => p.enable)
     .forEach(p => {
-      loadingPromises.push(loadApp(p.name, p.src));
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+      const loadingPromise: Promise<any> = loadApp(p.name, p.src)
+        .then(() => {
+          log.debug(`Successfully loaded plugin ${p.name} from ${p.src}`);
+        })
+        .catch(() => {
+          // TODO: record error back on server somewhere
+          log.error(`Failed to load plugin ${p.name} from ${p.src}`);
+          document.dispatchEvent(
+            new CustomEvent('daaas-frontend', {
+              detail: {
+                type: NotificationType,
+                payload: {
+                  message: `Failed to load plugin ${p.name} from ${p.src}. 
+                            Try reloading the page and if the error persists contact the support team`,
+                  severity: 'error',
+                },
+              },
+            })
+          );
+        });
+      loadingPromises.push(loadingPromise);
     });
 
   // wait until all stores are loaded and all apps are registered with singleSpa
