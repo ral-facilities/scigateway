@@ -29,6 +29,13 @@ describe('daaas middleware', () => {
     },
   };
 
+  const requestPluginRerenderAction = {
+    type: 'daaas:api:plugin_rerender',
+    payload: {
+      broadcast: true,
+    },
+  };
+
   beforeEach(() => {
     events = [];
     handler = () => {};
@@ -140,6 +147,21 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
+  });
+
+  it('should broadcast requestpluginrerender action but ignore it itself', () => {
+    log.warn = jest.fn();
+    const mockLog = (log.warn as jest.Mock).mock;
+
+    listenToPlugins(store.dispatch);
+    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
+
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual(requestPluginRerenderAction);
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(1);
+    expect(mockLog.calls.length).toBe(0);
   });
 
   it('should listen for events and not fire unrecognised action', () => {
