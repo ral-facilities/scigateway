@@ -9,6 +9,8 @@ import {
   configureSite,
   dismissMenuItem,
   siteLoadingUpdate,
+  loadStrings,
+  unauthorised,
   toggleHelp,
   addHelpTourSteps,
 } from './daaas.actions';
@@ -23,6 +25,7 @@ import { initialState } from '../reducers/daaas.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
+import log from 'loglevel';
 
 jest.useFakeTimers();
 
@@ -47,6 +50,10 @@ describe('daaas actions', () => {
         },
       })
     );
+
+    loadMicroFrontends.init = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
   });
 
   it('toggleDrawer only needs a type', () => {
@@ -87,6 +94,43 @@ describe('daaas actions', () => {
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
         args: ['/destination/after/login'],
+        method: 'push',
+      },
+    });
+  });
+
+  it('given no referrer but valid credentials verifyUsernameAndPassword should redirect back to /', async () => {
+    mockAxiosGetResponse(
+      'this will be replaced by an API call to get access token'
+    );
+
+    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+
+    // const getState = (): Partial<StateType> => ({ daaas: state });
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const getState = (): any => ({
+      daaas: state,
+      router: {
+        location: {
+          state: {},
+        },
+      },
+    });
+
+    const action = asyncAction(dispatch, getState);
+    jest.runAllTimers();
+    await action;
+
+    expect(actions[0]).toEqual(loadingAuthentication());
+    expect(actions[1]).toEqual(authorised('validLoginToken'));
+    expect(actions[2]).toEqual({
+      type: '@@router/CALL_HISTORY_METHOD',
+      payload: {
+        args: ['/'],
         method: 'push',
       },
     });
@@ -154,9 +198,40 @@ describe('daaas actions', () => {
       })
     );
 
-    loadMicroFrontends.init = jest
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): void | Promise<void> => {
+      if (typeof action === 'function') {
+        action(dispatch);
+        return Promise.resolve();
+      } else {
+        actions.push(action);
+      }
+    };
+
+    const state = JSON.parse(JSON.stringify(initialState));
+    let testAuthProvider = new TestAuthProvider('token');
+    testAuthProvider.verifyLogIn = jest
       .fn()
-      .mockImplementation(() => Promise.resolve());
+      .mockImplementationOnce(() => Promise.resolve());
+    state.authorisation.provider = testAuthProvider;
+    const getState = (): Partial<StateType> => ({ daaas: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions.length).toEqual(6);
+    expect(actions).toContainEqual(authorised());
+    expect(actions).toContainEqual(siteLoadingUpdate(false));
+  });
+
+  it('dispatches a site loading update after settings are loaded with failed auth, no features and no leading slash on ui-strings', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -168,11 +243,16 @@ describe('daaas actions', () => {
         actions.push(action);
       }
     };
-    const getState = (): Partial<StateType> => ({ daaas: initialState });
+
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider('token');
+    const getState = (): Partial<StateType> => ({ daaas: state });
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[actions.length - 1]).toEqual(siteLoadingUpdate(false));
+    expect(actions.length).toEqual(5);
+    expect(actions).toContainEqual(unauthorised());
+    expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
   it('given an index number dismissMenuItem returns a DismissNotificationType with payload', () => {
@@ -194,5 +274,66 @@ describe('daaas actions', () => {
       target: '.test',
       content: 'test',
     });
+  });
+
+  it('logs an error if settings.json fails to be loaded', async () => {
+    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+      Promise.reject({})
+    );
+    log.error = jest.fn();
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    await asyncAction(dispatch, getState);
+
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      expect.stringContaining('Error loading settings.json: ')
+    );
+  });
+
+  it('logs an error if settings.json is invalid JSON object', async () => {
+    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({
+        data: 1,
+      })
+    );
+    log.error = jest.fn();
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    await asyncAction(dispatch, getState);
+
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading settings.json: Invalid format'
+    );
+  });
+
+  it('logs an error if loadStrings fails to resolve', async () => {
+    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+      Promise.reject({})
+    );
+    log.error = jest.fn();
+
+    const path = 'non/existent/path';
+    const asyncAction = loadStrings(path);
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      expect.stringContaining(`Failed to read strings from ${path}: `)
+    );
   });
 });

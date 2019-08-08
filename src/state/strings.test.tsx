@@ -67,5 +67,14 @@ describe('strings', () => {
     it('returns undefined if section name does not exist', () => {
       expect(getAppStrings(state, 'unexpected-key')).toBeUndefined();
     });
+
+    it('returns undefined if res is undefined', () => {
+      expect(
+        getAppStrings(
+          { ...state, daaas: { ...state.daaas, res: undefined } },
+          'section-name'
+        )
+      ).toBeUndefined();
+    });
   });
 });

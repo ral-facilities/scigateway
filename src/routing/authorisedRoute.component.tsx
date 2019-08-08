@@ -1,10 +1,10 @@
 import React, { Component, ComponentClass } from 'react';
 import { Redirect } from 'react-router-dom';
-import { StateType, AuthState } from './state/state.types';
+import { StateType, AuthState } from '../state/state.types';
 import { AnyAction, Dispatch } from 'redux';
-import { requestPluginRerender } from './state/actions/daaas.actions';
+import { requestPluginRerender } from '../state/actions/daaas.actions';
 import { connect } from 'react-redux';
-import LoadingAuthProvider from './authentication/loadingAuthProvider';
+import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 
 interface WithAuthProps {
   loading: boolean;

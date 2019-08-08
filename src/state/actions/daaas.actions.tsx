@@ -132,7 +132,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         }
 
         dispatch(addHelpTourSteps(settings['help-tour-steps']));
-  
+
         const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
           ? '/' + settings['ui-strings']
           : settings['ui-strings'];
