@@ -8,7 +8,7 @@ import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/daaas.actions';
 import { PluginConfig } from '../state/daaas.types';
 
-describe('Main app bar component', () => {
+describe('Navigation drawer component', () => {
   let shallow;
   let mount;
   let mockStore;
@@ -96,15 +96,32 @@ describe('Main app bar component', () => {
       buildPlugin(1, 'analysis-plugin2', 'ANALYSIS'),
       buildPlugin(2, 'data-plugin1', 'DATA'),
       buildPlugin(-1, 'analysis-plugin', 'ANALYSIS'),
+      {
+        order: 3,
+        plugin: 'data-plugin-no-displayname',
+        link: 'plugin_link',
+        section: 'DATA',
+      },
     ];
     state.daaas.plugins = dummyPlugins;
     state.daaas.drawerOpen = true;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+
     expect(
       wrapper
         .dive()
         .dive()
+        .dive()
+    ).toMatchSnapshot();
+
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .dive()
+        .find('[to="plugin_link"]')
+        .first()
         .dive()
     ).toMatchSnapshot();
   });

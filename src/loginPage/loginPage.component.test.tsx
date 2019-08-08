@@ -100,5 +100,62 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
     expect(mockLoginfn.mock.calls[0]).toEqual(['new username', 'new password']);
+
+    simulateUsernameInput.instance().value = 'new username 2';
+    simulateUsernameInput.simulate('change');
+
+    simulatePasswordInput.instance().value = 'new password 2';
+    simulatePasswordInput.simulate('change');
+
+    wrapper
+      .find(CredentialsLoginScreen)
+      .find('div')
+      .first()
+      .simulate('keypress', { key: 'Enter' });
+
+    expect(mockLoginfn.mock.calls.length).toEqual(2);
+
+    expect(mockLoginfn.mock.calls[1]).toEqual([
+      'new username 2',
+      'new password 2',
+    ]);
+  });
+
+  it('on submit window location should change for redirect', () => {
+    props.auth.provider.redirectUrl = 'test redirect';
+
+    global.window = Object.create(window);
+    const windowLocation = JSON.stringify(window.location);
+    Object.defineProperty(window, 'location', {
+      value: JSON.parse(windowLocation),
+    });
+
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithStyles {...props} />
+      </MuiThemeProvider>
+    );
+
+    wrapper.find('button').simulate('click');
+
+    expect(window.location.href).toEqual('test redirect');
+  });
+
+  it('on location.search filled in verification method should be called with blank username and qeury string', () => {
+    props.auth.provider.redirectUrl = 'test redirect';
+    props.location.search = '?token=test_token';
+
+    const mockLoginfn = jest.fn();
+    props.verifyUsernameAndPassword = mockLoginfn;
+
+    // TODO: switch to shallow when enzyme supports hooks/useEffect
+    mount(
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithStyles {...props} />
+      </MuiThemeProvider>
+    );
+
+    expect(mockLoginfn.mock.calls.length).toEqual(1);
+    expect(mockLoginfn.mock.calls[0]).toEqual(['', '?token=test_token']);
   });
 });

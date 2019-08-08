@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Main app bar component Navigation drawer renders correctly when closed 1`] = `
+exports[`Navigation drawer component Navigation drawer renders correctly when closed 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -26,7 +26,7 @@ exports[`Main app bar component Navigation drawer renders correctly when closed 
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component Navigation drawer renders correctly when open 1`] = `
+exports[`Navigation drawer component Navigation drawer renders correctly when open 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -52,7 +52,7 @@ exports[`Main app bar component Navigation drawer renders correctly when open 1`
 </WithStyles(Drawer)>
 `;
 
-exports[`Main app bar component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
+exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
 <WithStyles(Drawer)
   anchor="left"
   className="NavigationDrawer-drawer-1"
@@ -94,6 +94,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
       component="nav"
     >
       <LinkListItem
+        id="plugin-link-link"
         key="0"
         to="link"
       >
@@ -113,6 +114,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         />
       </LinkListItem>
       <LinkListItem
+        id="plugin-link-link"
         key="1"
         to="link"
       >
@@ -151,6 +153,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
       component="nav"
     >
       <LinkListItem
+        id="plugin-link-link"
         key="0"
         to="link"
       >
@@ -170,6 +173,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         />
       </LinkListItem>
       <LinkListItem
+        id="plugin-link-link"
         key="1"
         to="link"
       >
@@ -189,6 +193,7 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
         />
       </LinkListItem>
       <LinkListItem
+        id="plugin-link-link"
         key="2"
         to="link"
       >
@@ -207,7 +212,51 @@ exports[`Main app bar component renders a plugin list grouped by sections ordere
           }
         />
       </LinkListItem>
+      <LinkListItem
+        id="plugin-link-plugin_link"
+        key="3"
+        to="plugin_link"
+      >
+        <WithStyles(ListItemText)
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-5",
+            }
+          }
+          inset={true}
+          primary="data-plugin-no-displayname"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
+        />
+      </LinkListItem>
     </WithStyles(List)>
   </WithStyles(List)>
 </WithStyles(Drawer)>
+`;
+
+exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
+<WithStyles(ListItem)
+  button={true}
+  component={[Function]}
+  id="plugin-link-plugin_link"
+  to="plugin_link"
+>
+  <WithStyles(ListItemText)
+    classes={
+      Object {
+        "primary": "NavigationDrawer-menuItem-5",
+      }
+    }
+    inset={true}
+    primary="data-plugin-no-displayname"
+    primaryTypographyProps={
+      Object {
+        "variant": "subtitle1",
+      }
+    }
+  />
+</WithStyles(ListItem)>
 `;

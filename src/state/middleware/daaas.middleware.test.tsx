@@ -2,6 +2,8 @@ import DaaasMiddleware, { listenToPlugins } from './daaas.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
+import { toastr } from 'react-redux-toastr';
+import { AddHelpTourStepsType } from '../daaas.types';
 
 describe('daaas middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
@@ -80,16 +82,127 @@ describe('daaas middleware', () => {
     expect(store.getActions()[0]).toEqual(registerRouteAction);
   });
 
+  it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {
+    listenToPlugins(store.dispatch);
+
+    let registerRouteActionWithHelp = {
+      ...registerRouteAction,
+      payload: {
+        ...registerRouteAction.payload,
+        helpText: 'Help text test',
+      },
+    };
+
+    handler(
+      new CustomEvent('test', {
+        detail: registerRouteActionWithHelp,
+      })
+    );
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(2);
+    expect(store.getActions()[0]).toEqual(registerRouteActionWithHelp);
+    expect(store.getActions()[1]).toEqual({
+      type: AddHelpTourStepsType,
+      payload: {
+        steps: [
+          {
+            target: '#plugin-link--plugin1-analysis2',
+            content: 'Help text test',
+          },
+        ],
+      },
+    });
+  });
+
+  describe('notifications', () => {
+    it('should listen for notification events and fire notification action even if no severity', () => {
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+        },
+      };
+
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(document.addEventListener).toHaveBeenCalled();
+      expect(store.getActions().length).toEqual(1);
+      expect(store.getActions()[0]).toEqual(notificationAction);
+    });
+
+    it('should listen for notification events and fire notification action for success event', () => {
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+          severity: 'success',
+        },
+      };
+
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(document.addEventListener).toHaveBeenCalled();
+      expect(store.getActions().length).toEqual(1);
+      expect(store.getActions()[0]).toEqual(notificationAction);
+    });
+
+    it('should listen for notification events and create toast for error', () => {
+      toastr.error = jest.fn();
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+          severity: 'error',
+        },
+      };
+
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(toastr.error).toHaveBeenCalled();
+      const mockToastr = (toastr.error as jest.Mock).mock;
+      expect(mockToastr.calls[0][0]).toContain('Error');
+      expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
+
+    it('should listen for notification events and create toast for warning', () => {
+      toastr.warning = jest.fn();
+      listenToPlugins(store.dispatch);
+
+      let notificationAction = {
+        type: 'daaas:api:notification',
+        payload: {
+          message: 'test notification',
+          severity: 'warning',
+        },
+      };
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(toastr.warning).toHaveBeenCalled();
+      const mockToastr = (toastr.warning as jest.Mock).mock;
+      expect(mockToastr.calls[0][0]).toContain('Warning');
+      expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
+  });
+
   it('should broadcast requestpluginrerender action but ignore it itself', () => {
     log.warn = jest.fn();
     const mockLog = (log.warn as jest.Mock).mock;
 
     listenToPlugins(store.dispatch);
-    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
 
+    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
+    expect(store.getActions().length).toEqual(1);
     expect(events.length).toEqual(1);
     expect(events[0].detail).toEqual(requestPluginRerenderAction);
 
+    handler(new CustomEvent('test', { detail: requestPluginRerenderAction }));
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(mockLog.calls.length).toBe(0);

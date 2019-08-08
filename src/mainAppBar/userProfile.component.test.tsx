@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { MenuItem } from '@material-ui/core';
+import { MenuItem, Avatar } from '@material-ui/core';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
@@ -55,9 +55,42 @@ describe('User profile component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/login'));
   });
 
-  it('renders avatar if signed in', () => {
+  it('renders default avatar if signed in', () => {
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it('renders user avatar if signed in with avatar url', () => {
+    state.daaas.authorisation.provider.user = {
+      username: 'test',
+      avatarUrl: 'test_url',
+    };
+    const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
+    expect(wrapper.dive().dive()).toMatchSnapshot();
+  });
+
+  it('opens menu when button clicked', () => {
+    state.daaas.authorisation.provider.user = {
+      username: 'test',
+      avatarUrl: 'test_url',
+    };
+    const wrapper = mount(<UserProfileComponent store={mockStore(state)} />);
+
+    expect(
+      wrapper
+        .find('#simple-menu')
+        .first()
+        .prop('open')
+    ).toBeFalsy();
+
+    wrapper.find(Avatar).simulate('click');
+
+    expect(
+      wrapper
+        .find('#simple-menu')
+        .first()
+        .prop('open')
+    ).toBeTruthy();
   });
 
   it('signs out if sign out clicked', () => {
