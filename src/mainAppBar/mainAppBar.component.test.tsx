@@ -5,7 +5,7 @@ import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { push } from 'connected-react-router';
 import { initialState } from '../state/reducers/daaas.reducer';
-import { toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
@@ -87,5 +87,24 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));
+  });
+
+  it('sends toggleHelp action when help button is clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    wrapper
+      .find('button[aria-label="Help"]')
+      .first()
+      .simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(toggleHelp());
   });
 });

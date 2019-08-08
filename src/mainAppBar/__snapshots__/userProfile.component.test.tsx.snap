@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`User profile component renders default avatar if signed in 1`] = `
-<div>
+<div
+  className="tour-user-profile"
+>
   <div>
     <WithStyles(IconButton)
       className="UserProfileComponent-button-1"
@@ -45,7 +47,9 @@ exports[`User profile component renders default avatar if signed in 1`] = `
 `;
 
 exports[`User profile component renders sign in button if not signed in 1`] = `
-<div>
+<div
+  className="tour-user-profile"
+>
   <WithStyles(Button)
     className="UserProfileComponent-button-1"
     onClick={[Function]}
@@ -66,7 +70,9 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
 `;
 
 exports[`User profile component renders user avatar if signed in with avatar url 1`] = `
-<div>
+<div
+  className="tour-user-profile"
+>
   <div>
     <WithStyles(Avatar)
       alt="user"
