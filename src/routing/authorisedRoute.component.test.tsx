@@ -17,7 +17,7 @@ describe('AuthorisedRoute component', () => {
   );
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
 
     state = {
       daaas: initialState,
@@ -37,7 +37,7 @@ describe('AuthorisedRoute component', () => {
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders redirect when user not logged in', () => {
@@ -47,7 +47,7 @@ describe('AuthorisedRoute component', () => {
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders nothing when site is loading due to LoadingAuthProvider', () => {
@@ -57,7 +57,7 @@ describe('AuthorisedRoute component', () => {
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders nothing when site is loading due to loading prop', () => {
@@ -66,6 +66,6 @@ describe('AuthorisedRoute component', () => {
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

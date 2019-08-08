@@ -78,6 +78,7 @@ describe('Tour component', () => {
         .dive()
         .dive()
         .dive()
+        .dive()
     ).toMatchSnapshot();
   });
 

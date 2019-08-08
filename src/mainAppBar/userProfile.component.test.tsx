@@ -66,7 +66,7 @@ describe('User profile component', () => {
       avatarUrl: 'test_url',
     };
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('opens menu when button clicked', () => {
