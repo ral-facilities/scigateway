@@ -20,6 +20,7 @@ import './index.css';
 import { buildTheme } from './theming';
 import Preloader from './preloader/preloader.component';
 import ReduxToastr from 'react-redux-toastr';
+import Tour from './tour/tour.component';
 
 const history = createBrowserHistory();
 
@@ -55,6 +56,7 @@ const pageContent = (): React.ReactNode => (
     <Preloader />
     <MainAppBar />
     <NavigationDrawer />
+    <Tour />
     <Routing />
   </React.Fragment>
 );

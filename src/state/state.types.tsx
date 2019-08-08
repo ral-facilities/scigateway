@@ -1,5 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
+import { Step } from 'react-joyride';
 import {
   ApplicationStrings,
   PluginConfig,
@@ -24,6 +25,8 @@ export interface DaaasState {
   plugins: PluginConfig[];
   drawerOpen: boolean;
   siteLoading: boolean;
+  showHelp: boolean;
+  helpSteps: Step[];
   authorisation: AuthState;
   res?: ApplicationStrings;
   features: FeatureSwitches;
