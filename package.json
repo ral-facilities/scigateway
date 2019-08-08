@@ -8,6 +8,7 @@
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "connected-react-router": "^5.0.1",
+    "custom-event-polyfill": "^1.0.7",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.6.1",
@@ -15,6 +16,7 @@
     "passport-local": "^1.0.0",
     "query-string": "^6.5.0",
     "react": "^16.8.6",
+    "react-app-polyfill": "^1.0.0",
     "react-dom": "^16.8.6",
     "react-joyride": "^2.0.5",
     "react-redux": "^5.1.1",
@@ -87,7 +89,7 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
+    "not ie <= 10",
     "not op_mini all"
   ],
   "devDependencies": {
