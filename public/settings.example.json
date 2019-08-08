@@ -14,7 +14,7 @@
   "help-tour-steps": [
     {
       "target": ".tour-title",
-      "content": "Hello, and welcome to the daaas-frontend! This tour will show you the important features of the app!"
+      "content": "Hello, and welcome to the SciGateway! This tour will show you the important features of the app!"
     },
     {
       "target": ".tour-user-profile",
