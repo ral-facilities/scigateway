@@ -86,4 +86,20 @@ describe('github auth provider', () => {
     expect(localStorage.removeItem).toBeCalledWith('daaas:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
   });
+
+  it('should return user information if token is valid', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          username: 'test_user',
+          avatar: 'test_avatar',
+        },
+      })
+    );
+
+    await authProvider.verifyLogIn();
+
+    expect(authProvider.user.username).toBe('test_user');
+    expect(authProvider.user.avatarUrl).toBe('test_avatar');
+  });
 });

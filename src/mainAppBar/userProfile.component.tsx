@@ -75,7 +75,7 @@ const UserProfileComponent = (
     props.signOut();
   };
   return (
-    <div>
+    <div className="tour-user-profile">
       {props.loggedIn ? (
         <div>
           {props.user.avatarUrl !== '' ? (

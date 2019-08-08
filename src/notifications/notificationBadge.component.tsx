@@ -73,7 +73,7 @@ const NotificationBadge = (
     closeMenu();
   }
   return (
-    <div>
+    <div className="tour-notifications">
       <IconButton
         className={props.classes.button}
         onClick={e => setMenuAnchor(e.currentTarget)}
@@ -88,7 +88,7 @@ const NotificationBadge = (
           <NotificationsIcon />
         </Badge>
       </IconButton>
-      {props.notifications.length ? (
+      {props.notifications && props.notifications.length ? (
         <Menu
           id="notifications-menu"
           anchorEl={getMenuAnchor}

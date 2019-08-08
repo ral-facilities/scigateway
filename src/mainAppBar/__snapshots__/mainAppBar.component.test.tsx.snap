@@ -10,14 +10,14 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
-        className="MainAppBar-menuButton-7 MainAppBar-hide-9"
+        className="MainAppBar-menuButton-7 MainAppBar-hide-9 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
       >
         <pure(MenuIcon) />
       </WithStyles(IconButton)>
       <WithStyles(Typography)
-        className="MainAppBar-title-5"
+        className="MainAppBar-title-5 tour-title"
         color="inherit"
         noWrap={true}
         onClick={[Function]}
@@ -26,7 +26,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         title
       </WithStyles(Typography)>
       <WithStyles(Button)
-        className="MainAppBar-button-6"
+        className="MainAppBar-button-6 tour-contact"
         style={
           Object {
             "paddingTop": 3,
@@ -49,7 +49,9 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         className="MainAppBar-grow-4"
       />
       <WithStyles(IconButton)
+        aria-label="Help"
         className="MainAppBar-button-6"
+        onClick={[Function]}
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
@@ -70,14 +72,14 @@ exports[`Main app bar component app bar renders correctly 1`] = `
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
-        className="MainAppBar-menuButton-7"
+        className="MainAppBar-menuButton-7 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
       >
         <pure(MenuIcon) />
       </WithStyles(IconButton)>
       <WithStyles(Typography)
-        className="MainAppBar-title-5"
+        className="MainAppBar-title-5 tour-title"
         color="inherit"
         noWrap={true}
         onClick={[Function]}
@@ -86,7 +88,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         title
       </WithStyles(Typography)>
       <WithStyles(Button)
-        className="MainAppBar-button-6"
+        className="MainAppBar-button-6 tour-contact"
         style={
           Object {
             "paddingTop": 3,
@@ -109,7 +111,9 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         className="MainAppBar-grow-4"
       />
       <WithStyles(IconButton)
+        aria-label="Help"
         className="MainAppBar-button-6"
+        onClick={[Function]}
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>
@@ -130,14 +134,14 @@ exports[`Main app bar component does not render contact button when feature is f
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
-        className="MainAppBar-menuButton-7"
+        className="MainAppBar-menuButton-7 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
       >
         <pure(MenuIcon) />
       </WithStyles(IconButton)>
       <WithStyles(Typography)
-        className="MainAppBar-title-5"
+        className="MainAppBar-title-5 tour-title"
         color="inherit"
         noWrap={true}
         onClick={[Function]}
@@ -149,7 +153,9 @@ exports[`Main app bar component does not render contact button when feature is f
         className="MainAppBar-grow-4"
       />
       <WithStyles(IconButton)
+        aria-label="Help"
         className="MainAppBar-button-6"
+        onClick={[Function]}
       >
         <pure(HelpOutlineIcon) />
       </WithStyles(IconButton)>

@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Notification Badge component Notification badge renders correctly 1`] = `
-<div>
+<div
+  className="tour-notifications"
+>
   <WithStyles(IconButton)
     className="NotificationBadge-button-1"
     onClick={[Function]}

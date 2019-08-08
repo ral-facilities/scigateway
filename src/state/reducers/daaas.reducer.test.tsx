@@ -5,11 +5,22 @@ import {
   unauthorised,
   loadingAuthentication,
   dismissMenuItem,
+  siteLoadingUpdate,
+  loadAuthProvider,
+  configureStrings,
+  loadFeatureSwitches,
+  toggleHelp,
+  addHelpTourSteps,
 } from '../actions/daaas.actions';
-import DaaasReducer, { initialState } from './daaas.reducer';
+import DaaasReducer, {
+  initialState,
+  handleAuthProviderUpdate,
+} from './daaas.reducer';
 import { SignOutType, InvalidateTokenType } from '../daaas.types';
 import { DaaasState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
+import GithubAuthProvider from '../../authentication/githubAuthProvider';
 
 describe('daaas reducer', () => {
   let state: DaaasState;
@@ -32,6 +43,95 @@ describe('daaas reducer', () => {
 
     updatedState = DaaasReducer(updatedState, toggleDrawer());
     expect(updatedState.drawerOpen).toBeFalsy();
+  });
+
+  it('should update siteLoading when handleSiteLoadingUpdate message is sent', () => {
+    expect(state.siteLoading).toBeTruthy();
+
+    let updatedState = DaaasReducer(state, siteLoadingUpdate(false));
+    expect(updatedState.siteLoading).toBeFalsy();
+
+    updatedState = DaaasReducer(updatedState, siteLoadingUpdate(true));
+    expect(updatedState.siteLoading).toBeTruthy();
+  });
+
+  it('should toggle the showHelp state for a toggleHelp message', () => {
+    expect(state.showHelp).toBeFalsy();
+
+    let updatedState = DaaasReducer(state, toggleHelp());
+    expect(updatedState.showHelp).toBeTruthy();
+
+    updatedState = DaaasReducer(updatedState, toggleHelp());
+    expect(updatedState.showHelp).toBeFalsy();
+  });
+
+  it('should add steps to the helpTour state array for addHelpTourSteps message', () => {
+    expect(state.helpSteps.length).toEqual(0);
+
+    const steps = [
+      {
+        target: '.test-1',
+        content: 'test 1',
+      },
+      {
+        target: '.test-2',
+        content: 'test 2',
+      },
+    ];
+
+    let updatedState = DaaasReducer(state, addHelpTourSteps(steps));
+    expect(updatedState.helpSteps.length).toEqual(2);
+    expect(updatedState.helpSteps[0]).toEqual({
+      target: '.test-1',
+      content: 'test 1',
+    });
+    expect(updatedState.helpSteps[1]).toEqual({
+      target: '.test-2',
+      content: 'test 2',
+    });
+
+    updatedState = DaaasReducer(
+      updatedState,
+      addHelpTourSteps([
+        {
+          target: '.test-3',
+          content: 'test 3',
+        },
+      ])
+    );
+
+    expect(updatedState.helpSteps.length).toEqual(3);
+    expect(updatedState.helpSteps[2]).toEqual({
+      target: '.test-3',
+      content: 'test 3',
+    });
+  });
+
+  it('should not add steps when a duplicate target property is found', () => {
+    log.error = jest.fn();
+    state.helpSteps = [];
+
+    const steps = [
+      {
+        target: '.test-1',
+        content: 'test 1',
+      },
+    ];
+
+    let updatedState = DaaasReducer(state, addHelpTourSteps(steps));
+    expect(updatedState.helpSteps.length).toEqual(1);
+    expect(updatedState.helpSteps[0]).toEqual({
+      target: '.test-1',
+      content: 'test 1',
+    });
+
+    updatedState = DaaasReducer(updatedState, addHelpTourSteps(steps));
+
+    expect(updatedState.helpSteps.length).toEqual(1);
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    const call = mockLog.calls[0][0];
+    expect(call).toEqual('Duplicate help step target identified: .test-1.');
   });
 
   it('loading authentication should update loading state', () => {
@@ -89,6 +189,63 @@ describe('daaas reducer', () => {
     expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
   });
 
+  it('should change auth provider when a LoadAuthProvider action is sent', () => {
+    let updatedState = DaaasReducer(state, loadAuthProvider('jwt'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(JWTAuthProvider);
+
+    updatedState = DaaasReducer(state, loadAuthProvider('github'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      GithubAuthProvider
+    );
+  });
+
+  it('should throw error when unrecognised auth provider is attempted to be loaded', () => {
+    expect(() =>
+      handleAuthProviderUpdate(state, { authProvider: 'unrecognised' })
+    ).toThrow();
+  });
+
+  it('should update notification list when new notification is recieved', () => {
+    expect(state.notifications.length).toEqual(0);
+
+    const action = {
+      type: 'daaas:api:notification',
+      payload: { message: 'test notification', severity: 'success' },
+    };
+    const updatedState = DaaasReducer(state, action);
+
+    expect(updatedState.notifications.length).toEqual(1);
+    expect(updatedState.notifications[0]).toEqual({
+      message: 'test notification',
+      severity: 'success',
+    });
+  });
+
+  it('should set res property when configure strings action is sent', () => {
+    expect(state).not.toHaveProperty('res');
+
+    const updatedState = DaaasReducer(
+      state,
+      configureStrings({ testSection: { testId: 'test' } })
+    );
+
+    expect(updatedState).toHaveProperty('res');
+    expect(updatedState.res).toEqual({ testSection: { testId: 'test' } });
+  });
+
+  it('should set feature switches property when configure feature switches action is sent', () => {
+    expect(state.features.showContactButton).toBeTruthy();
+
+    const updatedState = DaaasReducer(
+      state,
+      loadFeatureSwitches({ showContactButton: false })
+    );
+
+    expect(updatedState.features.showContactButton).toBeFalsy();
+  });
+
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
     const action = dismissMenuItem(2);
     const notificationsInState = {
@@ -117,6 +274,7 @@ describe('daaas reducer', () => {
       plugin: 'demo_plugin',
       displayName: 'Route Label',
       order: 10,
+      helpText: 'help',
     };
     const registerRouteAction = 'daaas:api:register_route';
 
@@ -134,6 +292,7 @@ describe('daaas reducer', () => {
           plugin: action.payload.plugin,
           displayName: action.payload.displayName,
           order: action.payload.order,
+          helpText: action.payload.helpText,
         },
       ]);
     });
@@ -159,6 +318,7 @@ describe('daaas reducer', () => {
         plugin: basePayload.plugin,
         displayName: basePayload.displayName,
         order: basePayload.order,
+        helpText: basePayload.helpText,
       });
       expect(updatedState.plugins).toContainEqual({
         section: basePayload.section,
@@ -166,6 +326,7 @@ describe('daaas reducer', () => {
         plugin: basePayload.plugin,
         displayName: basePayload.displayName,
         order: basePayload.order,
+        helpText: basePayload.helpText,
       });
     });
 
@@ -191,6 +352,7 @@ describe('daaas reducer', () => {
         plugin: basePayload.plugin,
         displayName: basePayload.displayName,
         order: basePayload.order,
+        helpText: basePayload.helpText,
       });
 
       expect(log.error).toHaveBeenCalled();
