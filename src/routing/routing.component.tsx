@@ -7,15 +7,15 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router';
-import { StateType } from './state/state.types';
-import { PluginConfig } from './state/daaas.types';
+import { StateType } from '../state/state.types';
+import { PluginConfig } from '../state/daaas.types';
 import { connect } from 'react-redux';
-import HomePage from './homePage/homePage.component';
-import LoginPage from './loginPage/loginPage.component';
-import CookiesPage from './cookieConsent/cookiesPage.component';
-import PageNotFound from './pageNotFound/pageNotFound.component';
+import HomePage from '../homePage/homePage.component';
+import LoginPage from '../loginPage/loginPage.component';
+import CookiesPage from '../cookieConsent/cookiesPage.component';
+import PageNotFound from '../pageNotFound/pageNotFound.component';
 import classNames from 'classnames';
-import { UKRITheme } from './theming';
+import { UKRITheme } from '../theming';
 import withAuth from './authorisedRoute.component';
 
 const styles = (theme: Theme): StyleRules =>
@@ -43,10 +43,9 @@ interface RoutingProps {
   drawerOpen: boolean;
 }
 
-/* eslint-disable-next-line react/display-name */
-const PluginPlaceHolder = (id: string): (() => React.ReactElement) => () => (
-  <div id={id}>{id} failed to load correctly</div>
-);
+export const PluginPlaceHolder = (id: string): (() => React.ReactElement) =>
+  /* eslint-disable-next-line react/display-name */
+  () => <div id={id}>{id} failed to load correctly</div>;
 
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>

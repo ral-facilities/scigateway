@@ -11,6 +11,28 @@
       "location": "main"
     }
   ],
+  "help-tour-steps": [
+    {
+      "target": ".tour-title",
+      "content": "Hello, and welcome to the SciGateway! This tour will show you the important features of the app!"
+    },
+    {
+      "target": ".tour-user-profile",
+      "content": "Click here to sign in if you're not logged in, or sign out or manage your account if you are logged in"
+    },
+    {
+      "target": ".tour-notifications",
+      "content": "Click here to see any notifications you have"
+    },
+    {
+      "target": ".tour-contact",
+      "content": "Click here to contact the support team with any issues or feedback"
+    },
+    {
+      "target": ".tour-nav-menu",
+      "content": "Click here to open the navigation menu"
+    }
+  ],
   "ui-strings": "res/default.json",
   "auth-provider": "jwt",
   "ga-tracking-id": "UA-XXXX-Y"

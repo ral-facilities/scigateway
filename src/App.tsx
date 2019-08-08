@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
-import Routing from './routing.component';
+import Routing from './routing/routing.component';
 import { configureSite } from './state/actions/daaas.actions';
 import DaaasMiddleware, {
   listenToPlugins,
@@ -21,6 +21,7 @@ import { buildTheme } from './theming';
 import Preloader from './preloader/preloader.component';
 import CookieConsent from './cookieConsent/cookieConsent.component';
 import ReduxToastr from 'react-redux-toastr';
+import Tour from './tour/tour.component';
 
 const history = createBrowserHistory();
 
@@ -56,6 +57,7 @@ const pageContent = (): React.ReactNode => (
     <Preloader />
     <MainAppBar />
     <NavigationDrawer />
+    <Tour />
     <CookieConsent />
     <Routing />
   </React.Fragment>

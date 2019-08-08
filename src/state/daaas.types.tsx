@@ -1,3 +1,5 @@
+import { Step } from 'react-joyride';
+
 export const AuthSuccessType = 'daaas:auth_success';
 export const AuthFailureType = 'daaas:auth_failure';
 export const LoadingAuthType = 'daaas:loading_auth';
@@ -16,6 +18,8 @@ export const AddNotificationsType = 'daaas:add_notification';
 export const SiteLoadingType = 'daaas:site_loading';
 export const ConfigureAnalyticsType = 'daaas:configure_analytics';
 export const InitialiseAnalyticsType = 'daaas:initialise_analytics';
+export const ToggleHelpType = 'daaas:toggle_help';
+export const AddHelpTourStepsType = 'daaas:add_help_tour_steps';
 
 export interface NotificationPayload {
   message: string;
@@ -52,6 +56,7 @@ export interface RegisterRoutePayload {
   plugin: string;
   displayName: string;
   order: number;
+  helpText?: string;
 }
 
 export interface PluginConfig {
@@ -60,6 +65,7 @@ export interface PluginConfig {
   plugin: string;
   displayName: string;
   order: number;
+  helpText?: string;
 }
 
 export interface GroupedPlugins {
@@ -95,4 +101,8 @@ export interface SiteLoadingPayload {
 
 export interface ConfigureAnalyticsPayload {
   id: string;
+}
+
+export interface AddHelpTourStepsPayload {
+  steps: Step[];
 }

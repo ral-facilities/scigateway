@@ -33,6 +33,10 @@ describe('jwt auth provider', () => {
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
+  it('should successfully log in if user is already logged in', () => {
+    return jwtAuthProvider.logIn('user', 'password');
+  });
+
   it('should call the api to authenticate', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({

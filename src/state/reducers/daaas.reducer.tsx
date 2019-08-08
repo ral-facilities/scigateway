@@ -23,6 +23,9 @@ import {
   ConfigureAnalyticsType,
   ConfigureAnalyticsPayload,
   InitialiseAnalyticsType,
+  ToggleHelpType,
+  AddHelpTourStepsPayload,
+  AddHelpTourStepsType,
 } from '../daaas.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -30,6 +33,7 @@ import log from 'loglevel';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import LoadingAuthProvider from '../../authentication/loadingAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
+import { Step } from 'react-joyride';
 
 export const authState: AuthState = {
   failedToLogin: false,
@@ -43,6 +47,8 @@ export const initialState: DaaasState = {
   plugins: [],
   drawerOpen: false,
   siteLoading: true,
+  showHelp: false,
+  helpSteps: [],
   authorisation: authState,
   features: {
     showContactButton: true,
@@ -266,6 +272,44 @@ export function handleInitialiseAnalytics(state: DaaasState): DaaasState {
   }
 }
 
+export function handleToggleHelp(state: DaaasState): DaaasState {
+  return {
+    ...state,
+    showHelp: !state.showHelp,
+  };
+}
+
+const updateHelpSteps = (
+  existingHelpSteps: Step[],
+  newSteps: Step[]
+): Step[] => {
+  let newHelpSteps = [...existingHelpSteps];
+
+  newSteps.forEach(newStep => {
+    if (
+      !existingHelpSteps.some(
+        existingStep => existingStep.target === newStep.target
+      )
+    ) {
+      newHelpSteps.push(newStep);
+    } else {
+      log.error(`Duplicate help step target identified: ${newStep.target}.`);
+    }
+  });
+  return newHelpSteps;
+};
+
+export function handleAddHelpTourSteps(
+  state: DaaasState,
+  payload: AddHelpTourStepsPayload
+): DaaasState {
+  return {
+    ...state,
+    helpSteps: updateHelpSteps(state.helpSteps, payload.steps),
+    // helpSteps: [...state.helpSteps, ...payload.steps],
+  };
+}
+
 const DaaasReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -282,6 +326,8 @@ const DaaasReducer = createReducer(initialState, {
   [SiteLoadingType]: handleSiteLoadingUpdate,
   [ConfigureAnalyticsType]: handleConfigureAnalytics,
   [InitialiseAnalyticsType]: handleInitialiseAnalytics,
+  [ToggleHelpType]: handleToggleHelp,
+  [AddHelpTourStepsType]: handleAddHelpTourSteps,
 });
 
 export default DaaasReducer;
