@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Unit Tests') {
             steps {
-                sh 'npm test'
+                sh 'npm run test:ci'
             }
             post {
                 always {
@@ -20,7 +20,7 @@ pipeline {
         }
         stage('E2E Tests') {
             steps {
-                sh 'npm run e2e'
+                sh 'npm run e2e:ci'
             }
             post {
                 always {
