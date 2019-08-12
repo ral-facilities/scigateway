@@ -26,6 +26,9 @@ pipeline {
                 always {
                     junit 'e2e_results.xml'
                 }
+                unsuccessful {
+                    archiveArtifacts artifacts: 'cypress/screenshots/*'
+                }
             }
         }
     }
