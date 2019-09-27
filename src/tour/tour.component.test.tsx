@@ -4,7 +4,7 @@ import Tour from './tour.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';

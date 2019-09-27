@@ -2,7 +2,7 @@ import React from 'react';
 import ExampleComponent from './example.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
-import { initialState } from './state/reducers/daaas.reducer';
+import { initialState } from './state/reducers/scigateway.reducer';
 import { StateType } from './state/state.types';
 
 describe('Example component', () => {

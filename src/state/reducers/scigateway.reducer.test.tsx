@@ -15,7 +15,7 @@ import {
 import DaaasReducer, {
   initialState,
   handleAuthProviderUpdate,
-} from './daaas.reducer';
+} from './scigateway.reducer';
 import { SignOutType, TokenExpiredType } from '../daaas.types';
 import { DaaasState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';

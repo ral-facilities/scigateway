@@ -1,6 +1,6 @@
 import { combineReducers, Reducer } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import daaasReducer from './daaas.reducer';
+import daaasReducer from './scigateway.reducer';
 import { History } from 'history';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 

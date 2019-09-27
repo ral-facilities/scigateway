@@ -3,7 +3,7 @@ import UserProfileComponent from './userProfile.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
 import { MenuItem, Avatar } from '@material-ui/core';

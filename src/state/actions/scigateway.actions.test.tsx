@@ -21,7 +21,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsType,
 } from '../daaas.types';
-import { initialState } from '../reducers/daaas.reducer';
+import { initialState } from '../reducers/scigateway.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';

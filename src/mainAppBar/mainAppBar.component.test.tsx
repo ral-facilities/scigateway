@@ -4,7 +4,7 @@ import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { push } from 'connected-react-router';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';

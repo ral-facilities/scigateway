@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { AnyAction, Middleware, Dispatch } from 'redux';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { storybookResourceStrings } from './storybookResourceStrings';

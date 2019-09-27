@@ -3,7 +3,7 @@ import withAuth from './authorisedRoute.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';

@@ -3,7 +3,7 @@ import configureStore from 'redux-mock-store';
 import { RouterState } from 'connected-react-router';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import NavigationDrawer from './navigationDrawer.component';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/daaas.types';
