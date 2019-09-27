@@ -1,7 +1,7 @@
 import { AuthProvider, User } from '../state/state.types';
 import UserInfo from './user';
 
-const tokenLocalStorageName = 'daaas:token';
+const tokenLocalStorageName = 'scigateway:token';
 
 export default abstract class BaseAuthProvider implements AuthProvider {
   abstract logIn(username: string, password: string): Promise<void>;

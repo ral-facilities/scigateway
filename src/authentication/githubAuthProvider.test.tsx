@@ -8,7 +8,9 @@ describe('github auth provider', () => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name => (name === 'daaas:token' ? 'token' : null));
+      .mockImplementation(name =>
+        name === 'scigateway:token' ? 'token' : null
+      );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
@@ -16,14 +18,14 @@ describe('github auth provider', () => {
   });
 
   it('should load the token when built', () => {
-    expect(localStorage.getItem).toBeCalledWith('daaas:token');
+    expect(localStorage.getItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeTruthy();
   });
 
   it('should clear the token when logging out', () => {
     authProvider.logOut();
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
   });
 
@@ -43,7 +45,7 @@ describe('github auth provider', () => {
 
     await authProvider.logIn('', '?code=code12345');
 
-    expect(localStorage.setItem).toBeCalledWith('daaas:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
 
     expect(authProvider.isLoggedIn()).toBeTruthy();
     expect(authProvider.user.username).toBe('user');
@@ -53,7 +55,7 @@ describe('github auth provider', () => {
   it('should log the user out if there is no verification code', async () => {
     await authProvider.logIn('', '?notcodeparam=1234');
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
   });
 
@@ -68,7 +70,7 @@ describe('github auth provider', () => {
 
     await authProvider.logIn('', '?code=fake').catch(() => {});
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
   });
 
@@ -83,7 +85,7 @@ describe('github auth provider', () => {
 
     await authProvider.verifyLogIn().catch(() => {});
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
   });
 
