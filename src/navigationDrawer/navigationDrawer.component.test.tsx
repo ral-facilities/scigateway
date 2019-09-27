@@ -6,7 +6,7 @@ import NavigationDrawer from './navigationDrawer.component';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
-import { PluginConfig } from '../state/daaas.types';
+import { PluginConfig } from '../state/scigateway.types';
 
 describe('Navigation drawer component', () => {
   let shallow;

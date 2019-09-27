@@ -1,4 +1,4 @@
-import { ApplicationStrings } from '../state/daaas.types';
+import { ApplicationStrings } from '../state/scigateway.types';
 
 export const storybookResourceStrings: ApplicationStrings = {
   'main-appbar': {

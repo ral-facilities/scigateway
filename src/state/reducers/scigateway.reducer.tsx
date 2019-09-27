@@ -23,7 +23,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
-} from '../daaas.types';
+} from '../scigateway.types';
 import { DaaasState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';

@@ -16,7 +16,7 @@ import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
-import { AppStrings } from '../state/daaas.types';
+import { AppStrings } from '../state/scigateway.types';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({

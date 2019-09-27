@@ -1,9 +1,9 @@
-import ScigatewayMiddleware, { listenToPlugins } from './daaas.middleware';
+import ScigatewayMiddleware, { listenToPlugins } from './scigateway.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
-import { AddHelpTourStepsType } from '../daaas.types';
+import { AddHelpTourStepsType } from '../scigateway.types';
 
 describe('daaas middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];

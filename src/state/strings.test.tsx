@@ -1,5 +1,5 @@
 import { getAppStrings, getString } from './strings';
-import { AppStrings } from './daaas.types';
+import { AppStrings } from './scigateway.types';
 import { DaaasState, StateType } from './state.types';
 import { RouterState } from 'connected-react-router';
 import { authState } from './reducers/scigateway.reducer';

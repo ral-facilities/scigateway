@@ -20,7 +20,7 @@ import {
   DismissNotificationType,
   ToggleHelpType,
   AddHelpTourStepsType,
-} from '../daaas.types';
+} from '../scigateway.types';
 import { initialState } from '../reducers/scigateway.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';

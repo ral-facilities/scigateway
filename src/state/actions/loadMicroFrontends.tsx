@@ -3,7 +3,7 @@
 import * as singleSpa from 'single-spa';
 import { Plugin } from '../state.types';
 import * as log from 'loglevel';
-import { NotificationType } from '../daaas.types';
+import { NotificationType } from '../scigateway.types';
 
 const runScript = async (url: string) => {
   return new Promise((resolve, reject) => {

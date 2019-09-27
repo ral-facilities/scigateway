@@ -1,4 +1,4 @@
-import { AppStrings } from './daaas.types';
+import { AppStrings } from './scigateway.types';
 import { StateType } from './state.types';
 
 export function getAppStrings(

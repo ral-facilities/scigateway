@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router';
 import { StateType } from '../state/state.types';
-import { PluginConfig } from '../state/daaas.types';
+import { PluginConfig } from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
 import LoginPage from '../loginPage/loginPage.component';

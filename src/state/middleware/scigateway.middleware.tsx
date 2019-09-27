@@ -3,7 +3,7 @@ import {
   NotificationType,
   RegisterRouteType,
   RequestPluginRerenderType,
-} from '../daaas.types';
+} from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import { addHelpTourSteps } from '../actions/scigateway.actions';

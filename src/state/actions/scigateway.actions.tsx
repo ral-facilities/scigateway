@@ -23,7 +23,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsType,
   AddHelpTourStepsPayload,
-} from '../daaas.types';
+} from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';

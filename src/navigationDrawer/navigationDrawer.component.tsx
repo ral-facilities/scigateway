@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
-import { PluginConfig } from '../state/daaas.types';
+import { PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
