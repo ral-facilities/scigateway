@@ -1,4 +1,4 @@
-import DaaasMiddleware, { listenToPlugins } from './daaas.middleware';
+import ScigatewayMiddleware, { listenToPlugins } from './daaas.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
@@ -56,19 +56,19 @@ describe('daaas middleware', () => {
   });
 
   it('should broadcast messages with broadcast flag', () => {
-    DaaasMiddleware(store)(store.dispatch)(action);
+    ScigatewayMiddleware(store)(store.dispatch)(action);
 
     expect(events.length).toEqual(1);
     expect(events[0].detail).toEqual(action);
   });
 
   it('should not broadcast messages without broadcast flag', () => {
-    DaaasMiddleware(store)(store.dispatch)({ type: 'test', payload: {} });
+    ScigatewayMiddleware(store)(store.dispatch)({ type: 'test', payload: {} });
     expect(events.length).toEqual(0);
   });
 
   it('should not broadcast messages without payload', () => {
-    DaaasMiddleware(store)(store.dispatch)({ type: 'test' });
+    ScigatewayMiddleware(store)(store.dispatch)({ type: 'test' });
     expect(events.length).toEqual(0);
   });
 
@@ -197,7 +197,7 @@ describe('daaas middleware', () => {
 
     listenToPlugins(store.dispatch);
 
-    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
+    ScigatewayMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
     expect(store.getActions().length).toEqual(1);
     expect(events.length).toEqual(1);
     expect(events[0].detail).toEqual(requestPluginRerenderAction);

@@ -86,7 +86,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
 };
 
 // this would normally be store => next => action but we don't need store
-const DaaasMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
+const ScigatewayMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
   action: AnyAction
 ): AnyAction => {
   if (action.payload && action.payload.broadcast) {
@@ -96,4 +96,4 @@ const DaaasMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
   return next(action);
 }) as Middleware;
 
-export default DaaasMiddleware;
+export default ScigatewayMiddleware;
