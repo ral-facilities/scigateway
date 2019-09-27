@@ -5,7 +5,7 @@ import { createShallow, createMount } from '@material-ui/core/test-utils';
 import NavigationDrawer from './navigationDrawer.component';
 import { initialState } from '../state/reducers/daaas.reducer';
 import { StateType } from '../state/state.types';
-import { toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/daaas.types';
 
 describe('Navigation drawer component', () => {

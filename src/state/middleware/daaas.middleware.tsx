@@ -6,7 +6,7 @@ import {
 } from '../daaas.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
-import { addHelpTourSteps } from '../actions/daaas.actions';
+import { addHelpTourSteps } from '../actions/scigateway.actions';
 
 const microFrontendMessageId = 'daaas-frontend';
 

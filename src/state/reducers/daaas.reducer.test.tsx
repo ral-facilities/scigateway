@@ -11,7 +11,7 @@ import {
   loadFeatureSwitches,
   toggleHelp,
   addHelpTourSteps,
-} from '../actions/daaas.actions';
+} from '../actions/scigateway.actions';
 import DaaasReducer, {
   initialState,
   handleAuthProviderUpdate,

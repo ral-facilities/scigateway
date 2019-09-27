@@ -16,7 +16,7 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';

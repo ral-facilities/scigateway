@@ -10,7 +10,7 @@ import { Theme, withTheme } from '@material-ui/core/styles';
 import { UKRITheme } from '../theming';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
-import { toggleHelp, toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
 import { Dispatch, Action } from 'redux';
 
 interface TourProps {

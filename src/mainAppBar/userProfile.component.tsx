@@ -20,7 +20,7 @@ import {
 import { StyleRules } from '@material-ui/core/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { signOut } from '../state/actions/daaas.actions';
+import { signOut } from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/daaas.types';
 import { ThunkDispatch } from 'redux-thunk';

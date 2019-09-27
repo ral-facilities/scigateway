@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
-import { toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';

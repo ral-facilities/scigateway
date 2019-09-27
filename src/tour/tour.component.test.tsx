@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/daaas.reducer';
 import { createLocation } from 'history';
-import { toggleHelp, toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import Joyride from 'react-joyride';
 import { buildTheme } from '../theming';

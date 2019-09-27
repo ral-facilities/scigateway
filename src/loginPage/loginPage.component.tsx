@@ -16,7 +16,7 @@ import {
   createStyles,
   WithStyles,
 } from '@material-ui/core/styles';
-import { verifyUsernameAndPassword } from '../state/actions/daaas.actions';
+import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType, AuthState } from '../state/state.types';
 import { UKRITheme } from '../theming';

@@ -10,7 +10,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 import Routing from './routing/routing.component';
-import { configureSite } from './state/actions/daaas.actions';
+import { configureSite } from './state/actions/scigateway.actions';
 import DaaasMiddleware, {
   listenToPlugins,
 } from './state/middleware/daaas.middleware';

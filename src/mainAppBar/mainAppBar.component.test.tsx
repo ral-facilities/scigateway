@@ -5,7 +5,7 @@ import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { push } from 'connected-react-router';
 import { initialState } from '../state/reducers/daaas.reducer';
-import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';

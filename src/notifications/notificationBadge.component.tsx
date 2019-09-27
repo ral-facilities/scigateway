@@ -14,7 +14,7 @@ import { StyleRules } from '@material-ui/core/styles';
 import { UKRITheme } from '../theming';
 import { StateType, DaaasNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
-import { dismissMenuItem } from '../state/actions/daaas.actions';
+import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { NotificationWithStyles } from './daaasNotification.component';
 
 interface BadgeProps {

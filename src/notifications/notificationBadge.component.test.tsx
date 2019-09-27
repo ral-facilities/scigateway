@@ -10,7 +10,7 @@ import { buildTheme } from '../theming';
 import { Action } from 'redux';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/daaas.reducer';
-import { dismissMenuItem } from '../state/actions/daaas.actions';
+import { dismissMenuItem } from '../state/actions/scigateway.actions';
 
 describe('Notification Badge component', () => {
   let shallow;

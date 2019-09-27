@@ -13,7 +13,7 @@ import {
   unauthorised,
   toggleHelp,
   addHelpTourSteps,
-} from './daaas.actions';
+} from './scigateway.actions';
 import {
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
