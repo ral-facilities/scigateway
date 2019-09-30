@@ -40,7 +40,7 @@ describe('Tour component', () => {
     mount = createMount();
 
     state = {
-      daaas: {
+      scigateway: {
         ...initialState,
         helpSteps: [
           {
@@ -66,7 +66,7 @@ describe('Tour component', () => {
   });
 
   it('renders correctly', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -82,7 +82,7 @@ describe('Tour component', () => {
   });
 
   it('shows next tooltip when next is clicked', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -110,7 +110,7 @@ describe('Tour component', () => {
   });
 
   it('shows previous tooltip when back is clicked', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -140,7 +140,7 @@ describe('Tour component', () => {
   });
 
   it('sends toggleHelp message when tour is finished', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -165,10 +165,12 @@ describe('Tour component', () => {
   });
 
   it('sends toggleDrawer message when tour moves into plugin link tour steps', () => {
-    state.daaas.drawerOpen = false;
-    state.daaas.showHelp = true;
-    state.daaas.authorisation.provider = new TestAuthProvider('test-token');
-    state.daaas.helpSteps = [
+    state.scigateway.drawerOpen = false;
+    state.scigateway.showHelp = true;
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+    state.scigateway.helpSteps = [
       {
         target: '.test-1',
         content: 'Test 1',
@@ -214,10 +216,12 @@ describe('Tour component', () => {
   });
 
   it('sends toggleDrawer message when tour moves out of plugin link tour steps', () => {
-    state.daaas.drawerOpen = true;
-    state.daaas.showHelp = true;
-    state.daaas.authorisation.provider = new TestAuthProvider('test-token');
-    state.daaas.helpSteps = [
+    state.scigateway.drawerOpen = true;
+    state.scigateway.showHelp = true;
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+    state.scigateway.helpSteps = [
       {
         target: '.test-1',
         content: 'Test 1',
@@ -265,8 +269,8 @@ describe('Tour component', () => {
   });
 
   it('does not show plugin links when user is not logged in', () => {
-    state.daaas.showHelp = true;
-    state.daaas.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.showHelp = true;
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
     jest.useFakeTimers();
 
     const testStore = mockStore(state);

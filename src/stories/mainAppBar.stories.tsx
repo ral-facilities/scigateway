@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MainAppBar from '../mainAppBar/mainAppBar.component';
 import { ReduxDecorator } from './utils';
-import { DaaasState, User } from '../state/state.types';
+import { ScigatewayState, User } from '../state/state.types';
 import UserInfo from '../authentication/user';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
@@ -20,7 +20,7 @@ const user = new UserInfo('storybook-user');
 user.avatarUrl =
   'https://avatars.dicebear.com/v2/jdenticon/3c0a7b089458bd2c8f5929b944050e73.svg';
 
-type StateModifier = (state: DaaasState) => DaaasState;
+type StateModifier = (state: ScigatewayState) => ScigatewayState;
 
 const updateToBeLoggedIn = (user: User): StateModifier => state => {
   state.authorisation.provider = new TestAuthProvider('logged in');
@@ -30,7 +30,7 @@ const updateToBeLoggedIn = (user: User): StateModifier => state => {
   return state;
 };
 
-const updateToBeLoggedOut = (state: DaaasState): DaaasState => {
+const updateToBeLoggedOut = (state: ScigatewayState): ScigatewayState => {
   state.authorisation.provider = new TestAuthProvider(null);
   return state;
 };

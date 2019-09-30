@@ -113,7 +113,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPromises = [];
 
         // after auth provider is set then the token needs to be verified
-        const provider = getState().daaas.authorisation.provider;
+        const provider = getState().scigateway.authorisation.provider;
         if (provider.isLoggedIn()) {
           const verifyingLogin = provider
             .verifyLogIn()
@@ -181,7 +181,7 @@ export const verifyUsernameAndPassword = (
   return async (dispatch, getState) => {
     // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
-    const authProvider = getState().daaas.authorisation.provider;
+    const authProvider = getState().scigateway.authorisation.provider;
     await authProvider
       .logIn(username, password)
       .then(() => {

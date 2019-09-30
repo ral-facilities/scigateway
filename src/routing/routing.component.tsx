@@ -80,9 +80,9 @@ class Routing extends React.Component<
 export const RoutingWithStyles = withStyles(styles)(Routing);
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
-  plugins: state.daaas.plugins,
+  plugins: state.scigateway.plugins,
   location: state.router.location.pathname,
-  drawerOpen: state.daaas.drawerOpen,
+  drawerOpen: state.scigateway.drawerOpen,
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);

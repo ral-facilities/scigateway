@@ -5,20 +5,20 @@ import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
 
-describe('daaas middleware', () => {
+describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
   let handler: (event: Event) => void;
   let store: MockStoreEnhanced;
 
   const action = {
-    type: 'daaas:api:test-action',
+    type: 'scigateway:api:test-action',
     payload: {
       broadcast: true,
     },
   };
 
   const registerRouteAction = {
-    type: 'daaas:api:register_route',
+    type: 'scigateway:api:register_route',
     payload: {
       section: 'Analysis',
       link: '/plugin1/analysis2',
@@ -30,7 +30,7 @@ describe('daaas middleware', () => {
   };
 
   const requestPluginRerenderAction = {
-    type: 'daaas:api:plugin_rerender',
+    type: 'scigateway:api:plugin_rerender',
     payload: {
       broadcast: true,
     },
@@ -120,7 +120,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
         },
@@ -137,7 +137,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
           severity: 'success',
@@ -156,7 +156,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
           severity: 'error',
@@ -176,7 +176,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
           severity: 'warning',

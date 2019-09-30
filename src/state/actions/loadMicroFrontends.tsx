@@ -46,7 +46,7 @@ async function init(plugins: Plugin[]) {
           // TODO: record error back on server somewhere
           log.error(`Failed to load plugin ${p.name} from ${p.src}`);
           document.dispatchEvent(
-            new CustomEvent('daaas-frontend', {
+            new CustomEvent('scigateway', {
               detail: {
                 type: NotificationType,
                 payload: {

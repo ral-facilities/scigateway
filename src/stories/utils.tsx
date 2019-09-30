@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { storybookResourceStrings } from './storybookResourceStrings';
 import { StoryDecorator } from '@storybook/react';
-import { DaaasState } from '../state/state.types';
+import { ScigatewayState } from '../state/state.types';
 import thunk from 'redux-thunk';
 import log from 'loglevel';
 
@@ -37,17 +37,17 @@ const StorybookMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
   return next(reduxAction);
 }) as Middleware;
 
-type StateUpdater = (state: DaaasState) => DaaasState;
+type StateUpdater = (state: ScigatewayState) => ScigatewayState;
 type ReduxDecoratorGeneratorType = (updater: StateUpdater) => StoryDecorator;
 
 /* eslint-disable-next-line react/display-name */
 export const ReduxDecorator: ReduxDecoratorGeneratorType = (stateUpdater => storyFn => {
-  const state = { daaas: initialState };
-  state.daaas.res = storybookResourceStrings;
+  const state = { scigateway: initialState };
+  state.scigateway.res = storybookResourceStrings;
   return (
     <Provider
       store={configureStore([thunk, StorybookMiddleware])({
-        daaas: stateUpdater(state.daaas),
+        scigateway: stateUpdater(state.scigateway),
         router: {
           action: 'POP',
           location: {

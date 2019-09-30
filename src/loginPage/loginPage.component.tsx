@@ -213,7 +213,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 };
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
-  auth: state.daaas.authorisation,
+  auth: state.scigateway.authorisation,
   res: getAppStrings(state, 'login'),
   location: state.router.location,
 });

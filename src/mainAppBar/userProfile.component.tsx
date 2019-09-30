@@ -139,8 +139,9 @@ export const UserProfileComponentWithStyles = withStyles(styles)(
 );
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
-  user: state.daaas.authorisation.provider.user || new UserInfo('anonymous'),
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  user:
+    state.scigateway.authorisation.provider.user || new UserInfo('anonymous'),
   res: getAppStrings(state, 'login'),
 });
 

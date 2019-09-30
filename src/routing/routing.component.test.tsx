@@ -15,7 +15,7 @@ describe('Routing component', () => {
     shallow = createShallow({});
 
     state = {
-      daaas: initialState,
+      scigateway: initialState,
       router: {
         action: 'POP',
         location: createLocation('/'),
@@ -26,14 +26,14 @@ describe('Routing component', () => {
   });
 
   it('renders component with no plugin routes', () => {
-    state.daaas.plugins = [];
+    state.scigateway.plugins = [];
     const wrapper = shallow(<Routing store={mockStore(state)} />);
 
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
   it('renders component with plugins', () => {
-    state.daaas.plugins = [
+    state.scigateway.plugins = [
       {
         section: 'test section',
         link: 'test link',

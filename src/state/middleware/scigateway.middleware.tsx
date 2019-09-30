@@ -8,7 +8,7 @@ import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import { addHelpTourSteps } from '../actions/scigateway.actions';
 
-const microFrontendMessageId = 'daaas-frontend';
+const microFrontendMessageId = 'scigateway';
 
 const broadcastToPlugins = (action: AnyAction): void => {
   document.dispatchEvent(
@@ -30,7 +30,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
     if (
       pluginMessage.detail &&
       pluginMessage.detail.type &&
-      pluginMessage.detail.type.startsWith('daaas:api:')
+      pluginMessage.detail.type.startsWith('scigateway:api:')
     ) {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {

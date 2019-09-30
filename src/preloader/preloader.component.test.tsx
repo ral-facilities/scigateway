@@ -15,7 +15,7 @@ describe('Preloader component', () => {
     shallow = createShallow({});
 
     state = {
-      daaas: initialState,
+      scigateway: initialState,
       router: {
         action: 'POP',
         location: createLocation('/'),
@@ -25,7 +25,7 @@ describe('Preloader component', () => {
   });
 
   it('renders correctly', () => {
-    state.daaas.siteLoading = true;
+    state.scigateway.siteLoading = true;
 
     const wrapper = shallow(<Preloader store={mockStore(state)} />);
     expect(wrapper.dive()).toMatchSnapshot();
@@ -39,7 +39,7 @@ describe('Preloader component', () => {
   });
 
   it('does not render when the site stops loading', () => {
-    state.daaas.siteLoading = false;
+    state.scigateway.siteLoading = false;
 
     const wrapper = shallow(<Preloader store={mockStore(state)} />);
     expect(wrapper.dive()).toMatchSnapshot();

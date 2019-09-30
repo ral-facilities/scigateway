@@ -150,9 +150,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 );
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
-  drawerOpen: state.daaas.drawerOpen,
-  showContactButton: state.daaas.features.showContactButton,
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  drawerOpen: state.scigateway.drawerOpen,
+  showContactButton: state.scigateway.features.showContactButton,
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   res: getAppStrings(state, 'main-appbar'),
 });
 

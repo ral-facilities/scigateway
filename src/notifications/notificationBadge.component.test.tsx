@@ -77,8 +77,8 @@ describe('Notification Badge component', () => {
   });
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
-    let state = { daaas: initialState };
-    state.daaas.notifications = [
+    let state = { scigateway: initialState };
+    state.scigateway.notifications = [
       { message: 'my message', severity: 'warning' },
     ];
     const testStore = mockStore(state);

@@ -5,7 +5,7 @@ export function getAppStrings(
   state: StateType,
   section: string
 ): AppStrings | undefined {
-  return state.daaas.res ? state.daaas.res[section] : undefined;
+  return state.scigateway.res ? state.scigateway.res[section] : undefined;
 }
 
 export const getString = (res: AppStrings | undefined, key: string): string =>

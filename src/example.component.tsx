@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { DaaasNotification, StateType } from './state/state.types';
+import { ScigatewayNotification, StateType } from './state/state.types';
 
 interface ExampleComponentProps {
-  notifications: DaaasNotification[];
+  notifications: ScigatewayNotification[];
 }
 
 const ExampleComponent = (props: ExampleComponentProps): React.ReactElement => (
@@ -12,7 +12,7 @@ const ExampleComponent = (props: ExampleComponentProps): React.ReactElement => (
 
 const mapStateToProps = (state: StateType): ExampleComponentProps => {
   return {
-    notifications: state.daaas.notifications,
+    notifications: state.scigateway.notifications,
   };
 };
 

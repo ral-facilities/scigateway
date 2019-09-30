@@ -15,13 +15,13 @@ describe('Example component', () => {
 
     mockStore = configureStore();
     state = {
-      daaas: initialState,
+      scigateway: initialState,
     };
   });
 
   it('renders correctly', () => {
     // update the notification
-    state.daaas.notifications = ['test notification'];
+    state.scigateway.notifications = ['test notification'];
 
     const wrapper = shallow(<ExampleComponent store={mockStore(state)} />);
     expect(wrapper.dive()).toMatchSnapshot();

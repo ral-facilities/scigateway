@@ -24,7 +24,7 @@ import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
 } from '../scigateway.types';
-import { DaaasState, AuthState } from '../state.types';
+import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
@@ -39,7 +39,7 @@ export const authState: AuthState = {
   provider: new LoadingAuthProvider(),
 };
 
-export const initialState: DaaasState = {
+export const initialState: ScigatewayState = {
   notifications: [],
   plugins: [],
   drawerOpen: false,
@@ -53,9 +53,9 @@ export const initialState: DaaasState = {
 };
 
 export function handleNotification(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: NotificationPayload
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     notifications: [
@@ -65,7 +65,7 @@ export function handleNotification(
   };
 }
 
-export function handleDrawerToggle(state: DaaasState): DaaasState {
+export function handleDrawerToggle(state: ScigatewayState): ScigatewayState {
   return {
     ...state,
     drawerOpen: !state.drawerOpen,
@@ -73,9 +73,9 @@ export function handleDrawerToggle(state: DaaasState): DaaasState {
 }
 
 export function handleConfigureStrings(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: ConfigureStringsPayload
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     res: payload.res,
@@ -98,16 +98,16 @@ const updatePlugins = (
 };
 
 export function handleRegisterPlugin(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: RegisterRoutePayload
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     plugins: updatePlugins(state.plugins, payload),
   };
 }
 
-export const handleLoadingAuth = (state: DaaasState): DaaasState => ({
+export const handleLoadingAuth = (state: ScigatewayState): ScigatewayState => ({
   ...state,
   authorisation: {
     ...state.authorisation,
@@ -115,7 +115,7 @@ export const handleLoadingAuth = (state: DaaasState): DaaasState => ({
   },
 });
 
-export function handleSuccessfulLogin(state: DaaasState): DaaasState {
+export function handleSuccessfulLogin(state: ScigatewayState): ScigatewayState {
   log.debug(`Successfully logged in`);
   return {
     ...state,
@@ -139,9 +139,9 @@ const resetAuth = (authorisation: AuthState): AuthState => {
 };
 
 export function handleUnsuccessfulLogin(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: null
-): DaaasState {
+): ScigatewayState {
   log.debug(`Failed to log in with ${payload}`);
   return {
     ...state,
@@ -153,7 +153,7 @@ export function handleUnsuccessfulLogin(
   };
 }
 
-export function handleSignOut(state: DaaasState): DaaasState {
+export function handleSignOut(state: ScigatewayState): ScigatewayState {
   log.debug(`User is being signed out`);
   return {
     ...state,
@@ -162,7 +162,7 @@ export function handleSignOut(state: DaaasState): DaaasState {
   };
 }
 
-export function handleTokenExpiration(state: DaaasState): DaaasState {
+export function handleTokenExpiration(state: ScigatewayState): ScigatewayState {
   return {
     ...state,
     drawerOpen: false,
@@ -174,9 +174,9 @@ export function handleTokenExpiration(state: DaaasState): DaaasState {
 }
 
 export function handleConfigureFeatureSwitches(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: FeatureSwitchesPayload
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     features: payload.switches,
@@ -184,9 +184,9 @@ export function handleConfigureFeatureSwitches(
 }
 
 export function handleDismissNotification(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: { index: number }
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     notifications: [
@@ -198,9 +198,9 @@ export function handleDismissNotification(
 }
 
 export function handleAuthProviderUpdate(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: AuthProviderPayload
-): DaaasState {
+): ScigatewayState {
   let provider = state.authorisation.provider;
   switch (payload.authProvider) {
     case 'jwt':
@@ -229,16 +229,16 @@ export function handleAuthProviderUpdate(
 }
 
 export function handleSiteLoadingUpdate(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: SiteLoadingPayload
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     siteLoading: payload.loading,
   };
 }
 
-export function handleToggleHelp(state: DaaasState): DaaasState {
+export function handleToggleHelp(state: ScigatewayState): ScigatewayState {
   return {
     ...state,
     showHelp: !state.showHelp,
@@ -266,9 +266,9 @@ const updateHelpSteps = (
 };
 
 export function handleAddHelpTourSteps(
-  state: DaaasState,
+  state: ScigatewayState,
   payload: AddHelpTourStepsPayload
-): DaaasState {
+): ScigatewayState {
   return {
     ...state,
     helpSteps: updateHelpSteps(state.helpSteps, payload.steps),
@@ -276,7 +276,7 @@ export function handleAddHelpTourSteps(
   };
 }
 
-const DaaasReducer = createReducer(initialState, {
+const ScigatewayReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
   [RegisterRouteType]: handleRegisterPlugin,
@@ -294,4 +294,4 @@ const DaaasReducer = createReducer(initialState, {
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
 });
 
-export default DaaasReducer;
+export default ScigatewayReducer;

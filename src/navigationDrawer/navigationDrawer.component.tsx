@@ -154,8 +154,8 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 }
 
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
-  open: state.daaas.drawerOpen,
-  plugins: state.daaas.plugins,
+  open: state.scigateway.drawerOpen,
+  plugins: state.scigateway.plugins,
 });
 
 const mapDispatchToProps = (

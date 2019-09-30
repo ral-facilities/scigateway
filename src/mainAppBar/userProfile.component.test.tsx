@@ -21,8 +21,10 @@ describe('User profile component', () => {
     mount = createMount();
 
     mockStore = configureStore([thunk]);
-    state = JSON.parse(JSON.stringify({ daaas: initialState }));
-    state.daaas.authorisation.provider = new TestAuthProvider('test-token');
+    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
   });
 
   afterEach(() => {
@@ -30,14 +32,14 @@ describe('User profile component', () => {
   });
 
   it('renders sign in button if not signed in', () => {
-    state.daaas.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
     expect(wrapper.dive().dive()).toMatchSnapshot();
   });
 
   it('redirects to login when sign in is pressed', () => {
-    state.daaas.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
     const testStore = mockStore(state);
     const wrapper = mount(
@@ -61,7 +63,7 @@ describe('User profile component', () => {
   });
 
   it('renders user avatar if signed in with avatar url', () => {
-    state.daaas.authorisation.provider.user = {
+    state.scigateway.authorisation.provider.user = {
       username: 'test',
       avatarUrl: 'test_url',
     };
@@ -70,7 +72,7 @@ describe('User profile component', () => {
   });
 
   it('opens menu when button clicked', () => {
-    state.daaas.authorisation.provider.user = {
+    state.scigateway.authorisation.provider.user = {
       username: 'test',
       avatarUrl: 'test_url',
     };
@@ -105,7 +107,7 @@ describe('User profile component', () => {
     wrapper.find(MenuItem).simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[0]).toEqual({ type: 'daaas:signout' });
+    expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
     expect(testStore.getActions()[1]).toEqual(push('/'));
   });
 });

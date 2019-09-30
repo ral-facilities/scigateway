@@ -18,7 +18,7 @@ describe('Home page component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ daaas: initialState }));
+    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
   });
 
   afterEach(() => {

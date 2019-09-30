@@ -20,8 +20,8 @@ const isStartingUpOrLoading = (auth: AuthState): boolean =>
   auth.provider instanceof LoadingAuthProvider || auth.loading;
 
 const mapStateToProps = (state: StateType): WithAuthProps => ({
-  loading: isStartingUpOrLoading(state.daaas.authorisation),
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  loading: isStartingUpOrLoading(state.scigateway.authorisation),
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   location: state.router.location.pathname,
 });
 

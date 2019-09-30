@@ -122,10 +122,10 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
 }
 
 const mapStateToProps = (state: StateType): TourProps => ({
-  showHelp: state.daaas.showHelp,
-  helpSteps: state.daaas.helpSteps,
-  drawerOpen: state.daaas.drawerOpen,
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  showHelp: state.scigateway.showHelp,
+  helpSteps: state.scigateway.helpSteps,
+  drawerOpen: state.scigateway.drawerOpen,
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
