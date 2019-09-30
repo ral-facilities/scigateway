@@ -4,7 +4,7 @@ describe('Scigateway', () => {
     cy.title().should('equal', 'Scigateway');
 
     // the parent app should have loaded
-    cy.contains('Sci Gateway').should('be.visible');
+    cy.contains('SciGateway').should('be.visible');
 
     // the plugins should have loaded
     cy.contains('Demo Plugin').should('be.visible');
