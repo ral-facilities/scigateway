@@ -7,7 +7,7 @@
     {
       "name": "demo_plugin",
       "src": "http://localhost:5001/main.js",
-      "enable": true,
+      "enable": false,
       "location": "main"
     }
   ],
