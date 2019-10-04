@@ -10,6 +10,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
+        aria-label="Dropdown menu"
         className="MainAppBar-menuButton-7 MainAppBar-hide-9 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
@@ -17,6 +18,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         <pure(MenuIcon) />
       </WithStyles(IconButton)>
       <WithStyles(Typography)
+        aria-label="Homepage"
         className="MainAppBar-title-5 tour-title"
         color="inherit"
         noWrap={true}
@@ -26,6 +28,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         title
       </WithStyles(Typography)>
       <WithStyles(Button)
+        aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
         style={
           Object {
@@ -72,6 +75,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
+        aria-label="Dropdown menu"
         className="MainAppBar-menuButton-7 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
@@ -79,6 +83,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         <pure(MenuIcon) />
       </WithStyles(IconButton)>
       <WithStyles(Typography)
+        aria-label="Homepage"
         className="MainAppBar-title-5 tour-title"
         color="inherit"
         noWrap={true}
@@ -88,6 +93,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         title
       </WithStyles(Typography)>
       <WithStyles(Button)
+        aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
         style={
           Object {
@@ -134,6 +140,7 @@ exports[`Main app bar component does not render contact button when feature is f
   >
     <WithStyles(Toolbar)>
       <WithStyles(IconButton)
+        aria-label="Dropdown menu"
         className="MainAppBar-menuButton-7 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
@@ -141,6 +148,7 @@ exports[`Main app bar component does not render contact button when feature is f
         <pure(MenuIcon) />
       </WithStyles(IconButton)>
       <WithStyles(Typography)
+        aria-label="Homepage"
         className="MainAppBar-title-5 tour-title"
         color="inherit"
         noWrap={true}

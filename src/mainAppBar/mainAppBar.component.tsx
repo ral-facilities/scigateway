@@ -109,6 +109,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
             )}
             color="inherit"
             onClick={props.toggleDrawer}
+            aria-label="Dropdown menu"
           >
             <MenuIcon />
           </IconButton>
@@ -121,6 +122,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           color="inherit"
           noWrap
           onClick={props.navigateToHome}
+          aria-label="Homepage"
         >
           {getString(props.res, 'title')}
         </Typography>
@@ -128,6 +130,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           <Button
             className={classNames(props.classes.button, 'tour-contact')}
             style={{ paddingTop: 3 }}
+            aria-label="Contact"
           >
             <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
               {getString(props.res, 'contact')}
