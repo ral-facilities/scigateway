@@ -1,6 +1,6 @@
 {
   "main-appbar": {
-    "title": "Data Analysis as a Service",
+    "title": "SciGateway",
     "contact": "Contact"
   },
   "login": {
@@ -14,7 +14,7 @@
     "token-expire-msg": "Your session token has expired, please sign in again."
   },
   "home-page": {
-    "title": "Data Analysis as a Service",
+    "title": "SciGateway",
     "how-label": "How it works...",
     "explore-label": "1. Explore",
     "explore-description": "Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.",
