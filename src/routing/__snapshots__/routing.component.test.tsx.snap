@@ -17,6 +17,11 @@ exports[`Routing component renders component with no plugin routes 1`] = `
     />
     <Route
       component={[Function]}
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      component={[Function]}
     />
   </Switch>
 </div>
@@ -36,6 +41,11 @@ exports[`Routing component renders component with plugins 1`] = `
       component={[Function]}
       exact={true}
       path="/login"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/cookies"
     />
     <Route
       component={[Function]}

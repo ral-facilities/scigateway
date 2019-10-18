@@ -192,6 +192,26 @@ describe('daaas actions', () => {
     );
   });
 
+  it('given a ga-tracking-id configureAnalytics is run', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ga-tracking-id': 'test-tracking-id',
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ daaas: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions[0]).toEqual(configureAnalytics('test-tracking-id'));
+  });
+
   it('dispatches a site loading update after settings are loaded', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
