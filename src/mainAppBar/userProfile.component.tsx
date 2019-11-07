@@ -84,11 +84,13 @@ const UserProfileComponent = (
               alt="user"
               src={props.user.avatarUrl}
               onClick={e => setMenuAnchor(e.currentTarget)}
+              aria-label="Open user menu"
             />
           ) : (
             <IconButton
               className={props.classes.button}
               onClick={e => setMenuAnchor(e.currentTarget)}
+              aria-label="Open user menu"
             >
               <AccountCircleIcon />
             </IconButton>
