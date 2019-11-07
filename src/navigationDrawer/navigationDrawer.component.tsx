@@ -72,7 +72,11 @@ const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
 class NavigationDrawer extends Component<CombinedNavigationProps> {
   private createLink(plugin: PluginConfig, index: number): React.ReactElement {
     return (
-      <LinkListItem key={index} to={plugin.link}>
+      <LinkListItem
+        key={index}
+        to={plugin.link}
+        id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
+      >
         <ListItemText
           inset
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
@@ -138,7 +142,10 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         }}
       >
         <div className={this.props.classes.drawerHeader}>
-          <IconButton onClick={this.props.toggleDrawer}>
+          <IconButton
+            onClick={this.props.toggleDrawer}
+            aria-label="Dropdown Menu"
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>

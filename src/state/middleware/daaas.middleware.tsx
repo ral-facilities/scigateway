@@ -1,7 +1,12 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
-import { NotificationType, RegisterRouteType } from '../daaas.types';
+import {
+  NotificationType,
+  RegisterRouteType,
+  RequestPluginRerenderType,
+} from '../daaas.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
+import { addHelpTourSteps } from '../actions/daaas.actions';
 
 const microFrontendMessageId = 'daaas-frontend';
 
@@ -29,8 +34,25 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
     ) {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {
+        case RequestPluginRerenderType:
+          //ignore events sent from the parent app
+          break;
+
         case RegisterRouteType:
           dispatch(pluginMessage.detail);
+          if ('helpText' in pluginMessage.detail.payload) {
+            dispatch(
+              addHelpTourSteps([
+                {
+                  target: `#plugin-link-${pluginMessage.detail.payload.link.replace(
+                    /\//g,
+                    '-'
+                  )}`,
+                  content: pluginMessage.detail.payload.helpText,
+                },
+              ])
+            );
+          }
           break;
 
         case NotificationType:

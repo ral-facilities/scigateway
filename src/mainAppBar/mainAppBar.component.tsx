@@ -16,7 +16,7 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
 import { AppStrings } from '../state/daaas.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
@@ -35,12 +35,7 @@ interface MainAppProps {
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
-}
-
-interface ActionProps {
-  buttonText: string;
-  buttonClassName: string;
-  onClick: () => Action;
+  toggleHelp: () => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -92,14 +87,6 @@ const styles = (theme: Theme): StyleRules =>
     },
   });
 
-export const ActionButton = (props: ActionProps): React.ReactElement => (
-  <Button onClick={props.onClick} className={props.buttonClassName}>
-    <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-      {props.buttonText}
-    </Typography>
-  </Button>
-);
-
 type CombinedMainAppBarProps = MainAppProps &
   MainAppDispatchProps &
   WithStyles<typeof styles>;
@@ -117,7 +104,8 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           <IconButton
             className={classNames(
               props.classes.menuButton,
-              props.drawerOpen && props.classes.hide
+              props.drawerOpen && props.classes.hide,
+              'tour-nav-menu'
             )}
             color="inherit"
             onClick={props.toggleDrawer}
@@ -129,23 +117,32 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           <div className={props.classes.menuButtonPlaceholder} />
         )}
         <Typography
-          className={props.classes.title}
+          className={classNames(props.classes.title, 'tour-title')}
           variant="h6"
           color="inherit"
           noWrap
           onClick={props.navigateToHome}
+          aria-label="Homepage"
         >
           {getString(props.res, 'title')}
         </Typography>
         {props.showContactButton ? (
-          <Button className={props.classes.button} style={{ paddingTop: 3 }}>
+          <Button
+            className={classNames(props.classes.button, 'tour-contact')}
+            style={{ paddingTop: 3 }}
+            aria-label="Contact"
+          >
             <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
               {getString(props.res, 'contact')}
             </Typography>
           </Button>
         ) : null}
         <div className={props.classes.grow} />
-        <IconButton className={props.classes.button}>
+        <IconButton
+          className={props.classes.button}
+          onClick={props.toggleHelp}
+          aria-label="Help"
+        >
           <HelpIcon />
         </IconButton>
         {props.loggedIn ? <NotificationBadgeComponent /> : null}
@@ -165,6 +162,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
+  toggleHelp: () => dispatch(toggleHelp()),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);
