@@ -142,7 +142,10 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         }}
       >
         <div className={this.props.classes.drawerHeader}>
-          <IconButton onClick={this.props.toggleDrawer}>
+          <IconButton
+            onClick={this.props.toggleDrawer}
+            aria-label="Dropdown Menu"
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>

@@ -16,6 +16,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
     className="NavigationDrawer-drawerHeader-3"
   >
     <WithStyles(IconButton)
+      aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <pure(ChevronLeftIcon) />
@@ -42,6 +43,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
     className="NavigationDrawer-drawerHeader-3"
   >
     <WithStyles(IconButton)
+      aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <pure(ChevronLeftIcon) />
@@ -68,6 +70,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
     className="NavigationDrawer-drawerHeader-3"
   >
     <WithStyles(IconButton)
+      aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <pure(ChevronLeftIcon) />
