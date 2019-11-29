@@ -16,7 +16,7 @@ import DaaasReducer, {
   initialState,
   handleAuthProviderUpdate,
 } from './daaas.reducer';
-import { SignOutType, TokenExpiredType } from '../daaas.types';
+import { SignOutType, InvalidateTokenType } from '../daaas.types';
 import { DaaasState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
@@ -149,7 +149,9 @@ describe('daaas reducer', () => {
     let updatedState = DaaasReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
-    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+    expect(
+      updatedState.authorisation.signedOutDueToTokenInvalidation
+    ).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
@@ -163,13 +165,15 @@ describe('daaas reducer', () => {
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 
-  it('token expiration should reset authorisation and indicate expiration', () => {
-    const action = { type: TokenExpiredType };
+  it('token invalidation should reset authorisation and indicate invalidation', () => {
+    const action = { type: InvalidateTokenType };
     state.authorisation.provider = new TestAuthProvider('logged in');
 
     let updatedState = DaaasReducer(state, action);
 
-    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeTruthy();
+    expect(
+      updatedState.authorisation.signedOutDueToTokenInvalidation
+    ).toBeTruthy();
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 

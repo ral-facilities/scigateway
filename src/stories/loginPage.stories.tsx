@@ -18,7 +18,7 @@ const buildLoginPage = (
     }
     auth={{
       failedToLogin,
-      signedOutDueToTokenExpiry: false,
+      signedOutDueToTokenInvalidation: false,
       loading,
       provider,
     }}

@@ -2,6 +2,7 @@ import { AnyAction, Dispatch, Middleware } from 'redux';
 import {
   NotificationType,
   RegisterRouteType,
+  InvalidateTokenType,
   RequestPluginRerenderType,
 } from '../daaas.types';
 import log from 'loglevel';
@@ -66,6 +67,9 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
               toastr.warning('Warning', message, toastrMessageOptions);
             }
           }
+          break;
+        case InvalidateTokenType:
+          dispatch(pluginMessage.detail);
           break;
         default:
           // log and ignore
