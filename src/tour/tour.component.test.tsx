@@ -36,7 +36,7 @@ describe('Tour component', () => {
   const theme = buildTheme();
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'Tour' });
     mount = createMount();
 
     state = {
@@ -73,13 +73,7 @@ describe('Tour component', () => {
         <Tour store={mockStore(state)} />
       </MuiThemeProvider>
     );
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('shows next tooltip when next is clicked', () => {
