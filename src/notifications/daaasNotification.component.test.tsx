@@ -28,7 +28,7 @@ describe('Daaas Notification component', () => {
   let mount;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
   });
 
@@ -40,19 +40,19 @@ describe('Daaas Notification component', () => {
     const wrapper = shallow(
       createDaaasNotification('success', 'success message')
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('Daaas Notification warning message renders correctly', () => {
     const wrapper = shallow(
       createDaaasNotification('warning', 'warning message')
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('Daaas Notification error message renders correctly', () => {
     const wrapper = shallow(createDaaasNotification('error', 'error message'));
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('an action is fired when Daaas Notification button is clicked', () => {

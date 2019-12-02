@@ -14,7 +14,7 @@ describe('Home page component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
 
     mockStore = configureStore();
@@ -33,11 +33,6 @@ describe('Home page component', () => {
         <HomePage store={mockStore(state)} />
       </MuiThemeProvider>
     );
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

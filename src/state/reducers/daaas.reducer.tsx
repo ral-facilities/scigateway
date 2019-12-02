@@ -213,9 +213,7 @@ export function handleAuthProviderUpdate(
 
     default:
       throw Error(
-        `Unrecognised auth provider: ${
-          payload.authProvider
-        }, this is a development issue as there is no implementation registered for this provider.`
+        `Unrecognised auth provider: ${payload.authProvider}, this is a development issue as there is no implementation registered for this provider.`
       );
   }
 
