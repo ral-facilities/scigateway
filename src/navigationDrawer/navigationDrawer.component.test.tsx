@@ -25,7 +25,7 @@ describe('Navigation drawer component', () => {
   };
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'NavigationDrawer' });
     mount = createMount();
     mockStore = configureStore();
     state = {
@@ -42,24 +42,14 @@ describe('Navigation drawer component', () => {
     state.daaas.drawerOpen = true;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('Navigation drawer renders correctly when closed', () => {
     state.daaas.drawerOpen = false;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('sends toggleDrawer action when chevron clicked', () => {
@@ -108,21 +98,8 @@ describe('Navigation drawer component', () => {
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .find('[to="plugin_link"]')
-        .first()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
   });
 });

@@ -238,10 +238,9 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
 `;
 
 exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
-<WithStyles(ListItem)
-  button={true}
-  component={[Function]}
+<LinkListItem
   id="plugin-link-plugin_link"
+  key="3"
   to="plugin_link"
 >
   <WithStyles(ListItemText)
@@ -258,5 +257,5 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       }
     }
   />
-</WithStyles(ListItem)>
+</LinkListItem>
 `;
