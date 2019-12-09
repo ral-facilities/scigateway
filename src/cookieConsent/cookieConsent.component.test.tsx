@@ -26,7 +26,7 @@ describe('Cookie consent component', () => {
     mockStore = configureStore();
     state = JSON.parse(
       JSON.stringify({
-        daaas: initialState,
+        scigateway: initialState,
         router: { location: createLocation('/') },
       })
     );
@@ -163,7 +163,7 @@ describe('Cookie consent component', () => {
   });
 
   it('should set open to false if site is loading', () => {
-    state.daaas.siteLoading = false;
+    state.scigateway.siteLoading = false;
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
