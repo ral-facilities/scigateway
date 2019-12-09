@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { NotificationWithStyles } from '../notifications/daaasNotification.component';
+import { NotificationWithStyles } from '../notifications/scigatewayNotification.component';
 import { FakeReduxAction } from './utils';
 
 const buildNotification = (

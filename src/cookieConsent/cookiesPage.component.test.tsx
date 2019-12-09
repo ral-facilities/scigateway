@@ -3,7 +3,7 @@ import CookiesPage from './cookiesPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core';
 import Cookies from 'js-cookie';
@@ -21,7 +21,7 @@ describe('Cookies page component', () => {
     mockStore = configureStore();
     state = JSON.parse(
       JSON.stringify({
-        daaas: initialState,
+        scigateway: initialState,
       })
     );
 

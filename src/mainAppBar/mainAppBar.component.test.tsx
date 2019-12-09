@@ -4,8 +4,8 @@ import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { push } from 'connected-react-router';
-import { initialState } from '../state/reducers/daaas.reducer';
-import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
+import { initialState } from '../state/reducers/scigateway.reducer';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
@@ -19,12 +19,12 @@ describe('Main app bar component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ daaas: initialState }));
-    state.daaas.authorisation.provider = new TestAuthProvider('token123');
+    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    state.scigateway.authorisation.provider = new TestAuthProvider('token123');
   });
 
   afterEach(() => {
@@ -35,20 +35,20 @@ describe('Main app bar component', () => {
 
   it('app bar renders correctly', () => {
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('does not render contact button when feature is false', () => {
-    state.daaas.features.showContactButton = false;
+    state.scigateway.features.showContactButton = false;
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('app bar indented when drawer is open', () => {
-    state.daaas.drawerOpen = true;
+    state.scigateway.drawerOpen = true;
 
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('sends toggleDrawer action when menu clicked', () => {

@@ -1,26 +1,27 @@
-import DaaasMiddleware, { listenToPlugins } from './daaas.middleware';
+import ScigatewayMiddleware, { listenToPlugins } from './scigateway.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
+import { InvalidateTokenType } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
-import { AddHelpTourStepsType } from '../daaas.types';
+import { AddHelpTourStepsType } from '../scigateway.types';
 
-describe('daaas middleware', () => {
+describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
   let handler: (event: Event) => void;
   let store: MockStoreEnhanced;
 
   const action = {
-    type: 'daaas:api:test-action',
+    type: 'scigateway:api:test-action',
     payload: {
       broadcast: true,
     },
   };
 
   const registerRouteAction = {
-    type: 'daaas:api:register_route',
+    type: 'scigateway:api:register_route',
     payload: {
       section: 'Analysis',
       link: '/plugin1/analysis2',
@@ -32,7 +33,7 @@ describe('daaas middleware', () => {
   };
 
   const requestPluginRerenderAction = {
-    type: 'daaas:api:plugin_rerender',
+    type: 'scigateway:api:plugin_rerender',
     payload: {
       broadcast: true,
     },
@@ -63,27 +64,27 @@ describe('daaas middleware', () => {
   });
 
   it('should broadcast messages with broadcast flag', () => {
-    DaaasMiddleware(store)(store.dispatch)(action);
+    ScigatewayMiddleware(store)(store.dispatch)(action);
 
     expect(events.length).toEqual(1);
     expect(events[0].detail).toEqual(action);
   });
 
   it('should not broadcast messages without broadcast flag', () => {
-    DaaasMiddleware(store)(store.dispatch)({ type: 'test', payload: {} });
+    ScigatewayMiddleware(store)(store.dispatch)({ type: 'test', payload: {} });
     expect(events.length).toEqual(0);
   });
 
   it('should not broadcast messages without payload', () => {
-    DaaasMiddleware(store)(store.dispatch)({ type: 'test' });
+    ScigatewayMiddleware(store)(store.dispatch)({ type: 'test' });
     expect(events.length).toEqual(0);
   });
 
   it("should not send page views if analytics haven't been initialised", () => {
     store = configureStore()({
-      daaas: {},
+      scigateway: {},
     });
-    DaaasMiddleware(store)(store.dispatch)({
+    ScigatewayMiddleware(store)(store.dispatch)({
       type: '@@router/LOCATION_CHANGE',
       payload: {
         location: createLocation('/'),
@@ -96,10 +97,10 @@ describe('daaas middleware', () => {
 
   it('should send page views on location change event', () => {
     store = configureStore()({
-      daaas: { analytics: { id: 'test id', initialised: true } },
+      scigateway: { analytics: { id: 'test id', initialised: true } },
     });
 
-    DaaasMiddleware(store)(store.dispatch)({
+    ScigatewayMiddleware(store)(store.dispatch)({
       type: '@@router/LOCATION_CHANGE',
       payload: {
         location: createLocation('/'),
@@ -120,17 +121,17 @@ describe('daaas middleware', () => {
 
   it("should not send page views on location change event when location hasn't changed", () => {
     store = configureStore()({
-      daaas: { analytics: { id: 'test id', initialised: true } },
+      scigateway: { analytics: { id: 'test id', initialised: true } },
     });
 
-    DaaasMiddleware(store)(store.dispatch)({
+    ScigatewayMiddleware(store)(store.dispatch)({
       type: '@@router/LOCATION_CHANGE',
       payload: {
         location: createLocation('/newlocation'),
         action: 'POP',
       },
     });
-    DaaasMiddleware(store)(store.dispatch)({
+    ScigatewayMiddleware(store)(store.dispatch)({
       type: '@@router/LOCATION_CHANGE',
       payload: {
         location: createLocation('/newlocation'),
@@ -149,6 +150,16 @@ describe('daaas middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
+  });
+
+  it('should listen for events and fire invalidateToken action', () => {
+    listenToPlugins(store.dispatch);
+
+    handler(new CustomEvent('test', { detail: { type: InvalidateTokenType } }));
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual({ type: InvalidateTokenType });
   });
 
   it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {
@@ -189,7 +200,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
         },
@@ -206,7 +217,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
           severity: 'success',
@@ -225,7 +236,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
           severity: 'error',
@@ -245,7 +256,7 @@ describe('daaas middleware', () => {
       listenToPlugins(store.dispatch);
 
       let notificationAction = {
-        type: 'daaas:api:notification',
+        type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
           severity: 'warning',
@@ -266,7 +277,7 @@ describe('daaas middleware', () => {
 
     listenToPlugins(store.dispatch);
 
-    DaaasMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
+    ScigatewayMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
     expect(store.getActions().length).toEqual(1);
     expect(events.length).toEqual(1);
     expect(events[0].detail).toEqual(requestPluginRerenderAction);

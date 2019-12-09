@@ -16,8 +16,8 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
-import { AppStrings } from '../state/daaas.types';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
+import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
@@ -109,6 +109,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
             )}
             color="inherit"
             onClick={props.toggleDrawer}
+            aria-label="Open navigation menu"
           >
             <MenuIcon />
           </IconButton>
@@ -121,6 +122,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           color="inherit"
           noWrap
           onClick={props.navigateToHome}
+          aria-label="Homepage"
         >
           {getString(props.res, 'title')}
         </Typography>
@@ -128,6 +130,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
           <Button
             className={classNames(props.classes.button, 'tour-contact')}
             style={{ paddingTop: 3 }}
+            aria-label="Contact"
           >
             <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
               {getString(props.res, 'contact')}
@@ -150,9 +153,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 );
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
-  drawerOpen: state.daaas.drawerOpen,
-  showContactButton: state.daaas.features.showContactButton,
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  drawerOpen: state.scigateway.drawerOpen,
+  showContactButton: state.scigateway.features.showContactButton,
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   res: getAppStrings(state, 'main-appbar'),
 });
 

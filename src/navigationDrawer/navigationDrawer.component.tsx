@@ -14,8 +14,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
-import { toggleDrawer } from '../state/actions/daaas.actions';
-import { PluginConfig } from '../state/daaas.types';
+import { toggleDrawer } from '../state/actions/scigateway.actions';
+import { PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
@@ -142,7 +142,10 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         }}
       >
         <div className={this.props.classes.drawerHeader}>
-          <IconButton onClick={this.props.toggleDrawer}>
+          <IconButton
+            onClick={this.props.toggleDrawer}
+            aria-label="Dropdown Menu"
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>
@@ -154,8 +157,8 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 }
 
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
-  open: state.daaas.drawerOpen,
-  plugins: state.daaas.plugins,
+  open: state.scigateway.drawerOpen,
+  plugins: state.scigateway.plugins,
 });
 
 const mapDispatchToProps = (

@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router';
 import { StateType } from '../state/state.types';
-import { PluginConfig } from '../state/daaas.types';
+import { PluginConfig } from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
 import LoginPage from '../loginPage/loginPage.component';
@@ -82,9 +82,9 @@ class Routing extends React.Component<
 export const RoutingWithStyles = withStyles(styles)(Routing);
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
-  plugins: state.daaas.plugins,
+  plugins: state.scigateway.plugins,
   location: state.router.location.pathname,
-  drawerOpen: state.daaas.drawerOpen,
+  drawerOpen: state.scigateway.drawerOpen,
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);

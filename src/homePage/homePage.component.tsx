@@ -16,7 +16,7 @@ import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
-import { AppStrings } from '../state/daaas.types';
+import { AppStrings } from '../state/scigateway.types';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -62,7 +62,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     howItWorksGridItemCaption: {
       textAlign: 'center',
-      color: theme.palette.secondary.light,
+      color: theme.palette.primary.main,
     },
     strapline: {
       paddingTop: 50,

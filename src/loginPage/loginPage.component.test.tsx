@@ -21,7 +21,7 @@ describe('Login page component', () => {
   };
 
   beforeEach(() => {
-    shallow = createShallow();
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
 
     props = {
@@ -46,7 +46,7 @@ describe('Login page component', () => {
         <CredentialsLoginScreen {...props} />
       </MuiThemeProvider>
     );
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('redirect component renders correctly', () => {
@@ -55,7 +55,7 @@ describe('Login page component', () => {
         <RedirectLoginScreen {...props} />
       </MuiThemeProvider>
     );
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders credential component if no redirect url', () => {
@@ -64,7 +64,7 @@ describe('Login page component', () => {
         <LoginPageWithStyles {...props} />
       </MuiThemeProvider>
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders redirect component if redirect url present', () => {
@@ -74,7 +74,7 @@ describe('Login page component', () => {
         <LoginPageWithStyles {...props} />
       </MuiThemeProvider>
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {

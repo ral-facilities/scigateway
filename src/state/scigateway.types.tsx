@@ -1,25 +1,23 @@
 import { Step } from 'react-joyride';
 
-export const AuthSuccessType = 'daaas:auth_success';
-export const AuthFailureType = 'daaas:auth_failure';
-export const LoadingAuthType = 'daaas:loading_auth';
-export const LoadAuthProviderType = 'daaas:loading_auth_provider';
-export const TokenExpiredType = 'daaas:expired_token';
-export const ConfigureStringsType = 'daaas:configure_strings';
-export const LoginType = 'daaas:login';
-export const NotificationType = 'daaas:api:notification';
-export const RegisterRouteType = 'daaas:api:register_route';
-export const RequestPluginRerenderType = 'daaas:api:plugin_rerender';
-export const SignOutType = 'daaas:signout';
-export const ToggleDrawerType = 'daaas:toggledrawer';
-export const DismissNotificationType = 'daaas:dismissnotification';
-export const ConfigureFeatureSwitchesType = 'daaas:feature_switches';
-export const AddNotificationsType = 'daaas:add_notification';
-export const SiteLoadingType = 'daaas:site_loading';
-export const ConfigureAnalyticsType = 'daaas:configure_analytics';
-export const InitialiseAnalyticsType = 'daaas:initialise_analytics';
-export const ToggleHelpType = 'daaas:toggle_help';
-export const AddHelpTourStepsType = 'daaas:add_help_tour_steps';
+export const AuthSuccessType = 'scigateway:auth_success';
+export const AuthFailureType = 'scigateway:auth_failure';
+export const LoadingAuthType = 'scigateway:loading_auth';
+export const LoadAuthProviderType = 'scigateway:loading_auth_provider';
+export const InvalidateTokenType = 'scigateway:api:invalid_token';
+export const ConfigureStringsType = 'scigateway:configure_strings';
+export const LoginType = 'scigateway:login';
+export const NotificationType = 'scigateway:api:notification';
+export const RegisterRouteType = 'scigateway:api:register_route';
+export const RequestPluginRerenderType = 'scigateway:api:plugin_rerender';
+export const SignOutType = 'scigateway:signout';
+export const ToggleDrawerType = 'scigateway:toggledrawer';
+export const DismissNotificationType = 'scigateway:dismissnotification';
+export const ConfigureFeatureSwitchesType = 'scigateway:feature_switches';
+export const AddNotificationsType = 'scigateway:add_notification';
+export const SiteLoadingType = 'scigateway:site_loading';
+export const ToggleHelpType = 'scigateway:toggle_help';
+export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
 
 export interface NotificationPayload {
   message: string;

@@ -2,7 +2,7 @@ import React from 'react';
 import ExampleComponent from './example.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
-import { initialState } from './state/reducers/daaas.reducer';
+import { initialState } from './state/reducers/scigateway.reducer';
 import { StateType } from './state/state.types';
 
 describe('Example component', () => {
@@ -11,19 +11,19 @@ describe('Example component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
 
     mockStore = configureStore();
     state = {
-      daaas: initialState,
+      scigateway: initialState,
     };
   });
 
   it('renders correctly', () => {
     // update the notification
-    state.daaas.notifications = ['test notification'];
+    state.scigateway.notifications = ['test notification'];
 
     const wrapper = shallow(<ExampleComponent store={mockStore(state)} />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

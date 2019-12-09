@@ -10,10 +10,10 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 import Routing from './routing/routing.component';
-import { configureSite } from './state/actions/daaas.actions';
-import DaaasMiddleware, {
+import { configureSite } from './state/actions/scigateway.actions';
+import ScigatewayMiddleware, {
   listenToPlugins,
-} from './state/middleware/daaas.middleware';
+} from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
 import './index.css';
@@ -25,7 +25,7 @@ import Tour from './tour/tour.component';
 
 const history = createBrowserHistory();
 
-const middleware = [thunk, routerMiddleware(history), DaaasMiddleware];
+const middleware = [thunk, routerMiddleware(history), ScigatewayMiddleware];
 if (process.env.NODE_ENV === `development`) {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const logger = (createLogger as any)();

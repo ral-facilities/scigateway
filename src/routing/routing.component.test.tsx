@@ -3,7 +3,7 @@ import Routing, { PluginPlaceHolder } from './routing.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 
 describe('Routing component', () => {
@@ -12,10 +12,10 @@ describe('Routing component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
 
     state = {
-      daaas: initialState,
+      scigateway: initialState,
       router: {
         action: 'POP',
         location: createLocation('/'),
@@ -26,14 +26,14 @@ describe('Routing component', () => {
   });
 
   it('renders component with no plugin routes', () => {
-    state.daaas.plugins = [];
+    state.scigateway.plugins = [];
     const wrapper = shallow(<Routing store={mockStore(state)} />);
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders component with plugins', () => {
-    state.daaas.plugins = [
+    state.scigateway.plugins = [
       {
         section: 'test section',
         link: 'test link',
@@ -51,7 +51,7 @@ describe('Routing component', () => {
     ];
     const wrapper = shallow(<Routing store={mockStore(state)} />);
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders placeholder for a plugin', () => {

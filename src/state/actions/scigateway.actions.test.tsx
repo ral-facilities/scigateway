@@ -15,7 +15,7 @@ import {
   unauthorised,
   toggleHelp,
   addHelpTourSteps,
-} from './daaas.actions';
+} from './scigateway.actions';
 import {
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
@@ -24,8 +24,8 @@ import {
   InitialiseAnalyticsType,
   ToggleHelpType,
   AddHelpTourStepsType,
-} from '../daaas.types';
-import { initialState } from '../reducers/daaas.reducer';
+} from '../scigateway.types';
+import { initialState } from '../reducers/scigateway.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -43,7 +43,7 @@ function mockAxiosGetResponse(message: string): void {
   );
 }
 
-describe('daaas actions', () => {
+describe('scigateway actions', () => {
   beforeEach(() => {
     (mockAxios.get as jest.Mock).mockReset();
 
@@ -78,7 +78,7 @@ describe('daaas actions', () => {
 
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const getState = (): any => ({
-      daaas: state,
+      scigateway: state,
       router: {
         location: {
           state: {
@@ -114,10 +114,10 @@ describe('daaas actions', () => {
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider(null);
 
-    // const getState = (): Partial<StateType> => ({ daaas: state });
+    // const getState = (): Partial<StateType> => ({ scigateway: state });
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const getState = (): any => ({
-      daaas: state,
+      scigateway: state,
       router: {
         location: {
           state: {},
@@ -151,12 +151,12 @@ describe('daaas actions', () => {
 
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider(null);
-    const getState = (): Partial<StateType> => ({ daaas: state });
+    const getState = (): Partial<StateType> => ({ scigateway: state });
 
     const action = asyncAction(dispatch, getState);
     jest.runAllTimers();
     await action;
-    const expectedResponse = { type: 'daaas:auth_failure' };
+    const expectedResponse = { type: 'scigateway:auth_failure' };
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(expectedResponse);
@@ -183,7 +183,7 @@ describe('daaas actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
 
     await asyncAction(dispatch, getState);
 
@@ -239,7 +239,7 @@ describe('daaas actions', () => {
       .fn()
       .mockImplementationOnce(() => Promise.resolve());
     state.authorisation.provider = testAuthProvider;
-    const getState = (): Partial<StateType> => ({ daaas: state });
+    const getState = (): Partial<StateType> => ({ scigateway: state });
 
     await asyncAction(dispatch, getState);
 
@@ -270,7 +270,7 @@ describe('daaas actions', () => {
 
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider('token');
-    const getState = (): Partial<StateType> => ({ daaas: state });
+    const getState = (): Partial<StateType> => ({ scigateway: state });
 
     await asyncAction(dispatch, getState);
 
@@ -320,7 +320,7 @@ describe('daaas actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
     await asyncAction(dispatch, getState);
 
     expect(log.error).toHaveBeenCalled();
@@ -341,7 +341,7 @@ describe('daaas actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
     await asyncAction(dispatch, getState);
 
     expect(log.error).toHaveBeenCalled();
@@ -361,7 +361,7 @@ describe('daaas actions', () => {
     const asyncAction = loadStrings(path);
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
 
     await asyncAction(dispatch, getState);
 

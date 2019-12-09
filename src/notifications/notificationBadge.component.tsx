@@ -12,13 +12,13 @@ import {
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
 import { UKRITheme } from '../theming';
-import { StateType, DaaasNotification } from '../state/state.types';
+import { StateType, ScigatewayNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
-import { dismissMenuItem } from '../state/actions/daaas.actions';
-import { NotificationWithStyles } from './daaasNotification.component';
+import { dismissMenuItem } from '../state/actions/scigateway.actions';
+import { NotificationWithStyles } from './scigatewayNotification.component';
 
 interface BadgeProps {
-  notifications: DaaasNotification[];
+  notifications: ScigatewayNotification[];
 }
 
 interface BadgeDispatchProps {
@@ -46,7 +46,7 @@ type CombinedNotificationBadgeProps = BadgeProps &
   WithStyles<typeof styles>;
 
 function buildMenuItems(
-  notifications: DaaasNotification[],
+  notifications: ScigatewayNotification[],
   dismissNotificationAction: (index: number) => Action
 ): JSX.Element[] {
   const menuItems = notifications.map((notification, index) => (
@@ -107,7 +107,7 @@ export const NotificationBadgeWithStyles = withStyles(styles)(
 );
 
 const mapStateToProps = (state: StateType): BadgeProps => ({
-  notifications: state.daaas.notifications,
+  notifications: state.scigateway.notifications,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): BadgeDispatchProps => ({

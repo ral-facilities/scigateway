@@ -6,6 +6,7 @@ export default {
           'auth-provider': 'jwt',
           'ui-strings': '/res/default.json',
           plugins: [],
+          'help-tour-steps': [],
         },
       });
     } else {

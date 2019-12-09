@@ -1,11 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { NotificationBadgeWithStyles } from '../notifications/notificationBadge.component';
-import { DaaasNotification } from '../state/state.types';
+import { ScigatewayNotification } from '../state/state.types';
 import { FakeReduxAction } from './utils';
 
 const buildNotificationBadge = (
-  notifications: DaaasNotification[]
+  notifications: ScigatewayNotification[]
 ): React.ReactElement => (
   <div style={{ background: '#1D4F91' }}>
     <NotificationBadgeWithStyles

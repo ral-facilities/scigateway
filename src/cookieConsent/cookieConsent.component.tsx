@@ -10,14 +10,14 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import { UKRITheme } from '../theming';
 import Cookies from 'js-cookie';
-import { initialiseAnalytics } from '../state/actions/daaas.actions';
+import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { Action } from 'redux';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { getAppStrings, getString } from '../state/strings';
-import { AppStrings } from '../state/daaas.types';
+import { AppStrings } from '../state/scigateway.types';
 import { push } from 'connected-react-router';
 import { Location } from 'history';
 
@@ -136,10 +136,10 @@ const CookieConsent = (
 };
 
 const mapStateToProps = (state: StateType): CookieConsentStateProps => ({
-  analytics: state.daaas.analytics,
+  analytics: state.scigateway.analytics,
   res: getAppStrings(state, 'cookie-consent'),
   location: state.router.location,
-  loading: state.daaas.siteLoading,
+  loading: state.scigateway.siteLoading,
 });
 
 const mapDispatchToProps = (

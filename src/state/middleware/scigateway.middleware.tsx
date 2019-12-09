@@ -2,11 +2,12 @@ import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import {
   NotificationType,
   RegisterRouteType,
+  InvalidateTokenType,
   RequestPluginRerenderType,
-} from '../daaas.types';
+} from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
-import { addHelpTourSteps } from '../actions/daaas.actions';
+import { addHelpTourSteps } from '../actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 
@@ -19,7 +20,7 @@ const trackPage = (page: string): void => {
 
 let currentPage = '';
 
-const microFrontendMessageId = 'daaas-frontend';
+const microFrontendMessageId = 'scigateway';
 
 const broadcastToPlugins = (action: AnyAction): void => {
   document.dispatchEvent(
@@ -41,7 +42,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
     if (
       pluginMessage.detail &&
       pluginMessage.detail.type &&
-      pluginMessage.detail.type.startsWith('daaas:api:')
+      pluginMessage.detail.type.startsWith('scigateway:api:')
     ) {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {
@@ -78,6 +79,9 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
             }
           }
           break;
+        case InvalidateTokenType:
+          dispatch(pluginMessage.detail);
+          break;
         default:
           // log and ignore
           log.warn(
@@ -96,10 +100,10 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
   });
 };
 
-const DaaasMiddleware: Middleware = ((
-  store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
-) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
-  const state = store.getState();
+// this would normally be store => next => action but we don't need store
+const ScigatewayMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
+  action: AnyAction
+): AnyAction => {
   if (action.payload && action.payload.broadcast) {
     broadcastToPlugins(action);
   }
@@ -122,4 +126,4 @@ const DaaasMiddleware: Middleware = ((
   return next(action);
 }) as Middleware;
 
-export default DaaasMiddleware;
+export default ScigatewayMiddleware;

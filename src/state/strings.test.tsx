@@ -1,8 +1,8 @@
 import { getAppStrings, getString } from './strings';
-import { AppStrings } from './daaas.types';
-import { DaaasState, StateType } from './state.types';
+import { AppStrings } from './scigateway.types';
+import { ScigatewayState, StateType } from './state.types';
 import { RouterState } from 'connected-react-router';
-import { authState } from './reducers/daaas.reducer';
+import { authState } from './reducers/scigateway.reducer';
 
 describe('strings', () => {
   describe('getString', () => {
@@ -44,7 +44,7 @@ describe('strings', () => {
       },
     };
 
-    const daaasState: DaaasState = {
+    const ScigatewayState: ScigatewayState = {
       notifications: [],
       plugins: [],
       drawerOpen: false,
@@ -57,7 +57,7 @@ describe('strings', () => {
 
     const state: StateType = {
       router: routerState,
-      daaas: daaasState,
+      scigateway: ScigatewayState,
     };
 
     it('returns key element from state object if section exists', () => {
@@ -71,7 +71,7 @@ describe('strings', () => {
     it('returns undefined if res is undefined', () => {
       expect(
         getAppStrings(
-          { ...state, daaas: { ...state.daaas, res: undefined } },
+          { ...state, scigateway: { ...state.scigateway, res: undefined } },
           'section-name'
         )
       ).toBeUndefined();

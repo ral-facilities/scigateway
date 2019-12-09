@@ -6,11 +6,11 @@ describe('Page Not found component', () => {
   let shallow;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
   });
 
   it('pageNotFound renders correctly', () => {
     const wrapper = shallow(<PageNotFound />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

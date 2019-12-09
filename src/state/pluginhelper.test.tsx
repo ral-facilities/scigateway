@@ -1,4 +1,4 @@
-import { PluginConfig, RegisterRoutePayload } from './daaas.types';
+import { PluginConfig, RegisterRoutePayload } from './scigateway.types';
 import {
   buildPluginConfig,
   comparePlugins,

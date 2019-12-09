@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scigateway Notification component Scigateway Notification error message renders correctly 1`] = `
+<div
+  className="ScigatewayNotification-root-1"
+>
+  <pure(HighlightOffIcon)
+    className="ScigatewayNotification-errorIcon-6"
+  />
+  <WithStyles(Typography)
+    variant="body2"
+  >
+    error message
+  </WithStyles(Typography)>
+  <WithStyles(IconButton)
+    className="ScigatewayNotification-button-2"
+    onClick={[Function]}
+  >
+    <pure(ClearIcon)
+      className="ScigatewayNotification-deleteIcon-3"
+    />
+  </WithStyles(IconButton)>
+</div>
+`;
+
+exports[`Scigateway Notification component Scigateway Notification success message renders correctly 1`] = `
+<div
+  className="ScigatewayNotification-root-1"
+>
+  <pure(CheckCircleIcon)
+    className="ScigatewayNotification-successIcon-4"
+  />
+  <WithStyles(Typography)
+    variant="body2"
+  >
+    success message
+  </WithStyles(Typography)>
+  <WithStyles(IconButton)
+    className="ScigatewayNotification-button-2"
+    onClick={[Function]}
+  >
+    <pure(ClearIcon)
+      className="ScigatewayNotification-deleteIcon-3"
+    />
+  </WithStyles(IconButton)>
+</div>
+`;
+
+exports[`Scigateway Notification component Scigateway Notification warning message renders correctly 1`] = `
+<div
+  className="ScigatewayNotification-root-1"
+>
+  <pure(ErrorOutlineIcon)
+    className="ScigatewayNotification-warningIcon-5"
+  />
+  <WithStyles(Typography)
+    variant="body2"
+  >
+    warning message
+  </WithStyles(Typography)>
+  <WithStyles(IconButton)
+    className="ScigatewayNotification-button-2"
+    onClick={[Function]}
+  >
+    <pure(ClearIcon)
+      className="ScigatewayNotification-deleteIcon-3"
+    />
+  </WithStyles(IconButton)>
+</div>
+`;
