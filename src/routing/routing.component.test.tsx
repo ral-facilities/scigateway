@@ -12,7 +12,7 @@ describe('Routing component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
 
     state = {
       scigateway: initialState,
@@ -29,7 +29,7 @@ describe('Routing component', () => {
     state.scigateway.plugins = [];
     const wrapper = shallow(<Routing store={mockStore(state)} />);
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders component with plugins', () => {
@@ -51,7 +51,7 @@ describe('Routing component', () => {
     ];
     const wrapper = shallow(<Routing store={mockStore(state)} />);
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders placeholder for a plugin', () => {

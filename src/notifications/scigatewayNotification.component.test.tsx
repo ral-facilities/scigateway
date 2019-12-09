@@ -28,7 +28,7 @@ describe('Scigateway Notification component', () => {
   let mount;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
   });
 
@@ -40,21 +40,21 @@ describe('Scigateway Notification component', () => {
     const wrapper = shallow(
       createScigatewayNotification('success', 'success message')
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('Scigateway Notification warning message renders correctly', () => {
     const wrapper = shallow(
       createScigatewayNotification('warning', 'warning message')
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('Scigateway Notification error message renders correctly', () => {
     const wrapper = shallow(
       createScigatewayNotification('error', 'error message')
     );
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('an action is fired when Scigateway Notification button is clicked', () => {

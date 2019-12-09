@@ -17,7 +17,7 @@ describe('User profile component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
 
     mockStore = configureStore([thunk]);
@@ -35,7 +35,7 @@ describe('User profile component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('redirects to login when sign in is pressed', () => {
@@ -59,7 +59,7 @@ describe('User profile component', () => {
 
   it('renders default avatar if signed in', () => {
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders user avatar if signed in with avatar url', () => {
@@ -68,7 +68,7 @@ describe('User profile component', () => {
       avatarUrl: 'test_url',
     };
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('opens menu when button clicked', () => {

@@ -11,7 +11,7 @@ describe('Example component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
 
     mockStore = configureStore();
     state = {
@@ -24,6 +24,6 @@ describe('Example component', () => {
     state.scigateway.notifications = ['test notification'];
 
     const wrapper = shallow(<ExampleComponent store={mockStore(state)} />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

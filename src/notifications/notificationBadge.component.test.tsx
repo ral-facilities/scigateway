@@ -18,7 +18,7 @@ describe('Notification Badge component', () => {
   let mockStore;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
     mockStore = configureStore();
   });
@@ -35,7 +35,7 @@ describe('Notification Badge component', () => {
       </MuiThemeProvider>
     );
 
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders correct number of notifications in the badge', () => {
@@ -51,13 +51,7 @@ describe('Notification Badge component', () => {
       </MuiThemeProvider>
     );
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .find(Badge)
-        .prop('badgeContent')
-    ).toEqual(2);
+    expect(wrapper.find(Badge).prop('badgeContent')).toEqual(2);
 
     wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -67,13 +61,7 @@ describe('Notification Badge component', () => {
       </MuiThemeProvider>
     );
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .find(Badge)
-        .prop('badgeContent')
-    ).toBeNull();
+    expect(wrapper.find(Badge).prop('badgeContent')).toBeNull();
   });
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
@@ -90,9 +78,6 @@ describe('Notification Badge component', () => {
     );
 
     wrapper
-      .dive()
-      .dive()
-      .dive()
       .find('#notifications-menu [dismissNotification]')
       .prop('dismissNotification')();
 

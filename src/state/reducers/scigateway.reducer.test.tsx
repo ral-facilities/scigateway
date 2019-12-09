@@ -16,7 +16,7 @@ import ScigatewayReducer, {
   initialState,
   handleAuthProviderUpdate,
 } from './scigateway.reducer';
-import { SignOutType, TokenExpiredType } from '../scigateway.types';
+import { SignOutType, InvalidateTokenType } from '../scigateway.types';
 import { ScigatewayState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
@@ -151,7 +151,9 @@ describe('scigateway reducer', () => {
     let updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
-    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+    expect(
+      updatedState.authorisation.signedOutDueToTokenInvalidation
+    ).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
@@ -165,13 +167,15 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 
-  it('token expiration should reset authorisation and indicate expiration', () => {
-    const action = { type: TokenExpiredType };
+  it('token invalidation should reset authorisation and indicate invalidation', () => {
+    const action = { type: InvalidateTokenType };
     state.authorisation.provider = new TestAuthProvider('logged in');
 
     let updatedState = ScigatewayReducer(state, action);
 
-    expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeTruthy();
+    expect(
+      updatedState.authorisation.signedOutDueToTokenInvalidation
+    ).toBeTruthy();
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 

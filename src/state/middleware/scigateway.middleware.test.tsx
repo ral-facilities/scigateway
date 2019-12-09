@@ -2,6 +2,7 @@ import ScigatewayMiddleware, { listenToPlugins } from './scigateway.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
+import { InvalidateTokenType } from '../daaas.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
 
@@ -80,6 +81,16 @@ describe('scigateway middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
+  });
+
+  it('should listen for events and fire invalidateToken action', () => {
+    listenToPlugins(store.dispatch);
+
+    handler(new CustomEvent('test', { detail: { type: InvalidateTokenType } }));
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual({ type: InvalidateTokenType });
   });
 
   it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {

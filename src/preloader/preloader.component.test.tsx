@@ -12,7 +12,7 @@ describe('Preloader component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
 
     state = {
       scigateway: initialState,
@@ -28,20 +28,20 @@ describe('Preloader component', () => {
     state.scigateway.siteLoading = true;
 
     const wrapper = shallow(<Preloader store={mockStore(state)} />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('does not render when on the login page', () => {
     state.router.location = createLocation('/login');
 
     const wrapper = shallow(<Preloader store={mockStore(state)} />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('does not render when the site stops loading', () => {
     state.scigateway.siteLoading = false;
 
     const wrapper = shallow(<Preloader store={mockStore(state)} />);
-    expect(wrapper.dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

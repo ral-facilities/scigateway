@@ -19,7 +19,7 @@ describe('Main app bar component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
 
     mockStore = configureStore();
@@ -35,20 +35,20 @@ describe('Main app bar component', () => {
 
   it('app bar renders correctly', () => {
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('does not render contact button when feature is false', () => {
     state.scigateway.features.showContactButton = false;
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('app bar indented when drawer is open', () => {
     state.scigateway.drawerOpen = true;
 
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
-    expect(wrapper.dive().dive()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('sends toggleDrawer action when menu clicked', () => {

@@ -139,9 +139,9 @@ export const CredentialsLoginScreen = (
           {getString(props.res, 'login-error-msg')}
         </Typography>
       ) : null}
-      {props.auth.signedOutDueToTokenExpiry ? (
+      {props.auth.signedOutDueToTokenInvalidation ? (
         <Typography className={props.classes.info}>
-          {getString(props.res, 'token-expire-msg')}
+          {getString(props.res, 'token-invalid-msg')}
         </Typography>
       ) : null}
       <TextField
