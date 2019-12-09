@@ -3,10 +3,10 @@ import configureStore from 'redux-mock-store';
 import { RouterState } from 'connected-react-router';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import NavigationDrawer from './navigationDrawer.component';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
-import { toggleDrawer } from '../state/actions/daaas.actions';
-import { PluginConfig } from '../state/daaas.types';
+import { toggleDrawer } from '../state/actions/scigateway.actions';
+import { PluginConfig } from '../state/scigateway.types';
 
 describe('Navigation drawer component', () => {
   let shallow;
@@ -29,7 +29,7 @@ describe('Navigation drawer component', () => {
     mount = createMount();
     mockStore = configureStore();
     state = {
-      daaas: initialState,
+      scigateway: initialState,
       router: routerState,
     };
   });
@@ -39,14 +39,14 @@ describe('Navigation drawer component', () => {
   });
 
   it('Navigation drawer renders correctly when open', () => {
-    state.daaas.drawerOpen = true;
+    state.scigateway.drawerOpen = true;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('Navigation drawer renders correctly when closed', () => {
-    state.daaas.drawerOpen = false;
+    state.scigateway.drawerOpen = false;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
     expect(wrapper).toMatchSnapshot();
@@ -93,8 +93,8 @@ describe('Navigation drawer component', () => {
         section: 'DATA',
       },
     ];
-    state.daaas.plugins = dummyPlugins;
-    state.daaas.drawerOpen = true;
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
 
     const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
 

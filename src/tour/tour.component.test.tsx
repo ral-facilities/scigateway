@@ -4,9 +4,9 @@ import Tour from './tour.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
-import { toggleHelp, toggleDrawer } from '../state/actions/daaas.actions';
+import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import Joyride from 'react-joyride';
 import { buildTheme } from '../theming';
@@ -40,7 +40,7 @@ describe('Tour component', () => {
     mount = createMount();
 
     state = {
-      daaas: {
+      scigateway: {
         ...initialState,
         helpSteps: [
           {
@@ -66,7 +66,7 @@ describe('Tour component', () => {
   });
 
   it('renders correctly', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -77,7 +77,7 @@ describe('Tour component', () => {
   });
 
   it('shows next tooltip when next is clicked', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -105,7 +105,7 @@ describe('Tour component', () => {
   });
 
   it('shows previous tooltip when back is clicked', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -135,7 +135,7 @@ describe('Tour component', () => {
   });
 
   it('sends toggleHelp message when tour is finished', () => {
-    state.daaas.showHelp = true;
+    state.scigateway.showHelp = true;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -160,10 +160,12 @@ describe('Tour component', () => {
   });
 
   it('sends toggleDrawer message when tour moves into plugin link tour steps', () => {
-    state.daaas.drawerOpen = false;
-    state.daaas.showHelp = true;
-    state.daaas.authorisation.provider = new TestAuthProvider('test-token');
-    state.daaas.helpSteps = [
+    state.scigateway.drawerOpen = false;
+    state.scigateway.showHelp = true;
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+    state.scigateway.helpSteps = [
       {
         target: '.test-1',
         content: 'Test 1',
@@ -209,10 +211,12 @@ describe('Tour component', () => {
   });
 
   it('sends toggleDrawer message when tour moves out of plugin link tour steps', () => {
-    state.daaas.drawerOpen = true;
-    state.daaas.showHelp = true;
-    state.daaas.authorisation.provider = new TestAuthProvider('test-token');
-    state.daaas.helpSteps = [
+    state.scigateway.drawerOpen = true;
+    state.scigateway.showHelp = true;
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+    state.scigateway.helpSteps = [
       {
         target: '.test-1',
         content: 'Test 1',
@@ -260,8 +264,8 @@ describe('Tour component', () => {
   });
 
   it('does not show plugin links when user is not logged in', () => {
-    state.daaas.showHelp = true;
-    state.daaas.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.showHelp = true;
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
     jest.useFakeTimers();
 
     const testStore = mockStore(state);

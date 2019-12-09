@@ -2,7 +2,7 @@ import {
   GroupedPlugins,
   PluginConfig,
   RegisterRoutePayload,
-} from './daaas.types';
+} from './scigateway.types';
 
 // Custom comparer for plugin objects, sorts keys by order (asc), then by name (asc)
 export const comparePlugins = (a: PluginConfig, b: PluginConfig): number =>

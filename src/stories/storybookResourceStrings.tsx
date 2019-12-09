@@ -1,8 +1,8 @@
-import { ApplicationStrings } from '../state/daaas.types';
+import { ApplicationStrings } from '../state/scigateway.types';
 
 export const storybookResourceStrings: ApplicationStrings = {
   'main-appbar': {
-    title: 'Data Analysis as a Service',
+    title: 'SciGateway',
     contact: 'Contact',
   },
   login: {

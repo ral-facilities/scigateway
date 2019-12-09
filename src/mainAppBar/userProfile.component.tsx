@@ -20,9 +20,9 @@ import {
 import { StyleRules } from '@material-ui/core/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { signOut } from '../state/actions/daaas.actions';
+import { signOut } from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
-import { AppStrings } from '../state/daaas.types';
+import { AppStrings } from '../state/scigateway.types';
 import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
@@ -141,8 +141,9 @@ export const UserProfileComponentWithStyles = withStyles(styles)(
 );
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
-  user: state.daaas.authorisation.provider.user || new UserInfo('anonymous'),
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  user:
+    state.scigateway.authorisation.provider.user || new UserInfo('anonymous'),
   res: getAppStrings(state, 'login'),
 });
 

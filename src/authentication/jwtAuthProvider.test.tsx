@@ -8,7 +8,9 @@ describe('jwt auth provider', () => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name => (name === 'daaas:token' ? 'token' : null));
+      .mockImplementation(name =>
+        name === 'scigateway:token' ? 'token' : null
+      );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
@@ -16,14 +18,14 @@ describe('jwt auth provider', () => {
   });
 
   it('should load the token when built', () => {
-    expect(localStorage.getItem).toBeCalledWith('daaas:token');
+    expect(localStorage.getItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
   it('should clear the token when logging out', () => {
     jwtAuthProvider.logOut();
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
@@ -45,7 +47,7 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.logIn('user', 'password');
 
-    expect(localStorage.setItem).toBeCalledWith('daaas:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
 
     expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
     expect(jwtAuthProvider.user.username).toBe('user');
@@ -65,7 +67,7 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.logIn('user', 'invalid').catch(() => {});
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
@@ -93,7 +95,7 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.verifyLogIn().catch(() => {});
 
-    expect(localStorage.removeItem).toBeCalledWith('daaas:token');
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
   });
 });

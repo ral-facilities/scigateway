@@ -2,7 +2,7 @@ import React, { Component, ComponentClass } from 'react';
 import { Redirect } from 'react-router-dom';
 import { StateType, AuthState } from '../state/state.types';
 import { AnyAction, Dispatch } from 'redux';
-import { requestPluginRerender } from '../state/actions/daaas.actions';
+import { requestPluginRerender } from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 
@@ -20,8 +20,8 @@ const isStartingUpOrLoading = (auth: AuthState): boolean =>
   auth.provider instanceof LoadingAuthProvider || auth.loading;
 
 const mapStateToProps = (state: StateType): WithAuthProps => ({
-  loading: isStartingUpOrLoading(state.daaas.authorisation),
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  loading: isStartingUpOrLoading(state.scigateway.authorisation),
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   location: state.router.location.pathname,
 });
 

@@ -4,12 +4,12 @@ import {
   RegisterRouteType,
   InvalidateTokenType,
   RequestPluginRerenderType,
-} from '../daaas.types';
+} from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
-import { addHelpTourSteps } from '../actions/daaas.actions';
+import { addHelpTourSteps } from '../actions/scigateway.actions';
 
-const microFrontendMessageId = 'daaas-frontend';
+const microFrontendMessageId = 'scigateway';
 
 const broadcastToPlugins = (action: AnyAction): void => {
   document.dispatchEvent(
@@ -31,7 +31,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
     if (
       pluginMessage.detail &&
       pluginMessage.detail.type &&
-      pluginMessage.detail.type.startsWith('daaas:api:')
+      pluginMessage.detail.type.startsWith('scigateway:api:')
     ) {
       // this is a valid message, send to Redux in the parent app
       switch (pluginMessage.detail.type) {
@@ -90,7 +90,7 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
 };
 
 // this would normally be store => next => action but we don't need store
-const DaaasMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
+const ScigatewayMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
   action: AnyAction
 ): AnyAction => {
   if (action.payload && action.payload.broadcast) {
@@ -100,4 +100,4 @@ const DaaasMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
   return next(action);
 }) as Middleware;
 
-export default DaaasMiddleware;
+export default ScigatewayMiddleware;

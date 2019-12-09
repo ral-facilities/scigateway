@@ -16,8 +16,8 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer, toggleHelp } from '../state/actions/daaas.actions';
-import { AppStrings } from '../state/daaas.types';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
+import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
@@ -153,9 +153,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
 );
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
-  drawerOpen: state.daaas.drawerOpen,
-  showContactButton: state.daaas.features.showContactButton,
-  loggedIn: state.daaas.authorisation.provider.isLoggedIn(),
+  drawerOpen: state.scigateway.drawerOpen,
+  showContactButton: state.scigateway.features.showContactButton,
+  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   res: getAppStrings(state, 'main-appbar'),
 });
 

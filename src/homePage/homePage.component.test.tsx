@@ -5,7 +5,7 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/daaas.reducer';
+import { initialState } from '../state/reducers/scigateway.reducer';
 
 describe('Home page component', () => {
   let shallow;
@@ -18,7 +18,7 @@ describe('Home page component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ daaas: initialState }));
+    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
   });
 
   afterEach(() => {

@@ -3,7 +3,7 @@
 import * as singleSpa from 'single-spa';
 import { Plugin } from '../state.types';
 import * as log from 'loglevel';
-import { NotificationType } from '../daaas.types';
+import { NotificationType } from '../scigateway.types';
 
 const runScript = async (url: string) => {
   return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ async function init(plugins: Plugin[]) {
           // TODO: record error back on server somewhere
           log.error(`Failed to load plugin ${p.name} from ${p.src}`);
           document.dispatchEvent(
-            new CustomEvent('daaas-frontend', {
+            new CustomEvent('scigateway', {
               detail: {
                 type: NotificationType,
                 payload: {

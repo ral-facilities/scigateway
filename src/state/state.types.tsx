@@ -5,7 +5,7 @@ import {
   ApplicationStrings,
   PluginConfig,
   FeatureSwitches,
-} from './daaas.types';
+} from './scigateway.types';
 import { RouterState } from 'connected-react-router';
 
 export interface Plugin {
@@ -15,13 +15,13 @@ export interface Plugin {
   location: 'main' | 'left' | 'right';
 }
 
-export interface DaaasNotification {
+export interface ScigatewayNotification {
   message: string;
   severity: string;
 }
 
-export interface DaaasState {
-  notifications: DaaasNotification[];
+export interface ScigatewayState {
+  notifications: ScigatewayNotification[];
   plugins: PluginConfig[];
   drawerOpen: boolean;
   siteLoading: boolean;
@@ -33,7 +33,7 @@ export interface DaaasState {
 }
 
 export interface StateType {
-  daaas: DaaasState;
+  scigateway: ScigatewayState;
   router: RouterState;
 }
 

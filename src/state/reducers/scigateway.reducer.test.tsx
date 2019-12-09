@@ -11,26 +11,28 @@ import {
   loadFeatureSwitches,
   toggleHelp,
   addHelpTourSteps,
-} from '../actions/daaas.actions';
-import DaaasReducer, {
+} from '../actions/scigateway.actions';
+import ScigatewayReducer, {
   initialState,
   handleAuthProviderUpdate,
-} from './daaas.reducer';
-import { SignOutType, InvalidateTokenType } from '../daaas.types';
-import { DaaasState } from '../state.types';
+} from './scigateway.reducer';
+import { SignOutType, InvalidateTokenType } from '../scigateway.types';
+import { ScigatewayState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
 
-describe('daaas reducer', () => {
-  let state: DaaasState;
+describe('scigateway reducer', () => {
+  let state: ScigatewayState;
 
   beforeEach(() => {
     state = initialState;
   });
 
   it('should return state for actions it does not care about', () => {
-    const updatedState = DaaasReducer(state, { type: 'irrelevant action' });
+    const updatedState = ScigatewayReducer(state, {
+      type: 'irrelevant action',
+    });
 
     expect(updatedState).toBe(state);
   });
@@ -38,30 +40,30 @@ describe('daaas reducer', () => {
   it('should toggle the drawer state for a toggleDrawer message', () => {
     expect(state.drawerOpen).toBeFalsy();
 
-    let updatedState = DaaasReducer(state, toggleDrawer());
+    let updatedState = ScigatewayReducer(state, toggleDrawer());
     expect(updatedState.drawerOpen).toBeTruthy();
 
-    updatedState = DaaasReducer(updatedState, toggleDrawer());
+    updatedState = ScigatewayReducer(updatedState, toggleDrawer());
     expect(updatedState.drawerOpen).toBeFalsy();
   });
 
   it('should update siteLoading when handleSiteLoadingUpdate message is sent', () => {
     expect(state.siteLoading).toBeTruthy();
 
-    let updatedState = DaaasReducer(state, siteLoadingUpdate(false));
+    let updatedState = ScigatewayReducer(state, siteLoadingUpdate(false));
     expect(updatedState.siteLoading).toBeFalsy();
 
-    updatedState = DaaasReducer(updatedState, siteLoadingUpdate(true));
+    updatedState = ScigatewayReducer(updatedState, siteLoadingUpdate(true));
     expect(updatedState.siteLoading).toBeTruthy();
   });
 
   it('should toggle the showHelp state for a toggleHelp message', () => {
     expect(state.showHelp).toBeFalsy();
 
-    let updatedState = DaaasReducer(state, toggleHelp());
+    let updatedState = ScigatewayReducer(state, toggleHelp());
     expect(updatedState.showHelp).toBeTruthy();
 
-    updatedState = DaaasReducer(updatedState, toggleHelp());
+    updatedState = ScigatewayReducer(updatedState, toggleHelp());
     expect(updatedState.showHelp).toBeFalsy();
   });
 
@@ -79,7 +81,7 @@ describe('daaas reducer', () => {
       },
     ];
 
-    let updatedState = DaaasReducer(state, addHelpTourSteps(steps));
+    let updatedState = ScigatewayReducer(state, addHelpTourSteps(steps));
     expect(updatedState.helpSteps.length).toEqual(2);
     expect(updatedState.helpSteps[0]).toEqual({
       target: '.test-1',
@@ -90,7 +92,7 @@ describe('daaas reducer', () => {
       content: 'test 2',
     });
 
-    updatedState = DaaasReducer(
+    updatedState = ScigatewayReducer(
       updatedState,
       addHelpTourSteps([
         {
@@ -118,14 +120,14 @@ describe('daaas reducer', () => {
       },
     ];
 
-    let updatedState = DaaasReducer(state, addHelpTourSteps(steps));
+    let updatedState = ScigatewayReducer(state, addHelpTourSteps(steps));
     expect(updatedState.helpSteps.length).toEqual(1);
     expect(updatedState.helpSteps[0]).toEqual({
       target: '.test-1',
       content: 'test 1',
     });
 
-    updatedState = DaaasReducer(updatedState, addHelpTourSteps(steps));
+    updatedState = ScigatewayReducer(updatedState, addHelpTourSteps(steps));
 
     expect(updatedState.helpSteps.length).toEqual(1);
     expect(log.error).toHaveBeenCalled();
@@ -138,7 +140,7 @@ describe('daaas reducer', () => {
     const action = loadingAuthentication();
     expect(state.authorisation.loading).toBeFalsy();
 
-    let updatedState = DaaasReducer(state, action);
+    let updatedState = ScigatewayReducer(state, action);
     expect(updatedState.authorisation.loading).toBeTruthy();
   });
 
@@ -146,7 +148,7 @@ describe('daaas reducer', () => {
     const action = authorised();
     state.authorisation.provider = new TestAuthProvider(null);
 
-    let updatedState = DaaasReducer(state, action);
+    let updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
     expect(
@@ -159,7 +161,7 @@ describe('daaas reducer', () => {
     const action = unauthorised();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
-    let updatedState = DaaasReducer(state, action);
+    let updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeTruthy();
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
@@ -169,7 +171,7 @@ describe('daaas reducer', () => {
     const action = { type: InvalidateTokenType };
     state.authorisation.provider = new TestAuthProvider('logged in');
 
-    let updatedState = DaaasReducer(state, action);
+    let updatedState = ScigatewayReducer(state, action);
 
     expect(
       updatedState.authorisation.signedOutDueToTokenInvalidation
@@ -181,7 +183,7 @@ describe('daaas reducer', () => {
     state.authorisation.provider = new TestAuthProvider('signed in');
     expect(state.authorisation.provider.isLoggedIn()).toBeTruthy();
 
-    let updatedState = DaaasReducer(state, { type: SignOutType });
+    let updatedState = ScigatewayReducer(state, { type: SignOutType });
 
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
@@ -190,11 +192,11 @@ describe('daaas reducer', () => {
   });
 
   it('should change auth provider when a LoadAuthProvider action is sent', () => {
-    let updatedState = DaaasReducer(state, loadAuthProvider('jwt'));
+    let updatedState = ScigatewayReducer(state, loadAuthProvider('jwt'));
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(JWTAuthProvider);
 
-    updatedState = DaaasReducer(state, loadAuthProvider('github'));
+    updatedState = ScigatewayReducer(state, loadAuthProvider('github'));
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       GithubAuthProvider
@@ -211,10 +213,10 @@ describe('daaas reducer', () => {
     expect(state.notifications.length).toEqual(0);
 
     const action = {
-      type: 'daaas:api:notification',
+      type: 'scigateway:api:notification',
       payload: { message: 'test notification', severity: 'success' },
     };
-    const updatedState = DaaasReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.notifications.length).toEqual(1);
     expect(updatedState.notifications[0]).toEqual({
@@ -226,7 +228,7 @@ describe('daaas reducer', () => {
   it('should set res property when configure strings action is sent', () => {
     expect(state).not.toHaveProperty('res');
 
-    const updatedState = DaaasReducer(
+    const updatedState = ScigatewayReducer(
       state,
       configureStrings({ testSection: { testId: 'test' } })
     );
@@ -238,7 +240,7 @@ describe('daaas reducer', () => {
   it('should set feature switches property when configure feature switches action is sent', () => {
     expect(state.features.showContactButton).toBeTruthy();
 
-    const updatedState = DaaasReducer(
+    const updatedState = ScigatewayReducer(
       state,
       loadFeatureSwitches({ showContactButton: false })
     );
@@ -257,7 +259,7 @@ describe('daaas reducer', () => {
       ],
     };
 
-    let updatedState = DaaasReducer(notificationsInState, action);
+    let updatedState = ScigatewayReducer(notificationsInState, action);
     const updatedNotificationsInState = [
       { message: 'message 1', severity: 'warning' },
       { message: 'message 2', severity: 'error' },
@@ -276,14 +278,14 @@ describe('daaas reducer', () => {
       order: 10,
       helpText: 'help',
     };
-    const registerRouteAction = 'daaas:api:register_route';
+    const registerRouteAction = 'scigateway:api:register_route';
 
     it('should register a plugin in State', () => {
       const action = {
-        type: 'daaas:api:register_route',
+        type: 'scigateway:api:register_route',
         payload: basePayload,
       };
-      const updatedState = DaaasReducer(state, action);
+      const updatedState = ScigatewayReducer(state, action);
 
       expect(updatedState.plugins).toEqual([
         {
@@ -302,8 +304,8 @@ describe('daaas reducer', () => {
         type: registerRouteAction,
         payload: basePayload,
       };
-      const initialPluginState = DaaasReducer(state, baseAction);
-      const updatedState = DaaasReducer(initialPluginState, {
+      const initialPluginState = ScigatewayReducer(state, baseAction);
+      const updatedState = ScigatewayReducer(initialPluginState, {
         type: registerRouteAction,
         payload: {
           ...basePayload,
@@ -336,12 +338,12 @@ describe('daaas reducer', () => {
         ...basePayload,
         displayName: 'Duplicate Route',
       };
-      const initialPluginState = DaaasReducer(state, {
-        type: 'daaas:api:register_route',
+      const initialPluginState = ScigatewayReducer(state, {
+        type: 'scigateway:api:register_route',
         payload: basePayload,
       });
-      const updatedState = DaaasReducer(initialPluginState, {
-        type: 'daaas:api:register_route',
+      const updatedState = ScigatewayReducer(initialPluginState, {
+        type: 'scigateway:api:register_route',
         payload: duplicatePayload,
       });
 

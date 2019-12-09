@@ -6,6 +6,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
 >
   <div>
     <WithStyles(IconButton)
+      aria-label="Open user menu"
       className="UserProfileComponent-button-1"
       onClick={[Function]}
     >
@@ -76,6 +77,7 @@ exports[`User profile component renders user avatar if signed in with avatar url
   <div>
     <WithStyles(Avatar)
       alt="user"
+      aria-label="Open user menu"
       className="UserProfileComponent-avatar-4"
       onClick={[Function]}
       src="test_url"

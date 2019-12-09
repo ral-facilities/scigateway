@@ -61,7 +61,7 @@ type CombinedNotificationProps = NotificationProps &
   NotificationDispatchProps &
   WithStyles<typeof styles>;
 
-const DaaasNotification = (
+const ScigatewayNotification = (
   props: CombinedNotificationProps
 ): React.ReactElement => {
   return (
@@ -86,4 +86,6 @@ const DaaasNotification = (
   );
 };
 
-export const NotificationWithStyles = withStyles(styles)(DaaasNotification);
+export const NotificationWithStyles = withStyles(styles)(
+  ScigatewayNotification
+);

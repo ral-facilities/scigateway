@@ -9,8 +9,8 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 import { Action } from 'redux';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/daaas.reducer';
-import { dismissMenuItem } from '../state/actions/daaas.actions';
+import { initialState } from '../state/reducers/scigateway.reducer';
+import { dismissMenuItem } from '../state/actions/scigateway.actions';
 
 describe('Notification Badge component', () => {
   let shallow;
@@ -65,8 +65,8 @@ describe('Notification Badge component', () => {
   });
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
-    let state = { daaas: initialState };
-    state.daaas.notifications = [
+    let state = { scigateway: initialState };
+    state.scigateway.notifications = [
       { message: 'my message', severity: 'warning' },
     ];
     const testStore = mockStore(state);

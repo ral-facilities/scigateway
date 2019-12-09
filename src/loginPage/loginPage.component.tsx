@@ -16,8 +16,8 @@ import {
   createStyles,
   WithStyles,
 } from '@material-ui/core/styles';
-import { verifyUsernameAndPassword } from '../state/actions/daaas.actions';
-import { AppStrings } from '../state/daaas.types';
+import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
+import { AppStrings } from '../state/scigateway.types';
 import { StateType, AuthState } from '../state/state.types';
 import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
@@ -213,7 +213,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 };
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
-  auth: state.daaas.authorisation,
+  auth: state.scigateway.authorisation,
   res: getAppStrings(state, 'login'),
   location: state.router.location,
 });

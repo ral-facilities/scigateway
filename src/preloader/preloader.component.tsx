@@ -92,7 +92,7 @@ const Preloader = (props: PreloaderProps): React.ReactElement => (
 
 const mapStateToProps = (state: StateType): PreloaderProps => ({
   loading:
-    state.daaas.siteLoading && state.router.location.pathname !== '/login',
+    state.scigateway.siteLoading && state.router.location.pathname !== '/login',
 });
 
 export default connect(mapStateToProps)(Preloader);
