@@ -2,7 +2,7 @@ import ScigatewayMiddleware, { listenToPlugins } from './scigateway.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
-import { InvalidateTokenType } from '../daaas.types';
+import { InvalidateTokenType } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
 
