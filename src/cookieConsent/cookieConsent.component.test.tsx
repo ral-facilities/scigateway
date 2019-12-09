@@ -30,8 +30,8 @@ describe('Cookie consent component', () => {
         router: { location: createLocation('/') },
       })
     );
-    state.daaas.siteLoading = false;
-    state.daaas.analytics = {
+    state.scigateway.siteLoading = false;
+    state.scigateway.analytics = {
       id: 'test id',
       initialised: false,
     };

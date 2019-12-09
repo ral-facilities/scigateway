@@ -16,6 +16,8 @@ export const DismissNotificationType = 'scigateway:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'scigateway:feature_switches';
 export const AddNotificationsType = 'scigateway:add_notification';
 export const SiteLoadingType = 'scigateway:site_loading';
+export const ConfigureAnalyticsType = 'scigateway:configure_analytics';
+export const InitialiseAnalyticsType = 'scigateway:initialise_analytics';
 export const ToggleHelpType = 'scigateway:toggle_help';
 export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
 
