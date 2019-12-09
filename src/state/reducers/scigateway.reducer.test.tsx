@@ -371,7 +371,7 @@ describe('scigateway reducer', () => {
   it('should set the analytics id state for a configureAnalytics message', () => {
     expect(state.analytics).toBeFalsy();
 
-    let updatedState = DaaasReducer(state, configureAnalytics('test id'));
+    let updatedState = ScigatewayReducer(state, configureAnalytics('test id'));
     expect(updatedState.analytics.id).toEqual('test id');
     expect(updatedState.analytics.initialised).toBeFalsy();
   });
@@ -379,7 +379,7 @@ describe('scigateway reducer', () => {
   it('should set the analytics initalised state for an initialiseAnalytics message', () => {
     state.analytics = { id: 'test id', initialised: false };
 
-    let updatedState = DaaasReducer(state, initialiseAnalytics());
+    let updatedState = ScigatewayReducer(state, initialiseAnalytics());
     expect(updatedState.analytics.initialised).toBeTruthy();
   });
 
@@ -387,7 +387,7 @@ describe('scigateway reducer', () => {
     delete state.analytics;
     log.error = jest.fn();
 
-    let updatedState = DaaasReducer(state, initialiseAnalytics());
+    let updatedState = ScigatewayReducer(state, initialiseAnalytics());
     expect(updatedState.analytics).toBeUndefined();
 
     expect(log.error).toHaveBeenCalled();
