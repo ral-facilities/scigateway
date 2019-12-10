@@ -14,7 +14,7 @@ exports[`Cookies page component should render correctly 1`] = `
       "titleText": "CookiesPage-titleText-3",
     }
   }
-  dispatch={[Function]}
+  navigateToHome={[Function]}
   store={
     Object {
       "clearActions": [Function],

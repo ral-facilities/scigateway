@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
 import Cookies from 'js-cookie';
+import { Dispatch, Action } from 'redux';
+import { push } from 'connected-react-router';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -54,7 +56,13 @@ interface CookiesPageProps {
   res: AppStrings | undefined;
 }
 
-type CombinedCookiesPageProps = CookiesPageProps & WithStyles<typeof styles>;
+interface CookiesPageDispatchProps {
+  navigateToHome: () => Action;
+}
+
+type CombinedCookiesPageProps = CookiesPageProps &
+  CookiesPageDispatchProps &
+  WithStyles<typeof styles>;
 
 const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
   if (!analytics) {
@@ -69,7 +77,6 @@ const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
       expires: 365,
     }
   );
-  window.location.reload();
 };
 
 const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
@@ -183,7 +190,10 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
         color="primary"
         size="medium"
         className={props.classes.button}
-        onClick={() => handleSavePreferences({ analytics })}
+        onClick={() => {
+          handleSavePreferences({ analytics });
+          props.navigateToHome();
+        }}
       >
         {getString(props.res, 'save-preferences-button')}
       </Button>
@@ -195,6 +205,13 @@ const mapStateToProps = (state: StateType): CookiesPageProps => ({
   res: getAppStrings(state, 'cookies-page'),
 });
 
+const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
+  navigateToHome: () => dispatch(push('/')),
+});
+
 export const CookiesPageWithStyles = withStyles(styles)(CookiesPage);
 
-export default connect(mapStateToProps)(CookiesPageWithStyles);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CookiesPageWithStyles);

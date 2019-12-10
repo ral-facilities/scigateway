@@ -7,6 +7,8 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core';
 import Cookies from 'js-cookie';
+import { createLocation } from 'history';
+import { push } from 'connected-react-router';
 
 describe('Cookies page component', () => {
   let shallow;
@@ -22,10 +24,10 @@ describe('Cookies page component', () => {
     state = JSON.parse(
       JSON.stringify({
         scigateway: initialState,
+        router: { location: createLocation('/cookies') },
       })
     );
 
-    window.location.reload = jest.fn();
     Cookies.set = jest.fn();
     Cookies.remove = jest.fn();
   });
@@ -51,9 +53,11 @@ describe('Cookies page component', () => {
   });
 
   it('should save preferences when save preferences button clicked', () => {
+    const testStore = mockStore(state);
+
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
-        <CookiesPage store={mockStore(state)} />
+        <CookiesPage store={testStore} />
       </MuiThemeProvider>
     );
 
@@ -69,10 +73,13 @@ describe('Cookies page component', () => {
     expect(callArguments[0]).toEqual('cookie-consent');
     expect(callArguments[1]).toEqual({ analytics: true });
 
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/'));
   });
 
   it('should remove cookies when user revokes consent', () => {
+    const testStore = mockStore(state);
+
     Cookies.getJSON = jest
       .fn()
       .mockImplementationOnce(name =>
@@ -81,7 +88,7 @@ describe('Cookies page component', () => {
 
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
-        <CookiesPage store={mockStore(state)} />
+        <CookiesPage store={testStore} />
       </MuiThemeProvider>
     );
 
@@ -107,6 +114,7 @@ describe('Cookies page component', () => {
     expect(mockCookiesRemove.calls[0][0]).toEqual('_ga');
     expect(mockCookiesRemove.calls[1][0]).toEqual('_gid');
 
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/'));
   });
 });
