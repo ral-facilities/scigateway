@@ -17,7 +17,7 @@ describe('Cookies page component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'CookiesPage' });
     mount = createMount();
 
     mockStore = configureStore();
@@ -44,12 +44,7 @@ describe('Cookies page component', () => {
         <CookiesPage store={mockStore(state)} />
       </MuiThemeProvider>
     );
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should save preferences when save preferences button clicked', () => {

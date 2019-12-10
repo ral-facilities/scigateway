@@ -1,38 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Cookie consent component should render correctly 1`] = `
-<CookieConsent
-  analytics={
+<WithStyles(Snackbar)
+  ContentProps={
     Object {
-      "id": "test id",
-      "initialised": false,
+      "className": "CookieConsent-root-1",
     }
   }
-  classes={
+  action={
+    Array [
+      <WithStyles(Button)
+        className="CookieConsent-button-2"
+        onClick={[Function]}
+        size="small"
+        variant="outlined"
+      >
+        manage-preferences-button
+      </WithStyles(Button)>,
+      <WithStyles(Button)
+        className="CookieConsent-button-2"
+        color="primary"
+        onClick={[Function]}
+        size="small"
+        variant="contained"
+      >
+        accept-button
+      </WithStyles(Button)>,
+    ]
+  }
+  anchorOrigin={
     Object {
-      "button": "CookieConsent-button-2",
-      "root": "CookieConsent-root-1",
+      "horizontal": "left",
+      "vertical": "bottom",
     }
   }
-  initialiseAnalytics={[Function]}
-  loading={false}
-  location={
-    Object {
-      "hash": "",
-      "pathname": "/",
-      "search": "",
-    }
+  message={
+    <div>
+      text
+    </div>
   }
-  navigateToCookies={[Function]}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
+  open={false}
 />
 `;

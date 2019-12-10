@@ -20,7 +20,7 @@ describe('Cookie consent component', () => {
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({});
+    shallow = createShallow({ untilSelector: 'CookieConsent' });
     mount = createMount();
 
     mockStore = configureStore();
@@ -49,12 +49,7 @@ describe('Cookie consent component', () => {
         <CookieConsent store={mockStore(state)} />
       </MuiThemeProvider>
     );
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-    ).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should navigate to cookie page on user clicking manage preferences', () => {
@@ -153,13 +148,7 @@ describe('Cookie consent component', () => {
       </MuiThemeProvider>
     );
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .prop('open')
-    ).toBeFalsy();
+    expect(wrapper.prop('open')).toBeFalsy();
   });
 
   it('should set open to false if site is loading', () => {
@@ -171,13 +160,7 @@ describe('Cookie consent component', () => {
       </MuiThemeProvider>
     );
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .prop('open')
-    ).toBeFalsy();
+    expect(wrapper.prop('open')).toBeFalsy();
   });
 
   it('should set open to false if on /cookies page', () => {
@@ -189,12 +172,6 @@ describe('Cookie consent component', () => {
       </MuiThemeProvider>
     );
 
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .dive()
-        .prop('open')
-    ).toBeFalsy();
+    expect(wrapper.prop('open')).toBeFalsy();
   });
 });
