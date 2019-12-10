@@ -1,7 +1,7 @@
 describe('Login', () => {
   it('should load login page when login button clicked', () => {
     cy.visit('/');
-    cy.title().should('equal', 'DAaaS');
+    cy.title().should('equal', 'SciGateway');
 
     cy.contains('Sign in').click();
 
@@ -89,7 +89,8 @@ describe('Login', () => {
     cy.url().should('eq', 'http://127.0.0.1:3000/');
 
     cy.window().then(
-      window => expect(window.localStorage.getItem('daaas:token')).not.be.null
+      window =>
+        expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
   });
@@ -97,7 +98,7 @@ describe('Login', () => {
   it('should logout successfully', () => {
     cy.login('username', 'password');
     cy.visit('/');
-    cy.title().should('equal', 'DAaaS');
+    cy.title().should('equal', 'SciGateway');
 
     cy.get('[aria-label="Open user menu"]').click();
 
@@ -106,7 +107,7 @@ describe('Login', () => {
     cy.contains('Sign in').should('be.visible');
 
     cy.window().then(
-      window => expect(window.localStorage.getItem('daaas:token')).be.null
+      window => expect(window.localStorage.getItem('scigateway:token')).be.null
     );
   });
 });

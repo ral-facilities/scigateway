@@ -31,6 +31,6 @@ Cypress.Commands.add('login', (username, password) => {
       password: password,
     })
     .then(response => {
-      window.localStorage.setItem('daaas:token', response.body.token);
+      window.localStorage.setItem('scigateway:token', response.body.token);
     });
 });
