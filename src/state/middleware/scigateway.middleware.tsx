@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch, Middleware } from 'redux';
+import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import {
   NotificationType,
   RegisterRouteType,
@@ -8,6 +8,17 @@ import {
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import { addHelpTourSteps } from '../actions/scigateway.actions';
+import ReactGA from 'react-ga';
+import { StateType } from '../state.types';
+
+const trackPage = (page: string): void => {
+  ReactGA.set({
+    page,
+  });
+  ReactGA.pageview(page);
+};
+
+let currentPage = '';
 
 const microFrontendMessageId = 'scigateway';
 
@@ -89,12 +100,25 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
   });
 };
 
-// this would normally be store => next => action but we don't need store
-const ScigatewayMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
-  action: AnyAction
-): AnyAction => {
+const ScigatewayMiddleware: Middleware = ((
+  store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
+) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
+  const state = store.getState();
   if (action.payload && action.payload.broadcast) {
     broadcastToPlugins(action);
+  }
+
+  if (
+    action.type === '@@router/LOCATION_CHANGE' &&
+    state.scigateway.analytics &&
+    state.scigateway.analytics.initialised
+  ) {
+    const nextPage = `${action.payload.location.pathname}${action.payload.location.search}`;
+
+    if (currentPage !== nextPage) {
+      currentPage = nextPage;
+      trackPage(nextPage);
+    }
   }
 
   return next(action);

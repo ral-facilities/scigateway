@@ -5,6 +5,8 @@ import {
   unauthorised,
   loadingAuthentication,
   dismissMenuItem,
+  configureAnalytics,
+  initialiseAnalytics,
   siteLoadingUpdate,
   loadAuthProvider,
   configureStrings,
@@ -364,5 +366,35 @@ describe('scigateway reducer', () => {
       expect(call).toContain(duplicatePayload.link);
       expect(call).toContain(duplicatePayload.displayName);
     });
+  });
+
+  it('should set the analytics id state for a configureAnalytics message', () => {
+    expect(state.analytics).toBeFalsy();
+
+    let updatedState = ScigatewayReducer(state, configureAnalytics('test id'));
+    expect(updatedState.analytics.id).toEqual('test id');
+    expect(updatedState.analytics.initialised).toBeFalsy();
+  });
+
+  it('should set the analytics initalised state for an initialiseAnalytics message', () => {
+    state.analytics = { id: 'test id', initialised: false };
+
+    let updatedState = ScigatewayReducer(state, initialiseAnalytics());
+    expect(updatedState.analytics.initialised).toBeTruthy();
+  });
+
+  it('should log an error if an initialiseAnalytics message is sent with no analytics config', () => {
+    delete state.analytics;
+    log.error = jest.fn();
+
+    let updatedState = ScigatewayReducer(state, initialiseAnalytics());
+    expect(updatedState.analytics).toBeUndefined();
+
+    expect(log.error).toHaveBeenCalled();
+    const mockLog = (log.error as jest.Mock).mock;
+    const call = mockLog.calls[0][0];
+    expect(call)
+      .toEqual(`Attempted to initialise analytics without analytics configuration - 
+      configureAnalytics needs to be performed before initialising`);
   });
 });

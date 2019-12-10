@@ -19,6 +19,7 @@ import { StateType } from './state/state.types';
 import './index.css';
 import { buildTheme } from './theming';
 import Preloader from './preloader/preloader.component';
+import CookieConsent from './cookieConsent/cookieConsent.component';
 import ReduxToastr from 'react-redux-toastr';
 import Tour from './tour/tour.component';
 
@@ -57,6 +58,7 @@ const pageContent = (): React.ReactNode => (
     <MainAppBar />
     <NavigationDrawer />
     <Tour />
+    <CookieConsent />
     <Routing />
   </React.Fragment>
 );

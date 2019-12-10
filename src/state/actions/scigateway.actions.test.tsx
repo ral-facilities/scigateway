@@ -9,6 +9,8 @@ import {
   configureSite,
   dismissMenuItem,
   siteLoadingUpdate,
+  configureAnalytics,
+  initialiseAnalytics,
   loadStrings,
   unauthorised,
   toggleHelp,
@@ -18,6 +20,8 @@ import {
   ToggleDrawerType,
   ConfigureFeatureSwitchesType,
   DismissNotificationType,
+  ConfigureAnalyticsType,
+  InitialiseAnalyticsType,
   ToggleHelpType,
   AddHelpTourStepsType,
 } from '../scigateway.types';
@@ -188,6 +192,26 @@ describe('scigateway actions', () => {
     );
   });
 
+  it('given a ga-tracking-id configureAnalytics is run', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ga-tracking-id': 'test-tracking-id',
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions[0]).toEqual(configureAnalytics('test-tracking-id'));
+  });
+
   it('dispatches a site loading update after settings are loaded', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -259,6 +283,17 @@ describe('scigateway actions', () => {
     const action = dismissMenuItem(0);
     expect(action.type).toEqual(DismissNotificationType);
     expect(action.payload).toEqual({ index: 0 });
+  });
+
+  it('given an id configureAnalytics returns a ConfigureAnalytics type with payload', () => {
+    const action = configureAnalytics('test id');
+    expect(action.type).toEqual(ConfigureAnalyticsType);
+    expect(action.payload).toEqual({ id: 'test id' });
+  });
+
+  it('initialiseAnalytics returns an InitialiseAnalyticsType', () => {
+    const action = initialiseAnalytics();
+    expect(action.type).toEqual(InitialiseAnalyticsType);
   });
 
   it('toggleHelp only needs a type', () => {

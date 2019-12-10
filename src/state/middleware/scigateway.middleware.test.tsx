@@ -2,6 +2,8 @@ import ScigatewayMiddleware, { listenToPlugins } from './scigateway.middleware';
 import { AnyAction } from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
+import ReactGA from 'react-ga';
+import { createLocation } from 'history';
 import { InvalidateTokenType } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
@@ -54,6 +56,11 @@ describe('scigateway middleware', () => {
 
     const mockStore = configureStore();
     store = mockStore({});
+    ReactGA.initialize('test id', { testMode: true, titleCase: false });
+  });
+
+  afterEach(() => {
+    ReactGA.testModeAPI.resetCalls();
   });
 
   it('should broadcast messages with broadcast flag', () => {
@@ -71,6 +78,68 @@ describe('scigateway middleware', () => {
   it('should not broadcast messages without payload', () => {
     ScigatewayMiddleware(store)(store.dispatch)({ type: 'test' });
     expect(events.length).toEqual(0);
+  });
+
+  it("should not send page views if analytics haven't been initialised", () => {
+    store = configureStore()({
+      scigateway: {},
+    });
+    ScigatewayMiddleware(store)(store.dispatch)({
+      type: '@@router/LOCATION_CHANGE',
+      payload: {
+        location: createLocation('/'),
+        action: 'POP',
+      },
+    });
+
+    expect(ReactGA.testModeAPI.calls.length).toEqual(1);
+  });
+
+  it('should send page views on location change event', () => {
+    store = configureStore()({
+      scigateway: { analytics: { id: 'test id', initialised: true } },
+    });
+
+    ScigatewayMiddleware(store)(store.dispatch)({
+      type: '@@router/LOCATION_CHANGE',
+      payload: {
+        location: createLocation('/'),
+        action: 'POP',
+      },
+    });
+
+    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('set');
+    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
+      page: '/',
+    });
+    expect(ReactGA.testModeAPI.calls[2][0]).toEqual('send');
+    expect(ReactGA.testModeAPI.calls[2][1]).toEqual({
+      hitType: 'pageview',
+      page: '/',
+    });
+  });
+
+  it("should not send page views on location change event when location hasn't changed", () => {
+    store = configureStore()({
+      scigateway: { analytics: { id: 'test id', initialised: true } },
+    });
+
+    ScigatewayMiddleware(store)(store.dispatch)({
+      type: '@@router/LOCATION_CHANGE',
+      payload: {
+        location: createLocation('/newlocation'),
+        action: 'POP',
+      },
+    });
+    ScigatewayMiddleware(store)(store.dispatch)({
+      type: '@@router/LOCATION_CHANGE',
+      payload: {
+        location: createLocation('/newlocation'),
+        action: 'POP',
+      },
+    });
+
+    expect(ReactGA.testModeAPI.calls.length).toEqual(3);
   });
 
   it('should listen for events and fire registerroute action', () => {

@@ -34,5 +34,6 @@
     }
   ],
   "ui-strings": "res/default.json",
-  "auth-provider": "jwt"
+  "auth-provider": "jwt",
+  "ga-tracking-id": "UA-XXXX-Y"
 }

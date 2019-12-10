@@ -20,6 +20,9 @@ import {
   SiteLoadingType,
   DismissNotificationType,
   PluginConfig,
+  ConfigureAnalyticsType,
+  ConfigureAnalyticsPayload,
+  InitialiseAnalyticsType,
   ToggleHelpType,
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
@@ -236,6 +239,37 @@ export function handleSiteLoadingUpdate(
   };
 }
 
+export function handleConfigureAnalytics(
+  state: ScigatewayState,
+  payload: ConfigureAnalyticsPayload
+): ScigatewayState {
+  return {
+    ...state,
+    analytics: {
+      id: payload.id,
+      initialised: false,
+    },
+  };
+}
+
+export function handleInitialiseAnalytics(state: ScigatewayState): ScigatewayState {
+  if (state.analytics) {
+    return {
+      ...state,
+      analytics: {
+        id: state.analytics.id,
+        initialised: true,
+      },
+    };
+  } else {
+    log.error(
+      `Attempted to initialise analytics without analytics configuration - 
+      configureAnalytics needs to be performed before initialising`
+    );
+    return state;
+  }
+}
+
 export function handleToggleHelp(state: ScigatewayState): ScigatewayState {
   return {
     ...state,
@@ -288,6 +322,8 @@ const ScigatewayReducer = createReducer(initialState, {
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [DismissNotificationType]: handleDismissNotification,
   [SiteLoadingType]: handleSiteLoadingUpdate,
+  [ConfigureAnalyticsType]: handleConfigureAnalytics,
+  [InitialiseAnalyticsType]: handleInitialiseAnalytics,
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
 });

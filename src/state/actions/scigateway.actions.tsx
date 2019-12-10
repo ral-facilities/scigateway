@@ -20,6 +20,9 @@ import {
   LoadAuthProviderType,
   SiteLoadingType,
   SiteLoadingPayload,
+  ConfigureAnalyticsPayload,
+  ConfigureAnalyticsType,
+  InitialiseAnalyticsType,
   ToggleHelpType,
   AddHelpTourStepsType,
   AddHelpTourStepsPayload,
@@ -96,6 +99,19 @@ export const siteLoadingUpdate = (
   },
 });
 
+export const configureAnalytics = (
+  id: string
+): ActionType<ConfigureAnalyticsPayload> => ({
+  type: ConfigureAnalyticsType,
+  payload: {
+    id,
+  },
+});
+
+export const initialiseAnalytics = (): Action => ({
+  type: InitialiseAnalyticsType,
+});
+
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     await axios
@@ -106,6 +122,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         // invalid settings.json - Use JSON.parse to give detailed error info
         if (typeof settings !== 'object') {
           throw Error('Invalid format');
+        }
+
+        if (settings['ga-tracking-id']) {
+          dispatch(configureAnalytics(settings['ga-tracking-id']));
         }
 
         dispatch(loadAuthProvider(settings['auth-provider']));
