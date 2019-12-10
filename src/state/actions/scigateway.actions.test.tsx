@@ -205,7 +205,7 @@ describe('scigateway actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ daaas: initialState });
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
 
     await asyncAction(dispatch, getState);
 

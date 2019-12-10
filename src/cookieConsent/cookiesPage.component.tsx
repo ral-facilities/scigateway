@@ -146,7 +146,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
                   component="li"
                   className={props.classes.cookieListItem}
                 >
-                  {getString(props.res, 'daaas-token-description')}
+                  {getString(props.res, 'scigateway-token-description')}
                 </Typography>
               </ul>
             </Grid>
