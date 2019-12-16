@@ -243,7 +243,6 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    console.log(actions);
     expect(actions.length).toEqual(6);
     expect(actions).toContainEqual(authorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
