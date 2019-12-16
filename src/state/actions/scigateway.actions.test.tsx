@@ -274,7 +274,6 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    console.log(actions);
     expect(actions.length).toEqual(5);
     expect(actions).toContainEqual(unauthorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
