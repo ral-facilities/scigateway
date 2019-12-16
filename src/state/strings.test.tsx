@@ -2,7 +2,7 @@ import { getAppStrings, getString } from './strings';
 import { AppStrings } from './scigateway.types';
 import { ScigatewayState, StateType } from './state.types';
 import { RouterState } from 'connected-react-router';
-import { authState } from './reducers/scigateway.reducer';
+import { initialState } from './reducers/scigateway.reducer';
 
 describe('strings', () => {
   describe('getString', () => {
@@ -44,11 +44,8 @@ describe('strings', () => {
       },
     };
 
-    const ScigatewayState: ScigatewayState = {
-      notifications: [],
-      plugins: [],
-      drawerOpen: false,
-      authorisation: authState,
+    const scigatewayState: ScigatewayState = {
+      ...initialState,
       res: {
         'section-name': testRes,
         'unused-section': otherSection,
@@ -57,7 +54,7 @@ describe('strings', () => {
 
     const state: StateType = {
       router: routerState,
-      scigateway: ScigatewayState,
+      scigateway: scigatewayState,
     };
 
     it('returns key element from state object if section exists', () => {

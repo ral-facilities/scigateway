@@ -162,7 +162,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPlugins = loadMicroFrontends.init(settings.plugins);
         loadingPromises.push(loadingPlugins);
 
-        Promise.all(loadingPromises).then(() => {
+        return Promise.all(loadingPromises).then(() => {
           dispatch(siteLoadingUpdate(false));
         });
       })
