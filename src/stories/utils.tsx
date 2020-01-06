@@ -5,7 +5,7 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { storybookResourceStrings } from './storybookResourceStrings';
-import { StoryDecorator } from '@storybook/react';
+import { DecoratorFn } from '@storybook/react';
 import { ScigatewayState } from '../state/state.types';
 import thunk from 'redux-thunk';
 import log from 'loglevel';
@@ -38,7 +38,7 @@ const StorybookMiddleware: Middleware = (() => (next: Dispatch<AnyAction>) => (
 }) as Middleware;
 
 type StateUpdater = (state: ScigatewayState) => ScigatewayState;
-type ReduxDecoratorGeneratorType = (updater: StateUpdater) => StoryDecorator;
+type ReduxDecoratorGeneratorType = (updater: StateUpdater) => DecoratorFn;
 
 /* eslint-disable-next-line react/display-name */
 export const ReduxDecorator: ReduxDecoratorGeneratorType = (stateUpdater => storyFn => {

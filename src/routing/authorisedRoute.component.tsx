@@ -1,4 +1,4 @@
-import React, { Component, ComponentClass } from 'react';
+import React, { Component, ComponentType } from 'react';
 import { Redirect } from 'react-router-dom';
 import { StateType, AuthState } from '../state/state.types';
 import { AnyAction, Dispatch } from 'redux';
@@ -30,7 +30,9 @@ const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
 });
 
 // generator function to create an authentication layer around the given component
-export default function withAuth(ComponentToProtect: Function): ComponentClass {
+export default function withAuth(
+  ComponentToProtect: ComponentType
+): ComponentType {
   class WithAuthComponent extends Component<
     WithAuthProps & WithAuthDispatchProps
   > {
@@ -59,8 +61,5 @@ export default function withAuth(ComponentToProtect: Function): ComponentClass {
     }
   }
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WithAuthComponent);
+  return connect(mapStateToProps, mapDispatchToProps)(WithAuthComponent);
 }
