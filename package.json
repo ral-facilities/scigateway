@@ -29,7 +29,7 @@
     "redux-thunk": "^2.3.0",
     "single-spa": "^4.3.7",
     "typeface-roboto": "0.0.75",
-    "typescript": "^3.5.3"
+    "typescript": "3.5.3"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=js --ext=jsx --fix ./src",
@@ -119,6 +119,7 @@
     "@types/storybook__react": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.1",
@@ -129,11 +130,14 @@
     "enzyme-to-json": "^3.3.5",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-config-react-app": "^4.0.1",
     "eslint-plugin-cypress": "^2.6.0",
+    "eslint-plugin-flowtype": "^2.50.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.5.0",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
     "prettier": "^1.18.2",
