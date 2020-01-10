@@ -7,19 +7,20 @@ addons:
       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves (for Cypress)
       - libgconf-2-4
 cache:
-  npm: true
+  yarn: true
   directories:
     # we also need to cache folder with Cypress binary
     - ~/.cache
 install:
-  - npm ci
+  - npm config set scripts-prepend-node-path true
+  - yarn install --frozen-lockfile
 jobs:
   include:
     - stage: Tests
       name: 'Lint'
-      script: npm run lint:js
+      script: yarn lint:js
     - name: 'Unit Tests'
-      script: npm test
+      script: yarn test
       after_success: bash <(curl -s https://codecov.io/bash)
     - name: 'E2E Tests'
-      script: npm run e2e
+      script: yarn e2e

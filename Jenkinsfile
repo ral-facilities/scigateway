@@ -5,17 +5,17 @@ pipeline {
         stage('Preparation') {
             steps {
                 checkout scm
-                sh 'npm i'
+                sh 'yarn'
             }
         }
         stage('Unit Tests') {
             steps {
-                sh 'npm test'
+                sh 'yarn test'
             }
         }
         stage('E2E Tests') {
             steps {
-                sh 'npm run e2e'
+                sh 'yarn e2e'
             }
         }
     }
