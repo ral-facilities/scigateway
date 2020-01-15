@@ -4,10 +4,12 @@ export default class TestAuthProvider implements AuthProvider {
   private token: string | null;
   public redirectUrl: string | null;
   public user = null;
+  public mnemonic: string;
 
   public constructor(token: string | null) {
     this.token = token;
     this.redirectUrl = null;
+    this.mnemonic = '';
   }
 
   public isLoggedIn(): boolean {
