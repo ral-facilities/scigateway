@@ -1,30 +1,13 @@
 import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
 import ReactGA from 'react-ga';
-import axios from 'axios';
-import { ICATAuthenticator } from '../state/state.types';
 
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
 
   public constructor(mnemonic: string) {
     super();
-    this.mnemonic = mnemonic;
-  }
-
-  public fetchMnemonics(): Promise<ICATAuthenticator[]> {
-    return axios
-      .get('/authenticators')
-      .then(res => {
-        return res.data;
-      })
-      .catch(err => {
-        ReactGA.event({
-          category: 'Login',
-          action: 'Failed to fetch ICAT authenticator mnemonics',
-        });
-        return [];
-      });
+    this.mnemonic = mnemonic || '';
   }
 
   public logIn(username: string, password: string): Promise<void> {
@@ -57,7 +40,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Axios.post('/api/jwt/checkToken', {
+    return Axios.post('/verify', {
       token: this.token,
     })
       .then(() => {})

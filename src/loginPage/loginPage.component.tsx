@@ -188,150 +188,100 @@ export const CredentialsLoginScreen = (
   );
 };
 
-export const ICATLoginScreen = (
+export const AnonLoginScreen = (
   props: CombinedLoginProps
-): React.ReactElement => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
+): React.ReactElement => (
+  <div
+    className={props.classes.root}
+    onKeyPress={e => {
+      if (e.key === 'Enter') {
+        props.verifyUsernameAndPassword('', '');
+      }
+    }}
+  >
+    {props.auth.failedToLogin ? (
+      <Typography className={props.classes.warning}>
+        {getString(props.res, 'login-error-msg')}
+      </Typography>
+    ) : null}
+    {props.auth.signedOutDueToTokenInvalidation ? (
+      <Typography className={props.classes.info}>
+        {getString(props.res, 'token-invalid-msg')}
+      </Typography>
+    ) : null}
+    <Button
+      variant="contained"
+      color="primary"
+      className={props.classes.button}
+      onClick={() => {
+        props.verifyUsernameAndPassword('', '');
+      }}
+    >
+      <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+        {getString(props.res, 'login-button')}
+      </Typography>
+    </Button>
+  </div>
+);
 
+export const LoginSelector = (
+  props: CombinedLoginProps & { mnemonics: ICATAuthenticator[] }
+): React.ReactElement => {
+  const mnemonics = props.mnemonics;
   const mnemonic = props.auth.provider.mnemonic || '';
   const setMnemonic = props.changeMnemonic;
 
-  function fetchMnemonics(): Promise<ICATAuthenticator[]> {
-    return axios
-      .get('/authenticators')
-      .then(res => {
-        return res.data;
-      })
-      .catch(err => {
-        log.error('Failed to fetch authenticator information from ICAT');
-        document.dispatchEvent(
-          new CustomEvent('scigateway', {
-            detail: {
-              type: NotificationType,
-              payload: {
-                message: 'Failed to fetch authenticator information from ICAT',
-                severity: 'error',
-              },
-            },
-          })
-        );
-        return [];
-      });
-  }
-
-  const isInputValid = (): boolean =>
-    mnemonic !== '' &&
-    ((!!mnemonics.find(
-      authenticator =>
-        authenticator.mnemonic === mnemonic && authenticator.keys.length > 0
-    ) &&
-      username !== '' &&
-      password !== '') ||
-      !!mnemonics.find(
-        authenticator =>
-          authenticator.mnemonic === mnemonic && authenticator.keys.length === 0
-      ));
-
-  React.useEffect(() => {
-    fetchMnemonics().then(mnemonics => {
-      const nonAdminAuthenticators = mnemonics.filter(
-        authenticator => !authenticator.admin
-      );
-      setMnemonics(nonAdminAuthenticators);
-      if (nonAdminAuthenticators.length === 1)
-        setMnemonic(nonAdminAuthenticators[0].mnemonic);
-    });
-  }, [setMnemonics, setMnemonic]);
-
   return (
-    <div
-      className={props.classes.root}
-      onKeyPress={e => {
-        if (e.key === 'Enter' && isInputValid()) {
-          props.verifyUsernameAndPassword(username, password);
-        }
-      }}
-    >
-      {props.auth.failedToLogin ? (
-        <Typography className={props.classes.warning}>
-          {getString(props.res, 'login-error-msg')}
-        </Typography>
-      ) : null}
-      {props.auth.signedOutDueToTokenInvalidation ? (
-        <Typography className={props.classes.info}>
-          {getString(props.res, 'token-invalid-msg')}
-        </Typography>
-      ) : null}
-
-      {mnemonics.length > 1 && (
-        <FormControl style={{ minWidth: 120 }}>
-          <InputLabel htmlFor="mnemonic-select">Authenticator</InputLabel>
-          <Select
-            className={props.classes.textField}
-            inputProps={{
-              name: 'mnemonic',
-              id: 'mnemonic-select',
-            }}
-            value={mnemonic}
-            onChange={e => {
-              console.log(e.target.value);
-              setMnemonic(e.target.value);
-            }}
-          >
-            {mnemonics.map(authenticator => (
-              <MenuItem
-                key={authenticator.mnemonic}
-                value={authenticator.mnemonic}
-              >
-                {authenticator.friendly || authenticator.mnemonic}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      )}
-      {mnemonic !== '' &&
-        mnemonics.find(
-          authenticator =>
-            authenticator.mnemonic === mnemonic && authenticator.keys.length > 0
-        ) && (
-          <React.Fragment>
-            <TextField
-              className={props.classes.textField}
-              label={getString(props.res, 'username-placeholder')}
-              value={username}
-              onChange={e => setUsername(e.currentTarget.value)}
-              disabled={props.auth.loading}
-            />
-            <TextField
-              className={props.classes.textField}
-              label={getString(props.res, 'password-placeholder')}
-              value={password}
-              onChange={e => setPassword(e.currentTarget.value)}
-              type="password"
-              disabled={props.auth.loading}
-            />
-          </React.Fragment>
-        )}
-      <Button
-        variant="contained"
-        color="primary"
-        className={props.classes.button}
-        disabled={!isInputValid() || props.auth.loading}
-        onClick={() => {
-          props.verifyUsernameAndPassword(username, password);
+    <FormControl style={{ minWidth: 120 }}>
+      <InputLabel htmlFor="mnemonic-select">Authenticator</InputLabel>
+      <Select
+        className={props.classes.textField}
+        inputProps={{
+          name: 'mnemonic',
+          id: 'mnemonic-select',
+        }}
+        value={mnemonic}
+        onChange={e => {
+          setMnemonic(e.target.value);
         }}
       >
-        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-          {getString(props.res, 'login-button')}
-        </Typography>
-      </Button>
-    </div>
+        {mnemonics.map(authenticator => (
+          <MenuItem key={authenticator.mnemonic} value={authenticator.mnemonic}>
+            {authenticator.friendly || authenticator.mnemonic}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 
+function fetchMnemonics(): Promise<ICATAuthenticator[]> {
+  return axios
+    .get('/authenticators')
+    .then(res => {
+      return res.data;
+    })
+    .catch(err => {
+      log.error('Failed to fetch authenticator information from ICAT');
+      document.dispatchEvent(
+        new CustomEvent('scigateway', {
+          detail: {
+            type: NotificationType,
+            payload: {
+              message: 'Failed to fetch authenticator information from ICAT',
+              severity: 'error',
+            },
+          },
+        })
+      );
+      return [];
+    });
+}
+
 const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
+  const mnemonic = props.auth.provider.mnemonic;
+  const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
+
   useEffect(() => {
     if (
       props.auth.provider.redirectUrl &&
@@ -345,11 +295,58 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
     }
   });
 
-  let LoginScreen = <CredentialsLoginScreen {...props} />;
-  if (props.auth.provider.redirectUrl) {
-    LoginScreen = <RedirectLoginScreen {...props} />;
-  } else if (typeof props.auth.provider.mnemonic != undefined) {
-    LoginScreen = <ICATLoginScreen {...props} />;
+  const changeMnemonic = props.changeMnemonic;
+  useEffect(() => {
+    if (typeof mnemonic !== 'undefined') {
+      fetchMnemonics().then(mnemonics => {
+        const nonAdminAuthenticators = mnemonics.filter(
+          authenticator => !authenticator.admin
+        );
+        setMnemonics(nonAdminAuthenticators);
+        if (nonAdminAuthenticators.length === 1)
+          changeMnemonic(nonAdminAuthenticators[0].mnemonic);
+      });
+    }
+  }, [changeMnemonic, setMnemonics, mnemonic]);
+
+  let LoginScreen: React.ReactElement | null = null;
+
+  if (typeof mnemonic === 'undefined') {
+    LoginScreen = <CredentialsLoginScreen {...props} />;
+    if (props.auth.provider.redirectUrl) {
+      LoginScreen = <RedirectLoginScreen {...props} />;
+    }
+  } else {
+    if (
+      mnemonics.find(
+        authenticator =>
+          authenticator.mnemonic === mnemonic && authenticator.keys.length === 0
+      )
+    ) {
+      // anon
+      LoginScreen = <AnonLoginScreen {...props} />;
+    } else if (
+      mnemonics.find(
+        authenticator =>
+          authenticator.mnemonic === mnemonic &&
+          authenticator.keys.find(x => x.name === 'username') &&
+          authenticator.keys.find(x => x.name === 'password')
+      )
+    ) {
+      // user/pass
+      LoginScreen = <CredentialsLoginScreen {...props} />;
+    } else if (
+      mnemonics.find(
+        authenticator =>
+          authenticator.mnemonic === mnemonic &&
+          authenticator.keys.find(x => x.name === 'token')
+      )
+    ) {
+      // redirect
+      LoginScreen = <RedirectLoginScreen {...props} />;
+    } else {
+      // unrecognised authenticator type
+    }
   }
 
   return (
@@ -361,6 +358,9 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
         <Typography component="h1" variant="h5">
           {getString(props.res, 'title')}
         </Typography>
+        {mnemonics.length > 1 && (
+          <LoginSelector {...props} mnemonics={mnemonics} />
+        )}
         {LoginScreen}
         {props.auth.loading ? (
           <CircularProgress className={props.classes.spinner} />

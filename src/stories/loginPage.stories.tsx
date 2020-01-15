@@ -51,6 +51,21 @@ const buildRedirectLoginPage = (
   return buildLoginPage(failedToLogin, loading, provider);
 };
 
+const buildAnonLoginPage = (
+  failedToLogin: boolean,
+  loading: boolean
+): React.ReactElement => {
+  const provider = new TestAuthProvider(null);
+  provider.mnemonic = 'anon';
+  mock.onGet('/authenticators').reply(200, [
+    {
+      mnemonic: 'anon',
+      keys: [],
+    },
+  ]);
+  return buildLoginPage(failedToLogin, loading, provider);
+};
+
 const buildICATLoginPage = (
   failedToLogin: boolean,
   loading: boolean,
@@ -106,7 +121,17 @@ storiesOf('LoginPage/redirect', module)
   .add('loading', () => buildRedirectLoginPage(false, true))
   .add('unsuccessful', () => buildRedirectLoginPage(true, false));
 
-storiesOf('LoginPage/ICAT', module)
+storiesOf('LoginPage/anonymous', module)
+  .addParameters({
+    info: {
+      text: 'This is the login page for the whole site.',
+    },
+  })
+  .add('default', () => buildAnonLoginPage(false, false))
+  .add('loading', () => buildAnonLoginPage(false, true))
+  .add('unsuccessful', () => buildAnonLoginPage(true, false));
+
+storiesOf('LoginPage/multiple', module)
   .addParameters({
     info: {
       text: 'This is the login page for the whole site.',
@@ -117,6 +142,4 @@ storiesOf('LoginPage/ICAT', module)
   .add('username/password selected', () =>
     buildICATLoginPage(false, false, 'user/pass')
   )
-  .add('anon selected', () => buildICATLoginPage(false, false, 'anon'))
-  .add('loading', () => buildICATLoginPage(false, true))
-  .add('unsuccessful', () => buildICATLoginPage(true, false));
+  .add('anon selected', () => buildICATLoginPage(false, false, 'anon'));
