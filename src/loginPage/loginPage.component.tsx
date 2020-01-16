@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -282,21 +282,8 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const mnemonic = props.auth.provider.mnemonic;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
 
-  useEffect(() => {
-    if (
-      props.auth.provider.redirectUrl &&
-      props.location.search &&
-      !props.auth.loading &&
-      !props.auth.failedToLogin
-    ) {
-      if (props.location.search) {
-        props.verifyUsernameAndPassword('', props.location.search);
-      }
-    }
-  });
-
   const changeMnemonic = props.changeMnemonic;
-  useEffect(() => {
+  React.useEffect(() => {
     if (typeof mnemonic !== 'undefined') {
       fetchMnemonics().then(mnemonics => {
         const nonAdminAuthenticators = mnemonics.filter(
@@ -308,6 +295,19 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       });
     }
   }, [changeMnemonic, setMnemonics, mnemonic]);
+
+  React.useEffect(() => {
+    if (
+      props.auth.provider.redirectUrl &&
+      props.location.search &&
+      !props.auth.loading &&
+      !props.auth.failedToLogin
+    ) {
+      if (props.location.search) {
+        props.verifyUsernameAndPassword('', props.location.search);
+      }
+    }
+  });
 
   let LoginScreen: React.ReactElement | null = null;
 
