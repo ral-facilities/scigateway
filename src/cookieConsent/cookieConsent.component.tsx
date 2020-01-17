@@ -28,7 +28,9 @@ const styles = (theme: Theme): StyleRules =>
     },
     button: {
       color: theme.palette.primary.contrastText,
-      margin: theme.spacing.unit,
+
+      // material-ui v4 upgrade
+      margin: theme.spacing(1),
     },
   });
 

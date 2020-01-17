@@ -21,31 +21,36 @@ import { push } from 'connected-react-router';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      margin: 2 * theme.spacing.unit,
+      // material-ui v4 upgrade
+      margin: theme.spacing(2),
     },
     container: {
       display: 'flex',
       flexDirection: 'column',
-      marginTop: 2 * theme.spacing.unit,
-      marginBottom: 2 * theme.spacing.unit,
+      // material-ui v4 upgrade
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
     },
     titleText: {
       fontWeight: 'bold',
       color: theme.palette.primary.main,
     },
     cookiePolicy: {
-      marginTop: 2 * theme.spacing.unit,
-      marginBottom: 2 * theme.spacing.unit,
+      // material-ui v4 upgrade
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
     },
     cookieTypes: {
-      marginTop: 2 * theme.spacing.unit,
-      marginBottom: 2 * theme.spacing.unit,
+      // material-ui v4 upgrade
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
     },
     button: {
       color: theme.palette.primary.contrastText,
     },
     cookieList: {
-      paddingLeft: 2 * theme.spacing.unit,
+      // material-ui v4 upgrade
+      paddingLeft: theme.spacing(2),
     },
     cookieListItem: {
       display: 'list-item',

@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/scigateway.types';
@@ -62,11 +62,12 @@ interface LinkListItemProps extends ListItemProps {
   to: string;
 }
 
+// TODO: material-ui v4 upgrade - https://material-ui.com/guides/composition/
 const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
   // an `any` is required here to pass the additional properties through to the
   // ListItem as per the material-ui documentation
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  <ListItem button {...props} component={Link as any} />
+  <ListItem button />
 );
 
 class NavigationDrawer extends Component<CombinedNavigationProps> {

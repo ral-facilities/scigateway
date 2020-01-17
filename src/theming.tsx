@@ -26,9 +26,7 @@ export interface UKRITheme extends Theme {
 
 export const buildTheme = (): Theme => {
   const options: UKRIThemeOptions = {
-    typography: {
-      useNextVariants: true,
-    },
+    // material-ui v4 upgrade - removed typography object for useNextVariants
     palette: {
       primary: {
         main: '#1D4F91', // dark blue

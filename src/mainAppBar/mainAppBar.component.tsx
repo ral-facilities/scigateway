@@ -69,7 +69,8 @@ const styles = (theme: Theme): StyleRules =>
       cursor: 'pointer',
     },
     button: {
-      margin: theme.spacing.unit,
+      // material-ui v4 upgrade
+      margin: theme.spacing(1),
       color: theme.palette.primary.contrastText,
     },
     menuButton: {

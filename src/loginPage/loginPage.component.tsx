@@ -30,38 +30,45 @@ const styles = (theme: Theme): StyleRules =>
       flexDirection: 'column',
       alignItems: 'center',
       width: 'auto',
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
+      marginLeft: theme.spacing(3),
+      marginRight: theme.spacing(3),
     },
     avatar: {
-      margin: theme.spacing.unit,
+      // material-ui v4 upgrade
+      margin: theme.spacing(1),
       backgroundColor: (theme as UKRITheme).ukri.orange,
     },
     paper: {
-      marginTop: theme.spacing.unit * 8,
+      marginTop: theme.spacing(8),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px ${theme
-        .spacing.unit * 3}px`,
-      [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      // material-ui v4 upgrade
+      padding: `${theme.spacing(3)}px ${theme.spacing(3)}px ${theme.spacing(
+        3
+      )}px`,
+      [theme.breakpoints.up(400 + theme.spacing(6))]: {
         width: 400,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
     },
     textField: {
-      marginTop: theme.spacing.unit,
+      // material-ui v4 upgrade
+      marginTop: theme.spacing(1),
     },
     button: {
-      marginTop: `${theme.spacing.unit * 3}px`,
+      // material-ui v4 upgrade
+      marginTop: `${theme.spacing(1)}px`,
     },
     warning: {
-      marginTop: `${theme.spacing.unit * 3}px`,
+      // material-ui v4 upgrade
+      marginTop: `${theme.spacing(1)}px`,
       color: 'red',
     },
     info: {
-      marginTop: `${theme.spacing.unit * 3}px`,
+      // material-ui v4 upgrade
+      marginTop: `${theme.spacing(1)}px`,
       color: theme.palette.primary.main,
     },
     spinner: {

@@ -133,9 +133,6 @@ const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
 
-export const TourWithStyles = withTheme()(Tour);
+export const TourWithStyles = withTheme(Tour);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TourWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(TourWithStyles);
