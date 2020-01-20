@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navigation drawer component Navigation drawer renders correctly when closed 1`] = `
-<WithStyles(Drawer)
+<WithStyles(ForwardRef(Drawer))
   anchor="left"
   className="NavigationDrawer-drawer-1"
   classes={
@@ -15,20 +15,20 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
   <div
     className="NavigationDrawer-drawerHeader-3"
   >
-    <WithStyles(IconButton)
+    <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
-      <pure(ChevronLeftIcon) />
-    </WithStyles(IconButton)>
+      <ChevronLeftIcon />
+    </WithStyles(ForwardRef(IconButton))>
   </div>
-  <WithStyles(Divider) />
-  <WithStyles(List) />
-</WithStyles(Drawer)>
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List)) />
+</WithStyles(ForwardRef(Drawer))>
 `;
 
 exports[`Navigation drawer component Navigation drawer renders correctly when open 1`] = `
-<WithStyles(Drawer)
+<WithStyles(ForwardRef(Drawer))
   anchor="left"
   className="NavigationDrawer-drawer-1"
   classes={
@@ -42,20 +42,20 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
   <div
     className="NavigationDrawer-drawerHeader-3"
   >
-    <WithStyles(IconButton)
+    <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
-      <pure(ChevronLeftIcon) />
-    </WithStyles(IconButton)>
+      <ChevronLeftIcon />
+    </WithStyles(ForwardRef(IconButton))>
   </div>
-  <WithStyles(Divider) />
-  <WithStyles(List) />
-</WithStyles(Drawer)>
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List)) />
+</WithStyles(ForwardRef(Drawer))>
 `;
 
 exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
-<WithStyles(Drawer)
+<WithStyles(ForwardRef(Drawer))
   anchor="left"
   className="NavigationDrawer-drawer-1"
   classes={
@@ -69,17 +69,17 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   <div
     className="NavigationDrawer-drawerHeader-3"
   >
-    <WithStyles(IconButton)
+    <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
-      <pure(ChevronLeftIcon) />
-    </WithStyles(IconButton)>
+      <ChevronLeftIcon />
+    </WithStyles(ForwardRef(IconButton))>
   </div>
-  <WithStyles(Divider) />
-  <WithStyles(List)>
-    <WithStyles(ListItem)>
-      <WithStyles(ListItemText)
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List))>
+    <WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
             "primary": "NavigationDrawer-sectionTitle-4",
@@ -92,8 +92,8 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
           }
         }
       />
-    </WithStyles(ListItem)>
-    <WithStyles(List)
+    </WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(List))
       component="nav"
     >
       <LinkListItem
@@ -101,7 +101,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="0"
         to="link"
       >
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
@@ -121,7 +121,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="1"
         to="link"
       >
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
@@ -136,9 +136,9 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
           }
         />
       </LinkListItem>
-    </WithStyles(List)>
-    <WithStyles(ListItem)>
-      <WithStyles(ListItemText)
+    </WithStyles(ForwardRef(List))>
+    <WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
             "primary": "NavigationDrawer-sectionTitle-4",
@@ -151,8 +151,8 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
           }
         }
       />
-    </WithStyles(ListItem)>
-    <WithStyles(List)
+    </WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(List))
       component="nav"
     >
       <LinkListItem
@@ -160,7 +160,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="0"
         to="link"
       >
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
@@ -180,7 +180,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="1"
         to="link"
       >
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
@@ -200,7 +200,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="2"
         to="link"
       >
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
@@ -220,7 +220,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="3"
         to="plugin_link"
       >
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
@@ -235,9 +235,9 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
           }
         />
       </LinkListItem>
-    </WithStyles(List)>
-  </WithStyles(List)>
-</WithStyles(Drawer)>
+    </WithStyles(ForwardRef(List))>
+  </WithStyles(ForwardRef(List))>
+</WithStyles(ForwardRef(Drawer))>
 `;
 
 exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
@@ -246,7 +246,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   key="3"
   to="plugin_link"
 >
-  <WithStyles(ListItemText)
+  <WithStyles(ForwardRef(ListItemText))
     classes={
       Object {
         "primary": "NavigationDrawer-menuItem-5",

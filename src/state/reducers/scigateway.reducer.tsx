@@ -252,7 +252,9 @@ export function handleConfigureAnalytics(
   };
 }
 
-export function handleInitialiseAnalytics(state: ScigatewayState): ScigatewayState {
+export function handleInitialiseAnalytics(
+  state: ScigatewayState
+): ScigatewayState {
   if (state.analytics) {
     return {
       ...state,

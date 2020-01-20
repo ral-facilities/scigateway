@@ -1,38 +1,42 @@
 import React from 'react';
 import { createMount, createShallow } from '@material-ui/core/test-utils';
-import HomePage from './homePage.component';
-import { MuiThemeProvider } from '@material-ui/core';
-import { buildTheme } from '../theming';
-import { StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import {
+  HomePageWithoutStyles,
+  CombinedHomePageProps,
+} from './homePage.component';
 
 describe('Home page component', () => {
   let shallow;
   let mount;
-  let mockStore;
-  let state: StateType;
+  let props: CombinedHomePageProps;
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
 
-    mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    props = {
+      res: undefined,
+      classes: {
+        bigImage: 'bigImage-class',
+        title: 'title-class',
+        howItWorks: 'howItWorks-class',
+        howItWorksTitle: 'howItWorksTitle-class',
+        howItWorksGridItem: 'howItWorksGridItem-class',
+        howItWorksGridItemTitle: 'howItWorksGridItemTitle-class',
+        howItWorksGridItemImage: 'howItWorksGridItemImage-class',
+        howItWorksGridItemCaption: 'howItWorksGridItemCaption-class',
+        strapline: 'strapline-class',
+        purpose: 'purpose-class',
+      },
+    };
   });
 
   afterEach(() => {
     mount.cleanUp();
   });
 
-  const theme = buildTheme();
-
   it('homepage renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <HomePage store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<HomePageWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  LoginPageWithoutStyles,
   LoginPageWithStyles,
   CredentialsLoginScreen,
   RedirectLoginScreen,
@@ -7,7 +8,7 @@ import {
 } from './loginPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { createLocation } from 'history';
 
@@ -18,6 +19,9 @@ describe('Login page component', () => {
 
   const dummyClasses = {
     root: 'root-1',
+    paper: 'paper-class',
+    avatar: 'avatar-class',
+    spinner: 'spinner-class',
   };
 
   beforeEach(() => {
@@ -26,9 +30,10 @@ describe('Login page component', () => {
 
     props = {
       auth: {
-        loading: false,
         failedToLogin: false,
-        signedOutDueToTokenExpiry: false,
+        // signedOutDueToTokenExpiry: false,
+        signedOutDueToTokenInvalidation: false,
+        loading: false,
         provider: new TestAuthProvider(null),
       },
       location: createLocation('/'),
@@ -59,21 +64,13 @@ describe('Login page component', () => {
   });
 
   it('login page renders credential component if no redirect url', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders redirect component if redirect url present', () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 

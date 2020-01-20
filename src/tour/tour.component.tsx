@@ -29,7 +29,8 @@ interface TourDispatchProps {
   toggleDrawer: () => Action;
 }
 
-type CombinedTourProps = TourProps & TourDispatchProps & { theme: Theme };
+export type CombinedTourProps = TourProps &
+  TourDispatchProps & { theme: Theme };
 
 class Tour extends React.Component<CombinedTourProps, TourState> {
   public constructor(props: CombinedTourProps) {
@@ -133,6 +134,7 @@ const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
 
+export const TourWithoutStyles = Tour;
 export const TourWithStyles = withTheme(Tour);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourWithStyles);

@@ -232,6 +232,7 @@ const mapDispatchToProps = (
     dispatch(verifyUsernameAndPassword(username, password)),
 });
 
+export const LoginPageWithoutStyles = LoginPageComponent;
 export const LoginPageWithStyles = withStyles(styles)(LoginPageComponent);
 
 export default connect(

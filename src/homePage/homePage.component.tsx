@@ -81,7 +81,7 @@ interface HomePageProps {
   res: AppStrings | undefined;
 }
 
-type CombinedHomePageProps = HomePageProps & WithStyles<typeof styles>;
+export type CombinedHomePageProps = HomePageProps & WithStyles<typeof styles>;
 
 const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
   <div>
@@ -169,6 +169,7 @@ const mapStateToProps = (state: StateType): HomePageProps => ({
   res: getAppStrings(state, 'home-page'),
 });
 
+export const HomePageWithoutStyles = HomePage;
 export const HomePageWithStyles = withStyles(styles)(HomePage);
 
 export default connect(mapStateToProps)(HomePageWithStyles);

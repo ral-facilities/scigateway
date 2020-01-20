@@ -46,7 +46,7 @@ interface CookieConsentDispatchProps {
   navigateToCookies: () => Action;
 }
 
-type CombinedCookieConsentProps = CookieConsentStateProps &
+export type CombinedCookieConsentProps = CookieConsentStateProps &
   CookieConsentDispatchProps &
   WithStyles<typeof styles>;
 
@@ -151,6 +151,7 @@ const mapDispatchToProps = (
   navigateToCookies: () => dispatch(push('/cookies')),
 });
 
+export const CookieConsentWithoutStyles = CookieConsent;
 export const CookieConsentWithStyles = withStyles(styles)(CookieConsent);
 
 export default connect(
