@@ -4,22 +4,44 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 export interface UKRIThemeOptions extends ThemeOptions {
   ukri: {
-    purple: string;
-    blue: string;
-    orange: string;
-    green: string;
-    grey: string;
+    bright: {
+      orange: string;
+      yellow: string;
+      green: string;
+      blue: string;
+      purple: string;
+      red: string;
+    };
+    deep: {
+      orange: string;
+      yellow: string;
+      green: string;
+      blue: string;
+      purple: string;
+      red: string;
+    };
   };
   drawerWidth: number;
 }
 
 export interface UKRITheme extends Theme {
   ukri: {
-    purple: string;
-    blue: string;
-    orange: string;
-    green: string;
-    grey: string;
+    bright: {
+      orange: string;
+      yellow: string;
+      green: string;
+      blue: string;
+      purple: string;
+      red: string;
+    };
+    deep: {
+      orange: string;
+      yellow: string;
+      green: string;
+      blue: string;
+      purple: string;
+      red: string;
+    };
   };
   drawerWidth: number;
 }
@@ -31,18 +53,29 @@ export const buildTheme = (): Theme => {
     },
     palette: {
       primary: {
-        main: '#1D4F91', // dark blue
+        main: '#003088', // blue (deep palette)
       },
       secondary: {
-        main: '#63666A', //grey
+        main: '#676767', // grey
       },
     },
     ukri: {
-      purple: '#8C4799',
-      blue: '#1D4F91',
-      orange: '#C34613',
-      green: '#008275',
-      grey: '#63666A',
+      bright: {
+        orange: '#FF6900', // pure orange
+        yellow: '#FBBB10', // yellow
+        green: '#67C04D', // light green
+        blue: '#1E5DF8', // blue
+        purple: '#BE2BBB', // bright purple
+        red: '#E94D36', // light red
+      },
+      deep: {
+        orange: '#C13D33', // pure orange
+        yellow: '#F08900', // vivid yellow
+        green: '#3E863E', // green
+        blue: '#003088', // blue
+        purple: '#8A1A9B', // bright purple
+        red: '#A91B2E', // red
+      },
     },
     drawerWidth: 300,
   };

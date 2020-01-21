@@ -112,7 +112,7 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
         }
         styles={{
           options: {
-            primaryColor: (theme as UKRITheme).ukri.orange,
+            primaryColor: (theme as UKRITheme).ukri.bright.orange,
             zIndex: 1500,
           },
         }}
@@ -135,7 +135,4 @@ const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
 
 export const TourWithStyles = withTheme()(Tour);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TourWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(TourWithStyles);

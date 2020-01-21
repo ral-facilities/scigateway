@@ -31,7 +31,7 @@ const styles = (theme: Theme): StyleRules =>
       color: theme.palette.primary.contrastText,
     },
     badge: {
-      background: (theme as UKRITheme).ukri.orange,
+      background: (theme as UKRITheme).ukri.bright.orange,
     },
     menuItem: {
       display: 'flex',
