@@ -31,18 +31,29 @@ export const buildTheme = (): Theme => {
     },
     palette: {
       primary: {
-        main: '#1D4F91', // dark blue
+        // main: '#1D4F91', // dark blue
+        main: '#003088',
       },
       secondary: {
-        main: '#63666A', //grey
+        // main: '#63666A', //grey
+        main: '#676767',
       },
     },
     ukri: {
-      purple: '#8C4799',
-      blue: '#1D4F91',
-      orange: '#C34613',
-      green: '#008275',
-      grey: '#63666A',
+      // purple: '#8C4799',
+      purple: '#BE2BBB',
+
+      // blue: '#1D4F91',
+      blue: '#2E2D62',
+
+      // orange: '#C34613',
+      orange: '#FF6900',
+
+      // green: '#008275',
+      green: '#67C04D',
+
+      // grey: '#63666A',
+      grey: '#6767676',
     },
     drawerWidth: 300,
   };
