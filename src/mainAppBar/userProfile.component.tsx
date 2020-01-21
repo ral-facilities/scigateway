@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dispatch, Action, AnyAction } from 'redux';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SettingsIcon from '@material-ui/icons/Settings';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import {
   IconButton,
@@ -27,6 +28,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
 import UserInfo from '../authentication/user';
+import { Link } from 'react-router-dom';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -54,6 +56,7 @@ const styles = (theme: Theme): StyleRules =>
     username: {
       paddingTop: 3,
       fontWeight: 'bold',
+      fontSize: 17,
     },
     avatar: {
       margin: theme.spacing.unit,
@@ -107,6 +110,19 @@ const UserProfileComponent = (
                 {props.user.username}
               </Typography>
             </div>
+            <Divider />
+            <MenuItem
+              component={props => <Link {...props} to="/cookies" />}
+              onClick={closeMenu}
+            >
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary={getString(props.res, 'manage-cookies-button')}
+              />
+            </MenuItem>
             <Divider />
             <MenuItem onClick={logout}>
               <ListItemIcon>
