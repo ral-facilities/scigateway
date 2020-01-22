@@ -56,7 +56,6 @@ const styles = (theme: Theme): StyleRules =>
       fontWeight: 'bold',
     },
     avatar: {
-      // material-ui v4 upgrade
       margin: theme.spacing(1),
       cursor: 'pointer',
     },

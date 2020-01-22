@@ -34,7 +34,6 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: theme.spacing(3),
     },
     avatar: {
-      // material-ui v4 upgrade
       margin: theme.spacing(1),
       backgroundColor: (theme as UKRITheme).ukri.orange,
     },
@@ -43,10 +42,7 @@ const styles = (theme: Theme): StyleRules =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      // material-ui v4 upgrade
-      padding: `${theme.spacing(3)}px ${theme.spacing(3)}px ${theme.spacing(
-        3
-      )}px`,
+      padding: theme.spacing(3),
       [theme.breakpoints.up(400 + theme.spacing(6))]: {
         width: 400,
         marginLeft: 'auto',
@@ -54,20 +50,16 @@ const styles = (theme: Theme): StyleRules =>
       },
     },
     textField: {
-      // material-ui v4 upgrade
       marginTop: theme.spacing(1),
     },
     button: {
-      // material-ui v4 upgrade
       marginTop: `${theme.spacing(1)}px`,
     },
     warning: {
-      // material-ui v4 upgrade
       marginTop: `${theme.spacing(1)}px`,
       color: 'red',
     },
     info: {
-      // material-ui v4 upgrade
       marginTop: `${theme.spacing(1)}px`,
       color: theme.palette.primary.main,
     },

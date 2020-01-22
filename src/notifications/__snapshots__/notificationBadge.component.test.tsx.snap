@@ -10,7 +10,7 @@ exports[`Notification Badge component Notification badge renders correctly 1`] =
     onClick={[Function]}
   >
     <WithStyles(ForwardRef(Badge))
-      badgeContent={null}
+      badgeContent={1}
       classes={
         Object {
           "colorPrimary": "badge-class",
@@ -21,5 +21,19 @@ exports[`Notification Badge component Notification badge renders correctly 1`] =
       <NotificationsIcon />
     </WithStyles(ForwardRef(Badge))>
   </WithStyles(ForwardRef(IconButton))>
+  <WithStyles(ForwardRef(Menu))
+    anchorEl={null}
+    id="notifications-menu"
+    onClose={[Function]}
+    open={false}
+  >
+    <WithStyles(ForwardRef(ScigatewayNotification))
+      dismissNotification={[Function]}
+      index={0}
+      key="0"
+      message="my message"
+      severity="warning"
+    />
+  </WithStyles(ForwardRef(Menu))>
 </div>
 `;

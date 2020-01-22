@@ -31,7 +31,6 @@ describe('Login page component', () => {
     props = {
       auth: {
         failedToLogin: false,
-        // signedOutDueToTokenExpiry: false,
         signedOutDueToTokenInvalidation: false,
         loading: false,
         provider: new TestAuthProvider(null),

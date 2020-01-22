@@ -8,7 +8,6 @@ import NotificationBadge, {
 import Badge from '@material-ui/core/Badge';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { buildTheme } from '../theming';
-import { Action } from 'redux';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
@@ -28,7 +27,7 @@ describe('Notification Badge component', () => {
     mockStore = configureStore();
 
     props = {
-      notifications: [],
+      notifications: [{ message: 'my message', severity: 'warning' }],
       deleteMenuItem: jest.fn(),
       classes: {
         button: 'button-class',
@@ -38,13 +37,7 @@ describe('Notification Badge component', () => {
   });
 
   it('Notification badge renders correctly', () => {
-    const wrapper = shallow(
-      <NotificationBadgeWithoutStyles
-        notifications={[{ message: 'my message', severity: 'warning' }]}
-        deleteMenuItem={(): Action => ({ type: test })}
-        {...props}
-      />
-    );
+    const wrapper = shallow(<NotificationBadgeWithoutStyles {...props} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -52,12 +45,11 @@ describe('Notification Badge component', () => {
   it('renders correct number of notifications in the badge', () => {
     let wrapper = shallow(
       <NotificationBadgeWithoutStyles
+        {...props}
         notifications={[
-          { message: 'my message', severity: 'warning' },
+          ...props.notifications,
           { message: 'my other message', severity: 'success' },
         ]}
-        deleteMenuItem={(): Action => ({ type: test })}
-        classes={props.classes}
       />
     );
 
@@ -66,7 +58,8 @@ describe('Notification Badge component', () => {
     wrapper = shallow(
       <NotificationBadgeWithoutStyles
         {...props}
-        deleteMenuItem={(): Action => ({ type: test })}
+        notifications={[]}
+        deleteMenuItem={props.deleteMenuItem}
       />
     );
 
@@ -75,9 +68,7 @@ describe('Notification Badge component', () => {
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
     let state = { scigateway: initialState };
-    state.scigateway.notifications = [
-      { message: 'my message', severity: 'warning' },
-    ];
+    state.scigateway.notifications = props.notifications;
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -93,7 +84,6 @@ describe('Notification Badge component', () => {
       .first()
       .simulate('click');
     wrapper.update();
-    // console.log(wrapper.find('#notifications-menu').debug());
 
     wrapper
       .find('[aria-label="Dismiss notification"]')
@@ -106,9 +96,7 @@ describe('Notification Badge component', () => {
 
   it('opens menu when button clicked and closes menu when there are no more notifications', () => {
     let state = { scigateway: initialState };
-    state.scigateway.notifications = [
-      { message: 'my message', severity: 'warning' },
-    ];
+    state.scigateway.notifications = props.notifications;
 
     let testStore = mockStore(state);
 

@@ -21,13 +21,11 @@ import { push } from 'connected-react-router';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      // material-ui v4 upgrade
       margin: theme.spacing(2),
     },
     container: {
       display: 'flex',
       flexDirection: 'column',
-      // material-ui v4 upgrade
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
@@ -36,12 +34,10 @@ const styles = (theme: Theme): StyleRules =>
       color: theme.palette.primary.main,
     },
     cookiePolicy: {
-      // material-ui v4 upgrade
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
     cookieTypes: {
-      // material-ui v4 upgrade
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
@@ -49,7 +45,6 @@ const styles = (theme: Theme): StyleRules =>
       color: theme.palette.primary.contrastText,
     },
     cookieList: {
-      // material-ui v4 upgrade
       paddingLeft: theme.spacing(2),
     },
     cookieListItem: {

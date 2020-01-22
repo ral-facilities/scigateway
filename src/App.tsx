@@ -23,6 +23,15 @@ import CookieConsent from './cookieConsent/cookieConsent.component';
 import ReduxToastr from 'react-redux-toastr';
 import Tour from './tour/tour.component';
 
+import {
+  StylesProvider,
+  createGenerateClassName,
+} from '@material-ui/core/styles';
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'sgw',
+});
+
 const history = createBrowserHistory();
 
 const middleware = [thunk, routerMiddleware(history), ScigatewayMiddleware];
@@ -80,10 +89,12 @@ class App extends React.Component {
       <div className="App">
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <MuiThemeProvider theme={buildTheme()}>
-              {toastrConfig()}
-              {pageContent()}
-            </MuiThemeProvider>
+            <StylesProvider generateClassName={generateClassName}>
+              <MuiThemeProvider theme={buildTheme()}>
+                {toastrConfig()}
+                {pageContent()}
+              </MuiThemeProvider>
+            </StylesProvider>
           </ConnectedRouter>
         </Provider>
       </div>

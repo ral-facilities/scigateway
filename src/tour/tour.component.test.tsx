@@ -29,15 +29,16 @@ jest.mock('popper.js', () => {
 });
 
 describe('Tour component', () => {
+  const theme = buildTheme();
+
   let shallow;
   let mount;
   let mockStore;
   let state: StateType;
-  const theme = buildTheme();
   let props: CombinedTourProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'Tour' });
+    shallow = createShallow({});
     mount = createMount();
 
     state = {
@@ -74,7 +75,7 @@ describe('Tour component', () => {
       dismissHelp: jest.fn(),
       toggleDrawer: jest.fn(),
 
-      theme: buildTheme(),
+      theme: theme,
     };
   });
 

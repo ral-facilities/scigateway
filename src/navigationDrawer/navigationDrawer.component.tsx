@@ -62,12 +62,13 @@ interface LinkListItemProps extends ListItemProps {
   to: string;
 }
 
-// material-ui v4 upgrade - https://material-ui.com/guides/composition/
 const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
   // an `any` is required here to pass the additional properties through to the
   // ListItem as per the material-ui documentation
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  // <ListItem button {...props} component={Link as any} />
+
+  // It is worth noting the composition guide which goes into
+  // detail into how this works: https://material-ui.com/guides/composition/
   <ListItem button component={props => <Link {...props} />} />
 );
 

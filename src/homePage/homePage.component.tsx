@@ -95,7 +95,6 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
         {getString(props.res, 'how-label')}
       </Typography>
 
-      {/* // material-ui v4 upgrade */}
       <Grid container spacing={3}>
         <Grid item sm={12} md={4} className={props.classes.howItWorksGridItem}>
           <Typography
