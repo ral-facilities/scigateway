@@ -6,10 +6,19 @@ import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 
+// this removes a lot of unnecessary styling information in the snapshots
+jest.mock('@material-ui/core/styles', () => ({
+  withStyles: styles => component => component,
+}));
+
 describe('Routing component', () => {
   let shallow;
   let mockStore;
   let state: StateType;
+  const classes = {
+    container: 'container-class',
+    containerShift: 'containerShift-class',
+  };
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'div' });
@@ -27,7 +36,9 @@ describe('Routing component', () => {
 
   it('renders component with no plugin routes', () => {
     state.scigateway.plugins = [];
-    const wrapper = shallow(<Routing store={mockStore(state)} />);
+    const wrapper = shallow(
+      <Routing store={mockStore(state)} classes={classes} />
+    );
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -49,7 +60,9 @@ describe('Routing component', () => {
         order: 2,
       },
     ];
-    const wrapper = shallow(<Routing store={mockStore(state)} />);
+    const wrapper = shallow(
+      <Routing store={mockStore(state)} classes={classes} />
+    );
 
     expect(wrapper).toMatchSnapshot();
   });
