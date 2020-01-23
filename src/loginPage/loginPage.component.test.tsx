@@ -27,6 +27,7 @@ import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
+import { Select } from '@material-ui/core';
 
 jest.mock('loglevel');
 
@@ -337,8 +338,8 @@ describe('Login page component', () => {
       wrapper.update();
     });
 
-    console.log(wrapper.debug());
-    const simulateDropdown = wrapper.find('Select').first();
+    // Find the Select component for the dropdown authenticators list.
+    const simulateDropdown = wrapper.find(Select).first();
     simulateDropdown.prop('onChange')({ target: { value: 'user/pass' } });
 
     expect(testStore.getActions().length).toEqual(1);

@@ -235,10 +235,8 @@ export const LoginSelector = (
       <InputLabel htmlFor="mnemonic-select">Authenticator</InputLabel>
       <Select
         className={props.classes.textField}
-        inputProps={{
-          name: 'mnemonic',
-          id: 'mnemonic-select',
-        }}
+        id="select-mnemonic"
+        labelId="mnemonic-select"
         value={mnemonic}
         onChange={e => {
           setMnemonic(e.target.value as string);
