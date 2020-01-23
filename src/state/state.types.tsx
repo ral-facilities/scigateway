@@ -50,6 +50,14 @@ export interface User {
   avatarUrl: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface ICATAuthenticator {
+  mnemonic: string;
+  keys: { name: string; hide?: boolean }[];
+  friendly?: string;
+  admin?: boolean;
+}
+
 export interface AuthProvider {
   isLoggedIn: () => boolean;
   logOut: () => void;
@@ -57,6 +65,7 @@ export interface AuthProvider {
   verifyLogIn: () => Promise<void>;
   redirectUrl: string | null;
   user: User | null;
+  mnemonic?: string;
 }
 
 export interface AuthState {

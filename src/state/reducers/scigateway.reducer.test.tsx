@@ -23,6 +23,7 @@ import { ScigatewayState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
+import ICATAuthProvider from '../../authentication/icatAuthProvider';
 
 describe('scigateway reducer', () => {
   let state: ScigatewayState;
@@ -202,6 +203,18 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       GithubAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(state, loadAuthProvider('icat'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      ICATAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(state, loadAuthProvider('icat.anon'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      ICATAuthProvider
     );
   });
 
