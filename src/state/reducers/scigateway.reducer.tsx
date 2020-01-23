@@ -34,6 +34,7 @@ import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import LoadingAuthProvider from '../../authentication/loadingAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import { Step } from 'react-joyride';
+import ICATAuthProvider from '../../authentication/icatAuthProvider';
 
 export const authState: AuthState = {
   failedToLogin: false,
@@ -205,13 +206,17 @@ export function handleAuthProviderUpdate(
   payload: AuthProviderPayload
 ): ScigatewayState {
   let provider = state.authorisation.provider;
-  switch (payload.authProvider) {
+  switch (payload.authProvider.split('.')[0]) {
     case 'jwt':
       provider = new JWTAuthProvider();
       break;
 
     case 'github':
       provider = new GithubAuthProvider();
+      break;
+
+    case 'icat':
+      provider = new ICATAuthProvider(payload.authProvider.split('.')[1]);
       break;
 
     default:

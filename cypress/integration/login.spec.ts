@@ -110,4 +110,49 @@ describe('Login', () => {
       window => expect(window.localStorage.getItem('scigateway:token')).be.null
     );
   });
+
+  describe('authenticator selector', () => {
+    beforeEach(() => {
+      cy.server();
+      cy.route('/settings.json', {
+        plugins: [],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'icat',
+        'help-tour-steps': [],
+      });
+      cy.route('/authenticators', [
+        {
+          mnemonic: 'user/pass',
+          keys: [{ name: 'username' }, { name: 'password' }],
+        },
+        {
+          mnemonic: 'anon',
+          keys: [],
+        },
+      ]);
+      cy.visit('/login');
+    });
+
+    it('should show a dropdown', () => {
+      cy.contains('Authenticator').should('be.visible');
+      cy.get('#select-mnemonic').click();
+      cy.contains('user/pass').should('be.visible');
+      cy.contains('anon').should('be.visible');
+    });
+
+    it('should be able to select user/pass from the dropdown', () => {
+      cy.get('#select-mnemonic').click();
+      cy.contains('user/pass').click();
+
+      cy.contains('Username*').should('be.visible');
+      cy.contains('Password*').should('be.visible');
+    });
+
+    it('should be able to select anon from the dropdown', () => {
+      cy.get('#select-mnemonic').click();
+      cy.contains('anon').click();
+
+      cy.contains('Sign In').should('not.be.disabled');
+    });
+  });
 });

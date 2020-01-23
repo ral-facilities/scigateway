@@ -1,5 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Login page component anonymous component renders correctly 1`] = `
+<div
+  className="root-1"
+  onKeyPress={[Function]}
+>
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
+exports[`Login page component anonymous component renders failedToLogin error correctly 1`] = `
+<div
+  className="root-1"
+  onKeyPress={[Function]}
+>
+  <WithStyles(ForwardRef(Typography))>
+    login-error-msg
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
+exports[`Login page component anonymous component renders signedOutDueToTokenInvalidation error correctly 1`] = `
+<div
+  className="root-1"
+  onKeyPress={[Function]}
+>
+  <WithStyles(ForwardRef(Typography))>
+    token-invalid-msg
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
 exports[`Login page component credential component renders correctly 1`] = `
 <div
   className="root-1"
@@ -39,6 +120,159 @@ exports[`Login page component credential component renders correctly 1`] = `
 </div>
 `;
 
+exports[`Login page component credential component renders failedToLogin error correctly 1`] = `
+<div
+  className="root-1"
+  onKeyPress={[Function]}
+>
+  <WithStyles(ForwardRef(Typography))>
+    login-error-msg
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(TextField))
+    disabled={false}
+    label="username-placeholder"
+    onChange={[Function]}
+    value=""
+  />
+  <WithStyles(ForwardRef(TextField))
+    disabled={false}
+    label="password-placeholder"
+    onChange={[Function]}
+    type="password"
+    value=""
+  />
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    disabled={true}
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
+exports[`Login page component credential component renders signedOutDueToTokenInvalidation error correctly 1`] = `
+<div
+  className="root-1"
+  onKeyPress={[Function]}
+>
+  <WithStyles(ForwardRef(Typography))>
+    token-invalid-msg
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(TextField))
+    disabled={false}
+    label="username-placeholder"
+    onChange={[Function]}
+    value=""
+  />
+  <WithStyles(ForwardRef(TextField))
+    disabled={false}
+    label="password-placeholder"
+    onChange={[Function]}
+    type="password"
+    value=""
+  />
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    disabled={true}
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
+exports[`Login page component login page renders anonymous login if mnemonic present + anon is selected 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(ForwardRef(Paper))
+    className="paper-class"
+  >
+    <WithStyles(ForwardRef(Avatar))
+      className="avatar-class"
+    >
+      <LockOutlinedIcon />
+    </WithStyles(ForwardRef(Avatar))>
+    <WithStyles(ForwardRef(Typography))
+      component="h1"
+      variant="h5"
+    >
+      title
+    </WithStyles(ForwardRef(Typography))>
+    <AnonLoginScreen
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": false,
+          "provider": TestAuthProvider {
+            "mnemonic": "anon",
+            "redirectUrl": null,
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenInvalidation": false,
+        }
+      }
+      changeMnemonic={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              "anon",
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      }
+      classes={
+        Object {
+          "avatar": "avatar-class",
+          "paper": "paper-class",
+          "root": "root-1",
+          "spinner": "spinner-class",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      verifyUsernameAndPassword={[Function]}
+    />
+  </WithStyles(ForwardRef(Paper))>
+</div>
+`;
+
 exports[`Login page component login page renders credential component if no redirect url 1`] = `
 <div
   className="root-1"
@@ -63,11 +297,82 @@ exports[`Login page component login page renders credential component if no redi
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "mnemonic": undefined,
             "redirectUrl": null,
             "token": null,
             "user": null,
           },
           "signedOutDueToTokenInvalidation": false,
+        }
+      }
+      changeMnemonic={[MockFunction]}
+      classes={
+        Object {
+          "avatar": "avatar-class",
+          "paper": "paper-class",
+          "root": "root-1",
+          "spinner": "spinner-class",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      verifyUsernameAndPassword={[Function]}
+    />
+  </WithStyles(ForwardRef(Paper))>
+</div>
+`;
+
+exports[`Login page component login page renders credentials login if mnemonic present + user/pass is selected 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(ForwardRef(Paper))
+    className="paper-class"
+  >
+    <WithStyles(ForwardRef(Avatar))
+      className="avatar-class"
+    >
+      <LockOutlinedIcon />
+    </WithStyles(ForwardRef(Avatar))>
+    <WithStyles(ForwardRef(Typography))
+      component="h1"
+      variant="h5"
+    >
+      title
+    </WithStyles(ForwardRef(Typography))>
+    <CredentialsLoginScreen
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": false,
+          "provider": TestAuthProvider {
+            "mnemonic": "user/pass",
+            "redirectUrl": null,
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenInvalidation": false,
+        }
+      }
+      changeMnemonic={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              "user/pass",
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
         }
       }
       classes={
@@ -85,6 +390,80 @@ exports[`Login page component login page renders credential component if no redi
           "search": "",
           "state": undefined,
         }
+      }
+      verifyUsernameAndPassword={[Function]}
+    />
+  </WithStyles(ForwardRef(Paper))>
+</div>
+`;
+
+exports[`Login page component login page renders dropdown if mnemonic present + there are multiple mnemonics 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(ForwardRef(Paper))
+    className="paper-class"
+  >
+    <WithStyles(ForwardRef(Avatar))
+      className="avatar-class"
+    >
+      <LockOutlinedIcon />
+    </WithStyles(ForwardRef(Avatar))>
+    <WithStyles(ForwardRef(Typography))
+      component="h1"
+      variant="h5"
+    >
+      title
+    </WithStyles(ForwardRef(Typography))>
+    <LoginSelector
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": false,
+          "provider": TestAuthProvider {
+            "mnemonic": "",
+            "redirectUrl": null,
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenInvalidation": false,
+        }
+      }
+      changeMnemonic={[MockFunction]}
+      classes={
+        Object {
+          "avatar": "avatar-class",
+          "paper": "paper-class",
+          "root": "root-1",
+          "spinner": "spinner-class",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      mnemonics={
+        Array [
+          Object {
+            "keys": Array [
+              Object {
+                "name": "username",
+              },
+              Object {
+                "name": "password",
+              },
+            ],
+            "mnemonic": "user/pass",
+          },
+          Object {
+            "keys": Array [],
+            "mnemonic": "anon",
+          },
+        ]
       }
       verifyUsernameAndPassword={[Function]}
     />
@@ -116,6 +495,7 @@ exports[`Login page component login page renders redirect component if redirect 
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "mnemonic": undefined,
             "redirectUrl": "test redirect",
             "token": null,
             "user": null,
@@ -123,6 +503,7 @@ exports[`Login page component login page renders redirect component if redirect 
           "signedOutDueToTokenInvalidation": false,
         }
       }
+      changeMnemonic={[MockFunction]}
       classes={
         Object {
           "avatar": "avatar-class",
@@ -145,10 +526,96 @@ exports[`Login page component login page renders redirect component if redirect 
 </div>
 `;
 
+exports[`Login page component login page renders spinner if auth is loading 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(ForwardRef(Paper))
+    className="paper-class"
+  >
+    <WithStyles(ForwardRef(Avatar))
+      className="avatar-class"
+    >
+      <LockOutlinedIcon />
+    </WithStyles(ForwardRef(Avatar))>
+    <WithStyles(ForwardRef(Typography))
+      component="h1"
+      variant="h5"
+    >
+      title
+    </WithStyles(ForwardRef(Typography))>
+    <CredentialsLoginScreen
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": true,
+          "provider": TestAuthProvider {
+            "mnemonic": undefined,
+            "redirectUrl": null,
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenInvalidation": false,
+        }
+      }
+      changeMnemonic={[MockFunction]}
+      classes={
+        Object {
+          "avatar": "avatar-class",
+          "paper": "paper-class",
+          "root": "root-1",
+          "spinner": "spinner-class",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
+    />
+  </WithStyles(ForwardRef(Paper))>
+</div>
+`;
+
 exports[`Login page component redirect component renders correctly 1`] = `
 <div
   className="root-1"
 >
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    disabled={false}
+    onClick={[Function]}
+    variant="contained"
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      Login with Github
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
+exports[`Login page component redirect component renders failedToLogin error correctly 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(ForwardRef(Typography))>
+    login-redirect-error-msg
+  </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
     disabled={false}
