@@ -28,7 +28,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
 import UserInfo from '../authentication/user';
-import { Link } from 'react-router-dom';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -39,6 +38,7 @@ interface UserProfileProps {
 interface UserProfileDispatchProps {
   signIn: () => Action;
   signOut: () => void;
+  manageCookies: () => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -77,6 +77,10 @@ const UserProfileComponent = (
     closeMenu();
     props.signOut();
   };
+  const manageCookies = (): void => {
+    closeMenu();
+    props.manageCookies();
+  };
   return (
     <div className="tour-user-profile">
       {props.loggedIn ? (
@@ -111,10 +115,7 @@ const UserProfileComponent = (
               </Typography>
             </div>
             <Divider />
-            <MenuItem
-              component={props => <Link {...props} to="/cookies" />}
-              onClick={closeMenu}
-            >
+            <MenuItem aria-label="Manage cookies item" onClick={manageCookies}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
@@ -124,7 +125,7 @@ const UserProfileComponent = (
               />
             </MenuItem>
             <Divider />
-            <MenuItem onClick={logout}>
+            <MenuItem aria-label="Sign out item" onClick={logout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
@@ -169,6 +170,7 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
     const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
     thunkDispatch(signOut());
   },
+  manageCookies: () => dispatch(push('/cookies')),
 });
 
 export default connect(
