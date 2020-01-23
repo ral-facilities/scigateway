@@ -284,7 +284,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
-    if (typeof mnemonic !== 'undefined') {
+    if (typeof mnemonic !== 'undefined' && mnemonics.length === 0) {
       fetchMnemonics().then(mnemonics => {
         const nonAdminAuthenticators = mnemonics.filter(
           authenticator => !authenticator.admin
@@ -294,7 +294,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           changeMnemonic(nonAdminAuthenticators[0].mnemonic);
       });
     }
-  }, [changeMnemonic, setMnemonics, mnemonic]);
+  }, [changeMnemonic, mnemonic, mnemonics]);
 
   React.useEffect(() => {
     if (
