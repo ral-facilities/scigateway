@@ -5,7 +5,7 @@ import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import Cookies from 'js-cookie';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';

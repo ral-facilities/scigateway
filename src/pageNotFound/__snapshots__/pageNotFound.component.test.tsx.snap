@@ -5,24 +5,24 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
   <div
     className="PageNotFound-titleContainer-1"
   >
-    <pure(BugReportIcon)
+    <BugReportIcon
       className="PageNotFound-bugIcon-2"
     />
-    <WithStyles(Typography)
+    <WithStyles(ForwardRef(Typography))
       className="PageNotFound-codeText-3"
     >
       404
-    </WithStyles(Typography)>
+    </WithStyles(ForwardRef(Typography))>
   </div>
   <div
     className="PageNotFound-container-4"
   >
-    <WithStyles(Typography)
+    <WithStyles(ForwardRef(Typography))
       variant="h2"
     >
       Page not found
-    </WithStyles(Typography)>
-    <WithStyles(Typography)
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
       className="PageNotFound-message-5"
       variant="body1"
     >
@@ -33,7 +33,7 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
         here
       </Link>
        to return to the home page or contact support.
-    </WithStyles(Typography)>
+    </WithStyles(ForwardRef(Typography))>
   </div>
 </div>
 `;

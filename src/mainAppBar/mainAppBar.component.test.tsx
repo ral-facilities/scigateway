@@ -9,7 +9,7 @@ import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 describe('Main app bar component', () => {

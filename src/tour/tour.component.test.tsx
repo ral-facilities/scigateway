@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Tour from './tour.component';
+import Tour, { TourWithoutStyles, CombinedTourProps } from './tour.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
@@ -10,7 +10,7 @@ import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import Joyride from 'react-joyride';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
 jest.mock('popper.js', () => {
@@ -29,14 +29,16 @@ jest.mock('popper.js', () => {
 });
 
 describe('Tour component', () => {
+  const theme = buildTheme();
+
   let shallow;
   let mount;
   let mockStore;
   let state: StateType;
-  const theme = buildTheme();
+  let props: CombinedTourProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'Tour' });
+    shallow = createShallow({});
     mount = createMount();
 
     state = {
@@ -63,16 +65,24 @@ describe('Tour component', () => {
       },
     };
     mockStore = configureStore();
+
+    props = {
+      showHelp: state.scigateway.showHelp,
+      helpSteps: state.scigateway.helpSteps,
+      drawerOpen: state.scigateway.drawerOpen,
+      loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+
+      dismissHelp: jest.fn(),
+      toggleDrawer: jest.fn(),
+
+      theme: theme,
+    };
   });
 
   it('renders correctly', () => {
-    state.scigateway.showHelp = true;
+    props.showHelp = true;
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <Tour store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<TourWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 

@@ -3,113 +3,113 @@
 exports[`Home page component homepage renders correctly 1`] = `
 <div>
   <div
-    className="HomePage-bigImage-2"
+    className="bigImage-class"
   >
-    <WithStyles(Typography)
-      className="HomePage-title-1"
+    <WithStyles(ForwardRef(Typography))
+      className="title-class"
       variant="h2"
     >
       title
-    </WithStyles(Typography)>
+    </WithStyles(ForwardRef(Typography))>
   </div>
   <div
-    className="HomePage-howItWorks-3"
+    className="howItWorks-class"
   >
-    <WithStyles(Typography)
-      className="HomePage-howItWorksTitle-4"
+    <WithStyles(ForwardRef(Typography))
+      className="howItWorksTitle-class"
       variant="h4"
     >
       how-label
-    </WithStyles(Typography)>
-    <WithStyles(Grid)
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Grid))
       container={true}
-      spacing={24}
+      spacing={3}
     >
-      <WithStyles(Grid)
-        className="HomePage-howItWorksGridItem-5"
+      <WithStyles(ForwardRef(Grid))
+        className="howItWorksGridItem-class"
         item={true}
         md={4}
         sm={12}
       >
-        <WithStyles(Typography)
-          className="HomePage-howItWorksGridItemTitle-6"
+        <WithStyles(ForwardRef(Typography))
+          className="howItWorksGridItemTitle-class"
           variant="h5"
         >
           explore-label
-        </WithStyles(Typography)>
+        </WithStyles(ForwardRef(Typography))>
         <img
           alt=""
-          className="HomePage-howItWorksGridItemImage-7"
+          className="howItWorksGridItemImage-class"
           src="explore.jpg"
         />
-        <WithStyles(Typography)
-          className="HomePage-howItWorksGridItemCaption-8"
+        <WithStyles(ForwardRef(Typography))
+          className="howItWorksGridItemCaption-class"
           variant="body1"
         >
           explore-description
-        </WithStyles(Typography)>
-      </WithStyles(Grid)>
-      <WithStyles(Grid)
-        className="HomePage-howItWorksGridItem-5"
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        className="howItWorksGridItem-class"
         item={true}
         md={4}
         sm={12}
       >
-        <WithStyles(Typography)
-          className="HomePage-howItWorksGridItemTitle-6"
+        <WithStyles(ForwardRef(Typography))
+          className="howItWorksGridItemTitle-class"
           variant="h5"
         >
           analyse-label
-        </WithStyles(Typography)>
+        </WithStyles(ForwardRef(Typography))>
         <img
           alt=""
-          className="HomePage-howItWorksGridItemImage-7"
+          className="howItWorksGridItemImage-class"
           src="analyse.jpg"
         />
-        <WithStyles(Typography)
-          className="HomePage-howItWorksGridItemCaption-8"
+        <WithStyles(ForwardRef(Typography))
+          className="howItWorksGridItemCaption-class"
           variant="body1"
         >
           analyse-description
-        </WithStyles(Typography)>
-      </WithStyles(Grid)>
-      <WithStyles(Grid)
-        className="HomePage-howItWorksGridItem-5"
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        className="howItWorksGridItem-class"
         item={true}
         md={4}
         sm={12}
       >
-        <WithStyles(Typography)
-          className="HomePage-howItWorksGridItemTitle-6"
+        <WithStyles(ForwardRef(Typography))
+          className="howItWorksGridItemTitle-class"
           variant="h5"
         >
           record-label
-        </WithStyles(Typography)>
+        </WithStyles(ForwardRef(Typography))>
         <img
           alt=""
-          className="HomePage-howItWorksGridItemImage-7"
+          className="howItWorksGridItemImage-class"
           src="record.jpg"
         />
-        <WithStyles(Typography)
-          className="HomePage-howItWorksGridItemCaption-8"
+        <WithStyles(ForwardRef(Typography))
+          className="howItWorksGridItemCaption-class"
           variant="body1"
         >
           record-description
-        </WithStyles(Typography)>
-      </WithStyles(Grid)>
-    </WithStyles(Grid)>
-    <WithStyles(Typography)
-      className="HomePage-strapline-9"
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Typography))
+      className="strapline-class"
       variant="h6"
     >
       banner-one
-    </WithStyles(Typography)>
-    <WithStyles(Typography)
-      className="HomePage-purpose-10"
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="purpose-class"
       variant="h5"
     >
       banner-two
-    </WithStyles(Typography)>
+    </WithStyles(ForwardRef(Typography))>
   </div>
 </div>
 `;

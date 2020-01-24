@@ -42,7 +42,7 @@ interface UserProfileDispatchProps {
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     button: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       color: theme.palette.primary.contrastText,
     },
     usernameContainer: {
@@ -56,7 +56,7 @@ const styles = (theme: Theme): StyleRules =>
       fontWeight: 'bold',
     },
     avatar: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       cursor: 'pointer',
     },
   });

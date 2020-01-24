@@ -2,63 +2,65 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import NotificationBadge, {
-  NotificationBadgeWithStyles,
+  NotificationBadgeWithoutStyles,
+  CombinedNotificationBadgeProps,
 } from './notificationBadge.component';
 import Badge from '@material-ui/core/Badge';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { buildTheme } from '../theming';
-import { Action } from 'redux';
 import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
+import { Provider } from 'react-redux';
 
 describe('Notification Badge component', () => {
+  const theme = buildTheme();
+
   let shallow;
   let mount;
   let mockStore;
+  let props: CombinedNotificationBadgeProps;
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'div' });
     mount = createMount();
     mockStore = configureStore();
+
+    props = {
+      notifications: [{ message: 'my message', severity: 'warning' }],
+      deleteMenuItem: jest.fn(),
+      classes: {
+        button: 'button-class',
+        badge: 'badge-class',
+      },
+    };
   });
 
-  const theme = buildTheme();
-
   it('Notification badge renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <NotificationBadgeWithStyles
-          notifications={[{ message: 'my message', severity: 'warning' }]}
-          deleteMenuItem={(): Action => ({ type: test })}
-        />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<NotificationBadgeWithoutStyles {...props} />);
 
     expect(wrapper).toMatchSnapshot();
   });
 
   it('renders correct number of notifications in the badge', () => {
     let wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <NotificationBadgeWithStyles
-          notifications={[
-            { message: 'my message', severity: 'warning' },
-            { message: 'my other message', severity: 'success' },
-          ]}
-          deleteMenuItem={(): Action => ({ type: test })}
-        />
-      </MuiThemeProvider>
+      <NotificationBadgeWithoutStyles
+        {...props}
+        notifications={[
+          ...props.notifications,
+          { message: 'my other message', severity: 'success' },
+        ]}
+      />
     );
 
     expect(wrapper.find(Badge).prop('badgeContent')).toEqual(2);
 
     wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <NotificationBadgeWithStyles
-          deleteMenuItem={(): Action => ({ type: test })}
-        />
-      </MuiThemeProvider>
+      <NotificationBadgeWithoutStyles
+        {...props}
+        notifications={[]}
+        deleteMenuItem={props.deleteMenuItem}
+      />
     );
 
     expect(wrapper.find(Badge).prop('badgeContent')).toBeNull();
@@ -66,58 +68,63 @@ describe('Notification Badge component', () => {
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
     let state = { scigateway: initialState };
-    state.scigateway.notifications = [
-      { message: 'my message', severity: 'warning' },
-    ];
+    state.scigateway.notifications = props.notifications;
     const testStore = mockStore(state);
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <NotificationBadge store={testStore} />
-      </MuiThemeProvider>
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <NotificationBadge />
+        </MuiThemeProvider>
+      </Provider>
     );
 
     wrapper
-      .find('#notifications-menu [dismissNotification]')
-      .prop('dismissNotification')();
+      .find('[aria-label="Open notification menu"]')
+      .first()
+      .simulate('click');
+    wrapper.update();
+
+    wrapper
+      .find('[aria-label="Dismiss notification"]')
+      .first()
+      .simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(dismissMenuItem(0));
   });
 
   it('opens menu when button clicked and closes menu when there are no more notifications', () => {
-    //TODO: when enzyme supports hooks, change test to shallow and test the menuAnchor state
-    let props = {
-      notifications: [{ message: 'my message', severity: 'warning' }],
-      deleteMenuItem: (): Action => ({ type: test }),
-    };
+    let state = { scigateway: initialState };
+    state.scigateway.notifications = props.notifications;
+
+    let testStore = mockStore(state);
 
     const wrapper = mount(
-      React.createElement(
-        props => (
-          <MuiThemeProvider theme={theme}>
-            <NotificationBadgeWithStyles {...props} />
-          </MuiThemeProvider>
-        ),
-        props
-      )
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <NotificationBadge />
+        </MuiThemeProvider>
+      </Provider>
     );
 
     act(() => {
       wrapper
-        .find('.NotificationBadge-button-1')
+        .find('[aria-label="Open notification menu"]')
         .first()
-        .prop('onClick')(
-        wrapper
-          .find('.NotificationBadge-button-1')
+        .prop('onClick')({
+        currentTarget: wrapper
+          .find('[aria-label="Open notification menu"]')
           .first()
-          .getDOMNode()
-      );
+          .getDOMNode(),
+      });
     });
 
     expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
 
-    wrapper.setProps({ notifications: [] });
+    state.scigateway.notifications = [];
+    testStore = mockStore(state);
+    wrapper.setProps({ store: testStore });
 
     expect(wrapper.find('#notifications-menu').exists()).toBeFalsy();
   });

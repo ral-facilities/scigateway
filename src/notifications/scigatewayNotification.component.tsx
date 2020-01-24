@@ -57,35 +57,40 @@ interface NotificationDispatchProps {
   dismissNotification: () => Action;
 }
 
-type CombinedNotificationProps = NotificationProps &
+export type CombinedNotificationProps = NotificationProps &
   NotificationDispatchProps &
   WithStyles<typeof styles>;
 
-const ScigatewayNotification = (
-  props: CombinedNotificationProps
-): React.ReactElement => {
-  return (
-    <div className={props.classes.root}>
-      {props.severity === 'success' ? (
-        <TickIcon className={props.classes.successIcon} />
-      ) : null}
-      {props.severity === 'warning' ? (
-        <WarningIcon className={props.classes.warningIcon} />
-      ) : null}
-      {props.severity === 'error' ? (
-        <ErrorIcon className={props.classes.errorIcon} />
-      ) : null}
-      <Typography variant="body2">{props.message}</Typography>
-      <IconButton
-        className={props.classes.button}
-        onClick={props.dismissNotification}
-      >
-        <DeleteIcon className={props.classes.deleteIcon} />
-      </IconButton>
-    </div>
-  );
-};
+const ForwardRefScigatewayNotification = React.forwardRef(
+  function ScigatewayNotification(
+    props: CombinedNotificationProps,
+    ref: React.Ref<HTMLDivElement>
+  ): React.ReactElement {
+    return (
+      <div ref={ref} className={props.classes.root}>
+        {props.severity === 'success' ? (
+          <TickIcon className={props.classes.successIcon} />
+        ) : null}
+        {props.severity === 'warning' ? (
+          <WarningIcon className={props.classes.warningIcon} />
+        ) : null}
+        {props.severity === 'error' ? (
+          <ErrorIcon className={props.classes.errorIcon} />
+        ) : null}
+        <Typography variant="body2">{props.message}</Typography>
+        <IconButton
+          className={props.classes.button}
+          onClick={props.dismissNotification}
+          aria-label="Dismiss notification"
+        >
+          <DeleteIcon className={props.classes.deleteIcon} />
+        </IconButton>
+      </div>
+    );
+  }
+);
 
+export const NotificationWithoutStyles = ForwardRefScigatewayNotification;
 export const NotificationWithStyles = withStyles(styles)(
-  ScigatewayNotification
+  ForwardRefScigatewayNotification
 );

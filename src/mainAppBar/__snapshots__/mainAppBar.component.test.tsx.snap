@@ -4,20 +4,20 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
 <div
   className="MainAppBar-root-1"
 >
-  <WithStyles(AppBar)
+  <WithStyles(ForwardRef(AppBar))
     className="MainAppBar-appBar-2 MainAppBar-appBarShift-3"
     position="static"
   >
-    <WithStyles(Toolbar)>
-      <WithStyles(IconButton)
+    <WithStyles(ForwardRef(Toolbar))>
+      <WithStyles(ForwardRef(IconButton))
         aria-label="Open navigation menu"
         className="MainAppBar-menuButton-7 MainAppBar-hide-9 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
       >
-        <pure(MenuIcon) />
-      </WithStyles(IconButton)>
-      <WithStyles(Typography)
+        <MenuIcon />
+      </WithStyles(ForwardRef(IconButton))>
+      <WithStyles(ForwardRef(Typography))
         aria-label="Homepage"
         className="MainAppBar-title-5 tour-title"
         color="inherit"
@@ -26,8 +26,8 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         variant="h6"
       >
         title
-      </WithStyles(Typography)>
-      <WithStyles(Button)
+      </WithStyles(ForwardRef(Typography))>
+      <WithStyles(ForwardRef(Button))
         aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
         style={
@@ -36,7 +36,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
           }
         }
       >
-        <WithStyles(Typography)
+        <WithStyles(ForwardRef(Typography))
           color="inherit"
           noWrap={true}
           style={
@@ -46,22 +46,22 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
           }
         >
           contact
-        </WithStyles(Typography)>
-      </WithStyles(Button)>
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Button))>
       <div
         className="MainAppBar-grow-4"
       />
-      <WithStyles(IconButton)
+      <WithStyles(ForwardRef(IconButton))
         aria-label="Help"
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <pure(HelpOutlineIcon) />
-      </WithStyles(IconButton)>
+        <HelpOutlineIcon />
+      </WithStyles(ForwardRef(IconButton))>
       <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(Toolbar)>
-  </WithStyles(AppBar)>
+    </WithStyles(ForwardRef(Toolbar))>
+  </WithStyles(ForwardRef(AppBar))>
 </div>
 `;
 
@@ -69,20 +69,20 @@ exports[`Main app bar component app bar renders correctly 1`] = `
 <div
   className="MainAppBar-root-1"
 >
-  <WithStyles(AppBar)
+  <WithStyles(ForwardRef(AppBar))
     className="MainAppBar-appBar-2"
     position="static"
   >
-    <WithStyles(Toolbar)>
-      <WithStyles(IconButton)
+    <WithStyles(ForwardRef(Toolbar))>
+      <WithStyles(ForwardRef(IconButton))
         aria-label="Open navigation menu"
         className="MainAppBar-menuButton-7 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
       >
-        <pure(MenuIcon) />
-      </WithStyles(IconButton)>
-      <WithStyles(Typography)
+        <MenuIcon />
+      </WithStyles(ForwardRef(IconButton))>
+      <WithStyles(ForwardRef(Typography))
         aria-label="Homepage"
         className="MainAppBar-title-5 tour-title"
         color="inherit"
@@ -91,8 +91,8 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         variant="h6"
       >
         title
-      </WithStyles(Typography)>
-      <WithStyles(Button)
+      </WithStyles(ForwardRef(Typography))>
+      <WithStyles(ForwardRef(Button))
         aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
         style={
@@ -101,7 +101,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
           }
         }
       >
-        <WithStyles(Typography)
+        <WithStyles(ForwardRef(Typography))
           color="inherit"
           noWrap={true}
           style={
@@ -111,22 +111,22 @@ exports[`Main app bar component app bar renders correctly 1`] = `
           }
         >
           contact
-        </WithStyles(Typography)>
-      </WithStyles(Button)>
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Button))>
       <div
         className="MainAppBar-grow-4"
       />
-      <WithStyles(IconButton)
+      <WithStyles(ForwardRef(IconButton))
         aria-label="Help"
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <pure(HelpOutlineIcon) />
-      </WithStyles(IconButton)>
+        <HelpOutlineIcon />
+      </WithStyles(ForwardRef(IconButton))>
       <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(Toolbar)>
-  </WithStyles(AppBar)>
+    </WithStyles(ForwardRef(Toolbar))>
+  </WithStyles(ForwardRef(AppBar))>
 </div>
 `;
 
@@ -134,20 +134,20 @@ exports[`Main app bar component does not render contact button when feature is f
 <div
   className="MainAppBar-root-1"
 >
-  <WithStyles(AppBar)
+  <WithStyles(ForwardRef(AppBar))
     className="MainAppBar-appBar-2"
     position="static"
   >
-    <WithStyles(Toolbar)>
-      <WithStyles(IconButton)
+    <WithStyles(ForwardRef(Toolbar))>
+      <WithStyles(ForwardRef(IconButton))
         aria-label="Open navigation menu"
         className="MainAppBar-menuButton-7 tour-nav-menu"
         color="inherit"
         onClick={[Function]}
       >
-        <pure(MenuIcon) />
-      </WithStyles(IconButton)>
-      <WithStyles(Typography)
+        <MenuIcon />
+      </WithStyles(ForwardRef(IconButton))>
+      <WithStyles(ForwardRef(Typography))
         aria-label="Homepage"
         className="MainAppBar-title-5 tour-title"
         color="inherit"
@@ -156,20 +156,20 @@ exports[`Main app bar component does not render contact button when feature is f
         variant="h6"
       >
         title
-      </WithStyles(Typography)>
+      </WithStyles(ForwardRef(Typography))>
       <div
         className="MainAppBar-grow-4"
       />
-      <WithStyles(IconButton)
+      <WithStyles(ForwardRef(IconButton))
         aria-label="Help"
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <pure(HelpOutlineIcon) />
-      </WithStyles(IconButton)>
+        <HelpOutlineIcon />
+      </WithStyles(ForwardRef(IconButton))>
       <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(Toolbar)>
-  </WithStyles(AppBar)>
+    </WithStyles(ForwardRef(Toolbar))>
+  </WithStyles(ForwardRef(AppBar))>
 </div>
 `;
