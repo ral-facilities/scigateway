@@ -278,20 +278,24 @@ function fetchMnemonics(): Promise<ICATAuthenticator[]> {
 const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const mnemonic = props.auth.provider.mnemonic;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
+  const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
 
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
-    if (typeof mnemonic !== 'undefined' && mnemonics.length === 0) {
+    console.log('mnemonic', mnemonic);
+    console.log('fetchedMnemonics', fetchedMnemonics);
+    if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics().then(mnemonics => {
         const nonAdminAuthenticators = mnemonics.filter(
           authenticator => !authenticator.admin
         );
         setMnemonics(nonAdminAuthenticators);
+        setFetchedMnemonics(true);
         if (nonAdminAuthenticators.length === 1)
           changeMnemonic(nonAdminAuthenticators[0].mnemonic);
       });
     }
-  }, [changeMnemonic, mnemonic, mnemonics]);
+  }, [changeMnemonic, mnemonic, fetchedMnemonics]);
 
   React.useEffect(() => {
     if (
