@@ -27,7 +27,11 @@ async function loadApp(name: string, appURL: string) {
   await runScript(appURL);
 
   // register the app with singleSPA and pass a reference to the store of the app as well as a reference to the globalEventDistributor
-  singleSpa.registerApplication(name, () => loadReactApp(name), () => true);
+  singleSpa.registerApplication(
+    name,
+    () => loadReactApp(name),
+    () => true
+  );
 }
 
 async function init(plugins: Plugin[]) {
@@ -51,7 +55,7 @@ async function init(plugins: Plugin[]) {
                 type: NotificationType,
                 payload: {
                   message: `Failed to load plugin ${p.name} from ${p.src}. 
-                            Try reloading the page and if the error persists contact the support team`,
+                            Try reloading the page and if the error persists contact the support team.`,
                   severity: 'error',
                 },
               },

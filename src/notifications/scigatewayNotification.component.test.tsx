@@ -1,9 +1,12 @@
 import React from 'react';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
-import { NotificationWithStyles } from './scigatewayNotification.component';
+import {
+  NotificationWithoutStyles,
+  NotificationWithStyles,
+} from './scigatewayNotification.component';
 import { Action } from 'redux';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 const theme = buildTheme();
 
@@ -11,13 +14,25 @@ function createScigatewayNotification(
   severity: string,
   message: string
 ): React.ReactElement {
+  let props = {
+    classes: {
+      root: 'root-class',
+      successIcon: 'successIcon-class',
+      warningIcon: 'warningIcon-class',
+      errorIcon: 'errorIcon-class',
+      button: 'button-class',
+      deleteIcon: 'deleteIcon-class',
+    },
+  };
+
   return (
     <MuiThemeProvider theme={theme}>
-      <NotificationWithStyles
+      <NotificationWithoutStyles
         message={message}
         severity={severity}
         index={0}
         dismissNotification={(): Action => ({ type: 'test' })}
+        {...props}
       />
     </MuiThemeProvider>
   );

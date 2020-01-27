@@ -1,5 +1,9 @@
 import React from 'react';
-import CookieConsent from './cookieConsent.component';
+
+import CookieConsent, {
+  CookieConsentWithoutStyles,
+  CombinedCookieConsentProps,
+} from './cookieConsent.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
@@ -7,7 +11,7 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
@@ -18,9 +22,10 @@ describe('Cookie consent component', () => {
   let mount;
   let mockStore;
   let state: StateType;
+  let props: CombinedCookieConsentProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'CookieConsent' });
+    shallow = createShallow({});
     mount = createMount();
 
     mockStore = configureStore();
@@ -35,6 +40,19 @@ describe('Cookie consent component', () => {
       id: 'test id',
       initialised: false,
     };
+
+    props = {
+      analytics: state.scigateway.analytics,
+      res: undefined,
+      location: state.router.location,
+      loading: state.scigateway.siteLoading,
+      initialiseAnalytics: jest.fn(),
+      navigateToCookies: jest.fn(),
+      classes: {
+        root: 'root-class',
+        button: 'button-class',
+      },
+    };
   });
 
   afterEach(() => {
@@ -44,11 +62,7 @@ describe('Cookie consent component', () => {
   const theme = buildTheme();
 
   it('should render correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CookieConsent store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -142,35 +156,23 @@ describe('Cookie consent component', () => {
         name === 'cookie-consent' ? { analytics: true } : null
       );
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CookieConsent store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
 
   it('should set open to false if site is loading', () => {
-    state.scigateway.siteLoading = false;
+    props.loading = false;
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CookieConsent store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
 
   it('should set open to false if on /cookies page', () => {
-    state.router.location = createLocation('/cookies');
+    props.location = createLocation('/cookies');
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CookieConsent store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });

@@ -5,14 +5,14 @@ exports[`User profile component renders default avatar if signed in 1`] = `
   className="tour-user-profile"
 >
   <div>
-    <WithStyles(IconButton)
+    <WithStyles(ForwardRef(IconButton))
       aria-label="Open user menu"
       className="UserProfileComponent-button-1"
       onClick={[Function]}
     >
-      <pure(AccountCircleIcon) />
-    </WithStyles(IconButton)>
-    <WithStyles(Menu)
+      <AccountCircleIcon />
+    </WithStyles(ForwardRef(IconButton))>
+    <WithStyles(ForwardRef(Menu))
       anchorEl={null}
       id="simple-menu"
       onClose={[Function]}
@@ -21,14 +21,14 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       <div
         className="UserProfileComponent-usernameContainer-2"
       >
-        <WithStyles(Typography)>
+        <WithStyles(ForwardRef(Typography))>
           Signed in as:
-        </WithStyles(Typography)>
-        <WithStyles(Typography)
+        </WithStyles(ForwardRef(Typography))>
+        <WithStyles(ForwardRef(Typography))
           className="UserProfileComponent-username-3"
         >
           anonymous
-        </WithStyles(Typography)>
+        </WithStyles(ForwardRef(Typography))>
       </div>
       <WithStyles(Divider) />
       <WithStyles(MenuItem)
@@ -48,15 +48,15 @@ exports[`User profile component renders default avatar if signed in 1`] = `
         aria-label="Sign out item"
         onClick={[Function]}
       >
-        <WithStyles(ListItemIcon)>
-          <pure(ExitToAppIcon) />
-        </WithStyles(ListItemIcon)>
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <ExitToAppIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
           inset={true}
           primary="logout-button"
         />
-      </WithStyles(MenuItem)>
-    </WithStyles(Menu)>
+      </WithStyles(ForwardRef(MenuItem))>
+    </WithStyles(ForwardRef(Menu))>
   </div>
 </div>
 `;
@@ -65,11 +65,11 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
 <div
   className="tour-user-profile"
 >
-  <WithStyles(Button)
+  <WithStyles(ForwardRef(Button))
     className="UserProfileComponent-button-1"
     onClick={[Function]}
   >
-    <WithStyles(Typography)
+    <WithStyles(ForwardRef(Typography))
       color="inherit"
       noWrap={true}
       style={
@@ -79,8 +79,8 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
       }
     >
       login-button
-    </WithStyles(Typography)>
-  </WithStyles(Button)>
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
 </div>
 `;
 
@@ -89,14 +89,14 @@ exports[`User profile component renders user avatar if signed in with avatar url
   className="tour-user-profile"
 >
   <div>
-    <WithStyles(Avatar)
+    <WithStyles(ForwardRef(Avatar))
       alt="user"
       aria-label="Open user menu"
       className="UserProfileComponent-avatar-4"
       onClick={[Function]}
       src="test_url"
     />
-    <WithStyles(Menu)
+    <WithStyles(ForwardRef(Menu))
       anchorEl={null}
       id="simple-menu"
       onClose={[Function]}
@@ -105,14 +105,14 @@ exports[`User profile component renders user avatar if signed in with avatar url
       <div
         className="UserProfileComponent-usernameContainer-2"
       >
-        <WithStyles(Typography)>
+        <WithStyles(ForwardRef(Typography))>
           Signed in as:
-        </WithStyles(Typography)>
-        <WithStyles(Typography)
+        </WithStyles(ForwardRef(Typography))>
+        <WithStyles(ForwardRef(Typography))
           className="UserProfileComponent-username-3"
         >
           test
-        </WithStyles(Typography)>
+        </WithStyles(ForwardRef(Typography))>
       </div>
       <WithStyles(Divider) />
       <WithStyles(MenuItem)
@@ -132,15 +132,15 @@ exports[`User profile component renders user avatar if signed in with avatar url
         aria-label="Sign out item"
         onClick={[Function]}
       >
-        <WithStyles(ListItemIcon)>
-          <pure(ExitToAppIcon) />
-        </WithStyles(ListItemIcon)>
-        <WithStyles(ListItemText)
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <ExitToAppIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
           inset={true}
           primary="logout-button"
         />
-      </WithStyles(MenuItem)>
-    </WithStyles(Menu)>
+      </WithStyles(ForwardRef(MenuItem))>
+    </WithStyles(ForwardRef(Menu))>
   </div>
 </div>
 `;

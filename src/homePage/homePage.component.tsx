@@ -81,7 +81,7 @@ interface HomePageProps {
   res: AppStrings | undefined;
 }
 
-type CombinedHomePageProps = HomePageProps & WithStyles<typeof styles>;
+export type CombinedHomePageProps = HomePageProps & WithStyles<typeof styles>;
 
 const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
   <div>
@@ -94,7 +94,8 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
       <Typography variant="h4" className={props.classes.howItWorksTitle}>
         {getString(props.res, 'how-label')}
       </Typography>
-      <Grid container spacing={24}>
+
+      <Grid container spacing={3}>
         <Grid item sm={12} md={4} className={props.classes.howItWorksGridItem}>
           <Typography
             variant="h5"
@@ -167,6 +168,7 @@ const mapStateToProps = (state: StateType): HomePageProps => ({
   res: getAppStrings(state, 'home-page'),
 });
 
+export const HomePageWithoutStyles = HomePage;
 export const HomePageWithStyles = withStyles(styles)(HomePage);
 
 export default connect(mapStateToProps)(HomePageWithStyles);

@@ -2,69 +2,72 @@
 
 exports[`Scigateway Notification component Scigateway Notification error message renders correctly 1`] = `
 <div
-  className="ScigatewayNotification-root-1"
+  className="root-class"
 >
-  <pure(HighlightOffIcon)
-    className="ScigatewayNotification-errorIcon-6"
+  <HighlightOffIcon
+    className="errorIcon-class"
   />
-  <WithStyles(Typography)
+  <WithStyles(ForwardRef(Typography))
     variant="body2"
   >
     error message
-  </WithStyles(Typography)>
-  <WithStyles(IconButton)
-    className="ScigatewayNotification-button-2"
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(IconButton))
+    aria-label="Dismiss notification"
+    className="button-class"
     onClick={[Function]}
   >
-    <pure(ClearIcon)
-      className="ScigatewayNotification-deleteIcon-3"
+    <ClearIcon
+      className="deleteIcon-class"
     />
-  </WithStyles(IconButton)>
+  </WithStyles(ForwardRef(IconButton))>
 </div>
 `;
 
 exports[`Scigateway Notification component Scigateway Notification success message renders correctly 1`] = `
 <div
-  className="ScigatewayNotification-root-1"
+  className="root-class"
 >
-  <pure(CheckCircleIcon)
-    className="ScigatewayNotification-successIcon-4"
+  <CheckCircleIcon
+    className="successIcon-class"
   />
-  <WithStyles(Typography)
+  <WithStyles(ForwardRef(Typography))
     variant="body2"
   >
     success message
-  </WithStyles(Typography)>
-  <WithStyles(IconButton)
-    className="ScigatewayNotification-button-2"
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(IconButton))
+    aria-label="Dismiss notification"
+    className="button-class"
     onClick={[Function]}
   >
-    <pure(ClearIcon)
-      className="ScigatewayNotification-deleteIcon-3"
+    <ClearIcon
+      className="deleteIcon-class"
     />
-  </WithStyles(IconButton)>
+  </WithStyles(ForwardRef(IconButton))>
 </div>
 `;
 
 exports[`Scigateway Notification component Scigateway Notification warning message renders correctly 1`] = `
 <div
-  className="ScigatewayNotification-root-1"
+  className="root-class"
 >
-  <pure(ErrorOutlineIcon)
-    className="ScigatewayNotification-warningIcon-5"
+  <ErrorOutlineIcon
+    className="warningIcon-class"
   />
-  <WithStyles(Typography)
+  <WithStyles(ForwardRef(Typography))
     variant="body2"
   >
     warning message
-  </WithStyles(Typography)>
-  <WithStyles(IconButton)
-    className="ScigatewayNotification-button-2"
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(IconButton))
+    aria-label="Dismiss notification"
+    className="button-class"
     onClick={[Function]}
   >
-    <pure(ClearIcon)
-      className="ScigatewayNotification-deleteIcon-3"
+    <ClearIcon
+      className="deleteIcon-class"
     />
-  </WithStyles(IconButton)>
+  </WithStyles(ForwardRef(IconButton))>
 </div>
 `;

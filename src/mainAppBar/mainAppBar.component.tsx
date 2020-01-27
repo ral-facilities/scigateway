@@ -69,7 +69,7 @@ const styles = (theme: Theme): StyleRules =>
       cursor: 'pointer',
     },
     button: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       color: theme.palette.primary.contrastText,
     },
     menuButton: {

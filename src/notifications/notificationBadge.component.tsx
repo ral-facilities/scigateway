@@ -41,7 +41,7 @@ const styles = (theme: Theme): StyleRules =>
     },
   });
 
-type CombinedNotificationBadgeProps = BadgeProps &
+export type CombinedNotificationBadgeProps = BadgeProps &
   BadgeDispatchProps &
   WithStyles<typeof styles>;
 
@@ -77,9 +77,12 @@ const NotificationBadge = (
       <IconButton
         className={props.classes.button}
         onClick={e => setMenuAnchor(e.currentTarget)}
+        aria-label="Open notification menu"
       >
         <Badge
-          badgeContent={props.notifications ? props.notifications.length : null}
+          badgeContent={
+            props.notifications.length > 0 ? props.notifications.length : null
+          }
           color="primary"
           classes={{
             colorPrimary: props.classes.badge,
@@ -102,6 +105,7 @@ const NotificationBadge = (
   );
 };
 
+export const NotificationBadgeWithoutStyles = NotificationBadge;
 export const NotificationBadgeWithStyles = withStyles(styles)(
   NotificationBadge
 );

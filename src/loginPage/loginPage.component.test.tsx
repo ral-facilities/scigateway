@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginPage, {
+  LoginPageWithoutStyles,
   LoginPageWithStyles,
   CredentialsLoginScreen,
   RedirectLoginScreen,
@@ -8,7 +9,7 @@ import LoginPage, {
 } from './loginPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { createLocation } from 'history';
 import axios from 'axios';
@@ -26,6 +27,7 @@ import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
+import { Select } from '@material-ui/core';
 
 jest.mock('loglevel');
 
@@ -38,6 +40,9 @@ describe('Login page component', () => {
 
   const dummyClasses = {
     root: 'root-1',
+    paper: 'paper-class',
+    avatar: 'avatar-class',
+    spinner: 'spinner-class',
   };
 
   beforeEach(() => {
@@ -54,9 +59,9 @@ describe('Login page component', () => {
 
     props = {
       auth: {
-        loading: false,
         failedToLogin: false,
         signedOutDueToTokenInvalidation: false,
+        loading: false,
         provider: new TestAuthProvider(null),
       },
       location: createLocation('/'),
@@ -149,21 +154,13 @@ describe('Login page component', () => {
   });
 
   it('login page renders credential component if no redirect url', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders redirect component if redirect url present', () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -188,7 +185,7 @@ describe('Login page component', () => {
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
+        <LoginPageWithoutStyles {...props} />
       </MuiThemeProvider>
     );
 
@@ -217,7 +214,7 @@ describe('Login page component', () => {
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
+        <LoginPageWithoutStyles {...props} />
       </MuiThemeProvider>
     );
 
@@ -246,7 +243,7 @@ describe('Login page component', () => {
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
+        <LoginPageWithoutStyles {...props} />
       </MuiThemeProvider>
     );
 
@@ -262,7 +259,7 @@ describe('Login page component', () => {
     props.auth.loading = true;
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
+        <LoginPageWithoutStyles {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper).toMatchSnapshot();
@@ -283,7 +280,7 @@ describe('Login page component', () => {
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
+        <LoginPageWithoutStyles {...props} />
       </MuiThemeProvider>
     );
 
@@ -341,7 +338,8 @@ describe('Login page component', () => {
       wrapper.update();
     });
 
-    const simulateDropdown = wrapper.find('Select').first();
+    // Find the Select component for the dropdown authenticators list.
+    const simulateDropdown = wrapper.find(Select).first();
     simulateDropdown.prop('onChange')({ target: { value: 'user/pass' } });
 
     expect(testStore.getActions().length).toEqual(1);
