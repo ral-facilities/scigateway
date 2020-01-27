@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { IconButton, Divider, Theme } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {
   withStyles,
@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/scigateway.types';
@@ -58,23 +58,22 @@ type CombinedNavigationProps = NavigationDrawerDispatchProps &
   NavigationDrawerProps &
   WithStyles<typeof styles>;
 
-interface LinkListItemProps extends ListItemProps {
-  to: string;
-}
-
-const LinkListItem = (props: LinkListItemProps): React.ReactElement => (
-  // It is worth noting the composition guide which goes into
-  // detail into how this works: https://material-ui.com/guides/composition/
-  <ListItem button component={props => <Link {...props} />} />
+// This has been adapted from the MaterialUI composition guide
+// (https://material-ui.com/guides/composition/)
+const ForwardRefLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  (linkProps, ref) => <Link innerRef={ref} {...linkProps} />
 );
+ForwardRefLink.displayName = 'ForwardRefLink';
 
 class NavigationDrawer extends Component<CombinedNavigationProps> {
   private createLink(plugin: PluginConfig, index: number): React.ReactElement {
     return (
-      <LinkListItem
+      <ListItem
         key={index}
+        component={ForwardRefLink}
         to={plugin.link}
         id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
+        button
       >
         <ListItemText
           inset
@@ -84,7 +83,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
             primary: this.props.classes.menuItem,
           }}
         />
-      </LinkListItem>
+      </ListItem>
     );
   }
 
