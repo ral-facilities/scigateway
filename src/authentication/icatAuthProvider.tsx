@@ -5,7 +5,7 @@ import ReactGA from 'react-ga';
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
 
-  public constructor(mnemonic: string) {
+  public constructor(mnemonic: string | undefined) {
     super();
     this.mnemonic = mnemonic || '';
   }
@@ -52,7 +52,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       token: this.token,
     })
       .then(res => {
-        this.token = res.data;
+        this.storeToken(res.data);
       })
       .catch(err => this.handleAuthError(err));
   }

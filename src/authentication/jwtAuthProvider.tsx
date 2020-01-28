@@ -17,7 +17,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
           category: 'Login',
           action: 'Sucessfully logged in via JWT',
         });
-        this.storeToken(res.data.accessToken);
+        this.storeToken(res.data.token);
         this.storeUser(username);
         return;
       })
@@ -43,7 +43,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       token: this.token,
     })
       .then(res => {
-        this.storeToken(res.data.accessToken);
+        this.storeToken(res.data.token);
       })
       .catch(err => this.handleAuthError(err));
   }

@@ -69,7 +69,7 @@ app.post('/api/jwt/authenticate', function(req, res) {
     });
     res.status(200).json({
       username,
-      accessToken,
+      token: accessToken,
     });
   } else {
     res.status(401).json({
@@ -111,7 +111,7 @@ app.post('/api/jwt/refresh', function(req, res) {
       expiresIn: '1m',
     });
     res.status(200).json({
-      accessToken: newAccessToken,
+      token: newAccessToken,
     });
   } catch (err) {
     res.status(401).json({

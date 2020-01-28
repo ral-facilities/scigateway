@@ -32,4 +32,15 @@ describe('loading auth provider', () => {
 
     expect(message).toBe('still loading auth provider');
   });
+
+  it('rejects refresh attempts saying the auth provider is still loading', async () => {
+    let message = '';
+    try {
+      await authProvider.refresh();
+    } catch (err) {
+      message = err;
+    }
+
+    expect(message).toBe('still loading auth provider');
+  });
 });
