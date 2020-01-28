@@ -11,7 +11,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public logIn(username: string, password: string): Promise<void> {
-    console.log('logIn');
     if (this.isLoggedIn()) {
       return Promise.resolve();
     }
@@ -41,7 +40,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    console.log('verifyLogIn');
     return Axios.post('/verify', {
       token: this.token,
     })
@@ -50,7 +48,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public refresh(): Promise<void> {
-    console.log('refresh');
     return Axios.post('/refresh', {
       token: this.token,
     })
