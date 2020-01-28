@@ -96,7 +96,15 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
     <WithStyles(ForwardRef(List))
       component="nav"
     >
-      <LinkListItem
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
         id="plugin-link-link"
         key="0"
         to="link"
@@ -115,8 +123,16 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             }
           }
         />
-      </LinkListItem>
-      <LinkListItem
+      </WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
         id="plugin-link-link"
         key="1"
         to="link"
@@ -135,7 +151,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             }
           }
         />
-      </LinkListItem>
+      </WithStyles(ForwardRef(ListItem))>
     </WithStyles(ForwardRef(List))>
     <WithStyles(ForwardRef(ListItem))>
       <WithStyles(ForwardRef(ListItemText))
@@ -155,7 +171,15 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
     <WithStyles(ForwardRef(List))
       component="nav"
     >
-      <LinkListItem
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
         id="plugin-link-link"
         key="0"
         to="link"
@@ -174,8 +198,16 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             }
           }
         />
-      </LinkListItem>
-      <LinkListItem
+      </WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
         id="plugin-link-link"
         key="1"
         to="link"
@@ -194,8 +226,16 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             }
           }
         />
-      </LinkListItem>
-      <LinkListItem
+      </WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
         id="plugin-link-link"
         key="2"
         to="link"
@@ -214,8 +254,16 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             }
           }
         />
-      </LinkListItem>
-      <LinkListItem
+      </WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
         id="plugin-link-plugin_link"
         key="3"
         to="plugin_link"
@@ -234,14 +282,22 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             }
           }
         />
-      </LinkListItem>
+      </WithStyles(ForwardRef(ListItem))>
     </WithStyles(ForwardRef(List))>
   </WithStyles(ForwardRef(List))>
 </WithStyles(ForwardRef(Drawer))>
 `;
 
 exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
-<LinkListItem
+<WithStyles(ForwardRef(ListItem))
+  button={true}
+  component={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "ForwardRefLink",
+      "render": [Function],
+    }
+  }
   id="plugin-link-plugin_link"
   key="3"
   to="plugin_link"
@@ -260,5 +316,5 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       }
     }
   />
-</LinkListItem>
+</WithStyles(ForwardRef(ListItem))>
 `;
