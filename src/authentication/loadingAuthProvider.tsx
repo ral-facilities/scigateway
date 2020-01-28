@@ -20,4 +20,8 @@ export default class LoadingAuthProvider implements AuthProvider {
   public verifyLogIn(): Promise<void> {
     return Promise.reject('still loading auth provider');
   }
+
+  public refresh(): Promise<void> {
+    return Promise.reject('still loading auth provider');
+  }
 }

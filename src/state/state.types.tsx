@@ -63,6 +63,7 @@ export interface AuthProvider {
   logOut: () => void;
   logIn: (username: string, password: string) => Promise<void>;
   verifyLogIn: () => Promise<void>;
+  refresh: () => Promise<void>;
   redirectUrl: string | null;
   user: User | null;
   mnemonic?: string;
