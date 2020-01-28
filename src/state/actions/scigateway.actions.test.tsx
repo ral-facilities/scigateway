@@ -12,9 +12,9 @@ import {
   configureAnalytics,
   initialiseAnalytics,
   loadStrings,
-  unauthorised,
   toggleHelp,
   addHelpTourSteps,
+  invalidToken,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -275,7 +275,7 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions.length).toEqual(5);
-    expect(actions).toContainEqual(unauthorised());
+    expect(actions).toContainEqual(invalidToken());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
