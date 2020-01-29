@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Avatar } from '@material-ui/core';
+import { Avatar, MenuItem } from '@material-ui/core';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
@@ -95,23 +95,6 @@ describe('User profile component', () => {
     ).toBeTruthy();
   });
 
-  it('signs out if sign out clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <UserProfileComponent />
-      </Provider>
-    );
-
-    // Click the user menu button and click on the sign out menu item.
-    wrapper.find('button').simulate('click');
-    wrapper.find('MenuItem[aria-label="Sign out item"]').simulate('click');
-
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
-    expect(testStore.getActions()[1]).toEqual(push('/'));
-  });
-
   it('opens cookie policy/management page if manage cookies clicked', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
@@ -123,10 +106,31 @@ describe('User profile component', () => {
     // Click the user menu button and click on the manage cookies menu item.
     wrapper.find('button').simulate('click');
     wrapper
-      .find('MenuItem[aria-label="Manage cookies item"]')
+      .find(MenuItem)
+      .first()
       .simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/cookies'));
+  });
+
+  it('signs out if sign out clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <UserProfileComponent />
+      </Provider>
+    );
+
+    // Click the user menu button and click on the sign out menu item.
+    wrapper.find('button').simulate('click');
+    wrapper
+      .find(MenuItem)
+      .at(1)
+      .simulate('click');
+
+    expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
+    expect(testStore.getActions()[1]).toEqual(push('/'));
   });
 });
