@@ -30,21 +30,20 @@ exports[`User profile component renders default avatar if signed in 1`] = `
           anonymous
         </WithStyles(ForwardRef(Typography))>
       </div>
-      <WithStyles(Divider) />
-      <WithStyles(MenuItem)
+      <WithStyles(ForwardRef(Divider)) />
+      <WithStyles(ForwardRef(MenuItem))
         aria-label="Manage cookies item"
         onClick={[Function]}
       >
-        <WithStyles(ListItemIcon)>
-          <pure(SettingsIcon) />
-        </WithStyles(ListItemIcon)>
-        <WithStyles(ListItemText)
-          inset={true}
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <SettingsIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
           primary="manage-cookies-button"
         />
-      </WithStyles(MenuItem)>
-      <WithStyles(Divider) />
-      <WithStyles(MenuItem)
+      </WithStyles(ForwardRef(MenuItem))>
+      <WithStyles(ForwardRef(Divider)) />
+      <WithStyles(ForwardRef(MenuItem))
         aria-label="Sign out item"
         onClick={[Function]}
       >
@@ -52,7 +51,6 @@ exports[`User profile component renders default avatar if signed in 1`] = `
           <ExitToAppIcon />
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
-          inset={true}
           primary="logout-button"
         />
       </WithStyles(ForwardRef(MenuItem))>
@@ -114,21 +112,20 @@ exports[`User profile component renders user avatar if signed in with avatar url
           test
         </WithStyles(ForwardRef(Typography))>
       </div>
-      <WithStyles(Divider) />
-      <WithStyles(MenuItem)
+      <WithStyles(ForwardRef(Divider)) />
+      <WithStyles(ForwardRef(MenuItem))
         aria-label="Manage cookies item"
         onClick={[Function]}
       >
-        <WithStyles(ListItemIcon)>
-          <pure(SettingsIcon) />
-        </WithStyles(ListItemIcon)>
-        <WithStyles(ListItemText)
-          inset={true}
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <SettingsIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
           primary="manage-cookies-button"
         />
-      </WithStyles(MenuItem)>
-      <WithStyles(Divider) />
-      <WithStyles(MenuItem)
+      </WithStyles(ForwardRef(MenuItem))>
+      <WithStyles(ForwardRef(Divider)) />
+      <WithStyles(ForwardRef(MenuItem))
         aria-label="Sign out item"
         onClick={[Function]}
       >
@@ -136,7 +133,6 @@ exports[`User profile component renders user avatar if signed in with avatar url
           <ExitToAppIcon />
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
-          inset={true}
           primary="logout-button"
         />
       </WithStyles(ForwardRef(MenuItem))>

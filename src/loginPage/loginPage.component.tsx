@@ -282,8 +282,6 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
-    console.log('mnemonic', mnemonic);
-    console.log('fetchedMnemonics', fetchedMnemonics);
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics().then(mnemonics => {
         const nonAdminAuthenticators = mnemonics.filter(
