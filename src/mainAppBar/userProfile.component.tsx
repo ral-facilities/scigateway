@@ -120,7 +120,6 @@ const UserProfileComponent = (
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText
-                inset
                 primary={getString(props.res, 'manage-cookies-button')}
               />
             </MenuItem>
@@ -129,10 +128,7 @@ const UserProfileComponent = (
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText
-                inset
-                primary={getString(props.res, 'logout-button')}
-              />
+              <ListItemText primary={getString(props.res, 'logout-button')} />
             </MenuItem>
           </Menu>
         </div>
