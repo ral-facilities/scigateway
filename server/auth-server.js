@@ -63,7 +63,7 @@ app.post('/api/jwt/authenticate', function(req, res) {
     });
     res.cookie('scigateway:refresh_token', refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.HTTPS,
       sameSite: 'lax',
       maxAge: 604800,
     });
@@ -176,12 +176,24 @@ app.post('/api/github/checkToken', function(req, res) {
     });
 });
 
-https
-  .createServer(
-    {
-      key: fs.readFileSync('./node_modules/webpack-dev-server/ssl/server.pem'),
-      cert: fs.readFileSync('./node_modules/webpack-dev-server/ssl/server.pem'),
-    },
-    app
-  )
-  .listen(port, () => console.log(`Example app listening on port ${port}!`));
+if (process.env.HTTPS) {
+  https
+    .createServer(
+      {
+        key: fs.readFileSync(
+          './node_modules/webpack-dev-server/ssl/server.pem'
+        ),
+        cert: fs.readFileSync(
+          './node_modules/webpack-dev-server/ssl/server.pem'
+        ),
+      },
+      app
+    )
+    .listen(port, () =>
+      console.log(`Example app listening to HTTPS traffic on port ${port}!`)
+    );
+} else {
+  app.listen(port, () =>
+    console.log(`Example app listening to HTTP traffic on port ${port}!`)
+  );
+}
