@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
 import ReactGA from 'react-ga';
+import parseJwt from './parseJwt';
 
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
@@ -28,6 +29,10 @@ export default class ICATAuthProvider extends BaseAuthProvider {
           action: 'Sucessfully logged in via JWT',
         });
         this.storeToken(res.data);
+        const payload: { sessionId: string; username: string } = JSON.parse(
+          parseJwt(res.data)
+        );
+        this.storeUser(payload.username);
         return;
       })
       .catch(err => {
