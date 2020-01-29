@@ -113,7 +113,7 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
         }
         styles={{
           options: {
-            primaryColor: (theme as UKRITheme).ukri.orange,
+            primaryColor: (theme as UKRITheme).ukri.bright.orange,
             zIndex: 1500,
           },
         }}

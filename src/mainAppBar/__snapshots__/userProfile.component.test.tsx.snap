@@ -30,8 +30,22 @@ exports[`User profile component renders default avatar if signed in 1`] = `
           anonymous
         </WithStyles(ForwardRef(Typography))>
       </div>
-      <WithStyles(ForwardRef(Divider)) />
-      <WithStyles(ForwardRef(MenuItem))
+      <WithStyles(Divider) />
+      <WithStyles(MenuItem)
+        aria-label="Manage cookies item"
+        onClick={[Function]}
+      >
+        <WithStyles(ListItemIcon)>
+          <pure(SettingsIcon) />
+        </WithStyles(ListItemIcon)>
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="manage-cookies-button"
+        />
+      </WithStyles(MenuItem)>
+      <WithStyles(Divider) />
+      <WithStyles(MenuItem)
+        aria-label="Sign out item"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
@@ -100,8 +114,22 @@ exports[`User profile component renders user avatar if signed in with avatar url
           test
         </WithStyles(ForwardRef(Typography))>
       </div>
-      <WithStyles(ForwardRef(Divider)) />
-      <WithStyles(ForwardRef(MenuItem))
+      <WithStyles(Divider) />
+      <WithStyles(MenuItem)
+        aria-label="Manage cookies item"
+        onClick={[Function]}
+      >
+        <WithStyles(ListItemIcon)>
+          <pure(SettingsIcon) />
+        </WithStyles(ListItemIcon)>
+        <WithStyles(ListItemText)
+          inset={true}
+          primary="manage-cookies-button"
+        />
+      </WithStyles(MenuItem)>
+      <WithStyles(Divider) />
+      <WithStyles(MenuItem)
+        aria-label="Sign out item"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>

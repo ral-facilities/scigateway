@@ -24,7 +24,7 @@ import { Location } from 'history';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      backgroundColor: (theme as UKRITheme).ukri.green,
+      backgroundColor: (theme as UKRITheme).ukri.deep.green,
     },
     button: {
       color: theme.palette.primary.contrastText,

@@ -41,7 +41,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).ukri.orange,
+      backgroundColor: (theme as UKRITheme).ukri.bright.orange,
     },
     paper: {
       marginTop: theme.spacing(8),
