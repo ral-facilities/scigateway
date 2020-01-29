@@ -30,7 +30,7 @@ export default class TestAuthProvider implements AuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Promise.reject('test auth provider');
+    return this.refresh();
   }
 
   public refresh(): Promise<void> {
