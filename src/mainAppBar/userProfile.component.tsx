@@ -115,7 +115,7 @@ const UserProfileComponent = (
               </Typography>
             </div>
             <Divider />
-            <MenuItem aria-label="Manage cookies item" onClick={manageCookies}>
+            <MenuItem id="item-manage-cookies" onClick={manageCookies}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
@@ -124,7 +124,7 @@ const UserProfileComponent = (
               />
             </MenuItem>
             <Divider />
-            <MenuItem aria-label="Sign out item" onClick={logout}>
+            <MenuItem id="item-sign-out" onClick={logout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>

@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Avatar, MenuItem } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
@@ -106,7 +106,7 @@ describe('User profile component', () => {
     // Click the user menu button and click on the manage cookies menu item.
     wrapper.find('button').simulate('click');
     wrapper
-      .find(MenuItem)
+      .find('#item-manage-cookies')
       .first()
       .simulate('click');
 
@@ -125,8 +125,8 @@ describe('User profile component', () => {
     // Click the user menu button and click on the sign out menu item.
     wrapper.find('button').simulate('click');
     wrapper
-      .find(MenuItem)
-      .at(1)
+      .find('#item-sign-out')
+      .first()
       .simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);

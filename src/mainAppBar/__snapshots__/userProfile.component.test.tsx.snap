@@ -32,7 +32,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       </div>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
-        aria-label="Manage cookies item"
+        id="item-manage-cookies"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
@@ -44,7 +44,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       </WithStyles(ForwardRef(MenuItem))>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
-        aria-label="Sign out item"
+        id="item-sign-out"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
@@ -114,7 +114,7 @@ exports[`User profile component renders user avatar if signed in with avatar url
       </div>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
-        aria-label="Manage cookies item"
+        id="item-manage-cookies"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
@@ -126,7 +126,7 @@ exports[`User profile component renders user avatar if signed in with avatar url
       </WithStyles(ForwardRef(MenuItem))>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
-        aria-label="Sign out item"
+        id="item-sign-out"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
