@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dispatch, Action, AnyAction } from 'redux';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SettingsIcon from '@material-ui/icons/Settings';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import {
   IconButton,
@@ -37,6 +38,7 @@ interface UserProfileProps {
 interface UserProfileDispatchProps {
   signIn: () => Action;
   signOut: () => void;
+  manageCookies: () => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -54,6 +56,7 @@ const styles = (theme: Theme): StyleRules =>
     username: {
       paddingTop: 3,
       fontWeight: 'bold',
+      fontSize: 17,
     },
     avatar: {
       margin: theme.spacing(1),
@@ -73,6 +76,10 @@ const UserProfileComponent = (
   const logout = (): void => {
     closeMenu();
     props.signOut();
+  };
+  const manageCookies = (): void => {
+    closeMenu();
+    props.manageCookies();
   };
   return (
     <div className="tour-user-profile">
@@ -108,14 +115,20 @@ const UserProfileComponent = (
               </Typography>
             </div>
             <Divider />
-            <MenuItem onClick={logout}>
+            <MenuItem id="item-manage-cookies" onClick={manageCookies}>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={getString(props.res, 'manage-cookies-button')}
+              />
+            </MenuItem>
+            <Divider />
+            <MenuItem id="item-sign-out" onClick={logout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText
-                inset
-                primary={getString(props.res, 'logout-button')}
-              />
+              <ListItemText primary={getString(props.res, 'logout-button')} />
             </MenuItem>
           </Menu>
         </div>
@@ -153,6 +166,7 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
     const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
     thunkDispatch(signOut());
   },
+  manageCookies: () => dispatch(push('/cookies')),
 });
 
 export default connect(

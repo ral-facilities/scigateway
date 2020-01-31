@@ -41,7 +41,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).ukri.orange,
+      backgroundColor: (theme as UKRITheme).ukri.bright.orange,
     },
     paper: {
       marginTop: theme.spacing(8),
@@ -282,8 +282,6 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
-    console.log('mnemonic', mnemonic);
-    console.log('fetchedMnemonics', fetchedMnemonics);
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics().then(mnemonics => {
         const nonAdminAuthenticators = mnemonics.filter(

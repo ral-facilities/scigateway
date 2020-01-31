@@ -38,7 +38,7 @@ exports[`Tour component renders correctly 1`] = `
   styles={
     Object {
       "options": Object {
-        "primaryColor": "#C34613",
+        "primaryColor": "#FF6900",
         "zIndex": 1500,
       },
     }

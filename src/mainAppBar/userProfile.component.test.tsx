@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { MenuItem, Avatar } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
@@ -95,6 +95,25 @@ describe('User profile component', () => {
     ).toBeTruthy();
   });
 
+  it('opens cookie policy/management page if manage cookies clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <UserProfileComponent />
+      </Provider>
+    );
+
+    // Click the user menu button and click on the manage cookies menu item.
+    wrapper.find('button').simulate('click');
+    wrapper
+      .find('#item-manage-cookies')
+      .first()
+      .simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/cookies'));
+  });
+
   it('signs out if sign out clicked', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
@@ -103,8 +122,12 @@ describe('User profile component', () => {
       </Provider>
     );
 
+    // Click the user menu button and click on the sign out menu item.
     wrapper.find('button').simulate('click');
-    wrapper.find(MenuItem).simulate('click');
+    wrapper
+      .find('#item-sign-out')
+      .first()
+      .simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });

@@ -32,13 +32,25 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       </div>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
+        id="item-manage-cookies"
+        onClick={[Function]}
+      >
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <SettingsIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
+          primary="manage-cookies-button"
+        />
+      </WithStyles(ForwardRef(MenuItem))>
+      <WithStyles(ForwardRef(Divider)) />
+      <WithStyles(ForwardRef(MenuItem))
+        id="item-sign-out"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
           <ExitToAppIcon />
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
-          inset={true}
           primary="logout-button"
         />
       </WithStyles(ForwardRef(MenuItem))>
@@ -102,13 +114,25 @@ exports[`User profile component renders user avatar if signed in with avatar url
       </div>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
+        id="item-manage-cookies"
+        onClick={[Function]}
+      >
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <SettingsIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
+          primary="manage-cookies-button"
+        />
+      </WithStyles(ForwardRef(MenuItem))>
+      <WithStyles(ForwardRef(Divider)) />
+      <WithStyles(ForwardRef(MenuItem))
+        id="item-sign-out"
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
           <ExitToAppIcon />
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
-          inset={true}
           primary="logout-button"
         />
       </WithStyles(ForwardRef(MenuItem))>
