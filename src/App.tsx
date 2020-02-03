@@ -56,7 +56,8 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-listenToPlugins(store.dispatch);
+const getState = store.getState as () => StateType;
+listenToPlugins(store.dispatch, getState);
 
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());

@@ -13,12 +13,13 @@ import {
   loadFeatureSwitches,
   toggleHelp,
   addHelpTourSteps,
+  invalidToken,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
   handleAuthProviderUpdate,
 } from './scigateway.reducer';
-import { SignOutType, InvalidateTokenType } from '../scigateway.types';
+import { SignOutType } from '../scigateway.types';
 import { ScigatewayState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
@@ -171,7 +172,7 @@ describe('scigateway reducer', () => {
   });
 
   it('token invalidation should reset authorisation and indicate invalidation', () => {
-    const action = { type: InvalidateTokenType };
+    const action = invalidToken();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
     let updatedState = ScigatewayReducer(state, action);

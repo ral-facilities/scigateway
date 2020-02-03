@@ -6,6 +6,7 @@ const tokenLocalStorageName = 'scigateway:token';
 export default abstract class BaseAuthProvider implements AuthProvider {
   abstract logIn(username: string, password: string): Promise<void>;
   abstract verifyLogIn(): Promise<void>;
+  abstract refresh(): Promise<void>;
   protected token: string | null;
   public redirectUrl: string | null;
   public user: User | null;
@@ -39,7 +40,11 @@ export default abstract class BaseAuthProvider implements AuthProvider {
 
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   protected handleAuthError(err: any): void {
-    if (err.response && err.response.status && err.response.status === 401) {
+    if (
+      err.response &&
+      err.response.status &&
+      (err.response.status === 401 || err.response.status === 403)
+    ) {
       this.logOut();
     }
     throw err;

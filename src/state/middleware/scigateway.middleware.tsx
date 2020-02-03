@@ -35,7 +35,10 @@ const toastrMessageOptions = {
   removeOnHoverTimeOut: 0,
 };
 
-export const listenToPlugins = (dispatch: Dispatch): void => {
+export const listenToPlugins = (
+  dispatch: Dispatch,
+  getState: () => StateType
+): void => {
   document.addEventListener(microFrontendMessageId, event => {
     const pluginMessage = event as microFrontendMessageType;
 
@@ -80,7 +83,10 @@ export const listenToPlugins = (dispatch: Dispatch): void => {
           }
           break;
         case InvalidateTokenType:
-          dispatch(pluginMessage.detail);
+          getState()
+            .scigateway.authorisation.provider.refresh()
+            .then(() => {})
+            .catch(() => dispatch(pluginMessage.detail));
           break;
         default:
           // log and ignore

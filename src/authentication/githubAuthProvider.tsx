@@ -45,4 +45,10 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       })
       .catch(err => super.handleAuthError(err));
   }
+
+  public refresh(): Promise<void> {
+    return Promise.reject(
+      'Github authenticator does not support token refresh'
+    );
+  }
 }

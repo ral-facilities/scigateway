@@ -35,6 +35,16 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       token: this.token,
     })
       .then(() => {})
+      .catch(() => this.refresh());
+  }
+
+  public refresh(): Promise<void> {
+    return Axios.post('/api/jwt/refresh', {
+      token: this.token,
+    })
+      .then(res => {
+        this.storeToken(res.data.token);
+      })
       .catch(err => this.handleAuthError(err));
   }
 }

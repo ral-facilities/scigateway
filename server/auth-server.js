@@ -2,11 +2,17 @@ const express = require('express');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const qs = require('query-string');
-const app = express()
-const port = 8000
+const cookieParser = require('cookie-parser');
+const https = require('https');
+const fs = require('fs');
+
+const app = express();
+const port = 8000;
+app.use(express.json());
+app.use(cookieParser());
 
 // this would normally be an environment variable
-const jwtSecret = 'abc123456789'
+const jwtSecret = 'abc123456789';
 
 const withAuth = function(req, res, next) {
   const token =
@@ -26,9 +32,7 @@ const withAuth = function(req, res, next) {
       }
     });
   }
-}
-
-app.use(express.json());
+};
 
 function isValidLogin(username, password) {
   // this would normally be a database lookup
@@ -38,32 +42,40 @@ function isValidLogin(username, password) {
 app.post('/api/jwt/authenticate', function(req, res) {
   const { username, password } = req.body;
 
-    if (username === 'error') {
-      res.status(500)
-        .json({
-        error: 'Internal error please try again'
-      });
-    }
-    
-    if (!username) {
-      res.status(401).json({
-        error: 'Incorrect email or password'
-      });
-    } else if (isValidLogin(username, password)) {
-        // Issue token
-        const payload = { username };
-        const token = jwt.sign(payload, jwtSecret, {
-          expiresIn: '1h'
-        });
-        res.status(200).json({
-          username,
-          token
-        });
-    } else {
-      res.status(401).json({
-        error: 'Incorrect email or password'
-      });
-    }
+  if (username === 'error') {
+    res.status(500).json({
+      error: 'Internal error please try again',
+    });
+  }
+
+  if (!username) {
+    res.status(401).json({
+      error: 'Incorrect email or password',
+    });
+  } else if (isValidLogin(username, password)) {
+    // Issue token
+    const payload = { username };
+    const accessToken = jwt.sign(payload, jwtSecret, {
+      expiresIn: '1m',
+    });
+    const refreshToken = jwt.sign({}, jwtSecret, {
+      expiresIn: '5m',
+    });
+    res.cookie('scigateway:refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.HTTPS,
+      sameSite: 'lax',
+      maxAge: 604800,
+    });
+    res.status(200).json({
+      username,
+      token: accessToken,
+    });
+  } else {
+    res.status(401).json({
+      error: 'Incorrect email or password',
+    });
+  }
 });
 
 app.post('/api/jwt/checkToken', withAuth, function(req, res) {
@@ -72,58 +84,116 @@ app.post('/api/jwt/checkToken', withAuth, function(req, res) {
     res.sendStatus(200);
   } else {
     res.status(401).json({
-      error: 'Invalid token'
+      error: 'Invalid token',
     });
   }
-  
-})
+});
+
+app.post('/api/jwt/refresh', function(req, res) {
+  const refreshToken = req.cookies['scigateway:refresh_token'];
+  const accessToken = req.body.token;
+
+  try {
+    jwt.verify(refreshToken, jwtSecret);
+  } catch (err) {
+    res.status(401).json({
+      error: 'Invalid refresh token',
+    });
+    return;
+  }
+  try {
+    const payload = jwt.verify(accessToken, jwtSecret, {
+      ignoreExpiration: true,
+    });
+    delete payload.iat;
+    delete payload.exp;
+    const newAccessToken = jwt.sign(payload, jwtSecret, {
+      expiresIn: '1m',
+    });
+    res.status(200).json({
+      token: newAccessToken,
+    });
+  } catch (err) {
+    res.status(401).json({
+      error: 'Invalid access token',
+    });
+  }
+});
 
 app.post('/api/github/authenticate', function(req, res) {
   const { code } = req.body;
 
   const headers = {
-    'User-Agent': 'request'
-  }
+    'User-Agent': 'request',
+  };
 
   let token = '';
 
-  axios.post('https://github.com/login/oauth/access_token?' +
-            'client_id=9fb0c571fd7b71e383b4&' +
-            'client_secret=6960ea90387e3d0ff0a2f62764ab9cc7d5927c46&' +
-            `code=${code}`, headers)
-  .then((githubResponse) => {
-    token = qs.parse(githubResponse.data).access_token;
-    return axios.get('https://api.github.com/user', { headers: {'Authorization': `token ${token}`}});
-  })
-  .then((userResponse) => {
-    res.status(200).json({
-      token,
-      username: userResponse.data.login,
-      avatar: userResponse.data.avatar_url
+  axios
+    .post(
+      'https://github.com/login/oauth/access_token?' +
+        'client_id=9fb0c571fd7b71e383b4&' +
+        'client_secret=6960ea90387e3d0ff0a2f62764ab9cc7d5927c46&' +
+        `code=${code}`,
+      headers
+    )
+    .then(githubResponse => {
+      token = qs.parse(githubResponse.data).access_token;
+      return axios.get('https://api.github.com/user', {
+        headers: { Authorization: `token ${token}` },
+      });
+    })
+    .then(userResponse => {
+      res.status(200).json({
+        token,
+        username: userResponse.data.login,
+        avatar: userResponse.data.avatar_url,
+      });
+    })
+    .catch(err => {
+      res.status(401).json({
+        error: 'Invalid token',
+      });
     });
-  })
-  .catch((err) => {
-    res.status(401).json({
-      error: 'Invalid token'
-    });     
-  })  
-})
+});
 
 app.post('/api/github/checkToken', function(req, res) {
   const { token } = req.body;
-  axios.get('https://api.github.com/user', { headers: {'Authorization': `token ${token}`}})
-  .then((userResponse) => {
-    res.status(200).json({
-      username: userResponse.data.login,
-      avatar: userResponse.data.avatar_url
+  axios
+    .get('https://api.github.com/user', {
+      headers: { Authorization: `token ${token}` },
+    })
+    .then(userResponse => {
+      res.status(200).json({
+        username: userResponse.data.login,
+        avatar: userResponse.data.avatar_url,
+      });
+    })
+    .catch(err => {
+      res.status(401).json({
+        error: 'Invalid token',
+      });
     });
-  })
-  .catch((err) => {
-    res.status(401).json({
-      error: 'Invalid token'
-    });     
-  }) 
-  
-})
+});
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+if (process.env.HTTPS) {
+  https
+    .createServer(
+      {
+        key: fs.readFileSync(
+          './node_modules/webpack-dev-server/ssl/server.pem'
+        ),
+        cert: fs.readFileSync(
+          './node_modules/webpack-dev-server/ssl/server.pem'
+        ),
+      },
+      app
+    )
+    .listen(port, () =>
+      console.log(`Example app listening to HTTPS traffic on port ${port}!`)
+    );
+} else {
+  app.listen(port, () =>
+    console.log(`Example app listening to HTTP traffic on port ${port}!`)
+  );
+}

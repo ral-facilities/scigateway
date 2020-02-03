@@ -2,12 +2,13 @@
   "name": "scigateway",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000/",
+  "proxy": "https://localhost:8000/",
   "dependencies": {
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "axios": "^0.19.0",
     "connected-react-router": "^6.5.2",
+    "cookie-parser": "^1.4.4",
     "custom-event-polyfill": "^1.0.7",
     "express": "^4.17.1",
     "js-cookie": "^2.2.0",
@@ -35,7 +36,7 @@
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=js --ext=jsx --fix ./src",
     "lint:cypress": "eslint --ext=tsx --ext=js --ext=jsx --fix ./cypress",
     "serve:plugins": "node micro-frontend-tools/serve-plugins.js",
-    "start": "concurrently \"yarn serve:plugins\" \"node server/auth-server.js\" \"react-scripts start\"",
+    "start": "cross-env HTTPS=true concurrently \"yarn serve:plugins\" \"wait-on ./node_modules/webpack-dev-server/ssl/server.pem && node server/auth-server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "build:e2e": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage --watchAll=false",
@@ -143,6 +144,7 @@
     "redux-mock-store": "^1.5.3",
     "serve": "^11.1.0",
     "start-server-and-test": "^1.9.1",
-    "storybook-react-router": "^1.0.5"
+    "storybook-react-router": "^1.0.5",
+    "wait-on": "^4.0.0"
   }
 }

@@ -124,4 +124,15 @@ describe('github auth provider', () => {
     expect(authProvider.user.username).toBe('test_user');
     expect(authProvider.user.avatarUrl).toBe('test_avatar');
   });
+
+  it('should return error if refresh method is called', async () => {
+    let message = '';
+    try {
+      await authProvider.refresh();
+    } catch (err) {
+      message = err;
+    }
+
+    expect(message).toBe('Github authenticator does not support token refresh');
+  });
 });

@@ -23,6 +23,11 @@ describe('ICAT auth provider', () => {
     ReactGA.testModeAPI.resetCalls();
   });
 
+  it('should set the mnemonic to empty string if none is provided', () => {
+    icatAuthProvider = new ICATAuthProvider(undefined);
+    expect(icatAuthProvider.mnemonic).toBe('');
+  });
+
   it('should load the token when built', () => {
     expect(localStorage.getItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
@@ -102,7 +107,42 @@ describe('ICAT auth provider', () => {
     });
   });
 
-  it('should log the user out if the token has expired', async () => {
+  it('should call refresh if the access token has expired', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+    const refreshSpy = jest
+      .spyOn(icatAuthProvider, 'refresh')
+      .mockImplementationOnce(() => Promise.resolve());
+
+    await icatAuthProvider.verifyLogIn();
+
+    expect(refreshSpy).toHaveBeenCalled();
+  });
+
+  it('should update the token if the refresh method is successful', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: 'new-token',
+      })
+    );
+
+    await icatAuthProvider.refresh();
+
+    expect(mockAxios.post).toHaveBeenCalledWith('/refresh', {
+      token: 'token',
+    });
+    expect(localStorage.setItem).toBeCalledWith(
+      'scigateway:token',
+      'new-token'
+    );
+  });
+
+  it('should log the user out if the refresh token has expired', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
@@ -111,10 +151,7 @@ describe('ICAT auth provider', () => {
       })
     );
 
-    // ensure the token is null
-    icatAuthProvider.logOut();
-
-    await icatAuthProvider.verifyLogIn().catch(() => {});
+    await icatAuthProvider.refresh().catch(() => {});
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();

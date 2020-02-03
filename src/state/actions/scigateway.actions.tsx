@@ -26,6 +26,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsType,
   AddHelpTourStepsPayload,
+  InvalidateTokenType,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -90,6 +91,10 @@ export const authorised = (): Action => ({
   type: AuthSuccessType,
 });
 
+export const invalidToken = (): Action => ({
+  type: InvalidateTokenType,
+});
+
 export const siteLoadingUpdate = (
   loading: boolean
 ): ActionType<SiteLoadingPayload> => ({
@@ -141,7 +146,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
               dispatch(authorised());
             })
             .catch(() => {
-              dispatch(unauthorised());
+              dispatch(invalidToken());
             });
 
           loadingPromises.push(verifyingLogin);

@@ -21,6 +21,7 @@ describe('jwt auth provider', () => {
 
   afterEach(() => {
     ReactGA.testModeAPI.resetCalls();
+    (mockAxios.post as jest.Mock).mockClear();
   });
 
   it('should load the token when built', () => {
@@ -101,7 +102,7 @@ describe('jwt auth provider', () => {
     });
   });
 
-  it('should log the user out if the token has expired', async () => {
+  it('should call refresh if the access token has expired', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
@@ -110,10 +111,43 @@ describe('jwt auth provider', () => {
       })
     );
 
-    // ensure the token is null
-    jwtAuthProvider.logOut();
+    const refreshSpy = jest
+      .spyOn(jwtAuthProvider, 'refresh')
+      .mockImplementationOnce(() => Promise.resolve());
 
     await jwtAuthProvider.verifyLogIn().catch(() => {});
+
+    expect(refreshSpy).toHaveBeenCalled();
+  });
+
+  it('should update the token if the refresh method is successful', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: { token: 'new-token' },
+      })
+    );
+
+    await jwtAuthProvider.refresh();
+
+    expect(mockAxios.post).toHaveBeenCalledWith('/api/jwt/refresh', {
+      token: 'token',
+    });
+    expect(localStorage.setItem).toBeCalledWith(
+      'scigateway:token',
+      'new-token'
+    );
+  });
+
+  it('should log the user out if the refresh token has expired', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await jwtAuthProvider.refresh().catch(() => {});
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
