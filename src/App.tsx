@@ -30,6 +30,7 @@ import {
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'sgw',
+  disableGlobal: true,
 });
 
 const history = createBrowserHistory();
