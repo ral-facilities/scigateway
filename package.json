@@ -5,7 +5,7 @@
   "proxy": "https://localhost:8000/",
   "dependencies": {
     "@material-ui/core": "^4.8.3",
-    "@material-ui/icons": "^4.5.1",
+    "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.0",
     "connected-react-router": "^6.5.2",
     "cookie-parser": "^1.4.4",
