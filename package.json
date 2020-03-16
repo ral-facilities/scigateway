@@ -123,7 +123,7 @@
     "babel-loader": "8.0.5",
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^7.0.2",
     "cypress": "^3.4.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.14.0",
