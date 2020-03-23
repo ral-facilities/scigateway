@@ -1,6 +1,9 @@
 import mockAxios from 'axios';
 import ICATAuthProvider from './icatAuthProvider';
 import ReactGA from 'react-ga';
+import parseJwt from './parseJwt';
+
+jest.mock('./parseJwt');
 
 describe('ICAT auth provider', () => {
   let icatAuthProvider: ICATAuthProvider;
@@ -17,6 +20,9 @@ describe('ICAT auth provider', () => {
 
     icatAuthProvider = new ICATAuthProvider('mnemonic');
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
+    (parseJwt as jest.Mock).mockImplementation(
+      token => `{"sessionId": "${token}", "username": "${token} username"}`
+    );
   });
 
   afterEach(() => {
@@ -63,6 +69,7 @@ describe('ICAT auth provider', () => {
     expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(icatAuthProvider.user.username).toBe('token username');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
