@@ -15,7 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.6.3",
     "query-string": "^6.11.1",
-    "react": "^16.13.0",
+    "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.8.6",
     "react-ga": "^2.5.7",
