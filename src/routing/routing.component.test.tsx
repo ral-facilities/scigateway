@@ -1,10 +1,11 @@
 import React from 'react';
-import Routing, { PluginPlaceHolder } from './routing.component';
+import Routing, { PluginPlaceHolder, PluginRoute } from './routing.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
+import { MemoryRouter } from 'react-router';
 
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
@@ -62,6 +63,25 @@ describe('Routing component', () => {
     ];
     const wrapper = shallow(
       <Routing store={mockStore(state)} classes={classes} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('renders a route for a plugin', () => {
+    shallow = createShallow({ untilSelector: 'PluginRoute' });
+    const wrapper = shallow(
+      <MemoryRouter initialEntries={['/test-link']}>
+        <PluginRoute
+          plugin={{
+            section: 'test section',
+            link: 'test-link',
+            plugin: 'test_plugin_name',
+            displayName: 'Test Plugin',
+            order: 1,
+          }}
+        />
+      </MemoryRouter>
     );
 
     expect(wrapper).toMatchSnapshot();
