@@ -4,10 +4,14 @@ import {
   RegisterRouteType,
   InvalidateTokenType,
   RequestPluginRerenderType,
+  ToggleDrawerType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
-import { addHelpTourSteps } from '../actions/scigateway.actions';
+import {
+  addHelpTourSteps,
+  requestPluginRerender,
+} from '../actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 
@@ -125,6 +129,11 @@ const ScigatewayMiddleware: Middleware = ((
       currentPage = nextPage;
       trackPage(nextPage);
     }
+  }
+
+  if (action.type === ToggleDrawerType) {
+    next(action);
+    return store.dispatch(requestPluginRerender());
   }
 
   return next(action);

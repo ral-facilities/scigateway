@@ -4,7 +4,7 @@ import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import log from 'loglevel';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
-import { InvalidateTokenType } from '../scigateway.types';
+import { InvalidateTokenType, ToggleDrawerType } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
 import { StateType } from '../state.types';
@@ -144,6 +144,17 @@ describe('scigateway middleware', () => {
     });
 
     expect(ReactGA.testModeAPI.calls.length).toEqual(3);
+  });
+
+  it('should also send request plugin rerender action when ToggleDrawer action is sent', () => {
+    const toggleDrawerAction = {
+      type: ToggleDrawerType,
+    };
+    ScigatewayMiddleware(store)(store.dispatch)(toggleDrawerAction);
+
+    expect(store.getActions().length).toEqual(2);
+    expect(store.getActions()[0]).toEqual(toggleDrawerAction);
+    expect(store.getActions()[1]).toEqual(requestPluginRerenderAction);
   });
 
   it('should listen for events and fire registerroute action', () => {

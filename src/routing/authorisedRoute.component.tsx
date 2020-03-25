@@ -1,8 +1,6 @@
 import React, { Component, ComponentType } from 'react';
 import { Redirect } from 'react-router-dom';
 import { StateType, AuthState } from '../state/state.types';
-import { AnyAction, Dispatch } from 'redux';
-import { requestPluginRerender } from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 
@@ -10,10 +8,6 @@ interface WithAuthProps {
   loading: boolean;
   loggedIn: boolean;
   location: string;
-}
-
-interface WithAuthDispatchProps {
-  requestPluginRerender: () => AnyAction;
 }
 
 const isStartingUpOrLoading = (auth: AuthState): boolean =>
@@ -25,21 +19,11 @@ const mapStateToProps = (state: StateType): WithAuthProps => ({
   location: state.router.location.pathname,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
-  requestPluginRerender: () => dispatch(requestPluginRerender()),
-});
-
 // generator function to create an authentication layer around the given component
 export default function withAuth(
   ComponentToProtect: ComponentType
 ): ComponentType {
-  class WithAuthComponent extends Component<
-    WithAuthProps & WithAuthDispatchProps
-  > {
-    public componentDidMount(): void {
-      this.props.requestPluginRerender();
-    }
-
+  class WithAuthComponent extends Component<WithAuthProps> {
     public render(): React.ReactElement {
       const { props } = this;
       return (
@@ -61,5 +45,5 @@ export default function withAuth(
     }
   }
 
-  return connect(mapStateToProps, mapDispatchToProps)(WithAuthComponent);
+  return connect(mapStateToProps)(WithAuthComponent);
 }

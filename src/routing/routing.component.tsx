@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   withStyles,
   createStyles,
@@ -47,6 +47,15 @@ export const PluginPlaceHolder = (id: string): (() => React.ReactElement) =>
   /* eslint-disable-next-line react/display-name */
   () => <div id={id}>{id} failed to load correctly</div>;
 
+export class PluginRoute extends React.PureComponent<{ plugin: PluginConfig }> {
+  public render(): React.ReactNode {
+    const p = this.props.plugin;
+    return (
+      <Route path={p.link} component={withAuth(PluginPlaceHolder(p.plugin))} />
+    );
+  }
+}
+
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>
 > {
@@ -66,11 +75,7 @@ class Routing extends React.Component<
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
           {this.props.plugins.map(p => (
-            <Route
-              key={`${p.section}_${p.link}`}
-              path={p.link}
-              component={withAuth(PluginPlaceHolder(p.plugin))}
-            />
+            <PluginRoute key={`${p.section}_${p.link}`} plugin={p} />
           ))}
           <Route component={withAuth(PageNotFound)} />
         </Switch>

@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Routing component renders a route for a plugin 1`] = `
+<Route
+  component={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(WithAuthComponent)",
+      "type": [Function],
+    }
+  }
+  path="test-link"
+/>
+`;
+
 exports[`Routing component renders component with no plugin routes 1`] = `
 <div
   className="container-class"
@@ -103,31 +118,29 @@ exports[`Routing component renders component with plugins 1`] = `
       exact={true}
       path="/cookies"
     />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
+    <PluginRoute
       key="test section_test link"
-      path="test link"
-    />
-    <Route
-      component={
+      plugin={
         Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
+          "displayName": "Test Plugin",
+          "link": "test link",
+          "order": 1,
+          "plugin": "test_plugin_name",
+          "section": "test section",
         }
       }
+    />
+    <PluginRoute
       key="test section 2_test link 2"
-      path="test link 2"
+      plugin={
+        Object {
+          "displayName": "Test Plugin 2",
+          "link": "test link 2",
+          "order": 2,
+          "plugin": "test_plugin_name_2",
+          "section": "test section 2",
+        }
+      }
     />
     <Route
       component={
