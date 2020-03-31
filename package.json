@@ -97,7 +97,7 @@
     "@babel/core": "^7.9.0",
     "@storybook/addon-actions": "^5.3.14",
     "@storybook/addon-info": "^5.1.10",
-    "@storybook/addon-links": "^5.1.10",
+    "@storybook/addon-links": "^5.3.18",
     "@storybook/addons": "^5.1.10",
     "@storybook/react": "^5.1.10",
     "@types/classnames": "^2.2.10",
