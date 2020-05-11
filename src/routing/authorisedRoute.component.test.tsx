@@ -7,6 +7,7 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
+import { requestPluginRerender } from '../state/actions/scigateway.actions';
 
 describe('AuthorisedRoute component', () => {
   let shallow;
@@ -31,6 +32,7 @@ describe('AuthorisedRoute component', () => {
   });
 
   it('renders component when user logged in', () => {
+    state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
@@ -43,6 +45,7 @@ describe('AuthorisedRoute component', () => {
   });
 
   it('renders redirect when user not logged in', () => {
+    state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
@@ -53,6 +56,7 @@ describe('AuthorisedRoute component', () => {
   });
 
   it('renders nothing when site is loading due to LoadingAuthProvider', () => {
+    state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new LoadingAuthProvider();
 
@@ -63,11 +67,44 @@ describe('AuthorisedRoute component', () => {
   });
 
   it('renders nothing when site is loading due to loading prop', () => {
+    state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = true;
 
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it('renders nothing when site is loading due to siteLoading prop', () => {
+    state.scigateway.siteLoading = true;
+
+    const AuthorisedComponent = withAuth(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('dispatches requestPluginRerender action when loading or logged in state changes', () => {
+    state.scigateway.authorisation.loading = false;
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+
+    const testStore = mockStore(state);
+
+    const AuthorisedComponent = withAuth(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={testStore} />);
+
+    wrapper.setProps({ loading: false });
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(requestPluginRerender());
+
+    testStore.clearActions();
+    wrapper.setProps({ loggedIn: false });
+    wrapper.setProps({ loggedIn: true });
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(requestPluginRerender());
   });
 });

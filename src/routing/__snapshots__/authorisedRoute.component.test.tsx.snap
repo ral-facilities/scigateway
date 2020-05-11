@@ -3,10 +3,10 @@
 exports[`AuthorisedRoute component renders component when user logged in 1`] = `
 <div>
   <ComponentToProtect
-    dispatch={[Function]}
     loading={false}
     location="/"
     loggedIn={true}
+    requestPluginRerender={[Function]}
     store={
       Object {
         "clearActions": [Function],
@@ -24,6 +24,8 @@ exports[`AuthorisedRoute component renders component when user logged in 1`] = `
 exports[`AuthorisedRoute component renders nothing when site is loading due to LoadingAuthProvider 1`] = `<div />`;
 
 exports[`AuthorisedRoute component renders nothing when site is loading due to loading prop 1`] = `<div />`;
+
+exports[`AuthorisedRoute component renders nothing when site is loading due to siteLoading prop 1`] = `<div />`;
 
 exports[`AuthorisedRoute component renders redirect when user not logged in 1`] = `
 <div>

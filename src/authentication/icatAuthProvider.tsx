@@ -41,7 +41,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         const payload: { sessionId: string; username: string } = JSON.parse(
           parseJwt(res.data)
         );
-        console.log(payload);
         this.storeUser(payload.username);
         return;
       })
