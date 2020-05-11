@@ -26,6 +26,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
+  LoadedAuthType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -116,6 +117,14 @@ export const handleLoadingAuth = (state: ScigatewayState): ScigatewayState => ({
   authorisation: {
     ...state.authorisation,
     loading: true,
+  },
+});
+
+export const handleLoadedAuth = (state: ScigatewayState): ScigatewayState => ({
+  ...state,
+  authorisation: {
+    ...state.authorisation,
+    loading: false,
   },
 });
 
@@ -322,6 +331,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
   [LoadingAuthType]: handleLoadingAuth,
+  [LoadedAuthType]: handleLoadedAuth,
   [LoadAuthProviderType]: handleAuthProviderUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,

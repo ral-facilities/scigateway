@@ -5,10 +5,19 @@ import parseJwt from './parseJwt';
 
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
+  public autoLogin: Promise<void>;
 
   public constructor(mnemonic: string | undefined) {
     super();
     this.mnemonic = mnemonic || '';
+    if (this.mnemonic === '') {
+      this.mnemonic = 'anon';
+      this.autoLogin = this.logIn('', '').finally(() => {
+        this.mnemonic = '';
+      });
+    } else {
+      this.autoLogin = Promise.resolve();
+    }
   }
 
   public logIn(username: string, password: string): Promise<void> {
@@ -32,6 +41,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         const payload: { sessionId: string; username: string } = JSON.parse(
           parseJwt(res.data)
         );
+        console.log(payload);
         this.storeUser(payload.username);
         return;
       })
