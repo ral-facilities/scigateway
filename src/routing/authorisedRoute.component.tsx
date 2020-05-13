@@ -20,25 +20,25 @@ const mapStateToProps = (state: StateType): WithAuthProps => ({
 });
 
 // generator function to create an authentication layer around the given component
-export default function withAuth(
-  ComponentToProtect: ComponentType
-): ComponentType {
+export default function withAuth<T>(
+  ComponentToProtect: ComponentType<T>
+): ComponentType<T> {
   class WithAuthComponent extends Component<WithAuthProps> {
     public render(): React.ReactElement {
-      const { props } = this;
+      const { loading, loggedIn, location, ...componentProps } = this.props;
       return (
         <div>
-          {!props.loading && !props.loggedIn ? (
+          {!loading && !loggedIn ? (
             <Redirect
               push
               to={{
                 pathname: '/login',
-                state: { referrer: props.location },
+                state: { referrer: location },
               }}
             />
           ) : null}
-          {!props.loading && props.loggedIn ? (
-            <ComponentToProtect {...this.props} />
+          {!loading && loggedIn ? (
+            <ComponentToProtect {...(componentProps as T)} />
           ) : null}
         </div>
       );

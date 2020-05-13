@@ -4,9 +4,6 @@ exports[`AuthorisedRoute component renders component when user logged in 1`] = `
 <div>
   <ComponentToProtect
     dispatch={[Function]}
-    loading={false}
-    location="/"
-    loggedIn={true}
     store={
       Object {
         "clearActions": [Function],
