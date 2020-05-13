@@ -77,7 +77,7 @@ class Routing extends React.Component<
               render={() => <AuthorisedPlugin id={p.plugin} />}
             />
           ))}
-          <Route component={PageNotFound} />
+          <Route component={withAuth(PageNotFound)} />
         </Switch>
       </div>
     );
