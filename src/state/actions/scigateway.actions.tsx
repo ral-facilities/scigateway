@@ -17,7 +17,9 @@ import {
   DismissNotificationPayload,
   RequestPluginRerenderType,
   AuthProviderPayload,
+  AuthUrlPayload,
   LoadAuthProviderType,
+  LoadAuthUrlType,
   SiteLoadingType,
   SiteLoadingPayload,
   ConfigureAnalyticsPayload,
@@ -83,6 +85,13 @@ export const loadAuthProvider = (
   },
 });
 
+export const loadAuthUrl = (authUrl: string): ActionType<AuthUrlPayload> => ({
+  type: LoadAuthUrlType,
+  payload: {
+    authUrl,
+  },
+});
+
 export const unauthorised = (): Action => ({
   type: AuthFailureType,
 });
@@ -131,6 +140,12 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         if (settings['ga-tracking-id']) {
           dispatch(configureAnalytics(settings['ga-tracking-id']));
+        }
+
+        if ('authUrl' in settings) {
+          dispatch(loadAuthUrl(settings['authUrl']));
+        } else {
+          throw new Error('authUrl is undefined in settings');
         }
 
         dispatch(loadAuthProvider(settings['auth-provider']));

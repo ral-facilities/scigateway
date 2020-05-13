@@ -35,5 +35,6 @@
   ],
   "ui-strings": "res/default.json",
   "auth-provider": "jwt",
+  "authUrl": "http://scigateway-preprod.esc.rl.ac.uk:8000/api",
   "ga-tracking-id": "UA-XXXX-Y"
 }

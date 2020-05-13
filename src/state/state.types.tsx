@@ -28,6 +28,7 @@ export interface ScigatewayState {
   showHelp: boolean;
   helpSteps: Step[];
   authorisation: AuthState;
+  authUrl: string;
   res?: ApplicationStrings;
   features: FeatureSwitches;
   analytics?: AnalyticsState;
