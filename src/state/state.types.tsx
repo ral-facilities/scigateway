@@ -28,7 +28,6 @@ export interface ScigatewayState {
   showHelp: boolean;
   helpSteps: Step[];
   authorisation: AuthState;
-  authUrl: string;
   res?: ApplicationStrings;
   features: FeatureSwitches;
   analytics?: AnalyticsState;
@@ -66,6 +65,7 @@ export interface AuthProvider {
   verifyLogIn: () => Promise<void>;
   refresh: () => Promise<void>;
   redirectUrl: string | null;
+  authUrl: string | undefined;
   user: User | null;
   mnemonic?: string;
 }

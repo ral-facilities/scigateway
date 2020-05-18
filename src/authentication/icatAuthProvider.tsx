@@ -6,8 +6,11 @@ import parseJwt from './parseJwt';
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
 
-  public constructor(mnemonic: string | undefined) {
-    super();
+  public constructor(
+    mnemonic: string | undefined,
+    authUrl: string | undefined
+  ) {
+    super(authUrl);
     this.mnemonic = mnemonic || '';
   }
 

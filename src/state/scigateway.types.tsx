@@ -94,10 +94,7 @@ export interface DismissNotificationPayload {
 
 export interface AuthProviderPayload {
   authProvider: string;
-}
-
-export interface AuthUrlPayload {
-  authUrl: string;
+  authUrl: string | undefined;
 }
 
 export interface SiteLoadingPayload {

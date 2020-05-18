@@ -4,8 +4,9 @@ import BaseAuthProvider from './baseAuthProvider';
 import ReactGA from 'react-ga';
 
 export default class GithubAuthProvider extends BaseAuthProvider {
-  public constructor() {
-    super();
+  public constructor(authUrl: string | undefined) {
+    super(authUrl);
+    this.authUrl = authUrl;
     this.redirectUrl =
       'https://github.com/login/oauth/authorize?client_id=9fb0c571fd7b71e383b4';
   }
@@ -19,7 +20,9 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       return Promise.resolve();
     }
 
-    return Axios.post('/api/github/authenticate', { code: params.code })
+    return Axios.post(`${this.authUrl}/github/authenticate`, {
+      code: params.code,
+    })
       .then(res => {
         ReactGA.event({
           category: 'Login',
@@ -39,7 +42,9 @@ export default class GithubAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Axios.post('/api/github/checkToken', { token: this.token })
+    return Axios.post(`${this.authUrl}/github/checkToken`, {
+      token: this.token,
+    })
       .then(res => {
         this.storeUser(res.data.username, res.data.avatar);
       })

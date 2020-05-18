@@ -16,7 +16,6 @@ import {
   InvalidateTokenType,
   AuthProviderPayload,
   LoadAuthProviderType,
-  LoadAuthUrlType,
   SiteLoadingPayload,
   SiteLoadingType,
   DismissNotificationType,
@@ -27,7 +26,6 @@ import {
   ToggleHelpType,
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
-  AuthUrlPayload,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -53,7 +51,6 @@ export const initialState: ScigatewayState = {
   showHelp: false,
   helpSteps: [],
   authorisation: authState,
-  authUrl: '',
   features: {
     showContactButton: true,
   },
@@ -211,15 +208,18 @@ export function handleAuthProviderUpdate(
   let provider = state.authorisation.provider;
   switch (payload.authProvider.split('.')[0]) {
     case 'jwt':
-      provider = new JWTAuthProvider();
+      provider = new JWTAuthProvider(payload.authUrl);
       break;
 
     case 'github':
-      provider = new GithubAuthProvider();
+      provider = new GithubAuthProvider(payload.authUrl);
       break;
 
     case 'icat':
-      provider = new ICATAuthProvider(payload.authProvider.split('.')[1]);
+      provider = new ICATAuthProvider(
+        payload.authProvider.split('.')[1],
+        payload.authUrl
+      );
       break;
 
     default:
@@ -227,6 +227,7 @@ export function handleAuthProviderUpdate(
         `Unrecognised auth provider: ${payload.authProvider}, this is a development issue as there is no implementation registered for this provider.`
       );
   }
+  provider.authUrl = payload.authUrl;
 
   return {
     ...state,
@@ -234,16 +235,6 @@ export function handleAuthProviderUpdate(
       ...resetAuth(state.authorisation),
       provider,
     },
-  };
-}
-
-export function handleAuthUrlUpdate(
-  state: ScigatewayState,
-  payload: AuthUrlPayload
-): ScigatewayState {
-  return {
-    ...state,
-    authUrl: payload.authUrl,
   };
 }
 
@@ -336,7 +327,6 @@ const ScigatewayReducer = createReducer(initialState, {
   [AuthFailureType]: handleUnsuccessfulLogin,
   [LoadingAuthType]: handleLoadingAuth,
   [LoadAuthProviderType]: handleAuthProviderUpdate,
-  [LoadAuthUrlType]: handleAuthUrlUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
   [InvalidateTokenType]: handleTokenExpiration,

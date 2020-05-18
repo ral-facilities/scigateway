@@ -6,6 +6,7 @@ import { AuthProvider } from '../state/state.types';
 export default class LoadingAuthProvider implements AuthProvider {
   public redirectUrl = null;
   public user = null;
+  public authUrl = undefined;
 
   public isLoggedIn(): boolean {
     return false;

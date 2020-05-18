@@ -10,11 +10,14 @@ export default abstract class BaseAuthProvider implements AuthProvider {
   protected token: string | null;
   public redirectUrl: string | null;
   public user: User | null;
+  public authUrl: string | undefined;
 
-  public constructor() {
+  public constructor(authUrl: string | undefined) {
     this.token = localStorage.getItem(tokenLocalStorageName);
     this.user = null;
     this.redirectUrl = null;
+    this.authUrl = authUrl;
+    console.log('authUrl in baseAuthProvider= ' + authUrl);
   }
 
   public isLoggedIn(): boolean {
