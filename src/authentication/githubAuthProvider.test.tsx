@@ -15,7 +15,9 @@ describe('github auth provider', () => {
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
-    authProvider = new GithubAuthProvider();
+    authProvider = new GithubAuthProvider(
+      'http://scigateway-preprod.esc.rl.ac.uk:8000/api'
+    );
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
   });
 

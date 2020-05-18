@@ -17,7 +17,6 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     this.user = null;
     this.redirectUrl = null;
     this.authUrl = authUrl;
-    console.log('authUrl in baseAuthProvider= ' + authUrl);
   }
 
   public isLoggedIn(): boolean {
