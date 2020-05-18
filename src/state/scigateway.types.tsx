@@ -4,7 +4,6 @@ export const AuthSuccessType = 'scigateway:auth_success';
 export const AuthFailureType = 'scigateway:auth_failure';
 export const LoadingAuthType = 'scigateway:loading_auth';
 export const LoadAuthProviderType = 'scigateway:loading_auth_provider';
-export const LoadAuthUrlType = 'scigateway:loading_auth_url';
 export const InvalidateTokenType = 'scigateway:api:invalidate_token';
 export const ConfigureStringsType = 'scigateway:configure_strings';
 export const LoginType = 'scigateway:login';
