@@ -12,6 +12,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   ) {
     super(authUrl);
     this.mnemonic = mnemonic || '';
+    this.authUrl = authUrl;
   }
 
   public logIn(username: string, password: string): Promise<void> {
@@ -19,7 +20,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       return Promise.resolve();
     }
 
-    return Axios.post('/login', {
+    return Axios.post(`${this.authUrl}/login`, {
       mnemonic: this.mnemonic,
       credentials: {
         username,
@@ -48,7 +49,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Axios.post('/verify', {
+    return Axios.post(`${this.authUrl}/verify`, {
       token: this.token,
     })
       .then(() => {})
@@ -56,7 +57,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public refresh(): Promise<void> {
-    return Axios.post('/refresh', {
+    return Axios.post(`${this.authUrl}/refresh`, {
       token: this.token,
     })
       .then(res => {
