@@ -252,9 +252,11 @@ export const LoginSelector = (
   );
 };
 
-function fetchMnemonics(): Promise<ICATAuthenticator[]> {
+function fetchMnemonics(
+  authUrl: string | undefined
+): Promise<ICATAuthenticator[]> {
   return axios
-    .get('/authenticators')
+    .get(`${authUrl}/authenticators`)
     .then(res => {
       return res.data;
     })
@@ -283,7 +285,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
-      fetchMnemonics().then(mnemonics => {
+      fetchMnemonics(props.auth.provider.authUrl).then(mnemonics => {
         const nonAdminAuthenticators = mnemonics.filter(
           authenticator => !authenticator.admin
         );
@@ -293,7 +295,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           changeMnemonic(nonAdminAuthenticators[0].mnemonic);
       });
     }
-  }, [changeMnemonic, mnemonic, fetchedMnemonics]);
+  }, [changeMnemonic, mnemonic, fetchedMnemonics, props.auth.provider.authUrl]);
 
   React.useEffect(() => {
     if (
