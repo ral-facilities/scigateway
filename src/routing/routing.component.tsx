@@ -43,18 +43,14 @@ interface RoutingProps {
   drawerOpen: boolean;
 }
 
-export const PluginPlaceHolder = (id: string): (() => React.ReactElement) =>
-  /* eslint-disable-next-line react/display-name */
-  () => <div id={id}>{id} failed to load correctly</div>;
-
-export class PluginRoute extends React.PureComponent<{ plugin: PluginConfig }> {
+export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
   public render(): React.ReactNode {
-    const p = this.props.plugin;
-    return (
-      <Route path={p.link} component={withAuth(PluginPlaceHolder(p.plugin))} />
-    );
+    const { id } = this.props;
+    return <div id={id}>{id} failed to load correctly</div>;
   }
 }
+
+export const AuthorisedPlugin = withAuth(PluginPlaceHolder);
 
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>
@@ -75,7 +71,11 @@ class Routing extends React.Component<
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
           {this.props.plugins.map(p => (
-            <PluginRoute key={`${p.section}_${p.link}`} plugin={p} />
+            <Route
+              key={`${p.section}_${p.link}`}
+              path={p.link}
+              render={() => <AuthorisedPlugin id={p.plugin} />}
+            />
           ))}
           <Route component={withAuth(PageNotFound)} />
         </Switch>
