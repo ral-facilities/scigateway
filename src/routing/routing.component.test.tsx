@@ -1,11 +1,12 @@
 import React from 'react';
-import Routing, { PluginPlaceHolder, PluginRoute } from './routing.component';
-import { createShallow } from '@material-ui/core/test-utils';
+import Routing, { PluginPlaceHolder } from './routing.component';
+import { createShallow, createMount } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router';
+import { Provider } from 'react-redux';
 
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
@@ -14,6 +15,7 @@ jest.mock('@material-ui/core/styles', () => ({
 
 describe('Routing component', () => {
   let shallow;
+  let mount;
   let mockStore;
   let state: StateType;
   const classes = {
@@ -23,6 +25,7 @@ describe('Routing component', () => {
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'div' });
+    mount = createMount();
 
     state = {
       scigateway: initialState,
@@ -69,26 +72,30 @@ describe('Routing component', () => {
   });
 
   it('renders a route for a plugin', () => {
-    shallow = createShallow({ untilSelector: 'PluginRoute' });
-    const wrapper = shallow(
-      <MemoryRouter initialEntries={['/test-link']}>
-        <PluginRoute
-          plugin={{
-            section: 'test section',
-            link: 'test-link',
-            plugin: 'test_plugin_name',
-            displayName: 'Test Plugin',
-            order: 1,
-          }}
-        />
-      </MemoryRouter>
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: '/test_link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        order: 1,
+      },
+    ];
+    const wrapper = mount(
+      <Provider store={mockStore(state)}>
+        <MemoryRouter
+          initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
+        >
+          <Routing classes={classes} />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(wrapper).toMatchSnapshot();
   });
 
   it('renders placeholder for a plugin', () => {
-    const wrapper = shallow(PluginPlaceHolder('test_id')());
+    const wrapper = shallow(<PluginPlaceHolder id="test_id" />);
     expect(wrapper).toMatchSnapshot();
   });
 });

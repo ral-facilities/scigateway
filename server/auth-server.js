@@ -5,6 +5,7 @@ const qs = require('query-string');
 const cookieParser = require('cookie-parser');
 const https = require('https');
 const fs = require('fs');
+const waitOn = require('wait-on');
 
 const app = express();
 const port = 8000;
@@ -183,21 +184,33 @@ app.post(`${authUrl}/github/checkToken`, function(req, res) {
 });
 
 if (process.env.HTTPS) {
-  https
-    .createServer(
-      {
-        key: fs.readFileSync(
-          './node_modules/webpack-dev-server/ssl/server.pem'
-        ),
-        cert: fs.readFileSync(
-          './node_modules/webpack-dev-server/ssl/server.pem'
-        ),
-      },
-      app
-    )
-    .listen(port, () =>
-      console.log(`Example app listening to HTTPS traffic on port ${port}!`)
-    );
+  waitOn({
+    resources: ['./node_modules/webpack-dev-server/ssl/server.pem'],
+    timeout: 30000,
+  })
+    .then(() => {
+      https
+        .createServer(
+          {
+            key: fs.readFileSync(
+              './node_modules/webpack-dev-server/ssl/server.pem'
+            ),
+            cert: fs.readFileSync(
+              './node_modules/webpack-dev-server/ssl/server.pem'
+            ),
+          },
+          app
+        )
+        .listen(port, () =>
+          console.log(`Example app listening to HTTPS traffic on port ${port}!`)
+        );
+    })
+    .catch(() => {
+      console.error(
+        `Error: could not find auto-generated webpack-dev-server certificate when attempting to start HTTPS server`
+      );
+      process.exit(1);
+    });
 } else {
   app.listen(port, () =>
     console.log(`Example app listening to HTTP traffic on port ${port}!`)
