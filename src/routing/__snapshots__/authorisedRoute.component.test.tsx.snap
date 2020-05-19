@@ -3,7 +3,6 @@
 exports[`AuthorisedRoute component renders component when user logged in 1`] = `
 <div>
   <ComponentToProtect
-    requestPluginRerender={[Function]}
     store={
       Object {
         "clearActions": [Function],

@@ -39,7 +39,13 @@ export default function withAuth<T>(
 ): ComponentType<T> {
   class WithAuthComponent extends Component<WithAuthProps> {
     public render(): React.ReactElement {
-      const { loading, loggedIn, location, ...componentProps } = this.props;
+      const {
+        loading,
+        loggedIn,
+        location,
+        requestPluginRerender,
+        ...componentProps
+      } = this.props;
       return (
         <div>
           {!loading && !loggedIn ? (
