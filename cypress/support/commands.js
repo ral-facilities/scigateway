@@ -25,12 +25,12 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('login', (username, password) => {
-  return cy
-    .request('POST', '/api/jwt/authenticate', {
+  return cy.readFile('server/e2e-settings.json').then(settings => {
+    cy.request('POST', `${settings.authUrl}/api/jwt/authenticate`, {
       username: username,
       password: password,
-    })
-    .then(response => {
+    }).then(response => {
       window.localStorage.setItem('scigateway:token', response.body.token);
     });
+  });
 });

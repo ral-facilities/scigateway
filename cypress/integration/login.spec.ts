@@ -118,6 +118,7 @@ describe('Login', () => {
         plugins: [],
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
+        authUrl: 'http://scigateway-preprod.esc.rl.ac.uk:8000',
         'help-tour-steps': [],
       });
       cy.route('/authenticators', [
