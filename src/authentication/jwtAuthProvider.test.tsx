@@ -15,9 +15,7 @@ describe('jwt auth provider', () => {
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
-    jwtAuthProvider = new JWTAuthProvider(
-      'http://scigateway-preprod.esc.rl.ac.uk:8000/api'
-    );
+    jwtAuthProvider = new JWTAuthProvider('http://localhost:8000');
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
   });
 
@@ -100,7 +98,7 @@ describe('jwt auth provider', () => {
     await jwtAuthProvider.verifyLogIn();
 
     expect(mockAxios.post).toBeCalledWith(
-      'http://scigateway-preprod.esc.rl.ac.uk:8000/api/jwt/checkToken',
+      'http://localhost:8000/api/jwt/checkToken',
       {
         token: 'token',
       }
@@ -135,7 +133,7 @@ describe('jwt auth provider', () => {
     await jwtAuthProvider.refresh();
 
     expect(mockAxios.post).toHaveBeenCalledWith(
-      'http://scigateway-preprod.esc.rl.ac.uk:8000/api/jwt/refresh',
+      'http://localhost:8000/api/jwt/refresh',
       {
         token: 'token',
       }
