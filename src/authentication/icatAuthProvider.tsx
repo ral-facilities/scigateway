@@ -12,9 +12,12 @@ export default class ICATAuthProvider extends BaseAuthProvider {
     this.mnemonic = mnemonic || '';
     if (this.mnemonic === '') {
       this.mnemonic = 'anon';
-      this.autoLogin = this.logIn('', '').finally(() => {
-        this.mnemonic = '';
-      });
+      this.autoLogin = this.logIn('', '')
+        .then(() => localStorage.setItem('autoLogin', 'true'))
+        .catch(() => localStorage.setItem('autoLogin', 'false'))
+        .finally(() => {
+          this.mnemonic = '';
+        });
     } else {
       this.autoLogin = Promise.resolve();
     }
@@ -35,9 +38,10 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       .then(res => {
         ReactGA.event({
           category: 'Login',
-          action: 'Sucessfully logged in via JWT',
+          action: 'Successfully logged in via JWT',
         });
         this.storeToken(res.data);
+        localStorage.setItem('autoLogin', 'false');
         const payload: { sessionId: string; username: string } = JSON.parse(
           parseJwt(res.data)
         );

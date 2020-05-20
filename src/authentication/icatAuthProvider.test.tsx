@@ -9,7 +9,6 @@ describe('ICAT auth provider', () => {
   let icatAuthProvider: ICATAuthProvider;
 
   beforeEach(() => {
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation(name =>
@@ -68,13 +67,14 @@ describe('ICAT auth provider', () => {
       credentials: { username: 'user', password: 'password' },
     });
     expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
     expect(icatAuthProvider.user.username).toBe('token username');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Sucessfully logged in via JWT',
+      eventAction: 'Successfully logged in via JWT',
       eventCategory: 'Login',
       hitType: 'event',
     });
@@ -126,13 +126,50 @@ describe('ICAT auth provider', () => {
       credentials: { username: '', password: '' },
     });
     expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'true');
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
     expect(icatAuthProvider.user.username).toBe('token username');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Sucessfully logged in via JWT',
+      eventAction: 'Successfully logged in via JWT',
+      eventCategory: 'Login',
+      hitType: 'event',
+    });
+
+    expect(icatAuthProvider.mnemonic).toBe('');
+  });
+
+  it('should set autoLogin to false if autoLogin fails', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    // ensure token is null
+    window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
+
+    icatAuthProvider = new ICATAuthProvider(undefined);
+    expect(icatAuthProvider.mnemonic).toBe('anon');
+    expect(icatAuthProvider.autoLogin).toBeDefined();
+
+    await icatAuthProvider.autoLogin;
+
+    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+      mnemonic: 'anon',
+      credentials: { username: '', password: '' },
+    });
+
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
+
+    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
+    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
+      eventAction: 'Failed to log in via JWT',
       eventCategory: 'Login',
       hitType: 'event',
     });
