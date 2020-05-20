@@ -301,7 +301,7 @@ describe('scigateway actions', () => {
     };
     const state = JSON.parse(JSON.stringify(initialState));
     let testAuthProvider = new TestAuthProvider(null);
-    testAuthProvider.autoLogin = Promise.resolve();
+    testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({ scigateway: state });
 
@@ -311,7 +311,7 @@ describe('scigateway actions', () => {
     expect(actions).toContainEqual(authorised());
 
     actions = [];
-    testAuthProvider.autoLogin = Promise.reject();
+    testAuthProvider.autoLogin = () => Promise.reject();
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(loadingAuthentication());
@@ -342,7 +342,7 @@ describe('scigateway actions', () => {
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementation(() => Promise.reject());
-    testAuthProvider.autoLogin = Promise.resolve();
+    testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({ scigateway: state });
 
@@ -352,7 +352,7 @@ describe('scigateway actions', () => {
     expect(actions).toContainEqual(authorised());
 
     actions = [];
-    testAuthProvider.autoLogin = Promise.reject();
+    testAuthProvider.autoLogin = () => Promise.reject();
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(loadingAuthentication());

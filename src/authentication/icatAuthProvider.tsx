@@ -5,21 +5,25 @@ import parseJwt from './parseJwt';
 
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
-  public autoLogin: Promise<void>;
+  public autoLogin: () => Promise<void>;
 
   public constructor(mnemonic: string | undefined) {
     super();
     this.mnemonic = mnemonic || '';
     if (this.mnemonic === '') {
       this.mnemonic = 'anon';
-      this.autoLogin = this.logIn('', '')
-        .then(() => localStorage.setItem('autoLogin', 'true'))
-        .catch(() => localStorage.setItem('autoLogin', 'false'))
-        .finally(() => {
-          this.mnemonic = '';
-        });
+      this.autoLogin = () =>
+        this.logIn('', '')
+          .then(() => localStorage.setItem('autoLogin', 'true'))
+          .catch(err => {
+            localStorage.setItem('autoLogin', 'false');
+            throw err;
+          })
+          .finally(() => {
+            this.mnemonic = '';
+          });
     } else {
-      this.autoLogin = Promise.resolve();
+      this.autoLogin = () => Promise.resolve();
     }
   }
 
@@ -72,6 +76,8 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       .then(res => {
         this.storeToken(res.data);
       })
-      .catch(err => this.handleAuthError(err));
+      .catch(err => {
+        this.handleRefreshError(err);
+      });
   }
 }

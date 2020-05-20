@@ -67,7 +67,7 @@ export interface AuthProvider {
   redirectUrl: string | null;
   user: User | null;
   mnemonic?: string;
-  autoLogin?: Promise<void>;
+  autoLogin?: () => Promise<void>;
 }
 
 export interface AuthState {

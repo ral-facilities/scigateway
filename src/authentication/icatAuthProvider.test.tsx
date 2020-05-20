@@ -30,7 +30,7 @@ describe('ICAT auth provider', () => {
 
   it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
     icatAuthProvider = new ICATAuthProvider(undefined);
-    await icatAuthProvider.autoLogin;
+    await icatAuthProvider.autoLogin();
     expect(icatAuthProvider.mnemonic).toBe('');
   });
 
@@ -119,7 +119,7 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
-    await icatAuthProvider.autoLogin;
+    await icatAuthProvider.autoLogin();
 
     expect(mockAxios.post).toHaveBeenCalledWith('/login', {
       mnemonic: 'anon',
@@ -157,7 +157,7 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
-    await icatAuthProvider.autoLogin;
+    await icatAuthProvider.autoLogin().catch(() => {});
 
     expect(mockAxios.post).toHaveBeenCalledWith('/login', {
       mnemonic: 'anon',

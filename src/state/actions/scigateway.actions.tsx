@@ -160,7 +160,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
               if (provider.autoLogin) {
                 dispatch(loadingAuthentication());
                 loadingPromises.push(
-                  provider.autoLogin
+                  provider
+                    .autoLogin()
                     .then(() => {
                       dispatch(authorised());
                     })
@@ -177,7 +178,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         } else if (provider.autoLogin) {
           dispatch(loadingAuthentication());
           loadingPromises.push(
-            provider.autoLogin
+            provider
+              .autoLogin()
               .then(() => {
                 dispatch(authorised());
               })
