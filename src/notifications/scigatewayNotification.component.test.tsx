@@ -14,7 +14,7 @@ function createScigatewayNotification(
   severity: string,
   message: string
 ): React.ReactElement {
-  let props = {
+  const props = {
     classes: {
       root: 'root-class',
       successIcon: 'successIcon-class',

@@ -288,7 +288,7 @@ const updateHelpSteps = (
   existingHelpSteps: Step[],
   newSteps: Step[]
 ): Step[] => {
-  let newHelpSteps = [...existingHelpSteps];
+  const newHelpSteps = [...existingHelpSteps];
 
   newSteps.forEach(newStep => {
     if (

@@ -11,7 +11,9 @@ export default class LoadingAuthProvider implements AuthProvider {
     return false;
   }
 
-  public logOut(): void {}
+  public logOut(): void {
+    // do nothing
+  }
 
   public logIn(): Promise<void> {
     return Promise.reject('still loading auth provider');

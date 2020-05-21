@@ -67,7 +67,7 @@ describe('Notification Badge component', () => {
   });
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
-    let state = { scigateway: initialState };
+    const state = { scigateway: initialState };
     state.scigateway.notifications = props.notifications;
     const testStore = mockStore(state);
 
@@ -95,7 +95,7 @@ describe('Notification Badge component', () => {
   });
 
   it('opens menu when button clicked and closes menu when there are no more notifications', () => {
-    let state = { scigateway: initialState };
+    const state = { scigateway: initialState };
     state.scigateway.notifications = props.notifications;
 
     let testStore = mockStore(state);

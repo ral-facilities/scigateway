@@ -45,7 +45,9 @@ describe('scigateway middleware', () => {
 
   beforeEach(() => {
     events = [];
-    handler = () => {};
+    handler = () => {
+      // to be defined
+    };
 
     document.dispatchEvent = (e: Event) => {
       events.push(e as CustomEvent<AnyAction>);
@@ -219,7 +221,7 @@ describe('scigateway middleware', () => {
   it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {
     listenToPlugins(store.dispatch, store.getState as () => StateType);
 
-    let registerRouteActionWithHelp = {
+    const registerRouteActionWithHelp = {
       ...registerRouteAction,
       payload: {
         ...registerRouteAction.payload,
@@ -253,7 +255,7 @@ describe('scigateway middleware', () => {
     it('should listen for notification events and fire notification action even if no severity', () => {
       listenToPlugins(store.dispatch, store.getState as () => StateType);
 
-      let notificationAction = {
+      const notificationAction = {
         type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
@@ -270,7 +272,7 @@ describe('scigateway middleware', () => {
     it('should listen for notification events and fire notification action for success event', () => {
       listenToPlugins(store.dispatch, store.getState as () => StateType);
 
-      let notificationAction = {
+      const notificationAction = {
         type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
@@ -289,7 +291,7 @@ describe('scigateway middleware', () => {
       toastr.error = jest.fn();
       listenToPlugins(store.dispatch, store.getState as () => StateType);
 
-      let notificationAction = {
+      const notificationAction = {
         type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',
@@ -309,7 +311,7 @@ describe('scigateway middleware', () => {
       toastr.warning = jest.fn();
       listenToPlugins(store.dispatch, store.getState as () => StateType);
 
-      let notificationAction = {
+      const notificationAction = {
         type: 'scigateway:api:notification',
         payload: {
           message: 'test notification',

@@ -48,7 +48,9 @@ export default class ICATAuthProvider extends BaseAuthProvider {
     return Axios.post('/verify', {
       token: this.token,
     })
-      .then(() => {})
+      .then(() => {
+        // do nothing
+      })
       .catch(() => this.refresh());
   }
 
