@@ -95,6 +95,36 @@ describe('Login', () => {
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
   });
 
+  it('should login given username with leading or trailing whitespace', () => {
+    cy.visit('/login');
+    cy.get('button[aria-label="Open navigation menu"]').should(
+      'not.be.visible'
+    );
+
+    cy.contains('Username*')
+      .parent()
+      .find('input')
+      .type(' username ');
+    cy.contains('Password*')
+      .parent()
+      .find('input')
+      .type('password');
+
+    cy.contains('Username*')
+      .parent()
+      .parent()
+      .contains('button', 'Sign in')
+      .click();
+
+    cy.url().should('eq', 'http://127.0.0.1:3000/');
+
+    cy.window().then(
+      window =>
+        expect(window.localStorage.getItem('scigateway:token')).not.be.null
+    );
+    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+  });
+
   it('should logout successfully', () => {
     cy.login('username', 'password');
     cy.visit('/');
