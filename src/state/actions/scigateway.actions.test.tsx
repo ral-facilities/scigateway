@@ -234,7 +234,7 @@ describe('scigateway actions', () => {
     };
 
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider('token');
+    const testAuthProvider = new TestAuthProvider('token');
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementationOnce(() => Promise.resolve());

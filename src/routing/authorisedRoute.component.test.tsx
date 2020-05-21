@@ -12,7 +12,7 @@ describe('AuthorisedRoute component', () => {
   let shallow;
   let mockStore;
   let state: StateType;
-  let ComponentToProtect = (): React.ReactElement => (
+  const ComponentToProtect = (): React.ReactElement => (
     <div>protected component</div>
   );
 

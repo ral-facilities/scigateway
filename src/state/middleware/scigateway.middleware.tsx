@@ -89,7 +89,6 @@ export const listenToPlugins = (
         case InvalidateTokenType:
           getState()
             .scigateway.authorisation.provider.refresh()
-            .then(() => {})
             .catch(() => dispatch(pluginMessage.detail));
           break;
         default:

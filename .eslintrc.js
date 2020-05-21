@@ -25,15 +25,24 @@ module.exports = {
         trailingComma: 'es5',
       },
     ],
-    'ter-indent': [true, 2],
-    '@typescript-eslint/explicit-function-return-type': [
-      'error',
-      {
-        allowExpressions: true,
-        allowTypedFunctionExpressions: true,
-      },
-    ],
+    // disable for all files - this means we can have plain JS files not causing errors
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
+  overrides: [
+    {
+      // and enable again specifically for TS files
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': [
+          'error',
+          {
+            allowExpressions: true,
+            allowTypedFunctionExpressions: true,
+          },
+        ],
+      },
+    },
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

@@ -91,7 +91,9 @@ describe('ICAT auth provider', () => {
     // ensure the token is null
     icatAuthProvider.logOut();
 
-    await icatAuthProvider.logIn('user', 'invalid').catch(() => {});
+    await icatAuthProvider.logIn('user', 'invalid').catch(() => {
+      // catch error
+    });
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
@@ -158,7 +160,9 @@ describe('ICAT auth provider', () => {
       })
     );
 
-    await icatAuthProvider.refresh().catch(() => {});
+    await icatAuthProvider.refresh().catch(() => {
+      // catch error
+    });
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();

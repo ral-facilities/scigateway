@@ -144,7 +144,7 @@ describe('scigateway reducer', () => {
     const action = loadingAuthentication();
     expect(state.authorisation.loading).toBeFalsy();
 
-    let updatedState = ScigatewayReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
     expect(updatedState.authorisation.loading).toBeTruthy();
   });
 
@@ -152,7 +152,7 @@ describe('scigateway reducer', () => {
     const action = authorised();
     state.authorisation.provider = new TestAuthProvider(null);
 
-    let updatedState = ScigatewayReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
     expect(
@@ -165,7 +165,7 @@ describe('scigateway reducer', () => {
     const action = unauthorised();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
-    let updatedState = ScigatewayReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeTruthy();
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
@@ -175,7 +175,7 @@ describe('scigateway reducer', () => {
     const action = invalidToken();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
-    let updatedState = ScigatewayReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
 
     expect(
       updatedState.authorisation.signedOutDueToTokenInvalidation
@@ -187,7 +187,7 @@ describe('scigateway reducer', () => {
     state.authorisation.provider = new TestAuthProvider('signed in');
     expect(state.authorisation.provider.isLoggedIn()).toBeTruthy();
 
-    let updatedState = ScigatewayReducer(state, { type: SignOutType });
+    const updatedState = ScigatewayReducer(state, { type: SignOutType });
 
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
@@ -275,7 +275,7 @@ describe('scigateway reducer', () => {
       ],
     };
 
-    let updatedState = ScigatewayReducer(notificationsInState, action);
+    const updatedState = ScigatewayReducer(notificationsInState, action);
     const updatedNotificationsInState = [
       { message: 'message 1', severity: 'warning' },
       { message: 'message 2', severity: 'error' },
@@ -385,7 +385,10 @@ describe('scigateway reducer', () => {
   it('should set the analytics id state for a configureAnalytics message', () => {
     expect(state.analytics).toBeFalsy();
 
-    let updatedState = ScigatewayReducer(state, configureAnalytics('test id'));
+    const updatedState = ScigatewayReducer(
+      state,
+      configureAnalytics('test id')
+    );
     expect(updatedState.analytics.id).toEqual('test id');
     expect(updatedState.analytics.initialised).toBeFalsy();
   });
@@ -393,7 +396,7 @@ describe('scigateway reducer', () => {
   it('should set the analytics initalised state for an initialiseAnalytics message', () => {
     state.analytics = { id: 'test id', initialised: false };
 
-    let updatedState = ScigatewayReducer(state, initialiseAnalytics());
+    const updatedState = ScigatewayReducer(state, initialiseAnalytics());
     expect(updatedState.analytics.initialised).toBeTruthy();
   });
 
@@ -401,7 +404,7 @@ describe('scigateway reducer', () => {
     delete state.analytics;
     log.error = jest.fn();
 
-    let updatedState = ScigatewayReducer(state, initialiseAnalytics());
+    const updatedState = ScigatewayReducer(state, initialiseAnalytics());
     expect(updatedState.analytics).toBeUndefined();
 
     expect(log.error).toHaveBeenCalled();
