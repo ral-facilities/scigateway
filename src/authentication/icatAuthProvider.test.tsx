@@ -163,7 +163,9 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
-    await icatAuthProvider.autoLogin().catch(() => {});
+    await icatAuthProvider.autoLogin().catch(() => {
+      // catch error
+    });
 
     expect(mockAxios.post).toHaveBeenCalledWith('/login', {
       mnemonic: 'anon',
