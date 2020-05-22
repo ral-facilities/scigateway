@@ -28,7 +28,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public logIn(username: string, password: string): Promise<void> {
-    if (this.isLoggedIn()) {
+    if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {
       return Promise.resolve();
     }
 

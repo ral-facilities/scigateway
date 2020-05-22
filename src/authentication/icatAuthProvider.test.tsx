@@ -11,9 +11,15 @@ describe('ICAT auth provider', () => {
   beforeEach(() => {
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
-        name === 'scigateway:token' ? 'token' : null
-      );
+      .mockImplementation(name => {
+        if (name === 'scigateway:token') {
+          return 'token';
+        } else if (name === 'autoLogin') {
+          return 'false';
+        } else {
+          return null;
+        }
+      });
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
@@ -179,8 +185,8 @@ describe('ICAT auth provider', () => {
 
   it('should set autologin to resolved promise if mnemonic is set', async () => {
     icatAuthProvider = new ICATAuthProvider('mnemonic');
-    expect(icatAuthProvider.autoLogin).toBeDefined();
-    return expect(icatAuthProvider.autoLogin).resolves;
+    expect(icatAuthProvider.autoLogin()).toBeDefined();
+    return expect(icatAuthProvider.autoLogin()).resolves;
   });
 
   it('should call api to verify token', async () => {

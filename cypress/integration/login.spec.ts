@@ -255,5 +255,23 @@ describe('Login', () => {
       cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
+
+    it('should be able to login after auto login and be displayed as logged in', () => {
+      cy.visit('/login');
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('anon').click();
+
+      cy.get('#select-mnemonic')
+        .parent()
+        .parent()
+        .parent()
+        .contains('button', 'Sign in')
+        .click();
+
+      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.contains('Sign in').should('not.be.visible');
+      cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
   });
 });
