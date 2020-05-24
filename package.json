@@ -98,7 +98,7 @@
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-info": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
-    "@storybook/addons": "^5.3.18",
+    "@storybook/addons": "^5.3.19",
     "@storybook/preset-create-react-app": "^2.1.2",
     "@storybook/react": "^5.3.18",
     "@types/classnames": "^2.2.10",
