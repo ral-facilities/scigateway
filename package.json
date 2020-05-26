@@ -144,7 +144,7 @@
     "prettier": "^2.0.5",
     "redux-mock-store": "^1.5.3",
     "serve": "^11.3.1",
-    "start-server-and-test": "^1.10.11",
+    "start-server-and-test": "^1.11.0",
     "storybook-react-router": "^1.0.5",
     "wait-on": "^5.0.0"
   }
