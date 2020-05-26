@@ -20,9 +20,8 @@ const mapStateToProps = (state: StateType): WithAuthProps => ({
 });
 
 // generator function to create an authentication layer around the given component
-export default function withAuth<T>(
-  ComponentToProtect: ComponentType<T>
-): ComponentType<T> {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export default function withAuth<T>(ComponentToProtect: ComponentType<T>) {
   class WithAuthComponent extends Component<WithAuthProps> {
     public render(): React.ReactElement {
       const { loading, loggedIn, location, ...componentProps } = this.props;
