@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from 'react';
+import React, { Component, ComponentType, NamedExoticComponent } from 'react';
 import { Redirect } from 'react-router-dom';
 import { StateType, AuthState } from '../state/state.types';
 import { connect } from 'react-redux';
@@ -20,8 +20,9 @@ const mapStateToProps = (state: StateType): WithAuthProps => ({
 });
 
 // generator function to create an authentication layer around the given component
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default function withAuth<T>(ComponentToProtect: ComponentType<T>) {
+export default function withAuth<T>(
+  ComponentToProtect: ComponentType<T>
+): NamedExoticComponent<T> {
   class WithAuthComponent extends Component<WithAuthProps> {
     public render(): React.ReactElement {
       const { loading, loggedIn, location, ...componentProps } = this.props;
