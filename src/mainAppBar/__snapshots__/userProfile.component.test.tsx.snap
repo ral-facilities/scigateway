@@ -82,6 +82,29 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
 </div>
 `;
 
+exports[`User profile component renders sign in button if user signed in via autoLogin 1`] = `
+<div
+  className="tour-user-profile"
+>
+  <WithStyles(ForwardRef(Button))
+    className="UserProfileComponent-button-1"
+    onClick={[Function]}
+  >
+    <WithStyles(ForwardRef(Typography))
+      color="inherit"
+      noWrap={true}
+      style={
+        Object {
+          "marginTop": 3,
+        }
+      }
+    >
+      login-button
+    </WithStyles(ForwardRef(Typography))>
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
+
 exports[`User profile component renders user avatar if signed in with avatar url 1`] = `
 <div
   className="tour-user-profile"

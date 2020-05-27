@@ -47,6 +47,6 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       .then(res => {
         this.storeToken(res.data.token);
       })
-      .catch(err => this.handleAuthError(err));
+      .catch(err => this.handleRefreshError(err));
   }
 }

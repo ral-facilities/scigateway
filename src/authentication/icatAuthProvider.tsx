@@ -5,14 +5,30 @@ import parseJwt from './parseJwt';
 
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
+  public autoLogin: () => Promise<void>;
 
   public constructor(mnemonic: string | undefined) {
     super();
     this.mnemonic = mnemonic || '';
+    if (this.mnemonic === '') {
+      this.mnemonic = 'anon';
+      this.autoLogin = () =>
+        this.logIn('', '')
+          .then(() => localStorage.setItem('autoLogin', 'true'))
+          .catch(err => {
+            localStorage.setItem('autoLogin', 'false');
+            throw err;
+          })
+          .finally(() => {
+            this.mnemonic = '';
+          });
+    } else {
+      this.autoLogin = () => Promise.resolve();
+    }
   }
 
   public logIn(username: string, password: string): Promise<void> {
-    if (this.isLoggedIn()) {
+    if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {
       return Promise.resolve();
     }
 
@@ -26,9 +42,10 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       .then(res => {
         ReactGA.event({
           category: 'Login',
-          action: 'Sucessfully logged in via JWT',
+          action: 'Successfully logged in via JWT',
         });
         this.storeToken(res.data);
+        localStorage.setItem('autoLogin', 'false');
         const payload: { sessionId: string; username: string } = JSON.parse(
           parseJwt(res.data)
         );
@@ -61,6 +78,8 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       .then(res => {
         this.storeToken(res.data);
       })
-      .catch(err => this.handleAuthError(err));
+      .catch(err => {
+        this.handleRefreshError(err);
+      });
   }
 }

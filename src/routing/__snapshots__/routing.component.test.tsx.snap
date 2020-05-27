@@ -114,11 +114,11 @@ exports[`Routing component renders a route for a plugin 1`] = `
                   id="test_plugin_name"
                 >
                   <WithAuthComponent
-                    dispatch={[Function]}
                     id="test_plugin_name"
                     loading={true}
                     location="/"
                     loggedIn={false}
+                    requestPluginRerender={[Function]}
                   >
                     <div />
                   </WithAuthComponent>

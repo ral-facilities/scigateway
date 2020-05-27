@@ -14,6 +14,7 @@ import {
   toggleHelp,
   addHelpTourSteps,
   invalidToken,
+  loadedAuthentication,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -148,6 +149,15 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.loading).toBeTruthy();
   });
 
+  it('loaded authentication should update loading state', () => {
+    const action = loadedAuthentication();
+    state.authorisation.loading = true;
+    expect(state.authorisation.loading).toBeTruthy();
+
+    let updatedState = ScigatewayReducer(state, action);
+    expect(updatedState.authorisation.loading).toBeFalsy();
+  });
+
   it('successful log in should reset failure flags', () => {
     const action = authorised();
     state.authorisation.provider = new TestAuthProvider(null);
@@ -205,6 +215,14 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       GithubAuthProvider
     );
+
+    // mock localstorage so that ICAT authenticator thinks it's already logged in
+    // therefore won't trigger autologin, and do some HTTP request shenanigans
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation(name =>
+        name === 'scigateway:token' ? 'token' : null
+      );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider('icat'));
 

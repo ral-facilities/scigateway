@@ -185,4 +185,123 @@ describe('Login', () => {
       cy.contains('Sign In').should('not.be.disabled');
     });
   });
+
+  describe('autoLogin', () => {
+    beforeEach(() => {
+      cy.server();
+      cy.route('/settings.json', {
+        plugins: [
+          {
+            name: 'demo_plugin',
+            src: '/plugins/e2e-plugin/main.js',
+            enable: true,
+            location: 'main',
+          },
+        ],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'icat',
+        'help-tour-steps': [],
+      });
+      cy.route('/authenticators', [
+        {
+          mnemonic: 'user/pass',
+          keys: [{ name: 'username' }, { name: 'password' }],
+        },
+        {
+          mnemonic: 'anon',
+          keys: [],
+        },
+      ]);
+      cy.route(
+        'POST',
+        '/login',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk'
+      );
+      cy.route('POST', '/verify', '');
+    });
+
+    it('should show the sidebar and yet still show the Sign in button', () => {
+      cy.visit('/');
+
+      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.contains('Sign in').should('be.visible');
+
+      // test that token verification also works with autologin
+      cy.reload();
+      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.contains('Sign in').should('be.visible');
+
+      // test that autologin works after token valididation + refresh fail
+      cy.route({ method: 'POST', url: '/verify', status: 403 });
+      cy.route({ method: 'POST', url: '/refresh', status: 403 });
+      cy.reload();
+      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.contains('Sign in').should('be.visible');
+    });
+
+    it('should not display as logged in if autologin requests fail', () => {
+      cy.route({
+        method: 'POST',
+        url: '/login',
+        status: 403,
+      });
+
+      cy.visit('/');
+
+      cy.get('button[aria-label="Open navigation menu"]').should(
+        'not.be.visible'
+      );
+      cy.contains('Sign in').should('be.visible');
+
+      // test that autologin fails after token validation + refresh fail
+      cy.route({ method: 'POST', url: '/verify', status: 403 });
+      cy.route({ method: 'POST', url: '/refresh', status: 403 });
+      cy.window().then($window =>
+        $window.localStorage.setItem('scigateway:token', 'invalidtoken')
+      );
+      cy.reload();
+      cy.get('button[aria-label="Open navigation menu"]').should(
+        'not.be.visible'
+      );
+      cy.contains('Sign in').should('be.visible');
+    });
+
+    it('should be able to directly view a plugin route without signing in', () => {
+      cy.visit('/plugin1');
+
+      cy.get('#demo_plugin')
+        .contains('Demo Plugin')
+        .should('be.visible');
+    });
+
+    it('should be able to switch authenticators and still be "auto logged in"', () => {
+      cy.visit('/login');
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('anon').click();
+
+      cy.contains('SciGateway').click();
+
+      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.contains('Sign in').should('be.visible');
+    });
+
+    it('should be able to login after auto login and be displayed as logged in', () => {
+      cy.visit('/login');
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('anon').click();
+
+      cy.get('#select-mnemonic')
+        .parent()
+        .parent()
+        .parent()
+        .contains('button', 'Sign in')
+        .click();
+
+      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.contains('Sign in').should('not.be.visible');
+      cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+  });
 });

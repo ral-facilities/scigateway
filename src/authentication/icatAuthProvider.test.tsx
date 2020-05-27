@@ -9,12 +9,17 @@ describe('ICAT auth provider', () => {
   let icatAuthProvider: ICATAuthProvider;
 
   beforeEach(() => {
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
-        name === 'scigateway:token' ? 'token' : null
-      );
+      .mockImplementation(name => {
+        if (name === 'scigateway:token') {
+          return 'token';
+        } else if (name === 'autoLogin') {
+          return 'false';
+        } else {
+          return null;
+        }
+      });
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
@@ -29,8 +34,9 @@ describe('ICAT auth provider', () => {
     ReactGA.testModeAPI.resetCalls();
   });
 
-  it('should set the mnemonic to empty string if none is provided', () => {
+  it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
     icatAuthProvider = new ICATAuthProvider(undefined);
+    await icatAuthProvider.autoLogin();
     expect(icatAuthProvider.mnemonic).toBe('');
   });
 
@@ -67,13 +73,14 @@ describe('ICAT auth provider', () => {
       credentials: { username: 'user', password: 'password' },
     });
     expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
     expect(icatAuthProvider.user.username).toBe('token username');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Sucessfully logged in via JWT',
+      eventAction: 'Successfully logged in via JWT',
       eventCategory: 'Login',
       hitType: 'event',
     });
@@ -104,6 +111,86 @@ describe('ICAT auth provider', () => {
       eventCategory: 'Login',
       hitType: 'event',
     });
+  });
+
+  it('should attempt to autologin via anon authenticator when initialised', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: 'token',
+      })
+    );
+
+    // ensure token is null
+    window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
+
+    icatAuthProvider = new ICATAuthProvider(undefined);
+    expect(icatAuthProvider.mnemonic).toBe('anon');
+    expect(icatAuthProvider.autoLogin).toBeDefined();
+
+    await icatAuthProvider.autoLogin();
+
+    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+      mnemonic: 'anon',
+      credentials: { username: '', password: '' },
+    });
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'true');
+
+    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(icatAuthProvider.user.username).toBe('token username');
+
+    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
+    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
+      eventAction: 'Successfully logged in via JWT',
+      eventCategory: 'Login',
+      hitType: 'event',
+    });
+
+    expect(icatAuthProvider.mnemonic).toBe('');
+  });
+
+  it('should set autoLogin to false if autoLogin fails', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    // ensure token is null
+    window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
+
+    icatAuthProvider = new ICATAuthProvider(undefined);
+    expect(icatAuthProvider.mnemonic).toBe('anon');
+    expect(icatAuthProvider.autoLogin).toBeDefined();
+
+    await icatAuthProvider.autoLogin().catch(() => {
+      // catch error
+    });
+
+    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+      mnemonic: 'anon',
+      credentials: { username: '', password: '' },
+    });
+
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
+
+    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
+    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
+      eventAction: 'Failed to log in via JWT',
+      eventCategory: 'Login',
+      hitType: 'event',
+    });
+
+    expect(icatAuthProvider.mnemonic).toBe('');
+  });
+
+  it('should set autologin to resolved promise if mnemonic is set', async () => {
+    icatAuthProvider = new ICATAuthProvider('mnemonic');
+    expect(icatAuthProvider.autoLogin()).toBeDefined();
+    return expect(icatAuthProvider.autoLogin()).resolves;
   });
 
   it('should call api to verify token', async () => {

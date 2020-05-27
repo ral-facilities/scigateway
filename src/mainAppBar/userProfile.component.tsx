@@ -154,7 +154,12 @@ export const UserProfileComponentWithStyles = withStyles(styles)(
 );
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
-  loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  loggedIn:
+    state.scigateway.authorisation.provider.isLoggedIn() &&
+    !(
+      state.scigateway.authorisation.provider.autoLogin &&
+      localStorage.getItem('autoLogin') === 'true'
+    ),
   user:
     state.scigateway.authorisation.provider.user || new UserInfo('anonymous'),
   res: getAppStrings(state, 'login'),
