@@ -13139,10 +13139,10 @@ react-proptype-conditional-require@^1.0.4:
   resolved "https://registry.yarnpkg.com/react-proptype-conditional-require/-/react-proptype-conditional-require-1.0.4.tgz#69c2d5741e6df5e08f230f36bbc2944ee1222555"
   integrity sha1-acLVdB5t9eCPIw82u8KUTuEiJVU=
 
-react-redux-toastr@^7.5.1:
-  version "7.6.4"
-  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-7.6.4.tgz#a34e1c99c8b515ec21dfb4292fe687eec66b5603"
-  integrity sha512-BxDX4awy1Oc52p+xTrib23bzGhBp4wxoKnKeQilKY6aXAEnJU4YFUXK/Ag3hdimmn38j46PLvKiYWETFer9BbA==
+react-redux-toastr@^7.6.5:
+  version "7.6.5"
+  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-7.6.5.tgz#f2343b3d5f7c49193a9bc30cf76b6e39b3e06a9b"
+  integrity sha512-tbf8z18O85BGKXhDfYsgNmurbKlP9p7UXjtdBNS1wWqCAY0QNAyW1W5ulChPEFWoBWVzQywgMGIZ5j3an//srg==
   dependencies:
     classnames "^2.2.3"
     eventemitter3 "^3.1.0"
