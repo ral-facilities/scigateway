@@ -268,7 +268,7 @@ describe('Login page component', () => {
   it('login page displays and logs an error if fetchMnemonics fails', async () => {
     props.auth.provider.mnemonic = '';
     (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
-    let events: CustomEvent<AnyAction>[] = [];
+    const events: CustomEvent<AnyAction>[] = [];
 
     jest.spyOn(React, 'useEffect').mockImplementationOnce(f => f());
     const dispatchEventSpy = jest

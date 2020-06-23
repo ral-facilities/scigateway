@@ -51,4 +51,10 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     }
     throw err;
   }
+
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  protected handleRefreshError(err: any): void {
+    this.logOut();
+    throw err;
+  }
 }

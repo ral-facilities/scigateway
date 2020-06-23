@@ -57,6 +57,18 @@ describe('User profile component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/login'));
   });
 
+  it('renders sign in button if user signed in via autoLogin', () => {
+    state.scigateway.authorisation.provider.autoLogin = () => Promise.resolve();
+
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation(name => (name === 'autoLogin' ? 'true' : null));
+
+    const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
+    expect(wrapper).toMatchSnapshot();
+    expect(localStorage.getItem).toBeCalledWith('autoLogin');
+  });
+
   it('renders default avatar if signed in', () => {
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
     expect(wrapper).toMatchSnapshot();

@@ -21,8 +21,12 @@ jest.mock('popper.js', () => {
 
     public constructor() {
       return {
-        destroy: () => {},
-        scheduleUpdate: () => {},
+        destroy: () => {
+          // dummy
+        },
+        scheduleUpdate: () => {
+          // dummy
+        },
       };
     }
   };
@@ -102,7 +106,7 @@ describe('Tour component', () => {
       </MuiThemeProvider>
     );
 
-    let joyride: Joyride = wrapper.find('Joyride').instance();
+    const joyride: Joyride = wrapper.find('Joyride').instance();
     expect(joyride.state.index).toEqual(0);
 
     wrapper
@@ -130,7 +134,7 @@ describe('Tour component', () => {
       </MuiThemeProvider>
     );
 
-    let joyride: Joyride = wrapper.find('Joyride').instance();
+    const joyride: Joyride = wrapper.find('Joyride').instance();
     joyride.setState({ index: 1 });
     wrapper.update();
     expect(joyride.state.index).toEqual(1);
@@ -201,7 +205,7 @@ describe('Tour component', () => {
       </MuiThemeProvider>
     );
 
-    let joyride: Joyride = wrapper.find('Joyride').instance();
+    const joyride: Joyride = wrapper.find('Joyride').instance();
     expect(joyride.state.index).toEqual(0);
 
     wrapper
@@ -252,7 +256,7 @@ describe('Tour component', () => {
       </MuiThemeProvider>
     );
 
-    let joyride: Joyride = wrapper.find('Joyride').instance();
+    const joyride: Joyride = wrapper.find('Joyride').instance();
     joyride.setState({ index: 1 });
     wrapper.update();
     expect(joyride.state.index).toEqual(1);
@@ -293,7 +297,7 @@ describe('Tour component', () => {
       </MuiThemeProvider>
     );
 
-    let steps = wrapper.find('Joyride').prop('steps');
+    const steps = wrapper.find('Joyride').prop('steps');
     expect(steps.length).toEqual(2);
     expect(steps).not.toContainEqual({
       target: '#plugin-link-test',

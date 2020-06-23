@@ -381,7 +381,7 @@ const mapDispatchToProps = (
   dispatch: ThunkDispatch<StateType, null, AnyAction>
 ): LoginPageDispatchProps => ({
   verifyUsernameAndPassword: (username, password) =>
-    dispatch(verifyUsernameAndPassword(username, password)),
+    dispatch(verifyUsernameAndPassword(username.trim(), password)),
   changeMnemonic: mnemonic => dispatch(loadAuthProvider(`icat.${mnemonic}`)),
 });
 

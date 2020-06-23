@@ -6,6 +6,7 @@ export default class TestAuthProvider implements AuthProvider {
   public user = null;
   public mnemonic: string | undefined;
   public authUrl: string | undefined;
+  public autoLogin?: () => Promise<void>;
 
   public constructor(token: string | null) {
     this.token = token;

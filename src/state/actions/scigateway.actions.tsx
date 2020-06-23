@@ -13,6 +13,7 @@ import {
   ConfigureFeatureSwitchesType,
   FeatureSwitches,
   LoadingAuthType,
+  LoadedAuthType,
   DismissNotificationType,
   DismissNotificationPayload,
   RequestPluginRerenderType,
@@ -85,6 +86,14 @@ export const loadAuthProvider = (
   },
 });
 
+export const loadingAuthentication = (): Action => ({
+  type: LoadingAuthType,
+});
+
+export const loadedAuthentication = (): Action => ({
+  type: LoadedAuthType,
+});
+
 export const unauthorised = (): Action => ({
   type: AuthFailureType,
 });
@@ -141,8 +150,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         const loadingPromises = [];
 
-        // after auth provider is set then the token needs to be verified
         const provider = getState().scigateway.authorisation.provider;
+
+        // after auth provider is set then the token needs to be verified
+        // also attempt to auto login if the auth provider allows it
         if (provider.isLoggedIn()) {
           const verifyingLogin = provider
             .verifyLogIn()
@@ -150,10 +161,36 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
               dispatch(authorised());
             })
             .catch(() => {
-              dispatch(invalidToken());
+              if (provider.autoLogin) {
+                dispatch(loadingAuthentication());
+                loadingPromises.push(
+                  provider
+                    .autoLogin()
+                    .then(() => {
+                      dispatch(authorised());
+                    })
+                    .catch(() => {
+                      dispatch(invalidToken());
+                    })
+                );
+              } else {
+                dispatch(invalidToken());
+              }
             });
 
           loadingPromises.push(verifyingLogin);
+        } else if (provider.autoLogin) {
+          dispatch(loadingAuthentication());
+          loadingPromises.push(
+            provider
+              .autoLogin()
+              .then(() => {
+                dispatch(authorised());
+              })
+              .catch(() => {
+                dispatch(loadedAuthentication());
+              })
+          );
         }
 
         if (settings['features']) {
@@ -198,10 +235,6 @@ export const signOut = (): ThunkAction<
   dispatch({ type: SignOutType });
   dispatch(push('/'));
 };
-
-export const loadingAuthentication = (): Action => ({
-  type: LoadingAuthType,
-});
 
 export const verifyUsernameAndPassword = (
   username: string,

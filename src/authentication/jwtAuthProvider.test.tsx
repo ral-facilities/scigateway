@@ -79,7 +79,9 @@ describe('jwt auth provider', () => {
     // ensure the token is null
     jwtAuthProvider.logOut();
 
-    await jwtAuthProvider.logIn('user', 'invalid').catch(() => {});
+    await jwtAuthProvider.logIn('user', 'invalid').catch(() => {
+      // catch error
+    });
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
@@ -118,7 +120,9 @@ describe('jwt auth provider', () => {
       .spyOn(jwtAuthProvider, 'refresh')
       .mockImplementationOnce(() => Promise.resolve());
 
-    await jwtAuthProvider.verifyLogIn().catch(() => {});
+    await jwtAuthProvider.verifyLogIn().catch(() => {
+      // catch error
+    });
 
     expect(refreshSpy).toHaveBeenCalled();
   });
@@ -153,7 +157,9 @@ describe('jwt auth provider', () => {
       })
     );
 
-    await jwtAuthProvider.refresh().catch(() => {});
+    await jwtAuthProvider.refresh().catch(() => {
+      // catch error
+    });
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();

@@ -34,7 +34,9 @@ export default class JWTAuthProvider extends BaseAuthProvider {
     return Axios.post(`${this.authUrl}/api/jwt/checkToken`, {
       token: this.token,
     })
-      .then(() => {})
+      .then(() => {
+        // do nothing
+      })
       .catch(() => this.refresh());
   }
 
@@ -45,6 +47,6 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       .then(res => {
         this.storeToken(res.data.token);
       })
-      .catch(err => this.handleAuthError(err));
+      .catch(err => this.handleRefreshError(err));
   }
 }

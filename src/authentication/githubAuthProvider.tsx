@@ -48,7 +48,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       .then(res => {
         this.storeUser(res.data.username, res.data.avatar);
       })
-      .catch(err => super.handleAuthError(err));
+      .catch(err => super.handleRefreshError(err));
   }
 
   public refresh(): Promise<void> {

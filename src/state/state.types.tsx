@@ -68,6 +68,7 @@ export interface AuthProvider {
   authUrl: string | undefined;
   user: User | null;
   mnemonic?: string;
+  autoLogin?: () => Promise<void>;
 }
 
 export interface AuthState {

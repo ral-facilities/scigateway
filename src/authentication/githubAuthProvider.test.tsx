@@ -83,7 +83,9 @@ describe('github auth provider', () => {
       })
     );
 
-    await authProvider.logIn('', '?code=fake').catch(() => {});
+    await authProvider.logIn('', '?code=fake').catch(() => {
+      // catch error
+    });
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
@@ -105,7 +107,9 @@ describe('github auth provider', () => {
       })
     );
 
-    await authProvider.verifyLogIn().catch(() => {});
+    await authProvider.verifyLogIn().catch(() => {
+      //catch error
+    });
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();

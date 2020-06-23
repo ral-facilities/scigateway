@@ -15,6 +15,7 @@ import {
   toggleHelp,
   addHelpTourSteps,
   invalidToken,
+  loadedAuthentication,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -234,7 +235,7 @@ describe('scigateway actions', () => {
     };
 
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider('token');
+    const testAuthProvider = new TestAuthProvider('token');
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementationOnce(() => Promise.resolve());
@@ -277,6 +278,85 @@ describe('scigateway actions', () => {
     expect(actions.length).toEqual(5);
     expect(actions).toContainEqual(invalidToken());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
+  });
+
+  it("given an authenticator that supports autologin, autologin is attempted when user isn't logged in", async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    let actions: Action[] = [];
+    const dispatch = (action: Action): void | Promise<void> => {
+      if (typeof action === 'function') {
+        action(dispatch);
+        return Promise.resolve();
+      } else {
+        actions.push(action);
+      }
+    };
+    const state = JSON.parse(JSON.stringify(initialState));
+    let testAuthProvider = new TestAuthProvider(null);
+    testAuthProvider.autoLogin = () => Promise.resolve();
+    state.authorisation.provider = testAuthProvider;
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(loadingAuthentication());
+    expect(actions).toContainEqual(authorised());
+
+    actions = [];
+    testAuthProvider.autoLogin = () => Promise.reject();
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(loadingAuthentication());
+    expect(actions).toContainEqual(loadedAuthentication());
+  });
+
+  it('given an authenticator that supports autologin, autologin is attempted when user was logged in but verification failed', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    let actions: Action[] = [];
+    const dispatch = (action: Action): void | Promise<void> => {
+      if (typeof action === 'function') {
+        action(dispatch);
+        return Promise.resolve();
+      } else {
+        actions.push(action);
+      }
+    };
+    const state = JSON.parse(JSON.stringify(initialState));
+    let testAuthProvider = new TestAuthProvider('token');
+    testAuthProvider.verifyLogIn = jest
+      .fn()
+      .mockImplementation(() => Promise.reject());
+    testAuthProvider.autoLogin = () => Promise.resolve();
+    state.authorisation.provider = testAuthProvider;
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(loadingAuthentication());
+    expect(actions).toContainEqual(authorised());
+
+    actions = [];
+    testAuthProvider.autoLogin = () => Promise.reject();
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(loadingAuthentication());
+    expect(actions).toContainEqual(invalidToken());
   });
 
   it('given an index number dismissMenuItem returns a DismissNotificationType with payload', () => {

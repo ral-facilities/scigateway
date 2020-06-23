@@ -229,6 +229,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "loading": false,
           "provider": TestAuthProvider {
             "authUrl": undefined,
+            "autoLogin": undefined,
             "mnemonic": "anon",
             "redirectUrl": null,
             "token": null,
@@ -299,6 +300,7 @@ exports[`Login page component login page renders credential component if no redi
           "loading": false,
           "provider": TestAuthProvider {
             "authUrl": undefined,
+            "autoLogin": undefined,
             "mnemonic": undefined,
             "redirectUrl": null,
             "token": null,
@@ -355,6 +357,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "loading": false,
           "provider": TestAuthProvider {
             "authUrl": undefined,
+            "autoLogin": undefined,
             "mnemonic": "user/pass",
             "redirectUrl": null,
             "token": null,
@@ -425,6 +428,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
           "loading": false,
           "provider": TestAuthProvider {
             "authUrl": undefined,
+            "autoLogin": undefined,
             "mnemonic": "",
             "redirectUrl": null,
             "token": null,
@@ -500,6 +504,7 @@ exports[`Login page component login page renders redirect component if redirect 
           "loading": false,
           "provider": TestAuthProvider {
             "authUrl": undefined,
+            "autoLogin": undefined,
             "mnemonic": undefined,
             "redirectUrl": "test redirect",
             "token": null,
@@ -556,6 +561,7 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
           "loading": true,
           "provider": TestAuthProvider {
             "authUrl": undefined,
+            "autoLogin": undefined,
             "mnemonic": undefined,
             "redirectUrl": null,
             "token": null,
