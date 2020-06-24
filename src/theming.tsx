@@ -49,6 +49,8 @@ export interface UKRITheme extends Theme {
 export const buildTheme = (): Theme => {
   const options: UKRIThemeOptions = {
     palette: {
+      // Dark mode
+      type: 'dark',
       primary: {
         main: '#003088', // blue (deep palette)
       },

@@ -23,6 +23,7 @@ module.exports = {
       {
         singleQuote: true,
         trailingComma: 'es5',
+        endOfLine: 'auto',
       },
     ],
     // disable for all files - this means we can have plain JS files not causing errors

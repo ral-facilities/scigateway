@@ -91,7 +91,7 @@ const updatePlugins = (
   existingPlugins: PluginConfig[],
   payload: RegisterRoutePayload
 ): PluginConfig[] => {
-  if (!existingPlugins.some(p => p.link === payload.link)) {
+  if (!existingPlugins.some((p) => p.link === payload.link)) {
     return [...existingPlugins, buildPluginConfig(payload)];
   }
 
@@ -299,10 +299,10 @@ const updateHelpSteps = (
 ): Step[] => {
   const newHelpSteps = [...existingHelpSteps];
 
-  newSteps.forEach(newStep => {
+  newSteps.forEach((newStep) => {
     if (
       !existingHelpSteps.some(
-        existingStep => existingStep.target === newStep.target
+        (existingStep) => existingStep.target === newStep.target
       )
     ) {
       newHelpSteps.push(newStep);
