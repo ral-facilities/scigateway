@@ -37,7 +37,6 @@ describe('ICAT auth provider', () => {
     ReactGA.testModeAPI.resetCalls();
   });
 
-
   it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
     icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
     await icatAuthProvider.autoLogin();
@@ -127,13 +126,13 @@ describe('ICAT auth provider', () => {
     // ensure token is null
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
-    icatAuthProvider = new ICATAuthProvider(undefined);
+    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin();
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+    expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
       mnemonic: 'anon',
       credentials: { username: '', password: '' },
     });
@@ -165,7 +164,7 @@ describe('ICAT auth provider', () => {
     // ensure token is null
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
-    icatAuthProvider = new ICATAuthProvider(undefined);
+    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
@@ -173,7 +172,7 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+    expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
       mnemonic: 'anon',
       credentials: { username: '', password: '' },
     });
@@ -192,7 +191,10 @@ describe('ICAT auth provider', () => {
   });
 
   it('should set autologin to resolved promise if mnemonic is set', async () => {
-    icatAuthProvider = new ICATAuthProvider('mnemonic');
+    icatAuthProvider = new ICATAuthProvider(
+      'mnemonic',
+      'http://localhost:8000'
+    );
     expect(icatAuthProvider.autoLogin()).toBeDefined();
     return expect(icatAuthProvider.autoLogin()).resolves;
   });
