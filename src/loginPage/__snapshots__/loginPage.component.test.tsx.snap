@@ -243,6 +243,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "calls": Array [
             Array [
               "anon",
+              undefined,
             ],
           ],
           "results": Array [
@@ -371,6 +372,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "calls": Array [
             Array [
               "user/pass",
+              undefined,
             ],
           ],
           "results": Array [
