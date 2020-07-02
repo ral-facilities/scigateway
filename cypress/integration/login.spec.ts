@@ -26,7 +26,10 @@ describe('Login', () => {
   it('should not allow form submission given invalid credentials', () => {
     cy.visit('/login');
 
-    cy.contains('Username*').parent().find('input').as('usernameInput');
+    cy.contains('Username*')
+      .parent()
+      .find('input')
+      .as('usernameInput');
 
     cy.get('@usernameInput').type('username');
 
@@ -40,7 +43,10 @@ describe('Login', () => {
 
     cy.get('@usernameInput').clear();
 
-    cy.contains('Password*').parent().find('input').type('password');
+    cy.contains('Password*')
+      .parent()
+      .find('input')
+      .type('password');
 
     cy.get('@signInButton').should('be.disabled');
   });
@@ -48,8 +54,14 @@ describe('Login', () => {
   it('should not login given incorrect credentials', () => {
     cy.visit('/login');
 
-    cy.contains('Username*').parent().find('input').type('wrongusername');
-    cy.contains('Password*').parent().find('input').type('wrongpassword');
+    cy.contains('Username*')
+      .parent()
+      .find('input')
+      .type('wrongusername');
+    cy.contains('Password*')
+      .parent()
+      .find('input')
+      .type('wrongpassword');
 
     cy.contains('Username*')
       .parent()
@@ -67,8 +79,14 @@ describe('Login', () => {
       'not.be.visible'
     );
 
-    cy.contains('Username*').parent().find('input').type('username');
-    cy.contains('Password*').parent().find('input').type('password');
+    cy.contains('Username*')
+      .parent()
+      .find('input')
+      .type('username');
+    cy.contains('Password*')
+      .parent()
+      .find('input')
+      .type('password');
 
     cy.contains('Username*')
       .parent()
@@ -79,7 +97,7 @@ describe('Login', () => {
     cy.url().should('eq', 'http://127.0.0.1:3000/');
 
     cy.window().then(
-      (window) =>
+      window =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
@@ -92,8 +110,14 @@ describe('Login', () => {
       'not.be.visible'
     );
 
-    cy.contains('Username*').parent().find('input').type(' username ');
-    cy.contains('Password*').parent().find('input').type('password');
+    cy.contains('Username*')
+      .parent()
+      .find('input')
+      .type(' username ');
+    cy.contains('Password*')
+      .parent()
+      .find('input')
+      .type('password');
 
     cy.contains('Username*')
       .parent()
@@ -104,7 +128,7 @@ describe('Login', () => {
     cy.url().should('eq', 'http://127.0.0.1:3000/');
 
     cy.window().then(
-      (window) =>
+      window =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
@@ -122,8 +146,7 @@ describe('Login', () => {
     cy.contains('Sign in').should('be.visible');
 
     cy.window().then(
-      (window) =>
-        expect(window.localStorage.getItem('scigateway:token')).be.null
+      window => expect(window.localStorage.getItem('scigateway:token')).be.null
     );
   });
 
@@ -187,6 +210,7 @@ describe('Login', () => {
         ],
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
+        authUrl: 'http://localhost:8000',
         'help-tour-steps': [],
       });
       cy.route('/authenticators', [
@@ -243,7 +267,7 @@ describe('Login', () => {
       // test that autologin fails after token validation + refresh fail
       cy.route({ method: 'POST', url: '/verify', status: 403 });
       cy.route({ method: 'POST', url: '/refresh', status: 403 });
-      cy.window().then(($window) =>
+      cy.window().then($window =>
         $window.localStorage.setItem('scigateway:token', 'invalidtoken')
       );
       cy.reload();
@@ -256,7 +280,9 @@ describe('Login', () => {
     it('should be able to directly view a plugin route without signing in', () => {
       cy.visit('/plugin1');
 
-      cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
+      cy.get('#demo_plugin')
+        .contains('Demo Plugin')
+        .should('be.visible');
     });
 
     it('should be able to switch authenticators and still be "auto logged in"', () => {
