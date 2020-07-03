@@ -181,7 +181,7 @@ describe('Login page component', () => {
       })
     );
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce(f => f());
+    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -210,7 +210,7 @@ describe('Login page component', () => {
       })
     );
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce(f => f());
+    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -239,7 +239,7 @@ describe('Login page component', () => {
       })
     );
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce(f => f());
+    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -270,10 +270,10 @@ describe('Login page component', () => {
     (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce(f => f());
+    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
     const dispatchEventSpy = jest
       .spyOn(document, 'dispatchEvent')
-      .mockImplementation(e => {
+      .mockImplementation((e) => {
         events.push(e as CustomEvent<AnyAction>);
         return true;
       });

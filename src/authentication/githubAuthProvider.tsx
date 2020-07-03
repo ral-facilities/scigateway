@@ -23,7 +23,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
     return Axios.post(`${this.authUrl}/api/github/authenticate`, {
       code: params.code,
     })
-      .then(res => {
+      .then((res) => {
         ReactGA.event({
           category: 'Login',
           action: 'Sucessfully logged in via Github',
@@ -32,7 +32,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
         this.storeUser(res.data.username, res.data.avatar);
         return;
       })
-      .catch(err => {
+      .catch((err) => {
         ReactGA.event({
           category: 'Login',
           action: 'Failed to log in via Github',
@@ -45,10 +45,10 @@ export default class GithubAuthProvider extends BaseAuthProvider {
     return Axios.post(`${this.authUrl}/api/github/checkToken`, {
       token: this.token,
     })
-      .then(res => {
+      .then((res) => {
         this.storeUser(res.data.username, res.data.avatar);
       })
-      .catch(err => super.handleRefreshError(err));
+      .catch((err) => super.handleRefreshError(err));
   }
 
   public refresh(): Promise<void> {

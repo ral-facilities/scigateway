@@ -9,7 +9,7 @@ describe('jwt auth provider', () => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
+      .mockImplementation((name) =>
         name === 'scigateway:token' ? 'token' : null
       );
     window.localStorage.__proto__.removeItem = jest.fn();
