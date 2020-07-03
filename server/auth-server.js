@@ -85,7 +85,7 @@ app.post(`/api/jwt/authenticate`, function(req, res) {
   }
 });
 
-app.post(`/api/jwt/authenticate`, withAuth, function(req, res) {
+app.post(`/api/jwt/checkToken`, withAuth, function(req, res) {
   const { token } = req.body;
   if (jwt.verify(token, jwtSecret)) {
     res.sendStatus(200);
