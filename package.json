@@ -30,7 +30,7 @@
     "redux-thunk": "^2.3.0",
     "single-spa": "^5.5.3",
     "typeface-roboto": "0.0.75",
-    "typescript": "3.9.5"
+    "typescript": "3.9.6"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
