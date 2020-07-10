@@ -11,11 +11,14 @@ import { StateType } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { flushPromises } from '../../setupTests';
 import { initialState } from '../reducers/scigateway.reducer';
+import { buildTheme } from '../../theming';
 
 describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
   let handler: (event: Event) => void;
   let store: MockStoreEnhanced;
+
+  const theme = buildTheme();
 
   const action = {
     type: 'scigateway:api:test-action',
@@ -33,6 +36,14 @@ describe('scigateway middleware', () => {
       displayName: 'Demo Plugin Analysis',
       order: 4,
       broadcast: false,
+    },
+  };
+
+  const sendThemeOptionsAction = {
+    type: 'scigateway:api:send_themeoptions',
+    payload: {
+      theme,
+      broadcast: true,
     },
   };
 
@@ -165,8 +176,11 @@ describe('scigateway middleware', () => {
     handler(new CustomEvent('test', { detail: registerRouteAction }));
 
     expect(document.addEventListener).toHaveBeenCalled();
-    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions().length).toEqual(2);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
+    expect(JSON.stringify(store.getActions()[1])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
   });
 
   it('should listen for events and refresh token on invalidateToken message', async () => {
@@ -236,7 +250,7 @@ describe('scigateway middleware', () => {
     );
 
     expect(document.addEventListener).toHaveBeenCalled();
-    expect(store.getActions().length).toEqual(2);
+    expect(store.getActions().length).toEqual(3);
     expect(store.getActions()[0]).toEqual(registerRouteActionWithHelp);
     expect(store.getActions()[1]).toEqual({
       type: AddHelpTourStepsType,
@@ -249,6 +263,9 @@ describe('scigateway middleware', () => {
         ],
       },
     });
+    expect(JSON.stringify(store.getActions()[2])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
   });
 
   describe('notifications', () => {

@@ -67,7 +67,6 @@ export const listenToPlugins = (
           break;
 
         case RegisterRouteType:
-          console.log('Got RegisterRouteType: ', pluginMessage.detail);
           dispatch(pluginMessage.detail);
           if ('helpText' in pluginMessage.detail.payload) {
             dispatch(
@@ -127,7 +126,6 @@ const ScigatewayMiddleware: Middleware = ((
 ) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
   const state = store.getState();
   if (action.payload && action.payload.broadcast) {
-    console.log('Broadcasting: ', action);
     broadcastToPlugins(action);
   }
 
