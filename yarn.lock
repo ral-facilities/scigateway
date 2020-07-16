@@ -14363,10 +14363,10 @@ simplebar@^4.2.3:
     lodash.throttle "^4.1.1"
     resize-observer-polyfill "^1.5.1"
 
-single-spa@^5.5.4:
-  version "5.5.4"
-  resolved "https://registry.yarnpkg.com/single-spa/-/single-spa-5.5.4.tgz#154ad43548994b92fbade9506ac4142dfe0fc78b"
-  integrity sha512-Nivf1RaHBvAytKH2mbiySxdr9NUGSKA5LseB+N6Aaxvev6jUlRev1bRNnCKqYOBjRDzaW6V6C2082SGyDfsZCg==
+single-spa@^5.5.5:
+  version "5.5.5"
+  resolved "https://registry.yarnpkg.com/single-spa/-/single-spa-5.5.5.tgz#77a947516874d50b1e1a43aa6c316b550605d4fb"
+  integrity sha512-10YHGwETkAT6k9dkOTClig2h/R6yA5qvLdvk6i7Z4/PK8A2iD/pVvYKIud0aZVA69OzO1lrQOHB4VgT4t8/kXw==
 
 sisteransi@^1.0.3:
   version "1.0.4"
