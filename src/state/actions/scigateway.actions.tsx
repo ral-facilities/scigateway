@@ -28,12 +28,15 @@ import {
   AddHelpTourStepsType,
   AddHelpTourStepsPayload,
   InvalidateTokenType,
+  SendThemeOptionsType,
+  SendThemeOptionsPayload,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
 import { Step } from 'react-joyride';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -45,13 +48,13 @@ export const configureStrings = (
 });
 
 export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
-  return async dispatch => {
+  return async (dispatch) => {
     await axios
       .get(path)
-      .then(res => {
+      .then((res) => {
         dispatch(configureStrings(res.data));
       })
-      .catch(error =>
+      .catch((error) =>
         log.error(`Failed to read strings from ${path}: ${error}`)
       );
   };
@@ -130,7 +133,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     await axios
       .get(`/settings.json`)
-      .then(res => {
+      .then((res) => {
         const settings = res.data;
 
         // invalid settings.json - Use JSON.parse to give detailed error info
@@ -208,7 +211,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(siteLoadingUpdate(false));
         });
       })
-      .catch(error => {
+      .catch((error) => {
         log.error(`Error loading settings.json: ${error.message}`);
       });
   };
@@ -222,12 +225,9 @@ export const toggleHelp = (): Action => ({
   type: ToggleHelpType,
 });
 
-export const signOut = (): ThunkAction<
-  void,
-  StateType,
-  null,
-  AnyAction
-> => dispatch => {
+export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
+  dispatch
+) => {
   dispatch({ type: SignOutType });
   dispatch(push('/'));
 };
@@ -269,6 +269,16 @@ export const requestPluginRerender = (): ActionType<{
 }> => ({
   type: RequestPluginRerenderType,
   payload: {
+    broadcast: true,
+  },
+});
+
+export const sendThemeOptions = (
+  theme: Theme
+): ActionType<SendThemeOptionsPayload> => ({
+  type: SendThemeOptionsType,
+  payload: {
+    theme,
     broadcast: true,
   },
 });

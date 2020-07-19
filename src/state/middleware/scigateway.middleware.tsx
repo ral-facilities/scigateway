@@ -5,15 +5,21 @@ import {
   InvalidateTokenType,
   RequestPluginRerenderType,
   ToggleDrawerType,
+  SendThemeOptionsType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import {
   addHelpTourSteps,
   requestPluginRerender,
+  sendThemeOptions,
 } from '../actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
+import { buildTheme } from '../../theming';
+
+// Build theme to send the plugins.
+const theme = buildTheme();
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -43,7 +49,7 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
-  document.addEventListener(microFrontendMessageId, event => {
+  document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
     if (
@@ -55,6 +61,9 @@ export const listenToPlugins = (
       switch (pluginMessage.detail.type) {
         case RequestPluginRerenderType:
           //ignore events sent from the parent app
+          break;
+
+        case SendThemeOptionsType:
           break;
 
         case RegisterRouteType:
@@ -72,6 +81,9 @@ export const listenToPlugins = (
               ])
             );
           }
+
+          // Send theme options once registered.
+          dispatch(sendThemeOptions(theme));
           break;
 
         case NotificationType:
