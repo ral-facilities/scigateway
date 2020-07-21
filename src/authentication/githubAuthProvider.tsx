@@ -6,7 +6,6 @@ import ReactGA from 'react-ga';
 export default class GithubAuthProvider extends BaseAuthProvider {
   public constructor(authUrl: string | undefined) {
     super(authUrl);
-    this.authUrl = authUrl;
     this.redirectUrl =
       'https://github.com/login/oauth/authorize?client_id=9fb0c571fd7b71e383b4';
   }

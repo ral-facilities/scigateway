@@ -13,7 +13,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   ) {
     super(authUrl);
     this.mnemonic = mnemonic || '';
-    this.authUrl = authUrl;
     if (this.mnemonic === '') {
       this.mnemonic = 'anon';
       this.autoLogin = () =>

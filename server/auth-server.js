@@ -15,12 +15,6 @@ app.use(cookieParser());
 // this would normally be an environment variable
 const jwtSecret = 'abc123456789';
 
-let authUrl;
-axios.get(`/settings.json`).then(res => {
-  const settings = res.data;
-  authUrl = settings['authUrl'];
-});
-
 const withAuth = function(req, res, next) {
   const token =
     req.body.token ||
