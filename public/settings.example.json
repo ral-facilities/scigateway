@@ -35,6 +35,6 @@
   ],
   "ui-strings": "res/default.json",
   "auth-provider": "jwt",
-  "authUrl": "http://localhost:8000",
+  "authUrl": "http://localhost:3000",
   "ga-tracking-id": "UA-XXXX-Y"
 }
