@@ -228,6 +228,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "authUrl": undefined,
             "autoLogin": undefined,
             "mnemonic": "anon",
             "redirectUrl": null,
@@ -242,6 +243,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "calls": Array [
             Array [
               "anon",
+              undefined,
             ],
           ],
           "results": Array [
@@ -298,6 +300,7 @@ exports[`Login page component login page renders credential component if no redi
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "authUrl": undefined,
             "autoLogin": undefined,
             "mnemonic": undefined,
             "redirectUrl": null,
@@ -354,6 +357,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "authUrl": undefined,
             "autoLogin": undefined,
             "mnemonic": "user/pass",
             "redirectUrl": null,
@@ -368,6 +372,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "calls": Array [
             Array [
               "user/pass",
+              undefined,
             ],
           ],
           "results": Array [
@@ -424,6 +429,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "authUrl": undefined,
             "autoLogin": undefined,
             "mnemonic": "",
             "redirectUrl": null,
@@ -499,6 +505,7 @@ exports[`Login page component login page renders redirect component if redirect 
           "failedToLogin": false,
           "loading": false,
           "provider": TestAuthProvider {
+            "authUrl": undefined,
             "autoLogin": undefined,
             "mnemonic": undefined,
             "redirectUrl": "test redirect",
@@ -555,6 +562,7 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
           "failedToLogin": false,
           "loading": true,
           "provider": TestAuthProvider {
+            "authUrl": undefined,
             "autoLogin": undefined,
             "mnemonic": undefined,
             "redirectUrl": null,

@@ -9,13 +9,13 @@ describe('jwt auth provider', () => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
+      .mockImplementation((name) =>
         name === 'scigateway:token' ? 'token' : null
       );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
-    jwtAuthProvider = new JWTAuthProvider();
+    jwtAuthProvider = new JWTAuthProvider('http://localhost:8000');
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
   });
 
@@ -99,9 +99,12 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.verifyLogIn();
 
-    expect(mockAxios.post).toBeCalledWith('/api/jwt/checkToken', {
-      token: 'token',
-    });
+    expect(mockAxios.post).toBeCalledWith(
+      'http://localhost:8000/api/jwt/checkToken',
+      {
+        token: 'token',
+      }
+    );
   });
 
   it('should call refresh if the access token has expired', async () => {
@@ -133,9 +136,12 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.refresh();
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/api/jwt/refresh', {
-      token: 'token',
-    });
+    expect(mockAxios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/api/jwt/refresh',
+      {
+        token: 'token',
+      }
+    );
     expect(localStorage.setItem).toBeCalledWith(
       'scigateway:token',
       'new-token'

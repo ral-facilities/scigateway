@@ -217,15 +217,18 @@ export function handleAuthProviderUpdate(
   let provider = state.authorisation.provider;
   switch (payload.authProvider.split('.')[0]) {
     case 'jwt':
-      provider = new JWTAuthProvider();
+      provider = new JWTAuthProvider(payload.authUrl);
       break;
 
     case 'github':
-      provider = new GithubAuthProvider();
+      provider = new GithubAuthProvider(payload.authUrl);
       break;
 
     case 'icat':
-      provider = new ICATAuthProvider(payload.authProvider.split('.')[1]);
+      provider = new ICATAuthProvider(
+        payload.authProvider.split('.')[1],
+        payload.authUrl
+      );
       break;
 
     default:

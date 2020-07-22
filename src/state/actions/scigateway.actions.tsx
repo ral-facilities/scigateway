@@ -79,11 +79,13 @@ export const addHelpTourSteps = (
 });
 
 export const loadAuthProvider = (
-  authProvider: string
+  authProvider: string,
+  authUrl?: string
 ): ActionType<AuthProviderPayload> => ({
   type: LoadAuthProviderType,
   payload: {
     authProvider,
+    authUrl,
   },
 });
 
@@ -145,7 +147,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(configureAnalytics(settings['ga-tracking-id']));
         }
 
-        dispatch(loadAuthProvider(settings['auth-provider']));
+        dispatch(
+          loadAuthProvider(settings['auth-provider'], settings['authUrl'])
+        );
 
         const loadingPromises = [];
 

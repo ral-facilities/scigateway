@@ -90,7 +90,7 @@ interface LoginPageDispatchProps {
     username: string,
     password: string
   ) => Promise<void>;
-  changeMnemonic: (mnemonic: string) => void;
+  changeMnemonic: (mnemonic: string, authUrl: string | undefined) => void;
 }
 
 export type CombinedLoginProps = LoginPageProps &
@@ -135,7 +135,7 @@ export const CredentialsLoginScreen = (
   return (
     <div
       className={props.classes.root}
-      onKeyPress={e => {
+      onKeyPress={(e) => {
         if (
           !props.auth.provider.redirectUrl &&
           e.key === 'Enter' &&
@@ -159,14 +159,14 @@ export const CredentialsLoginScreen = (
         className={props.classes.textField}
         label={getString(props.res, 'username-placeholder')}
         value={username}
-        onChange={e => setUsername(e.currentTarget.value)}
+        onChange={(e) => setUsername(e.currentTarget.value)}
         disabled={props.auth.loading}
       />
       <TextField
         className={props.classes.textField}
         label={getString(props.res, 'password-placeholder')}
         value={password}
-        onChange={e => setPassword(e.currentTarget.value)}
+        onChange={(e) => setPassword(e.currentTarget.value)}
         type="password"
         disabled={props.auth.loading}
       />
@@ -192,7 +192,7 @@ export const AnonLoginScreen = (
 ): React.ReactElement => (
   <div
     className={props.classes.root}
-    onKeyPress={e => {
+    onKeyPress={(e) => {
       if (e.key === 'Enter') {
         props.verifyUsernameAndPassword('', '');
       }
@@ -229,6 +229,7 @@ export const LoginSelector = (
   const mnemonics = props.mnemonics;
   const mnemonic = props.auth.provider.mnemonic || '';
   const setMnemonic = props.changeMnemonic;
+  const authUrl = props.auth.provider.authUrl;
 
   return (
     <FormControl style={{ minWidth: 120 }}>
@@ -238,11 +239,11 @@ export const LoginSelector = (
         id="select-mnemonic"
         labelId="mnemonic-select"
         value={mnemonic}
-        onChange={e => {
-          setMnemonic(e.target.value as string);
+        onChange={(e) => {
+          setMnemonic(e.target.value as string, authUrl);
         }}
       >
-        {mnemonics.map(authenticator => (
+        {mnemonics.map((authenticator) => (
           <MenuItem key={authenticator.mnemonic} value={authenticator.mnemonic}>
             {authenticator.friendly || authenticator.mnemonic}
           </MenuItem>
@@ -252,13 +253,15 @@ export const LoginSelector = (
   );
 };
 
-function fetchMnemonics(): Promise<ICATAuthenticator[]> {
+function fetchMnemonics(
+  authUrl: string | undefined
+): Promise<ICATAuthenticator[]> {
   return axios
-    .get('/authenticators')
-    .then(res => {
+    .get(`${authUrl}/authenticators`)
+    .then((res) => {
       return res.data;
     })
-    .catch(err => {
+    .catch((err) => {
       log.error('Failed to fetch authenticator information from ICAT');
       document.dispatchEvent(
         new CustomEvent('scigateway', {
@@ -277,23 +280,24 @@ function fetchMnemonics(): Promise<ICATAuthenticator[]> {
 
 const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const mnemonic = props.auth.provider.mnemonic;
+  const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
 
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
-      fetchMnemonics().then(mnemonics => {
+      fetchMnemonics(authUrl).then((mnemonics) => {
         const nonAdminAuthenticators = mnemonics.filter(
-          authenticator => !authenticator.admin
+          (authenticator) => !authenticator.admin
         );
         setMnemonics(nonAdminAuthenticators);
         setFetchedMnemonics(true);
         if (nonAdminAuthenticators.length === 1)
-          changeMnemonic(nonAdminAuthenticators[0].mnemonic);
+          changeMnemonic(nonAdminAuthenticators[0].mnemonic, authUrl);
       });
     }
-  }, [changeMnemonic, mnemonic, fetchedMnemonics]);
+  }, [changeMnemonic, mnemonic, fetchedMnemonics, authUrl]);
 
   React.useEffect(() => {
     if (
@@ -318,7 +322,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   } else {
     if (
       mnemonics.find(
-        authenticator =>
+        (authenticator) =>
           authenticator.mnemonic === mnemonic && authenticator.keys.length === 0
       )
     ) {
@@ -326,19 +330,19 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       LoginScreen = <AnonLoginScreen {...props} />;
     } else if (
       mnemonics.find(
-        authenticator =>
+        (authenticator) =>
           authenticator.mnemonic === mnemonic &&
-          authenticator.keys.find(x => x.name === 'username') &&
-          authenticator.keys.find(x => x.name === 'password')
+          authenticator.keys.find((x) => x.name === 'username') &&
+          authenticator.keys.find((x) => x.name === 'password')
       )
     ) {
       // user/pass
       LoginScreen = <CredentialsLoginScreen {...props} />;
     } else if (
       mnemonics.find(
-        authenticator =>
+        (authenticator) =>
           authenticator.mnemonic === mnemonic &&
-          authenticator.keys.find(x => x.name === 'token')
+          authenticator.keys.find((x) => x.name === 'token')
       )
     ) {
       // redirect
@@ -380,7 +384,8 @@ const mapDispatchToProps = (
 ): LoginPageDispatchProps => ({
   verifyUsernameAndPassword: (username, password) =>
     dispatch(verifyUsernameAndPassword(username.trim(), password)),
-  changeMnemonic: mnemonic => dispatch(loadAuthProvider(`icat.${mnemonic}`)),
+  changeMnemonic: (mnemonic, authUrl) =>
+    dispatch(loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)),
 });
 
 export const LoginPageWithoutStyles = LoginPageComponent;

@@ -7,15 +7,18 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
   public autoLogin: () => Promise<void>;
 
-  public constructor(mnemonic: string | undefined) {
-    super();
+  public constructor(
+    mnemonic: string | undefined,
+    authUrl: string | undefined
+  ) {
+    super(authUrl);
     this.mnemonic = mnemonic || '';
     if (this.mnemonic === '') {
       this.mnemonic = 'anon';
       this.autoLogin = () =>
         this.logIn('', '')
           .then(() => localStorage.setItem('autoLogin', 'true'))
-          .catch(err => {
+          .catch((err) => {
             localStorage.setItem('autoLogin', 'false');
             throw err;
           })
@@ -32,14 +35,14 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       return Promise.resolve();
     }
 
-    return Axios.post('/login', {
+    return Axios.post(`${this.authUrl}/login`, {
       mnemonic: this.mnemonic,
       credentials: {
         username,
         password,
       },
     })
-      .then(res => {
+      .then((res) => {
         ReactGA.event({
           category: 'Login',
           action: 'Successfully logged in via JWT',
@@ -52,7 +55,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         this.storeUser(payload.username);
         return;
       })
-      .catch(err => {
+      .catch((err) => {
         ReactGA.event({
           category: 'Login',
           action: 'Failed to log in via JWT',
@@ -62,7 +65,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Axios.post('/verify', {
+    return Axios.post(`${this.authUrl}/verify`, {
       token: this.token,
     })
       .then(() => {
@@ -72,13 +75,13 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public refresh(): Promise<void> {
-    return Axios.post('/refresh', {
+    return Axios.post(`${this.authUrl}/refresh`, {
       token: this.token,
     })
-      .then(res => {
+      .then((res) => {
         this.storeToken(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         this.handleRefreshError(err);
       });
   }

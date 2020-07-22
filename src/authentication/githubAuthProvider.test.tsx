@@ -9,13 +9,13 @@ describe('github auth provider', () => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
+      .mockImplementation((name) =>
         name === 'scigateway:token' ? 'token' : null
       );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
-    authProvider = new GithubAuthProvider();
+    authProvider = new GithubAuthProvider('http://localhost:8000');
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
   });
 

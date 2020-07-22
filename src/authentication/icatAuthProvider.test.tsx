@@ -11,7 +11,7 @@ describe('ICAT auth provider', () => {
   beforeEach(() => {
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name => {
+      .mockImplementation((name) => {
         if (name === 'scigateway:token') {
           return 'token';
         } else if (name === 'autoLogin') {
@@ -23,10 +23,13 @@ describe('ICAT auth provider', () => {
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
 
-    icatAuthProvider = new ICATAuthProvider('mnemonic');
+    icatAuthProvider = new ICATAuthProvider(
+      'mnemonic',
+      'http://localhost:8000'
+    );
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
     (parseJwt as jest.Mock).mockImplementation(
-      token => `{"sessionId": "${token}", "username": "${token} username"}`
+      (token) => `{"sessionId": "${token}", "username": "${token} username"}`
     );
   });
 
@@ -35,7 +38,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
-    icatAuthProvider = new ICATAuthProvider(undefined);
+    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
     await icatAuthProvider.autoLogin();
     expect(icatAuthProvider.mnemonic).toBe('');
   });
@@ -68,7 +71,7 @@ describe('ICAT auth provider', () => {
 
     await icatAuthProvider.logIn('user', 'password');
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+    expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
       mnemonic: 'mnemonic',
       credentials: { username: 'user', password: 'password' },
     });
@@ -123,13 +126,13 @@ describe('ICAT auth provider', () => {
     // ensure token is null
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
-    icatAuthProvider = new ICATAuthProvider(undefined);
+    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin();
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+    expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
       mnemonic: 'anon',
       credentials: { username: '', password: '' },
     });
@@ -161,7 +164,7 @@ describe('ICAT auth provider', () => {
     // ensure token is null
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
-    icatAuthProvider = new ICATAuthProvider(undefined);
+    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
     expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
@@ -169,7 +172,7 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/login', {
+    expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
       mnemonic: 'anon',
       credentials: { username: '', password: '' },
     });
@@ -188,7 +191,10 @@ describe('ICAT auth provider', () => {
   });
 
   it('should set autologin to resolved promise if mnemonic is set', async () => {
-    icatAuthProvider = new ICATAuthProvider('mnemonic');
+    icatAuthProvider = new ICATAuthProvider(
+      'mnemonic',
+      'http://localhost:8000'
+    );
     expect(icatAuthProvider.autoLogin()).toBeDefined();
     return expect(icatAuthProvider.autoLogin()).resolves;
   });
@@ -198,7 +204,7 @@ describe('ICAT auth provider', () => {
 
     await icatAuthProvider.verifyLogIn();
 
-    expect(mockAxios.post).toBeCalledWith('/verify', {
+    expect(mockAxios.post).toBeCalledWith('http://localhost:8000/verify', {
       token: 'token',
     });
   });
@@ -229,9 +235,12 @@ describe('ICAT auth provider', () => {
 
     await icatAuthProvider.refresh();
 
-    expect(mockAxios.post).toHaveBeenCalledWith('/refresh', {
-      token: 'token',
-    });
+    expect(mockAxios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/refresh',
+      {
+        token: 'token',
+      }
+    );
     expect(localStorage.setItem).toBeCalledWith(
       'scigateway:token',
       'new-token'
