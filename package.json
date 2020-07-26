@@ -103,7 +103,7 @@
     "@storybook/react": "^5.3.19",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
-    "@types/history": "^4.7.2",
+    "@types/history": "^4.7.7",
     "@types/jest": "^26.0.4",
     "@types/js-cookie": "^2.2.6",
     "@types/jsonwebtoken": "^8.5.0",
