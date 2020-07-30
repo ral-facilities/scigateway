@@ -13,6 +13,8 @@ export const NotificationType = 'scigateway:api:notification';
 export const RegisterRouteType = 'scigateway:api:register_route';
 export const RequestPluginRerenderType = 'scigateway:api:plugin_rerender';
 export const SendThemeOptionsType = 'scigateway:api:send_themeoptions';
+export const ToggleDarkModePreferenceType =
+  'scigateway:toggle_dark_mode_preference';
 export const SignOutType = 'scigateway:signout';
 export const ToggleDrawerType = 'scigateway:toggledrawer';
 export const DismissNotificationType = 'scigateway:dismissnotification';

@@ -17,8 +17,15 @@ describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
   let handler: (event: Event) => void;
   let store: MockStoreEnhanced;
+  const getState: () => StateType = () => ({
+    scigateway: initialState,
+    router: {
+      action: 'POP',
+      location: createLocation('/'),
+    },
+  });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   const action = {
     type: 'scigateway:api:test-action',
@@ -171,7 +178,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should listen for events and fire registerroute action', () => {
-    listenToPlugins(store.dispatch, store.getState as () => StateType);
+    listenToPlugins(store.dispatch, getState);
 
     handler(new CustomEvent('test', { detail: registerRouteAction }));
 
@@ -213,14 +220,6 @@ describe('scigateway middleware', () => {
   });
 
   it('should listen for events and fire invalidateToken action on invalidateToken message', async () => {
-    const getState: () => StateType = () => ({
-      scigateway: initialState,
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
-      },
-    });
-
     listenToPlugins(store.dispatch, getState);
 
     handler(new CustomEvent('test', { detail: { type: InvalidateTokenType } }));
@@ -233,7 +232,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {
-    listenToPlugins(store.dispatch, store.getState as () => StateType);
+    listenToPlugins(store.dispatch, getState);
 
     const registerRouteActionWithHelp = {
       ...registerRouteAction,
@@ -270,7 +269,7 @@ describe('scigateway middleware', () => {
 
   describe('notifications', () => {
     it('should listen for notification events and fire notification action even if no severity', () => {
-      listenToPlugins(store.dispatch, store.getState as () => StateType);
+      listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
         type: 'scigateway:api:notification',
@@ -287,7 +286,7 @@ describe('scigateway middleware', () => {
     });
 
     it('should listen for notification events and fire notification action for success event', () => {
-      listenToPlugins(store.dispatch, store.getState as () => StateType);
+      listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
         type: 'scigateway:api:notification',
@@ -306,7 +305,7 @@ describe('scigateway middleware', () => {
 
     it('should listen for notification events and create toast for error', () => {
       toastr.error = jest.fn();
-      listenToPlugins(store.dispatch, store.getState as () => StateType);
+      listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
         type: 'scigateway:api:notification',
@@ -326,7 +325,7 @@ describe('scigateway middleware', () => {
 
     it('should listen for notification events and create toast for warning', () => {
       toastr.warning = jest.fn();
-      listenToPlugins(store.dispatch, store.getState as () => StateType);
+      listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
         type: 'scigateway:api:notification',
@@ -348,7 +347,7 @@ describe('scigateway middleware', () => {
     log.warn = jest.fn();
     const mockLog = (log.warn as jest.Mock).mock;
 
-    listenToPlugins(store.dispatch, store.getState as () => StateType);
+    listenToPlugins(store.dispatch, getState);
 
     ScigatewayMiddleware(store)(store.dispatch)(requestPluginRerenderAction);
     expect(store.getActions().length).toEqual(1);
@@ -363,7 +362,7 @@ describe('scigateway middleware', () => {
 
   it('should listen for events and not fire unrecognised action', () => {
     log.warn = jest.fn();
-    listenToPlugins(store.dispatch, store.getState as () => StateType);
+    listenToPlugins(store.dispatch, getState);
 
     handler(new CustomEvent('test', { detail: action }));
 
@@ -380,7 +379,7 @@ describe('scigateway middleware', () => {
   it('should not fire actions for events without detail', () => {
     log.error = jest.fn();
 
-    listenToPlugins(store.dispatch, store.getState as () => StateType);
+    listenToPlugins(store.dispatch, getState);
 
     handler(new CustomEvent('test', { detail: undefined }));
 
@@ -397,7 +396,7 @@ describe('scigateway middleware', () => {
   it('should not fire actions for events without type on detail', () => {
     log.error = jest.fn();
 
-    listenToPlugins(store.dispatch, store.getState as () => StateType);
+    listenToPlugins(store.dispatch, getState);
 
     handler(new CustomEvent('test', { detail: { actionWithoutType: true } }));
 

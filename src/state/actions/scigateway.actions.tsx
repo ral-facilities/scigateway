@@ -30,6 +30,7 @@ import {
   InvalidateTokenType,
   SendThemeOptionsType,
   SendThemeOptionsPayload,
+  ToggleDarkModePreferenceType,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -285,6 +286,10 @@ export const sendThemeOptions = (
     theme,
     broadcast: true,
   },
+});
+
+export const toggleDarkModePreference = (): Action => ({
+  type: ToggleDarkModePreferenceType,
 });
 
 export const dismissMenuItem = (

@@ -1,4 +1,3 @@
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import * as log from 'loglevel';
@@ -17,7 +16,7 @@ import ScigatewayMiddleware, {
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
 import './index.css';
-import { buildTheme } from './theming';
+import { ConnectedThemeProvider } from './theming';
 import Preloader from './preloader/preloader.component';
 import CookieConsent from './cookieConsent/cookieConsent.component';
 import ReduxToastr from 'react-redux-toastr';
@@ -92,10 +91,10 @@ class App extends React.Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <StylesProvider generateClassName={generateClassName}>
-              <MuiThemeProvider theme={buildTheme()}>
+              <ConnectedThemeProvider>
                 {toastrConfig()}
                 {pageContent()}
-              </MuiThemeProvider>
+              </ConnectedThemeProvider>
             </StylesProvider>
           </ConnectedRouter>
         </Provider>

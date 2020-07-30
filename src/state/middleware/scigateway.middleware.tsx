@@ -18,9 +18,6 @@ import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
 
-// Build theme to send the plugins.
-const theme = buildTheme();
-
 const trackPage = (page: string): void => {
   ReactGA.set({
     page,
@@ -49,6 +46,8 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
+  const darkModePreference = getState().scigateway.darkMode;
+  const theme = buildTheme(darkModePreference);
   document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 

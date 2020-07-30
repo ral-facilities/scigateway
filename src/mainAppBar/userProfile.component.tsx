@@ -3,6 +3,7 @@ import { Dispatch, Action, AnyAction } from 'redux';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import BrightnessIcon from '@material-ui/icons/Brightness4';
 import {
   IconButton,
   withStyles,
@@ -21,7 +22,10 @@ import {
 import { StyleRules } from '@material-ui/core/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { signOut } from '../state/actions/scigateway.actions';
+import {
+  signOut,
+  toggleDarkModePreference,
+} from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { ThunkDispatch } from 'redux-thunk';
@@ -39,6 +43,7 @@ interface UserProfileDispatchProps {
   signIn: () => Action;
   signOut: () => void;
   manageCookies: () => Action;
+  toggleDarkMode: () => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -81,6 +86,10 @@ const UserProfileComponent = (
     closeMenu();
     props.manageCookies();
   };
+  const toggleDarkMode = (): void => {
+    closeMenu();
+    props.toggleDarkMode();
+  };
   return (
     <div className="tour-user-profile">
       {props.loggedIn ? (
@@ -90,13 +99,13 @@ const UserProfileComponent = (
               className={props.classes.avatar}
               alt="user"
               src={props.user.avatarUrl}
-              onClick={e => setMenuAnchor(e.currentTarget)}
+              onClick={(e) => setMenuAnchor(e.currentTarget)}
               aria-label="Open user menu"
             />
           ) : (
             <IconButton
               className={props.classes.button}
-              onClick={e => setMenuAnchor(e.currentTarget)}
+              onClick={(e) => setMenuAnchor(e.currentTarget)}
               aria-label="Open user menu"
             >
               <AccountCircleIcon />
@@ -129,6 +138,14 @@ const UserProfileComponent = (
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary={getString(props.res, 'logout-button')} />
+            </MenuItem>
+            <MenuItem id="item-dark-mode" onClick={toggleDarkMode}>
+              <ListItemIcon>
+                <BrightnessIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={getString(props.res, 'toggle-dark-mode')}
+              />
             </MenuItem>
           </Menu>
         </div>
@@ -172,6 +189,7 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
     thunkDispatch(signOut());
   },
   manageCookies: () => dispatch(push('/cookies')),
+  toggleDarkMode: () => dispatch(toggleDarkModePreference()),
 });
 
 export default connect(

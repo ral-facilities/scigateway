@@ -27,6 +27,7 @@ import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
   LoadedAuthType,
+  ToggleDarkModePreferenceType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -55,6 +56,7 @@ export const initialState: ScigatewayState = {
   features: {
     showContactButton: true,
   },
+  darkMode: false,
 };
 
 export function handleNotification(
@@ -327,6 +329,15 @@ export function handleAddHelpTourSteps(
   };
 }
 
+export function handleToggleDarkModePreference(
+  state: ScigatewayState
+): ScigatewayState {
+  return {
+    ...state,
+    darkMode: !state.darkMode,
+  };
+}
+
 const ScigatewayReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -346,6 +357,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [InitialiseAnalyticsType]: handleInitialiseAnalytics,
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
+  [ToggleDarkModePreferenceType]: handleToggleDarkModePreference,
 });
 
 export default ScigatewayReducer;

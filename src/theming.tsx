@@ -1,6 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { ThemeOptions, Theme } from '@material-ui/core/styles/createMuiTheme';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import React from 'react';
+import { StateType } from './state/state.types';
+import { connect, useSelector } from 'react-redux';
 
 export interface UKRIThemeOptions extends ThemeOptions {
   ukri: {
@@ -46,11 +49,11 @@ export interface UKRITheme extends Theme {
   drawerWidth: number;
 }
 
-export const buildTheme = (): Theme => {
+export const buildTheme = (darkModePreference: boolean): Theme => {
   const options: UKRIThemeOptions = {
     palette: {
       // Light/dark mode
-      type: 'light',
+      type: darkModePreference ? 'dark' : 'light',
       primary: {
         main: '#003088', // blue (deep palette)
       },
@@ -81,3 +84,30 @@ export const buildTheme = (): Theme => {
 
   return createMuiTheme(options);
 };
+
+function mapThemeProviderStateToProps(
+  state: StateType
+): { prefersDarkMode: boolean } {
+  return {
+    prefersDarkMode: state.scigateway.darkMode,
+  };
+}
+
+const SciGatewayThemeProvider = (props: {
+  children: React.ReactNode;
+}): React.ReactElement<{
+  children: React.ReactNode;
+}> => {
+  const darkModePreference: boolean = useSelector(
+    (state: StateType) => state.scigateway.darkMode
+  );
+  return (
+    <MuiThemeProvider theme={buildTheme(darkModePreference)}>
+      {props.children}
+    </MuiThemeProvider>
+  );
+};
+
+export const ConnectedThemeProvider = connect(mapThemeProviderStateToProps)(
+  SciGatewayThemeProvider
+);
