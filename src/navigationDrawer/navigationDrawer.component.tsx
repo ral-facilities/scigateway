@@ -37,7 +37,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     drawerPaper: {
       width: (theme as UKRITheme).drawerWidth,
-      background: theme.palette.secondary.main,
+      background: theme.palette.background.default,
     },
     drawerHeader: {
       display: 'flex',
@@ -47,10 +47,10 @@ const styles = (theme: Theme): StyleRules =>
       justifyContent: 'flex-end',
     },
     sectionTitle: {
-      color: theme.palette.secondary.contrastText,
+      color: theme.palette.text.secondary,
     },
     menuItem: {
-      color: theme.palette.secondary.contrastText,
+      color: theme.palette.text.secondary,
     },
   });
 

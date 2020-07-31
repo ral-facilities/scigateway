@@ -89,12 +89,12 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
     const { helpSteps, loggedIn, showHelp, theme } = this.props;
 
     const steps = helpSteps
-      .map(step => ({ ...step, disableBeacon: true }))
+      .map((step) => ({ ...step, disableBeacon: true }))
       .filter(
-        step => !step.target.toString().includes('plugin-link') || loggedIn
+        (step) => !step.target.toString().includes('plugin-link') || loggedIn
       );
 
-    const indexPluginLinks = steps.findIndex(step =>
+    const indexPluginLinks = steps.findIndex((step) =>
       step.target.toString().includes('plugin-link')
     );
 
@@ -114,6 +114,9 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
         styles={{
           options: {
             primaryColor: (theme as UKRITheme).ukri.bright.orange,
+            backgroundColor: theme.palette.background.default,
+            arrowColor: theme.palette.background.default,
+            textColor: theme.palette.text.primary,
             zIndex: 1500,
           },
         }}

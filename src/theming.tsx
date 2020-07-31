@@ -23,6 +23,9 @@ export interface UKRIThemeOptions extends ThemeOptions {
       purple: string;
       red: string;
     };
+    text: {
+      blue: string;
+    };
   };
   drawerWidth: number;
 }
@@ -45,42 +48,86 @@ export interface UKRITheme extends Theme {
       purple: string;
       red: string;
     };
+    text: {
+      blue: string;
+    };
   };
   drawerWidth: number;
 }
 
 export const buildTheme = (darkModePreference: boolean): Theme => {
-  const options: UKRIThemeOptions = {
-    palette: {
-      // Light/dark mode
-      type: darkModePreference ? 'dark' : 'light',
-      primary: {
-        main: '#003088', // blue (deep palette)
+  let options: UKRIThemeOptions;
+  if (darkModePreference) {
+    options = {
+      palette: {
+        // Light/dark mode
+        type: 'dark',
+        primary: {
+          main: '#333333', // blue (deep palette)
+        },
+        secondary: {
+          main: '#676767', // grey
+        },
       },
-      secondary: {
-        main: '#676767', // grey
+      ukri: {
+        bright: {
+          orange: '#FF6900', // pure orange
+          yellow: '#FBBB10', // yellow
+          green: '#67C04D', // light green
+          blue: '#1E5DF8', // blue
+          purple: '#BE2BBB', // bright purple
+          red: '#E94D36', // light red
+        },
+        deep: {
+          orange: '#C13D33', // pure orange
+          yellow: '#F08900', // vivid yellow
+          green: '#3E863E', // green
+          blue: '#003088', // blue
+          purple: '#8A1A9B', // bright purple
+          red: '#A91B2E', // red
+        },
+        text: {
+          blue: '#1E5DF8',
+        },
       },
-    },
-    ukri: {
-      bright: {
-        orange: '#FF6900', // pure orange
-        yellow: '#FBBB10', // yellow
-        green: '#67C04D', // light green
-        blue: '#1E5DF8', // blue
-        purple: '#BE2BBB', // bright purple
-        red: '#E94D36', // light red
+      drawerWidth: 300,
+    };
+  } else {
+    options = {
+      palette: {
+        // Light/dark mode
+        type: 'light',
+        primary: {
+          main: '#003088', // blue (deep palette)
+        },
+        secondary: {
+          main: '#676767', // grey
+        },
       },
-      deep: {
-        orange: '#C13D33', // pure orange
-        yellow: '#F08900', // vivid yellow
-        green: '#3E863E', // green
-        blue: '#003088', // blue
-        purple: '#8A1A9B', // bright purple
-        red: '#A91B2E', // red
+      ukri: {
+        bright: {
+          orange: '#FF6900', // pure orange
+          yellow: '#FBBB10', // yellow
+          green: '#67C04D', // light green
+          blue: '#1E5DF8', // blue
+          purple: '#BE2BBB', // bright purple
+          red: '#E94D36', // light red
+        },
+        deep: {
+          orange: '#C13D33', // pure orange
+          yellow: '#F08900', // vivid yellow
+          green: '#3E863E', // green
+          blue: '#003088', // blue
+          purple: '#8A1A9B', // bright purple
+          red: '#A91B2E', // red
+        },
+        text: {
+          blue: '#003088',
+        },
       },
-    },
-    drawerWidth: 300,
-  };
+      drawerWidth: 300,
+    };
+  }
 
   return createMuiTheme(options);
 };
