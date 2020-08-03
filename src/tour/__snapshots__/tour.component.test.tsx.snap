@@ -38,7 +38,10 @@ exports[`Tour component renders correctly 1`] = `
   styles={
     Object {
       "options": Object {
+        "arrowColor": "#fafafa",
+        "backgroundColor": "#fafafa",
         "primaryColor": "#FF6900",
+        "textColor": "rgba(0, 0, 0, 0.87)",
         "zIndex": 1500,
       },
     }

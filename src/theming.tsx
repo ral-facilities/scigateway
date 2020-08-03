@@ -68,6 +68,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         secondary: {
           main: '#676767', // grey
         },
+        background: {
+          default: '#212121',
+        },
       },
       ukri: {
         bright: {

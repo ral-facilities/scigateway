@@ -59,7 +59,7 @@ describe('Cookie consent component', () => {
     mount.cleanUp();
   });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   it('should render correctly', () => {
     const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
@@ -76,10 +76,7 @@ describe('Cookie consent component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find('button')
-      .first()
-      .simulate('click');
+    wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/cookies'));
@@ -96,10 +93,7 @@ describe('Cookie consent component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find('button')
-      .last()
-      .simulate('click');
+    wrapper.find('button').last().simulate('click');
 
     expect(Cookies.set).toHaveBeenCalled();
     const mockCookies = (Cookies.set as jest.Mock).mock;
@@ -111,7 +105,7 @@ describe('Cookie consent component', () => {
   it("initalises analytics if cookie consent is true but analytics hasn't yet been initialised", () => {
     Cookies.getJSON = jest
       .fn()
-      .mockImplementationOnce(name =>
+      .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? { analytics: true } : null
       );
 
@@ -152,7 +146,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if cookie-consent cookie is set', () => {
     Cookies.get = jest
       .fn()
-      .mockImplementationOnce(name =>
+      .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? { analytics: true } : null
       );
 

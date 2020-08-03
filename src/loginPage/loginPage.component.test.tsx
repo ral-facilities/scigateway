@@ -74,7 +74,7 @@ describe('Login page component', () => {
     state.scigateway.authorisation = props.auth;
   });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   it('credential component renders correctly', () => {
     const wrapper = shallow(

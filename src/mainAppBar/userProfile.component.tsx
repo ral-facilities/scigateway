@@ -87,7 +87,6 @@ const UserProfileComponent = (
     props.manageCookies();
   };
   const toggleDarkMode = (): void => {
-    closeMenu();
     props.toggleDarkMode();
   };
   return (
@@ -132,13 +131,6 @@ const UserProfileComponent = (
                 primary={getString(props.res, 'manage-cookies-button')}
               />
             </MenuItem>
-            <Divider />
-            <MenuItem id="item-sign-out" onClick={logout}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary={getString(props.res, 'logout-button')} />
-            </MenuItem>
             <MenuItem id="item-dark-mode" onClick={toggleDarkMode}>
               <ListItemIcon>
                 <BrightnessIcon />
@@ -146,6 +138,13 @@ const UserProfileComponent = (
               <ListItemText
                 primary={getString(props.res, 'toggle-dark-mode')}
               />
+            </MenuItem>
+            <Divider />
+            <MenuItem id="item-sign-out" onClick={logout}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={getString(props.res, 'logout-button')} />
             </MenuItem>
           </Menu>
         </div>

@@ -38,7 +38,7 @@ const styles = (theme: Theme): StyleRules =>
       paddingLeft: '10vw',
       paddingRight: '10vw',
       paddingTop: 30,
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.background.default,
     },
     howItWorksTitle: {
       fontWeight: 'bold',
@@ -63,7 +63,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     howItWorksGridItemCaption: {
       textAlign: 'center',
-      color: theme.palette.text.primary,
+      color: (theme as UKRITheme).ukri.text.blue,
     },
     strapline: {
       paddingTop: 50,
