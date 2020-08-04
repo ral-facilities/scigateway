@@ -22,7 +22,7 @@ import { UKRITheme } from '../theming';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      margin: theme.spacing(2),
+      padding: theme.spacing(2),
       backgroundColor: theme.palette.background.default,
     },
     container: {
