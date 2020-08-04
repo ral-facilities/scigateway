@@ -64,7 +64,7 @@ interface CookiesPageDispatchProps {
   navigateToHome: () => Action;
 }
 
-type CombinedCookiesPageProps = CookiesPageProps &
+export type CombinedCookiesPageProps = CookiesPageProps &
   CookiesPageDispatchProps &
   WithStyles<typeof styles>;
 
@@ -213,6 +213,7 @@ const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
   navigateToHome: () => dispatch(push('/')),
 });
 
+export const CookiesPageWithoutStyles = CookiesPage;
 export const CookiesPageWithStyles = withStyles(styles)(CookiesPage);
 
 export default connect(

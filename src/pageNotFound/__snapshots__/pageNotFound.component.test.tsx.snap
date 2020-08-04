@@ -3,36 +3,40 @@
 exports[`Page Not found component pageNotFound renders correctly 1`] = `
 <div>
   <div
-    className="PageNotFound-titleContainer-1"
+    className="title-container-class"
   >
     <BugReportIcon
-      className="PageNotFound-bugIcon-2"
+      className="bug-icon-class"
     />
     <WithStyles(ForwardRef(Typography))
-      className="PageNotFound-codeText-3"
+      className="code-text-class"
     >
       404
     </WithStyles(ForwardRef(Typography))>
   </div>
   <div
-    className="PageNotFound-container-4"
+    className="container-class"
   >
     <WithStyles(ForwardRef(Typography))
+      className="bold-class"
       variant="h2"
     >
       Page not found
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Typography))
-      className="PageNotFound-message-5"
+      className="message-class"
       variant="body1"
     >
-      We're sorry, the page you requested could not be found. Please check the page address for typos. Click 
+      We're sorry, the page you requested could not be found. Please check the page address for typos. Click
+       
       <Link
+        className="bold-class"
         to="/"
       >
         here
       </Link>
-       to return to the home page or contact support.
+       
+      to return to the home page or contact support.
     </WithStyles(ForwardRef(Typography))>
   </div>
 </div>

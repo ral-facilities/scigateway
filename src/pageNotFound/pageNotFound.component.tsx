@@ -63,4 +63,5 @@ const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => (
   </div>
 );
 
+export const PageNotFoundWithoutStyles = PageNotFound;
 export default withStyles(styles)(PageNotFound);

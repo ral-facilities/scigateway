@@ -2,16 +2,16 @@
 
 exports[`Cookies page component should render correctly 1`] = `
 <div
-  className="CookiesPage-root-1"
+  className="root-class"
 >
   <WithStyles(ForwardRef(Typography))
-    className="CookiesPage-titleText-3"
+    className="title-text-class"
     variant="h3"
   >
     title
   </WithStyles(ForwardRef(Typography))>
   <div
-    className="CookiesPage-container-2"
+    className="container-class"
   >
     <WithStyles(ForwardRef(Typography))
       variant="h4"
@@ -19,7 +19,7 @@ exports[`Cookies page component should render correctly 1`] = `
       cookie-policy-title
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Typography))
-      className="CookiesPage-cookiePolicy-4"
+      className="cookie-policy-class"
       dangerouslySetInnerHTML={
         Object {
           "__html": "cookie-policy",
@@ -29,7 +29,7 @@ exports[`Cookies page component should render correctly 1`] = `
     />
   </div>
   <div
-    className="CookiesPage-container-2"
+    className="container-class"
   >
     <WithStyles(ForwardRef(Typography))
       variant="h4"
@@ -37,10 +37,10 @@ exports[`Cookies page component should render correctly 1`] = `
       cookie-management-title
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Grid))
-      className="CookiesPage-cookieTypes-5"
+      className="cookie-types-class"
       container={true}
       direction="column"
-      spacing={8}
+      spacing={4}
     >
       <WithStyles(ForwardRef(Grid))
         alignItems="center"
@@ -89,17 +89,17 @@ exports[`Cookies page component should render correctly 1`] = `
             essential-cookies-description
           </WithStyles(ForwardRef(Typography))>
           <ul
-            className="CookiesPage-cookieList-7"
+            className="cookie-list-class"
           >
             <WithStyles(ForwardRef(Typography))
-              className="CookiesPage-cookieListItem-8"
+              className="cookie-list-item-class"
               component="li"
               variant="body1"
             >
               cookie-consent-description
             </WithStyles(ForwardRef(Typography))>
             <WithStyles(ForwardRef(Typography))
-              className="CookiesPage-cookieListItem-8"
+              className="cookie-list-item-class"
               component="li"
               variant="body1"
             >
@@ -155,10 +155,10 @@ exports[`Cookies page component should render correctly 1`] = `
             analytics-cookies-description
           </WithStyles(ForwardRef(Typography))>
           <ul
-            className="CookiesPage-cookieList-7"
+            className="cookie-list-class"
           >
             <WithStyles(ForwardRef(Typography))
-              className="CookiesPage-cookieListItem-8"
+              className="cookie-list-item-class"
               component="li"
               variant="body1"
             >
@@ -170,7 +170,7 @@ exports[`Cookies page component should render correctly 1`] = `
     </WithStyles(ForwardRef(Grid))>
   </div>
   <WithStyles(ForwardRef(Button))
-    className="CookiesPage-button-6"
+    className="button-class"
     color="primary"
     onClick={[Function]}
     size="medium"
