@@ -17,7 +17,6 @@ import { AppStrings } from '../state/scigateway.types';
 import Cookies from 'js-cookie';
 import { Dispatch, Action } from 'redux';
 import { push } from 'connected-react-router';
-import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -34,7 +33,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     titleText: {
       fontWeight: 'bold',
-      color: (theme as UKRITheme).ukri.text.blue,
+      color: theme.palette.primary.main,
     },
     cookiePolicy: {
       marginTop: theme.spacing(2),
@@ -45,7 +44,6 @@ const styles = (theme: Theme): StyleRules =>
       marginBottom: theme.spacing(2),
     },
     button: {
-      backgroundColor: (theme as UKRITheme).ukri.text.blue,
       color: theme.palette.primary.contrastText,
     },
     cookieList: {

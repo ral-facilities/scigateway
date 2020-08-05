@@ -63,10 +63,10 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         // Light/dark mode
         type: 'dark',
         primary: {
-          main: '#333333', // blue (deep palette)
+          main: '#1E5DF8',
         },
         secondary: {
-          main: '#676767', // grey
+          main: '#333333',
         },
         background: {
           default: '#212121',
@@ -104,7 +104,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           main: '#003088', // blue (deep palette)
         },
         secondary: {
-          main: '#676767', // grey
+          main: '#003088',
         },
       },
       ukri: {
