@@ -15,7 +15,7 @@ import CookieConsent from './cookieConsent/cookieConsent.component';
 const styles = (theme: Theme): StyleRules => ({
   root: {
     background: theme.palette.background.default,
-    height: '100vh',
+    minHeight: '100vh',
   },
 });
 
