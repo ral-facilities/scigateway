@@ -23,9 +23,6 @@ export interface UKRIThemeOptions extends ThemeOptions {
       purple: string;
       red: string;
     };
-    text: {
-      blue: string;
-    };
   };
   drawerWidth: number;
 }
@@ -47,9 +44,6 @@ export interface UKRITheme extends Theme {
       blue: string;
       purple: string;
       red: string;
-    };
-    text: {
-      blue: string;
     };
   };
   drawerWidth: number;
@@ -89,9 +83,6 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           purple: '#8A1A9B', // bright purple
           red: '#A91B2E', // red
         },
-        text: {
-          blue: '#1E5DF8',
-        },
       },
       drawerWidth: 300,
     };
@@ -123,9 +114,6 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           blue: '#003088', // blue
           purple: '#8A1A9B', // bright purple
           red: '#A91B2E', // red
-        },
-        text: {
-          blue: '#003088',
         },
       },
       drawerWidth: 300,

@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles, WithStyles, Theme } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import { StyleRules } from '@material-ui/core/styles';
-import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules => ({
   titleContainer: {
@@ -16,12 +15,12 @@ const styles = (theme: Theme): StyleRules => ({
   bugIcon: {
     width: '10vw',
     height: '10vw',
-    color: (theme as UKRITheme).ukri.text.blue,
+    color: theme.palette.primary.main,
   },
   codeText: {
     fontWeight: 'bold',
     fontSize: '10vw',
-    color: (theme as UKRITheme).ukri.text.blue,
+    color: theme.palette.primary.main,
   },
   container: {
     display: 'flex',
@@ -63,5 +62,4 @@ const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => (
   </div>
 );
 
-export const PageNotFoundWithoutStyles = PageNotFound;
 export default withStyles(styles)(PageNotFound);

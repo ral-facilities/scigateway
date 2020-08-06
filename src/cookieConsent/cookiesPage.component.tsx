@@ -211,7 +211,6 @@ const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
   navigateToHome: () => dispatch(push('/')),
 });
 
-export const CookiesPageWithoutStyles = CookiesPage;
 export const CookiesPageWithStyles = withStyles(styles)(CookiesPage);
 
 export default connect(
