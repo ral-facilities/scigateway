@@ -66,6 +66,10 @@ describe('scigateway middleware', () => {
     },
   };
 
+  const toggleDarkModePreferenceAction = {
+    type: ToggleDarkModePreferenceType,
+  };
+
   beforeEach(() => {
     events = [];
     handler = () => {
@@ -187,16 +191,6 @@ describe('scigateway middleware', () => {
       scigateway: { darkMode: false },
     });
 
-    const toggleDarkModePreferenceAction = {
-      type: ToggleDarkModePreferenceType,
-    };
-    const sendThemeOptionsAction = {
-      type: SendThemeOptionsType,
-      payload: {
-        theme,
-        broadcast: true,
-      },
-    };
     ScigatewayMiddleware(store)(store.dispatch)(toggleDarkModePreferenceAction);
 
     expect(store.getActions().length).toEqual(3);
@@ -214,9 +208,6 @@ describe('scigateway middleware', () => {
 
     const theme = buildTheme(true);
 
-    const toggleDarkModePreferenceAction = {
-      type: ToggleDarkModePreferenceType,
-    };
     const sendThemeOptionsAction = {
       type: SendThemeOptionsType,
       payload: {
