@@ -4,7 +4,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
 <div
   className="PageContainer-root-1"
 >
-  <Connect(Preloader) />
+  <Connect(WithStyles(Preloader)) />
   <Connect(WithStyles(MainAppBar)) />
   <Connect(WithStyles(NavigationDrawer)) />
   <Connect(WithTheme(Tour)) />
