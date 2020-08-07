@@ -24,7 +24,7 @@ import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import {
   signOut,
-  toggleDarkModePreference,
+  loadDarkModePreference,
 } from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
@@ -37,13 +37,14 @@ interface UserProfileProps {
   loggedIn: boolean;
   user: User;
   res: AppStrings | undefined;
+  darkMode: boolean;
 }
 
 interface UserProfileDispatchProps {
   signIn: () => Action;
   signOut: () => void;
   manageCookies: () => Action;
-  toggleDarkMode: () => Action;
+  toggleDarkMode: (preference: boolean) => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -87,7 +88,9 @@ const UserProfileComponent = (
     props.manageCookies();
   };
   const toggleDarkMode = (): void => {
-    props.toggleDarkMode();
+    const toggledPreference = !props.darkMode;
+    localStorage.setItem('darkMode', toggledPreference.toString());
+    props.toggleDarkMode(toggledPreference);
   };
   return (
     <div className="tour-user-profile">
@@ -179,6 +182,7 @@ const mapStateToProps = (state: StateType): UserProfileProps => ({
   user:
     state.scigateway.authorisation.provider.user || new UserInfo('anonymous'),
   res: getAppStrings(state, 'login'),
+  darkMode: state.scigateway.darkMode,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
@@ -188,7 +192,8 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
     thunkDispatch(signOut());
   },
   manageCookies: () => dispatch(push('/cookies')),
-  toggleDarkMode: () => dispatch(toggleDarkModePreference()),
+  toggleDarkMode: (preference: boolean) =>
+    dispatch(loadDarkModePreference(preference)),
 });
 
 export default connect(

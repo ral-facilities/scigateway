@@ -7,7 +7,7 @@ import { createLocation } from 'history';
 import {
   InvalidateTokenType,
   ToggleDrawerType,
-  ToggleDarkModePreferenceType,
+  LoadDarkModePreferenceType,
   SendThemeOptionsType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
@@ -66,8 +66,8 @@ describe('scigateway middleware', () => {
     },
   };
 
-  const toggleDarkModePreferenceAction = {
-    type: ToggleDarkModePreferenceType,
+  const loadDarkModePreferenceAction = {
+    type: LoadDarkModePreferenceType,
   };
 
   beforeEach(() => {
@@ -94,6 +94,7 @@ describe('scigateway middleware', () => {
 
   afterEach(() => {
     ReactGA.testModeAPI.resetCalls();
+    localStorage.clear();
   });
 
   it('should broadcast messages with broadcast flag', () => {
@@ -186,25 +187,19 @@ describe('scigateway middleware', () => {
     expect(store.getActions()[1]).toEqual(requestPluginRerenderAction);
   });
 
-  it('should send theme options and request plugin rerender actions when ToggleDarkModePreferenceType action is sent', () => {
-    store = configureStore()({
-      scigateway: { darkMode: false },
-    });
-
-    ScigatewayMiddleware(store)(store.dispatch)(toggleDarkModePreferenceAction);
+  it('should send theme options and request plugin rerender actions when LoadDarkModePreferenceType action is sent', () => {
+    ScigatewayMiddleware(store)(store.dispatch)(loadDarkModePreferenceAction);
 
     expect(store.getActions().length).toEqual(3);
-    expect(store.getActions()[0]).toEqual(toggleDarkModePreferenceAction);
+    expect(store.getActions()[0]).toEqual(loadDarkModePreferenceAction);
     expect(JSON.stringify(store.getActions()[1])).toEqual(
       JSON.stringify(sendThemeOptionsAction)
     );
     expect(store.getActions()[2]).toEqual(requestPluginRerenderAction);
   });
 
-  it('should send dark theme options when ToggleDarkModePreferenceType action is sent and darkmode preference is true', () => {
-    store = configureStore()({
-      scigateway: { darkMode: true },
-    });
+  it('should send dark theme options when LoadDarkModePreferenceType action is sent and darkmode preference is true', () => {
+    localStorage.setItem('darkMode', 'true');
 
     const theme = buildTheme(true);
 
@@ -215,7 +210,7 @@ describe('scigateway middleware', () => {
         broadcast: true,
       },
     };
-    ScigatewayMiddleware(store)(store.dispatch)(toggleDarkModePreferenceAction);
+    ScigatewayMiddleware(store)(store.dispatch)(loadDarkModePreferenceAction);
 
     expect(store.getActions().length).toEqual(3);
     expect(JSON.stringify(store.getActions()[1])).toEqual(

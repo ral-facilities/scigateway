@@ -6,7 +6,7 @@ import {
   RequestPluginRerenderType,
   ToggleDrawerType,
   SendThemeOptionsType,
-  ToggleDarkModePreferenceType,
+  LoadDarkModePreferenceType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -47,7 +47,8 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
-  const darkModePreference = getState().scigateway.darkMode;
+  const darkModeLocalStorage = localStorage.getItem('darkMode');
+  const darkModePreference = darkModeLocalStorage === 'true' ? true : false;
   const theme = buildTheme(darkModePreference);
 
   document.addEventListener(microFrontendMessageId, (event) => {
@@ -149,11 +150,11 @@ const ScigatewayMiddleware: Middleware = ((
     return store.dispatch(requestPluginRerender());
   }
 
-  if (action.type === ToggleDarkModePreferenceType) {
+  if (action.type === LoadDarkModePreferenceType) {
     next(action);
 
-    const state = store.getState();
-    const darkModePreference = state.scigateway.darkMode;
+    const darkModeLocalStorage = localStorage.getItem('darkMode');
+    const darkModePreference = darkModeLocalStorage === 'true' ? true : false;
     const theme = buildTheme(darkModePreference);
 
     store.dispatch(sendThemeOptions(theme));

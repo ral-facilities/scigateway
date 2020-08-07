@@ -30,7 +30,8 @@ import {
   InvalidateTokenType,
   SendThemeOptionsType,
   SendThemeOptionsPayload,
-  ToggleDarkModePreferenceType,
+  LoadDarkModePreferenceType,
+  LoadDarkModePreferencePayload,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -212,6 +213,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPlugins = loadMicroFrontends.init(settings.plugins);
         loadingPromises.push(loadingPlugins);
 
+        // load dark mode preference from local storage into store
+        // otherwise, intial state is false
+        const darkModeLocalStorage = localStorage.getItem('darkMode');
+        if (darkModeLocalStorage) {
+          const preference = darkModeLocalStorage === 'true' ? true : false;
+          dispatch(loadDarkModePreference(preference));
+        }
+
         return Promise.all(loadingPromises).then(() => {
           dispatch(siteLoadingUpdate(false));
         });
@@ -288,8 +297,13 @@ export const sendThemeOptions = (
   },
 });
 
-export const toggleDarkModePreference = (): Action => ({
-  type: ToggleDarkModePreferenceType,
+export const loadDarkModePreference = (
+  darkMode: boolean
+): ActionType<LoadDarkModePreferencePayload> => ({
+  type: LoadDarkModePreferenceType,
+  payload: {
+    darkMode: darkMode,
+  },
 });
 
 export const dismissMenuItem = (

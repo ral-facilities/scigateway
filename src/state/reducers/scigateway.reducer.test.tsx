@@ -15,7 +15,7 @@ import {
   addHelpTourSteps,
   invalidToken,
   loadedAuthentication,
-  toggleDarkModePreference,
+  loadDarkModePreference,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -304,10 +304,10 @@ describe('scigateway reducer', () => {
     expect(updatedState.notifications).toEqual(updatedNotificationsInState);
   });
 
-  it('should toggle dark mode property when toggle dark mode action is sent', () => {
+  it('should load dark mode property into store when load dark mode action is sent', () => {
     expect(state.darkMode).toBeFalsy();
 
-    const updatedState = ScigatewayReducer(state, toggleDarkModePreference());
+    const updatedState = ScigatewayReducer(state, loadDarkModePreference(true));
 
     expect(updatedState.darkMode).toBeTruthy();
   });
@@ -438,7 +438,7 @@ describe('scigateway reducer', () => {
     const mockLog = (log.error as jest.Mock).mock;
     const call = mockLog.calls[0][0];
     expect(call)
-      .toEqual(`Attempted to initialise analytics without analytics configuration - 
+      .toEqual(`Attempted to initialise analytics without analytics configuration -
       configureAnalytics needs to be performed before initialising`);
   });
 });

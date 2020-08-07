@@ -16,6 +16,7 @@ import {
   addHelpTourSteps,
   invalidToken,
   loadedAuthentication,
+  loadDarkModePreference,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -300,7 +301,7 @@ describe('scigateway actions', () => {
       }
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider(null);
+    const testAuthProvider = new TestAuthProvider(null);
     testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({ scigateway: state });
@@ -338,7 +339,7 @@ describe('scigateway actions', () => {
       }
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider('token');
+    const testAuthProvider = new TestAuthProvider('token');
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementation(() => Promise.reject());
@@ -389,6 +390,27 @@ describe('scigateway actions', () => {
       target: '.test',
       content: 'test',
     });
+  });
+
+  it('should load dark mode preference into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
+
+    localStorage.setItem('darkMode', 'true');
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(loadDarkModePreference(true));
   });
 
   it('logs an error if settings.json fails to be loaded', async () => {

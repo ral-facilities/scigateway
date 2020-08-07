@@ -27,7 +27,8 @@ import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
   LoadedAuthType,
-  ToggleDarkModePreferenceType,
+  LoadDarkModePreferenceType,
+  LoadDarkModePreferencePayload,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -284,7 +285,7 @@ export function handleInitialiseAnalytics(
     };
   } else {
     log.error(
-      `Attempted to initialise analytics without analytics configuration - 
+      `Attempted to initialise analytics without analytics configuration -
       configureAnalytics needs to be performed before initialising`
     );
     return state;
@@ -329,12 +330,13 @@ export function handleAddHelpTourSteps(
   };
 }
 
-export function handleToggleDarkModePreference(
-  state: ScigatewayState
+export function handleLoadDarkModePreference(
+  state: ScigatewayState,
+  payload: LoadDarkModePreferencePayload
 ): ScigatewayState {
   return {
     ...state,
-    darkMode: !state.darkMode,
+    darkMode: payload.darkMode,
   };
 }
 
@@ -357,7 +359,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [InitialiseAnalyticsType]: handleInitialiseAnalytics,
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
-  [ToggleDarkModePreferenceType]: handleToggleDarkModePreference,
+  [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
 });
 
 export default ScigatewayReducer;
