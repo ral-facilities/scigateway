@@ -68,6 +68,9 @@ describe('scigateway middleware', () => {
 
   const loadDarkModePreferenceAction = {
     type: LoadDarkModePreferenceType,
+    payload: {
+      preference: false,
+    },
   };
 
   beforeEach(() => {
@@ -90,11 +93,12 @@ describe('scigateway middleware', () => {
     const mockStore = configureStore();
     store = mockStore({});
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
+
+    Storage.prototype.getItem = jest.fn(() => 'false');
   });
 
   afterEach(() => {
     ReactGA.testModeAPI.resetCalls();
-    localStorage.clear();
   });
 
   it('should broadcast messages with broadcast flag', () => {
@@ -199,7 +203,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should send dark theme options when LoadDarkModePreferenceType action is sent and darkmode preference is true', () => {
-    localStorage.setItem('darkMode', 'true');
+    Storage.prototype.getItem = jest.fn(() => 'true');
 
     const theme = buildTheme(true);
 
