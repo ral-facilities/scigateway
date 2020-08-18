@@ -69,7 +69,7 @@ describe('scigateway middleware', () => {
   const loadDarkModePreferenceAction = {
     type: LoadDarkModePreferenceType,
     payload: {
-      preference: false,
+      darkMode: false,
     },
   };
 

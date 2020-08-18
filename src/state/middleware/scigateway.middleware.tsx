@@ -47,8 +47,14 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
+  let darkModePreference;
   const darkModeLocalStorage = localStorage.getItem('darkMode');
-  const darkModePreference = darkModeLocalStorage === 'true' ? true : false;
+  if (darkModeLocalStorage) {
+    darkModePreference = darkModeLocalStorage === 'true' ? true : false;
+  } else {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModePreference = mq.matches;
+  }
   const theme = buildTheme(darkModePreference);
 
   document.addEventListener(microFrontendMessageId, (event) => {
@@ -152,11 +158,7 @@ const ScigatewayMiddleware: Middleware = ((
 
   if (action.type === LoadDarkModePreferenceType) {
     next(action);
-
-    const darkModeLocalStorage = localStorage.getItem('darkMode');
-    const darkModePreference = darkModeLocalStorage === 'true' ? true : false;
-    const theme = buildTheme(darkModePreference);
-
+    const theme = buildTheme(action.payload.darkMode);
     store.dispatch(sendThemeOptions(theme));
     return store.dispatch(requestPluginRerender());
   }

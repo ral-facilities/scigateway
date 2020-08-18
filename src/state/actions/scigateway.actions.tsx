@@ -135,6 +135,16 @@ export const initialiseAnalytics = (): Action => ({
 
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
+    // load dark mode preference from local storage into store
+    // otherwise, fetch system preference
+    const darkModeLocalStorage = localStorage.getItem('darkMode');
+    if (darkModeLocalStorage) {
+      const preference = darkModeLocalStorage === 'true' ? true : false;
+      dispatch(loadDarkModePreference(preference));
+    } else {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      dispatch(loadDarkModePreference(mq.matches));
+    }
     await axios
       .get(`/settings.json`)
       .then((res) => {
@@ -212,14 +222,6 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         const loadingPlugins = loadMicroFrontends.init(settings.plugins);
         loadingPromises.push(loadingPlugins);
-
-        // load dark mode preference from local storage into store
-        // otherwise, intial state is false
-        const darkModeLocalStorage = localStorage.getItem('darkMode');
-        if (darkModeLocalStorage) {
-          const preference = darkModeLocalStorage === 'true' ? true : false;
-          dispatch(loadDarkModePreference(preference));
-        }
 
         return Promise.all(loadingPromises).then(() => {
           dispatch(siteLoadingUpdate(false));
