@@ -203,7 +203,12 @@ describe('scigateway middleware', () => {
   });
 
   it('should send dark theme options when LoadDarkModePreferenceType action is sent and darkmode preference is true', () => {
-    Storage.prototype.getItem = jest.fn(() => 'true');
+    const loadDarkModePreferenceAction = {
+      type: LoadDarkModePreferenceType,
+      payload: {
+        darkMode: true,
+      },
+    };
 
     const theme = buildTheme(true);
 

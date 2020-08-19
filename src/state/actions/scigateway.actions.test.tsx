@@ -189,7 +189,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[1]).toEqual(
+    expect(actions[2]).toEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
   });
@@ -211,7 +211,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[0]).toEqual(configureAnalytics('test-tracking-id'));
+    expect(actions[1]).toEqual(configureAnalytics('test-tracking-id'));
   });
 
   it('dispatches a site loading update after settings are loaded', async () => {
@@ -245,7 +245,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(6);
+    expect(actions.length).toEqual(7);
     expect(actions).toContainEqual(authorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
@@ -276,7 +276,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(5);
+    expect(actions.length).toEqual(6);
     expect(actions).toContainEqual(invalidToken());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
