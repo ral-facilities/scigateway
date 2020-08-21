@@ -57,10 +57,10 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         // Light/dark mode
         type: 'dark',
         primary: {
-          main: '#1E5DF8',
+          main: '#003088',
         },
         secondary: {
-          main: '#333333',
+          main: '#80ACFF',
         },
         background: {
           default: '#212121',
@@ -85,6 +85,19 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
       },
       drawerWidth: 300,
+      overrides: {
+        MuiLink: {
+          root: {
+            color: '#80ACFF',
+          },
+        },
+        MuiTabs: {
+          indicator: {
+            color: '#80ACFF',
+            textDecoration: 'underline',
+          },
+        },
+      },
     };
   } else {
     options = {

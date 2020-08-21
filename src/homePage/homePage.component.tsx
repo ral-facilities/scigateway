@@ -63,7 +63,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     howItWorksGridItemCaption: {
       textAlign: 'center',
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
     strapline: {
       paddingTop: 50,
@@ -74,7 +74,7 @@ const styles = (theme: Theme): StyleRules =>
       paddingTop: 20,
       fontWeight: 'bold',
       fontStyle: 'italic',
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
   });
 

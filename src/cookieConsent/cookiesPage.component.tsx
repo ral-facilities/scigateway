@@ -33,7 +33,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     titleText: {
       fontWeight: 'bold',
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
     cookiePolicy: {
       marginTop: theme.spacing(2),
