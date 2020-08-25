@@ -33,7 +33,7 @@ jest.mock('popper.js', () => {
 });
 
 describe('Tour component', () => {
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   let shallow;
   let mount;

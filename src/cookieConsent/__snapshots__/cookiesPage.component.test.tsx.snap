@@ -40,7 +40,7 @@ exports[`Cookies page component should render correctly 1`] = `
       className="CookiesPage-cookieTypes-5"
       container={true}
       direction="column"
-      spacing={8}
+      spacing={4}
     >
       <WithStyles(ForwardRef(Grid))
         alignItems="center"

@@ -7,43 +7,13 @@ exports[`Preloader component does not render when the site stops loading 1`] = `
 exports[`Preloader component renders correctly 1`] = `
 <div>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "rgba(255,255,255,1)",
-        "bottom": 0,
-        "display": "flex",
-        "flexDirection": "column",
-        "height": "100%",
-        "justifyContent": "center",
-        "left": 0,
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "width": "100%",
-        "zIndex": 1000,
-      }
-    }
+    className="Preloader-container-3"
   >
     <div
-      style={
-        Object {
-          "boxSizing": "border-box",
-          "padding": "10px 0",
-        }
-      }
+      className="Preloader-wrapper-2"
     >
       <div
-        style={
-          Object {
-            "animation": "rotate 10s infinite linear",
-            "display": "block",
-            "height": 230,
-            "margin": "auto",
-            "position": "relative",
-            "width": 230,
-          }
-        }
+        className="Preloader-spinner-1"
       >
         <i
           style={
@@ -172,7 +142,9 @@ exports[`Preloader component renders correctly 1`] = `
         />
       </div>
     </div>
-    <div>
+    <div
+      className="Preloader-text-4"
+    >
       Loading...
     </div>
   </div>

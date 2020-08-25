@@ -6,6 +6,7 @@ import {
   RequestPluginRerenderType,
   ToggleDrawerType,
   SendThemeOptionsType,
+  LoadDarkModePreferenceType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -17,9 +18,6 @@ import {
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
-
-// Build theme to send the plugins.
-const theme = buildTheme();
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -49,6 +47,16 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
+  let darkModePreference;
+  const darkModeLocalStorage = localStorage.getItem('darkMode');
+  if (darkModeLocalStorage) {
+    darkModePreference = darkModeLocalStorage === 'true' ? true : false;
+  } else {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModePreference = mq.matches;
+  }
+  const theme = buildTheme(darkModePreference);
+
   document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
@@ -125,6 +133,7 @@ const ScigatewayMiddleware: Middleware = ((
   store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
 ) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
   const state = store.getState();
+
   if (action.payload && action.payload.broadcast) {
     broadcastToPlugins(action);
   }
@@ -144,6 +153,13 @@ const ScigatewayMiddleware: Middleware = ((
 
   if (action.type === ToggleDrawerType) {
     next(action);
+    return store.dispatch(requestPluginRerender());
+  }
+
+  if (action.type === LoadDarkModePreferenceType) {
+    next(action);
+    const theme = buildTheme(action.payload.darkMode);
+    store.dispatch(sendThemeOptions(theme));
     return store.dispatch(requestPluginRerender());
   }
 

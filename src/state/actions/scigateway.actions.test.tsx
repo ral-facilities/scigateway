@@ -16,6 +16,7 @@ import {
   addHelpTourSteps,
   invalidToken,
   loadedAuthentication,
+  loadDarkModePreference,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -188,7 +189,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[1]).toEqual(
+    expect(actions[2]).toEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
   });
@@ -210,7 +211,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[0]).toEqual(configureAnalytics('test-tracking-id'));
+    expect(actions[1]).toEqual(configureAnalytics('test-tracking-id'));
   });
 
   it('dispatches a site loading update after settings are loaded', async () => {
@@ -244,7 +245,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(6);
+    expect(actions.length).toEqual(7);
     expect(actions).toContainEqual(authorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
@@ -275,7 +276,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(5);
+    expect(actions.length).toEqual(6);
     expect(actions).toContainEqual(invalidToken());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
@@ -300,7 +301,7 @@ describe('scigateway actions', () => {
       }
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider(null);
+    const testAuthProvider = new TestAuthProvider(null);
     testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({ scigateway: state });
@@ -338,7 +339,7 @@ describe('scigateway actions', () => {
       }
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider('token');
+    const testAuthProvider = new TestAuthProvider('token');
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementation(() => Promise.reject());
@@ -389,6 +390,27 @@ describe('scigateway actions', () => {
       target: '.test',
       content: 'test',
     });
+  });
+
+  it('should load dark mode preference into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
+
+    localStorage.setItem('darkMode', 'true');
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(loadDarkModePreference(true));
   });
 
   it('logs an error if settings.json fails to be loaded', async () => {

@@ -15,6 +15,7 @@ import {
   addHelpTourSteps,
   invalidToken,
   loadedAuthentication,
+  loadDarkModePreference,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -154,7 +155,7 @@ describe('scigateway reducer', () => {
     state.authorisation.loading = true;
     expect(state.authorisation.loading).toBeTruthy();
 
-    let updatedState = ScigatewayReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
@@ -220,7 +221,7 @@ describe('scigateway reducer', () => {
     // therefore won't trigger autologin, and do some HTTP request shenanigans
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
+      .mockImplementation((name) =>
         name === 'scigateway:token' ? 'token' : null
       );
 
@@ -301,6 +302,14 @@ describe('scigateway reducer', () => {
     ];
 
     expect(updatedState.notifications).toEqual(updatedNotificationsInState);
+  });
+
+  it('should load dark mode property into store when load dark mode action is sent', () => {
+    expect(state.darkMode).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(state, loadDarkModePreference(true));
+
+    expect(updatedState.darkMode).toBeTruthy();
   });
 
   describe('register route', () => {
@@ -429,7 +438,7 @@ describe('scigateway reducer', () => {
     const mockLog = (log.error as jest.Mock).mock;
     const call = mockLog.calls[0][0];
     expect(call)
-      .toEqual(`Attempted to initialise analytics without analytics configuration - 
+      .toEqual(`Attempted to initialise analytics without analytics configuration -
       configureAnalytics needs to be performed before initialising`);
   });
 });

@@ -14,7 +14,7 @@ import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 
 describe('Notification Badge component', () => {
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   let shallow;
   let mount;

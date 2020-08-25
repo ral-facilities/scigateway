@@ -31,7 +31,7 @@ describe('Main app bar component', () => {
     mount.cleanUp();
   });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   it('app bar renders correctly', () => {
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
@@ -61,10 +61,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find('button')
-      .first()
-      .simulate('click');
+    wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
@@ -80,10 +77,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find(Typography)
-      .first()
-      .simulate('click');
+    wrapper.find(Typography).first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));
@@ -99,10 +93,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find('button[aria-label="Help"]')
-      .first()
-      .simulate('click');
+    wrapper.find('button[aria-label="Help"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleHelp());

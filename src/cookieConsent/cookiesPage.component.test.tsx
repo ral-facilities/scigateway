@@ -36,7 +36,7 @@ describe('Cookies page component', () => {
     mount.cleanUp();
   });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   it('should render correctly', () => {
     const wrapper = shallow(
@@ -77,7 +77,7 @@ describe('Cookies page component', () => {
 
     Cookies.getJSON = jest
       .fn()
-      .mockImplementationOnce(name =>
+      .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? { analytics: true } : null
       );
 

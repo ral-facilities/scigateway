@@ -30,6 +30,8 @@ import {
   InvalidateTokenType,
   SendThemeOptionsType,
   SendThemeOptionsPayload,
+  LoadDarkModePreferenceType,
+  LoadDarkModePreferencePayload,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -133,6 +135,16 @@ export const initialiseAnalytics = (): Action => ({
 
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
+    // load dark mode preference from local storage into store
+    // otherwise, fetch system preference
+    const darkModeLocalStorage = localStorage.getItem('darkMode');
+    if (darkModeLocalStorage) {
+      const preference = darkModeLocalStorage === 'true' ? true : false;
+      dispatch(loadDarkModePreference(preference));
+    } else {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      dispatch(loadDarkModePreference(mq.matches));
+    }
     await axios
       .get(`/settings.json`)
       .then((res) => {
@@ -284,6 +296,15 @@ export const sendThemeOptions = (
   payload: {
     theme,
     broadcast: true,
+  },
+});
+
+export const loadDarkModePreference = (
+  darkMode: boolean
+): ActionType<LoadDarkModePreferencePayload> => ({
+  type: LoadDarkModePreferenceType,
+  payload: {
+    darkMode: darkMode,
   },
 });
 

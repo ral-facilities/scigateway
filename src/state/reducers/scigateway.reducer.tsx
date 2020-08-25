@@ -27,6 +27,8 @@ import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
   LoadedAuthType,
+  LoadDarkModePreferenceType,
+  LoadDarkModePreferencePayload,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -55,6 +57,7 @@ export const initialState: ScigatewayState = {
   features: {
     showContactButton: true,
   },
+  darkMode: false,
 };
 
 export function handleNotification(
@@ -282,7 +285,7 @@ export function handleInitialiseAnalytics(
     };
   } else {
     log.error(
-      `Attempted to initialise analytics without analytics configuration - 
+      `Attempted to initialise analytics without analytics configuration -
       configureAnalytics needs to be performed before initialising`
     );
     return state;
@@ -327,6 +330,16 @@ export function handleAddHelpTourSteps(
   };
 }
 
+export function handleLoadDarkModePreference(
+  state: ScigatewayState,
+  payload: LoadDarkModePreferencePayload
+): ScigatewayState {
+  return {
+    ...state,
+    darkMode: payload.darkMode,
+  };
+}
+
 const ScigatewayReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -346,6 +359,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [InitialiseAnalyticsType]: handleInitialiseAnalytics,
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
+  [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
 });
 
 export default ScigatewayReducer;

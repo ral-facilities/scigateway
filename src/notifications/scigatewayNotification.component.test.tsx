@@ -8,7 +8,7 @@ import { Action } from 'redux';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-const theme = buildTheme();
+const theme = buildTheme(false);
 
 function createScigatewayNotification(
   severity: string,

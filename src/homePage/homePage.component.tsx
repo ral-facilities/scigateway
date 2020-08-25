@@ -38,10 +38,11 @@ const styles = (theme: Theme): StyleRules =>
       paddingLeft: '10vw',
       paddingRight: '10vw',
       paddingTop: 30,
+      backgroundColor: theme.palette.background.default,
     },
     howItWorksTitle: {
       fontWeight: 'bold',
-      color: theme.palette.secondary.dark,
+      color: theme.palette.text.primary,
       paddingBottom: 30,
     },
     howItWorksGridItem: {
@@ -62,18 +63,18 @@ const styles = (theme: Theme): StyleRules =>
     },
     howItWorksGridItemCaption: {
       textAlign: 'center',
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
     strapline: {
       paddingTop: 50,
       fontStyle: 'italic',
-      color: theme.palette.secondary.main,
+      color: theme.palette.text.secondary,
     },
     purpose: {
       paddingTop: 20,
       fontWeight: 'bold',
       fontStyle: 'italic',
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
   });
 

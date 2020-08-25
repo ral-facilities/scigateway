@@ -21,17 +21,19 @@ import { push } from 'connected-react-router';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      margin: theme.spacing(2),
+      padding: theme.spacing(2),
+      backgroundColor: theme.palette.background.default,
     },
     container: {
       display: 'flex',
       flexDirection: 'column',
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
+      color: theme.palette.text.primary,
     },
     titleText: {
       fontWeight: 'bold',
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
     cookiePolicy: {
       marginTop: theme.spacing(2),
@@ -60,7 +62,7 @@ interface CookiesPageDispatchProps {
   navigateToHome: () => Action;
 }
 
-type CombinedCookiesPageProps = CookiesPageProps &
+export type CombinedCookiesPageProps = CookiesPageProps &
   CookiesPageDispatchProps &
   WithStyles<typeof styles>;
 
@@ -108,7 +110,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
         </Typography>
         <Grid
           container
-          spacing={8}
+          spacing={4}
           direction="column"
           className={props.classes.cookieTypes}
         >
@@ -156,7 +158,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <Switch
                 checked={analytics}
                 color="primary"
-                onChange={e => setAnalytics(e.target.checked)}
+                onChange={(e) => setAnalytics(e.target.checked)}
                 inputProps={{
                   'aria-labelledby': 'analytics-cookies-title',
                   'aria-describedby': 'analytics-cookies-description',
