@@ -18,21 +18,25 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
     className="PageNotFound-container-4"
   >
     <WithStyles(ForwardRef(Typography))
+      className="PageNotFound-bold-5"
       variant="h2"
     >
       Page not found
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Typography))
-      className="PageNotFound-message-5"
+      className="PageNotFound-message-6"
       variant="body1"
     >
-      We're sorry, the page you requested could not be found. Please check the page address for typos. Click 
+      We're sorry, the page you requested could not be found. Please check the page address for typos. Click
+       
       <Link
+        className="PageNotFound-bold-5"
         to="/"
       >
         here
       </Link>
-       to return to the home page or contact support.
+       
+      to return to the home page or contact support.
     </WithStyles(ForwardRef(Typography))>
   </div>
 </div>

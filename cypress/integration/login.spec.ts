@@ -134,6 +134,7 @@ describe('Login', () => {
         plugins: [],
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
+        authUrl: 'http://localhost:8000',
         'help-tour-steps': [],
       });
       cy.route('/authenticators', [
@@ -186,6 +187,7 @@ describe('Login', () => {
         ],
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
+        authUrl: 'http://localhost:8000',
         'help-tour-steps': [],
       });
       cy.route('/authenticators', [

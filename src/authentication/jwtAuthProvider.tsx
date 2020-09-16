@@ -8,7 +8,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       return Promise.resolve();
     }
 
-    return Axios.post('/api/jwt/authenticate', {
+    return Axios.post(`${this.authUrl}/api/jwt/authenticate`, {
       username,
       password,
     })
@@ -31,7 +31,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Axios.post('/api/jwt/checkToken', {
+    return Axios.post(`${this.authUrl}/api/jwt/checkToken`, {
       token: this.token,
     })
       .then(() => {
@@ -41,7 +41,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
   }
 
   public refresh(): Promise<void> {
-    return Axios.post('/api/jwt/refresh', {
+    return Axios.post(`${this.authUrl}/api/jwt/refresh`, {
       token: this.token,
     })
       .then((res) => {

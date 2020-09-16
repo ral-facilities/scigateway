@@ -3,6 +3,7 @@ import { Dispatch, Action, AnyAction } from 'redux';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import BrightnessIcon from '@material-ui/icons/Brightness4';
 import {
   IconButton,
   withStyles,
@@ -21,7 +22,10 @@ import {
 import { StyleRules } from '@material-ui/core/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { signOut } from '../state/actions/scigateway.actions';
+import {
+  signOut,
+  loadDarkModePreference,
+} from '../state/actions/scigateway.actions';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { ThunkDispatch } from 'redux-thunk';
@@ -33,12 +37,14 @@ interface UserProfileProps {
   loggedIn: boolean;
   user: User;
   res: AppStrings | undefined;
+  darkMode: boolean;
 }
 
 interface UserProfileDispatchProps {
   signIn: () => Action;
   signOut: () => void;
   manageCookies: () => Action;
+  toggleDarkMode: (preference: boolean) => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -80,6 +86,11 @@ const UserProfileComponent = (
   const manageCookies = (): void => {
     closeMenu();
     props.manageCookies();
+  };
+  const toggleDarkMode = (): void => {
+    const toggledPreference = !props.darkMode;
+    localStorage.setItem('darkMode', toggledPreference.toString());
+    props.toggleDarkMode(toggledPreference);
   };
   return (
     <div className="tour-user-profile">
@@ -123,6 +134,14 @@ const UserProfileComponent = (
                 primary={getString(props.res, 'manage-cookies-button')}
               />
             </MenuItem>
+            <MenuItem id="item-dark-mode" onClick={toggleDarkMode}>
+              <ListItemIcon>
+                <BrightnessIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={getString(props.res, 'toggle-dark-mode')}
+              />
+            </MenuItem>
             <Divider />
             <MenuItem id="item-sign-out" onClick={logout}>
               <ListItemIcon>
@@ -163,6 +182,7 @@ const mapStateToProps = (state: StateType): UserProfileProps => ({
   user:
     state.scigateway.authorisation.provider.user || new UserInfo('anonymous'),
   res: getAppStrings(state, 'login'),
+  darkMode: state.scigateway.darkMode,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
@@ -172,6 +192,8 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
     thunkDispatch(signOut());
   },
   manageCookies: () => dispatch(push('/cookies')),
+  toggleDarkMode: (preference: boolean) =>
+    dispatch(loadDarkModePreference(preference)),
 });
 
 export default connect(

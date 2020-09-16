@@ -28,12 +28,17 @@ import {
   AddHelpTourStepsType,
   AddHelpTourStepsPayload,
   InvalidateTokenType,
+  SendThemeOptionsType,
+  SendThemeOptionsPayload,
+  LoadDarkModePreferenceType,
+  LoadDarkModePreferencePayload,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import { push } from 'connected-react-router';
 import { ThunkAction } from 'redux-thunk';
 import { Step } from 'react-joyride';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -76,11 +81,13 @@ export const addHelpTourSteps = (
 });
 
 export const loadAuthProvider = (
-  authProvider: string
+  authProvider: string,
+  authUrl?: string
 ): ActionType<AuthProviderPayload> => ({
   type: LoadAuthProviderType,
   payload: {
     authProvider,
+    authUrl,
   },
 });
 
@@ -128,6 +135,16 @@ export const initialiseAnalytics = (): Action => ({
 
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
+    // load dark mode preference from local storage into store
+    // otherwise, fetch system preference
+    const darkModeLocalStorage = localStorage.getItem('darkMode');
+    if (darkModeLocalStorage) {
+      const preference = darkModeLocalStorage === 'true' ? true : false;
+      dispatch(loadDarkModePreference(preference));
+    } else {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      dispatch(loadDarkModePreference(mq.matches));
+    }
     await axios
       .get(`/settings.json`)
       .then((res) => {
@@ -142,7 +159,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(configureAnalytics(settings['ga-tracking-id']));
         }
 
-        dispatch(loadAuthProvider(settings['auth-provider']));
+        dispatch(
+          loadAuthProvider(settings['auth-provider'], settings['authUrl'])
+        );
 
         const loadingPromises = [];
 
@@ -267,6 +286,25 @@ export const requestPluginRerender = (): ActionType<{
   type: RequestPluginRerenderType,
   payload: {
     broadcast: true,
+  },
+});
+
+export const sendThemeOptions = (
+  theme: Theme
+): ActionType<SendThemeOptionsPayload> => ({
+  type: SendThemeOptionsType,
+  payload: {
+    theme,
+    broadcast: true,
+  },
+});
+
+export const loadDarkModePreference = (
+  darkMode: boolean
+): ActionType<LoadDarkModePreferencePayload> => ({
+  type: LoadDarkModePreferenceType,
+  payload: {
+    darkMode: darkMode,
   },
 });
 

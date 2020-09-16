@@ -5,15 +5,19 @@ import {
   InvalidateTokenType,
   RequestPluginRerenderType,
   ToggleDrawerType,
+  SendThemeOptionsType,
+  LoadDarkModePreferenceType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import {
   addHelpTourSteps,
   requestPluginRerender,
+  sendThemeOptions,
 } from '../actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
+import { buildTheme } from '../../theming';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -43,6 +47,16 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
+  let darkModePreference;
+  const darkModeLocalStorage = localStorage.getItem('darkMode');
+  if (darkModeLocalStorage) {
+    darkModePreference = darkModeLocalStorage === 'true' ? true : false;
+  } else {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModePreference = mq.matches;
+  }
+  const theme = buildTheme(darkModePreference);
+
   document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
@@ -55,6 +69,9 @@ export const listenToPlugins = (
       switch (pluginMessage.detail.type) {
         case RequestPluginRerenderType:
           //ignore events sent from the parent app
+          break;
+
+        case SendThemeOptionsType:
           break;
 
         case RegisterRouteType:
@@ -72,6 +89,9 @@ export const listenToPlugins = (
               ])
             );
           }
+
+          // Send theme options once registered.
+          dispatch(sendThemeOptions(theme));
           break;
 
         case NotificationType:
@@ -113,6 +133,7 @@ const ScigatewayMiddleware: Middleware = ((
   store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
 ) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
   const state = store.getState();
+
   if (action.payload && action.payload.broadcast) {
     broadcastToPlugins(action);
   }
@@ -132,6 +153,13 @@ const ScigatewayMiddleware: Middleware = ((
 
   if (action.type === ToggleDrawerType) {
     next(action);
+    return store.dispatch(requestPluginRerender());
+  }
+
+  if (action.type === LoadDarkModePreferenceType) {
+    next(action);
+    const theme = buildTheme(action.payload.darkMode);
+    store.dispatch(sendThemeOptions(theme));
     return store.dispatch(requestPluginRerender());
   }
 

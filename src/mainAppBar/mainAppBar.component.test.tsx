@@ -30,7 +30,7 @@ describe('Main app bar component', () => {
     mount.cleanUp();
   });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   it('app bar renders correctly', () => {
     const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);

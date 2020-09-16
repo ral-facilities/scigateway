@@ -9,6 +9,7 @@ import { push } from 'connected-react-router';
 import { Avatar } from '@material-ui/core';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
+import { loadDarkModePreference } from '../state/actions/scigateway.actions';
 
 describe('User profile component', () => {
   let shallow;
@@ -125,5 +126,21 @@ describe('User profile component', () => {
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
     expect(testStore.getActions()[1]).toEqual(push('/'));
+  });
+
+  it('sends load dark mode prefrence action if toggle dark mode is clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <UserProfileComponent />
+      </Provider>
+    );
+
+    // Click the user menu button and click on the manage cookies menu item.
+    wrapper.find('button').simulate('click');
+    wrapper.find('#item-dark-mode').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
   });
 });

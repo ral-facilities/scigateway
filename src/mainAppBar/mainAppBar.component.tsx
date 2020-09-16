@@ -45,6 +45,7 @@ const styles = (theme: Theme): StyleRules =>
       width: '100%',
     },
     appBar: {
+      backgroundColor: theme.palette.primary.main,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeIn,
         duration: theme.transitions.duration.leavingScreen,

@@ -90,7 +90,7 @@ interface LoginPageDispatchProps {
     username: string,
     password: string
   ) => Promise<void>;
-  changeMnemonic: (mnemonic: string) => void;
+  changeMnemonic: (mnemonic: string, authUrl: string | undefined) => void;
 }
 
 export type CombinedLoginProps = LoginPageProps &
@@ -229,6 +229,7 @@ export const LoginSelector = (
   const mnemonics = props.mnemonics;
   const mnemonic = props.auth.provider.mnemonic || '';
   const setMnemonic = props.changeMnemonic;
+  const authUrl = props.auth.provider.authUrl;
 
   return (
     <FormControl style={{ minWidth: 120 }}>
@@ -239,7 +240,7 @@ export const LoginSelector = (
         labelId="mnemonic-select"
         value={mnemonic}
         onChange={(e) => {
-          setMnemonic(e.target.value as string);
+          setMnemonic(e.target.value as string, authUrl);
         }}
       >
         {mnemonics.map((authenticator) => (
@@ -252,9 +253,11 @@ export const LoginSelector = (
   );
 };
 
-function fetchMnemonics(): Promise<ICATAuthenticator[]> {
+function fetchMnemonics(
+  authUrl: string | undefined
+): Promise<ICATAuthenticator[]> {
   return axios
-    .get('/authenticators')
+    .get(`${authUrl}/authenticators`)
     .then((res) => {
       return res.data;
     })
@@ -277,23 +280,24 @@ function fetchMnemonics(): Promise<ICATAuthenticator[]> {
 
 const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const mnemonic = props.auth.provider.mnemonic;
+  const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
 
   const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
-      fetchMnemonics().then((mnemonics) => {
+      fetchMnemonics(authUrl).then((mnemonics) => {
         const nonAdminAuthenticators = mnemonics.filter(
           (authenticator) => !authenticator.admin
         );
         setMnemonics(nonAdminAuthenticators);
         setFetchedMnemonics(true);
         if (nonAdminAuthenticators.length === 1)
-          changeMnemonic(nonAdminAuthenticators[0].mnemonic);
+          changeMnemonic(nonAdminAuthenticators[0].mnemonic, authUrl);
       });
     }
-  }, [changeMnemonic, mnemonic, fetchedMnemonics]);
+  }, [changeMnemonic, mnemonic, fetchedMnemonics, authUrl]);
 
   React.useEffect(() => {
     if (
@@ -380,7 +384,8 @@ const mapDispatchToProps = (
 ): LoginPageDispatchProps => ({
   verifyUsernameAndPassword: (username, password) =>
     dispatch(verifyUsernameAndPassword(username.trim(), password)),
-  changeMnemonic: (mnemonic) => dispatch(loadAuthProvider(`icat.${mnemonic}`)),
+  changeMnemonic: (mnemonic, authUrl) =>
+    dispatch(loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)),
 });
 
 export const LoginPageWithoutStyles = LoginPageComponent;

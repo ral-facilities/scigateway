@@ -1,4 +1,5 @@
 import { Step } from 'react-joyride';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 export const AuthSuccessType = 'scigateway:auth_success';
 export const AuthFailureType = 'scigateway:auth_failure';
@@ -11,6 +12,9 @@ export const LoginType = 'scigateway:login';
 export const NotificationType = 'scigateway:api:notification';
 export const RegisterRouteType = 'scigateway:api:register_route';
 export const RequestPluginRerenderType = 'scigateway:api:plugin_rerender';
+export const SendThemeOptionsType = 'scigateway:api:send_themeoptions';
+export const LoadDarkModePreferenceType =
+  'scigateway:load_dark_mode_preference';
 export const SignOutType = 'scigateway:signout';
 export const ToggleDrawerType = 'scigateway:toggledrawer';
 export const DismissNotificationType = 'scigateway:dismissnotification';
@@ -88,12 +92,22 @@ export interface AuthorisedPayload {
   token: string;
 }
 
+export interface SendThemeOptionsPayload {
+  theme: Theme;
+  broadcast: boolean;
+}
+
+export interface LoadDarkModePreferencePayload {
+  darkMode: boolean;
+}
+
 export interface DismissNotificationPayload {
   index: number;
 }
 
 export interface AuthProviderPayload {
   authProvider: string;
+  authUrl: string | undefined;
 }
 
 export interface SiteLoadingPayload {

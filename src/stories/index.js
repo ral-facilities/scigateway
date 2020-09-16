@@ -7,7 +7,7 @@ import { buildTheme } from '../theming';
 const req = require.context('./', true, /\.stories\.tsx$/);
 
 const MaterialUIThemeDecorator = (storyFn) => (
-  <MuiThemeProvider theme={buildTheme()}>{storyFn()}</MuiThemeProvider>
+  <MuiThemeProvider theme={buildTheme(false)}>{storyFn()}</MuiThemeProvider>
 );
 addDecorator(MaterialUIThemeDecorator);
 addDecorator(StoryRouter());

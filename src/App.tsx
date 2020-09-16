@@ -1,4 +1,3 @@
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import * as log from 'loglevel';
@@ -7,9 +6,6 @@ import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import MainAppBar from './mainAppBar/mainAppBar.component';
-import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
-import Routing from './routing/routing.component';
 import { configureSite } from './state/actions/scigateway.actions';
 import ScigatewayMiddleware, {
   listenToPlugins,
@@ -17,12 +13,9 @@ import ScigatewayMiddleware, {
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
 import './index.css';
-import { buildTheme } from './theming';
-import Preloader from './preloader/preloader.component';
-import CookieConsent from './cookieConsent/cookieConsent.component';
+import { ConnectedThemeProvider } from './theming';
 import ReduxToastr from 'react-redux-toastr';
-import Tour from './tour/tour.component';
-
+import PageContainer from './pageContainer.component';
 import {
   StylesProvider,
   createGenerateClassName,
@@ -63,17 +56,6 @@ listenToPlugins(store.dispatch, getState);
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
 
-const pageContent = (): React.ReactNode => (
-  <React.Fragment>
-    <Preloader />
-    <MainAppBar />
-    <NavigationDrawer />
-    <Tour />
-    <CookieConsent />
-    <Routing />
-  </React.Fragment>
-);
-
 const toastrConfig = (): React.ReactElement => (
   <ReduxToastr
     timeOut={0}
@@ -92,10 +74,10 @@ class App extends React.Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <StylesProvider generateClassName={generateClassName}>
-              <MuiThemeProvider theme={buildTheme()}>
+              <ConnectedThemeProvider>
                 {toastrConfig()}
-                {pageContent()}
-              </MuiThemeProvider>
+                <PageContainer />
+              </ConnectedThemeProvider>
             </StylesProvider>
           </ConnectedRouter>
         </Provider>

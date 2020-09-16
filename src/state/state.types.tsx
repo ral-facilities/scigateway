@@ -31,6 +31,7 @@ export interface ScigatewayState {
   res?: ApplicationStrings;
   features: FeatureSwitches;
   analytics?: AnalyticsState;
+  darkMode: boolean;
 }
 
 export interface StateType {
@@ -65,6 +66,7 @@ export interface AuthProvider {
   verifyLogIn: () => Promise<void>;
   refresh: () => Promise<void>;
   redirectUrl: string | null;
+  authUrl: string | undefined;
   user: User | null;
   mnemonic?: string;
   autoLogin?: () => Promise<void>;

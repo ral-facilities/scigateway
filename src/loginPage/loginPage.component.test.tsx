@@ -74,7 +74,7 @@ describe('Login page component', () => {
     state.scigateway.authorisation = props.auth;
   });
 
-  const theme = buildTheme();
+  const theme = buildTheme(false);
 
   it('credential component renders correctly', () => {
     const wrapper = shallow(
@@ -307,6 +307,7 @@ describe('Login page component', () => {
 
   it('loadAuthProvider action should be sent when user selects an authenticator in authenticator dropdown', async () => {
     state.scigateway.authorisation.provider.mnemonic = '';
+    state.scigateway.authorisation.provider.authUrl = 'http://localhost:8000';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -344,7 +345,7 @@ describe('Login page component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(
-      loadAuthProvider('icat.user/pass')
+      loadAuthProvider('icat.user/pass', 'http://localhost:8000')
     );
   });
 

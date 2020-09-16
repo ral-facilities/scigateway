@@ -40,7 +40,7 @@ function isValidLogin(username, password) {
   return username === 'username' && password === 'password';
 }
 
-app.post('/api/jwt/authenticate', function(req, res) {
+app.post(`/api/jwt/authenticate`, function(req, res) {
   const { username, password } = req.body;
 
   if (username === 'error') {
@@ -79,7 +79,7 @@ app.post('/api/jwt/authenticate', function(req, res) {
   }
 });
 
-app.post('/api/jwt/checkToken', withAuth, function(req, res) {
+app.post(`/api/jwt/checkToken`, withAuth, function(req, res) {
   const { token } = req.body;
   if (jwt.verify(token, jwtSecret)) {
     res.sendStatus(200);
@@ -90,7 +90,7 @@ app.post('/api/jwt/checkToken', withAuth, function(req, res) {
   }
 });
 
-app.post('/api/jwt/refresh', function(req, res) {
+app.post(`/api/jwt/refresh`, function(req, res) {
   const refreshToken = req.cookies['scigateway:refresh_token'];
   const accessToken = req.body.token;
 
@@ -121,7 +121,7 @@ app.post('/api/jwt/refresh', function(req, res) {
   }
 });
 
-app.post('/api/github/authenticate', function(req, res) {
+app.post(`/api/github/authenticate`, function(req, res) {
   const { code } = req.body;
 
   const headers = {
@@ -158,7 +158,7 @@ app.post('/api/github/authenticate', function(req, res) {
     });
 });
 
-app.post('/api/github/checkToken', function(req, res) {
+app.post(`/api/github/checkToken`, function(req, res) {
   const { token } = req.body;
   axios
     .get('https://api.github.com/user', {

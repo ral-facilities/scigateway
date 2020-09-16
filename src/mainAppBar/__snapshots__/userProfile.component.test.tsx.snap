@@ -42,6 +42,17 @@ exports[`User profile component renders default avatar if signed in 1`] = `
           primary="manage-cookies-button"
         />
       </WithStyles(ForwardRef(MenuItem))>
+      <WithStyles(ForwardRef(MenuItem))
+        id="item-dark-mode"
+        onClick={[Function]}
+      >
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <Brightness4Icon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
+          primary="toggle-dark-mode"
+        />
+      </WithStyles(ForwardRef(MenuItem))>
       <WithStyles(ForwardRef(Divider)) />
       <WithStyles(ForwardRef(MenuItem))
         id="item-sign-out"
@@ -145,6 +156,17 @@ exports[`User profile component renders user avatar if signed in with avatar url
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
           primary="manage-cookies-button"
+        />
+      </WithStyles(ForwardRef(MenuItem))>
+      <WithStyles(ForwardRef(MenuItem))
+        id="item-dark-mode"
+        onClick={[Function]}
+      >
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <Brightness4Icon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
+          primary="toggle-dark-mode"
         />
       </WithStyles(ForwardRef(MenuItem))>
       <WithStyles(ForwardRef(Divider)) />
