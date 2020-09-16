@@ -300,7 +300,7 @@ describe('scigateway actions', () => {
       }
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider(null);
+    const testAuthProvider = new TestAuthProvider(null);
     testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({ scigateway: state });
@@ -338,7 +338,7 @@ describe('scigateway actions', () => {
       }
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    let testAuthProvider = new TestAuthProvider('token');
+    const testAuthProvider = new TestAuthProvider('token');
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementation(() => Promise.reject());

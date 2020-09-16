@@ -154,7 +154,7 @@ describe('scigateway reducer', () => {
     state.authorisation.loading = true;
     expect(state.authorisation.loading).toBeTruthy();
 
-    let updatedState = ScigatewayReducer(state, action);
+    const updatedState = ScigatewayReducer(state, action);
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
@@ -220,7 +220,7 @@ describe('scigateway reducer', () => {
     // therefore won't trigger autologin, and do some HTTP request shenanigans
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name =>
+      .mockImplementation((name) =>
         name === 'scigateway:token' ? 'token' : null
       );
 

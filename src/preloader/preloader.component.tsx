@@ -64,8 +64,9 @@ const spinnerStyle = (index: number): SpinnerStyle => {
     animationName: 'rotate',
     animationIterationCount: 'infinite',
     animationDuration: '3s',
-    animationTimingFunction: `cubic-bezier(.09, ${0.3 * index}, ${0.12 *
-      index}, .03)`,
+    animationTimingFunction: `cubic-bezier(.09, ${0.3 * index}, ${
+      0.12 * index
+    }, .03)`,
     transformOrigin: '50% 100% 0',
     boxSizing: 'border-box' as 'border-box',
   };

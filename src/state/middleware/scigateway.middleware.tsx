@@ -43,7 +43,7 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
-  document.addEventListener(microFrontendMessageId, event => {
+  document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
     if (

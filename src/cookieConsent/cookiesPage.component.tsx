@@ -156,7 +156,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <Switch
                 checked={analytics}
                 color="primary"
-                onChange={e => setAnalytics(e.target.checked)}
+                onChange={(e) => setAnalytics(e.target.checked)}
                 inputProps={{
                   'aria-labelledby': 'analytics-cookies-title',
                   'aria-describedby': 'analytics-cookies-description',

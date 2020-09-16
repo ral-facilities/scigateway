@@ -13,7 +13,7 @@ export const comparePlugins = (a: PluginConfig, b: PluginConfig): number =>
 function buildMenuItemDictionary(plugins: PluginConfig[]): GroupedPlugins {
   const dict: GroupedPlugins = {};
 
-  plugins.forEach(p => {
+  plugins.forEach((p) => {
     if (!(p.section in dict)) {
       dict[p.section] = [];
     }
@@ -28,7 +28,7 @@ export function structureMenuData(plugins: PluginConfig[]): GroupedPlugins {
   const menuItems = buildMenuItemDictionary(plugins);
 
   Object.keys(menuItems).forEach(
-    section => (menuItems[section] = menuItems[section].sort(comparePlugins))
+    (section) => (menuItems[section] = menuItems[section].sort(comparePlugins))
   );
   return menuItems;
 }

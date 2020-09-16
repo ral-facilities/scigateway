@@ -15,7 +15,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       this.autoLogin = () =>
         this.logIn('', '')
           .then(() => localStorage.setItem('autoLogin', 'true'))
-          .catch(err => {
+          .catch((err) => {
             localStorage.setItem('autoLogin', 'false');
             throw err;
           })
@@ -39,7 +39,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         password,
       },
     })
-      .then(res => {
+      .then((res) => {
         ReactGA.event({
           category: 'Login',
           action: 'Successfully logged in via JWT',
@@ -52,7 +52,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         this.storeUser(payload.username);
         return;
       })
-      .catch(err => {
+      .catch((err) => {
         ReactGA.event({
           category: 'Login',
           action: 'Failed to log in via JWT',
@@ -75,10 +75,10 @@ export default class ICATAuthProvider extends BaseAuthProvider {
     return Axios.post('/refresh', {
       token: this.token,
     })
-      .then(res => {
+      .then((res) => {
         this.storeToken(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         this.handleRefreshError(err);
       });
   }

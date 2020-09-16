@@ -11,7 +11,7 @@ describe('ICAT auth provider', () => {
   beforeEach(() => {
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name => {
+      .mockImplementation((name) => {
         if (name === 'scigateway:token') {
           return 'token';
         } else if (name === 'autoLogin') {
@@ -26,7 +26,7 @@ describe('ICAT auth provider', () => {
     icatAuthProvider = new ICATAuthProvider('mnemonic');
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
     (parseJwt as jest.Mock).mockImplementation(
-      token => `{"sessionId": "${token}", "username": "${token} username"}`
+      (token) => `{"sessionId": "${token}", "username": "${token} username"}`
     );
   });
 

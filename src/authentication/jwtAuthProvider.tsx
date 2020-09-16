@@ -12,7 +12,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
       username,
       password,
     })
-      .then(res => {
+      .then((res) => {
         ReactGA.event({
           category: 'Login',
           action: 'Sucessfully logged in via JWT',
@@ -21,7 +21,7 @@ export default class JWTAuthProvider extends BaseAuthProvider {
         this.storeUser(username);
         return;
       })
-      .catch(err => {
+      .catch((err) => {
         ReactGA.event({
           category: 'Login',
           action: 'Failed to log in via JWT',
@@ -44,9 +44,9 @@ export default class JWTAuthProvider extends BaseAuthProvider {
     return Axios.post('/api/jwt/refresh', {
       token: this.token,
     })
-      .then(res => {
+      .then((res) => {
         this.storeToken(res.data.token);
       })
-      .catch(err => this.handleRefreshError(err));
+      .catch((err) => this.handleRefreshError(err));
   }
 }

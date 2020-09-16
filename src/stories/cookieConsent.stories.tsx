@@ -12,7 +12,7 @@ storiesOf('CookieConsent', module)
     },
   })
   .addDecorator(
-    ReduxDecorator(state => ({
+    ReduxDecorator((state) => ({
       ...state,
       siteLoading: false,
     }))

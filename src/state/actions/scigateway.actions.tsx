@@ -45,13 +45,13 @@ export const configureStrings = (
 });
 
 export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
-  return async dispatch => {
+  return async (dispatch) => {
     await axios
       .get(path)
-      .then(res => {
+      .then((res) => {
         dispatch(configureStrings(res.data));
       })
-      .catch(error =>
+      .catch((error) =>
         log.error(`Failed to read strings from ${path}: ${error}`)
       );
   };
@@ -130,7 +130,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     await axios
       .get(`/settings.json`)
-      .then(res => {
+      .then((res) => {
         const settings = res.data;
 
         // invalid settings.json - Use JSON.parse to give detailed error info
@@ -208,7 +208,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(siteLoadingUpdate(false));
         });
       })
-      .catch(error => {
+      .catch((error) => {
         log.error(`Error loading settings.json: ${error.message}`);
       });
   };
@@ -222,12 +222,9 @@ export const toggleHelp = (): Action => ({
   type: ToggleHelpType,
 });
 
-export const signOut = (): ThunkAction<
-  void,
-  StateType,
-  null,
-  AnyAction
-> => dispatch => {
+export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
+  dispatch
+) => {
   dispatch({ type: SignOutType });
   dispatch(push('/'));
 };

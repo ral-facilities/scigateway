@@ -9,5 +9,5 @@ storiesOf('Homepage', module)
       text: 'The homepage for the site',
     },
   })
-  .addDecorator(ReduxDecorator(state => state))
+  .addDecorator(ReduxDecorator((state) => state))
   .add('default', () => <HomePageComponent />);

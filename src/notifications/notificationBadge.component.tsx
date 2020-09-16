@@ -76,7 +76,7 @@ const NotificationBadge = (
     <div className="tour-notifications">
       <IconButton
         className={props.classes.button}
-        onClick={e => setMenuAnchor(e.currentTarget)}
+        onClick={(e) => setMenuAnchor(e.currentTarget)}
         aria-label="Open notification menu"
       >
         <Badge

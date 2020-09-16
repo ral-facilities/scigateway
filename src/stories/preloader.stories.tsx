@@ -5,5 +5,5 @@ import { ReduxDecorator } from './utils';
 import '../index.css';
 
 storiesOf('Preloader', module)
-  .addDecorator(ReduxDecorator(s => s))
+  .addDecorator(ReduxDecorator((s) => s))
   .add('renders correctly', () => <Preloader />);

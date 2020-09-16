@@ -48,10 +48,7 @@ describe('User profile component', () => {
       </Provider>
     );
 
-    wrapper
-      .find('button')
-      .first()
-      .simulate('click');
+    wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/login'));
@@ -62,7 +59,7 @@ describe('User profile component', () => {
 
     window.localStorage.__proto__.getItem = jest
       .fn()
-      .mockImplementation(name => (name === 'autoLogin' ? 'true' : null));
+      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
 
     const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
     expect(wrapper).toMatchSnapshot();
@@ -90,21 +87,11 @@ describe('User profile component', () => {
     };
     const wrapper = mount(<UserProfileComponent store={mockStore(state)} />);
 
-    expect(
-      wrapper
-        .find('#simple-menu')
-        .first()
-        .prop('open')
-    ).toBeFalsy();
+    expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
 
     wrapper.find(Avatar).simulate('click');
 
-    expect(
-      wrapper
-        .find('#simple-menu')
-        .first()
-        .prop('open')
-    ).toBeTruthy();
+    expect(wrapper.find('#simple-menu').first().prop('open')).toBeTruthy();
   });
 
   it('opens cookie policy/management page if manage cookies clicked', () => {
@@ -117,10 +104,7 @@ describe('User profile component', () => {
 
     // Click the user menu button and click on the manage cookies menu item.
     wrapper.find('button').simulate('click');
-    wrapper
-      .find('#item-manage-cookies')
-      .first()
-      .simulate('click');
+    wrapper.find('#item-manage-cookies').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/cookies'));
@@ -136,10 +120,7 @@ describe('User profile component', () => {
 
     // Click the user menu button and click on the sign out menu item.
     wrapper.find('button').simulate('click');
-    wrapper
-      .find('#item-sign-out')
-      .first()
-      .simulate('click');
+    wrapper.find('#item-sign-out').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });

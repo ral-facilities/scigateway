@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
-  withStyles: styles => component => component,
+  withStyles: (styles) => (component) => component,
 }));
 
 describe('Routing component', () => {

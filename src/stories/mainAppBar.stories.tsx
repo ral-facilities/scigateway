@@ -22,7 +22,7 @@ user.avatarUrl =
 
 type StateModifier = (state: ScigatewayState) => ScigatewayState;
 
-const updateToBeLoggedIn = (user: User): StateModifier => state => {
+const updateToBeLoggedIn = (user: User): StateModifier => (state) => {
   state.authorisation.provider = new TestAuthProvider('logged in');
   if (user) {
     state.authorisation.provider.user = user;
