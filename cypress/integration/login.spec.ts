@@ -264,7 +264,7 @@ describe('Login', () => {
       cy.get('#select-mnemonic').click();
       cy.contains('anon').click();
 
-      cy.contains('SciGateway').click();
+      cy.get('[alt="SciGateway"]').click();
 
       cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');

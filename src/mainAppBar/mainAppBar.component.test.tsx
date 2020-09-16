@@ -10,7 +10,6 @@ import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 describe('Main app bar component', () => {
   let shallow;
@@ -61,10 +60,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find('button')
-      .first()
-      .simulate('click');
+    wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
@@ -80,10 +76,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find(Typography)
-      .first()
-      .simulate('click');
+    wrapper.find('button[aria-label="Homepage"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));
@@ -99,10 +92,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper
-      .find('button[aria-label="Help"]')
-      .first()
-      .simulate('click');
+    wrapper.find('button[aria-label="Help"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleHelp());

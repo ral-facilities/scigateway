@@ -17,16 +17,16 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <MenuIcon />
       </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Typography))
+      <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
-        className="MainAppBar-title-5 tour-title"
-        color="inherit"
-        noWrap={true}
+        className="MainAppBar-titleButton-5 tour-title"
         onClick={[Function]}
-        variant="h6"
       >
-        title
-      </WithStyles(ForwardRef(Typography))>
+        <img
+          alt="title"
+          src="scigateway-white.svg"
+        />
+      </WithStyles(ForwardRef(Button))>
       <WithStyles(ForwardRef(Button))
         aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
@@ -82,16 +82,16 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <MenuIcon />
       </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Typography))
+      <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
-        className="MainAppBar-title-5 tour-title"
-        color="inherit"
-        noWrap={true}
+        className="MainAppBar-titleButton-5 tour-title"
         onClick={[Function]}
-        variant="h6"
       >
-        title
-      </WithStyles(ForwardRef(Typography))>
+        <img
+          alt="title"
+          src="scigateway-white.svg"
+        />
+      </WithStyles(ForwardRef(Button))>
       <WithStyles(ForwardRef(Button))
         aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
@@ -147,16 +147,16 @@ exports[`Main app bar component does not render contact button when feature is f
       >
         <MenuIcon />
       </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Typography))
+      <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
-        className="MainAppBar-title-5 tour-title"
-        color="inherit"
-        noWrap={true}
+        className="MainAppBar-titleButton-5 tour-title"
         onClick={[Function]}
-        variant="h6"
       >
-        title
-      </WithStyles(ForwardRef(Typography))>
+        <img
+          alt="title"
+          src="scigateway-white.svg"
+        />
+      </WithStyles(ForwardRef(Button))>
       <div
         className="MainAppBar-grow-4"
       />
