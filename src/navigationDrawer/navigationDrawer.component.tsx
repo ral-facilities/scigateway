@@ -19,6 +19,8 @@ import { PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
+import DatagatewayLogo from '../images/datagateway-logo.svg';
+import DatagatewayWhite from '../images/datagateway-white.svg';
 
 interface NavigationDrawerProps {
   open: boolean;
@@ -52,6 +54,18 @@ const styles = (theme: Theme): StyleRules =>
     menuItem: {
       color: theme.palette.text.secondary,
     },
+    menuLogo: {
+      paddingLeft: 56,
+      height: 20,
+      color: theme.palette.text.secondary,
+      display: theme.palette.type === 'dark' ? 'none' : 'inline',
+    },
+    menuLogoDarkMode: {
+      paddingLeft: 56,
+      height: 20,
+      color: theme.palette.text.secondary,
+      display: theme.palette.type === 'dark' ? 'inline' : 'none',
+    },
   });
 
 type CombinedNavigationProps = NavigationDrawerDispatchProps &
@@ -75,8 +89,17 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
         button
       >
+        <img
+          src={plugin.logo === 'DataGateway' ? DatagatewayLogo : undefined}
+          alt={plugin.logo}
+          className={this.props.classes.menuLogo}
+        />
+        <img
+          src={plugin.logo === 'DataGateway' ? DatagatewayWhite : undefined}
+          alt={plugin.logo}
+          className={this.props.classes.menuLogoDarkMode}
+        />
         <ListItemText
-          inset
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
           primaryTypographyProps={{ variant: 'subtitle1' }}
           classes={{

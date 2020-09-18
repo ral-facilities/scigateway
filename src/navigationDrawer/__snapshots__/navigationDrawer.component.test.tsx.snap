@@ -109,13 +109,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="0"
         to="link"
       >
+        <img
+          className="NavigationDrawer-menuLogo-6"
+        />
+        <img
+          className="NavigationDrawer-menuLogoDarkMode-7"
+        />
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
             }
           }
-          inset={true}
           primary="analysis-plugin"
           primaryTypographyProps={
             Object {
@@ -137,13 +142,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="1"
         to="link"
       >
+        <img
+          className="NavigationDrawer-menuLogo-6"
+        />
+        <img
+          className="NavigationDrawer-menuLogoDarkMode-7"
+        />
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
             }
           }
-          inset={true}
           primary="analysis-plugin2"
           primaryTypographyProps={
             Object {
@@ -184,13 +194,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="0"
         to="link"
       >
+        <img
+          className="NavigationDrawer-menuLogo-6"
+        />
+        <img
+          className="NavigationDrawer-menuLogoDarkMode-7"
+        />
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
             }
           }
-          inset={true}
           primary="data-plugin"
           primaryTypographyProps={
             Object {
@@ -212,13 +227,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="1"
         to="link"
       >
+        <img
+          className="NavigationDrawer-menuLogo-6"
+        />
+        <img
+          className="NavigationDrawer-menuLogoDarkMode-7"
+        />
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
             }
           }
-          inset={true}
           primary="data-plugin1"
           primaryTypographyProps={
             Object {
@@ -240,13 +260,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="2"
         to="link"
       >
+        <img
+          className="NavigationDrawer-menuLogo-6"
+        />
+        <img
+          className="NavigationDrawer-menuLogoDarkMode-7"
+        />
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
             }
           }
-          inset={true}
           primary="data-plugin2"
           primaryTypographyProps={
             Object {
@@ -268,13 +293,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         key="3"
         to="plugin_link"
       >
+        <img
+          className="NavigationDrawer-menuLogo-6"
+        />
+        <img
+          className="NavigationDrawer-menuLogoDarkMode-7"
+        />
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
               "primary": "NavigationDrawer-menuItem-5",
             }
           }
-          inset={true}
           primary="data-plugin-no-displayname"
           primaryTypographyProps={
             Object {
@@ -302,13 +332,18 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   key="3"
   to="plugin_link"
 >
+  <img
+    className="NavigationDrawer-menuLogo-6"
+  />
+  <img
+    className="NavigationDrawer-menuLogoDarkMode-7"
+  />
   <WithStyles(ForwardRef(ListItemText))
     classes={
       Object {
         "primary": "NavigationDrawer-menuItem-5",
       }
     }
-    inset={true}
     primary="data-plugin-no-displayname"
     primaryTypographyProps={
       Object {
