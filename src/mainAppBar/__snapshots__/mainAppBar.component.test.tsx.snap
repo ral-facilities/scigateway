@@ -60,6 +60,42 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       </WithStyles(ForwardRef(IconButton))>
       <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
+      <WithStyles(ForwardRef(IconButton))
+        aria-label="Open browser settings"
+        className="MainAppBar-button-6"
+        onClick={[Function]}
+      >
+        <SettingsIcon />
+      </WithStyles(ForwardRef(IconButton))>
+      <WithStyles(ForwardRef(Menu))
+        anchorEl={null}
+        id="settings"
+        onClose={[Function]}
+        open={false}
+      >
+        <WithStyles(ForwardRef(MenuItem))
+          id="item-manage-cookies"
+          onClick={[Function]}
+        >
+          <WithStyles(ForwardRef(ListItemIcon))>
+            <TuneIcon />
+          </WithStyles(ForwardRef(ListItemIcon))>
+          <WithStyles(ForwardRef(ListItemText))
+            primary="manage-cookies-button"
+          />
+        </WithStyles(ForwardRef(MenuItem))>
+        <WithStyles(ForwardRef(MenuItem))
+          id="item-dark-mode"
+          onClick={[Function]}
+        >
+          <WithStyles(ForwardRef(ListItemIcon))>
+            <Brightness4Icon />
+          </WithStyles(ForwardRef(ListItemIcon))>
+          <WithStyles(ForwardRef(ListItemText))
+            primary="toggle-dark-mode"
+          />
+        </WithStyles(ForwardRef(MenuItem))>
+      </WithStyles(ForwardRef(Menu))>
     </WithStyles(ForwardRef(Toolbar))>
   </WithStyles(ForwardRef(AppBar))>
 </div>
@@ -125,6 +161,42 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       </WithStyles(ForwardRef(IconButton))>
       <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
+      <WithStyles(ForwardRef(IconButton))
+        aria-label="Open browser settings"
+        className="MainAppBar-button-6"
+        onClick={[Function]}
+      >
+        <SettingsIcon />
+      </WithStyles(ForwardRef(IconButton))>
+      <WithStyles(ForwardRef(Menu))
+        anchorEl={null}
+        id="settings"
+        onClose={[Function]}
+        open={false}
+      >
+        <WithStyles(ForwardRef(MenuItem))
+          id="item-manage-cookies"
+          onClick={[Function]}
+        >
+          <WithStyles(ForwardRef(ListItemIcon))>
+            <TuneIcon />
+          </WithStyles(ForwardRef(ListItemIcon))>
+          <WithStyles(ForwardRef(ListItemText))
+            primary="manage-cookies-button"
+          />
+        </WithStyles(ForwardRef(MenuItem))>
+        <WithStyles(ForwardRef(MenuItem))
+          id="item-dark-mode"
+          onClick={[Function]}
+        >
+          <WithStyles(ForwardRef(ListItemIcon))>
+            <Brightness4Icon />
+          </WithStyles(ForwardRef(ListItemIcon))>
+          <WithStyles(ForwardRef(ListItemText))
+            primary="toggle-dark-mode"
+          />
+        </WithStyles(ForwardRef(MenuItem))>
+      </WithStyles(ForwardRef(Menu))>
     </WithStyles(ForwardRef(Toolbar))>
   </WithStyles(ForwardRef(AppBar))>
 </div>
@@ -169,6 +241,42 @@ exports[`Main app bar component does not render contact button when feature is f
       </WithStyles(ForwardRef(IconButton))>
       <Connect(WithStyles(NotificationBadge)) />
       <Connect(WithStyles(UserProfileComponent)) />
+      <WithStyles(ForwardRef(IconButton))
+        aria-label="Open browser settings"
+        className="MainAppBar-button-6"
+        onClick={[Function]}
+      >
+        <SettingsIcon />
+      </WithStyles(ForwardRef(IconButton))>
+      <WithStyles(ForwardRef(Menu))
+        anchorEl={null}
+        id="settings"
+        onClose={[Function]}
+        open={false}
+      >
+        <WithStyles(ForwardRef(MenuItem))
+          id="item-manage-cookies"
+          onClick={[Function]}
+        >
+          <WithStyles(ForwardRef(ListItemIcon))>
+            <TuneIcon />
+          </WithStyles(ForwardRef(ListItemIcon))>
+          <WithStyles(ForwardRef(ListItemText))
+            primary="manage-cookies-button"
+          />
+        </WithStyles(ForwardRef(MenuItem))>
+        <WithStyles(ForwardRef(MenuItem))
+          id="item-dark-mode"
+          onClick={[Function]}
+        >
+          <WithStyles(ForwardRef(ListItemIcon))>
+            <Brightness4Icon />
+          </WithStyles(ForwardRef(ListItemIcon))>
+          <WithStyles(ForwardRef(ListItemText))
+            primary="toggle-dark-mode"
+          />
+        </WithStyles(ForwardRef(MenuItem))>
+      </WithStyles(ForwardRef(Menu))>
     </WithStyles(ForwardRef(Toolbar))>
   </WithStyles(ForwardRef(AppBar))>
 </div>
