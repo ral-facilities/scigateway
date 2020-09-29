@@ -20,7 +20,7 @@ import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
 import DatagatewayLogo from '../images/datagateway-logo.svg';
-import DatagatewayWhite from '../images/datagateway-white.svg';
+import DatagatewayWhite from '../images/datagateway-white-text-blue-mark-logo.svg';
 
 interface NavigationDrawerProps {
   open: boolean;
