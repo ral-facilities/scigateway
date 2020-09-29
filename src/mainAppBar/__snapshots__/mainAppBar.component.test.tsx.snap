@@ -58,8 +58,6 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <HelpOutlineIcon />
       </WithStyles(ForwardRef(IconButton))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6"
@@ -96,6 +94,8 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
           />
         </WithStyles(ForwardRef(MenuItem))>
       </WithStyles(ForwardRef(Menu))>
+      <Connect(WithStyles(NotificationBadge)) />
+      <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(ForwardRef(Toolbar))>
   </WithStyles(ForwardRef(AppBar))>
 </div>
@@ -159,8 +159,6 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <HelpOutlineIcon />
       </WithStyles(ForwardRef(IconButton))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6"
@@ -197,6 +195,8 @@ exports[`Main app bar component app bar renders correctly 1`] = `
           />
         </WithStyles(ForwardRef(MenuItem))>
       </WithStyles(ForwardRef(Menu))>
+      <Connect(WithStyles(NotificationBadge)) />
+      <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(ForwardRef(Toolbar))>
   </WithStyles(ForwardRef(AppBar))>
 </div>
@@ -239,8 +239,6 @@ exports[`Main app bar component does not render contact button when feature is f
       >
         <HelpOutlineIcon />
       </WithStyles(ForwardRef(IconButton))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6"
@@ -277,6 +275,8 @@ exports[`Main app bar component does not render contact button when feature is f
           />
         </WithStyles(ForwardRef(MenuItem))>
       </WithStyles(ForwardRef(Menu))>
+      <Connect(WithStyles(NotificationBadge)) />
+      <Connect(WithStyles(UserProfileComponent)) />
     </WithStyles(ForwardRef(Toolbar))>
   </WithStyles(ForwardRef(AppBar))>
 </div>

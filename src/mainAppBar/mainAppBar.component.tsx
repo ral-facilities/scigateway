@@ -169,8 +169,6 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           >
             <HelpIcon />
           </IconButton>
-          {props.loggedIn ? <NotificationBadgeComponent /> : null}
-          <UserProfileComponent />
           <IconButton
             className={props.classes.button}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
@@ -201,6 +199,8 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               />
             </MenuItem>
           </Menu>
+          {props.loggedIn ? <NotificationBadgeComponent /> : null}
+          <UserProfileComponent />
         </Toolbar>
       </AppBar>
     </div>

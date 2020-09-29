@@ -1,7 +1,9 @@
 {
   "main-appbar": {
     "title": "SciGateway",
-    "contact": "Contact"
+    "contact": "Contact",
+    "manage-cookies-button": "Manage cookies",
+    "toggle-dark-mode": "Toggle Dark Mode"
   },
   "login": {
     "title": "Sign in",
@@ -11,9 +13,7 @@
     "logout-button": "Sign out",
     "login-error-msg": "Failed to log in. Invalid username or password.",
     "login-redirect-error-msg": "Failed to log in. Re-direct token is invalid.",
-    "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again.",
-    "manage-cookies-button": "Manage cookies",
-    "toggle-dark-mode": "Toggle Dark Mode"
+    "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again."
   },
   "home-page": {
     "title": "SciGateway",
