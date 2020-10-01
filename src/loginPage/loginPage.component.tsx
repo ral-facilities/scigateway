@@ -72,7 +72,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     info: {
       marginTop: `${theme.spacing(1)}px`,
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
     spinner: {
       marginTop: 15,
