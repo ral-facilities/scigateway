@@ -62,6 +62,7 @@ export interface RegisterRoutePayload {
   displayName: string;
   order: number;
   helpText?: string;
+  helpSteps?: { target: string; content: string }[];
 }
 
 export interface PluginConfig {
@@ -71,6 +72,7 @@ export interface PluginConfig {
   displayName: string;
   order: number;
   helpText?: string;
+  helpSteps?: { target: string; content: string }[];
 }
 
 export interface GroupedPlugins {
