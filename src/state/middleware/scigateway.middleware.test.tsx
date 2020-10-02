@@ -317,6 +317,42 @@ describe('scigateway middleware', () => {
     );
   });
 
+  it('should listen for events and fire registerroute action and addHelpTourStep action when helpSteps present', () => {
+    listenToPlugins(store.dispatch, getState);
+
+    const registerRouteActionWithHelp = {
+      ...registerRouteAction,
+      payload: {
+        ...registerRouteAction.payload,
+        helpSteps: [{ target: 'test-target', content: 'test-content' }],
+      },
+    };
+
+    handler(
+      new CustomEvent('test', {
+        detail: registerRouteActionWithHelp,
+      })
+    );
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(3);
+    expect(store.getActions()[0]).toEqual(registerRouteActionWithHelp);
+    expect(store.getActions()[1]).toEqual({
+      type: AddHelpTourStepsType,
+      payload: {
+        steps: [
+          {
+            target: 'test-target',
+            content: 'test-content',
+          },
+        ],
+      },
+    });
+    expect(JSON.stringify(store.getActions()[2])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
+  });
+
   describe('notifications', () => {
     it('should listen for notification events and fire notification action even if no severity', () => {
       listenToPlugins(store.dispatch, getState);
