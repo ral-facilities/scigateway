@@ -60,7 +60,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
-        className="MainAppBar-button-6"
+        className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
         <SettingsIcon />
@@ -161,7 +161,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
-        className="MainAppBar-button-6"
+        className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
         <SettingsIcon />
@@ -241,7 +241,7 @@ exports[`Main app bar component does not render contact button when feature is f
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
-        className="MainAppBar-button-6"
+        className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
         <SettingsIcon />

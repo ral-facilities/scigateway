@@ -170,7 +170,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             <HelpIcon />
           </IconButton>
           <IconButton
-            className={props.classes.button}
+            className={classNames(props.classes.button, 'tour-settings')}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
             aria-label="Open browser settings"
           >
