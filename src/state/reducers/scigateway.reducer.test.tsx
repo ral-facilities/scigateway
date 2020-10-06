@@ -16,6 +16,7 @@ import {
   invalidToken,
   loadedAuthentication,
   loadDarkModePreference,
+  registerStartUrl,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -281,6 +282,14 @@ describe('scigateway reducer', () => {
     );
 
     expect(updatedState.features.showContactButton).toBeFalsy();
+  });
+
+  it('should register the startUrl when provided', () => {
+    expect(state.startUrl).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(state, registerStartUrl('/test'));
+
+    expect(updatedState.startUrl).toEqual('/test');
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
