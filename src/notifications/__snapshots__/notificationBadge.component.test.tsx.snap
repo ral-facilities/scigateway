@@ -11,11 +11,6 @@ exports[`Notification Badge component Notification badge renders correctly 1`] =
   >
     <WithStyles(ForwardRef(Badge))
       badgeContent={1}
-      classes={
-        Object {
-          "colorPrimary": "badge-class",
-        }
-      }
       color="primary"
     >
       <NotificationsIcon />

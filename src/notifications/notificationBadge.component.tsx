@@ -11,7 +11,6 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
-import { UKRITheme } from '../theming';
 import { StateType, ScigatewayNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
@@ -29,9 +28,6 @@ const styles = (theme: Theme): StyleRules =>
   createStyles({
     button: {
       color: theme.palette.primary.contrastText,
-    },
-    badge: {
-      background: (theme as UKRITheme).ukri.bright.orange,
     },
     menuItem: {
       display: 'flex',
@@ -76,7 +72,7 @@ const NotificationBadge = (
     <div className="tour-notifications">
       <IconButton
         className={props.classes.button}
-        onClick={e => setMenuAnchor(e.currentTarget)}
+        onClick={(e) => setMenuAnchor(e.currentTarget)}
         aria-label="Open notification menu"
       >
         <Badge
@@ -84,9 +80,6 @@ const NotificationBadge = (
             props.notifications.length > 0 ? props.notifications.length : null
           }
           color="primary"
-          classes={{
-            colorPrimary: props.classes.badge,
-          }}
         >
           <NotificationsIcon />
         </Badge>
