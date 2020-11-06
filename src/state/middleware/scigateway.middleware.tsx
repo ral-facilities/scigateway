@@ -18,6 +18,7 @@ import {
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
+import { push } from 'connected-react-router';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -89,6 +90,18 @@ export const listenToPlugins = (
                   content: pluginMessage.detail.payload.helpText,
                 },
               ])
+            );
+          }
+
+          // Redirect to optional startUrl if set and current url is the normal homepage '/'
+          if (
+            getState().router.location.pathname === '/' &&
+            getState().scigateway.startUrl === pluginMessage.detail.payload.link
+          ) {
+            dispatch(
+              push(pluginMessage.detail.payload.link, {
+                scigateway: { startUrl: pluginMessage.detail.payload.link },
+              })
             );
           }
 

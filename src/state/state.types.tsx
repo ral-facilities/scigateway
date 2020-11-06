@@ -32,6 +32,7 @@ export interface ScigatewayState {
   features: FeatureSwitches;
   analytics?: AnalyticsState;
   darkMode: boolean;
+  startUrl?: string;
 }
 
 export interface StateType {

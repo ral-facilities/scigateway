@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,6 +8,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import MenuIcon from '@material-ui/icons/Menu';
+import BrightnessIcon from '@material-ui/icons/Brightness4';
+import TuneIcon from '@material-ui/icons/Tune';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import {
   withStyles,
   createStyles,
@@ -16,7 +20,11 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
+import {
+  toggleDrawer,
+  toggleHelp,
+  loadDarkModePreference,
+} from '../state/actions/scigateway.actions';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
@@ -30,12 +38,15 @@ interface MainAppProps {
   res: AppStrings | undefined;
   showContactButton: boolean;
   loggedIn: boolean;
+  darkMode: boolean;
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
   toggleHelp: () => Action;
+  manageCookies: () => Action;
+  toggleDarkMode: (preference: boolean) => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -92,78 +103,125 @@ type CombinedMainAppBarProps = MainAppProps &
   MainAppDispatchProps &
   WithStyles<typeof styles>;
 
-const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => (
-  <div className={props.classes.root}>
-    <AppBar
-      position="static"
-      className={classNames(props.classes.appBar, {
-        [props.classes.appBarShift]: props.drawerOpen,
-      })}
-    >
-      <Toolbar>
-        {props.loggedIn ? (
-          <IconButton
-            className={classNames(
-              props.classes.menuButton,
-              props.drawerOpen && props.classes.hide,
-              'tour-nav-menu'
-            )}
+const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
+  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const closeMenu = (): void => setMenuAnchor(null);
+  const manageCookies = (): void => {
+    closeMenu();
+    props.manageCookies();
+  };
+  const toggleDarkMode = (): void => {
+    const toggledPreference = !props.darkMode;
+    localStorage.setItem('darkMode', toggledPreference.toString());
+    props.toggleDarkMode(toggledPreference);
+  };
+  return (
+    <div className={props.classes.root}>
+      <AppBar
+        position="static"
+        className={classNames(props.classes.appBar, {
+          [props.classes.appBarShift]: props.drawerOpen,
+        })}
+      >
+        <Toolbar>
+          {props.loggedIn ? (
+            <IconButton
+              className={classNames(
+                props.classes.menuButton,
+                props.drawerOpen && props.classes.hide,
+                'tour-nav-menu'
+              )}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label="Open navigation menu"
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <div className={props.classes.menuButtonPlaceholder} />
+          )}
+          <Typography
+            className={classNames(props.classes.title, 'tour-title')}
+            variant="h6"
             color="inherit"
-            onClick={props.toggleDrawer}
-            aria-label="Open navigation menu"
+            noWrap
+            onClick={props.navigateToHome}
+            aria-label="Homepage"
           >
-            <MenuIcon />
+            {getString(props.res, 'title')}
+          </Typography>
+          {props.showContactButton ? (
+            <Button
+              className={classNames(props.classes.button, 'tour-contact')}
+              style={{ paddingTop: 3 }}
+              aria-label="Contact"
+            >
+              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+                {getString(props.res, 'contact')}
+              </Typography>
+            </Button>
+          ) : null}
+          <div className={props.classes.grow} />
+          <IconButton
+            className={props.classes.button}
+            onClick={props.toggleHelp}
+            aria-label="Help"
+          >
+            <HelpIcon />
           </IconButton>
-        ) : (
-          <div className={props.classes.menuButtonPlaceholder} />
-        )}
-        <Typography
-          className={classNames(props.classes.title, 'tour-title')}
-          variant="h6"
-          color="inherit"
-          noWrap
-          onClick={props.navigateToHome}
-          aria-label="Homepage"
-        >
-          {getString(props.res, 'title')}
-        </Typography>
-        {props.showContactButton ? (
-          <Button
-            className={classNames(props.classes.button, 'tour-contact')}
-            style={{ paddingTop: 3 }}
-            aria-label="Contact"
+          <IconButton
+            className={classNames(props.classes.button, 'tour-settings')}
+            onClick={(e) => setMenuAnchor(e.currentTarget)}
+            aria-label="Open browser settings"
           >
-            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-              {getString(props.res, 'contact')}
-            </Typography>
-          </Button>
-        ) : null}
-        <div className={props.classes.grow} />
-        <IconButton
-          className={props.classes.button}
-          onClick={props.toggleHelp}
-          aria-label="Help"
-        >
-          <HelpIcon />
-        </IconButton>
-        {props.loggedIn ? <NotificationBadgeComponent /> : null}
-        <UserProfileComponent />
-      </Toolbar>
-    </AppBar>
-  </div>
-);
+            <SettingsIcon />
+          </IconButton>
+          <Menu
+            id="settings"
+            anchorEl={getMenuAnchor}
+            open={getMenuAnchor !== null}
+            onClose={closeMenu}
+          >
+            <MenuItem id="item-manage-cookies" onClick={manageCookies}>
+              <ListItemIcon>
+                <TuneIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={getString(props.res, 'manage-cookies-button')}
+              />
+            </MenuItem>
+            <MenuItem id="item-dark-mode" onClick={toggleDarkMode}>
+              <ListItemIcon>
+                <BrightnessIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={getString(props.res, 'toggle-dark-mode')}
+              />
+            </MenuItem>
+          </Menu>
+          {props.loggedIn ? <NotificationBadgeComponent /> : null}
+          <UserProfileComponent />
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+};
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.scigateway.drawerOpen,
   showContactButton: state.scigateway.features.showContactButton,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   res: getAppStrings(state, 'main-appbar'),
+  darkMode: state.scigateway.darkMode,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
   toggleHelp: () => dispatch(toggleHelp()),
+  manageCookies: () => dispatch(push('/cookies')),
+  toggleDarkMode: (preference: boolean) =>
+    dispatch(loadDarkModePreference(preference)),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);

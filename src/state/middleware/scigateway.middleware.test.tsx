@@ -353,6 +353,41 @@ describe('scigateway middleware', () => {
     );
   });
 
+  it('should listen for events and fire registerroute action and redirect to startUrl', () => {
+    const getState: () => StateType = () => ({
+      scigateway: { ...initialState, startUrl: '/plugin1/analysis2' },
+      router: {
+        action: 'POP',
+        location: createLocation('/'),
+      },
+    });
+
+    listenToPlugins(store.dispatch, getState);
+
+    handler(
+      new CustomEvent('test', {
+        detail: registerRouteAction,
+      })
+    );
+
+    expect(document.addEventListener).toHaveBeenCalled();
+    expect(store.getActions().length).toEqual(3);
+    expect(store.getActions()[0]).toEqual(registerRouteAction);
+    expect(store.getActions()[1]).toEqual({
+      type: '@@router/CALL_HISTORY_METHOD',
+      payload: {
+        method: 'push',
+        args: [
+          '/plugin1/analysis2',
+          { scigateway: { startUrl: '/plugin1/analysis2' } },
+        ],
+      },
+    });
+    expect(JSON.stringify(store.getActions()[2])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
+  });
+
   describe('notifications', () => {
     it('should listen for notification events and fire notification action even if no severity', () => {
       listenToPlugins(store.dispatch, getState);
