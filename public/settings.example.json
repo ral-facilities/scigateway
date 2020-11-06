@@ -25,6 +25,10 @@
       "content": "Click here to see any notifications you have"
     },
     {
+      "target": ".tour-settings",
+      "content": "Click here to change settings for cookies and darkmode"
+    },
+    {
       "target": ".tour-contact",
       "content": "Click here to contact the support team with any issues or feedback"
     },

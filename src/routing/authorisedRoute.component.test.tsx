@@ -44,6 +44,20 @@ describe('AuthorisedRoute component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('renders redirect when startUrl is configured and logged in', () => {
+    state.scigateway.siteLoading = false;
+    state.scigateway.authorisation.loading = false;
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+    state.router.location.state = { scigateway: { startUrl: '/test' } };
+
+    const AuthorisedComponent = withAuth(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('renders redirect when user not logged in', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;

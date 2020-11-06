@@ -87,12 +87,14 @@ exports[`Login page component credential component renders correctly 1`] = `
   onKeyPress={[Function]}
 >
   <WithStyles(ForwardRef(TextField))
+    color="secondary"
     disabled={false}
     label="username-placeholder"
     onChange={[Function]}
     value=""
   />
   <WithStyles(ForwardRef(TextField))
+    color="secondary"
     disabled={false}
     label="password-placeholder"
     onChange={[Function]}
@@ -129,12 +131,14 @@ exports[`Login page component credential component renders failedToLogin error c
     login-error-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(TextField))
+    color="secondary"
     disabled={false}
     label="username-placeholder"
     onChange={[Function]}
     value=""
   />
   <WithStyles(ForwardRef(TextField))
+    color="secondary"
     disabled={false}
     label="password-placeholder"
     onChange={[Function]}
@@ -171,12 +175,14 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     token-invalid-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(TextField))
+    color="secondary"
     disabled={false}
     label="username-placeholder"
     onChange={[Function]}
     value=""
   />
   <WithStyles(ForwardRef(TextField))
+    color="secondary"
     disabled={false}
     label="password-placeholder"
     onChange={[Function]}

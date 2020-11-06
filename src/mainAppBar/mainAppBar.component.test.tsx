@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import { loadDarkModePreference } from '../state/actions/scigateway.actions';
 
 describe('Main app bar component', () => {
   let shallow;
@@ -96,5 +97,64 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleHelp());
+  });
+
+  it('opens settings when button clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    expect(wrapper.find('#settings').first().prop('open')).toBeFalsy();
+
+    wrapper
+      .find('button[aria-label="Open browser settings"]')
+      .simulate('click');
+
+    expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
+  });
+
+  it('opens cookie policy/management page if manage cookies clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    // Click the user menu button and click on the manage cookies menu item.
+    wrapper
+      .find('button[aria-label="Open browser settings"]')
+      .simulate('click');
+    wrapper.find('#item-manage-cookies').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/cookies'));
+  });
+
+  it('sends load dark mode prefrence action if toggle dark mode is clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    // Click the user menu button and click on the manage cookies menu item.
+    wrapper
+      .find('button[aria-label="Open browser settings"]')
+      .simulate('click');
+    wrapper.find('#item-dark-mode').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
   });
 });

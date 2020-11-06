@@ -25,6 +25,7 @@ export const ConfigureAnalyticsType = 'scigateway:configure_analytics';
 export const InitialiseAnalyticsType = 'scigateway:initialise_analytics';
 export const ToggleHelpType = 'scigateway:toggle_help';
 export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
+export const RegisterStartUrlType = 'scigateway:register_start_url';
 
 export interface NotificationPayload {
   message: string;
@@ -53,6 +54,10 @@ export interface FeatureSwitchesPayload {
 
 export interface FeatureSwitches {
   showContactButton: boolean;
+}
+
+export interface StartUrlPayload {
+  startUrl: string;
 }
 
 export interface RegisterRoutePayload {

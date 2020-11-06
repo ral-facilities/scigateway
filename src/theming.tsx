@@ -97,6 +97,11 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             textDecoration: 'underline',
           },
         },
+        MuiBadge: {
+          colorPrimary: {
+            backgroundColor: '#FF6900',
+          },
+        },
       },
     };
   } else {
@@ -130,6 +135,13 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
       },
       drawerWidth: 300,
+      overrides: {
+        MuiBadge: {
+          colorPrimary: {
+            backgroundColor: '#FF6900',
+          },
+        },
+      },
     };
   }
 

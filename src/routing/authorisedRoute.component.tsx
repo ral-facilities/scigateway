@@ -10,6 +10,7 @@ interface WithAuthStateProps {
   loading: boolean;
   loggedIn: boolean;
   location: string;
+  startUrlState?: StateType;
 }
 
 interface WithAuthDispatchProps {
@@ -27,6 +28,7 @@ const mapStateToProps = (state: StateType): WithAuthStateProps => ({
     isStartingUpOrLoading(state.scigateway.authorisation),
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   location: state.router.location.pathname,
+  startUrlState: state.router.location.state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
@@ -43,6 +45,7 @@ export default function withAuth<T>(
         loading,
         loggedIn,
         location,
+        startUrlState,
         requestPluginRerender,
         ...componentProps
       } = this.props;
@@ -57,8 +60,16 @@ export default function withAuth<T>(
               }}
             />
           ) : null}
+          {/* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */}
           {!loading && loggedIn ? (
-            <ComponentToProtect {...(componentProps as T)} />
+            startUrlState && startUrlState.scigateway.startUrl ? (
+              <Redirect
+                push
+                to={{ pathname: startUrlState.scigateway.startUrl }}
+              />
+            ) : (
+              <ComponentToProtect {...(componentProps as T)} />
+            )
           ) : null}
         </div>
       );
