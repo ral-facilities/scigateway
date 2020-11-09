@@ -422,6 +422,7 @@ describe('scigateway actions', () => {
     );
 
     localStorage.setItem('darkMode', 'true');
+    console.log(localStorage.getItem('darkMode'));
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -430,6 +431,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
+    console.log(actions);
     expect(actions).toContainEqual(loadDarkModePreference(true));
   });
 
