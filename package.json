@@ -53,13 +53,11 @@
   "lint-staged": {
     "src/**/*.{tsx,js,jsx,json}": [
       "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix",
-      "prettier --config .prettierrc --write",
-      "git add"
+      "prettier --config .prettierrc --write"
     ],
     "cypress/**/*.{tsx,js,jsx}": [
       "eslint --fix",
-      "prettier --config .prettierrc --write",
-      "git add"
+      "prettier --config .prettierrc --write"
     ]
   },
   "husky": {
