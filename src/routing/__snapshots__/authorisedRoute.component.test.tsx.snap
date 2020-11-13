@@ -23,6 +23,19 @@ exports[`AuthorisedRoute component renders nothing when site is loading due to l
 
 exports[`AuthorisedRoute component renders nothing when site is loading due to siteLoading prop 1`] = `<div />`;
 
+exports[`AuthorisedRoute component renders redirect when startUrl is configured and logged in 1`] = `
+<div>
+  <Redirect
+    push={true}
+    to={
+      Object {
+        "pathname": "/test",
+      }
+    }
+  />
+</div>
+`;
+
 exports[`AuthorisedRoute component renders redirect when user not logged in 1`] = `
 <div>
   <Redirect

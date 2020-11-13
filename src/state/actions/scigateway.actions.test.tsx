@@ -17,6 +17,7 @@ import {
   invalidToken,
   loadedAuthentication,
   loadDarkModePreference,
+  registerStartUrl,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -192,6 +193,25 @@ describe('scigateway actions', () => {
     expect(actions[2]).toEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
+  });
+
+  it('given a startUrl registration is run', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          startUrl: '/test',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions[3]).toEqual(registerStartUrl('/test'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {

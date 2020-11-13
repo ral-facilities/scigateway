@@ -72,7 +72,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     info: {
       marginTop: `${theme.spacing(1)}px`,
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
     },
     spinner: {
       marginTop: 15,
@@ -161,6 +161,7 @@ export const CredentialsLoginScreen = (
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
         disabled={props.auth.loading}
+        color="secondary"
       />
       <TextField
         className={props.classes.textField}
@@ -169,6 +170,7 @@ export const CredentialsLoginScreen = (
         onChange={(e) => setPassword(e.currentTarget.value)}
         type="password"
         disabled={props.auth.loading}
+        color="secondary"
       />
       <Button
         variant="contained"
@@ -233,7 +235,9 @@ export const LoginSelector = (
 
   return (
     <FormControl style={{ minWidth: 120 }}>
-      <InputLabel htmlFor="mnemonic-select">Authenticator</InputLabel>
+      <InputLabel htmlFor="mnemonic-select" color="secondary">
+        Authenticator
+      </InputLabel>
       <Select
         className={props.classes.textField}
         id="select-mnemonic"
@@ -242,6 +246,7 @@ export const LoginSelector = (
         onChange={(e) => {
           setMnemonic(e.target.value as string, authUrl);
         }}
+        color="secondary"
       >
         {mnemonics.map((authenticator) => (
           <MenuItem key={authenticator.mnemonic} value={authenticator.mnemonic}>

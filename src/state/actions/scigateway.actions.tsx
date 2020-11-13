@@ -34,6 +34,8 @@ import {
   LoadDarkModePreferencePayload,
   RegisterPluginSrcType,
   RegisterPluginSrcPayload,
+  StartUrlPayload,
+  RegisterStartUrlType,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -70,6 +72,15 @@ export const loadFeatureSwitches = (
   type: ConfigureFeatureSwitchesType,
   payload: {
     switches: featureSwitches,
+  },
+});
+
+export const registerStartUrl = (
+  startUrl: string
+): ActionType<StartUrlPayload> => ({
+  type: RegisterStartUrlType,
+  payload: {
+    startUrl: startUrl,
   },
 });
 
@@ -223,6 +234,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         dispatch(addHelpTourSteps(settings['help-tour-steps']));
         dispatch(registerPluginURLs(settings['plugins']));
+
+        if (settings['startUrl']) {
+          dispatch(registerStartUrl(settings['startUrl']));
+        }
 
         const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
           ? '/' + settings['ui-strings']

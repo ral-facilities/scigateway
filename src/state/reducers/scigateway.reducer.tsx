@@ -31,6 +31,8 @@ import {
   LoadDarkModePreferencePayload,
   RegisterPluginSrcPayload,
   RegisterPluginSrcType,
+  StartUrlPayload,
+  RegisterStartUrlType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -251,6 +253,16 @@ export function handleConfigureFeatureSwitches(
   };
 }
 
+export function handleRegisterStartUrl(
+  state: ScigatewayState,
+  payload: StartUrlPayload
+): ScigatewayState {
+  return {
+    ...state,
+    startUrl: payload.startUrl,
+  };
+}
+
 export function handleDismissNotification(
   state: ScigatewayState,
   payload: { index: number }
@@ -413,6 +425,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
   [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
   [RegisterPluginSrcType]: handleRegisterPluginSrc,
+  [RegisterStartUrlType]: handleRegisterStartUrl,
 });
 
 export default ScigatewayReducer;
