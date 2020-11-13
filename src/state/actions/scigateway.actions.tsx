@@ -32,6 +32,8 @@ import {
   SendThemeOptionsPayload,
   LoadDarkModePreferenceType,
   LoadDarkModePreferencePayload,
+  RegisterPluginSrcType,
+  RegisterPluginSrcPayload,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -78,6 +80,13 @@ export const addHelpTourSteps = (
   payload: {
     steps,
   },
+});
+
+export const registerPluginURLs = (
+  plugins: RegisterPluginSrcPayload[]
+): ActionType<RegisterPluginSrcPayload[]> => ({
+  type: RegisterPluginSrcType,
+  payload: plugins,
 });
 
 export const loadAuthProvider = (
@@ -213,6 +222,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         }
 
         dispatch(addHelpTourSteps(settings['help-tour-steps']));
+        dispatch(registerPluginURLs(settings['plugins']));
 
         const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
           ? '/' + settings['ui-strings']

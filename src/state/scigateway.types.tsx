@@ -25,6 +25,7 @@ export const ConfigureAnalyticsType = 'scigateway:configure_analytics';
 export const InitialiseAnalyticsType = 'scigateway:initialise_analytics';
 export const ToggleHelpType = 'scigateway:toggle_help';
 export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
+export const RegisterPluginSrcType = 'scigateway:api:register_plugin_src';
 
 export interface NotificationPayload {
   message: string;
@@ -62,7 +63,16 @@ export interface RegisterRoutePayload {
   displayName: string;
   order: number;
   helpText?: string;
-  logo?: string;
+  logoLightMode?: string;
+  logoDarkMode?: string;
+  logoAltText?: string;
+}
+
+export interface RegisterPluginSrcPayload {
+  name: string;
+  src: string;
+  enable: boolean;
+  location: string;
 }
 
 export interface PluginConfig {
@@ -72,7 +82,10 @@ export interface PluginConfig {
   displayName: string;
   order: number;
   helpText?: string;
-  logo?: string;
+  logoLightMode?: string;
+  logoDarkMode?: string;
+  logoAltText?: string;
+  src?: string;
 }
 
 export interface GroupedPlugins {

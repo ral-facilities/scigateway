@@ -19,12 +19,11 @@ import { PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
-import DatagatewayLogo from '../images/datagateway-logo.svg';
-import DatagatewayWhite from '../images/datagateway-white-text-blue-mark-logo.svg';
 
 interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
+  darkMode: boolean;
 }
 
 interface NavigationDrawerDispatchProps {
@@ -58,13 +57,6 @@ const styles = (theme: Theme): StyleRules =>
       paddingLeft: 56,
       height: 20,
       color: theme.palette.text.secondary,
-      display: theme.palette.type === 'dark' ? 'none' : 'inline',
-    },
-    menuLogoDarkMode: {
-      paddingLeft: 56,
-      height: 20,
-      color: theme.palette.text.secondary,
-      display: theme.palette.type === 'dark' ? 'inline' : 'none',
     },
   });
 
@@ -90,14 +82,13 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         button
       >
         <img
-          src={plugin.logo === 'DataGateway' ? DatagatewayLogo : undefined}
-          alt={plugin.logo}
           className={this.props.classes.menuLogo}
-        />
-        <img
-          src={plugin.logo === 'DataGateway' ? DatagatewayWhite : undefined}
-          alt={plugin.logo}
-          className={this.props.classes.menuLogoDarkMode}
+          alt={plugin.logoAltText}
+          src={
+            plugin.src &&
+            plugin.src +
+              (this.props.darkMode ? plugin.logoDarkMode : plugin.logoLightMode)
+          }
         />
         <ListItemText
           primary={plugin.displayName ? plugin.displayName : plugin.plugin}
@@ -127,7 +118,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           />
         </ListItem>
         <List component="nav">
-          {plugins.map((p, i) => this.createLink(p, i))}
+          {plugins.map((p, i) => {
+            return p.link ? this.createLink(p, i) : null;
+          })}
         </List>
       </Fragment>
     );
@@ -180,6 +173,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   open: state.scigateway.drawerOpen,
   plugins: state.scigateway.plugins,
+  darkMode: state.scigateway.darkMode,
 });
 
 const mapDispatchToProps = (
