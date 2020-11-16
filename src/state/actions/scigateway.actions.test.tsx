@@ -211,7 +211,8 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[3]).toEqual(registerStartUrl('/test'));
+    expect(actions.length).toEqual(5);
+    expect(actions[4]).toEqual(registerStartUrl('/test'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {
