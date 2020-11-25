@@ -11,9 +11,11 @@ import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 import Routing from './routing/routing.component';
 import Tour from './tour/tour.component';
 import CookieConsent from './cookieConsent/cookieConsent.component';
+import Footer from './footer/footer.component';
 
 const styles = (theme: Theme): StyleRules => ({
   root: {
+    position: 'relative',
     background: theme.palette.background.default,
     minHeight: '100vh',
   },
@@ -30,6 +32,7 @@ const PageContainer = (
       <Tour />
       <CookieConsent />
       <Routing />
+      <Footer />
     </div>
   );
 };

@@ -21,6 +21,7 @@ import withAuth from './authorisedRoute.component';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     container: {
+      paddingBottom: '80px',
       width: '100%',
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeIn,
@@ -70,7 +71,7 @@ class Routing extends React.Component<
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
-          {this.props.plugins.map(p => (
+          {this.props.plugins.map((p) => (
             <Route
               key={`${p.section}_${p.link}`}
               path={p.link}
