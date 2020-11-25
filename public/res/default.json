@@ -46,5 +46,8 @@
     "link-text": "Learn more",
     "accept-button": "Accept",
     "manage-preferences-button": "Manage Preferences"
+  },
+  "footer": {
+    "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy Policy</a> | <a href=\"#\">About Us</a>"
   }
 }
