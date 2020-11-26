@@ -24,7 +24,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       >
         <img
           alt="title"
-          src="scigateway-white.svg"
+          src="scigateway-white-text-blue-mark-logo.svg"
         />
       </WithStyles(ForwardRef(Button))>
       <WithStyles(ForwardRef(Button))
@@ -125,7 +125,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       >
         <img
           alt="title"
-          src="scigateway-white.svg"
+          src="scigateway-white-text-blue-mark-logo.svg"
         />
       </WithStyles(ForwardRef(Button))>
       <WithStyles(ForwardRef(Button))
@@ -226,7 +226,7 @@ exports[`Main app bar component does not render contact button when feature is f
       >
         <img
           alt="title"
-          src="scigateway-white.svg"
+          src="scigateway-white-text-blue-mark-logo.svg"
         />
       </WithStyles(ForwardRef(Button))>
       <div

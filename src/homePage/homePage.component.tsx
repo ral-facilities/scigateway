@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
 import Image from '../images/Jasmin4 _DSC7054.jpg';
-import ScigatewayLogo from '../images/scigateway-white.svg';
+import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import ExploreImage from '../images/explore.jpg';
 import AnalyseImage from '../images/analyse.jpg';
 import RecordImage from '../images/record.jpg';

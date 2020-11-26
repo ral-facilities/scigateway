@@ -20,7 +20,7 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import ScigatewayLogo from '../images/scigateway-white.svg';
+import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
   toggleDrawer,
   toggleHelp,

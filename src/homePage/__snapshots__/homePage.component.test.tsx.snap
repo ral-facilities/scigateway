@@ -7,7 +7,7 @@ exports[`Home page component homepage renders correctly 1`] = `
   >
     <img
       alt="title"
-      src="scigateway-white.svg"
+      src="scigateway-white-text-blue-mark-logo.svg"
     />
   </div>
   <div
