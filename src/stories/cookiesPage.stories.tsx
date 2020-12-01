@@ -9,5 +9,5 @@ storiesOf('Cookies page', module)
       text: 'The cookie policy and cookie management page for the site',
     },
   })
-  .addDecorator(ReduxDecorator(state => state))
+  .addDecorator(ReduxDecorator((state) => state))
   .add('default', () => <CookiesPage />);

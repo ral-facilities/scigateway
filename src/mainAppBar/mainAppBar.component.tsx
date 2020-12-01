@@ -20,6 +20,7 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
   toggleDrawer,
   toggleHelp,
@@ -72,13 +73,12 @@ const styles = (theme: Theme): StyleRules =>
     grow: {
       flexGrow: 1,
     },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
+    titleButton: {
+      padding: 4,
+      margin: theme.spacing(1),
+      '& img': {
+        height: 24,
       },
-      marginRight: 20,
-      cursor: 'pointer',
     },
     button: {
       margin: theme.spacing(1),
@@ -140,16 +140,13 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           ) : (
             <div className={props.classes.menuButtonPlaceholder} />
           )}
-          <Typography
-            className={classNames(props.classes.title, 'tour-title')}
-            variant="h6"
-            color="inherit"
-            noWrap
+          <Button
+            className={classNames(props.classes.titleButton, 'tour-title')}
             onClick={props.navigateToHome}
             aria-label="Homepage"
           >
-            {getString(props.res, 'title')}
-          </Typography>
+            <img src={ScigatewayLogo} alt={getString(props.res, 'title')} />
+          </Button>
           {props.showContactButton ? (
             <Button
               className={classNames(props.classes.button, 'tour-contact')}

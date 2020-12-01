@@ -23,7 +23,7 @@ type FakeAsyncReturnType = () => Promise<void>;
 
 export const FakeAsyncAction = (message: string): FakeAsyncReturnType => () => {
   log.debug('async action called');
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     action(message)();
     resolve();
   });
@@ -41,7 +41,9 @@ type StateUpdater = (state: ScigatewayState) => ScigatewayState;
 type ReduxDecoratorGeneratorType = (updater: StateUpdater) => DecoratorFn;
 
 /* eslint-disable-next-line react/display-name */
-export const ReduxDecorator: ReduxDecoratorGeneratorType = (stateUpdater => storyFn => {
+export const ReduxDecorator: ReduxDecoratorGeneratorType = ((stateUpdater) => (
+  storyFn
+) => {
   const state = { scigateway: initialState };
   state.scigateway.res = storybookResourceStrings;
   return (

@@ -98,7 +98,7 @@ describe('pluginhelper', () => {
 
     it('correctly assigns plugin to section list', () => {
       const structuredData = structureMenuData(testPluginList);
-      structuredData['Analysis'].forEach(plugin =>
+      structuredData['Analysis'].forEach((plugin) =>
         expect(plugin.section).toEqual('Analysis')
       );
     });

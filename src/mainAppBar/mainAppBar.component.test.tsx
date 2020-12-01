@@ -10,7 +10,6 @@ import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { loadDarkModePreference } from '../state/actions/scigateway.actions';
 
 describe('Main app bar component', () => {
@@ -78,7 +77,7 @@ describe('Main app bar component', () => {
       </MuiThemeProvider>
     );
 
-    wrapper.find(Typography).first().simulate('click');
+    wrapper.find('button[aria-label="Homepage"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));

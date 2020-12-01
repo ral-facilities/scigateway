@@ -39,8 +39,8 @@ async function init(plugins: Plugin[]) {
   const loadingPromises: Promise<any>[] = [];
 
   plugins
-    .filter(p => p.enable)
-    .forEach(p => {
+    .filter((p) => p.enable)
+    .forEach((p) => {
       /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
       const loadingPromise: Promise<any> = loadApp(p.name, p.src)
         .then(() => {
