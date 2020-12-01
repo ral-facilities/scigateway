@@ -149,10 +149,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
     // load dark mode preference from local storage into store
     // otherwise, fetch system preference
     const darkModeLocalStorage = localStorage.getItem('darkMode');
-    console.log(darkModeLocalStorage);
     if (darkModeLocalStorage) {
       const preference = darkModeLocalStorage === 'true' ? true : false;
-      console.log(preference);
       dispatch(loadDarkModePreference(preference));
     } else {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
