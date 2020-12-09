@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import {
   createStyles,
   StyleRules,
@@ -17,8 +16,9 @@ const styles = (theme: Theme): StyleRules =>
     root: {
       position: 'absolute',
       bottom: 0,
+      paddingBottom: '5px',
       width: '100%',
-      height: '60px',
+      fontSize: 14,
       textAlign: 'center',
       backgroundColor: theme.palette.background.default,
     },
@@ -32,14 +32,12 @@ export type CombinedFooterProps = FooterProps & WithStyles<typeof styles>;
 
 const Footer = (props: CombinedFooterProps): React.ReactElement => {
   return (
-    <div className={props.classes.root}>
-      <Typography
-        variant="body1"
-        dangerouslySetInnerHTML={{
-          __html: getString(props.res, 'html'),
-        }}
-      />
-    </div>
+    <div
+      className={props.classes.root}
+      dangerouslySetInnerHTML={{
+        __html: getString(props.res, 'html'),
+      }}
+    />
   );
 };
 
