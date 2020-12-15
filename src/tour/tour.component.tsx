@@ -92,6 +92,12 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
       .map((step) => ({ ...step, disableBeacon: true }))
       .filter(
         (step) => !step.target.toString().includes('plugin-link') || loggedIn
+      )
+      .filter(
+        (step) =>
+          !step.target.toString().startsWith('.tour-') ||
+          document.getElementsByClassName(step.target.toString().substr(1))
+            .length
       );
 
     const indexPluginLinks = steps.findIndex((step) =>
