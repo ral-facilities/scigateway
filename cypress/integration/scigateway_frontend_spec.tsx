@@ -4,7 +4,7 @@ describe('Scigateway', () => {
     cy.title().should('equal', 'SciGateway');
 
     // the parent app should have loaded
-    cy.contains('SciGateway').should('be.visible');
+    cy.get('[alt="SciGateway"]').should('be.visible');
   });
 
   it('should load plugin correctly', () => {
@@ -13,15 +13,11 @@ describe('Scigateway', () => {
     cy.visit('/plugin1');
 
     // the plugin should have loaded
-    cy.get('#demo_plugin')
-      .contains('Demo Plugin')
-      .should('be.visible');
+    cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
 
     // the plugin should be able to rerender when the sidebar is opened
     cy.get('[aria-label="Open navigation menu"]').click();
-    cy.get('#demo_plugin')
-      .contains('Demo Plugin')
-      .should('be.visible');
+    cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
 
     // plugin link should be visible in sidebar
     cy.get('a[href="/plugin1"]').should('be.visible');

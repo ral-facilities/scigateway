@@ -77,7 +77,9 @@ export const listenToPlugins = (
 
         case RegisterRouteType:
           dispatch(pluginMessage.detail);
-          if ('helpText' in pluginMessage.detail.payload) {
+          if ('helpSteps' in pluginMessage.detail.payload) {
+            dispatch(addHelpTourSteps(pluginMessage.detail.payload.helpSteps));
+          } else if ('helpText' in pluginMessage.detail.payload) {
             dispatch(
               addHelpTourSteps([
                 {

@@ -1,7 +1,7 @@
 // TODO: move __mocks__ folder back to root once facebook/create-react-app#7539 is fixed
 
 export default {
-  get: jest.fn(path => {
+  get: jest.fn((path) => {
     if (path === '/settings.json') {
       return Promise.resolve({
         data: {

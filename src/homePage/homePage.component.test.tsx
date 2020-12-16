@@ -18,7 +18,6 @@ describe('Home page component', () => {
       res: undefined,
       classes: {
         bigImage: 'bigImage-class',
-        title: 'title-class',
         howItWorks: 'howItWorks-class',
         howItWorksTitle: 'howItWorksTitle-class',
         howItWorksGridItem: 'howItWorksGridItem-class',

@@ -70,7 +70,7 @@ class Routing extends React.Component<
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
-          {this.props.plugins.map(p => (
+          {this.props.plugins.map((p) => (
             <Route
               key={`${p.section}_${p.link}`}
               path={p.link}

@@ -20,7 +20,7 @@ const buildLoginPage = (
     verifyUsernameAndPassword={(u, p) =>
       FakeAsyncAction(`verify username and password: ${u},${p}`)()
     }
-    changeMnemonic={m => {
+    changeMnemonic={(m) => {
       FakeReduxAction(`change mnemonic: ${m}`)();
     }}
     auth={{

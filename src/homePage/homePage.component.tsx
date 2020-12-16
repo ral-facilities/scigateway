@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
 import Image from '../images/Jasmin4 _DSC7054.jpg';
+import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import ExploreImage from '../images/explore.jpg';
 import AnalyseImage from '../images/analyse.jpg';
 import RecordImage from '../images/record.jpg';
@@ -20,16 +21,15 @@ import { AppStrings } from '../state/scigateway.types';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
-    title: {
-      color: theme.palette.primary.contrastText,
-      fontWeight: 'bold',
-      padding: 80,
-      textShadow: '0 0 20px #000000',
-    },
     bigImage: {
       backgroundImage: `url("${Image}")`,
       height: 350,
       width: '100%',
+      '& img': {
+        paddingLeft: 80,
+        paddingTop: 100,
+        height: 150,
+      },
     },
     howItWorks: {
       display: 'flex',
@@ -87,9 +87,7 @@ export type CombinedHomePageProps = HomePageProps & WithStyles<typeof styles>;
 const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
   <div>
     <div className={props.classes.bigImage}>
-      <Typography variant="h2" className={props.classes.title}>
-        {getString(props.res, 'title')}
-      </Typography>
+      <img src={ScigatewayLogo} alt={getString(props.res, 'title')} />
     </div>
     <div className={props.classes.howItWorks}>
       <Typography variant="h4" className={props.classes.howItWorksTitle}>

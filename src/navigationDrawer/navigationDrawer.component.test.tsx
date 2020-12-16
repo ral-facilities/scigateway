@@ -56,10 +56,7 @@ describe('Navigation drawer component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(<NavigationDrawer store={testStore} />);
 
-    wrapper
-      .find('button')
-      .first()
-      .simulate('click');
+    wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());

@@ -71,6 +71,7 @@ export interface RegisterRoutePayload {
   logoLightMode?: string;
   logoDarkMode?: string;
   logoAltText?: string;
+  helpSteps?: { target: string; content: string }[];
 }
 
 export interface RegisterPluginSrcPayload {
@@ -91,6 +92,7 @@ export interface PluginConfig {
   logoDarkMode?: string;
   logoAltText?: string;
   src?: string;
+  helpSteps?: { target: string; content: string }[];
 }
 
 export interface GroupedPlugins {

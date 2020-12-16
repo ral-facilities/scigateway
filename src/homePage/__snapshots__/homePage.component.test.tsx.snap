@@ -5,12 +5,10 @@ exports[`Home page component homepage renders correctly 1`] = `
   <div
     className="bigImage-class"
   >
-    <WithStyles(ForwardRef(Typography))
-      className="title-class"
-      variant="h2"
-    >
-      title
-    </WithStyles(ForwardRef(Typography))>
+    <img
+      alt="title"
+      src="scigateway-white-text-blue-mark-logo.svg"
+    />
   </div>
   <div
     className="howItWorks-class"
