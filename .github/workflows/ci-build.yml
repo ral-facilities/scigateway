@@ -14,8 +14,13 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        # Ubuntu 16+ does not install libgconf-2-4 by default, so we need to install it ourselves (for Cypress)
+        run: |
+          sudo apt-get install libgconf-2-4
+          yarn --frozen-lockfile
       - name: Run linting
         run: yarn lint:js
       - name: Run unit tests
         run: yarn test
+      - name: Run e2e tests
+        run: yarn e2e
