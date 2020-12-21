@@ -5,7 +5,6 @@ jobs:
   test:
     name: Tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -34,5 +33,8 @@ jobs:
         run: yarn lint:js
       - name: Run unit tests
         run: yarn test
+      - name: Upload unit test coverage
+        if: success()
+        uses: codecov/codecov-action@v1
       - name: Run e2e tests
         run: yarn e2e
