@@ -220,7 +220,7 @@ describe('Tour component', () => {
 
     expect(joyride.state.index).toEqual(1);
 
-    expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
