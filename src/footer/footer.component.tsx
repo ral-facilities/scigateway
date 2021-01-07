@@ -21,6 +21,17 @@ const styles = (theme: Theme): StyleRules =>
       fontSize: 14,
       textAlign: 'center',
       backgroundColor: theme.palette.background.default,
+      '& a': {
+        '&:link': {
+          color: '#1E5DF8',
+        },
+        '&:visited': {
+          color: '#BE2BBB',
+        },
+        '&:active': {
+          color: '#E94D36',
+        },
+      },
     },
   });
 
