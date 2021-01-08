@@ -153,7 +153,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               className={classNames(props.classes.button, 'tour-contact')}
               style={{ paddingTop: 3 }}
               onClick={props.navigateToContactPage}
-              aria-label="Contact"
+              aria-label="Contactpage"
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'contact')}

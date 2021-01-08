@@ -28,7 +28,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         />
       </WithStyles(ForwardRef(Button))>
       <WithStyles(ForwardRef(Button))
-        aria-label="Contact"
+        aria-label="Contactpage"
         className="MainAppBar-button-6 tour-contact"
         onClick={[Function]}
         style={
@@ -130,7 +130,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         />
       </WithStyles(ForwardRef(Button))>
       <WithStyles(ForwardRef(Button))
-        aria-label="Contact"
+        aria-label="Contactpage"
         className="MainAppBar-button-6 tour-contact"
         onClick={[Function]}
         style={
