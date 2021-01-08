@@ -30,6 +30,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
       <WithStyles(ForwardRef(Button))
         aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
+        onClick={[Function]}
         style={
           Object {
             "paddingTop": 3,
@@ -131,6 +132,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
       <WithStyles(ForwardRef(Button))
         aria-label="Contact"
         className="MainAppBar-button-6 tour-contact"
+        onClick={[Function]}
         style={
           Object {
             "paddingTop": 3,
