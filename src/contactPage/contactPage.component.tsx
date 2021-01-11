@@ -11,6 +11,7 @@ import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
+import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -19,13 +20,13 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: theme.palette.background.default,
       '& a': {
         '&:link': {
-          color: '#1E5DF8',
+          color: (theme as UKRITheme).ukri.bright.blue,
         },
         '&:visited': {
-          color: '#BE2BBB',
+          color: (theme as UKRITheme).ukri.bright.purple,
         },
         '&:active': {
-          color: '#E94D36',
+          color: (theme as UKRITheme).ukri.bright.red,
         },
       },
     },
