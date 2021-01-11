@@ -11,6 +11,7 @@ import { StateType } from '../state/state.types';
 import { PluginConfig } from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
+import ContactPage from '../contactPage/contactPage.component';
 import LoginPage from '../loginPage/loginPage.component';
 import CookiesPage from '../cookieConsent/cookiesPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
@@ -68,6 +69,7 @@ class Routing extends React.Component<
       >
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
           {this.props.plugins.map((p) => (

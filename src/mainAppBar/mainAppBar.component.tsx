@@ -45,6 +45,7 @@ interface MainAppProps {
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
+  navigateToContactPage: () => Action;
   toggleHelp: () => Action;
   manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
@@ -151,7 +152,8 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             <Button
               className={classNames(props.classes.button, 'tour-contact')}
               style={{ paddingTop: 3 }}
-              aria-label="Contact"
+              onClick={props.navigateToContactPage}
+              aria-label="Contactpage"
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'contact')}
@@ -215,6 +217,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
+  navigateToContactPage: () => dispatch(push('/contact')),
   toggleHelp: () => dispatch(toggleHelp()),
   manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>

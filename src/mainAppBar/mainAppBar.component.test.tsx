@@ -83,6 +83,22 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/'));
   });
 
+  it('redirects to Contact page when Contact button clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    wrapper.find('button[aria-label="Contactpage"]').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/contact'));
+  });
+
   it('sends toggleHelp action when help button is clicked', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
