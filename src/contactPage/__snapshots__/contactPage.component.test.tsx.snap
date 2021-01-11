@@ -2,16 +2,16 @@
 
 exports[`Contact page componet should render correctly 1`] = `
 <div
-  className="ContactPage-root-1"
+  className="root-class"
 >
   <WithStyles(ForwardRef(Typography))
-    className="ContactPage-titleText-3"
+    className="titleText-class"
     variant="h3"
   >
     title
   </WithStyles(ForwardRef(Typography))>
   <div
-    className="ContactPage-container-2"
+    className="container-class"
   >
     <WithStyles(ForwardRef(Typography))
       variant="h4"
@@ -19,7 +19,7 @@ exports[`Contact page componet should render correctly 1`] = `
       contact-details-title
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Typography))
-      className="ContactPage-contactDetails-4"
+      className="contactDetails-class"
       dangerouslySetInnerHTML={
         Object {
           "__html": "contact-details-description",
