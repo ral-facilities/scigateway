@@ -17,12 +17,24 @@ import { AppStrings } from '../state/scigateway.types';
 import Cookies from 'js-cookie';
 import { Dispatch, Action } from 'redux';
 import { push } from 'connected-react-router';
+import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
       padding: theme.spacing(2),
       backgroundColor: theme.palette.background.default,
+      '& a': {
+        '&:link': {
+          color: (theme as UKRITheme).ukri.bright.blue,
+        },
+        '&:visited': {
+          color: (theme as UKRITheme).ukri.bright.purple,
+        },
+        '&:active': {
+          color: (theme as UKRITheme).ukri.bright.red,
+        },
+      },
     },
     container: {
       display: 'flex',
@@ -211,6 +223,7 @@ const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
   navigateToHome: () => dispatch(push('/')),
 });
 
+export const CookiesPageWithoutStyles = CookiesPage;
 export const CookiesPageWithStyles = withStyles(styles)(CookiesPage);
 
 export default connect(
