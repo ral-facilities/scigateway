@@ -54,6 +54,7 @@ export interface FeatureSwitchesPayload {
 
 export interface FeatureSwitches {
   showContactButton: boolean;
+  showHelpPageButton: boolean;
 }
 
 export interface StartUrlPayload {

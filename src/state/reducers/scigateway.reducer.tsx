@@ -58,6 +58,7 @@ export const initialState: ScigatewayState = {
   authorisation: authState,
   features: {
     showContactButton: true,
+    showHelpPageButton: true,
   },
   darkMode: false,
 };
