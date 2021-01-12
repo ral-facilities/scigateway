@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Help page component should render correctly 1`] = `
+<div
+  className="root-class"
+>
+  <WithStyles(ForwardRef(Typography))
+    className="titleText-class"
+    variant="h3"
+  >
+    title
+  </WithStyles(ForwardRef(Typography))>
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      variant="h4"
+    >
+      logging-in-title
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "logging-in-description",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      variant="h4"
+    >
+      my-data-title
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "my-data-description",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      variant="h4"
+    >
+      browse-title
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "browse-description",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      variant="h4"
+    >
+      search-title
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "search-description",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      variant="h4"
+    >
+      cart-title
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "cart-description",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      variant="h4"
+    >
+      download-title
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "download-description",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+</div>
+`;
