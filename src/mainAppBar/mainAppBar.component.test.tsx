@@ -44,6 +44,12 @@ describe('Main app bar component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('does not render Help button when feature is false', () => {
+    state.scigateway.features.showHelpPageButton = false;
+    const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('app bar indented when drawer is open', () => {
     state.scigateway.drawerOpen = true;
 
