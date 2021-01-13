@@ -1,30 +1,40 @@
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
+import { createMount } from '@material-ui/core/test-utils';
 import {
-  ContactPageWithoutStyles,
+  ContactPageWithStyles,
   CombinedContactPageProps,
 } from './contactPage.component';
+import { MuiThemeProvider } from '@material-ui/core';
+import { buildTheme } from '../theming';
+
+const dummyClasses = {
+  root: 'root-class',
+  container: 'container-class',
+  titleText: 'titleText-class',
+  contactDetails: 'contactDetails-class',
+};
 
 describe('Contact page componet', () => {
-  let shallow;
+  let mount;
   let props: CombinedContactPageProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'ContactPage' });
+    mount = createMount();
 
     props = {
       res: undefined,
-      classes: {
-        root: 'root-class',
-        container: 'container-class',
-        titleText: 'titleText-class',
-        contactDetails: 'contactDetails-class',
-      },
+      classes: dummyClasses,
     };
   });
 
+  const theme = buildTheme(false);
+
   it('should render correctly', () => {
-    const wrapper = shallow(<ContactPageWithoutStyles {...props} />);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <ContactPageWithStyles {...props} />
+      </MuiThemeProvider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });
