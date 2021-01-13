@@ -1,30 +1,40 @@
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
+import { createMount } from '@material-ui/core/test-utils';
 import {
-  HelpPageWithoutStyles,
+  HelpPageWithStyles,
   CombinedHelpPageProps,
 } from './helpPage.component';
+import { MuiThemeProvider } from '@material-ui/core';
+import { buildTheme } from '../theming';
+
+const dummyClasses = {
+  root: 'root-class',
+  container: 'container-class',
+  titleText: 'titleText-class',
+  description: 'description-class',
+};
 
 describe('Help page component', () => {
-  let shallow;
+  let mount;
   let props: CombinedHelpPageProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'HelpPage' });
+    mount = createMount();
 
     props = {
       res: undefined,
-      classes: {
-        root: 'root-class',
-        container: 'container-class',
-        titleText: 'titleText-class',
-        description: 'description-class',
-      },
+      classes: dummyClasses,
     };
   });
 
+  const theme = buildTheme(false);
+
   it('should render correctly', () => {
-    const wrapper = shallow(<HelpPageWithoutStyles {...props} />);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <HelpPageWithStyles {...props} />
+      </MuiThemeProvider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });
