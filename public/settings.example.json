@@ -1,7 +1,8 @@
 {
   "title": "a cool title",
   "features": {
-    "showContactButton": true
+    "showContactButton": true,
+    "showHelpPageButton": true
   },
   "plugins": [
     {
