@@ -1,9 +1,9 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import {
-  ContactPageWithStyles,
-  CombinedContactPageProps,
-} from './contactPage.component';
+  HelpPageWithStyles,
+  CombinedHelpPageProps,
+} from './helpPage.component';
 import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 
@@ -11,12 +11,12 @@ const dummyClasses = {
   root: 'root-class',
   container: 'container-class',
   titleText: 'titleText-class',
-  contactDetails: 'contactDetails-class',
+  description: 'description-class',
 };
 
-describe('Contact page componet', () => {
+describe('Help page component', () => {
   let mount;
-  let props: CombinedContactPageProps;
+  let props: CombinedHelpPageProps;
 
   beforeEach(() => {
     mount = createMount();
@@ -32,7 +32,7 @@ describe('Contact page componet', () => {
   it('should render correctly', () => {
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
-        <ContactPageWithStyles {...props} />
+        <HelpPageWithStyles {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper).toMatchSnapshot();

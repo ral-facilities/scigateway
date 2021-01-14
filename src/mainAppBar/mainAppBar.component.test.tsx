@@ -44,6 +44,12 @@ describe('Main app bar component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it('does not render Help button when feature is false', () => {
+    state.scigateway.features.showHelpPageButton = false;
+    const wrapper = shallow(<MainAppBarComponent store={mockStore(state)} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('app bar indented when drawer is open', () => {
     state.scigateway.drawerOpen = true;
 
@@ -97,6 +103,22 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/contact'));
+  });
+
+  it('redirects to Help page when Help button clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    wrapper.find('button[aria-label="Helppage"]').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/help'));
   });
 
   it('sends toggleHelp action when help button is clicked', () => {
