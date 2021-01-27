@@ -261,6 +261,24 @@ describe('scigateway reducer', () => {
     });
   });
 
+  it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
+    const notificationsInState = {
+      notifications: [{ message: 'test notification', severity: 'success' }],
+    };
+    const action = {
+      type: 'scigateway:api:notification',
+      payload: { message: 'test notification', severity: 'success' },
+    };
+
+    const updatedState = ScigatewayReducer(notificationsInState, action);
+
+    expect(updatedState.notifications.length).toEqual(1);
+    expect(updatedState.notifications[0]).toEqual({
+      message: 'test notification',
+      severity: 'success',
+    });
+  });
+
   it('should set res property when configure strings action is sent', () => {
     expect(state).not.toHaveProperty('res');
 
