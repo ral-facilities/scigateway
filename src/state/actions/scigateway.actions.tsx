@@ -34,6 +34,9 @@ import {
   LoadDarkModePreferencePayload,
   StartUrlPayload,
   RegisterStartUrlType,
+  ScheduledMaintenanceState,
+  LoadScheduledMaintenanceStateType,
+  ScheduledMaintenanceStatePayLoad,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -99,6 +102,15 @@ export const loadAuthProvider = (
   payload: {
     authProvider,
     authUrl,
+  },
+});
+
+export const loadScheduledMaintenanceState = (
+  scheduledMaintenance: ScheduledMaintenanceState
+): ActionType<ScheduledMaintenanceStatePayLoad> => ({
+  type: LoadScheduledMaintenanceStateType,
+  payload: {
+    scheduledMaintenance: scheduledMaintenance,
   },
 });
 
@@ -245,6 +257,15 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       .catch((error) => {
         log.error(`Error loading settings.json: ${error.message}`);
       });
+
+    const provider = getState().scigateway.authorisation.provider;
+    if (provider.fetchScheduledMaintenanceState) {
+      provider
+        .fetchScheduledMaintenanceState()
+        .then((scheduledMaintenaceState) => {
+          dispatch(loadScheduledMaintenanceState(scheduledMaintenaceState));
+        });
+    }
   };
 };
 
