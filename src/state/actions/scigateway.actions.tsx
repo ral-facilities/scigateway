@@ -37,6 +37,7 @@ import {
   ScheduledMaintenanceState,
   LoadScheduledMaintenanceStateType,
   ScheduledMaintenanceStatePayLoad,
+  NotificationType,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -264,9 +265,29 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         .fetchScheduledMaintenanceState()
         .then((scheduledMaintenaceState) => {
           dispatch(loadScheduledMaintenanceState(scheduledMaintenaceState));
+
+          const scheduledMaintenance = getState().scigateway
+            .scheduledMaintenance;
+          if (scheduledMaintenance['show']) {
+            displayScheduledMaintenanceBanner(scheduledMaintenance['message']);
+          }
         });
     }
   };
+};
+
+const displayScheduledMaintenanceBanner = (message: string): void => {
+  document.dispatchEvent(
+    new CustomEvent('scigateway', {
+      detail: {
+        type: NotificationType,
+        payload: {
+          severity: 'warning',
+          message: message,
+        },
+      },
+    })
+  );
 };
 
 export const toggleDrawer = (): Action => ({
