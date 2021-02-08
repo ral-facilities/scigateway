@@ -261,7 +261,7 @@ describe('scigateway reducer', () => {
     });
   });
 
-  it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
+  it('should not update notification list when new notification is a duplicate', () => {
     const notificationsInState = {
       notifications: [{ message: 'test notification', severity: 'success' }],
     };
