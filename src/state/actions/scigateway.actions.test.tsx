@@ -18,6 +18,7 @@ import {
   loadedAuthentication,
   loadDarkModePreference,
   registerStartUrl,
+  loadScheduledMaintenanceState,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -265,7 +266,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(7);
+    expect(actions.length).toEqual(8);
     expect(actions).toContainEqual(authorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
@@ -296,7 +297,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(6);
+    expect(actions.length).toEqual(7);
     expect(actions).toContainEqual(invalidToken());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
@@ -493,6 +494,28 @@ describe('scigateway actions', () => {
     const mockLog = (log.error as jest.Mock).mock;
     expect(mockLog.calls[0][0]).toEqual(
       expect.stringContaining(`Failed to read strings from ${path}: `)
+    );
+  });
+
+  it('should load scheduled maintenance state into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(
+      loadScheduledMaintenanceState({ show: false, message: 'test' })
     );
   });
 });
