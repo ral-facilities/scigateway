@@ -157,6 +157,32 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ContactPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/contact"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(HelpPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/help"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
           "displayName": "Connect(LoginPageComponent)",
           "type": [Function],
         }
@@ -209,6 +235,32 @@ exports[`Routing component renders component with plugins 1`] = `
       }
       exact={true}
       path="/"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ContactPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/contact"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(HelpPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/help"
     />
     <Route
       component={

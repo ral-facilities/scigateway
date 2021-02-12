@@ -1,0 +1,46 @@
+name: CI Build
+on: 
+  pull_request:
+  # By default, the pull_request event type is not triggered when a PR is merged into master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      # Cache yarn dependencies/ restore the cached dependencies during future workflows
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        # Ubuntu 16+ does not install libgconf-2-4 by default, so we need to install it ourselves (for Cypress)
+        run: |
+          npm config set scripts-prepend-node-path true
+          sudo apt-get install libgconf-2-4
+          yarn --frozen-lockfile
+      - name: Run linting
+        run: yarn lint:js
+      - name: Run unit tests
+        run: yarn test
+      - name: Upload unit test coverage
+        if: success()
+        uses: codecov/codecov-action@v1
+      - name: Run e2e tests
+        run: yarn e2e

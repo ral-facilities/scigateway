@@ -10,5 +10,6 @@ exports[`PageContainer - Tests renders correctly 1`] = `
   <Connect(WithTheme(Tour)) />
   <Connect(WithStyles(CookieConsent)) />
   <Connect(WithStyles(Routing)) />
+  <Connect(WithStyles(Footer)) />
 </div>
 `;

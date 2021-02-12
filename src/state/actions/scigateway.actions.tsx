@@ -163,7 +163,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       dispatch(loadDarkModePreference(preference));
     } else {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      dispatch(loadDarkModePreference(mq.matches));
+      if (mq) dispatch(loadDarkModePreference(mq.matches));
     }
     await axios
       .get(`/settings.json`)

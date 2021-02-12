@@ -64,7 +64,7 @@ describe('Login', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
     cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.be.visible'
+      'not.exist'
     );
 
     cy.contains('Username*').parent().find('input').type('username');
@@ -89,7 +89,7 @@ describe('Login', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
     cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.be.visible'
+      'not.exist'
     );
 
     cy.contains('Username*').parent().find('input').type(' username ');
@@ -129,15 +129,14 @@ describe('Login', () => {
 
   describe('authenticator selector', () => {
     beforeEach(() => {
-      cy.server();
-      cy.route('/settings.json', {
+      cy.intercept('/settings.json', {
         plugins: [],
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
         authUrl: 'http://localhost:8000',
         'help-tour-steps': [],
-      });
-      cy.route('/authenticators', [
+      }).as('settings');
+      cy.intercept('/authenticators', [
         {
           mnemonic: 'user/pass',
           keys: [{ name: 'username' }, { name: 'password' }],
@@ -146,7 +145,7 @@ describe('Login', () => {
           mnemonic: 'anon',
           keys: [],
         },
-      ]);
+      ]).as('auths');
       cy.visit('/login');
     });
 
@@ -169,14 +168,20 @@ describe('Login', () => {
       cy.get('#select-mnemonic').click();
       cy.contains('anon').click();
 
-      cy.contains('Sign In').should('not.be.disabled');
+      cy.contains('Sign in').should('not.be.disabled');
     });
   });
 
   describe('autoLogin', () => {
+    // Define responses for login attempts
+    let verifyResponse: {statusCode: Number; body: string};
+    let loginResponse: {statusCode: Number; body: string};
+    const verifySuccess = {statusCode: 200, body: ''};
+    const loginSuccess = {statusCode: 200, body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk'};
+    const failure = {statusCode: 403, body: ''};
+
     beforeEach(() => {
-      cy.server();
-      cy.route('/settings.json', {
+        cy.intercept('/settings.json', {
         plugins: [
           {
             name: 'demo_plugin',
@@ -190,7 +195,7 @@ describe('Login', () => {
         authUrl: 'http://localhost:8000',
         'help-tour-steps': [],
       });
-      cy.route('/authenticators', [
+      cy.intercept('/authenticators', [
         {
           mnemonic: 'user/pass',
           keys: [{ name: 'username' }, { name: 'password' }],
@@ -200,15 +205,13 @@ describe('Login', () => {
           keys: [],
         },
       ]);
-      cy.route(
-        'POST',
-        '/login',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk'
-      );
-      cy.route('POST', '/verify', '');
+      cy.intercept('POST', '/login', (req) => {req.reply(loginResponse)});
+      cy.intercept('POST', '/verify', (req) => {req.reply(verifyResponse)});
     });
 
     it('should show the sidebar and yet still show the Sign in button', () => {
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
       cy.visit('/');
 
       cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
@@ -220,47 +223,46 @@ describe('Login', () => {
       cy.contains('Sign in').should('be.visible');
 
       // test that autologin works after token valididation + refresh fail
-      cy.route({ method: 'POST', url: '/verify', status: 403 });
-      cy.route({ method: 'POST', url: '/refresh', status: 403 });
+      verifyResponse = failure;
+      cy.intercept('POST', '/refresh', {statusCode: 403 });
       cy.reload();
       cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
     it('should not display as logged in if autologin requests fail', () => {
-      cy.route({
-        method: 'POST',
-        url: '/login',
-        status: 403,
-      });
-
-      cy.visit('/');
+      loginResponse = failure
+      verifyResponse = verifySuccess;
 
       cy.contains('Sign in').should('be.visible');
       cy.get('button[aria-label="Open navigation menu"]').should(
-        'not.be.visible'
+        'not.exist'
       );
 
       // test that autologin fails after token validation + refresh fail
-      cy.route({ method: 'POST', url: '/verify', status: 403 });
-      cy.route({ method: 'POST', url: '/refresh', status: 403 });
+      verifyResponse = failure;
+      cy.intercept('POST', '/refresh', {statusCode: 403 });
       cy.window().then(($window) =>
         $window.localStorage.setItem('scigateway:token', 'invalidtoken')
       );
       cy.reload();
       cy.contains('Sign in').should('be.visible');
       cy.get('button[aria-label="Open navigation menu"]').should(
-        'not.be.visible'
+        'not.exist'
       );
     });
 
     it('should be able to directly view a plugin route without signing in', () => {
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
       cy.visit('/plugin1');
 
       cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
     });
 
     it('should be able to switch authenticators and still be "auto logged in"', () => {
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
@@ -273,6 +275,8 @@ describe('Login', () => {
     });
 
     it('should be able to login after auto login and be displayed as logged in', () => {
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
@@ -286,7 +290,7 @@ describe('Login', () => {
         .click();
 
       cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
-      cy.contains('Sign in').should('not.be.visible');
+      cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
     });
   });

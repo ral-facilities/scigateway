@@ -17,7 +17,7 @@ const spacing = 1;
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     spinner: {
-      position: 'relative' as 'relative',
+      position: 'relative',
       display: 'block',
       margin: 'auto',
       width: innerRadius + colors.length * 2 * (border + spacing),
@@ -25,12 +25,12 @@ const styles = (theme: Theme): StyleRules =>
       animation: 'rotate 10s infinite linear',
     },
     wrapper: {
-      boxSizing: 'border-box' as 'border-box',
+      boxSizing: 'border-box',
       padding: '10px 0',
     },
     container: {
       zIndex: 1000,
-      position: 'fixed' as 'fixed',
+      position: 'fixed',
       width: '100%',
       height: '100%',
       top: 0,
@@ -39,7 +39,7 @@ const styles = (theme: Theme): StyleRules =>
       bottom: 0,
       backgroundColor: theme.palette.background.default,
       display: 'flex',
-      flexDirection: 'column' as 'column',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -59,7 +59,7 @@ const spinnerStyle = (index: number): SpinnerStyle => {
   const size = innerRadius + index * 2 * (border + spacing);
 
   return {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     display: 'inline-block',
     top: '50%',
     left: '50%',
@@ -79,7 +79,7 @@ const spinnerStyle = (index: number): SpinnerStyle => {
       0.12 * index
     }, .03)`,
     transformOrigin: '50% 100% 0',
-    boxSizing: 'border-box' as 'border-box',
+    boxSizing: 'border-box',
   };
 };
 

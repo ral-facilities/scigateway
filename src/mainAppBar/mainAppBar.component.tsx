@@ -38,6 +38,7 @@ interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
   showContactButton: boolean;
+  showHelpPageButton: boolean;
   loggedIn: boolean;
   darkMode: boolean;
 }
@@ -45,6 +46,8 @@ interface MainAppProps {
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
+  navigateToContactPage: () => Action;
+  navigateToHelpPage: () => Action;
   toggleHelp: () => Action;
   manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
@@ -151,10 +154,23 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             <Button
               className={classNames(props.classes.button, 'tour-contact')}
               style={{ paddingTop: 3 }}
-              aria-label="Contact"
+              onClick={props.navigateToContactPage}
+              aria-label="Contactpage"
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'contact')}
+              </Typography>
+            </Button>
+          ) : null}
+          {props.showHelpPageButton ? (
+            <Button
+              className={classNames(props.classes.button, 'tour-help')}
+              style={{ paddingTop: 3 }}
+              onClick={props.navigateToHelpPage}
+              aria-label="Helppage"
+            >
+              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+                {getString(props.res, 'help')}
               </Typography>
             </Button>
           ) : null}
@@ -207,6 +223,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.scigateway.drawerOpen,
   showContactButton: state.scigateway.features.showContactButton,
+  showHelpPageButton: state.scigateway.features.showHelpPageButton,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
@@ -215,6 +232,8 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
+  navigateToContactPage: () => dispatch(push('/contact')),
+  navigateToHelpPage: () => dispatch(push('/help')),
   toggleHelp: () => dispatch(toggleHelp()),
   manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>

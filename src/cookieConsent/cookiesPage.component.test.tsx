@@ -1,5 +1,8 @@
 import React from 'react';
-import CookiesPage from './cookiesPage.component';
+import CookiesPage, {
+  CookiesPageWithoutStyles,
+  CombinedCookiesPageProps,
+} from './cookiesPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
@@ -15,6 +18,7 @@ describe('Cookies page component', () => {
   let mount;
   let mockStore;
   let state: StateType;
+  let props: CombinedCookiesPageProps;
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'CookiesPage' });
@@ -28,6 +32,21 @@ describe('Cookies page component', () => {
       })
     );
 
+    props = {
+      res: undefined,
+      navigateToHome: jest.fn(),
+      classes: {
+        root: 'root-class',
+        container: 'container-class',
+        titleText: 'titleText-class',
+        cookiePolicy: 'cookiePolicy-class',
+        cookieTypes: 'cookieTypes-class',
+        button: 'button-class',
+        cookieList: 'cookieList-class',
+        cookieListItem: 'cookieListItem-class',
+      },
+    };
+
     Cookies.set = jest.fn();
     Cookies.remove = jest.fn();
   });
@@ -39,11 +58,7 @@ describe('Cookies page component', () => {
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CookiesPage store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CookiesPageWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 

@@ -1,6 +1,6 @@
 # SciGateway
 
-[![Build Status](https://travis-ci.org/ral-facilities/scigateway.svg?branch=master)](https://travis-ci.org/ral-facilities/scigateway) [![codecov](https://codecov.io/gh/ral-facilities/scigateway/branch/master/graph/badge.svg)](https://codecov.io/gh/ral-facilities/scigateway)
+[![Build Status](https://github.com/ral-facilities/scigateway/workflows/CI%20Build/badge.svg?branch=master)](https://github.com/ral-facilities/scigateway/actions?query=workflow%3A%22CI+Build%22) [![codecov](https://codecov.io/gh/ral-facilities/scigateway/branch/master/graph/badge.svg)](https://codecov.io/gh/ral-facilities/scigateway)
 
 SciGateway is a ReactJs based parent application within a micro-front end architecture. It provides **access to large facilities science**.
 

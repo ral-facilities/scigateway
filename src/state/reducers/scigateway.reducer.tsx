@@ -60,6 +60,7 @@ export const initialState: ScigatewayState = {
   authorisation: authState,
   features: {
     showContactButton: true,
+    showHelpPageButton: true,
   },
   darkMode: false,
 };
@@ -68,6 +69,12 @@ export function handleNotification(
   state: ScigatewayState,
   payload: NotificationPayload
 ): ScigatewayState {
+  // Do not add the notification to state if a notification
+  // with the same message already exists.
+  if (state.notifications.some((n) => n.message === payload.message)) {
+    return state;
+  }
+
   return {
     ...state,
     notifications: [

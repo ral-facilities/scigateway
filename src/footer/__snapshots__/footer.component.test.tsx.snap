@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer component footer renders correctly 1`] = `
+<div
+  className="root-class"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "html",
+    }
+  }
+/>
+`;
