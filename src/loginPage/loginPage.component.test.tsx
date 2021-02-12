@@ -181,7 +181,9 @@ describe('Login page component', () => {
       })
     );
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
+    const spy = jest
+      .spyOn(React, 'useEffect')
+      .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -195,6 +197,7 @@ describe('Login page component', () => {
     });
 
     expect(wrapper).toMatchSnapshot();
+    spy.mockRestore();
   });
 
   it('login page renders anonymous login if mnemonic present + anon is selected', async () => {
@@ -210,7 +213,9 @@ describe('Login page component', () => {
       })
     );
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
+    const spy = jest
+      .spyOn(React, 'useEffect')
+      .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -224,6 +229,7 @@ describe('Login page component', () => {
     });
 
     expect(wrapper).toMatchSnapshot();
+    spy.mockRestore();
   });
 
   it('login page renders credentials login if mnemonic present + user/pass is selected', async () => {
@@ -239,7 +245,9 @@ describe('Login page component', () => {
       })
     );
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
+    const spy = jest
+      .spyOn(React, 'useEffect')
+      .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
@@ -253,6 +261,7 @@ describe('Login page component', () => {
     });
 
     expect(wrapper).toMatchSnapshot();
+    spy.mockRestore();
   });
 
   it('login page renders spinner if auth is loading', () => {
@@ -270,7 +279,9 @@ describe('Login page component', () => {
     (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    jest.spyOn(React, 'useEffect').mockImplementationOnce((f) => f());
+    const spy = jest
+      .spyOn(React, 'useEffect')
+      .mockImplementationOnce((f) => f());
     const dispatchEventSpy = jest
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
@@ -303,6 +314,7 @@ describe('Login page component', () => {
     expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
       'Failed to fetch authenticator information from ICAT'
     );
+    spy.mockRestore();
   });
 
   it('loadAuthProvider action should be sent when user selects an authenticator in authenticator dropdown', async () => {
