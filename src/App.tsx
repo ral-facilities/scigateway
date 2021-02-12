@@ -62,6 +62,7 @@ const toastrConfig = (): React.ReactElement => (
     newestOnTop={false}
     closeOnToastrClick={true}
     position="top-center"
+    preventDuplicates
     transitionIn="fadeIn"
     transitionOut="fadeOut"
   />
