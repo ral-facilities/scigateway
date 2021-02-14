@@ -262,6 +262,24 @@ describe('scigateway reducer', () => {
     });
   });
 
+  it('should not update notification list when new notification is a duplicate', () => {
+    const notificationsInState = {
+      notifications: [{ message: 'test notification', severity: 'success' }],
+    };
+    const action = {
+      type: 'scigateway:api:notification',
+      payload: { message: 'test notification', severity: 'success' },
+    };
+
+    const updatedState = ScigatewayReducer(notificationsInState, action);
+
+    expect(updatedState.notifications.length).toEqual(1);
+    expect(updatedState.notifications[0]).toEqual({
+      message: 'test notification',
+      severity: 'success',
+    });
+  });
+
   it('should set res property when configure strings action is sent', () => {
     expect(state).not.toHaveProperty('res');
 

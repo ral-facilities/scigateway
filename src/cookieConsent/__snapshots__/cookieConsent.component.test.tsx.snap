@@ -9,15 +9,15 @@ exports[`Cookie consent component should render correctly 1`] = `
   }
   action={
     Array [
-      <ForwardRef(WithStyles)
+      <WithStyles(ForwardRef(Button))
         className="button-class"
         onClick={[MockFunction]}
         size="small"
         variant="outlined"
       >
         manage-preferences-button
-      </ForwardRef(WithStyles)>,
-      <ForwardRef(WithStyles)
+      </WithStyles(ForwardRef(Button))>,
+      <WithStyles(ForwardRef(Button))
         className="button-class"
         color="primary"
         onClick={[Function]}
@@ -25,7 +25,7 @@ exports[`Cookie consent component should render correctly 1`] = `
         variant="contained"
       >
         accept-button
-      </ForwardRef(WithStyles)>,
+      </WithStyles(ForwardRef(Button))>,
     ]
   }
   anchorOrigin={

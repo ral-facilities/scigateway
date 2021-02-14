@@ -191,7 +191,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[2]).toEqual(
+    expect(actions).toContainEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
   });
@@ -212,7 +212,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[3]).toEqual(registerStartUrl('/test'));
+    expect(actions).toContainEqual(registerStartUrl('/test'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {
@@ -232,7 +232,7 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions[1]).toEqual(configureAnalytics('test-tracking-id'));
+    expect(actions).toContainEqual(configureAnalytics('test-tracking-id'));
   });
 
   it('dispatches a site loading update after settings are loaded', async () => {
@@ -266,7 +266,6 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(8);
     expect(actions).toContainEqual(authorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
@@ -297,7 +296,6 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions.length).toEqual(7);
     expect(actions).toContainEqual(invalidToken());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
