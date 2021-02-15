@@ -1,5 +1,191 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Routing component does not render a route for a plugin when site is under maintenance 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <MemoryRouter
+    initialEntries={
+      Array [
+        Object {
+          "key": "testKey",
+          "pathname": "/test_link",
+        },
+      ]
+    }
+  >
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "key": "testKey",
+              "pathname": "/test_link",
+              "search": "",
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "key": "testKey",
+            "pathname": "/test_link",
+            "search": "",
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <Connect(MaintenancePage)
+        classes={
+          Object {
+            "container": "container-class",
+            "root": "root-class",
+            "titleText": "titleText-class",
+          }
+        }
+      >
+        <MaintenancePage
+          classes={
+            Object {
+              "container": "container-class",
+              "root": "root-class",
+              "titleText": "titleText-class",
+            }
+          }
+          dispatch={[Function]}
+          message="test"
+        >
+          <div
+            className="root-class"
+          >
+            <WithStyles(ForwardRef(Typography))
+              className="titleText-class"
+              variant="h3"
+            >
+              <ForwardRef(Typography)
+                className="titleText-class"
+                classes={
+                  Object {
+                    "alignCenter": "MuiTypography-alignCenter",
+                    "alignJustify": "MuiTypography-alignJustify",
+                    "alignLeft": "MuiTypography-alignLeft",
+                    "alignRight": "MuiTypography-alignRight",
+                    "body1": "MuiTypography-body1",
+                    "body2": "MuiTypography-body2",
+                    "button": "MuiTypography-button",
+                    "caption": "MuiTypography-caption",
+                    "colorError": "MuiTypography-colorError",
+                    "colorInherit": "MuiTypography-colorInherit",
+                    "colorPrimary": "MuiTypography-colorPrimary",
+                    "colorSecondary": "MuiTypography-colorSecondary",
+                    "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                    "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                    "displayBlock": "MuiTypography-displayBlock",
+                    "displayInline": "MuiTypography-displayInline",
+                    "gutterBottom": "MuiTypography-gutterBottom",
+                    "h1": "MuiTypography-h1",
+                    "h2": "MuiTypography-h2",
+                    "h3": "MuiTypography-h3",
+                    "h4": "MuiTypography-h4",
+                    "h5": "MuiTypography-h5",
+                    "h6": "MuiTypography-h6",
+                    "noWrap": "MuiTypography-noWrap",
+                    "overline": "MuiTypography-overline",
+                    "paragraph": "MuiTypography-paragraph",
+                    "root": "MuiTypography-root",
+                    "srOnly": "MuiTypography-srOnly",
+                    "subtitle1": "MuiTypography-subtitle1",
+                    "subtitle2": "MuiTypography-subtitle2",
+                  }
+                }
+                variant="h3"
+              >
+                <h3
+                  className="MuiTypography-root titleText-class MuiTypography-h3"
+                >
+                  Maintenance
+                </h3>
+              </ForwardRef(Typography)>
+            </WithStyles(ForwardRef(Typography))>
+            <div
+              className="container-class"
+            >
+              <WithStyles(ForwardRef(Typography))
+                variant="h4"
+              >
+                <ForwardRef(Typography)
+                  classes={
+                    Object {
+                      "alignCenter": "MuiTypography-alignCenter",
+                      "alignJustify": "MuiTypography-alignJustify",
+                      "alignLeft": "MuiTypography-alignLeft",
+                      "alignRight": "MuiTypography-alignRight",
+                      "body1": "MuiTypography-body1",
+                      "body2": "MuiTypography-body2",
+                      "button": "MuiTypography-button",
+                      "caption": "MuiTypography-caption",
+                      "colorError": "MuiTypography-colorError",
+                      "colorInherit": "MuiTypography-colorInherit",
+                      "colorPrimary": "MuiTypography-colorPrimary",
+                      "colorSecondary": "MuiTypography-colorSecondary",
+                      "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                      "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                      "displayBlock": "MuiTypography-displayBlock",
+                      "displayInline": "MuiTypography-displayInline",
+                      "gutterBottom": "MuiTypography-gutterBottom",
+                      "h1": "MuiTypography-h1",
+                      "h2": "MuiTypography-h2",
+                      "h3": "MuiTypography-h3",
+                      "h4": "MuiTypography-h4",
+                      "h5": "MuiTypography-h5",
+                      "h6": "MuiTypography-h6",
+                      "noWrap": "MuiTypography-noWrap",
+                      "overline": "MuiTypography-overline",
+                      "paragraph": "MuiTypography-paragraph",
+                      "root": "MuiTypography-root",
+                      "srOnly": "MuiTypography-srOnly",
+                      "subtitle1": "MuiTypography-subtitle1",
+                      "subtitle2": "MuiTypography-subtitle2",
+                    }
+                  }
+                  variant="h4"
+                >
+                  <h4
+                    className="MuiTypography-root MuiTypography-h4"
+                  >
+                    test
+                  </h4>
+                </ForwardRef(Typography)>
+              </WithStyles(ForwardRef(Typography))>
+            </div>
+          </div>
+        </MaintenancePage>
+      </Connect(MaintenancePage)>
+    </Router>
+  </MemoryRouter>
+</Provider>
+`;
+
 exports[`Routing component renders a route for a plugin 1`] = `
 <Provider
   store={
@@ -73,6 +259,12 @@ exports[`Routing component renders a route for a plugin 1`] = `
           dispatch={[Function]}
           drawerOpen={false}
           location="/"
+          maintenance={
+            Object {
+              "message": "",
+              "show": false,
+            }
+          }
           plugins={
             Array [
               Object {
