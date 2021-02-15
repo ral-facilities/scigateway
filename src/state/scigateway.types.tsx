@@ -8,6 +8,7 @@ export const LoadedAuthType = 'scigateway:loaded_auth';
 export const LoadAuthProviderType = 'scigateway:loading_auth_provider';
 export const LoadScheduledMaintenanceStateType =
   'scigateway:load_scheduled_maintenance_state';
+export const LoadMaintenanceStateType = 'scigateway:load_maintenance_state';
 export const InvalidateTokenType = 'scigateway:api:invalidate_token';
 export const ConfigureStringsType = 'scigateway:configure_strings';
 export const LoginType = 'scigateway:login';
@@ -125,6 +126,15 @@ export interface ScheduledMaintenanceStatePayLoad {
 }
 
 export interface ScheduledMaintenanceState {
+  show: boolean;
+  message: string;
+}
+
+export interface MaintenanceStatePayLoad {
+  maintenance: MaintenanceState;
+}
+
+export interface MaintenanceState {
   show: boolean;
   message: string;
 }

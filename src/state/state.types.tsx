@@ -6,6 +6,7 @@ import {
   PluginConfig,
   FeatureSwitches,
   ScheduledMaintenanceState,
+  MaintenanceState,
 } from './scigateway.types';
 import { RouterState } from 'connected-react-router';
 
@@ -35,6 +36,7 @@ export interface ScigatewayState {
   darkMode: boolean;
   startUrl?: string;
   scheduledMaintenance: ScheduledMaintenanceState;
+  maintenance: MaintenanceState;
 }
 
 export interface StateType {
@@ -69,6 +71,7 @@ export interface AuthProvider {
   verifyLogIn: () => Promise<void>;
   refresh: () => Promise<void>;
   fetchScheduledMaintenanceState?: () => Promise<ScheduledMaintenanceState>;
+  fetchMaintenanceState?: () => Promise<MaintenanceState>;
   redirectUrl: string | null;
   authUrl: string | undefined;
   user: User | null;

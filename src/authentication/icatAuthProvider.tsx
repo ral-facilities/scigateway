@@ -3,7 +3,7 @@ import BaseAuthProvider from './baseAuthProvider';
 import ReactGA from 'react-ga';
 import parseJwt from './parseJwt';
 import { ScheduledMaintenanceState } from '../state/scigateway.types';
-
+import { MaintenanceState } from '../state/scigateway.types';
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
   public autoLogin: () => Promise<void>;
@@ -89,6 +89,16 @@ export default class ICATAuthProvider extends BaseAuthProvider {
 
   public fetchScheduledMaintenanceState(): Promise<ScheduledMaintenanceState> {
     return Axios.get(`${this.authUrl}/scheduled_maintenance`)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        this.handleAuthError(err);
+      });
+  }
+
+  public fetchMaintenanceState(): Promise<MaintenanceState> {
+    return Axios.get(`${this.authUrl}/maintenance`)
       .then((res) => {
         return res.data;
       })
