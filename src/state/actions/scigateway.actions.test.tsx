@@ -19,6 +19,7 @@ import {
   loadDarkModePreference,
   registerStartUrl,
   loadScheduledMaintenanceState,
+  loadMaintenanceState,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -585,5 +586,27 @@ describe('scigateway actions', () => {
         severity: 'warning',
       },
     });
+  });
+
+  it('should load maintenance state into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(
+      loadMaintenanceState({ show: false, message: 'test' })
+    );
   });
 });

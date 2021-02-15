@@ -18,6 +18,7 @@ import {
   loadDarkModePreference,
   registerStartUrl,
   loadScheduledMaintenanceState,
+  loadMaintenanceState,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -314,6 +315,19 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.scheduledMaintenance.show).toBeTruthy();
     expect(updatedState.scheduledMaintenance.message).toEqual('test');
+  });
+
+  it('should update maintenance property when load maintenance state action is sent', () => {
+    expect(state.maintenance.show).toBeFalsy();
+    expect(state.maintenance.message).toEqual('');
+
+    const updatedState = ScigatewayReducer(
+      state,
+      loadMaintenanceState({ show: true, message: 'test' })
+    );
+
+    expect(updatedState.maintenance.show).toBeTruthy();
+    expect(updatedState.maintenance.message).toEqual('test');
   });
 
   it('should register the startUrl when provided', () => {
