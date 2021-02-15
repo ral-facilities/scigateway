@@ -266,10 +266,12 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         .then((scheduledMaintenaceState) => {
           dispatch(loadScheduledMaintenanceState(scheduledMaintenaceState));
 
-          const scheduledMaintenance = getState().scigateway
-            .scheduledMaintenance;
-          if (scheduledMaintenance['show']) {
-            displayScheduledMaintenanceBanner(scheduledMaintenance['message']);
+          // Checking the state in the GET response because it does not get
+          // loaded into the store before this check is performed
+          if (scheduledMaintenaceState['show']) {
+            displayScheduledMaintenanceBanner(
+              scheduledMaintenaceState['message']
+            );
           }
         });
     }
