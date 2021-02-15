@@ -33,6 +33,8 @@ import {
   RegisterStartUrlType,
   LoadScheduledMaintenanceStateType,
   ScheduledMaintenanceStatePayLoad,
+  MaintenanceStatePayLoad,
+  LoadMaintenanceStateType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -64,6 +66,10 @@ export const initialState: ScigatewayState = {
   },
   darkMode: false,
   scheduledMaintenance: {
+    show: false,
+    message: '',
+  },
+  maintenance: {
     show: false,
     message: '',
   },
@@ -221,6 +227,16 @@ export function handleLoadScheduledMaintenanceState(
   return {
     ...state,
     scheduledMaintenance: payload.scheduledMaintenance,
+  };
+}
+
+export function handleLoadMaintenanceState(
+  state: ScigatewayState,
+  payload: MaintenanceStatePayLoad
+): ScigatewayState {
+  return {
+    ...state,
+    maintenance: payload.maintenance,
   };
 }
 
@@ -389,6 +405,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [InvalidateTokenType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [LoadScheduledMaintenanceStateType]: handleLoadScheduledMaintenanceState,
+  [LoadMaintenanceStateType]: handleLoadMaintenanceState,
   [DismissNotificationType]: handleDismissNotification,
   [SiteLoadingType]: handleSiteLoadingUpdate,
   [ConfigureAnalyticsType]: handleConfigureAnalytics,

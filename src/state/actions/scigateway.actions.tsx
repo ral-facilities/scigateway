@@ -37,6 +37,9 @@ import {
   ScheduledMaintenanceState,
   LoadScheduledMaintenanceStateType,
   ScheduledMaintenanceStatePayLoad,
+  MaintenanceStatePayLoad,
+  LoadMaintenanceStateType,
+  MaintenanceState,
   NotificationType,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
@@ -115,6 +118,15 @@ export const loadScheduledMaintenanceState = (
   },
 });
 
+export const loadMaintenanceState = (
+  maintenance: MaintenanceState
+): ActionType<MaintenanceStatePayLoad> => ({
+  type: LoadMaintenanceStateType,
+  payload: {
+    maintenance: maintenance,
+  },
+});
+
 export const loadingAuthentication = (): Action => ({
   type: LoadingAuthType,
 });
@@ -159,16 +171,6 @@ export const initialiseAnalytics = (): Action => ({
 
 export const configureSite = (): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
-    // load dark mode preference from local storage into store
-    // otherwise, fetch system preference
-    const darkModeLocalStorage = localStorage.getItem('darkMode');
-    if (darkModeLocalStorage) {
-      const preference = darkModeLocalStorage === 'true' ? true : false;
-      dispatch(loadDarkModePreference(preference));
-    } else {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      if (mq) dispatch(loadDarkModePreference(mq.matches));
-    }
     await axios
       .get(`/settings.json`)
       .then((res) => {
@@ -190,6 +192,13 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPromises = [];
 
         const provider = getState().scigateway.authorisation.provider;
+
+        if (provider.fetchMaintenanceState) {
+          console.log('Fetching maintenance state');
+          provider.fetchMaintenanceState().then((maintenanceState) => {
+            dispatch(loadMaintenanceState(maintenanceState));
+          });
+        }
 
         // after auth provider is set then the token needs to be verified
         // also attempt to auto login if the auth provider allows it
@@ -259,18 +268,29 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         log.error(`Error loading settings.json: ${error.message}`);
       });
 
+    // load dark mode preference from local storage into store
+    // otherwise, fetch system preference
+    const darkModeLocalStorage = localStorage.getItem('darkMode');
+    if (darkModeLocalStorage) {
+      const preference = darkModeLocalStorage === 'true' ? true : false;
+      dispatch(loadDarkModePreference(preference));
+    } else {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq) dispatch(loadDarkModePreference(mq.matches));
+    }
+
     const provider = getState().scigateway.authorisation.provider;
     if (provider.fetchScheduledMaintenanceState) {
       provider
         .fetchScheduledMaintenanceState()
-        .then((scheduledMaintenaceState) => {
-          dispatch(loadScheduledMaintenanceState(scheduledMaintenaceState));
+        .then((scheduledMaintenanceState) => {
+          dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
 
           // Checking the state in the GET response because it does not get
           // loaded into the store before this check is performed
-          if (scheduledMaintenaceState['show']) {
+          if (scheduledMaintenanceState['show']) {
             displayScheduledMaintenanceBanner(
-              scheduledMaintenaceState['message']
+              scheduledMaintenanceState['message']
             );
           }
         });
