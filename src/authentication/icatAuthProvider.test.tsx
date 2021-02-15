@@ -263,4 +263,37 @@ describe('ICAT auth provider', () => {
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
+
+  it('should call api to fetch scheduled maintenance state', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          show: false,
+          message: 'test',
+        },
+      })
+    );
+
+    await icatAuthProvider.fetchScheduledMaintenanceState();
+    expect(mockAxios.get).toHaveBeenCalledWith(
+      'http://localhost:8000/scheduled_maintenance'
+    );
+  });
+
+  it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await icatAuthProvider.fetchScheduledMaintenanceState().catch(() => {
+      // catch error
+    });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  });
 });

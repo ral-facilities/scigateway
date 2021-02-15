@@ -6,6 +6,8 @@ export const AuthFailureType = 'scigateway:auth_failure';
 export const LoadingAuthType = 'scigateway:loading_auth';
 export const LoadedAuthType = 'scigateway:loaded_auth';
 export const LoadAuthProviderType = 'scigateway:loading_auth_provider';
+export const LoadScheduledMaintenanceStateType =
+  'scigateway:load_scheduled_maintenance_state';
 export const InvalidateTokenType = 'scigateway:api:invalidate_token';
 export const ConfigureStringsType = 'scigateway:configure_strings';
 export const LoginType = 'scigateway:login';
@@ -116,6 +118,15 @@ export interface DismissNotificationPayload {
 export interface AuthProviderPayload {
   authProvider: string;
   authUrl: string | undefined;
+}
+
+export interface ScheduledMaintenanceStatePayLoad {
+  scheduledMaintenance: ScheduledMaintenanceState;
+}
+
+export interface ScheduledMaintenanceState {
+  show: boolean;
+  message: string;
 }
 
 export interface SiteLoadingPayload {

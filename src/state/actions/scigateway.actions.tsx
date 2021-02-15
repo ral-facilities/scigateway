@@ -34,6 +34,10 @@ import {
   LoadDarkModePreferencePayload,
   StartUrlPayload,
   RegisterStartUrlType,
+  ScheduledMaintenanceState,
+  LoadScheduledMaintenanceStateType,
+  ScheduledMaintenanceStatePayLoad,
+  NotificationType,
 } from '../scigateway.types';
 import { ActionType, ThunkResult, StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -99,6 +103,15 @@ export const loadAuthProvider = (
   payload: {
     authProvider,
     authUrl,
+  },
+});
+
+export const loadScheduledMaintenanceState = (
+  scheduledMaintenance: ScheduledMaintenanceState
+): ActionType<ScheduledMaintenanceStatePayLoad> => ({
+  type: LoadScheduledMaintenanceStateType,
+  payload: {
+    scheduledMaintenance: scheduledMaintenance,
   },
 });
 
@@ -245,7 +258,38 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       .catch((error) => {
         log.error(`Error loading settings.json: ${error.message}`);
       });
+
+    const provider = getState().scigateway.authorisation.provider;
+    if (provider.fetchScheduledMaintenanceState) {
+      provider
+        .fetchScheduledMaintenanceState()
+        .then((scheduledMaintenaceState) => {
+          dispatch(loadScheduledMaintenanceState(scheduledMaintenaceState));
+
+          // Checking the state in the GET response because it does not get
+          // loaded into the store before this check is performed
+          if (scheduledMaintenaceState['show']) {
+            displayScheduledMaintenanceBanner(
+              scheduledMaintenaceState['message']
+            );
+          }
+        });
+    }
   };
+};
+
+const displayScheduledMaintenanceBanner = (message: string): void => {
+  document.dispatchEvent(
+    new CustomEvent('scigateway', {
+      detail: {
+        type: NotificationType,
+        payload: {
+          severity: 'warning',
+          message: message,
+        },
+      },
+    })
+  );
 };
 
 export const toggleDrawer = (): Action => ({

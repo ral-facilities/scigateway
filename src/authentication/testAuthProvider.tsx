@@ -1,3 +1,4 @@
+import { ScheduledMaintenanceState } from '../state/scigateway.types';
 import { AuthProvider } from '../state/state.types';
 
 export default class TestAuthProvider implements AuthProvider {
@@ -37,5 +38,12 @@ export default class TestAuthProvider implements AuthProvider {
 
   public refresh(): Promise<void> {
     return Promise.reject('test auth provider');
+  }
+
+  public fetchScheduledMaintenanceState(): Promise<ScheduledMaintenanceState> {
+    return Promise.resolve({
+      show: false,
+      message: 'test',
+    });
   }
 }

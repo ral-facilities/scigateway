@@ -1,5 +1,5 @@
 import mockAxios from 'axios';
-import { Action } from 'redux';
+import { Action, AnyAction } from 'redux';
 import {
   toggleDrawer,
   verifyUsernameAndPassword,
@@ -18,6 +18,7 @@ import {
   loadedAuthentication,
   loadDarkModePreference,
   registerStartUrl,
+  loadScheduledMaintenanceState,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -27,6 +28,7 @@ import {
   InitialiseAnalyticsType,
   ToggleHelpType,
   AddHelpTourStepsType,
+  NotificationType,
 } from '../scigateway.types';
 import { initialState } from '../reducers/scigateway.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -492,5 +494,96 @@ describe('scigateway actions', () => {
     expect(mockLog.calls[0][0]).toEqual(
       expect.stringContaining(`Failed to read strings from ${path}: `)
     );
+  });
+
+  it('should load scheduled maintenance state into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(
+      loadScheduledMaintenanceState({ show: false, message: 'test' })
+    );
+  });
+
+  it('should not display a warning when maintenance is not scheduled', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
+    const events: CustomEvent<AnyAction>[] = [];
+    const dispatchEventSpy = jest
+      .spyOn(document, 'dispatchEvent')
+      .mockImplementation((e) => {
+        events.push(e as CustomEvent<AnyAction>);
+        return true;
+      });
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider(null);
+
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(dispatchEventSpy).not.toHaveBeenCalled();
+    expect(events.length).toEqual(0);
+  });
+
+  it('should display a warning when maintenance is scheduled', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
+    const events: CustomEvent<AnyAction>[] = [];
+    const dispatchEventSpy = jest
+      .spyOn(document, 'dispatchEvent')
+      .mockImplementation((e) => {
+        events.push(e as CustomEvent<AnyAction>);
+        return true;
+      });
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    const testAuthProvider = new TestAuthProvider(null);
+    testAuthProvider.fetchScheduledMaintenanceState = () =>
+      Promise.resolve({
+        show: true,
+        message: 'test',
+      });
+    state.authorisation.provider = testAuthProvider;
+
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(dispatchEventSpy).toHaveBeenCalled();
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual({
+      type: NotificationType,
+      payload: {
+        message: 'test',
+        severity: 'warning',
+      },
+    });
   });
 });

@@ -2,6 +2,7 @@ import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
 import ReactGA from 'react-ga';
 import parseJwt from './parseJwt';
+import { ScheduledMaintenanceState } from '../state/scigateway.types';
 
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
@@ -83,6 +84,16 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       })
       .catch((err) => {
         this.handleRefreshError(err);
+      });
+  }
+
+  public fetchScheduledMaintenanceState(): Promise<ScheduledMaintenanceState> {
+    return Axios.get(`${this.authUrl}/scheduled_maintenance`)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        this.handleAuthError(err);
       });
   }
 }
