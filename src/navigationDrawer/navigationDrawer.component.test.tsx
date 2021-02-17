@@ -7,6 +7,8 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/scigateway.types';
+import { ListItemText } from '@material-ui/core';
+import { MemoryRouter } from 'react-router';
 
 describe('Navigation drawer component', () => {
   let shallow;
@@ -98,5 +100,117 @@ describe('Navigation drawer component', () => {
     expect(wrapper).toMatchSnapshot();
 
     expect(wrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
+  });
+
+  it('renders a plugin with displayName but no logo or altText', () => {
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'data-plugin',
+        link: 'plugin_link',
+        section: 'DATA',
+        displayName: '\xa0display name',
+      },
+    ];
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
+
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+        <NavigationDrawer store={testStore} />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find('img')).toHaveLength(0);
+    const listItemText = wrapper.find(ListItemText).last();
+    expect(listItemText.text()).toEqual('\xa0display name');
+    expect(listItemText.prop('inset')).toBeTruthy();
+  });
+
+  it('renders a plugin with displayName and altText but no logo', () => {
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'data-plugin',
+        link: 'plugin_link',
+        section: 'DATA',
+        displayName: '\xa0display name',
+        logoAltText: 'DataGateway',
+      },
+    ];
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
+
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+        <NavigationDrawer store={testStore} />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find('img')).toHaveLength(0);
+    const listItemText = wrapper.find(ListItemText).last();
+    expect(listItemText.text()).toEqual('DataGateway\xa0display name');
+    expect(listItemText.prop('inset')).toBeTruthy();
+  });
+
+  it('renders a plugin with logoLightMode', () => {
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'data-plugin',
+        link: 'plugin_link',
+        section: 'DATA',
+        displayName: '\xa0display name',
+        logoAltText: 'DataGateway',
+        logoDarkMode: '/darkLogo.svg',
+        logoLightMode: '/lightLogo.svg',
+      },
+    ];
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
+
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+        <NavigationDrawer store={testStore} />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find('img').prop('src')).toEqual('/lightLogo.svg');
+    const listItemText = wrapper.find(ListItemText).last();
+    expect(listItemText.text()).toEqual('\xa0display name');
+    expect(listItemText.prop('inset')).toBeFalsy();
+  });
+
+  it('renders a plugin with logoDarkMode', () => {
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'data-plugin',
+        link: 'plugin_link',
+        section: 'DATA',
+        displayName: '\xa0display name',
+        logoAltText: 'DataGateway',
+        logoDarkMode: '/darkLogo.svg',
+        logoLightMode: '/lightLogo.svg',
+      },
+    ];
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
+    state.scigateway.darkMode = true;
+
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+        <NavigationDrawer store={testStore} />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find('img').prop('src')).toEqual('/darkLogo.svg');
+    const listItemText = wrapper.find(ListItemText).last();
+    expect(listItemText.text()).toEqual('\xa0display name');
+    expect(listItemText.prop('inset')).toBeFalsy();
   });
 });

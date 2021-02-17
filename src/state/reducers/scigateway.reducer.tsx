@@ -29,8 +29,6 @@ import {
   LoadedAuthType,
   LoadDarkModePreferenceType,
   LoadDarkModePreferencePayload,
-  RegisterPluginSrcPayload,
-  RegisterPluginSrcType,
   StartUrlPayload,
   RegisterStartUrlType,
 } from '../scigateway.types';
@@ -101,62 +99,12 @@ export function handleConfigureStrings(
   };
 }
 
-const updatePluginSrc = (
-  existingPlugins: PluginConfig[],
-  payload: RegisterPluginSrcPayload[]
-): PluginConfig[] => {
-  payload.forEach((plugin) => {
-    let match = false;
-    // If we already have the plugin, add the src url
-    existingPlugins.forEach((existingPlugin) => {
-      if (existingPlugin.plugin === plugin.name) {
-        existingPlugin.src = plugin.src.split('/main.js')[0];
-        match = true;
-      }
-    });
-    // If we don't, create a placeholder with the src
-    if (!match) {
-      const newPlugin = {
-        plugin: plugin.name,
-        src: plugin.src.split('/main.js')[0],
-        section: '',
-        link: '',
-        displayName: '',
-        order: -1,
-      };
-      existingPlugins.push(newPlugin);
-    }
-  });
-  return existingPlugins;
-};
-
-export function handleRegisterPluginSrc(
-  state: ScigatewayState,
-  payload: RegisterPluginSrcPayload[]
-): ScigatewayState {
-  return {
-    ...state,
-    plugins: updatePluginSrc(state.plugins, payload),
-  };
-}
-
 const updatePlugins = (
   existingPlugins: PluginConfig[],
   payload: RegisterRoutePayload
 ): PluginConfig[] => {
   if (!existingPlugins.some((p) => p.link === payload.link)) {
-    const builtPlugin = buildPluginConfig(payload);
-    // Check to see if we have already have a src url for the plugin
-    existingPlugins.forEach((existingPlugin, i) => {
-      if (
-        existingPlugin.plugin === payload.plugin &&
-        existingPlugin.link === ''
-      ) {
-        existingPlugins.splice(i, 1);
-        builtPlugin.src = existingPlugin.src;
-      }
-    });
-    return [...existingPlugins, builtPlugin];
+    return [...existingPlugins, buildPluginConfig(payload)];
   }
 
   log.error(
@@ -431,7 +379,6 @@ const ScigatewayReducer = createReducer(initialState, {
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
   [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
-  [RegisterPluginSrcType]: handleRegisterPluginSrc,
   [RegisterStartUrlType]: handleRegisterStartUrl,
 });
 

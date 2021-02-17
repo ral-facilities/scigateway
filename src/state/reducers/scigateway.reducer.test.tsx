@@ -22,7 +22,7 @@ import ScigatewayReducer, {
   initialState,
   handleAuthProviderUpdate,
 } from './scigateway.reducer';
-import { RegisterPluginSrcType, SignOutType } from '../scigateway.types';
+import { SignOutType } from '../scigateway.types';
 import { ScigatewayState } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
@@ -433,103 +433,6 @@ describe('scigateway reducer', () => {
       expect(call).toContain(duplicatePayload.plugin);
       expect(call).toContain(duplicatePayload.link);
       expect(call).toContain(duplicatePayload.displayName);
-    });
-
-    it('should overwrite when only plugin and src set in State', () => {
-      const baseAction = {
-        type: RegisterPluginSrcType,
-        payload: [
-          {
-            name: basePayload.plugin,
-            src: 'demo_src',
-            enable: true,
-            location: 'main',
-          },
-        ],
-      };
-      const initialPluginState = ScigatewayReducer(state, baseAction);
-      const updatedState = ScigatewayReducer(initialPluginState, {
-        type: registerRouteAction,
-        payload: basePayload,
-      });
-
-      expect(updatedState.plugins.length).toBe(1);
-      expect(updatedState.plugins).toContainEqual({
-        section: basePayload.section,
-        link: basePayload.link,
-        plugin: basePayload.plugin,
-        displayName: basePayload.displayName,
-        order: basePayload.order,
-        helpText: basePayload.helpText,
-        src: 'demo_src',
-      });
-    });
-
-    it('should add src when plugin already set in State', () => {
-      const baseAction = {
-        type: registerRouteAction,
-        payload: basePayload,
-      };
-      const initialPluginState = ScigatewayReducer(state, baseAction);
-      const updatedState = ScigatewayReducer(initialPluginState, {
-        type: RegisterPluginSrcType,
-        payload: [
-          {
-            name: basePayload.plugin,
-            src: 'demo_src/main.js',
-            enable: true,
-            location: 'main',
-          },
-        ],
-      });
-
-      expect(updatedState.plugins.length).toBe(1);
-      expect(updatedState.plugins).toContainEqual({
-        section: basePayload.section,
-        link: basePayload.link,
-        plugin: basePayload.plugin,
-        displayName: basePayload.displayName,
-        order: basePayload.order,
-        helpText: basePayload.helpText,
-        src: 'demo_src',
-      });
-    });
-
-    it('should not add src to different plugin already set in State', () => {
-      const baseAction = {
-        type: registerRouteAction,
-        payload: basePayload,
-      };
-      const initialPluginState = ScigatewayReducer(state, baseAction);
-      const updatedState = ScigatewayReducer(initialPluginState, {
-        type: RegisterPluginSrcType,
-        payload: [
-          {
-            name: 'demo_plugin_2',
-            src: 'demo_src/main.js',
-            enable: true,
-            location: 'main',
-          },
-        ],
-      });
-
-      expect(updatedState.plugins.length).toBe(2);
-      expect(updatedState.plugins).toContainEqual({
-        section: basePayload.section,
-        link: basePayload.link,
-        plugin: basePayload.plugin,
-        displayName: basePayload.displayName,
-        order: basePayload.order,
-        helpText: basePayload.helpText,
-      });
-      expect(updatedState.plugins).toContainEqual({
-        plugin: 'demo_plugin_2',
-        src: 'demo_src',
-        section: '',
-        link: '',
-        displayName: '',
-        order: -1,
-      });
     });
   });
 
