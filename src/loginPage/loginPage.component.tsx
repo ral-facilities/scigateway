@@ -98,7 +98,7 @@ export type CombinedLoginProps = LoginPageProps &
   WithStyles<typeof styles>;
 
 export const RedirectLoginScreen = (
-  props: CombinedLoginProps
+  props: CombinedLoginProps & { serviceName: string }
 ): React.ReactElement => (
   <div className={props.classes.root}>
     {props.auth.failedToLogin ? (
@@ -112,13 +112,14 @@ export const RedirectLoginScreen = (
       className={props.classes.button}
       disabled={props.auth.loading}
       onClick={() => {
-        if (props.auth.provider.redirectUrl) {
-          window.location.href = props.auth.provider.redirectUrl;
-        }
+        props.auth.provider.logIn('', '');
+        // if (props.auth.provider.redirectUrl) {
+        //   window.location.href = props.auth.provider.redirectUrl;
+        // }
       }}
     >
       <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-        Login with Github
+        Login with {props.serviceName}
       </Typography>
     </Button>
   </div>
@@ -264,6 +265,7 @@ function fetchMnemonics(
   return axios
     .get(`${authUrl}/authenticators`)
     .then((res) => {
+      res.data.push({ mnemonic: 'oidc', keys: [{ name: 'token' }] });
       return res.data;
     })
     .catch((err) => {
@@ -307,13 +309,16 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   React.useEffect(() => {
     if (
       props.auth.provider.redirectUrl &&
-      props.location.search &&
+      (props.location.search || props.location.hash) &&
       !props.auth.loading &&
       !props.auth.failedToLogin
     ) {
-      if (props.location.search) {
-        props.verifyUsernameAndPassword('', props.location.search);
-      }
+      const searchOrHash = props.location.search
+        ? props.location.search
+        : props.location.hash
+        ? props.location.hash
+        : '';
+      props.auth.provider.logIn('', searchOrHash);
     }
   });
 
@@ -322,38 +327,31 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   if (typeof mnemonic === 'undefined') {
     LoginScreen = <CredentialsLoginScreen {...props} />;
     if (props.auth.provider.redirectUrl) {
-      LoginScreen = <RedirectLoginScreen {...props} />;
+      LoginScreen = <RedirectLoginScreen {...props} serviceName="Github" />;
     }
   } else {
-    if (
-      mnemonics.find(
-        (authenticator) =>
-          authenticator.mnemonic === mnemonic && authenticator.keys.length === 0
-      )
-    ) {
-      // anon
-      LoginScreen = <AnonLoginScreen {...props} />;
-    } else if (
-      mnemonics.find(
-        (authenticator) =>
-          authenticator.mnemonic === mnemonic &&
-          authenticator.keys.find((x) => x.name === 'username') &&
-          authenticator.keys.find((x) => x.name === 'password')
-      )
-    ) {
-      // user/pass
-      LoginScreen = <CredentialsLoginScreen {...props} />;
-    } else if (
-      mnemonics.find(
-        (authenticator) =>
-          authenticator.mnemonic === mnemonic &&
-          authenticator.keys.find((x) => x.name === 'token')
-      )
-    ) {
-      // redirect
-      LoginScreen = <RedirectLoginScreen {...props} />;
-    } else {
-      // unrecognised authenticator type
+    const authenticator = mnemonics.find(
+      (authenticator) => authenticator.mnemonic === mnemonic
+    );
+    if (authenticator) {
+      if (authenticator.keys.length === 0) {
+        // anon
+        LoginScreen = <AnonLoginScreen {...props} />;
+      } else if (
+        authenticator.keys.find((x) => x.name === 'username') &&
+        authenticator.keys.find((x) => x.name === 'password')
+      ) {
+        // user/pass
+        LoginScreen = <CredentialsLoginScreen {...props} />;
+      } else if (authenticator.keys.find((x) => x.name === 'token')) {
+        const name = authenticator.friendly
+          ? authenticator.friendly
+          : authenticator.mnemonic;
+        // redirect
+        LoginScreen = <RedirectLoginScreen {...props} serviceName={name} />;
+      } else {
+        // unrecognised authenticator type
+      }
     }
   }
 

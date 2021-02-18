@@ -16,6 +16,9 @@ export default class GithubAuthProvider extends BaseAuthProvider {
     // remove existing credentials so they can be refreshed
     if (!params || !params.code) {
       this.logOut();
+      if (this.redirectUrl) {
+        window.location.href = this.redirectUrl;
+      }
       return Promise.resolve();
     }
 

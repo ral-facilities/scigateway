@@ -14,6 +14,7 @@
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.7.0",
+    "oidc-client": "^1.11.5",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
