@@ -54,7 +54,6 @@ export interface User {
   avatarUrl: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ICATAuthenticator {
   mnemonic: string;
   keys: { name: string; hide?: boolean }[];

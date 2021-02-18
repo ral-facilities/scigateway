@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-use-before-define
 import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
