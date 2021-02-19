@@ -242,22 +242,18 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(registerStartUrl(settings['startUrl']));
         }
 
-        const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
-          ? '/' + settings['ui-strings']
-          : settings['ui-strings'];
-        const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
-        loadingPromises.push(loadingResources);
+        if (settings['ui-strings']) {
+          const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
+            ? '/' + settings['ui-strings']
+            : settings['ui-strings'];
+          const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
+          loadingPromises.push(loadingResources);
+        }
 
         // Load the plugin defined in settings
-        if (settings['plugins']) {
-          if (settings['plugins'].length > 0) {
-            const loadingPlugins = loadMicroFrontends.init(settings.plugins);
-            loadingPromises.push(loadingPlugins);
-          } else {
-            log.warn('Empty plugins array defined in settings.json');
-          }
-        } else {
-          log.warn('No plugins property defined in settings.json');
+        if (settings['plugins'] && settings.plugins.length > 0) {
+          const loadingPlugins = loadMicroFrontends.init(settings.plugins);
+          loadingPromises.push(loadingPlugins);
         }
 
         return Promise.all(loadingPromises).then(() => {
