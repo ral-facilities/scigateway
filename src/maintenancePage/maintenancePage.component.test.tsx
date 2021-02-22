@@ -1,27 +1,22 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import {
-  CombinedMaintenancePageProps,
-  MaintenancePageWithStyles,
-} from './maintenancePage.component';
-
-const dummyClasses = {
-  root: 'root-class',
-  container: 'container-class',
-  titleText: 'titleText-class',
-};
+import configureStore from 'redux-mock-store';
+import { default as MaintenancePage } from './maintenancePage.component';
+import { Provider } from 'react-redux';
+import { StateType } from '../state/state.types';
+import { initialState } from '../state/reducers/scigateway.reducer';
 
 describe('Maintenance page component', () => {
   let mount;
-  let props: CombinedMaintenancePageProps;
+  let mockStore;
+  let state: StateType;
 
   beforeEach(() => {
     mount = createMount();
 
-    props = {
-      message: 'test',
-      classes: dummyClasses,
-    };
+    mockStore = configureStore();
+    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    state.scigateway.maintenance.message = 'test';
   });
 
   afterEach(() => {
@@ -29,7 +24,12 @@ describe('Maintenance page component', () => {
   });
 
   it('should render correctly', () => {
-    const wrapper = mount(<MaintenancePageWithStyles {...props} />);
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MaintenancePage />
+      </Provider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });

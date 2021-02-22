@@ -56,7 +56,6 @@ const mapStateToProps = (state: StateType): MaintenancePageProps => ({
   message: state.scigateway.maintenance.message,
 });
 
-export const MaintenancePageWithoutStyles = MaintenancePage;
-export const MaintenancePageWithStyles = withStyles(styles)(MaintenancePage);
+const MaintenancePageWithStyles = withStyles(styles)(MaintenancePage);
 
 export default connect(mapStateToProps)(MaintenancePageWithStyles);

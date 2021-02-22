@@ -7,12 +7,12 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import MaintenancePage from '../maintenancePage/maintenancePage.component';
 
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
 }));
+jest.mock('../maintenancePage/maintenancePage.component');
 
 describe('Routing component', () => {
   let shallow;
@@ -96,12 +96,6 @@ describe('Routing component', () => {
   });
 
   it('does not render a route for a plugin when site is under maintenance', () => {
-    const maintenancePageClasses = {
-      root: 'root-class',
-      container: 'container-class',
-      titleText: 'titleText-class',
-    };
-
     state.scigateway.maintenance = { show: true, message: 'test' };
     state.scigateway.plugins = [
       {
@@ -117,7 +111,7 @@ describe('Routing component', () => {
         <MemoryRouter
           initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
         >
-          <MaintenancePage classes={maintenancePageClasses} />
+          <Routing classes={classes} />
         </MemoryRouter>
       </Provider>
     );
