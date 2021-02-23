@@ -1,0 +1,75 @@
+name: Release Build
+on: 
+  push:
+    branches: master
+    tags: '*'
+
+jobs:
+  build:
+    name: Release Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      # Cache yarn dependencies/ restore the cached dependencies during future workflows
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        # Ubuntu 16+ does not install libgconf-2-4 by default, so we need to install it ourselves (for Cypress)
+        run: |
+          npm config set scripts-prepend-node-path true
+          sudo apt-get install libgconf-2-4
+          yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Determine tag name
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/master" ]
+          then
+            echo TAG_NAME=snapshot >> $GITHUB_ENV
+          else
+            echo TAG_NAME=`basename ${{ github.ref }}` >> $GITHUB_ENV
+          fi
+
+      - name: Create tarball
+        run: |
+          mv build scigateway-$TAG_NAME
+          tar -czf scigateway-$TAG_NAME.tar.gz scigateway-$TAG_NAME
+
+      - name: Update snapshot tag
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: ${{ github.ref == 'refs/heads/master' }}
+
+      - name: Create/update release
+        uses: johnwbyrd/update-release@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: ./scigateway-${{ env.TAG_NAME }}.tar.gz
+          release: Release ${{ env.TAG_NAME }}
+          tag: ${{ env.TAG_NAME }}
+          prerelease: ${{ github.ref == 'refs/heads/master' }}
+          draft: false
