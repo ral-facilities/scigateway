@@ -59,23 +59,6 @@ listenToPlugins(store.dispatch, getState);
 const dispatch = store.dispatch as ThunkDispatch<StateType, null, AnyAction>;
 dispatch(configureSite());
 
-// Check for changes in maintenance state. Ensures that state changes are
-// loaded when a user does not reload the site for longer than an hour.
-setInterval(() => {
-  const provider = getState().scigateway.authorisation.provider;
-  if (provider.fetchMaintenanceState) {
-    const storedMaintenanceState = getState().scigateway.maintenance;
-    provider.fetchMaintenanceState().then((fetchedMaintenanceState) => {
-      if (
-        storedMaintenanceState.show !== fetchedMaintenanceState.show ||
-        storedMaintenanceState.message !== fetchedMaintenanceState.message
-      ) {
-        dispatch(loadMaintenanceState(fetchedMaintenanceState));
-      }
-    });
-  }
-}, 1000 * 60 * 60);
-
 const toastrConfig = (): React.ReactElement => (
   <ReduxToastr
     timeOut={0}
@@ -89,6 +72,25 @@ const toastrConfig = (): React.ReactElement => (
 );
 
 class App extends React.Component {
+  public componentDidMount(): void {
+    // Check for changes in maintenance state. Ensures that state changes are
+    // loaded when a user does not reload the site for longer than an hour.
+    setInterval(() => {
+      const provider = getState().scigateway.authorisation.provider;
+      if (provider.fetchMaintenanceState) {
+        const storedMaintenanceState = getState().scigateway.maintenance;
+        provider.fetchMaintenanceState().then((fetchedMaintenanceState) => {
+          if (
+            storedMaintenanceState.show !== fetchedMaintenanceState.show ||
+            storedMaintenanceState.message !== fetchedMaintenanceState.message
+          ) {
+            dispatch(loadMaintenanceState(fetchedMaintenanceState));
+          }
+        });
+      }
+    }, 1000 * 60 * 60);
+  }
+
   public render(): React.ReactElement {
     return (
       <div className="App">
