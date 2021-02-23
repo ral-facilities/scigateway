@@ -1,53 +1,54 @@
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import axios from 'axios';
-import { Action, AnyAction } from 'redux';
+import { push } from 'connected-react-router';
 import log from 'loglevel';
+import { Step } from 'react-joyride';
+import { Action, AnyAction } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import {
-  ConfigureStringsType,
-  ConfigureStringsPayload,
-  ToggleDrawerType,
-  AuthFailureType,
-  AuthSuccessType,
+  AddHelpTourStepsPayload,
+  AddHelpTourStepsType,
   ApplicationStrings,
-  SignOutType,
-  FeatureSwitchesPayload,
-  ConfigureFeatureSwitchesType,
-  FeatureSwitches,
-  LoadingAuthType,
-  LoadedAuthType,
-  DismissNotificationType,
-  DismissNotificationPayload,
-  RequestPluginRerenderType,
+  AuthFailureType,
   AuthProviderPayload,
-  LoadAuthProviderType,
-  SiteLoadingType,
-  SiteLoadingPayload,
+  AuthSuccessType,
   ConfigureAnalyticsPayload,
   ConfigureAnalyticsType,
+  ConfigureFeatureSwitchesType,
+  ConfigureStringsPayload,
+  ConfigureStringsType,
+  DismissNotificationPayload,
+  DismissNotificationType,
+  FeatureSwitches,
+  FeatureSwitchesPayload,
   InitialiseAnalyticsType,
-  ToggleHelpType,
-  AddHelpTourStepsType,
-  AddHelpTourStepsPayload,
   InvalidateTokenType,
-  SendThemeOptionsType,
-  SendThemeOptionsPayload,
-  LoadDarkModePreferenceType,
+  LoadAuthProviderType,
   LoadDarkModePreferencePayload,
-  StartUrlPayload,
-  RegisterStartUrlType,
-  ScheduledMaintenanceState,
+  LoadDarkModePreferenceType,
+  LoadedAuthType,
+  LoadingAuthType,
   LoadScheduledMaintenanceStateType,
+  NotificationType,
+  RegisterStartUrlType,
+  RequestPluginRerenderType,
+  ScheduledMaintenanceState,
   ScheduledMaintenanceStatePayLoad,
   MaintenanceStatePayLoad,
   LoadMaintenanceStateType,
   MaintenanceState,
   NotificationType,
+  SendThemeOptionsPayload,
+  SendThemeOptionsType,
+  SignOutType,
+  SiteLoadingPayload,
+  SiteLoadingType,
+  StartUrlPayload,
+  ToggleDrawerType,
+  ToggleHelpType,
 } from '../scigateway.types';
-import { ActionType, ThunkResult, StateType } from '../state.types';
+import { ActionType, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
-import { push } from 'connected-react-router';
-import { ThunkAction } from 'redux-thunk';
-import { Step } from 'react-joyride';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -250,14 +251,19 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(registerStartUrl(settings['startUrl']));
         }
 
-        const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
-          ? '/' + settings['ui-strings']
-          : settings['ui-strings'];
-        const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
-        loadingPromises.push(loadingResources);
+        if (settings['ui-strings']) {
+          const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
+            ? '/' + settings['ui-strings']
+            : settings['ui-strings'];
+          const loadingResources = dispatch(loadStrings(uiStringResourcesPath));
+          loadingPromises.push(loadingResources);
+        }
 
-        const loadingPlugins = loadMicroFrontends.init(settings.plugins);
-        loadingPromises.push(loadingPlugins);
+        // Load the plugin defined in settings
+        if (settings['plugins'] && settings.plugins.length > 0) {
+          const loadingPlugins = loadMicroFrontends.init(settings.plugins);
+          loadingPromises.push(loadingPlugins);
+        }
 
         return Promise.all(loadingPromises).then(() => {
           dispatch(siteLoadingUpdate(false));

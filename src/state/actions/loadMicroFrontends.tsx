@@ -34,7 +34,7 @@ async function loadApp(name: string, appURL: string) {
   );
 }
 
-async function init(plugins: Plugin[]) {
+async function init(plugins: Plugin[]): Promise<void> {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const loadingPromises: Promise<any>[] = [];
 
@@ -71,6 +71,5 @@ async function init(plugins: Plugin[]) {
   singleSpa.start();
 }
 
-export default {
-  init,
-};
+const exports = { init };
+export default exports;
