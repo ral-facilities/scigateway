@@ -9,6 +9,7 @@ import {
   createStyles,
   StyleRules,
   WithStyles,
+  styled,
 } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { connect } from 'react-redux';
@@ -29,6 +30,17 @@ interface NavigationDrawerDispatchProps {
   toggleDrawer: () => Action;
 }
 
+// TODO
+// There is a bug with the typing of mixins (see mui-org/material-ui#22208)
+// Until this is fixed, use a styled component as a workaround
+const StyledHeader = styled('div')(({ theme }) => ({
+  ...theme.mixins.toolbar,
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 8px',
+  justifyContent: 'flex-end',
+}));
+
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     drawer: {
@@ -39,13 +51,13 @@ const styles = (theme: Theme): StyleRules =>
       width: (theme as UKRITheme).drawerWidth,
       background: theme.palette.background.default,
     },
-    drawerHeader: {
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
-      justifyContent: 'flex-end',
-    },
+    // drawerHeader: {
+    //   ...theme.mixins.toolbar,
+    //   display: 'flex',
+    //   alignItems: 'center',
+    //   padding: '0 8px',
+    //   justifyContent: 'flex-end',
+    // },
     sectionTitle: {
       color: theme.palette.text.secondary,
     },
@@ -139,14 +151,16 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           paper: this.props.classes.drawerPaper,
         }}
       >
-        <div className={this.props.classes.drawerHeader}>
+        {/* <div className={this.props.classes.drawerHeader}> */}
+        <StyledHeader>
           <IconButton
             onClick={this.props.toggleDrawer}
             aria-label="Dropdown Menu"
           >
             <ChevronLeftIcon />
           </IconButton>
-        </div>
+        </StyledHeader>
+        {/* </div> */}
         <Divider />
         {this.renderRoutes()}
       </Drawer>
