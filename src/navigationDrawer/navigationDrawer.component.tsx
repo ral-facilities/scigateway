@@ -73,19 +73,14 @@ ForwardRefLink.displayName = 'ForwardRefLink';
 
 class NavigationDrawer extends Component<CombinedNavigationProps> {
   private createLink(plugin: PluginConfig, index: number): React.ReactElement {
-    const imgSrc =
-      this.props.darkMode && plugin.logoDarkMode
-        ? plugin.logoDarkMode
-        : !this.props.darkMode && plugin.logoLightMode
-        ? plugin.logoLightMode
-        : undefined;
+    const imgSrc = this.props.darkMode
+      ? plugin.logoDarkMode
+      : plugin.logoLightMode;
+
+    const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
 
     const displayText = plugin.displayName
-      ? imgSrc
-        ? plugin.displayName
-        : plugin.logoAltText
-        ? plugin.logoAltText + plugin.displayName
-        : plugin.displayName
+      ? prefix + plugin.displayName
       : plugin.plugin;
 
     return (
@@ -97,7 +92,11 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         button
       >
         {imgSrc && (
-          <img className={this.props.classes.menuLogo} alt="" src={imgSrc} />
+          <img
+            className={this.props.classes.menuLogo}
+            alt={plugin.logoAltText}
+            src={imgSrc}
+          />
         )}
         <ListItemText
           inset={!imgSrc}
