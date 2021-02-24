@@ -1,5 +1,243 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Routing component does not render a route for a plugin when site is under maintenance 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <MemoryRouter
+    initialEntries={
+      Array [
+        Object {
+          "key": "testKey",
+          "pathname": "/test_link",
+        },
+      ]
+    }
+  >
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "key": "testKey",
+              "pathname": "/test_link",
+              "search": "",
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "key": "testKey",
+            "pathname": "/test_link",
+            "search": "",
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <Connect(Routing)
+        classes={
+          Object {
+            "container": "container-class",
+            "containerShift": "containerShift-class",
+          }
+        }
+      >
+        <Routing
+          classes={
+            Object {
+              "container": "container-class",
+              "containerShift": "containerShift-class",
+            }
+          }
+          dispatch={[Function]}
+          drawerOpen={false}
+          location="/"
+          maintenance={
+            Object {
+              "message": "test",
+              "show": true,
+            }
+          }
+          plugins={
+            Array [
+              Object {
+                "displayName": "Test Plugin",
+                "link": "/test_link",
+                "order": 1,
+                "plugin": "test_plugin_name",
+                "section": "test section",
+              },
+            ]
+          }
+        >
+          <div
+            className="container-class"
+          >
+            <Switch>
+              <Route
+                component={
+                  Object {
+                    "$$typeof": Symbol(react.memo),
+                    "WrappedComponent": [MockFunction],
+                    "apply": [MockFunction],
+                    "bind": [MockFunction],
+                    "call": [MockFunction],
+                    "compare": null,
+                    "displayName": "Connect(MaintenancePage)",
+                    "type": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          Object {
+                            "history": Object {
+                              "action": "POP",
+                              "block": [Function],
+                              "canGo": [Function],
+                              "createHref": [Function],
+                              "entries": Array [
+                                Object {
+                                  "hash": "",
+                                  "key": "testKey",
+                                  "pathname": "/test_link",
+                                  "search": "",
+                                },
+                              ],
+                              "go": [Function],
+                              "goBack": [Function],
+                              "goForward": [Function],
+                              "index": 0,
+                              "length": 1,
+                              "listen": [Function],
+                              "location": Object {
+                                "hash": "",
+                                "key": "testKey",
+                                "pathname": "/test_link",
+                                "search": "",
+                              },
+                              "push": [Function],
+                              "replace": [Function],
+                            },
+                            "location": Object {
+                              "hash": "",
+                              "key": "testKey",
+                              "pathname": "/test_link",
+                              "search": "",
+                            },
+                            "match": Object {
+                              "isExact": false,
+                              "params": Object {},
+                              "path": "/",
+                              "url": "/",
+                            },
+                            "staticContext": undefined,
+                          },
+                          Object {},
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                computedMatch={
+                  Object {
+                    "isExact": false,
+                    "params": Object {},
+                    "path": "/",
+                    "url": "/",
+                  }
+                }
+                location={
+                  Object {
+                    "hash": "",
+                    "key": "testKey",
+                    "pathname": "/test_link",
+                    "search": "",
+                  }
+                }
+              >
+                <Connect(MaintenancePage)
+                  history={
+                    Object {
+                      "action": "POP",
+                      "block": [Function],
+                      "canGo": [Function],
+                      "createHref": [Function],
+                      "entries": Array [
+                        Object {
+                          "hash": "",
+                          "key": "testKey",
+                          "pathname": "/test_link",
+                          "search": "",
+                        },
+                      ],
+                      "go": [Function],
+                      "goBack": [Function],
+                      "goForward": [Function],
+                      "index": 0,
+                      "length": 1,
+                      "listen": [Function],
+                      "location": Object {
+                        "hash": "",
+                        "key": "testKey",
+                        "pathname": "/test_link",
+                        "search": "",
+                      },
+                      "push": [Function],
+                      "replace": [Function],
+                    }
+                  }
+                  location={
+                    Object {
+                      "hash": "",
+                      "key": "testKey",
+                      "pathname": "/test_link",
+                      "search": "",
+                    }
+                  }
+                  match={
+                    Object {
+                      "isExact": false,
+                      "params": Object {},
+                      "path": "/",
+                      "url": "/",
+                    }
+                  }
+                />
+              </Route>
+            </Switch>
+          </div>
+        </Routing>
+      </Connect(Routing)>
+    </Router>
+  </MemoryRouter>
+</Provider>
+`;
+
 exports[`Routing component renders a route for a plugin 1`] = `
 <Provider
   store={
@@ -73,6 +311,12 @@ exports[`Routing component renders a route for a plugin 1`] = `
           dispatch={[Function]}
           drawerOpen={false}
           location="/"
+          maintenance={
+            Object {
+              "message": "",
+              "show": false,
+            }
+          }
           plugins={
             Array [
               Object {

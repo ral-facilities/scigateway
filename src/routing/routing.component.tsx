@@ -8,13 +8,14 @@ import {
 } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router';
 import { StateType } from '../state/state.types';
-import { PluginConfig } from '../state/scigateway.types';
+import { MaintenanceState, PluginConfig } from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
 import ContactPage from '../contactPage/contactPage.component';
 import HelpPage from '../helpPage/helpPage.component';
 import LoginPage from '../loginPage/loginPage.component';
 import CookiesPage from '../cookieConsent/cookiesPage.component';
+import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import classNames from 'classnames';
 import { UKRITheme } from '../theming';
@@ -44,6 +45,7 @@ interface RoutingProps {
   plugins: PluginConfig[];
   location: string;
   drawerOpen: boolean;
+  maintenance: MaintenanceState;
 }
 
 export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
@@ -75,13 +77,17 @@ class Routing extends React.Component<
           <Route exact path="/help" component={HelpPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
-          {this.props.plugins.map((p) => (
-            <Route
-              key={`${p.section}_${p.link}`}
-              path={p.link}
-              render={() => <AuthorisedPlugin id={p.plugin} />}
-            />
-          ))}
+          {this.props.maintenance.show ? (
+            <Route component={MaintenancePage} />
+          ) : (
+            this.props.plugins.map((p) => (
+              <Route
+                key={`${p.section}_${p.link}`}
+                path={p.link}
+                render={() => <AuthorisedPlugin id={p.plugin} />}
+              />
+            ))
+          )}
           <Route component={withAuth(PageNotFound)} />
         </Switch>
       </div>
@@ -95,6 +101,7 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
   location: state.router.location.pathname,
   drawerOpen: state.scigateway.drawerOpen,
+  maintenance: state.scigateway.maintenance,
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);

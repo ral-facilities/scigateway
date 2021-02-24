@@ -6,7 +6,10 @@ import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import { configureSite } from './state/actions/scigateway.actions';
+import {
+  configureSite,
+  loadMaintenanceState,
+} from './state/actions/scigateway.actions';
 import ScigatewayMiddleware, {
   listenToPlugins,
 } from './state/middleware/scigateway.middleware';
@@ -69,6 +72,25 @@ const toastrConfig = (): React.ReactElement => (
 );
 
 class App extends React.Component {
+  public componentDidMount(): void {
+    // Check for changes in maintenance state. Ensures that state changes are
+    // loaded when a user does not reload the site for longer than an hour.
+    setInterval(() => {
+      const provider = getState().scigateway.authorisation.provider;
+      if (provider.fetchMaintenanceState) {
+        const storedMaintenanceState = getState().scigateway.maintenance;
+        provider.fetchMaintenanceState().then((fetchedMaintenanceState) => {
+          if (
+            storedMaintenanceState.show !== fetchedMaintenanceState.show ||
+            storedMaintenanceState.message !== fetchedMaintenanceState.message
+          ) {
+            dispatch(loadMaintenanceState(fetchedMaintenanceState));
+          }
+        });
+      }
+    }, 1000 * 60 * 60);
+  }
+
   public render(): React.ReactElement {
     return (
       <div className="App">

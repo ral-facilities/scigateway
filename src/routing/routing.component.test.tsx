@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
 }));
+jest.mock('../maintenancePage/maintenancePage.component');
 
 describe('Routing component', () => {
   let shallow;
@@ -72,6 +73,30 @@ describe('Routing component', () => {
   });
 
   it('renders a route for a plugin', () => {
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: '/test_link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        order: 1,
+      },
+    ];
+    const wrapper = mount(
+      <Provider store={mockStore(state)}>
+        <MemoryRouter
+          initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
+        >
+          <Routing classes={classes} />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('does not render a route for a plugin when site is under maintenance', () => {
+    state.scigateway.maintenance = { show: true, message: 'test' };
     state.scigateway.plugins = [
       {
         section: 'test section',
