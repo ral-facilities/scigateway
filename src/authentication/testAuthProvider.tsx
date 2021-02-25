@@ -56,4 +56,16 @@ export default class TestAuthProvider implements AuthProvider {
       message: 'test',
     });
   }
+
+  public setScheduledMaintenanceState(
+    scheduledMaintenanceState: ScheduledMaintenanceState
+  ): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public setMaintenanceState(
+    maintenanceState: MaintenanceState
+  ): Promise<void> {
+    return Promise.resolve();
+  }
 }
