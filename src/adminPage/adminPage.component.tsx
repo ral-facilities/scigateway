@@ -16,12 +16,16 @@ import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import {
   AppStrings,
+  MaintenanceState,
   ScheduledMaintenanceState,
 } from '../state/scigateway.types';
 import { getString, getAppStrings } from '../state/strings';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { setScheduledMaintenanceState } from '../state/actions/scigateway.actions';
+import {
+  setMaintenanceState,
+  setScheduledMaintenanceState,
+} from '../state/actions/scigateway.actions';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -60,6 +64,7 @@ const styles = (theme: Theme): StyleRules =>
 
 interface AdminPageProps {
   scheduledMaintenance: ScheduledMaintenanceState;
+  maintenance: MaintenanceState;
   res: AppStrings | undefined;
 }
 
@@ -67,6 +72,7 @@ interface AdminPageDispatchProps {
   setScheduledMaintenanceState: (
     scheduledMaintenanceState: ScheduledMaintenanceState
   ) => Promise<void>;
+  setMaintenanceState: (maintenanceState: MaintenanceState) => Promise<void>;
 }
 
 export type CombinedAdminPageProps = AdminPageProps &
@@ -77,6 +83,9 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
   const [scheduledMaintenance, setScheduledMaintenance] = useState<
     ScheduledMaintenanceState
   >(props.scheduledMaintenance);
+  const [maintenance, setMaintenance] = useState<MaintenanceState>(
+    props.maintenance
+  );
 
   return (
     <div className={props.classes.root}>
@@ -142,12 +151,66 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
           </Button>
         </div>
       </Paper>
+      <Paper className={props.classes.paper}>
+        <Typography variant="h4">
+          {getString(props.res, 'maintenance-title')}
+        </Typography>
+        <TextareaAutosize
+          className={props.classes.textArea}
+          aria-label={getString(props.res, 'maintenance-message-arialabel')}
+          rows={7}
+          placeholder={getString(props.res, 'message-placeholder')}
+          value={maintenance.message}
+          onChange={(e) =>
+            setMaintenance({
+              ...maintenance,
+              message: e.currentTarget.value,
+            })
+          }
+        />
+        <div style={{ display: 'row' }}>
+          <FormControlLabel
+            style={{ float: 'left' }}
+            value={scheduledMaintenance.show}
+            control={
+              <Checkbox
+                checked={maintenance.show}
+                onChange={(e) =>
+                  setMaintenance({ ...maintenance, show: e.target.checked })
+                }
+                inputProps={{
+                  'aria-label': getString(
+                    props.res,
+                    'maintenance-checkbox-arialabel'
+                  ),
+                }}
+                color="secondary"
+              />
+            }
+            label={getString(props.res, 'display-checkbox')}
+            labelPlacement="end"
+          />
+          <Button
+            style={{ float: 'right' }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.setMaintenanceState(maintenance);
+            }}
+          >
+            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+              {getString(props.res, 'save-button')}
+            </Typography>
+          </Button>
+        </div>
+      </Paper>
     </div>
   );
 };
 
 const mapStateToProps = (state: StateType): AdminPageProps => ({
   scheduledMaintenance: state.scigateway.scheduledMaintenance,
+  maintenance: state.scigateway.maintenance,
   res: getAppStrings(state, 'admin'),
 });
 
@@ -156,6 +219,8 @@ const mapDispatchToProps = (
 ): AdminPageDispatchProps => ({
   setScheduledMaintenanceState: (scheduledMaintenanceState) =>
     dispatch(setScheduledMaintenanceState(scheduledMaintenanceState)),
+  setMaintenanceState: (maintenanceState) =>
+    dispatch(setMaintenanceState(maintenanceState)),
 });
 
 export const AdminPageWithoutStyles = AdminPage;

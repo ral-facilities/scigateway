@@ -378,6 +378,19 @@ export const setScheduledMaintenanceState = (
   };
 };
 
+export const setMaintenanceState = (
+  maintenanceState: MaintenanceState
+): ThunkResult<Promise<void>> => {
+  return async (dispatch, getState) => {
+    const authProvider = getState().scigateway.authorisation.provider;
+    if (authProvider.setMaintenanceState) {
+      await authProvider.setMaintenanceState(maintenanceState).then(() => {
+        dispatch(loadMaintenanceState(maintenanceState));
+      });
+    }
+  };
+};
+
 export const requestPluginRerender = (): ActionType<{
   broadcast: boolean;
 }> => ({
