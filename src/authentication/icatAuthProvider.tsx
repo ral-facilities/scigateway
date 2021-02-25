@@ -106,4 +106,34 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         this.handleAuthError(err);
       });
   }
+
+  public setScheduledMaintenanceState(
+    scheduledMaintenanceState: ScheduledMaintenanceState
+  ): Promise<void> {
+    return Axios.put(`${this.authUrl}/scheduled_maintenance`, {
+      token: this.token,
+      scheduled_maintenance: scheduledMaintenanceState,
+    })
+      .then(() => {
+        // do nothing
+      })
+      .catch((err) => {
+        this.handleAuthError(err);
+      });
+  }
+
+  public setMaintenanceState(
+    maintenanceState: MaintenanceState
+  ): Promise<void> {
+    return Axios.put(`${this.authUrl}/maintenance`, {
+      token: this.token,
+      maintenance: maintenanceState,
+    })
+      .then(() => {
+        // do nothing
+      })
+      .catch((err) => {
+        this.handleAuthError(err);
+      });
+  }
 }

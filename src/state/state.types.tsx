@@ -56,6 +56,7 @@ export interface User {
   avatarUrl: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ICATAuthenticator {
   mnemonic: string;
   keys: { name: string; hide?: boolean }[];
@@ -70,7 +71,11 @@ export interface AuthProvider {
   verifyLogIn: () => Promise<void>;
   refresh: () => Promise<void>;
   fetchScheduledMaintenanceState?: () => Promise<ScheduledMaintenanceState>;
+  setScheduledMaintenanceState?: (
+    scheduledMaintenanceState: ScheduledMaintenanceState
+  ) => Promise<void>;
   fetchMaintenanceState?: () => Promise<MaintenanceState>;
+  setMaintenanceState?: (maintenanceState: MaintenanceState) => Promise<void>;
   redirectUrl: string | null;
   authUrl: string | undefined;
   user: User | null;
