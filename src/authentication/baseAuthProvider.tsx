@@ -23,6 +23,10 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     return this.token != null;
   }
 
+  public isAdmin(): boolean {
+    return this.user !== null && this.user.isAdmin;
+  }
+
   public logOut(): void {
     localStorage.removeItem(tokenLocalStorageName);
     this.token = null;
@@ -33,8 +37,17 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     this.token = token;
   }
 
-  protected storeUser(username: string, avatar?: string): void {
+  protected storeUser(
+    username: string,
+    isAdmin?: boolean,
+    avatar?: string
+  ): void {
     this.user = new UserInfo(username);
+
+    if (typeof isAdmin !== 'undefined') {
+      this.user.isAdmin = isAdmin;
+    }
+
     if (avatar) {
       this.user.avatarUrl = avatar;
     }

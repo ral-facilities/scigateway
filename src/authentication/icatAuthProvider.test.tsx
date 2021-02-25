@@ -29,7 +29,8 @@ describe('ICAT auth provider', () => {
     );
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
     (parseJwt as jest.Mock).mockImplementation(
-      (token) => `{"sessionId": "${token}", "username": "${token} username"}`
+      (token) =>
+        `{"sessionId": "${token}", "username": "${token} username", "userIsAdmin": true}`
     );
   });
 
@@ -141,6 +142,7 @@ describe('ICAT auth provider', () => {
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
     expect(icatAuthProvider.user.username).toBe('token username');
+    expect(icatAuthProvider.isAdmin()).toBeTruthy();
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({

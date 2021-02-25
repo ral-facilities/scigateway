@@ -53,6 +53,7 @@ export type ThunkResult<R> = ThunkAction<R, StateType, null, AnyAction>;
 
 export interface User {
   username: string;
+  isAdmin: boolean;
   avatarUrl: string;
 }
 
@@ -66,6 +67,7 @@ export interface ICATAuthenticator {
 
 export interface AuthProvider {
   isLoggedIn: () => boolean;
+  isAdmin: () => boolean;
   logOut: () => void;
   logIn: (username: string, password: string) => Promise<void>;
   verifyLogIn: () => Promise<void>;

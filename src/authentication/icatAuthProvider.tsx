@@ -50,10 +50,12 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         });
         this.storeToken(res.data);
         localStorage.setItem('autoLogin', 'false');
-        const payload: { sessionId: string; username: string } = JSON.parse(
-          parseJwt(res.data)
-        );
-        this.storeUser(payload.username);
+        const payload: {
+          sessionId: string;
+          username: string;
+          userIsAdmin: boolean;
+        } = JSON.parse(parseJwt(res.data));
+        this.storeUser(payload.username, payload.userIsAdmin);
         return;
       })
       .catch((err) => {

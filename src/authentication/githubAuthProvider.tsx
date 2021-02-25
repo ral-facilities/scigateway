@@ -28,7 +28,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
           action: 'Sucessfully logged in via Github',
         });
         this.storeToken(res.data.token);
-        this.storeUser(res.data.username, res.data.avatar);
+        this.storeUser(res.data.username, undefined, res.data.avatar);
         return;
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       token: this.token,
     })
       .then((res) => {
-        this.storeUser(res.data.username, res.data.avatar);
+        this.storeUser(res.data.username, undefined, res.data.avatar);
       })
       .catch((err) => super.handleRefreshError(err));
   }

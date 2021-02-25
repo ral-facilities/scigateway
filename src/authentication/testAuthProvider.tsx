@@ -21,6 +21,10 @@ export default class TestAuthProvider implements AuthProvider {
     return this.token !== null;
   }
 
+  public isAdmin(): boolean {
+    return true;
+  }
+
   public logOut(): void {
     this.token = null;
   }
