@@ -344,7 +344,7 @@ describe('ICAT auth provider', () => {
       'http://localhost:8000/scheduled_maintenance',
       {
         token: 'token',
-        scheduled_maintenance: scheduledMaintenanceState,
+        scheduledMaintenance: scheduledMaintenanceState,
       }
     );
   });

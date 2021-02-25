@@ -114,7 +114,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   ): Promise<void> {
     return Axios.put(`${this.authUrl}/scheduled_maintenance`, {
       token: this.token,
-      scheduled_maintenance: scheduledMaintenanceState,
+      scheduledMaintenance: scheduledMaintenanceState,
     })
       .then(() => {
         // do nothing
