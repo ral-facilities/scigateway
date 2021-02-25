@@ -50,7 +50,8 @@
     "cy:run": "cypress run",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "postinstall": "husky install"
   },
   "lint-staged": {
     "src/**/*.{tsx,js,jsx,json}": [
@@ -64,7 +65,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn lint-staged"
     }
   },
   "eslintConfig": {
