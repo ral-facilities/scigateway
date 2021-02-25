@@ -12,14 +12,14 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
   open={false}
   variant="persistent"
 >
-  <div>
+  <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <ChevronLeftIcon />
     </WithStyles(ForwardRef(IconButton))>
-  </div>
+  </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
@@ -37,14 +37,14 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
   open={true}
   variant="persistent"
 >
-  <div>
+  <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <ChevronLeftIcon />
     </WithStyles(ForwardRef(IconButton))>
-  </div>
+  </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
@@ -62,14 +62,14 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   open={true}
   variant="persistent"
 >
-  <div>
+  <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <ChevronLeftIcon />
     </WithStyles(ForwardRef(IconButton))>
-  </div>
+  </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List))>
     <WithStyles(ForwardRef(ListItem))>
