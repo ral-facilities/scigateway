@@ -363,6 +363,21 @@ export const verifyUsernameAndPassword = (
   };
 };
 
+export const setScheduledMaintenanceState = (
+  scheduledMaintenanceState: ScheduledMaintenanceState
+): ThunkResult<Promise<void>> => {
+  return async (dispatch, getState) => {
+    const authProvider = getState().scigateway.authorisation.provider;
+    if (authProvider.setScheduledMaintenanceState) {
+      await authProvider
+        .setScheduledMaintenanceState(scheduledMaintenanceState)
+        .then(() => {
+          dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
+        });
+    }
+  };
+};
+
 export const requestPluginRerender = (): ActionType<{
   broadcast: boolean;
 }> => ({
