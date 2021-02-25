@@ -34,6 +34,14 @@
       "content": "Click here to contact the support team with any issues or feedback"
     },
     {
+      "target": ".tour-help",
+      "content": "Click here to get help"
+    },
+    {
+      "target": ".tour-admin",
+      "content": "Click here to access the admin interface"
+    },
+    {
       "target": ".tour-nav-menu",
       "content": "Click here to open the navigation menu"
     }
