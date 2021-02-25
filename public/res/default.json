@@ -3,6 +3,7 @@
     "title": "SciGateway",
     "contact": "Contact",
     "help": "Help",
+    "admin": "Admin",
     "manage-cookies-button": "Manage cookies",
     "toggle-dark-mode": "Toggle Dark Mode"
   },
@@ -47,6 +48,18 @@
     "cart-description": "On the very first column of each row on a grid (at the dataset or datafile level), you will see tick boxes.<br><img src=\"/res/images/tickbox.png\"/><br>Clicking this box will add or remove the selected visit to your cart. Multiple items can be added using the \"Shift\" key.<br><br>You can use the Cart items counter on the top right corner to check if an item was added or removed.<br><img src=\"/res/images/cart-button.png\"/><br>Clicking on the above will open up the cart window:<br><img src=\"/res/images/cart.png\"/><br>Here you can remove already added items or request download of the items in the cart by Clicking the <strong>Download Cart</strong> button. When the button is clicked, you will be presented with a window with several options.<br><img src=\"/res/images/cart-download.png\"/><br>The <strong>Download Name</strong> is a name that identifies your particular download. It is used as the filename when your download becomes ready.<br><br>The <strong>Access Method</strong> selection option determines whether you would like to download your files or whether you want them restored to another location.<br><br>You can optionally enter your email address. When your download is available, an email will be sent notifying you that your download is available.<br>Clicking the <strong>Ok</strong> button on the window will submit your download request to be processed. You should see a <strong>Cart successfully submitted</strong> notification popup on the right corner. The request will be added inside the downloads window.",
     "download-title": "Download",
     "download-description": "Clicking on the above will open up the downloads window:<br><img src=\"/res/images/downloads-button.png\"/><br>The Downloads window is a grid that list all your download requests.<br><img src=\"/res/images/downloads.png\"/><br>The <strong>Status</strong> column gives you the current status of your download. Possible values are <strong>Restoring from Tape</strong> and <strong>Available</strong>. The <strong>Download</strong> button is disabled when the status is restoring. Once available, you can click the download button to download the file via the browser if <strong>Https</strong> transport type was used for that request.<br><br>Please note that download pausing and resuming is not supported. Multi-part download managers are also not supported.<br><br>For downloads using Globus as the transport type, when the status is complete, you can login to <a href=\"https://www.globus.org/SignIn\">Globus Online</a> and initiate file transfer to your endpoint."
+  },
+  "admin": {
+    "title": "Admin",
+    "scheduled-maintenance-title": "Scheduled Maintenance",
+    "shceduled-maintenance-message-arialabel": "Scheduled maintenance message input",
+    "scheduled-maintenance-checkbox-arialabel": "Display scheduled maintenance checkbox",
+    "maintenance-title": "Maintenance",
+    "maintenance-message-arialabel": "Maintenance message input",
+    "maintenance-checkbox-arialabel": "Display maintenance checkbox",
+    "message-placeholder": "Message",
+    "display-checkbox": "Display?",
+    "save-button": "Save"
   },
   "cookies-page": {
     "title": "Cookie Policy & Cookie management",
