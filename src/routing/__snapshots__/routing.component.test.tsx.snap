@@ -90,6 +90,8 @@ exports[`Routing component does not render a route for a plugin when site is und
               },
             ]
           }
+          userIsAdmin={false}
+          userIsloggedIn={false}
         >
           <div
             className="container-class"
@@ -328,6 +330,8 @@ exports[`Routing component renders a route for a plugin 1`] = `
               },
             ]
           }
+          userIsAdmin={false}
+          userIsloggedIn={false}
         >
           <div
             className="container-class"

@@ -39,6 +39,7 @@ interface MainAppProps {
   res: AppStrings | undefined;
   showContactButton: boolean;
   showHelpPageButton: boolean;
+  showAdminPageButton: boolean;
   loggedIn: boolean;
   darkMode: boolean;
 }
@@ -48,6 +49,7 @@ interface MainAppDispatchProps {
   navigateToHome: () => Action;
   navigateToContactPage: () => Action;
   navigateToHelpPage: () => Action;
+  navigateToAdminPage: () => Action;
   toggleHelp: () => Action;
   manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
@@ -174,6 +176,18 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               </Typography>
             </Button>
           ) : null}
+          {props.showAdminPageButton ? (
+            <Button
+              className={classNames(props.classes.button, 'tour-admin')}
+              style={{ paddingTop: 3 }}
+              onClick={props.navigateToAdminPage}
+              aria-label="Adminpage"
+            >
+              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+                {getString(props.res, 'admin')}
+              </Typography>
+            </Button>
+          ) : null}
           <div className={props.classes.grow} />
           <IconButton
             className={props.classes.button}
@@ -225,6 +239,9 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   showContactButton: state.scigateway.features.showContactButton,
   showHelpPageButton: state.scigateway.features.showHelpPageButton,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  showAdminPageButton:
+    state.scigateway.authorisation.provider.isLoggedIn() &&
+    state.scigateway.authorisation.provider.isAdmin(),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
 });
@@ -234,6 +251,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   navigateToHome: () => dispatch(push('/')),
   navigateToContactPage: () => dispatch(push('/contact')),
   navigateToHelpPage: () => dispatch(push('/help')),
+  navigateToAdminPage: () => dispatch(push('/admin')),
   toggleHelp: () => dispatch(toggleHelp()),
   manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>

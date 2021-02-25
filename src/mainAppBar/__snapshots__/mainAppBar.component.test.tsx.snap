@@ -71,6 +71,28 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
           help
         </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Button))
+        aria-label="Adminpage"
+        className="MainAppBar-button-6 tour-admin"
+        onClick={[Function]}
+        style={
+          Object {
+            "paddingTop": 3,
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Typography))
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          admin
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Button))>
       <div
         className="MainAppBar-grow-4"
       />
@@ -195,6 +217,28 @@ exports[`Main app bar component app bar renders correctly 1`] = `
           help
         </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Button))
+        aria-label="Adminpage"
+        className="MainAppBar-button-6 tour-admin"
+        onClick={[Function]}
+        style={
+          Object {
+            "paddingTop": 3,
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Typography))
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          admin
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Button))>
       <div
         className="MainAppBar-grow-4"
       />
@@ -297,6 +341,28 @@ exports[`Main app bar component does not render Help button when feature is fals
           contact
         </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Button))
+        aria-label="Adminpage"
+        className="MainAppBar-button-6 tour-admin"
+        onClick={[Function]}
+        style={
+          Object {
+            "paddingTop": 3,
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Typography))
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          admin
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Button))>
       <div
         className="MainAppBar-grow-4"
       />
@@ -397,6 +463,28 @@ exports[`Main app bar component does not render contact button when feature is f
           }
         >
           help
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Button))
+        aria-label="Adminpage"
+        className="MainAppBar-button-6 tour-admin"
+        onClick={[Function]}
+        style={
+          Object {
+            "paddingTop": 3,
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Typography))
+          color="inherit"
+          noWrap={true}
+          style={
+            Object {
+              "marginTop": 3,
+            }
+          }
+        >
+          admin
         </WithStyles(ForwardRef(Typography))>
       </WithStyles(ForwardRef(Button))>
       <div

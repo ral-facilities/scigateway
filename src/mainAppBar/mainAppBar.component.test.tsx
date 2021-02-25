@@ -121,6 +121,22 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/help'));
   });
 
+  it('redirects to Admin page when Admin button clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <Provider store={testStore}>
+          <MainAppBarComponent />
+        </Provider>
+      </MuiThemeProvider>
+    );
+
+    wrapper.find('button[aria-label="Adminpage"]').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/admin'));
+  });
+
   it('sends toggleHelp action when help button is clicked', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
