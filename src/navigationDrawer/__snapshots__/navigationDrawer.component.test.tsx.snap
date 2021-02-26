@@ -12,16 +12,14 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
   open={false}
   variant="persistent"
 >
-  <div
-    className="NavigationDrawer-drawerHeader-3"
-  >
+  <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <ChevronLeftIcon />
     </WithStyles(ForwardRef(IconButton))>
-  </div>
+  </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
@@ -39,16 +37,14 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
   open={true}
   variant="persistent"
 >
-  <div
-    className="NavigationDrawer-drawerHeader-3"
-  >
+  <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <ChevronLeftIcon />
     </WithStyles(ForwardRef(IconButton))>
-  </div>
+  </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
@@ -66,23 +62,21 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   open={true}
   variant="persistent"
 >
-  <div
-    className="NavigationDrawer-drawerHeader-3"
-  >
+  <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
       <ChevronLeftIcon />
     </WithStyles(ForwardRef(IconButton))>
-  </div>
+  </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List))>
     <WithStyles(ForwardRef(ListItem))>
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitle-4",
+            "primary": "NavigationDrawer-sectionTitle-3",
           }
         }
         primary="ANALYSIS"
@@ -112,7 +106,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-5",
+              "primary": "NavigationDrawer-menuItem-4",
             }
           }
           inset={true}
@@ -140,7 +134,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-5",
+              "primary": "NavigationDrawer-menuItem-4",
             }
           }
           inset={true}
@@ -157,7 +151,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitle-4",
+            "primary": "NavigationDrawer-sectionTitle-3",
           }
         }
         primary="DATA"
@@ -187,7 +181,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-5",
+              "primary": "NavigationDrawer-menuItem-4",
             }
           }
           inset={true}
@@ -215,7 +209,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-5",
+              "primary": "NavigationDrawer-menuItem-4",
             }
           }
           inset={true}
@@ -243,7 +237,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-5",
+              "primary": "NavigationDrawer-menuItem-4",
             }
           }
           inset={true}
@@ -271,7 +265,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-5",
+              "primary": "NavigationDrawer-menuItem-4",
             }
           }
           inset={true}
@@ -305,7 +299,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   <WithStyles(ForwardRef(ListItemText))
     classes={
       Object {
-        "primary": "NavigationDrawer-menuItem-5",
+        "primary": "NavigationDrawer-menuItem-4",
       }
     }
     inset={true}
