@@ -71,6 +71,9 @@ export interface RegisterRoutePayload {
   displayName: string;
   order: number;
   helpText?: string;
+  logoLightMode?: string;
+  logoDarkMode?: string;
+  logoAltText?: string;
   helpSteps?: { target: string; content: string }[];
 }
 
@@ -81,6 +84,9 @@ export interface PluginConfig {
   displayName: string;
   order: number;
   helpText?: string;
+  logoLightMode?: string;
+  logoDarkMode?: string;
+  logoAltText?: string;
   helpSteps?: { target: string; content: string }[];
 }
 

@@ -24,6 +24,7 @@ import { UKRITheme } from '../theming';
 interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
+  darkMode: boolean;
 }
 
 interface NavigationDrawerDispatchProps {
@@ -64,6 +65,11 @@ const styles = (theme: Theme): StyleRules =>
     menuItem: {
       color: theme.palette.text.secondary,
     },
+    menuLogo: {
+      paddingLeft: 56,
+      height: 20,
+      color: theme.palette.text.secondary,
+    },
   });
 
 type CombinedNavigationProps = NavigationDrawerDispatchProps &
@@ -79,6 +85,16 @@ ForwardRefLink.displayName = 'ForwardRefLink';
 
 class NavigationDrawer extends Component<CombinedNavigationProps> {
   private createLink(plugin: PluginConfig, index: number): React.ReactElement {
+    const imgSrc = this.props.darkMode
+      ? plugin.logoDarkMode
+      : plugin.logoLightMode;
+
+    const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
+
+    const displayText = plugin.displayName
+      ? prefix + plugin.displayName
+      : plugin.plugin;
+
     return (
       <ListItem
         key={index}
@@ -87,9 +103,16 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
         button
       >
+        {imgSrc && (
+          <img
+            className={this.props.classes.menuLogo}
+            alt={plugin.logoAltText}
+            src={imgSrc}
+          />
+        )}
         <ListItemText
-          inset
-          primary={plugin.displayName ? plugin.displayName : plugin.plugin}
+          inset={!imgSrc}
+          primary={displayText}
           primaryTypographyProps={{ variant: 'subtitle1' }}
           classes={{
             primary: this.props.classes.menuItem,
@@ -116,7 +139,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           />
         </ListItem>
         <List component="nav">
-          {plugins.map((p, i) => this.createLink(p, i))}
+          {plugins.map((p, i) => {
+            return p.link ? this.createLink(p, i) : null;
+          })}
         </List>
       </Fragment>
     );
@@ -171,6 +196,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   open: state.scigateway.drawerOpen,
   plugins: state.scigateway.plugins,
+  darkMode: state.scigateway.darkMode,
 });
 
 const mapDispatchToProps = (

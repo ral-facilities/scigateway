@@ -41,6 +41,7 @@ storiesOf('NavigationDrawer', module).add('default', () => (
         },
       ]}
       toggleDrawer={FakeReduxAction('toggle menu')}
+      darkMode={false}
     />
     <div
       style={{
