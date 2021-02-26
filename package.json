@@ -142,6 +142,6 @@
     "serve": "^11.3.2",
     "start-server-and-test": "^1.11.3",
     "storybook-react-router": "^1.0.5",
-    "wait-on": "^5.2.0"
+    "wait-on": "^5.2.1"
   }
 }
