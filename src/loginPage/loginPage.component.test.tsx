@@ -1,4 +1,5 @@
 import React from 'react';
+import * as singleSpa from 'single-spa';
 import LoginPage, {
   LoginPageWithoutStyles,
   LoginPageWithStyles,
@@ -72,6 +73,8 @@ describe('Login page component', () => {
     };
 
     state.scigateway.authorisation = props.auth;
+
+    singleSpa.start();
   });
 
   const theme = buildTheme(false);

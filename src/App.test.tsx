@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
+import * as singleSpa from 'single-spa';
 import App from './App';
 import { flushPromises } from './setupTests';
 import { loadAuthProvider } from './state/actions/scigateway.actions';
@@ -13,6 +14,7 @@ describe('App', () => {
 
   beforeEach(() => {
     mount = createMount();
+    singleSpa.start();
   });
 
   afterEach(() => {
