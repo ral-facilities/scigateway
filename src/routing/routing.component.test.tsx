@@ -7,6 +7,7 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
+import TestAuthProvider from '../authentication/testAuthProvider';
 
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
@@ -121,6 +122,19 @@ describe('Routing component', () => {
 
   it('renders placeholder for a plugin', () => {
     const wrapper = shallow(<PluginPlaceHolder id="test_id" />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('renders a route for admin page', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    const wrapper = mount(
+      <Provider store={mockStore(state)}>
+        <MemoryRouter initialEntries={[{ key: 'testKey', pathname: '/admin' }]}>
+          <Routing classes={classes} />
+        </MemoryRouter>
+      </Provider>
+    );
+
     expect(wrapper).toMatchSnapshot();
   });
 });
