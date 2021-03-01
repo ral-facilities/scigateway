@@ -293,7 +293,11 @@ describe('scigateway actions', () => {
     };
 
     const state = JSON.parse(JSON.stringify(initialState));
-    state.authorisation.provider = new TestAuthProvider('token');
+    const testAuthProvider = new TestAuthProvider('token');
+    testAuthProvider.verifyLogIn = jest
+      .fn()
+      .mockImplementation(() => Promise.reject());
+    state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({ scigateway: state });
 
     await asyncAction(dispatch, getState);
