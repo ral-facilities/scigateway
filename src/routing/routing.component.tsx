@@ -79,7 +79,7 @@ class Routing extends React.Component<
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/help" component={HelpPage} />
           {this.props.userIsloggedIn && this.props.userIsAdmin ? (
-            <Route exact path="/admin" component={AdminPage} />
+            <Route exact path="/admin" component={withAuth(AdminPage)} />
           ) : null}
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
