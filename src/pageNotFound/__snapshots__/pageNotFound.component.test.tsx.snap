@@ -5,7 +5,7 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
   <div
     className="PageNotFound-titleContainer-1"
   >
-    <BugReportIcon
+    <Memo(ForwardRef(BugReportIcon))
       className="PageNotFound-bugIcon-2"
     />
     <WithStyles(ForwardRef(Typography))

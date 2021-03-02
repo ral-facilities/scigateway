@@ -17,7 +17,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
-      <ChevronLeftIcon />
+      <Memo(ForwardRef(ChevronLeftIcon)) />
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
@@ -42,7 +42,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
-      <ChevronLeftIcon />
+      <Memo(ForwardRef(ChevronLeftIcon)) />
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
@@ -67,7 +67,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       aria-label="Dropdown Menu"
       onClick={[Function]}
     >
-      <ChevronLeftIcon />
+      <Memo(ForwardRef(ChevronLeftIcon)) />
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />

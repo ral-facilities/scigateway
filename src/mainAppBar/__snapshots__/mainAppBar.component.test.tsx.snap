@@ -15,7 +15,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         color="inherit"
         onClick={[Function]}
       >
-        <MenuIcon />
+        <Memo(ForwardRef(MenuIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
@@ -79,14 +79,14 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <HelpOutlineIcon />
+        <Memo(ForwardRef(HelpOutlineIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
-        <SettingsIcon />
+        <Memo(ForwardRef(SettingsIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Menu))
         anchorEl={null}
@@ -99,7 +99,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <TuneIcon />
+            <Memo(ForwardRef(TuneIcon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="manage-cookies-button"
@@ -110,7 +110,7 @@ exports[`Main app bar component app bar indented when drawer is open 1`] = `
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <Brightness4Icon />
+            <Memo(ForwardRef(Brightness4Icon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="toggle-dark-mode"
@@ -139,7 +139,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         color="inherit"
         onClick={[Function]}
       >
-        <MenuIcon />
+        <Memo(ForwardRef(MenuIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
@@ -203,14 +203,14 @@ exports[`Main app bar component app bar renders correctly 1`] = `
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <HelpOutlineIcon />
+        <Memo(ForwardRef(HelpOutlineIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
-        <SettingsIcon />
+        <Memo(ForwardRef(SettingsIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Menu))
         anchorEl={null}
@@ -223,7 +223,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <TuneIcon />
+            <Memo(ForwardRef(TuneIcon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="manage-cookies-button"
@@ -234,7 +234,7 @@ exports[`Main app bar component app bar renders correctly 1`] = `
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <Brightness4Icon />
+            <Memo(ForwardRef(Brightness4Icon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="toggle-dark-mode"
@@ -263,7 +263,7 @@ exports[`Main app bar component does not render Help button when feature is fals
         color="inherit"
         onClick={[Function]}
       >
-        <MenuIcon />
+        <Memo(ForwardRef(MenuIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
@@ -305,14 +305,14 @@ exports[`Main app bar component does not render Help button when feature is fals
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <HelpOutlineIcon />
+        <Memo(ForwardRef(HelpOutlineIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
-        <SettingsIcon />
+        <Memo(ForwardRef(SettingsIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Menu))
         anchorEl={null}
@@ -325,7 +325,7 @@ exports[`Main app bar component does not render Help button when feature is fals
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <TuneIcon />
+            <Memo(ForwardRef(TuneIcon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="manage-cookies-button"
@@ -336,7 +336,7 @@ exports[`Main app bar component does not render Help button when feature is fals
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <Brightness4Icon />
+            <Memo(ForwardRef(Brightness4Icon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="toggle-dark-mode"
@@ -365,7 +365,7 @@ exports[`Main app bar component does not render contact button when feature is f
         color="inherit"
         onClick={[Function]}
       >
-        <MenuIcon />
+        <Memo(ForwardRef(MenuIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Button))
         aria-label="Homepage"
@@ -407,14 +407,14 @@ exports[`Main app bar component does not render contact button when feature is f
         className="MainAppBar-button-6"
         onClick={[Function]}
       >
-        <HelpOutlineIcon />
+        <Memo(ForwardRef(HelpOutlineIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="Open browser settings"
         className="MainAppBar-button-6 tour-settings"
         onClick={[Function]}
       >
-        <SettingsIcon />
+        <Memo(ForwardRef(SettingsIcon)) />
       </WithStyles(ForwardRef(IconButton))>
       <WithStyles(ForwardRef(Menu))
         anchorEl={null}
@@ -427,7 +427,7 @@ exports[`Main app bar component does not render contact button when feature is f
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <TuneIcon />
+            <Memo(ForwardRef(TuneIcon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="manage-cookies-button"
@@ -438,7 +438,7 @@ exports[`Main app bar component does not render contact button when feature is f
           onClick={[Function]}
         >
           <WithStyles(ForwardRef(ListItemIcon))>
-            <Brightness4Icon />
+            <Memo(ForwardRef(Brightness4Icon)) />
           </WithStyles(ForwardRef(ListItemIcon))>
           <WithStyles(ForwardRef(ListItemText))
             primary="toggle-dark-mode"
