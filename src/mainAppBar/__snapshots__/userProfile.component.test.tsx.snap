@@ -10,7 +10,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       className="UserProfileComponent-button-1"
       onClick={[Function]}
     >
-      <AccountCircleIcon />
+      <Memo(ForwardRef(AccountCircleIcon)) />
     </WithStyles(ForwardRef(IconButton))>
     <WithStyles(ForwardRef(Menu))
       anchorEl={null}
@@ -36,7 +36,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
-          <ExitToAppIcon />
+          <Memo(ForwardRef(ExitToAppIcon)) />
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
           primary="logout-button"
@@ -129,7 +129,7 @@ exports[`User profile component renders user avatar if signed in with avatar url
         onClick={[Function]}
       >
         <WithStyles(ForwardRef(ListItemIcon))>
-          <ExitToAppIcon />
+          <Memo(ForwardRef(ExitToAppIcon)) />
         </WithStyles(ForwardRef(ListItemIcon))>
         <WithStyles(ForwardRef(ListItemText))
           primary="logout-button"

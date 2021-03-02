@@ -4,7 +4,7 @@ exports[`Scigateway Notification component Scigateway Notification error message
 <div
   className="root-class"
 >
-  <HighlightOffIcon
+  <Memo(ForwardRef(HighlightOffIcon))
     className="errorIcon-class"
   />
   <WithStyles(ForwardRef(Typography))
@@ -17,7 +17,7 @@ exports[`Scigateway Notification component Scigateway Notification error message
     className="button-class"
     onClick={[Function]}
   >
-    <ClearIcon
+    <Memo(ForwardRef(ClearIcon))
       className="deleteIcon-class"
     />
   </WithStyles(ForwardRef(IconButton))>
@@ -28,7 +28,7 @@ exports[`Scigateway Notification component Scigateway Notification success messa
 <div
   className="root-class"
 >
-  <CheckCircleIcon
+  <Memo(ForwardRef(CheckCircleIcon))
     className="successIcon-class"
   />
   <WithStyles(ForwardRef(Typography))
@@ -41,7 +41,7 @@ exports[`Scigateway Notification component Scigateway Notification success messa
     className="button-class"
     onClick={[Function]}
   >
-    <ClearIcon
+    <Memo(ForwardRef(ClearIcon))
       className="deleteIcon-class"
     />
   </WithStyles(ForwardRef(IconButton))>
@@ -52,7 +52,7 @@ exports[`Scigateway Notification component Scigateway Notification warning messa
 <div
   className="root-class"
 >
-  <ErrorOutlineIcon
+  <Memo(ForwardRef(ErrorOutlineIcon))
     className="warningIcon-class"
   />
   <WithStyles(ForwardRef(Typography))
@@ -65,7 +65,7 @@ exports[`Scigateway Notification component Scigateway Notification warning messa
     className="button-class"
     onClick={[Function]}
   >
-    <ClearIcon
+    <Memo(ForwardRef(ClearIcon))
       className="deleteIcon-class"
     />
   </WithStyles(ForwardRef(IconButton))>

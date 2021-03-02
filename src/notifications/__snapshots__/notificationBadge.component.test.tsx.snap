@@ -13,7 +13,7 @@ exports[`Notification Badge component Notification badge renders correctly 1`] =
       badgeContent={1}
       color="primary"
     >
-      <NotificationsIcon />
+      <Memo(ForwardRef(NotificationsIcon)) />
     </WithStyles(ForwardRef(Badge))>
   </WithStyles(ForwardRef(IconButton))>
   <WithStyles(ForwardRef(Menu))

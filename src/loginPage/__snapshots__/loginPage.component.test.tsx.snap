@@ -220,7 +220,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
     <WithStyles(ForwardRef(Avatar))
       className="avatar-class"
     >
-      <LockOutlinedIcon />
+      <Memo(ForwardRef(LockOutlinedIcon)) />
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
@@ -292,7 +292,7 @@ exports[`Login page component login page renders credential component if no redi
     <WithStyles(ForwardRef(Avatar))
       className="avatar-class"
     >
-      <LockOutlinedIcon />
+      <Memo(ForwardRef(LockOutlinedIcon)) />
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
@@ -349,7 +349,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
     <WithStyles(ForwardRef(Avatar))
       className="avatar-class"
     >
-      <LockOutlinedIcon />
+      <Memo(ForwardRef(LockOutlinedIcon)) />
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
@@ -421,7 +421,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
     <WithStyles(ForwardRef(Avatar))
       className="avatar-class"
     >
-      <LockOutlinedIcon />
+      <Memo(ForwardRef(LockOutlinedIcon)) />
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
@@ -497,7 +497,7 @@ exports[`Login page component login page renders redirect component if redirect 
     <WithStyles(ForwardRef(Avatar))
       className="avatar-class"
     >
-      <LockOutlinedIcon />
+      <Memo(ForwardRef(LockOutlinedIcon)) />
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
@@ -554,7 +554,7 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
     <WithStyles(ForwardRef(Avatar))
       className="avatar-class"
     >
-      <LockOutlinedIcon />
+      <Memo(ForwardRef(LockOutlinedIcon)) />
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
