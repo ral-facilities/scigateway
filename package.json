@@ -7,7 +7,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.21.1",
-    "connected-react-router": "^6.5.2",
+    "connected-react-router": "^6.9.1",
     "cookie-parser": "^1.4.5",
     "custom-event-polyfill": "^1.0.7",
     "express": "^4.17.1",
