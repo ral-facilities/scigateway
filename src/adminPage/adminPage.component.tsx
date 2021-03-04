@@ -42,7 +42,7 @@ const styles = (theme: Theme): StyleRules =>
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
       padding: theme.spacing(2),
-      [theme.breakpoints.up(800 + theme.spacing(4))]: {
+      [theme.breakpoints.up(800 + theme.spacing(8))]: {
         width: 800,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -80,9 +80,10 @@ export type CombinedAdminPageProps = AdminPageProps &
   WithStyles<typeof styles>;
 
 const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
-  const [scheduledMaintenance, setScheduledMaintenance] = useState<
-    ScheduledMaintenanceState
-  >(props.scheduledMaintenance);
+  const [
+    scheduledMaintenance,
+    setScheduledMaintenance,
+  ] = useState<ScheduledMaintenanceState>(props.scheduledMaintenance);
   const [maintenance, setMaintenance] = useState<MaintenanceState>(
     props.maintenance
   );
@@ -171,7 +172,7 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
         <div style={{ display: 'row' }}>
           <FormControlLabel
             style={{ float: 'left' }}
-            value={scheduledMaintenance.show}
+            value={maintenance.show}
             control={
               <Checkbox
                 checked={maintenance.show}

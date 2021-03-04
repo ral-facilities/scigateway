@@ -1,6 +1,6 @@
 import React, { Component, ComponentType, NamedExoticComponent } from 'react';
 import { Redirect } from 'react-router-dom';
-import { StateType, AuthState } from '../state/state.types';
+import { StateType, AuthState, AuthProvider } from '../state/state.types';
 import { connect } from 'react-redux';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 import { Action, Dispatch } from 'redux';
@@ -12,7 +12,7 @@ import {
 interface WithAuthStateProps {
   loading: boolean;
   loggedIn: boolean;
-  verifyToken: Promise<void>;
+  provider: AuthProvider;
   location: string;
   startUrlState?: StateType;
 }
@@ -32,7 +32,7 @@ const mapStateToProps = (state: StateType): WithAuthStateProps => ({
     state.scigateway.siteLoading ||
     isStartingUpOrLoading(state.scigateway.authorisation),
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
-  verifyToken: state.scigateway.authorisation.provider.verifyLogIn(),
+  provider: state.scigateway.authorisation.provider,
   location: state.router.location.pathname,
   startUrlState: state.router.location.state,
 });
@@ -48,9 +48,12 @@ export default function withAuth<T>(
 ): NamedExoticComponent<T> {
   class WithAuthComponent extends Component<WithAuthProps> {
     public componentDidMount(): void {
-      this.props.verifyToken.catch(() => {
-        this.props.invalidToken();
-      });
+      if (!this.props.loading) {
+        // Needed for when an authorised route is accessed after loading has completed
+        this.props.provider.verifyLogIn().catch(() => {
+          this.props.invalidToken();
+        });
+      }
     }
 
     public render(): React.ReactElement {
@@ -58,7 +61,7 @@ export default function withAuth<T>(
         loading,
         loggedIn,
         location,
-        verifyToken,
+        provider,
         startUrlState,
         requestPluginRerender,
         invalidToken,
@@ -92,6 +95,12 @@ export default function withAuth<T>(
 
     public componentDidUpdate(prevProps: WithAuthProps): void {
       const { props } = this;
+      if (!props.loading && prevProps.loading) {
+        props.provider.verifyLogIn().catch(() => {
+          props.invalidToken();
+        });
+      }
+
       if (
         (props.loggedIn && prevProps.loading && !props.loading) ||
         (!props.loading && !prevProps.loggedIn && props.loggedIn)
