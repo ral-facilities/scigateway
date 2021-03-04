@@ -367,8 +367,14 @@ exports[`Routing component renders a route for a plugin 1`] = `
                     loading={true}
                     location="/"
                     loggedIn={false}
+                    provider={
+                      LoadingAuthProvider {
+                        "authUrl": undefined,
+                        "redirectUrl": null,
+                        "user": null,
+                      }
+                    }
                     requestPluginRerender={[Function]}
-                    verifyToken={Promise {}}
                   >
                     <div />
                   </WithAuthComponent>
@@ -600,8 +606,17 @@ exports[`Routing component renders a route for admin page 1`] = `
                         "url": "/admin",
                       }
                     }
+                    provider={
+                      TestAuthProvider {
+                        "authUrl": undefined,
+                        "autoLogin": undefined,
+                        "mnemonic": undefined,
+                        "redirectUrl": null,
+                        "token": "logged in",
+                        "user": null,
+                      }
+                    }
                     requestPluginRerender={[Function]}
-                    verifyToken={Promise {}}
                   >
                     <div />
                   </WithAuthComponent>

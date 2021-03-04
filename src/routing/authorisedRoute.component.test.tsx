@@ -131,6 +131,8 @@ describe('AuthorisedRoute component', () => {
     testAuthProvider.verifyLogIn = jest
       .fn()
       .mockImplementation(() => Promise.reject());
+    state.scigateway.siteLoading = false;
+    state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = testAuthProvider;
 
     const testStore = mockStore(state);
