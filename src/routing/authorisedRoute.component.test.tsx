@@ -128,9 +128,7 @@ describe('AuthorisedRoute component', () => {
 
   it('dispatches invalidToken when token fails verification', async () => {
     const testAuthProvider = new TestAuthProvider('token');
-    testAuthProvider.verifyLogIn = jest
-      .fn()
-      .mockImplementation(() => Promise.reject());
+
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = testAuthProvider;
