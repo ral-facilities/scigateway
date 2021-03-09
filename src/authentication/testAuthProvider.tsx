@@ -21,6 +21,10 @@ export default class TestAuthProvider implements AuthProvider {
     return this.token !== null;
   }
 
+  public isAdmin(): boolean {
+    return true;
+  }
+
   public logOut(): void {
     this.token = null;
   }
@@ -55,5 +59,17 @@ export default class TestAuthProvider implements AuthProvider {
       show: false,
       message: 'test',
     });
+  }
+
+  public setScheduledMaintenanceState(
+    scheduledMaintenanceState: ScheduledMaintenanceState
+  ): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public setMaintenanceState(
+    maintenanceState: MaintenanceState
+  ): Promise<void> {
+    return Promise.resolve();
   }
 }

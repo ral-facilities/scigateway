@@ -16,6 +16,7 @@ import HelpPage from '../helpPage/helpPage.component';
 import LoginPage from '../loginPage/loginPage.component';
 import CookiesPage from '../cookieConsent/cookiesPage.component';
 import MaintenancePage from '../maintenancePage/maintenancePage.component';
+import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import classNames from 'classnames';
 import { UKRITheme } from '../theming';
@@ -46,6 +47,8 @@ interface RoutingProps {
   location: string;
   drawerOpen: boolean;
   maintenance: MaintenanceState;
+  userIsloggedIn: boolean;
+  userIsAdmin: boolean;
 }
 
 export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
@@ -75,6 +78,9 @@ class Routing extends React.Component<
           <Route exact path="/" component={HomePage} />
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/help" component={HelpPage} />
+          {this.props.userIsloggedIn && this.props.userIsAdmin ? (
+            <Route exact path="/admin" component={withAuth(AdminPage)} />
+          ) : null}
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
           {this.props.maintenance.show ? (
@@ -102,6 +108,8 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   location: state.router.location.pathname,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
+  userIsloggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);

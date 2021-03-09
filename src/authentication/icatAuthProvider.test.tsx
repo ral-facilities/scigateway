@@ -29,7 +29,8 @@ describe('ICAT auth provider', () => {
     );
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
     (parseJwt as jest.Mock).mockImplementation(
-      (token) => `{"sessionId": "${token}", "username": "${token} username"}`
+      (token) =>
+        `{"sessionId": "${token}", "username": "${token} username", "userIsAdmin": true}`
     );
   });
 
@@ -141,6 +142,7 @@ describe('ICAT auth provider', () => {
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
     expect(icatAuthProvider.user.username).toBe('token username');
+    expect(icatAuthProvider.isAdmin()).toBeTruthy();
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
@@ -323,6 +325,73 @@ describe('ICAT auth provider', () => {
     );
 
     await icatAuthProvider.fetchMaintenanceState().catch(() => {
+      // catch error
+    });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should call api to set scheduled maintenance state', async () => {
+    const scheduledMaintenanceState = { show: true, message: 'test' };
+    mockAxios.put = jest.fn().mockImplementation(() => Promise.resolve());
+
+    await icatAuthProvider.setScheduledMaintenanceState(
+      scheduledMaintenanceState
+    );
+
+    expect(mockAxios.put).toBeCalledWith(
+      'http://localhost:8000/scheduled_maintenance',
+      {
+        token: 'token',
+        scheduledMaintenance: scheduledMaintenanceState,
+      }
+    );
+  });
+
+  it('should log the user out if it fails to set scheduled maintenance state', async () => {
+    const scheduledMaintenanceState = { show: true, message: 'test' };
+    mockAxios.put = jest.fn().mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await icatAuthProvider
+      .setScheduledMaintenanceState(scheduledMaintenanceState)
+      .catch(() => {
+        // catch error
+      });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should call api to set maintenance state', async () => {
+    const maintenanceState = { show: true, message: 'test' };
+    mockAxios.put = jest.fn().mockImplementation(() => Promise.resolve());
+
+    await icatAuthProvider.setMaintenanceState(maintenanceState);
+
+    expect(mockAxios.put).toBeCalledWith('http://localhost:8000/maintenance', {
+      token: 'token',
+      maintenance: maintenanceState,
+    });
+  });
+
+  it('should log the user out if it fails to set maintenance state', async () => {
+    const maintenanceState = { show: true, message: 'test' };
+    mockAxios.put = jest.fn().mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await icatAuthProvider.setMaintenanceState(maintenanceState).catch(() => {
       // catch error
     });
 

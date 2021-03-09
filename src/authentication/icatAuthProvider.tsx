@@ -50,10 +50,12 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         });
         this.storeToken(res.data);
         localStorage.setItem('autoLogin', 'false');
-        const payload: { sessionId: string; username: string } = JSON.parse(
-          parseJwt(res.data)
-        );
-        this.storeUser(payload.username);
+        const payload: {
+          sessionId: string;
+          username: string;
+          userIsAdmin: boolean;
+        } = JSON.parse(parseJwt(res.data));
+        this.storeUser(payload.username, payload.userIsAdmin);
         return;
       })
       .catch((err) => {
@@ -101,6 +103,36 @@ export default class ICATAuthProvider extends BaseAuthProvider {
     return Axios.get(`${this.authUrl}/maintenance`)
       .then((res) => {
         return res.data;
+      })
+      .catch((err) => {
+        this.handleAuthError(err);
+      });
+  }
+
+  public setScheduledMaintenanceState(
+    scheduledMaintenanceState: ScheduledMaintenanceState
+  ): Promise<void> {
+    return Axios.put(`${this.authUrl}/scheduled_maintenance`, {
+      token: this.token,
+      scheduledMaintenance: scheduledMaintenanceState,
+    })
+      .then(() => {
+        // do nothing
+      })
+      .catch((err) => {
+        this.handleAuthError(err);
+      });
+  }
+
+  public setMaintenanceState(
+    maintenanceState: MaintenanceState
+  ): Promise<void> {
+    return Axios.put(`${this.authUrl}/maintenance`, {
+      token: this.token,
+      maintenance: maintenanceState,
+    })
+      .then(() => {
+        // do nothing
       })
       .catch((err) => {
         this.handleAuthError(err);

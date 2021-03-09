@@ -7,7 +7,11 @@ import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
-import { requestPluginRerender } from '../state/actions/scigateway.actions';
+import {
+  invalidToken,
+  requestPluginRerender,
+} from '../state/actions/scigateway.actions';
+import { flushPromises } from '../setupTests';
 
 describe('AuthorisedRoute component', () => {
   let shallow;
@@ -120,5 +124,22 @@ describe('AuthorisedRoute component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(requestPluginRerender());
+  });
+
+  it('dispatches invalidToken when token fails verification', async () => {
+    const testAuthProvider = new TestAuthProvider('token');
+
+    state.scigateway.siteLoading = false;
+    state.scigateway.authorisation.loading = false;
+    state.scigateway.authorisation.provider = testAuthProvider;
+
+    const testStore = mockStore(state);
+    const AuthorisedComponent = withAuth(ComponentToProtect);
+    shallow(<AuthorisedComponent store={testStore} />);
+
+    await flushPromises();
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(invalidToken());
   });
 });

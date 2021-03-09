@@ -12,6 +12,10 @@ export default class LoadingAuthProvider implements AuthProvider {
     return false;
   }
 
+  public isAdmin(): boolean {
+    return false;
+  }
+
   public logOut(): void {
     // do nothing
   }
