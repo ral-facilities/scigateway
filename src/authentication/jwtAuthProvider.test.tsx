@@ -4,13 +4,16 @@ import ReactGA from 'react-ga';
 
 describe('jwt auth provider', () => {
   let jwtAuthProvider: JWTAuthProvider;
+  // payload - { 'username': 'user', 'userIsAdmin': false }
+  const testToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VySXNBZG1pbiI6ZmFsc2V9.PEuKaAD98doFTLyqcNFpsuv50AQR8ejrbDQ0pwazM7Q';
 
   beforeEach(() => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) =>
-        name === 'scigateway:token' ? 'token' : null
+        name === 'scigateway:token' ? testToken : null
       );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
@@ -29,10 +32,24 @@ describe('jwt auth provider', () => {
     expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
+  it('should load a user when given a valid token', () => {
+    expect(jwtAuthProvider.user).not.toBeNull();
+    expect(jwtAuthProvider.user?.username).toBe('user');
+    expect(jwtAuthProvider.user?.isAdmin).toBeFalsy();
+    expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
+  });
+
   it('should clear the token when logging out', () => {
     jwtAuthProvider.logOut();
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should clear the user info when logging out', () => {
+    jwtAuthProvider.logOut();
+
+    expect(jwtAuthProvider.user).toBeNull();
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
@@ -44,7 +61,7 @@ describe('jwt auth provider', () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          token: 'token',
+          token: testToken,
         },
       })
     );
@@ -54,10 +71,11 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.logIn('user', 'password');
 
-    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', testToken);
 
+    expect(jwtAuthProvider.user).not.toBeNull();
+    expect(jwtAuthProvider.user?.username).toBe('user');
     expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
-    expect(jwtAuthProvider.user.username).toBe('user');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
@@ -102,7 +120,7 @@ describe('jwt auth provider', () => {
     expect(mockAxios.post).toBeCalledWith(
       'http://localhost:8000/api/jwt/checkToken',
       {
-        token: 'token',
+        token: testToken,
       }
     );
   });
@@ -139,7 +157,7 @@ describe('jwt auth provider', () => {
     expect(mockAxios.post).toHaveBeenCalledWith(
       'http://localhost:8000/api/jwt/refresh',
       {
-        token: 'token',
+        token: testToken,
       }
     );
     expect(localStorage.setItem).toBeCalledWith(

@@ -7,13 +7,16 @@ jest.mock('./parseJwt');
 
 describe('ICAT auth provider', () => {
   let icatAuthProvider: ICATAuthProvider;
+  // payload - { 'username': 'user', 'userIsAdmin': false }
+  const testToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
   beforeEach(() => {
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) => {
         if (name === 'scigateway:token') {
-          return 'token';
+          return testToken;
         } else if (name === 'autoLogin') {
           return 'false';
         } else {
@@ -63,7 +66,7 @@ describe('ICAT auth provider', () => {
   it('should call the api to authenticate', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        data: 'token',
+        data: testToken,
       })
     );
 
@@ -76,11 +79,12 @@ describe('ICAT auth provider', () => {
       mnemonic: 'mnemonic',
       credentials: { username: 'user', password: 'password' },
     });
-    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', testToken);
     expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
-    expect(icatAuthProvider.user.username).toBe('token username');
+    expect(icatAuthProvider.user).not.toBeNull();
+    expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
@@ -120,7 +124,7 @@ describe('ICAT auth provider', () => {
   it('should attempt to autologin via anon authenticator when initialised', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        data: 'token',
+        data: testToken,
       })
     );
 
@@ -137,11 +141,12 @@ describe('ICAT auth provider', () => {
       mnemonic: 'anon',
       credentials: { username: '', password: '' },
     });
-    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', testToken);
     expect(localStorage.setItem).toBeCalledWith('autoLogin', 'true');
 
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
-    expect(icatAuthProvider.user.username).toBe('token username');
+    expect(icatAuthProvider.user).not.toBeNull();
+    expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
     expect(icatAuthProvider.isAdmin()).toBeTruthy();
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
@@ -207,7 +212,7 @@ describe('ICAT auth provider', () => {
     await icatAuthProvider.verifyLogIn();
 
     expect(mockAxios.post).toBeCalledWith('http://localhost:8000/verify', {
-      token: 'token',
+      token: testToken,
     });
   });
 
@@ -240,7 +245,7 @@ describe('ICAT auth provider', () => {
     expect(mockAxios.post).toHaveBeenCalledWith(
       'http://localhost:8000/refresh',
       {
-        token: 'token',
+        token: testToken,
       }
     );
     expect(localStorage.setItem).toBeCalledWith(
@@ -343,7 +348,7 @@ describe('ICAT auth provider', () => {
     expect(mockAxios.put).toBeCalledWith(
       'http://localhost:8000/scheduled_maintenance',
       {
-        token: 'token',
+        token: testToken,
         scheduledMaintenance: scheduledMaintenanceState,
       }
     );
@@ -376,7 +381,7 @@ describe('ICAT auth provider', () => {
     await icatAuthProvider.setMaintenanceState(maintenanceState);
 
     expect(mockAxios.put).toBeCalledWith('http://localhost:8000/maintenance', {
-      token: 'token',
+      token: testToken,
       maintenance: maintenanceState,
     });
   });

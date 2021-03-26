@@ -3,7 +3,6 @@ import UserInfo from './user';
 import parseJwt from '../authentication/parseJwt';
 
 const tokenLocalStorageName = 'scigateway:token';
-const userLocalStorageName = 'scigateway: user';
 
 export default abstract class BaseAuthProvider implements AuthProvider {
   abstract logIn(username: string, password: string): Promise<void>;
@@ -16,37 +15,33 @@ export default abstract class BaseAuthProvider implements AuthProvider {
 
   public constructor(authUrl: string | undefined) {
     this.token = localStorage.getItem(tokenLocalStorageName);
-    this.user = this.fetchUser();
+    this.user = this.token != null ? this.extractUserFromToken() : null;
     this.redirectUrl = null;
     this.authUrl = authUrl;
   }
 
-  public fetchUser(): User | null {
-    let tokenUsername: string;
-    if (this.token) {
-      const tokenObject: { username: string } = JSON.parse(
-        parseJwt(this.token)
-      );
-      tokenUsername = tokenObject.username;
-
-      const userObject: string | null = localStorage.getItem(
-        userLocalStorageName
-      );
-      if (userObject) {
-        const parsedUserObject: User | null = JSON.parse(userObject);
-        if (parsedUserObject) {
-          if (parsedUserObject.username === tokenUsername) {
-            return parsedUserObject;
-          }
-        }
+  /**
+   * Extracts information about the logged in user from the token stored in localStorage
+   * This includes the username and if they are an admin
+   * This is called on each page refresh/change to keep the user logged in persistently
+   * @returns { User | null } - a user object or null if one was not found
+   */
+  public extractUserFromToken(): User | null {
+    if (this.token != null) {
+      const tokenString: string = parseJwt(this.token);
+      if (tokenString) {
+        const tokenObject = JSON.parse(tokenString);
+        const user: User = new UserInfo(tokenObject.username);
+        user.isAdmin = tokenObject.userIsAdmin;
+        return user;
       }
     }
-    this.logOut();
+
     return null;
   }
 
   public isLoggedIn(): boolean {
-    return this.token != null && this.user != null;
+    return this.token != null;
   }
 
   public isAdmin(): boolean {
@@ -56,7 +51,6 @@ export default abstract class BaseAuthProvider implements AuthProvider {
   public logOut(): void {
     localStorage.removeItem(tokenLocalStorageName);
     this.token = null;
-    localStorage.removeItem(userLocalStorageName);
     this.user = null;
   }
 
@@ -79,8 +73,6 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     if (avatar) {
       this.user.avatarUrl = avatar;
     }
-
-    localStorage.setItem(userLocalStorageName, JSON.stringify(this.user));
   }
 
   /* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
