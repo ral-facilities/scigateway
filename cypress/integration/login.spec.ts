@@ -109,6 +109,57 @@ describe('Login', () => {
     );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
   });
+  
+  it('should remain logged in following page refresh or redirect', () => {
+    cy.visit('/login');
+    cy.contains('Sign in').should('be.visible');
+    cy.get('button[aria-label="Open navigation menu"]').should(
+      'not.exist'
+    );
+
+    cy.contains('Username*').parent().find('input').type(' username');
+    cy.contains('Password*').parent().find('input').type('password');
+
+    cy.contains('Username*')
+      .parent()
+      .parent()
+      .contains('button', 'Sign in')
+      .click();
+
+    cy.url().should('eq', 'http://127.0.0.1:3000/');
+
+    let storedToken: string | null;
+
+    cy.window().then(
+      (window) => {
+        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+        storedToken = window.localStorage.getItem('scigateway:token');
+      });
+    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+
+    cy.reload();
+    cy.window().then(
+      (window) => {
+        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+        expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
+      });
+    cy.window().then((window) =>
+      expect(storedToken).to.equal(
+        window.localStorage.getItem('scigateway:token')
+      )
+    );
+    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.contains('Sign in').should('not.exist');
+
+    cy.visit('/login');
+    cy.window().then(
+      (window) => {
+        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+        expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
+      });
+    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.contains('Sign in').should('not.exist');
+  });
 
   it('should logout successfully', () => {
     cy.login('username', 'password');
