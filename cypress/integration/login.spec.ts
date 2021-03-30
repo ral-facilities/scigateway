@@ -151,7 +151,7 @@ describe('Login', () => {
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
-    cy.visit('/login');
+    cy.visit('/contact');
     cy.window().then(
       (window) => {
         expect(window.localStorage.getItem('scigateway:token')).not.be.null;
