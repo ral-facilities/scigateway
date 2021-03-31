@@ -29,15 +29,16 @@ export default abstract class BaseAuthProvider implements AuthProvider {
   public extractUserFromToken(): User | null {
     if (this.token != null) {
       try {
-        const tokenString: string = parseJwt(this.token);
+        const tokenString = parseJwt(this.token);
         if (tokenString) {
           const tokenObject = JSON.parse(tokenString);
-          const user: User = new UserInfo(tokenObject.username);
+          const user = new UserInfo(tokenObject.username);
           user.isAdmin = tokenObject.userIsAdmin;
           return user;
         }
       } catch (TypeError) {
         // not a valid JWT, token has likely been tampered with in some way (or we are running tests)
+        console.error('Invalid token: failed to authenticate');
       }
     }
 

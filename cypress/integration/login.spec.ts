@@ -143,11 +143,6 @@ describe('Login', () => {
         expect(window.localStorage.getItem('scigateway:token')).not.be.null;
         expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
       });
-    cy.window().then((window) =>
-      expect(storedToken).to.equal(
-        window.localStorage.getItem('scigateway:token')
-      )
-    );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
@@ -159,6 +154,27 @@ describe('Login', () => {
       });
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
+  });
+  
+  it('should not be logged in if invalid or unsigned token in localStorage', () => {
+    cy.contains('Sign in').should('be.visible');
+    window.localStorage.setItem('scigateway:token', 'invalidtoken');
+    cy.reload();
+    cy.contains('Sign in').should('be.visible');
+    cy.window().then(
+      (window) =>
+        expect(window.localStorage.getItem('scigateway:token')).to.be.null
+    );
+
+    const testInvalidToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2MTcyMDE4MDYsImV4cCI6MTYxNzIwMTg2Nn0.6DKXkw8zbHurAjBxDCY9zLrIB4NwPJL7GaCs_LArEmM';
+    window.localStorage.setItem('scigateway:token', testInvalidToken);
+    cy.reload();
+    cy.contains('Sign in').should('be.visible');
+    cy.window().then(
+      (window) =>
+        expect(window.localStorage.getItem('scigateway:token')).to.be.null
+    );
   });
 
   it('should logout successfully', () => {

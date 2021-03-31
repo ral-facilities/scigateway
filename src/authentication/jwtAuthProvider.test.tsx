@@ -4,7 +4,6 @@ import ReactGA from 'react-ga';
 
 describe('jwt auth provider', () => {
   let jwtAuthProvider: JWTAuthProvider;
-  // payload - { 'username': 'user', 'userIsAdmin': false }
   const testToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VySXNBZG1pbiI6ZmFsc2V9.PEuKaAD98doFTLyqcNFpsuv50AQR8ejrbDQ0pwazM7Q';
 
