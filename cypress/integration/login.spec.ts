@@ -109,7 +109,7 @@ describe('Login', () => {
     );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
   });
-  
+
   it('should remain logged in following page refresh or redirect', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
@@ -143,11 +143,6 @@ describe('Login', () => {
         expect(window.localStorage.getItem('scigateway:token')).not.be.null;
         expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
       });
-    cy.window().then((window) =>
-      expect(storedToken).to.equal(
-        window.localStorage.getItem('scigateway:token')
-      )
-    );
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
@@ -159,6 +154,29 @@ describe('Login', () => {
       });
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
+  });
+
+  it('should not be logged in if invalid or unsigned token in localStorage', () => {
+    // if token cannot be deciphered
+    cy.contains('Sign in').should('be.visible');
+    window.localStorage.setItem('scigateway:token', 'invalidtoken');
+    cy.reload();
+    cy.contains('Sign in').should('be.visible');
+    cy.window().then(
+      (window) =>
+        expect(window.localStorage.getItem('scigateway:token')).to.be.null
+    );
+
+    // if token is recognised as a JWT but is not recognised as signed by the auth provider
+    const testInvalidToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2MTcyMDE4MDYsImV4cCI6MTYxNzIwMTg2Nn0.6DKXkw8zbHurAjBxDCY9zLrIB4NwPJL7GaCs_LArEmM';
+    window.localStorage.setItem('scigateway:token', testInvalidToken);
+    cy.reload();
+    cy.contains('Sign in').should('be.visible');
+    cy.window().then(
+      (window) =>
+        expect(window.localStorage.getItem('scigateway:token')).to.be.null
+    );
   });
 
   it('should logout successfully', () => {
@@ -225,14 +243,14 @@ describe('Login', () => {
 
   describe('autoLogin', () => {
     // Define responses for login attempts
-    let verifyResponse: {statusCode: Number; body: string};
-    let loginResponse: {statusCode: Number; body: string};
-    const verifySuccess = {statusCode: 200, body: ''};
-    const loginSuccess = {statusCode: 200, body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk'};
-    const failure = {statusCode: 403, body: ''};
+    let verifyResponse: { statusCode: Number; body: string };
+    let loginResponse: { statusCode: Number; body: string };
+    const verifySuccess = { statusCode: 200, body: '' };
+    const loginSuccess = { statusCode: 200, body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk' };
+    const failure = { statusCode: 403, body: '' };
 
     beforeEach(() => {
-        cy.intercept('/settings.json', {
+      cy.intercept('/settings.json', {
         plugins: [
           {
             name: 'demo_plugin',
@@ -256,8 +274,8 @@ describe('Login', () => {
           keys: [],
         },
       ]);
-      cy.intercept('POST', '/login', (req) => {req.reply(loginResponse)});
-      cy.intercept('POST', '/verify', (req) => {req.reply(verifyResponse)});
+      cy.intercept('POST', '/login', (req) => { req.reply(loginResponse) });
+      cy.intercept('POST', '/verify', (req) => { req.reply(verifyResponse) });
     });
 
     it('should show the sidebar and yet still show the Sign in button', () => {
@@ -275,7 +293,7 @@ describe('Login', () => {
 
       // test that autologin works after token valididation + refresh fail
       verifyResponse = failure;
-      cy.intercept('POST', '/refresh', {statusCode: 403 });
+      cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
       cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
@@ -292,7 +310,7 @@ describe('Login', () => {
 
       // test that autologin fails after token validation + refresh fail
       verifyResponse = failure;
-      cy.intercept('POST', '/refresh', {statusCode: 403 });
+      cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.window().then(($window) =>
         $window.localStorage.setItem('scigateway:token', 'invalidtoken')
       );

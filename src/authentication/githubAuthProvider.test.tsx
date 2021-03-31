@@ -4,7 +4,6 @@ import ReactGA from 'react-ga';
 
 describe('github auth provider', () => {
   let authProvider: GithubAuthProvider;
-  // payload - { 'username': 'user', 'userIsAdmin': false }
   const testToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
