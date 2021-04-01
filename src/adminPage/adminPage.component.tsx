@@ -26,6 +26,9 @@ import {
   setMaintenanceState,
   setScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { Link } from 'react-router-dom';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -87,124 +90,152 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
   const [maintenance, setMaintenance] = useState<MaintenanceState>(
     props.maintenance
   );
+  const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
+    'maintenance'
+  );
 
   return (
     <div className={props.classes.root}>
       <Typography variant="h3" className={props.classes.titleText}>
         {getString(props.res, 'title')}
       </Typography>
-      <Paper className={props.classes.paper}>
-        <Typography variant="h4">
-          {getString(props.res, 'scheduled-maintenance-title')}
-        </Typography>
-        <TextareaAutosize
-          className={props.classes.textArea}
-          aria-label={getString(
-            props.res,
-            'shceduled-maintenance-message-arialabel'
-          )}
-          rows={7}
-          placeholder={getString(props.res, 'message-placeholder')}
-          value={scheduledMaintenance.message}
-          onChange={(e) =>
-            setScheduledMaintenance({
-              ...scheduledMaintenance,
-              message: e.currentTarget.value,
-            })
-          }
+      <Tabs
+        value={tabValue}
+        onChange={(event, newValue) => setTabValue(newValue)}
+      >
+        <Tab
+          id="maintenance-tab"
+          aria-controls="maintenance-panel"
+          label="Maintenance"
+          value="maintenance"
         />
-        <div style={{ display: 'row' }}>
-          <FormControlLabel
-            style={{ float: 'left' }}
-            value={scheduledMaintenance.show}
-            control={
-              <Checkbox
-                checked={scheduledMaintenance.show}
-                onChange={(e) =>
-                  setScheduledMaintenance({
-                    ...scheduledMaintenance,
-                    show: e.target.checked,
-                  })
-                }
-                inputProps={{
-                  'aria-label': getString(
-                    props.res,
-                    'scheduled-maintenance-checkbox-arialabel'
-                  ),
-                }}
-                color="secondary"
-              />
-            }
-            label={getString(props.res, 'display-checkbox')}
-            labelPlacement="end"
-          />
-          <Button
-            style={{ float: 'right' }}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.setScheduledMaintenanceState(scheduledMaintenance);
-            }}
-          >
-            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-              {getString(props.res, 'save-button')}
-            </Typography>
-          </Button>
-        </div>
-      </Paper>
-      <Paper className={props.classes.paper}>
-        <Typography variant="h4">
-          {getString(props.res, 'maintenance-title')}
-        </Typography>
-        <TextareaAutosize
-          className={props.classes.textArea}
-          aria-label={getString(props.res, 'maintenance-message-arialabel')}
-          rows={7}
-          placeholder={getString(props.res, 'message-placeholder')}
-          value={maintenance.message}
-          onChange={(e) =>
-            setMaintenance({
-              ...maintenance,
-              message: e.currentTarget.value,
-            })
-          }
+        <Tab
+          id="download-tab"
+          label="Admin Download"
+          value="download"
+          component={Link}
+          to="/admin-download"
         />
-        <div style={{ display: 'row' }}>
-          <FormControlLabel
-            style={{ float: 'left' }}
-            value={maintenance.show}
-            control={
-              <Checkbox
-                checked={maintenance.show}
-                onChange={(e) =>
-                  setMaintenance({ ...maintenance, show: e.target.checked })
-                }
-                inputProps={{
-                  'aria-label': getString(
-                    props.res,
-                    'maintenance-checkbox-arialabel'
-                  ),
-                }}
-                color="secondary"
-              />
+      </Tabs>
+      <div
+        id="maintenance-panel"
+        aria-labelledby="maintenance-tab"
+        role="tabpanel"
+        hidden={tabValue !== 'maintenance'}
+      >
+        <Paper className={props.classes.paper}>
+          <Typography variant="h4">
+            {getString(props.res, 'scheduled-maintenance-title')}
+          </Typography>
+          <TextareaAutosize
+            className={props.classes.textArea}
+            aria-label={getString(
+              props.res,
+              'shceduled-maintenance-message-arialabel'
+            )}
+            rows={7}
+            placeholder={getString(props.res, 'message-placeholder')}
+            value={scheduledMaintenance.message}
+            onChange={(e) =>
+              setScheduledMaintenance({
+                ...scheduledMaintenance,
+                message: e.currentTarget.value,
+              })
             }
-            label={getString(props.res, 'display-checkbox')}
-            labelPlacement="end"
           />
-          <Button
-            style={{ float: 'right' }}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.setMaintenanceState(maintenance);
-            }}
-          >
-            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-              {getString(props.res, 'save-button')}
-            </Typography>
-          </Button>
-        </div>
-      </Paper>
+          <div style={{ display: 'row' }}>
+            <FormControlLabel
+              style={{ float: 'left' }}
+              value={scheduledMaintenance.show}
+              control={
+                <Checkbox
+                  checked={scheduledMaintenance.show}
+                  onChange={(e) =>
+                    setScheduledMaintenance({
+                      ...scheduledMaintenance,
+                      show: e.target.checked,
+                    })
+                  }
+                  inputProps={{
+                    'aria-label': getString(
+                      props.res,
+                      'scheduled-maintenance-checkbox-arialabel'
+                    ),
+                  }}
+                  color="secondary"
+                />
+              }
+              label={getString(props.res, 'display-checkbox')}
+              labelPlacement="end"
+            />
+            <Button
+              style={{ float: 'right' }}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.setScheduledMaintenanceState(scheduledMaintenance);
+              }}
+            >
+              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+                {getString(props.res, 'save-button')}
+              </Typography>
+            </Button>
+          </div>
+        </Paper>
+        <Paper className={props.classes.paper}>
+          <Typography variant="h4">
+            {getString(props.res, 'maintenance-title')}
+          </Typography>
+          <TextareaAutosize
+            className={props.classes.textArea}
+            aria-label={getString(props.res, 'maintenance-message-arialabel')}
+            rows={7}
+            placeholder={getString(props.res, 'message-placeholder')}
+            value={maintenance.message}
+            onChange={(e) =>
+              setMaintenance({
+                ...maintenance,
+                message: e.currentTarget.value,
+              })
+            }
+          />
+          <div style={{ display: 'row' }}>
+            <FormControlLabel
+              style={{ float: 'left' }}
+              value={maintenance.show}
+              control={
+                <Checkbox
+                  checked={maintenance.show}
+                  onChange={(e) =>
+                    setMaintenance({ ...maintenance, show: e.target.checked })
+                  }
+                  inputProps={{
+                    'aria-label': getString(
+                      props.res,
+                      'maintenance-checkbox-arialabel'
+                    ),
+                  }}
+                  color="secondary"
+                />
+              }
+              label={getString(props.res, 'display-checkbox')}
+              labelPlacement="end"
+            />
+            <Button
+              style={{ float: 'right' }}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.setMaintenanceState(maintenance);
+              }}
+            >
+              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+                {getString(props.res, 'save-button')}
+              </Typography>
+            </Button>
+          </div>
+        </Paper>
+      </div>
     </div>
   );
 };
