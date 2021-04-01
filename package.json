@@ -32,7 +32,7 @@
     "single-spa": "^5.9.1",
     "typeface-roboto": "1.1.13",
     "typescript": "4.2.2",
-    "webpack": "4.44.2"
+    "webpack": "5.30.0"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
