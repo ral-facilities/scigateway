@@ -89,7 +89,8 @@ class Routing extends React.Component<
           ) : null}
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
-          {this.props.maintenance.show ? (
+          {/* Only display maintenance page to non-admin users when site under maintenance */}
+          {this.props.maintenance.show && !this.props.userIsAdmin ? (
             <Route component={MaintenancePage} />
           ) : (
             this.props.plugins.map((p) => (
