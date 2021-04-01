@@ -51,7 +51,10 @@ interface RoutingProps {
   userIsAdmin: boolean;
 }
 
-export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
+export class PluginPlaceHolder extends React.PureComponent<{
+  id: string;
+  adminPlugin: boolean;
+}> {
   public render(): React.ReactNode {
     const { id } = this.props;
     return <div id={id}>{id} failed to load correctly</div>;
@@ -59,6 +62,8 @@ export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
 }
 
 export const AuthorisedPlugin = withAuth(PluginPlaceHolder);
+// Prevents the component from updating when the draw is opened/ closed
+export const AuthorisedAdminPage = withAuth(AdminPage);
 
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>
@@ -78,8 +83,9 @@ class Routing extends React.Component<
           <Route exact path="/" component={HomePage} />
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/help" component={HelpPage} />
-          {this.props.userIsloggedIn && this.props.userIsAdmin ? (
-            <Route exact path="/admin" component={withAuth(AdminPage)} />
+          {/* Admin check required because the component does not have an adminPlugin prop */}
+          {this.props.userIsAdmin ? (
+            <Route exact path="/admin" render={() => <AuthorisedAdminPage />} />
           ) : null}
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/cookies" component={CookiesPage} />
@@ -90,7 +96,12 @@ class Routing extends React.Component<
               <Route
                 key={`${p.section}_${p.link}`}
                 path={p.link}
-                render={() => <AuthorisedPlugin id={p.plugin} />}
+                render={() => (
+                  <AuthorisedPlugin
+                    id={p.plugin}
+                    adminPlugin={p.admin ? p.admin : false}
+                  />
+                )}
               />
             ))
           )}

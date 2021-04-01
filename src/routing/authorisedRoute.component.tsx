@@ -8,10 +8,12 @@ import {
   invalidToken,
   requestPluginRerender,
 } from '../state/actions/scigateway.actions';
+import PageNotFound from '../pageNotFound/pageNotFound.component';
 
 interface WithAuthStateProps {
   loading: boolean;
   loggedIn: boolean;
+  userIsAdmin: boolean;
   provider: AuthProvider;
   location: string;
   startUrlState?: StateType;
@@ -32,6 +34,7 @@ const mapStateToProps = (state: StateType): WithAuthStateProps => ({
     state.scigateway.siteLoading ||
     isStartingUpOrLoading(state.scigateway.authorisation),
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   provider: state.scigateway.authorisation.provider,
   location: state.router.location.pathname,
   startUrlState: state.router.location.state,
@@ -60,6 +63,7 @@ export default function withAuth<T>(
       const {
         loading,
         loggedIn,
+        userIsAdmin,
         location,
         provider,
         startUrlState,
@@ -67,6 +71,9 @@ export default function withAuth<T>(
         invalidToken,
         ...componentProps
       } = this.props;
+      const adminPlugin =
+        'adminPlugin' in componentProps ? componentProps['adminPlugin'] : false;
+
       return (
         <div>
           {!loading && !loggedIn ? (
@@ -79,7 +86,9 @@ export default function withAuth<T>(
             />
           ) : null}
           {/* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */}
-          {!loading && loggedIn ? (
+          {!loading &&
+          loggedIn &&
+          (!adminPlugin || (adminPlugin && userIsAdmin)) ? (
             startUrlState && startUrlState.scigateway.startUrl ? (
               <Redirect
                 push
@@ -88,7 +97,9 @@ export default function withAuth<T>(
             ) : (
               <ComponentToProtect {...(componentProps as T)} />
             )
-          ) : null}
+          ) : (
+            <PageNotFound />
+          )}
         </div>
       );
     }
