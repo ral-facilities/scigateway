@@ -3,7 +3,7 @@ import configureStore from 'redux-mock-store';
 import { RouterState } from 'connected-react-router';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import NavigationDrawer from './navigationDrawer.component';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/scigateway.types';
@@ -31,8 +31,8 @@ describe('Navigation drawer component', () => {
     mount = createMount();
     mockStore = configureStore();
     state = {
-      scigateway: initialState,
-      router: routerState,
+      scigateway: { ...initialState, authorisation: { ...authState } },
+      router: { ...routerState },
     };
   });
 
@@ -100,6 +100,26 @@ describe('Navigation drawer component', () => {
     expect(wrapper).toMatchSnapshot();
 
     expect(wrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
+  });
+
+  it('does not render admin plugins in list', () => {
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'data-plugin',
+        link: 'plugin_link',
+        section: 'DATA',
+        displayName: 'display name',
+        admin: true,
+      },
+    ];
+
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
+
+    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders a plugin with displayName but no logo or altText', () => {

@@ -131,7 +131,7 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
             className={props.classes.textArea}
             aria-label={getString(
               props.res,
-              'shceduled-maintenance-message-arialabel'
+              'scheduled-maintenance-message-arialabel'
             )}
             rows={7}
             placeholder={getString(props.res, 'message-placeholder')}

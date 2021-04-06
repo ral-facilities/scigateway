@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import { createLocation } from 'history';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import AdminPage from './adminPage.component';
@@ -16,6 +16,7 @@ import {
   loadMaintenanceState,
   loadScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
+import { MemoryRouter } from 'react-router';
 
 describe('Admin page component', () => {
   let mount;
@@ -26,12 +27,10 @@ describe('Admin page component', () => {
     mount = createMount();
     mockStore = configureStore([thunk]);
 
-    state = JSON.parse(
-      JSON.stringify({
-        scigateway: initialState,
-        router: { location: createLocation('/admin') },
-      })
-    );
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+      router: { location: createLocation('/admin') },
+    };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
 
@@ -46,7 +45,9 @@ describe('Admin page component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <AdminPage />
+        <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <AdminPage />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -58,20 +59,22 @@ describe('Admin page component', () => {
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <AdminPage />
+          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <AdminPage />
+          </MemoryRouter>
         </MuiThemeProvider>
       </Provider>
     );
 
     const scheduledMaintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="shceduled-maintenance-message-arialabel"]'
+      'textarea[aria-label="scheduled-maintenance-message-arialabel"]'
     );
     scheduledMaintenanceMessageInput.instance().value = 'test';
     scheduledMaintenanceMessageInput.simulate('change');
     wrapper
       .find('[aria-label="scheduled-maintenance-checkbox-arialabel"]')
       .simulate('change', { target: { checked: true } });
-    wrapper.find('button').first().simulate('click');
+    wrapper.find('button').at(1).simulate('click');
 
     await act(async () => {
       await flushPromises();
@@ -89,7 +92,9 @@ describe('Admin page component', () => {
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <AdminPage />
+          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <AdminPage />
+          </MemoryRouter>
         </MuiThemeProvider>
       </Provider>
     );
