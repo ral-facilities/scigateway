@@ -220,12 +220,15 @@ describe('scigateway reducer', () => {
       GithubAuthProvider
     );
 
+    const testToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
+
     // mock localstorage so that ICAT authenticator thinks it's already logged in
     // therefore won't trigger autologin, and do some HTTP request shenanigans
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) =>
-        name === 'scigateway:token' ? 'token' : null
+        name === 'scigateway:token' ? testToken : null
       );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider('icat'));

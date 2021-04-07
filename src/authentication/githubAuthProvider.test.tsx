@@ -4,13 +4,15 @@ import ReactGA from 'react-ga';
 
 describe('github auth provider', () => {
   let authProvider: GithubAuthProvider;
+  const testToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
   beforeEach(() => {
     jest.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) =>
-        name === 'scigateway:token' ? 'token' : null
+        name === 'scigateway:token' ? testToken : null
       );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
@@ -39,7 +41,7 @@ describe('github auth provider', () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          token: 'token',
+          token: testToken,
           username: 'user',
           avatar: 'gravitar.com/fiowmefoimwe',
         },
@@ -51,11 +53,12 @@ describe('github auth provider', () => {
 
     await authProvider.logIn('', '?code=code12345');
 
-    expect(localStorage.setItem).toBeCalledWith('scigateway:token', 'token');
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', testToken);
 
     expect(authProvider.isLoggedIn()).toBeTruthy();
-    expect(authProvider.user.username).toBe('user');
-    expect(authProvider.user.avatarUrl).toBe('gravitar.com/fiowmefoimwe');
+    expect(authProvider.user).not.toBeNull();
+    expect(authProvider.user?.username).toBe('user');
+    expect(authProvider.user?.avatarUrl).toBe('gravitar.com/fiowmefoimwe');
 
     expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
     expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
@@ -125,8 +128,9 @@ describe('github auth provider', () => {
 
     await authProvider.verifyLogIn();
 
-    expect(authProvider.user.username).toBe('test_user');
-    expect(authProvider.user.avatarUrl).toBe('test_avatar');
+    expect(authProvider.user).not.toBeNull();
+    expect(authProvider.user?.username).toBe('test_user');
+    expect(authProvider.user?.avatarUrl).toBe('test_avatar');
   });
 
   it('should return error if refresh method is called', async () => {
