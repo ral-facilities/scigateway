@@ -18,7 +18,7 @@ import { flushPromises } from '../setupTests';
 import { act } from 'react-dom/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import {
   loadAuthProvider,
   loadingAuthentication,
@@ -51,12 +51,10 @@ describe('Login page component', () => {
     mount = createMount();
     mockStore = configureStore([thunk]);
 
-    state = JSON.parse(
-      JSON.stringify({
-        scigateway: initialState,
-        router: { location: createLocation('/') },
-      })
-    );
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+      router: { location: createLocation('/') },
+    };
 
     props = {
       auth: {

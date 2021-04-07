@@ -6,7 +6,7 @@ import CookiesPage, {
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import Cookies from 'js-cookie';
@@ -25,12 +25,10 @@ describe('Cookies page component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(
-      JSON.stringify({
-        scigateway: initialState,
-        router: { location: createLocation('/cookies') },
-      })
-    );
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+      router: { location: createLocation('/cookies') },
+    };
 
     props = {
       res: undefined,

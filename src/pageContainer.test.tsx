@@ -12,7 +12,7 @@ import { MemoryRouter } from 'react-router';
 
 import PageContainer from './pageContainer.component';
 import { StateType } from './state/state.types';
-import { initialState } from './state/reducers/scigateway.reducer';
+import { authState, initialState } from './state/reducers/scigateway.reducer';
 
 describe('PageContainer - Tests', () => {
   let shallow;
@@ -30,12 +30,10 @@ describe('PageContainer - Tests', () => {
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'Grid' });
 
-    state = JSON.parse(
-      JSON.stringify({
-        scigateway: initialState,
-        router: { location: createLocation('/') },
-      })
-    );
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+      router: { location: createLocation('/') },
+    };
   });
 
   it('renders correctly', () => {
