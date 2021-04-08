@@ -51,11 +51,11 @@ describe('AuthorisedRoute component', () => {
   });
 
   it('renders non admin component when non admin user accesses it', () => {
+    const testAuthProvider = new TestAuthProvider('test-token');
+    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
-    state.scigateway.authorisation.provider = new TestAuthProvider(
-      'test-token'
-    );
 
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(
