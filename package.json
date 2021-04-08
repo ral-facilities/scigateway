@@ -90,7 +90,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.13.1",
+    "@babel/core": "^7.13.15",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addon-links": "^6.1.20",
