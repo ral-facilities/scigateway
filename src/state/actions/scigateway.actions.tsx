@@ -34,6 +34,7 @@ import {
   MaintenanceStatePayLoad,
   NotificationType,
   RegisterStartUrlType,
+  RegisterHomepageUrlType,
   RequestPluginRerenderType,
   ScheduledMaintenanceState,
   ScheduledMaintenanceStatePayLoad,
@@ -43,6 +44,7 @@ import {
   SiteLoadingPayload,
   SiteLoadingType,
   StartUrlPayload,
+  HomepageUrlPayload,
   ToggleDrawerType,
   ToggleHelpType,
 } from '../scigateway.types';
@@ -86,6 +88,15 @@ export const registerStartUrl = (
   type: RegisterStartUrlType,
   payload: {
     startUrl: startUrl,
+  },
+});
+
+export const registerHomepageUrl = (
+  homepageUrl: string
+): ActionType<HomepageUrlPayload> => ({
+  type: RegisterHomepageUrlType,
+  payload: {
+    homepageUrl: homepageUrl,
   },
 });
 
@@ -248,6 +259,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         if (settings['startUrl']) {
           dispatch(registerStartUrl(settings['startUrl']));
+        }
+
+        if (settings['homepageUrl']) {
+          dispatch(registerHomepageUrl(settings['homepageUrl']));
         }
 
         if (settings['ui-strings']) {

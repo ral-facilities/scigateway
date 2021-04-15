@@ -49,6 +49,7 @@ interface RoutingProps {
   maintenance: MaintenanceState;
   userIsloggedIn: boolean;
   userIsAdmin: boolean;
+  homepageUrl?: string;
 }
 
 export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
@@ -110,6 +111,7 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   maintenance: state.scigateway.maintenance,
   userIsloggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
+  homepageUrl: state.scigateway.homepageUrl,
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);
