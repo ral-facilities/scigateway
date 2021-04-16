@@ -42,11 +42,12 @@ interface MainAppProps {
   showAdminPageButton: boolean;
   loggedIn: boolean;
   darkMode: boolean;
+  homepageUrl: string;
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
-  navigateToHome: () => Action;
+  navigateToHome: (homepageUrl: string) => Action;
   navigateToContactPage: () => Action;
   navigateToHelpPage: () => Action;
   navigateToAdminPage: () => Action;
@@ -147,7 +148,8 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           )}
           <Button
             className={classNames(props.classes.titleButton, 'tour-title')}
-            onClick={props.navigateToHome}
+            // onClick={props.navigateToHome(props.homepageUrl)}
+            onClick={() => props.navigateToHome(props.homepageUrl)}
             aria-label="Homepage"
           >
             <img src={ScigatewayLogo} alt={getString(props.res, 'title')} />
@@ -244,11 +246,14 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
     state.scigateway.authorisation.provider.isAdmin(),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
+  homepageUrl: state.scigateway.homepageUrl
+    ? state.scigateway.homepageUrl
+    : '/',
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  navigateToHome: () => dispatch(push('/')),
+  navigateToHome: (homepageUrl: string) => dispatch(push(homepageUrl)),
   navigateToContactPage: () => dispatch(push('/contact')),
   navigateToHelpPage: () => dispatch(push('/help')),
   navigateToAdminPage: () => dispatch(push('/admin')),

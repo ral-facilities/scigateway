@@ -49,7 +49,7 @@ interface RoutingProps {
   maintenance: MaintenanceState;
   userIsloggedIn: boolean;
   userIsAdmin: boolean;
-  homepageUrl?: string;
+  homepageUrl?: string; //TODO may not be needed, check this before merge
 }
 
 export class PluginPlaceHolder extends React.PureComponent<{ id: string }> {
