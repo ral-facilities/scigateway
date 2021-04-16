@@ -6,7 +6,7 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 import { StateType } from '../state/state.types';
 import { MaintenanceState, PluginConfig } from '../state/scigateway.types';
 import { connect } from 'react-redux';
@@ -76,7 +76,14 @@ class Routing extends React.Component<
         })}
       >
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
+          {this.props.homepageUrl &&
+          this.props.location === '/' &&
+          this.props.homepageUrl !== '/' ? (
+            <Redirect to={this.props.homepageUrl} />
+          ) : (
+            <Route exact path="/" component={HomePage} />
+          )}
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/help" component={HelpPage} />
           {this.props.userIsloggedIn && this.props.userIsAdmin ? (
