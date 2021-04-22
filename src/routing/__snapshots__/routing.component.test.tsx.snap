@@ -240,6 +240,16 @@ exports[`Routing component does not render a route for a plugin when site is und
 </Provider>
 `;
 
+exports[`Routing component redirects to a homepage URL if specified 1`] = `
+<div
+  className="container-class"
+>
+  <Redirect
+    to="/homepage"
+  />
+</div>
+`;
+
 exports[`Routing component renders a route for a plugin 1`] = `
 <Provider
   store={

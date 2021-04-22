@@ -104,7 +104,7 @@ export const listenToPlugins = (
               })
             );
           } else if (
-            // Redirect to homepage if set. This overrides any startUrl currently set. TODO determine if startUrl is still needed
+            // Redirect to homepage if set. This overrides any startUrl currently set
             getState().router.location.pathname === '/' &&
             getState().scigateway.homepageUrl ===
               pluginMessage.detail.payload.link

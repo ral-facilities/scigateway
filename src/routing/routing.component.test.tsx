@@ -137,4 +137,14 @@ describe('Routing component', () => {
 
     expect(wrapper).toMatchSnapshot();
   });
+
+  it('redirects to a homepage URL if specified', () => {
+    state.scigateway.homepageUrl = '/homepage';
+
+    const wrapper = shallow(
+      <Routing store={mockStore(state)} classes={classes} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
 });

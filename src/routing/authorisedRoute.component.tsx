@@ -15,7 +15,6 @@ interface WithAuthStateProps {
   provider: AuthProvider;
   location: string;
   startUrlState?: StateType;
-  homepageUrlState?: StateType;
 }
 
 interface WithAuthDispatchProps {
@@ -36,7 +35,6 @@ const mapStateToProps = (state: StateType): WithAuthStateProps => ({
   provider: state.scigateway.authorisation.provider,
   location: state.router.location.pathname,
   startUrlState: state.router.location.state,
-  homepageUrlState: state.router.location.state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
