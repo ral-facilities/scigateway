@@ -102,6 +102,33 @@ describe('Navigation drawer component', () => {
     expect(wrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
   });
 
+  it('does not display link to homepage if a homepage link is set', () => {
+    const homepageLink = 'homepage';
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'homepage-plugin',
+        link: homepageLink,
+        section: 'Homepage',
+      },
+      {
+        order: 1,
+        plugin: 'data-plugin-no-displayname',
+        link: 'plugin_link',
+        section: 'DATA',
+      },
+    ];
+    state.scigateway.plugins = dummyPlugins;
+    state.scigateway.drawerOpen = true;
+    state.scigateway.homepageUrl = homepageLink;
+
+    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+
+    expect(wrapper).toMatchSnapshot();
+
+    expect(wrapper.find('[to="homepage"]')).toEqual({});
+  });
+
   it('renders a plugin with displayName but no logo or altText', () => {
     const dummyPlugins: PluginConfig[] = [
       {

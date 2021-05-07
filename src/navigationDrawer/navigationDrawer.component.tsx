@@ -25,6 +25,7 @@ interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
   darkMode: boolean;
+  homepageUrl?: string;
 }
 
 interface NavigationDrawerDispatchProps {
@@ -148,7 +149,13 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   }
 
   private renderRoutes(): React.ReactFragment {
-    const { plugins } = this.props;
+    let { plugins } = this.props;
+    if (this.props.homepageUrl) {
+      // don't include link to homepage in nav bar
+      plugins = plugins.filter(
+        (plugin) => plugin.link !== this.props.homepageUrl
+      );
+    }
     const sectionPlugins = structureMenuData(plugins);
     return (
       <List>
@@ -197,6 +204,7 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   open: state.scigateway.drawerOpen,
   plugins: state.scigateway.plugins,
   darkMode: state.scigateway.darkMode,
+  homepageUrl: state.scigateway.homepageUrl,
 });
 
 const mapDispatchToProps = (
