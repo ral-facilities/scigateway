@@ -119,4 +119,22 @@ describe('Admin page component', () => {
       loadMaintenanceState({ show: true, message: 'test' })
     );
   });
+
+  it.skip('redirects to Admin Download table when Admin Downlod tab is clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <AdminPage />
+          </MemoryRouter>
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    wrapper.find('#download-tab').hostNodes().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/admin-download'));
+  });
 });
