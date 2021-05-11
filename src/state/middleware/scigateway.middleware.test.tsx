@@ -15,7 +15,7 @@ import { AddHelpTourStepsType } from '../scigateway.types';
 import { StateType } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { flushPromises } from '../../setupTests';
-import { initialState } from '../reducers/scigateway.reducer';
+import { authState, initialState } from '../reducers/scigateway.reducer';
 import { buildTheme } from '../../theming';
 
 describe('scigateway middleware', () => {
@@ -23,7 +23,7 @@ describe('scigateway middleware', () => {
   let handler: (event: Event) => void;
   let store: MockStoreEnhanced;
   const getState: () => StateType = () => ({
-    scigateway: initialState,
+    scigateway: { ...initialState, authorisation: { ...authState } },
     router: {
       action: 'POP',
       location: createLocation('/'),

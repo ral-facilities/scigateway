@@ -9,9 +9,10 @@ import Badge from '@material-ui/core/Badge';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { buildTheme } from '../theming';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
+import { StateType } from '../state/state.types';
 
 describe('Notification Badge component', () => {
   const theme = buildTheme(false);
@@ -19,6 +20,7 @@ describe('Notification Badge component', () => {
   let shallow;
   let mount;
   let mockStore;
+  let state: StateType;
   let props: CombinedNotificationBadgeProps;
 
   beforeEach(() => {
@@ -26,6 +28,9 @@ describe('Notification Badge component', () => {
     mount = createMount();
     mockStore = configureStore();
 
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+    };
     props = {
       notifications: [{ message: 'my message', severity: 'warning' }],
       deleteMenuItem: jest.fn(),
@@ -67,7 +72,6 @@ describe('Notification Badge component', () => {
   });
 
   it('sends dismissMenuItem action when dismissNotification prop is called', () => {
-    const state = { scigateway: initialState };
     state.scigateway.notifications = props.notifications;
     const testStore = mockStore(state);
 
@@ -95,7 +99,6 @@ describe('Notification Badge component', () => {
   });
 
   it('opens menu when button clicked and closes menu when there are no more notifications', () => {
-    const state = { scigateway: initialState };
     state.scigateway.notifications = props.notifications;
 
     let testStore = mockStore(state);

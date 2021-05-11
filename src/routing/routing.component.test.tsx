@@ -3,7 +3,7 @@ import Routing, { PluginPlaceHolder } from './routing.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
@@ -13,6 +13,7 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
 }));
+jest.mock('../adminPage/adminPage.component');
 jest.mock('../maintenancePage/maintenancePage.component');
 
 describe('Routing component', () => {
@@ -30,7 +31,7 @@ describe('Routing component', () => {
     mount = createMount();
 
     state = {
-      scigateway: initialState,
+      scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
         action: 'POP',
         location: createLocation('/'),
@@ -73,7 +74,10 @@ describe('Routing component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders a route for a plugin', () => {
+  it('renders a route for a plugin when site is under maintenance and user is admin', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+    state.scigateway.maintenance = { show: true, message: 'test' };
     state.scigateway.plugins = [
       {
         section: 'test section',
@@ -96,7 +100,11 @@ describe('Routing component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('does not render a route for a plugin when site is under maintenance', () => {
+  it('renders a route for maintenance page when site is under maintenance and user is not admin', () => {
+    const testAuthProvider = new TestAuthProvider('logged in');
+    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    state.scigateway.authorisation.provider = testAuthProvider;
+    state.scigateway.siteLoading = false;
     state.scigateway.maintenance = { show: true, message: 'test' };
     state.scigateway.plugins = [
       {
@@ -127,6 +135,7 @@ describe('Routing component', () => {
 
   it('renders a route for admin page', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
     const wrapper = mount(
       <Provider store={mockStore(state)}>
         <MemoryRouter initialEntries={[{ key: 'testKey', pathname: '/admin' }]}>

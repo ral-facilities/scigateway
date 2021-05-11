@@ -4,7 +4,7 @@ import configureStore from 'redux-mock-store';
 import { default as MaintenancePage } from './maintenancePage.component';
 import { Provider } from 'react-redux';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 
 describe('Maintenance page component', () => {
   let mount;
@@ -15,7 +15,9 @@ describe('Maintenance page component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+    };
     state.scigateway.maintenance.message = 'test';
   });
 

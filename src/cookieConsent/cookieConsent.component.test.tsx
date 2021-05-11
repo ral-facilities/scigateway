@@ -7,7 +7,7 @@ import CookieConsent, {
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
@@ -29,12 +29,10 @@ describe('Cookie consent component', () => {
     mount = createMount();
 
     mockStore = configureStore();
-    state = JSON.parse(
-      JSON.stringify({
-        scigateway: initialState,
-        router: { location: createLocation('/') },
-      })
-    );
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+      router: { location: createLocation('/') },
+    };
     state.scigateway.siteLoading = false;
     state.scigateway.analytics = {
       id: 'test id',

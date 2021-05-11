@@ -50,6 +50,31 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
 </WithStyles(ForwardRef(Drawer))>
 `;
 
+exports[`Navigation drawer component does not render admin plugins in list 1`] = `
+<WithStyles(ForwardRef(Drawer))
+  anchor="left"
+  className="NavigationDrawer-drawer-1"
+  classes={
+    Object {
+      "paper": "NavigationDrawer-drawerPaper-2",
+    }
+  }
+  open={true}
+  variant="persistent"
+>
+  <Styled(div)>
+    <WithStyles(ForwardRef(IconButton))
+      aria-label="Dropdown Menu"
+      onClick={[Function]}
+    >
+      <Memo(ForwardRef(ChevronLeftIcon)) />
+    </WithStyles(ForwardRef(IconButton))>
+  </Styled(div)>
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List)) />
+</WithStyles(ForwardRef(Drawer))>
+`;
+
 exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
 <WithStyles(ForwardRef(Drawer))
   anchor="left"

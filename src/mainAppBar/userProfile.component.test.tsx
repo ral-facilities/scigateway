@@ -3,7 +3,7 @@ import UserProfileComponent from './userProfile.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
 import { Avatar } from '@material-ui/core';
@@ -21,7 +21,9 @@ describe('User profile component', () => {
     mount = createMount();
 
     mockStore = configureStore([thunk]);
-    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    state = {
+      scigateway: { ...initialState, authorisation: { ...authState } },
+    };
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );

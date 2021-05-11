@@ -149,7 +149,10 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 
   private renderRoutes(): React.ReactFragment {
     const { plugins } = this.props;
-    const sectionPlugins = structureMenuData(plugins);
+    // Do not include non admin plugins in the drawer list
+    const sectionPlugins = structureMenuData(
+      plugins.filter((plugin) => !plugin.admin)
+    );
     return (
       <List>
         {Object.keys(sectionPlugins)
