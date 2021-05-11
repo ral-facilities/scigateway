@@ -34,6 +34,8 @@ const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
       padding: theme.spacing(2),
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
     },
     titleText: {
       color: theme.palette.secondary.main,
@@ -95,7 +97,7 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
   );
 
   return (
-    <div className={props.classes.root}>
+    <Paper className={props.classes.root}>
       <Typography variant="h3" className={props.classes.titleText}>
         {getString(props.res, 'title')}
       </Typography>
@@ -236,7 +238,7 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
           </div>
         </Paper>
       </div>
-    </div>
+    </Paper>
   );
 };
 
