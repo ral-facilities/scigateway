@@ -150,13 +150,18 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
 
   private renderRoutes(): React.ReactFragment {
     let { plugins } = this.props;
+
     if (this.props.homepageUrl) {
       // don't include link to homepage in nav bar
       plugins = plugins.filter(
         (plugin) => plugin.link !== this.props.homepageUrl
       );
     }
-    const sectionPlugins = structureMenuData(plugins);
+    // Do not include non admin plugins in the drawer list
+    const sectionPlugins = structureMenuData(
+      plugins.filter((plugin) => !plugin.admin)
+    );
+
     return (
       <List>
         {Object.keys(sectionPlugins)

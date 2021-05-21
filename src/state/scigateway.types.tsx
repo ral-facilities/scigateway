@@ -74,6 +74,7 @@ export interface RegisterRoutePayload {
   link: string;
   plugin: string;
   displayName: string;
+  admin?: boolean;
   order: number;
   helpText?: string;
   logoLightMode?: string;
@@ -87,6 +88,7 @@ export interface PluginConfig {
   link: string;
   plugin: string;
   displayName: string;
+  admin?: boolean;
   order: number;
   helpText?: string;
   logoLightMode?: string;

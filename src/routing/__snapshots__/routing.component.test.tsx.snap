@@ -1,6 +1,395 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Routing component does not render a route for a plugin when site is under maintenance 1`] = `
+exports[`Routing component redirects to a homepage URL if specified 1`] = `
+<div
+  className="container-class"
+>
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <Redirect
+        to="/homepage"
+      />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ContactPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/contact"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(HelpPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/help"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(LoginPageComponent)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/login"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(CookiesPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(WithAuthComponent)",
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</div>
+`;
+
+exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <MemoryRouter
+    initialEntries={
+      Array [
+        Object {
+          "key": "testKey",
+          "pathname": "/test_link",
+        },
+      ]
+    }
+  >
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "key": "testKey",
+              "pathname": "/test_link",
+              "search": "",
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "key": "testKey",
+            "pathname": "/test_link",
+            "search": "",
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <Connect(Routing)
+        classes={
+          Object {
+            "container": "container-class",
+            "containerShift": "containerShift-class",
+          }
+        }
+      >
+        <Routing
+          classes={
+            Object {
+              "container": "container-class",
+              "containerShift": "containerShift-class",
+            }
+          }
+          dispatch={[Function]}
+          drawerOpen={false}
+          location="/"
+          maintenance={
+            Object {
+              "message": "test",
+              "show": true,
+            }
+          }
+          plugins={
+            Array [
+              Object {
+                "displayName": "Test Plugin",
+                "link": "/test_link",
+                "order": 1,
+                "plugin": "test_plugin_name",
+                "section": "test section",
+              },
+            ]
+          }
+          userIsAdmin={true}
+          userIsloggedIn={true}
+        >
+          <div
+            className="container-class"
+          >
+            <Switch>
+              <Route
+                computedMatch={
+                  Object {
+                    "isExact": true,
+                    "params": Object {},
+                    "path": "/test_link",
+                    "url": "/test_link",
+                  }
+                }
+                key="test section_/test_link"
+                location={
+                  Object {
+                    "hash": "",
+                    "key": "testKey",
+                    "pathname": "/test_link",
+                    "search": "",
+                  }
+                }
+                path="/test_link"
+                render={[Function]}
+              >
+                <Connect(WithAuthComponent)
+                  adminPlugin={false}
+                  id="test_plugin_name"
+                >
+                  <WithAuthComponent
+                    adminPlugin={false}
+                    id="test_plugin_name"
+                    invalidToken={[Function]}
+                    loading={false}
+                    location="/"
+                    loggedIn={true}
+                    provider={
+                      TestAuthProvider {
+                        "authUrl": undefined,
+                        "autoLogin": undefined,
+                        "mnemonic": undefined,
+                        "redirectUrl": null,
+                        "token": "logged in",
+                        "user": null,
+                      }
+                    }
+                    requestPluginRerender={[Function]}
+                    userIsAdmin={true}
+                  >
+                    <div>
+                      <PluginPlaceHolder
+                        adminPlugin={false}
+                        id="test_plugin_name"
+                      >
+                        <div
+                          id="test_plugin_name"
+                        >
+                          test_plugin_name
+                           failed to load correctly
+                        </div>
+                      </PluginPlaceHolder>
+                    </div>
+                  </WithAuthComponent>
+                </Connect(WithAuthComponent)>
+              </Route>
+            </Switch>
+          </div>
+        </Routing>
+      </Connect(Routing)>
+    </Router>
+  </MemoryRouter>
+</Provider>
+`;
+
+exports[`Routing component renders a route for admin page 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <MemoryRouter
+    initialEntries={
+      Array [
+        Object {
+          "key": "testKey",
+          "pathname": "/admin",
+        },
+      ]
+    }
+  >
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "key": "testKey",
+              "pathname": "/admin",
+              "search": "",
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "key": "testKey",
+            "pathname": "/admin",
+            "search": "",
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <Connect(Routing)
+        classes={
+          Object {
+            "container": "container-class",
+            "containerShift": "containerShift-class",
+          }
+        }
+      >
+        <Routing
+          classes={
+            Object {
+              "container": "container-class",
+              "containerShift": "containerShift-class",
+            }
+          }
+          dispatch={[Function]}
+          drawerOpen={false}
+          location="/"
+          maintenance={
+            Object {
+              "message": "",
+              "show": false,
+            }
+          }
+          plugins={Array []}
+          userIsAdmin={true}
+          userIsloggedIn={true}
+        >
+          <div
+            className="container-class"
+          >
+            <Switch>
+              <Route
+                computedMatch={
+                  Object {
+                    "isExact": true,
+                    "params": Object {},
+                    "path": "/admin",
+                    "url": "/admin",
+                  }
+                }
+                exact={true}
+                location={
+                  Object {
+                    "hash": "",
+                    "key": "testKey",
+                    "pathname": "/admin",
+                    "search": "",
+                  }
+                }
+                path="/admin"
+                render={[Function]}
+              >
+                <Connect(WithAuthComponent)>
+                  <WithAuthComponent
+                    invalidToken={[Function]}
+                    loading={false}
+                    location="/"
+                    loggedIn={true}
+                    provider={
+                      TestAuthProvider {
+                        "authUrl": undefined,
+                        "autoLogin": undefined,
+                        "mnemonic": undefined,
+                        "redirectUrl": null,
+                        "token": "logged in",
+                        "user": null,
+                      }
+                    }
+                    requestPluginRerender={[Function]}
+                    userIsAdmin={true}
+                  >
+                    <div>
+                      <Connect(AdminPage) />
+                    </div>
+                  </WithAuthComponent>
+                </Connect(WithAuthComponent)>
+              </Route>
+            </Switch>
+          </div>
+        </Routing>
+      </Connect(Routing)>
+    </Router>
+  </MemoryRouter>
+</Provider>
+`;
+
+exports[`Routing component renders a route for maintenance page when site is under maintenance and user is not admin 1`] = `
 <Provider
   store={
     Object {
@@ -91,7 +480,7 @@ exports[`Routing component does not render a route for a plugin when site is und
             ]
           }
           userIsAdmin={false}
-          userIsloggedIn={false}
+          userIsloggedIn={true}
         >
           <div
             className="container-class"
@@ -230,504 +619,6 @@ exports[`Routing component does not render a route for a plugin when site is und
                     }
                   }
                 />
-              </Route>
-            </Switch>
-          </div>
-        </Routing>
-      </Connect(Routing)>
-    </Router>
-  </MemoryRouter>
-</Provider>
-`;
-
-exports[`Routing component redirects to a homepage URL if specified 1`] = `
-<div
-  className="container-class"
->
-  <Switch>
-    <Route
-      exact={true}
-      path="/"
-    >
-      <Redirect
-        to="/homepage"
-      />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ContactPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HelpPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/help"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/admin"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(LoginPageComponent)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/login"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(CookiesPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/cookies"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [MockFunction],
-          "apply": [MockFunction],
-          "bind": [MockFunction],
-          "call": [MockFunction],
-          "compare": null,
-          "displayName": "Connect(MaintenancePage)",
-          "type": [MockFunction],
-        }
-      }
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
-    />
-  </Switch>
-</div>
-`;
-
-exports[`Routing component renders a route for a plugin 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "key": "testKey",
-          "pathname": "/test_link",
-        },
-      ]
-    }
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "key": "testKey",
-              "pathname": "/test_link",
-              "search": "",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
-            "hash": "",
-            "key": "testKey",
-            "pathname": "/test_link",
-            "search": "",
-          },
-          "push": [Function],
-          "replace": [Function],
-        }
-      }
-    >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
-      >
-        <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
-          dispatch={[Function]}
-          drawerOpen={false}
-          location="/"
-          maintenance={
-            Object {
-              "message": "",
-              "show": false,
-            }
-          }
-          plugins={
-            Array [
-              Object {
-                "displayName": "Test Plugin",
-                "link": "/test_link",
-                "order": 1,
-                "plugin": "test_plugin_name",
-                "section": "test section",
-              },
-            ]
-          }
-          userIsAdmin={false}
-          userIsloggedIn={false}
-        >
-          <div
-            className="container-class"
-          >
-            <Switch>
-              <Route
-                computedMatch={
-                  Object {
-                    "isExact": true,
-                    "params": Object {},
-                    "path": "/test_link",
-                    "url": "/test_link",
-                  }
-                }
-                key="test section_/test_link"
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/test_link",
-                    "search": "",
-                  }
-                }
-                path="/test_link"
-                render={[Function]}
-              >
-                <Connect(WithAuthComponent)
-                  id="test_plugin_name"
-                >
-                  <WithAuthComponent
-                    id="test_plugin_name"
-                    invalidToken={[Function]}
-                    loading={true}
-                    location="/"
-                    loggedIn={false}
-                    provider={
-                      LoadingAuthProvider {
-                        "authUrl": undefined,
-                        "redirectUrl": null,
-                        "user": null,
-                      }
-                    }
-                    requestPluginRerender={[Function]}
-                  >
-                    <div />
-                  </WithAuthComponent>
-                </Connect(WithAuthComponent)>
-              </Route>
-            </Switch>
-          </div>
-        </Routing>
-      </Connect(Routing)>
-    </Router>
-  </MemoryRouter>
-</Provider>
-`;
-
-exports[`Routing component renders a route for admin page 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "key": "testKey",
-          "pathname": "/admin",
-        },
-      ]
-    }
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "key": "testKey",
-              "pathname": "/admin",
-              "search": "",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
-            "hash": "",
-            "key": "testKey",
-            "pathname": "/admin",
-            "search": "",
-          },
-          "push": [Function],
-          "replace": [Function],
-        }
-      }
-    >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
-      >
-        <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
-          dispatch={[Function]}
-          drawerOpen={false}
-          location="/"
-          maintenance={
-            Object {
-              "message": "test",
-              "show": true,
-            }
-          }
-          plugins={
-            Array [
-              Object {
-                "displayName": "Test Plugin",
-                "link": "/test_link",
-                "order": 1,
-                "plugin": "test_plugin_name",
-                "section": "test section",
-              },
-            ]
-          }
-          userIsAdmin={true}
-          userIsloggedIn={true}
-        >
-          <div
-            className="container-class"
-          >
-            <Switch>
-              <Route
-                component={
-                  Object {
-                    "$$typeof": Symbol(react.memo),
-                    "WrappedComponent": [Function],
-                    "compare": null,
-                    "displayName": "Connect(WithAuthComponent)",
-                    "type": [Function],
-                  }
-                }
-                computedMatch={
-                  Object {
-                    "isExact": true,
-                    "params": Object {},
-                    "path": "/admin",
-                    "url": "/admin",
-                  }
-                }
-                exact={true}
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/admin",
-                    "search": "",
-                  }
-                }
-                path="/admin"
-              >
-                <Connect(WithAuthComponent)
-                  history={
-                    Object {
-                      "action": "POP",
-                      "block": [Function],
-                      "canGo": [Function],
-                      "createHref": [Function],
-                      "entries": Array [
-                        Object {
-                          "hash": "",
-                          "key": "testKey",
-                          "pathname": "/admin",
-                          "search": "",
-                        },
-                      ],
-                      "go": [Function],
-                      "goBack": [Function],
-                      "goForward": [Function],
-                      "index": 0,
-                      "length": 1,
-                      "listen": [Function],
-                      "location": Object {
-                        "hash": "",
-                        "key": "testKey",
-                        "pathname": "/admin",
-                        "search": "",
-                      },
-                      "push": [Function],
-                      "replace": [Function],
-                    }
-                  }
-                  location={
-                    Object {
-                      "hash": "",
-                      "key": "testKey",
-                      "pathname": "/admin",
-                      "search": "",
-                    }
-                  }
-                  match={
-                    Object {
-                      "isExact": true,
-                      "params": Object {},
-                      "path": "/admin",
-                      "url": "/admin",
-                    }
-                  }
-                >
-                  <WithAuthComponent
-                    history={
-                      Object {
-                        "action": "POP",
-                        "block": [Function],
-                        "canGo": [Function],
-                        "createHref": [Function],
-                        "entries": Array [
-                          Object {
-                            "hash": "",
-                            "key": "testKey",
-                            "pathname": "/admin",
-                            "search": "",
-                          },
-                        ],
-                        "go": [Function],
-                        "goBack": [Function],
-                        "goForward": [Function],
-                        "index": 0,
-                        "length": 1,
-                        "listen": [Function],
-                        "location": Object {
-                          "hash": "",
-                          "key": "testKey",
-                          "pathname": "/admin",
-                          "search": "",
-                        },
-                        "push": [Function],
-                        "replace": [Function],
-                      }
-                    }
-                    invalidToken={[Function]}
-                    loading={true}
-                    location="/"
-                    loggedIn={true}
-                    match={
-                      Object {
-                        "isExact": true,
-                        "params": Object {},
-                        "path": "/admin",
-                        "url": "/admin",
-                      }
-                    }
-                    provider={
-                      TestAuthProvider {
-                        "authUrl": undefined,
-                        "autoLogin": undefined,
-                        "mnemonic": undefined,
-                        "redirectUrl": null,
-                        "token": "logged in",
-                        "user": null,
-                      }
-                    }
-                    requestPluginRerender={[Function]}
-                  >
-                    <div />
-                  </WithAuthComponent>
-                </Connect(WithAuthComponent)>
               </Route>
             </Switch>
           </div>

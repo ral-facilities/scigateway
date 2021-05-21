@@ -110,7 +110,7 @@ exports[`Navigation drawer component does not display link to homepage if a home
             }
           }
           inset={true}
-          primary="data-plugin-no-displayname"
+          primary="display name"
           primaryTypographyProps={
             Object {
               "variant": "subtitle1",
@@ -120,6 +120,31 @@ exports[`Navigation drawer component does not display link to homepage if a home
       </WithStyles(ForwardRef(ListItem))>
     </WithStyles(ForwardRef(List))>
   </WithStyles(ForwardRef(List))>
+</WithStyles(ForwardRef(Drawer))>
+`;
+
+exports[`Navigation drawer component does not render admin plugins in list 1`] = `
+<WithStyles(ForwardRef(Drawer))
+  anchor="left"
+  className="NavigationDrawer-drawer-1"
+  classes={
+    Object {
+      "paper": "NavigationDrawer-drawerPaper-2",
+    }
+  }
+  open={true}
+  variant="persistent"
+>
+  <Styled(div)>
+    <WithStyles(ForwardRef(IconButton))
+      aria-label="Dropdown Menu"
+      onClick={[Function]}
+    >
+      <Memo(ForwardRef(ChevronLeftIcon)) />
+    </WithStyles(ForwardRef(IconButton))>
+  </Styled(div)>
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
 `;
 

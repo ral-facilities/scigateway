@@ -3,7 +3,7 @@ import Preloader from './preloader.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 
 describe('Preloader component', () => {
@@ -15,7 +15,7 @@ describe('Preloader component', () => {
     shallow = createShallow({ untilSelector: 'div' });
 
     state = {
-      scigateway: initialState,
+      scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
         action: 'POP',
         location: createLocation('/'),

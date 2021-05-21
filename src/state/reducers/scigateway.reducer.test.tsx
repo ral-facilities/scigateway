@@ -24,6 +24,7 @@ import {
 import ScigatewayReducer, {
   initialState,
   handleAuthProviderUpdate,
+  authState,
 } from './scigateway.reducer';
 import { SignOutType } from '../scigateway.types';
 import { ScigatewayState } from '../state.types';
@@ -36,7 +37,7 @@ describe('scigateway reducer', () => {
   let state: ScigatewayState;
 
   beforeEach(() => {
-    state = initialState;
+    state = { ...initialState, authorisation: { ...authState } };
   });
 
   it('should return state for actions it does not care about', () => {
