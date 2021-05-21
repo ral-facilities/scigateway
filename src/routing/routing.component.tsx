@@ -76,34 +76,34 @@ class Routing extends React.Component<
         })}
       >
         {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
-        {this.props.homepageUrl &&
-        this.props.location === '/' &&
-        this.props.homepageUrl !== '/' ? (
-          <Redirect to={this.props.homepageUrl} />
-        ) : (
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/contact" component={ContactPage} />
-            <Route exact path="/help" component={HelpPage} />
-            {this.props.userIsloggedIn && this.props.userIsAdmin ? (
-              <Route exact path="/admin" component={withAuth(AdminPage)} />
-            ) : null}
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/cookies" component={CookiesPage} />
-            {this.props.maintenance.show ? (
-              <Route component={MaintenancePage} />
+        <Switch>
+          <Route exact path="/">
+            {this.props.homepageUrl && this.props.homepageUrl !== '/' ? (
+              <Redirect to={this.props.homepageUrl} />
             ) : (
-              this.props.plugins.map((p) => (
-                <Route
-                  key={`${p.section}_${p.link}`}
-                  path={p.link}
-                  render={() => <AuthorisedPlugin id={p.plugin} />}
-                />
-              ))
+              <HomePage />
             )}
-            <Route component={withAuth(PageNotFound)} />
-          </Switch>
-        )}
+          </Route>
+          <Route exact path="/contact" component={ContactPage} />
+          <Route exact path="/help" component={HelpPage} />
+          {this.props.userIsloggedIn && this.props.userIsAdmin ? (
+            <Route exact path="/admin" component={withAuth(AdminPage)} />
+          ) : null}
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/cookies" component={CookiesPage} />
+          {this.props.maintenance.show ? (
+            <Route component={MaintenancePage} />
+          ) : (
+            this.props.plugins.map((p) => (
+              <Route
+                key={`${p.section}_${p.link}`}
+                path={p.link}
+                render={() => <AuthorisedPlugin id={p.plugin} />}
+              />
+            ))
+          )}
+          <Route component={withAuth(PageNotFound)} />
+        </Switch>
       </div>
     );
   }
