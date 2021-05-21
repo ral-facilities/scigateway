@@ -18,6 +18,7 @@ import {
   loadedAuthentication,
   loadDarkModePreference,
   registerStartUrl,
+  registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
 } from './scigateway.actions';
@@ -215,6 +216,25 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(registerStartUrl('/test'));
+  });
+
+  it('given a homepageUrl registration is run', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          homepageUrl: '/test',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(registerHomepageUrl('/test'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {

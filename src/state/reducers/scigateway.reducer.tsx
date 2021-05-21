@@ -31,6 +31,8 @@ import {
   LoadDarkModePreferencePayload,
   StartUrlPayload,
   RegisterStartUrlType,
+  HomepageUrlPayload,
+  RegisterHomepageUrlType,
   LoadScheduledMaintenanceStateType,
   ScheduledMaintenanceStatePayLoad,
   MaintenanceStatePayLoad,
@@ -250,6 +252,16 @@ export function handleRegisterStartUrl(
   };
 }
 
+export function handleRegisterHomepageUrl(
+  state: ScigatewayState,
+  payload: HomepageUrlPayload
+): ScigatewayState {
+  return {
+    ...state,
+    homepageUrl: payload.homepageUrl,
+  };
+}
+
 export function handleDismissNotification(
   state: ScigatewayState,
   payload: { index: number }
@@ -414,6 +426,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
   [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
   [RegisterStartUrlType]: handleRegisterStartUrl,
+  [RegisterHomepageUrlType]: handleRegisterHomepageUrl,
 });
 
 export default ScigatewayReducer;

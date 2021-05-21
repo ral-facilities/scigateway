@@ -50,6 +50,79 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
 </WithStyles(ForwardRef(Drawer))>
 `;
 
+exports[`Navigation drawer component does not display link to homepage if a homepage link is set 1`] = `
+<WithStyles(ForwardRef(Drawer))
+  anchor="left"
+  className="NavigationDrawer-drawer-1"
+  classes={
+    Object {
+      "paper": "NavigationDrawer-drawerPaper-2",
+    }
+  }
+  open={true}
+  variant="persistent"
+>
+  <Styled(div)>
+    <WithStyles(ForwardRef(IconButton))
+      aria-label="Dropdown Menu"
+      onClick={[Function]}
+    >
+      <Memo(ForwardRef(ChevronLeftIcon)) />
+    </WithStyles(ForwardRef(IconButton))>
+  </Styled(div)>
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List))>
+    <WithStyles(ForwardRef(ListItem))>
+      <WithStyles(ForwardRef(ListItemText))
+        classes={
+          Object {
+            "primary": "NavigationDrawer-sectionTitle-3",
+          }
+        }
+        primary="DATA"
+        primaryTypographyProps={
+          Object {
+            "variant": "h6",
+          }
+        }
+      />
+    </WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(List))
+      component="nav"
+    >
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "ForwardRefLink",
+            "render": [Function],
+          }
+        }
+        id="plugin-link-plugin_link"
+        key="0"
+        to="plugin_link"
+      >
+        <WithStyles(ForwardRef(ListItemText))
+          classes={
+            Object {
+              "primary": "NavigationDrawer-menuItem-4",
+            }
+          }
+          inset={true}
+          primary="display name"
+          primaryTypographyProps={
+            Object {
+              "variant": "subtitle1",
+            }
+          }
+        />
+      </WithStyles(ForwardRef(ListItem))>
+    </WithStyles(ForwardRef(List))>
+  </WithStyles(ForwardRef(List))>
+</WithStyles(ForwardRef(Drawer))>
+`;
+
 exports[`Navigation drawer component does not render admin plugins in list 1`] = `
 <WithStyles(ForwardRef(Drawer))
   anchor="left"

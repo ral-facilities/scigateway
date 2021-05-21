@@ -1,5 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Routing component redirects to a homepage URL if specified 1`] = `
+<div
+  className="container-class"
+>
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <Redirect
+        to="/homepage"
+      />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ContactPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/contact"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(HelpPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/help"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(LoginPageComponent)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/login"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(CookiesPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(WithAuthComponent)",
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</div>
+`;
+
 exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
 <Provider
   store={
@@ -555,18 +635,11 @@ exports[`Routing component renders component with no plugin routes 1`] = `
 >
   <Switch>
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HomePage)",
-          "type": [Function],
-        }
-      }
       exact={true}
       path="/"
-    />
+    >
+      <Connect(HomePage) />
+    </Route>
     <Route
       component={
         Object {
@@ -640,18 +713,11 @@ exports[`Routing component renders component with plugins 1`] = `
 >
   <Switch>
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HomePage)",
-          "type": [Function],
-        }
-      }
       exact={true}
       path="/"
-    />
+    >
+      <Connect(HomePage) />
+    </Route>
     <Route
       component={
         Object {

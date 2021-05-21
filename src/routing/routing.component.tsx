@@ -6,7 +6,7 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 import { StateType } from '../state/state.types';
 import { MaintenanceState, PluginConfig } from '../state/scigateway.types';
 import { connect } from 'react-redux';
@@ -49,6 +49,7 @@ interface RoutingProps {
   maintenance: MaintenanceState;
   userIsloggedIn: boolean;
   userIsAdmin: boolean;
+  homepageUrl?: string;
 }
 
 export class PluginPlaceHolder extends React.PureComponent<{
@@ -79,8 +80,15 @@ class Routing extends React.Component<
           [this.props.classes.containerShift]: this.props.drawerOpen,
         })}
       >
+        {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/">
+            {this.props.homepageUrl && this.props.homepageUrl !== '/' ? (
+              <Redirect to={this.props.homepageUrl} />
+            ) : (
+              <HomePage />
+            )}
+          </Route>
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/help" component={HelpPage} />
           {/* Admin check required because the component does not have an adminPlugin prop */}
@@ -122,6 +130,7 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   maintenance: state.scigateway.maintenance,
   userIsloggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
+  homepageUrl: state.scigateway.homepageUrl,
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);

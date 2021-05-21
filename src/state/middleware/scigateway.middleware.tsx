@@ -103,6 +103,17 @@ export const listenToPlugins = (
                 scigateway: { startUrl: pluginMessage.detail.payload.link },
               })
             );
+          } else if (
+            // Redirect to homepage if set. This overrides any startUrl currently set
+            getState().router.location.pathname === '/' &&
+            getState().scigateway.homepageUrl ===
+              pluginMessage.detail.payload.link
+          ) {
+            dispatch(
+              push(pluginMessage.detail.payload.link, {
+                scigateway: { homepageUrl: pluginMessage.detail.payload.link },
+              })
+            );
           }
 
           // Send theme options once registered.

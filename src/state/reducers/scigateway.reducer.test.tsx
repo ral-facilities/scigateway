@@ -17,6 +17,7 @@ import {
   loadedAuthentication,
   loadDarkModePreference,
   registerStartUrl,
+  registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
 } from '../actions/scigateway.actions';
@@ -340,6 +341,14 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, registerStartUrl('/test'));
 
     expect(updatedState.startUrl).toEqual('/test');
+  });
+
+  it('should register the homepageUrl when provided', () => {
+    expect(state.homepageUrl).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(state, registerHomepageUrl('/test'));
+
+    expect(updatedState.homepageUrl).toEqual('/test');
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
