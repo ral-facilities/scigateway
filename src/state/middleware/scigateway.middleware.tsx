@@ -119,14 +119,6 @@ export const listenToPlugins = (
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
 
-          // if we're currently at the URL we're registering, we might need to rerender
-          if (
-            getState().router.location.pathname ===
-            pluginMessage.detail.payload.link
-          ) {
-            dispatch(requestPluginRerender());
-          }
-
           break;
 
         case NotificationType:
@@ -195,7 +187,6 @@ const ScigatewayMiddleware: Middleware = ((
     next(action);
     const theme = buildTheme(action.payload.darkMode);
     store.dispatch(sendThemeOptions(theme));
-    console.log('requesting plugin rerender after loading darkmode');
     return store.dispatch(requestPluginRerender());
   }
 
