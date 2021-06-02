@@ -8,7 +8,11 @@ import {
 } from '@material-ui/core/styles';
 import { Route, Switch, Redirect } from 'react-router';
 import { StateType } from '../state/state.types';
-import { MaintenanceState, PluginConfig } from '../state/scigateway.types';
+import {
+  MaintenanceState,
+  PluginConfig,
+  scigatewayRoutes,
+} from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
 import ContactPage from '../contactPage/contactPage.component';
@@ -65,15 +69,6 @@ export class PluginPlaceHolder extends React.PureComponent<{
 export const AuthorisedPlugin = withAuth(PluginPlaceHolder);
 // Prevents the component from updating when the draw is opened/ closed
 export const AuthorisedAdminPage = withAuth(AdminPage);
-
-export const scigatewayRoutes = {
-  home: '/',
-  contact: '/contact',
-  help: '/help',
-  admin: '/admin',
-  login: '/login',
-  cookies: '/cookies',
-};
 
 class Routing extends React.Component<
   RoutingProps & WithStyles<typeof styles>

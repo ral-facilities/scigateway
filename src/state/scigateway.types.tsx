@@ -31,6 +31,15 @@ export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
 export const RegisterStartUrlType = 'scigateway:register_start_url';
 export const RegisterHomepageUrlType = 'scigateway:register_homepage_url';
 
+export const scigatewayRoutes = {
+  home: '/',
+  contact: '/contact',
+  help: '/help',
+  admin: '/admin',
+  login: '/login',
+  cookies: '/cookies',
+};
+
 export interface NotificationPayload {
   message: string;
   severity: string;

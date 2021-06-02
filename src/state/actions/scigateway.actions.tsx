@@ -48,10 +48,10 @@ import {
   ToggleDrawerType,
   ToggleHelpType,
   RegisterRouteType,
+  scigatewayRoutes,
 } from '../scigateway.types';
 import { ActionType, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
-import { scigatewayRoutes } from '../../routing/routing.component';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
