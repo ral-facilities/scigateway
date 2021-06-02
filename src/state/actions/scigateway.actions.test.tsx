@@ -37,8 +37,7 @@ import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import log from 'loglevel';
-
-jest.useFakeTimers();
+import { createLocation } from 'history';
 
 function mockAxiosGetResponse(message: string): void {
   (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
@@ -52,6 +51,8 @@ function mockAxiosGetResponse(message: string): void {
 
 describe('scigateway actions', () => {
   beforeEach(() => {
+    jest.useFakeTimers();
+
     (mockAxios.get as jest.Mock).mockReset();
 
     (mockAxios.post as jest.Mock).mockImplementationOnce(() =>
@@ -190,7 +191,13 @@ describe('scigateway actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
@@ -211,7 +218,13 @@ describe('scigateway actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
@@ -230,7 +243,13 @@ describe('scigateway actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
@@ -250,7 +269,13 @@ describe('scigateway actions', () => {
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
@@ -262,6 +287,7 @@ describe('scigateway actions', () => {
       Promise.resolve({
         data: {
           features: { showContactButton: true },
+          plugins: [{ test: 'test' }],
           'ui-strings': '/res/default.json',
         },
       })
@@ -284,15 +310,22 @@ describe('scigateway actions', () => {
       .fn()
       .mockImplementationOnce(() => Promise.resolve());
     state.authorisation.provider = testAuthProvider;
-    const getState = (): Partial<StateType> => ({ scigateway: state });
+    const getState = (): Partial<StateType> => ({
+      scigateway: state,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
+    expect(loadMicroFrontends.init).toHaveBeenCalledWith([{ test: 'test' }]);
     expect(actions).toContainEqual(authorised());
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
-  it('dispatches a site loading update after settings are loaded with failed auth, no features and no leading slash on ui-strings', async () => {
+  it('dispatches a site loading update after settings are loaded with failed auth, no features, no leading slash on ui-strings and timeout on plugin route', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
@@ -314,11 +347,84 @@ describe('scigateway actions', () => {
 
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider('token');
-    const getState = (): Partial<StateType> => ({ scigateway: state });
+    const getState = (): Partial<StateType> => ({
+      scigateway: state,
+      router: {
+        location: { ...createLocation('/test'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(invalidToken());
+    expect(actions).not.toContainEqual(siteLoadingUpdate(false));
+    jest.runAllTimers();
+    expect(actions).toContainEqual(siteLoadingUpdate(false));
+  });
+
+  it('dispatches a site loading update after plugin route register action detected', async () => {
+    const events = [];
+    let handler = (event: Event): void => {
+      // to be defined
+    };
+
+    document.dispatchEvent = (e: Event) => {
+      events.push(e as CustomEvent<AnyAction>);
+      return true;
+    };
+
+    document.addEventListener = jest.fn(
+      (id: string, inputHandler: (event: Event) => void) => {
+        handler = inputHandler;
+      }
+    );
+
+    const registerRouteAction = {
+      type: 'scigateway:api:register_route',
+      payload: {
+        section: 'Analysis',
+        link: '/test',
+        plugin: 'demo_plugin',
+        displayName: 'Demo Plugin Analysis',
+        order: 4,
+        broadcast: false,
+      },
+    };
+
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): void | Promise<void> => {
+      if (typeof action === 'function') {
+        action(dispatch);
+        return Promise.resolve();
+      } else {
+        actions.push(action);
+      }
+    };
+
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider('token');
+    const getState = (): Partial<StateType> => ({
+      scigateway: state,
+      router: {
+        location: { ...createLocation('/test'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).not.toContainEqual(siteLoadingUpdate(false));
+    handler(new CustomEvent('test', { detail: registerRouteAction }));
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
@@ -345,7 +451,13 @@ describe('scigateway actions', () => {
     const testAuthProvider = new TestAuthProvider(null);
     testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
-    const getState = (): Partial<StateType> => ({ scigateway: state });
+    const getState = (): Partial<StateType> => ({
+      scigateway: state,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
@@ -386,7 +498,13 @@ describe('scigateway actions', () => {
       .mockImplementation(() => Promise.reject());
     testAuthProvider.autoLogin = () => Promise.resolve();
     state.authorisation.provider = testAuthProvider;
-    const getState = (): Partial<StateType> => ({ scigateway: state });
+    const getState = (): Partial<StateType> => ({
+      scigateway: state,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
