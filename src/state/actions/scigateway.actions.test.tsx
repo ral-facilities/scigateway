@@ -551,9 +551,7 @@ describe('scigateway actions', () => {
     });
   });
 
-  // TODO Test is passing locally, but failing Travis as darkMode is always
-  //      false in storage. Skip for now.
-  it.skip('should load dark mode preference into store', async () => {
+  it('should load dark mode preference into store', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
@@ -562,15 +560,25 @@ describe('scigateway actions', () => {
       })
     );
 
-    localStorage.setItem('darkMode', 'true');
+    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation((name) => (name === 'darkMode' ? 'true' : 'false'));
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({ scigateway: initialState });
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
 
     await asyncAction(dispatch, getState);
 
+    expect(localStorage.getItem).toBeCalledWith('darkMode');
     expect(actions).toContainEqual(loadDarkModePreference(true));
   });
 
