@@ -61,14 +61,21 @@ const styles = (theme: Theme): StyleRules =>
     //   justifyContent: 'flex-end',
     // },
     sectionTitle: {
-      color: theme.palette.text.secondary,
+      textAlign: 'center',
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+    sectionTitleText: {
+      color: theme.palette.text.primary,
     },
     menuItem: {
+      textAlign: 'center',
       color: theme.palette.text.secondary,
     },
     menuLogo: {
-      paddingLeft: 56,
-      height: 20,
+      paddingTop: 10,
+      paddingBottom: 10,
+      height: 30,
       color: theme.palette.text.secondary,
     },
   });
@@ -103,14 +110,16 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         to={plugin.link}
         id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
         button
+        dense
       >
-        {imgSrc && (
+        {/* Uncomment this to add DataGateway logo next to each button */}
+        {/* {imgSrc && (
           <img
             className={this.props.classes.menuLogo}
             alt={plugin.logoAltText}
             src={imgSrc}
           />
-        )}
+        )} */}
         <ListItemText
           inset={!imgSrc}
           primary={displayText}
@@ -130,12 +139,16 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   ): React.ReactElement {
     return (
       <Fragment key={index}>
-        <ListItem>
+        <ListItem
+          classes={{
+            root: this.props.classes.sectionTitle,
+          }}
+        >
           <ListItemText
             primary={sectionName}
             primaryTypographyProps={{ variant: 'h6' }}
             classes={{
-              primary: this.props.classes.sectionTitle,
+              primary: this.props.classes.sectionTitleText,
             }}
           />
         </ListItem>
@@ -178,6 +191,11 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   }
 
   public render(): React.ReactElement {
+    const { plugins } = this.props;
+    const imgSrc = this.props.darkMode
+      ? plugins[0].logoDarkMode
+      : plugins[0].logoLightMode;
+    console.log(imgSrc);
     return (
       <Drawer
         className={this.props.classes.drawer}
@@ -199,6 +217,13 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         </StyledHeader>
         {/* </div> */}
         <Divider />
+        {imgSrc && (
+          <img
+            className={this.props.classes.menuLogo}
+            alt={plugins[0].logoAltText}
+            src={imgSrc}
+          />
+        )}
         {this.renderRoutes()}
       </Drawer>
     );
