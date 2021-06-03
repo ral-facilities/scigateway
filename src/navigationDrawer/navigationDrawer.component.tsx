@@ -193,9 +193,8 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   public render(): React.ReactElement {
     const { plugins } = this.props;
     const imgSrc = this.props.darkMode
-      ? plugins[0].logoDarkMode
-      : plugins[0].logoLightMode;
-    console.log(imgSrc);
+      ? plugins[0]?.logoDarkMode
+      : plugins[0]?.logoLightMode;
     return (
       <Drawer
         className={this.props.classes.drawer}
