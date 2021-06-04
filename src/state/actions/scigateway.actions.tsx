@@ -284,33 +284,37 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         return Promise.all(loadingPromises).then(() => {
           // if we're on a non-scigateway url, attempt to wait for matching register route event
           // to help prevent showing a 404 page before the right route has been registered
-          const currUrl = getState().router.location.pathname;
-          if (!Object.values(scigatewayRoutes).includes(currUrl)) {
-            let eventFired = false;
-            const handler = (event: Event): void => {
-              const pluginMessage = event as CustomEvent<AnyAction>;
+          return new Promise<void>((resolve) => {
+            const currUrl = getState().router.location.pathname;
+            if (!Object.values(scigatewayRoutes).includes(currUrl)) {
+              let eventFired = false;
+              const handler = (event: Event): void => {
+                const pluginMessage = event as CustomEvent<AnyAction>;
+                if (
+                  pluginMessage?.detail?.type === RegisterRouteType &&
+                  currUrl === pluginMessage.detail.payload.link
+                ) {
+                  dispatch(siteLoadingUpdate(false));
+                  eventFired = true;
+                  document.removeEventListener('scigateway', handler);
+                  resolve();
+                }
+              };
 
-              if (
-                pluginMessage?.detail?.type === RegisterRouteType &&
-                currUrl === pluginMessage.detail.payload.link
-              ) {
-                dispatch(siteLoadingUpdate(false));
-                eventFired = true;
+              setTimeout(function () {
+                if (!eventFired) {
+                  dispatch(siteLoadingUpdate(false));
+                }
                 document.removeEventListener('scigateway', handler);
-              }
-            };
+                resolve();
+              }, 3000);
 
-            setTimeout(function () {
-              if (!eventFired) {
-                dispatch(siteLoadingUpdate(false));
-              }
-              document.removeEventListener('scigateway', handler);
-            }, 3000);
-
-            document.addEventListener('scigateway', handler);
-          } else {
-            dispatch(siteLoadingUpdate(false));
-          }
+              document.addEventListener('scigateway', handler);
+            } else {
+              dispatch(siteLoadingUpdate(false));
+              resolve();
+            }
+          });
         });
       })
       .catch((error) => {

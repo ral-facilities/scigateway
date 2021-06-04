@@ -38,6 +38,7 @@ import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import log from 'loglevel';
 import { createLocation } from 'history';
+import { flushPromises } from '../../setupTests';
 
 function mockAxiosGetResponse(message: string): void {
   (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
@@ -355,31 +356,18 @@ describe('scigateway actions', () => {
       },
     });
 
-    await asyncAction(dispatch, getState);
-
-    expect(actions).toContainEqual(invalidToken());
-    expect(actions).not.toContainEqual(siteLoadingUpdate(false));
+    const configureSiteAction = asyncAction(dispatch, getState);
+    // jest fake timers and promises don't play well together so need to flush all promises before running the timer
+    await flushPromises();
     jest.runAllTimers();
+
+    await configureSiteAction;
+    expect(actions).toContainEqual(invalidToken());
+
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
   it('dispatches a site loading update after plugin route register action detected', async () => {
-    const events = [];
-    let handler = (event: Event): void => {
-      // to be defined
-    };
-
-    document.dispatchEvent = (e: Event) => {
-      events.push(e as CustomEvent<AnyAction>);
-      return true;
-    };
-
-    document.addEventListener = jest.fn(
-      (id: string, inputHandler: (event: Event) => void) => {
-        handler = inputHandler;
-      }
-    );
-
     const registerRouteAction = {
       type: 'scigateway:api:register_route',
       payload: {
@@ -391,6 +379,12 @@ describe('scigateway actions', () => {
         broadcast: false,
       },
     };
+
+    document.addEventListener = jest.fn(
+      (id: string, inputHandler: (event: Event) => void) => {
+        inputHandler(new CustomEvent('test', { detail: registerRouteAction }));
+      }
+    );
 
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -423,8 +417,6 @@ describe('scigateway actions', () => {
 
     await asyncAction(dispatch, getState);
 
-    expect(actions).not.toContainEqual(siteLoadingUpdate(false));
-    handler(new CustomEvent('test', { detail: registerRouteAction }));
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
