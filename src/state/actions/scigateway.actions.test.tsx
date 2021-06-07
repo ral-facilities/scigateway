@@ -69,6 +69,11 @@ describe('scigateway actions', () => {
       .mockImplementation(() => Promise.resolve());
   });
 
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  });
+
   it('toggleDrawer only needs a type', () => {
     const action = toggleDrawer();
     expect(action.type).toEqual(ToggleDrawerType);
