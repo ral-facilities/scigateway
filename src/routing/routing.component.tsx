@@ -8,7 +8,11 @@ import {
 } from '@material-ui/core/styles';
 import { Route, Switch, Redirect } from 'react-router';
 import { StateType } from '../state/state.types';
-import { MaintenanceState, PluginConfig } from '../state/scigateway.types';
+import {
+  MaintenanceState,
+  PluginConfig,
+  scigatewayRoutes,
+} from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
 import ContactPage from '../contactPage/contactPage.component';
@@ -82,21 +86,33 @@ class Routing extends React.Component<
       >
         {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
         <Switch>
-          <Route exact path="/">
+          <Route exact path={scigatewayRoutes.home}>
             {this.props.homepageUrl && this.props.homepageUrl !== '/' ? (
               <Redirect to={this.props.homepageUrl} />
             ) : (
               <HomePage />
             )}
           </Route>
-          <Route exact path="/contact" component={ContactPage} />
-          <Route exact path="/help" component={HelpPage} />
+          <Route
+            exact
+            path={scigatewayRoutes.contact}
+            component={ContactPage}
+          />
+          <Route exact path={scigatewayRoutes.help} component={HelpPage} />
           {/* Admin check required because the component does not have an adminPlugin prop */}
           {this.props.userIsAdmin ? (
-            <Route exact path="/admin" render={() => <AuthorisedAdminPage />} />
+            <Route
+              exact
+              path={scigatewayRoutes.admin}
+              render={() => <AuthorisedAdminPage />}
+            />
           ) : null}
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/cookies" component={CookiesPage} />
+          <Route exact path={scigatewayRoutes.login} component={LoginPage} />
+          <Route
+            exact
+            path={scigatewayRoutes.cookies}
+            component={CookiesPage}
+          />
           {/* Only display maintenance page to non-admin users when site under maintenance */}
           {this.props.maintenance.show && !this.props.userIsAdmin ? (
             <Route component={MaintenancePage} />

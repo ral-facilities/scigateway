@@ -118,6 +118,7 @@ export const listenToPlugins = (
 
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
+
           break;
 
         case NotificationType:
