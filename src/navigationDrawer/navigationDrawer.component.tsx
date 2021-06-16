@@ -61,7 +61,7 @@ const styles = (theme: Theme): StyleRules =>
     //   justifyContent: 'flex-end',
     // },
     sectionTitle: {
-      textAlign: 'center',
+      textAlign: 'left',
       paddingTop: 0,
       paddingBottom: 0,
     },
@@ -69,10 +69,11 @@ const styles = (theme: Theme): StyleRules =>
       color: theme.palette.text.primary,
     },
     menuItem: {
-      textAlign: 'center',
+      textAlign: 'left',
       color: theme.palette.text.secondary,
     },
     menuLogo: {
+      paddingRight: 100,
       paddingTop: 10,
       paddingBottom: 10,
       height: 30,
