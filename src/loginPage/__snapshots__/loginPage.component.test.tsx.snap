@@ -244,22 +244,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      changeMnemonic={
-        [MockFunction] {
-          "calls": Array [
-            Array [
-              "anon",
-              undefined,
-            ],
-          ],
-          "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        }
-      }
+      changeMnemonic={[MockFunction]}
       classes={
         Object {
           "avatar": "avatar-class",
@@ -276,6 +261,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "state": undefined,
         }
       }
+      mnemonic="anon"
       verifyUsernameAndPassword={[Function]}
     />
   </WithStyles(ForwardRef(Paper))>
@@ -373,22 +359,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      changeMnemonic={
-        [MockFunction] {
-          "calls": Array [
-            Array [
-              "user/pass",
-              undefined,
-            ],
-          ],
-          "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        }
-      }
+      changeMnemonic={[MockFunction]}
       classes={
         Object {
           "avatar": "avatar-class",
@@ -405,6 +376,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "state": undefined,
         }
       }
+      mnemonic="user/pass"
       verifyUsernameAndPassword={[Function]}
     />
   </WithStyles(ForwardRef(Paper))>
@@ -462,6 +434,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
           "state": undefined,
         }
       }
+      mnemonic=""
       mnemonics={
         Array [
           Object {
@@ -481,6 +454,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
           },
         ]
       }
+      setMnemonic={[Function]}
       verifyUsernameAndPassword={[Function]}
     />
   </WithStyles(ForwardRef(Paper))>

@@ -21,6 +21,7 @@ import {
   registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
+  loadAuthProvider,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -84,7 +85,15 @@ describe('scigateway actions', () => {
       'this will be replaced by an API call to get access token'
     );
 
-    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const mnemonic = 'anon';
+    const authUrl = 'http://example.com';
+
+    const asyncAction = verifyUsernameAndPassword(
+      'username',
+      'password',
+      mnemonic,
+      authUrl
+    );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
@@ -107,8 +116,11 @@ describe('scigateway actions', () => {
     await action;
 
     expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(authorised('validLoginToken'));
-    expect(actions[2]).toEqual({
+    expect(actions[1]).toEqual(
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+    );
+    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
         args: ['/destination/after/login'],
@@ -122,7 +134,15 @@ describe('scigateway actions', () => {
       'this will be replaced by an API call to get access token'
     );
 
-    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const mnemonic = 'anon';
+    const authUrl = 'http://example.com';
+
+    const asyncAction = verifyUsernameAndPassword(
+      'username',
+      'password',
+      mnemonic,
+      authUrl
+    );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
@@ -144,8 +164,11 @@ describe('scigateway actions', () => {
     await action;
 
     expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(authorised('validLoginToken'));
-    expect(actions[2]).toEqual({
+    expect(actions[1]).toEqual(
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+    );
+    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
         args: ['/'],

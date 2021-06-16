@@ -177,17 +177,17 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
-  it('unsuccessful log in should update authorisation to not logged in state', () => {
+  it('unsuccessful log in should keep the user logged in', () => {
     const action = unauthorised();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
     const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeTruthy();
-    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeTruthy();
   });
 
-  it('token invalidation should reset authorisation and indicate invalidation', () => {
+  it('token invalidation should not reset authorisation and indicate invalidation', () => {
     const action = invalidToken();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
@@ -196,7 +196,7 @@ describe('scigateway reducer', () => {
     expect(
       updatedState.authorisation.signedOutDueToTokenInvalidation
     ).toBeTruthy();
-    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeTruthy();
   });
 
   it('should sign user out for a signOut message', () => {

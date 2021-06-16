@@ -19,16 +19,12 @@ import { act } from 'react-dom/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import {
-  loadAuthProvider,
-  loadingAuthentication,
-} from '../state/actions/scigateway.actions';
+import { loadingAuthentication } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
-import { Select } from '@material-ui/core';
 
 jest.mock('loglevel');
 
@@ -318,53 +314,55 @@ describe('Login page component', () => {
     spy.mockRestore();
   });
 
-  it('loadAuthProvider action should be sent when user selects an authenticator in authenticator dropdown', async () => {
-    state.scigateway.authorisation.provider.mnemonic = '';
-    state.scigateway.authorisation.provider.authUrl = 'http://localhost:8000';
+  // it('loadAuthProvider action should be sent when user selects an authenticator in authenticator dropdown', async () => {
+  //   state.scigateway.authorisation.provider.mnemonic = '';
+  //   state.scigateway.authorisation.provider.authUrl = 'http://localhost:8000';
 
-    (axios.get as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'user/pass',
-            keys: [{ name: 'username' }, { name: 'password' }],
-          },
-          {
-            mnemonic: 'anon',
-            keys: [],
-          },
-        ],
-      })
-    );
+  //   (axios.get as jest.Mock).mockImplementation(() =>
+  //     Promise.resolve({
+  //       data: [
+  //         {
+  //           mnemonic: 'user/pass',
+  //           keys: [{ name: 'username' }, { name: 'password' }],
+  //         },
+  //         {
+  //           mnemonic: 'anon',
+  //           keys: [],
+  //         },
+  //       ],
+  //     })
+  //   );
 
-    const testStore = mockStore(state);
+  //   const testStore = mockStore(state);
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
-      </Provider>
-    );
+  //   const wrapper = mount(
+  //     <Provider store={testStore}>
+  //       <MuiThemeProvider theme={theme}>
+  //         <LoginPage />
+  //       </MuiThemeProvider>
+  //     </Provider>
+  //   );
 
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
+  //   await act(async () => {
+  //     await flushPromises();
+  //     wrapper.update();
+  //   });
 
-    // Find the Select component for the dropdown authenticators list.
-    const simulateDropdown = wrapper.find(Select).first();
-    simulateDropdown.prop('onChange')({ target: { value: 'user/pass' } });
+  //   // Find the Select component for the dropdown authenticators list.
+  //   const simulateDropdown = wrapper.find(Select).first();
+  //   simulateDropdown.prop('onChange')({ target: { value: 'user/pass' } });
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadAuthProvider('icat.user/pass', 'http://localhost:8000')
-    );
-  });
+  //   expect(testStore.getActions().length).toEqual(1);
+  //   expect(testStore.getActions()[0]).toEqual(
+  //     loadAuthProvider('icat.user/pass', 'http://localhost:8000')
+  //   );
+  // });
 
   it('on submit verification method should be called with username and password arguments', async () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
+    props.auth.provider.mnemonic = 'anon';
+    props.auth.provider.authUrl = 'http://example.com';
 
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
@@ -384,7 +382,12 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
-    expect(mockLoginfn.mock.calls[0]).toEqual(['new username', 'new password']);
+    expect(mockLoginfn.mock.calls[0]).toEqual([
+      'new username',
+      'new password',
+      'anon',
+      'http://example.com',
+    ]);
 
     simulateUsernameInput.instance().value = 'new username 2';
     simulateUsernameInput.simulate('change');
@@ -426,9 +429,15 @@ describe('Login page component', () => {
     expect(window.location.href).toEqual('test redirect');
   });
 
+  it.todo(
+    'provides an empty mnemonic and authUrl if none are provided to verifyUsernameAndPassword'
+  );
+
   it('on location.search filled in verification method should be called with blank username and query string', () => {
     props.auth.provider.redirectUrl = 'test redirect';
     props.location.search = '?token=test_token';
+    props.auth.provider.mnemonic = 'anon';
+    props.auth.provider.authUrl = 'http://example.com';
 
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
@@ -441,13 +450,19 @@ describe('Login page component', () => {
     );
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-    expect(mockLoginfn.mock.calls[0]).toEqual(['', '?token=test_token']);
+    expect(mockLoginfn.mock.calls[0]).toEqual([
+      '',
+      '?token=test_token',
+      'anon',
+      'http://example.com',
+    ]);
   });
 
   it('on submit verification method should be called when logs in via anon authenticator', async () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'anon';
+    props.auth.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -475,7 +490,12 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
-    expect(mockLoginfn.mock.calls[0]).toEqual(['', '']);
+    expect(mockLoginfn.mock.calls[0]).toEqual([
+      '',
+      '',
+      'anon',
+      'http://example.com',
+    ]);
 
     wrapper
       .find(AnonLoginScreen)
@@ -485,7 +505,12 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(2);
 
-    expect(mockLoginfn.mock.calls[1]).toEqual(['', '']);
+    expect(mockLoginfn.mock.calls[1]).toEqual([
+      '',
+      '',
+      'anon',
+      'http://example.com',
+    ]);
   });
 
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', () => {

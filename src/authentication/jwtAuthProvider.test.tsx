@@ -165,7 +165,7 @@ describe('jwt auth provider', () => {
     );
   });
 
-  it('should log the user out if the refresh token has expired', async () => {
+  it('should not log the user out if the refresh token has expired', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
@@ -178,7 +178,7 @@ describe('jwt auth provider', () => {
       // catch error
     });
 
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+    // expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(jwtAuthProvider.isLoggedIn()).toBeTruthy();
   });
 });
