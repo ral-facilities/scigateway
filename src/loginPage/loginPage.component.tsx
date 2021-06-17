@@ -305,6 +305,10 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   );
 
   React.useEffect(() => {
+    setMnemonic(props.auth.provider.mnemonic);
+  }, [props.auth.provider.mnemonic]);
+
+  React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics(authUrl).then((mnemonics) => {
         const nonAdminAuthenticators = mnemonics.filter(

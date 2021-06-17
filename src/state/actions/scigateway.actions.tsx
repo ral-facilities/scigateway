@@ -390,8 +390,6 @@ export const verifyUsernameAndPassword = (
     // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
     const authProvider = getState().scigateway.authorisation.provider;
-    authProvider.mnemonic = newMnemonic;
-    authProvider.authUrl = authUrl;
     await authProvider
       .logIn(username, password)
       .then(() => {
