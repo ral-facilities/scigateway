@@ -202,6 +202,7 @@ export function handleSignOut(state: ScigatewayState): ScigatewayState {
 }
 
 export function handleTokenExpiration(state: ScigatewayState): ScigatewayState {
+  state.authorisation.provider.logOut();
   return {
     ...state,
     drawerOpen: false,

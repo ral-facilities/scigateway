@@ -253,22 +253,22 @@ describe('ICAT auth provider', () => {
     );
   });
 
-  // it('should log the user out if the refresh token has expired', async () => {
-  //   (mockAxios.post as jest.Mock).mockImplementation(() =>
-  //     Promise.reject({
-  //       response: {
-  //         status: 401,
-  //       },
-  //     })
-  //   );
+  it('should log the user out if the refresh token has expired', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
 
-  //   await icatAuthProvider.refresh().catch(() => {
-  //     // catch error
-  //   });
+    await icatAuthProvider.refresh().catch(() => {
+      // catch error
+    });
 
-  //   expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-  //   expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-  // });
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  });
 
   it('should call api to fetch scheduled maintenance state', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
@@ -299,7 +299,6 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    // expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
@@ -332,7 +331,6 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    // expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
@@ -369,7 +367,6 @@ describe('ICAT auth provider', () => {
         // catch error
       });
 
-    // expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
@@ -399,7 +396,6 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    // expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 });

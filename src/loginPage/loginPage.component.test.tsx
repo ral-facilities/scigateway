@@ -62,7 +62,6 @@ describe('Login page component', () => {
       location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      changeMnemonic: jest.fn(),
       classes: dummyClasses,
     };
 
@@ -314,55 +313,9 @@ describe('Login page component', () => {
     spy.mockRestore();
   });
 
-  // it('loadAuthProvider action should be sent when user selects an authenticator in authenticator dropdown', async () => {
-  //   state.scigateway.authorisation.provider.mnemonic = '';
-  //   state.scigateway.authorisation.provider.authUrl = 'http://localhost:8000';
-
-  //   (axios.get as jest.Mock).mockImplementation(() =>
-  //     Promise.resolve({
-  //       data: [
-  //         {
-  //           mnemonic: 'user/pass',
-  //           keys: [{ name: 'username' }, { name: 'password' }],
-  //         },
-  //         {
-  //           mnemonic: 'anon',
-  //           keys: [],
-  //         },
-  //       ],
-  //     })
-  //   );
-
-  //   const testStore = mockStore(state);
-
-  //   const wrapper = mount(
-  //     <Provider store={testStore}>
-  //       <MuiThemeProvider theme={theme}>
-  //         <LoginPage />
-  //       </MuiThemeProvider>
-  //     </Provider>
-  //   );
-
-  //   await act(async () => {
-  //     await flushPromises();
-  //     wrapper.update();
-  //   });
-
-  //   // Find the Select component for the dropdown authenticators list.
-  //   const simulateDropdown = wrapper.find(Select).first();
-  //   simulateDropdown.prop('onChange')({ target: { value: 'user/pass' } });
-
-  //   expect(testStore.getActions().length).toEqual(1);
-  //   expect(testStore.getActions()[0]).toEqual(
-  //     loadAuthProvider('icat.user/pass', 'http://localhost:8000')
-  //   );
-  // });
-
   it('on submit verification method should be called with username and password arguments', async () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
-    props.auth.provider.mnemonic = 'anon';
-    props.auth.provider.authUrl = 'http://example.com';
 
     const wrapper = mount(
       <MuiThemeProvider theme={theme}>
@@ -385,8 +338,8 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[0]).toEqual([
       'new username',
       'new password',
-      'anon',
-      'http://example.com',
+      undefined,
+      undefined,
     ]);
 
     simulateUsernameInput.instance().value = 'new username 2';
@@ -406,6 +359,8 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[1]).toEqual([
       'new username 2',
       'new password 2',
+      undefined,
+      undefined,
     ]);
   });
 
@@ -429,15 +384,9 @@ describe('Login page component', () => {
     expect(window.location.href).toEqual('test redirect');
   });
 
-  it.todo(
-    'provides an empty mnemonic and authUrl if none are provided to verifyUsernameAndPassword'
-  );
-
   it('on location.search filled in verification method should be called with blank username and query string', () => {
     props.auth.provider.redirectUrl = 'test redirect';
     props.location.search = '?token=test_token';
-    props.auth.provider.mnemonic = 'anon';
-    props.auth.provider.authUrl = 'http://example.com';
 
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
@@ -453,8 +402,8 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[0]).toEqual([
       '',
       '?token=test_token',
-      'anon',
-      'http://example.com',
+      undefined,
+      undefined,
     ]);
   });
 

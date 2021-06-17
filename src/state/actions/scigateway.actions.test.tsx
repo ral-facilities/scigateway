@@ -80,7 +80,7 @@ describe('scigateway actions', () => {
     expect(action.type).toEqual(ToggleDrawerType);
   });
 
-  it('given valid credentials verifyUsernameAndPassword should return with a valid token and successful authorisation', async () => {
+  it('given valid credentials verifyUsernameAndPassword should change auth provider and return with a valid token and successful authorisation', async () => {
     mockAxiosGetResponse(
       'this will be replaced by an API call to get access token'
     );
@@ -129,7 +129,7 @@ describe('scigateway actions', () => {
     });
   });
 
-  it('given no referrer but valid credentials verifyUsernameAndPassword should redirect back to /', async () => {
+  it('given no referrer but valid credentials verifyUsernameAndPassword should change auth provider and redirect back to /', async () => {
     mockAxiosGetResponse(
       'this will be replaced by an API call to get access token'
     );
