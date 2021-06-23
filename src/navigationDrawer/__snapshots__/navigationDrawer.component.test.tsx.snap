@@ -72,11 +72,17 @@ exports[`Navigation drawer component does not display link to homepage if a home
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List))>
-    <WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(ListItem))
+      classes={
+        Object {
+          "root": "NavigationDrawer-sectionTitle-3",
+        }
+      }
+    >
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitle-3",
+            "primary": "NavigationDrawer-sectionTitleText-4",
           }
         }
         primary="DATA"
@@ -99,6 +105,7 @@ exports[`Navigation drawer component does not display link to homepage if a home
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-plugin_link"
         key="0"
         to="plugin_link"
@@ -106,7 +113,7 @@ exports[`Navigation drawer component does not display link to homepage if a home
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -170,11 +177,17 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
   <WithStyles(ForwardRef(List))>
-    <WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(ListItem))
+      classes={
+        Object {
+          "root": "NavigationDrawer-sectionTitle-3",
+        }
+      }
+    >
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitle-3",
+            "primary": "NavigationDrawer-sectionTitleText-4",
           }
         }
         primary="ANALYSIS"
@@ -197,6 +210,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-link"
         key="0"
         to="link"
@@ -204,7 +218,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -225,6 +239,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-link"
         key="1"
         to="link"
@@ -232,7 +247,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -245,11 +260,17 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         />
       </WithStyles(ForwardRef(ListItem))>
     </WithStyles(ForwardRef(List))>
-    <WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(ListItem))
+      classes={
+        Object {
+          "root": "NavigationDrawer-sectionTitle-3",
+        }
+      }
+    >
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitle-3",
+            "primary": "NavigationDrawer-sectionTitleText-4",
           }
         }
         primary="DATA"
@@ -272,6 +293,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-link"
         key="0"
         to="link"
@@ -279,7 +301,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -300,6 +322,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-link"
         key="1"
         to="link"
@@ -307,7 +330,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -328,6 +351,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-link"
         key="2"
         to="link"
@@ -335,7 +359,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -356,6 +380,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
             "render": [Function],
           }
         }
+        dense={true}
         id="plugin-link-plugin_link"
         key="3"
         to="plugin_link"
@@ -363,7 +388,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         <WithStyles(ForwardRef(ListItemText))
           classes={
             Object {
-              "primary": "NavigationDrawer-menuItem-4",
+              "primary": "NavigationDrawer-menuItem-5",
             }
           }
           inset={true}
@@ -390,6 +415,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       "render": [Function],
     }
   }
+  dense={true}
   id="plugin-link-plugin_link"
   key="3"
   to="plugin_link"
@@ -397,7 +423,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   <WithStyles(ForwardRef(ListItemText))
     classes={
       Object {
-        "primary": "NavigationDrawer-menuItem-4",
+        "primary": "NavigationDrawer-menuItem-5",
       }
     }
     inset={true}
