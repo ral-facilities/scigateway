@@ -462,13 +462,26 @@ describe('Login page component', () => {
     ]);
   });
 
-  it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', () => {
+  it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
     state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
     state.router.location.search = '?token=test_token';
+    state.scigateway.authorisation.provider.mnemonic = 'anon';
+    state.scigateway.authorisation.provider.authUrl = 'http://example.com';
+
+    (axios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: [
+          {
+            mnemonic: 'anon',
+            keys: [],
+          },
+        ],
+      })
+    );
 
     const testStore = mockStore(state);
 
-    mount(
+    const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
           <LoginPage />
@@ -476,7 +489,11 @@ describe('Login page component', () => {
       </Provider>
     );
 
-    expect(testStore.getActions().length).toEqual(1);
+    await act(async () => {
+      await flushPromises();
+      wrapper.update();
+    });
+
     expect(testStore.getActions()[0]).toEqual(loadingAuthentication());
   });
 });
