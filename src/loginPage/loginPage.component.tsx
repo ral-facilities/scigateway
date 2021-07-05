@@ -319,6 +319,10 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   }, [mnemonic, fetchedMnemonics, authUrl]);
 
   React.useEffect(() => {
+    setMnemonic(props.auth.provider.mnemonic);
+  }, [props.auth.provider.mnemonic]);
+
+  React.useEffect(() => {
     if (
       props.auth.provider.redirectUrl &&
       props.location.search &&
