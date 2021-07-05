@@ -151,7 +151,7 @@ describe('Navigation drawer component', () => {
     expect(wrapper.find('[to="homepage"]')).toEqual({});
   });
 
-  it('renders a plugin with displayName but no logo or altText', () => {
+  it('renders a plugin', () => {
     const dummyPlugins: PluginConfig[] = [
       {
         order: 0,
@@ -171,40 +171,11 @@ describe('Navigation drawer component', () => {
       </MemoryRouter>
     );
 
-    expect(wrapper.find('img')).toHaveLength(0);
     const listItemText = wrapper.find(ListItemText).last();
     expect(listItemText.text()).toEqual('\xa0display name');
-    expect(listItemText.prop('inset')).toBeTruthy();
   });
 
-  it('renders a plugin with displayName and altText but no logo', () => {
-    const dummyPlugins: PluginConfig[] = [
-      {
-        order: 0,
-        plugin: 'data-plugin',
-        link: 'plugin_link',
-        section: 'DATA',
-        displayName: '\xa0display name',
-        logoAltText: 'DataGateway',
-      },
-    ];
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
-
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawer store={testStore} />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find('img')).toHaveLength(0);
-    const listItemText = wrapper.find(ListItemText).last();
-    expect(listItemText.text()).toEqual('DataGateway\xa0display name');
-    expect(listItemText.prop('inset')).toBeTruthy();
-  });
-
-  it('renders a plugin with logoLightMode', () => {
+  it('renders the light mode logo at the top', () => {
     const dummyPlugins: PluginConfig[] = [
       {
         order: 0,
@@ -219,6 +190,7 @@ describe('Navigation drawer component', () => {
     ];
     state.scigateway.plugins = dummyPlugins;
     state.scigateway.drawerOpen = true;
+    state.scigateway.darkMode = false;
 
     const testStore = mockStore(state);
     const wrapper = mount(
@@ -227,13 +199,11 @@ describe('Navigation drawer component', () => {
       </MemoryRouter>
     );
 
+    expect(wrapper.find('img')).toHaveLength(1);
     expect(wrapper.find('img').prop('src')).toEqual('/lightLogo.svg');
-    const listItemText = wrapper.find(ListItemText).last();
-    expect(listItemText.text()).toEqual('\xa0display name');
-    expect(listItemText.prop('inset')).toBeFalsy();
   });
 
-  it('renders a plugin with logoDarkMode', () => {
+  it('renders the dark mode logo at the top', () => {
     const dummyPlugins: PluginConfig[] = [
       {
         order: 0,
@@ -257,9 +227,7 @@ describe('Navigation drawer component', () => {
       </MemoryRouter>
     );
 
+    expect(wrapper.find('img')).toHaveLength(1);
     expect(wrapper.find('img').prop('src')).toEqual('/darkLogo.svg');
-    const listItemText = wrapper.find(ListItemText).last();
-    expect(listItemText.text()).toEqual('\xa0display name');
-    expect(listItemText.prop('inset')).toBeFalsy();
   });
 });
