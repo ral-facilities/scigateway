@@ -237,7 +237,7 @@ describe('Login', () => {
 
     it('should be able to select anon from the dropdown', () => {
       cy.get('#select-mnemonic').click();
-      cy.contains('anon').click();
+      cy.get('ul li').contains('anon').click();
 
       cy.contains('Sign in').should('not.be.disabled');
     });
@@ -337,7 +337,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.contains('anon').click();
+      cy.get('ul li').contains('anon').click();
 
       cy.get('[alt="SciGateway"]').click();
 
@@ -351,7 +351,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.contains('anon').click();
+      cy.get('ul li').contains('anon').click();
 
       cy.get('#select-mnemonic')
         .parent()
