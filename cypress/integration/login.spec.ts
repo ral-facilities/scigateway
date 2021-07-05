@@ -57,6 +57,8 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
     cy.contains('Failed to log in. Invalid username or password.');
   });
 
