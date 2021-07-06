@@ -36,14 +36,6 @@ export default class GithubAuthProvider extends BaseAuthProvider {
           category: 'Login',
           action: 'Failed to log in via Github',
         });
-        if (
-          err.response &&
-          err.response.status &&
-          err.response.status !== 401 &&
-          err.response.status !== 403
-        ) {
-          this.logOut();
-        }
         this.handleAuthError(err);
       });
   }

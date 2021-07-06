@@ -7,6 +7,7 @@ import LoginPage, {
   RedirectLoginScreen,
   CombinedLoginProps,
   AnonLoginScreen,
+  LoginSelector,
 } from './loginPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { buildTheme } from '../theming';
@@ -16,7 +17,7 @@ import { createLocation } from 'history';
 import axios from 'axios';
 import { flushPromises } from '../setupTests';
 import { act } from 'react-dom/test-utils';
-import { StateType } from '../state/state.types';
+import { ICATAuthenticator, StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { loadingAuthentication } from '../state/actions/scigateway.actions';
@@ -27,6 +28,61 @@ import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
 
 jest.mock('loglevel');
+
+describe('Login selector component', () => {
+  let shallow;
+  let props: CombinedLoginProps;
+
+  const dummyClasses = {
+    root: 'root-1',
+    paper: 'paper-class',
+    avatar: 'avatar-class',
+    spinner: 'spinner-class',
+  };
+
+  beforeEach(() => {
+    shallow = createShallow({ untilSelector: 'div' });
+
+    props = {
+      auth: {
+        failedToLogin: false,
+        signedOutDueToTokenInvalidation: false,
+        loading: false,
+        provider: new TestAuthProvider(null),
+      },
+      location: createLocation('/'),
+      res: undefined,
+      classes: dummyClasses,
+    };
+  });
+
+  it('sets a new mnemonic in local state on mnemonic change', () => {
+    const mnemonics: ICATAuthenticator[] = [
+      {
+        mnemonic: 'user/pass',
+        keys: [{ name: 'username' }, { name: 'password' }],
+      },
+      {
+        mnemonic: 'anon',
+        keys: [],
+      },
+    ];
+    const testSetMnemonic = jest.fn();
+    const event = { target: { name: 'mnemonicChange', value: 'anon' } };
+
+    const wrapper = shallow(
+      <LoginSelector
+        {...props}
+        mnemonics={mnemonics}
+        mnemonic="user/pass"
+        setMnemonic={testSetMnemonic}
+      />
+    );
+
+    wrapper.find('#select-mnemonic').simulate('change', event);
+    expect(testSetMnemonic).toBeCalledWith('anon');
+  });
+});
 
 describe('Login page component', () => {
   let shallow;
