@@ -286,7 +286,7 @@ describe('ICAT auth provider', () => {
     );
   });
 
-  it('should not log the user out if it fails to fetch scheduled maintenance state', async () => {
+  it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
@@ -299,7 +299,8 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
   it('should call api to fetch maintenance state', async () => {
@@ -318,7 +319,7 @@ describe('ICAT auth provider', () => {
     );
   });
 
-  it('should not log the user out if it fails to fetch maintenance state', async () => {
+  it('should log the user out if it fails to fetch maintenance state', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
@@ -331,7 +332,8 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
   it('should call api to set scheduled maintenance state', async () => {
@@ -351,7 +353,7 @@ describe('ICAT auth provider', () => {
     );
   });
 
-  it('should not log the user out if it fails to set scheduled maintenance state', async () => {
+  it('should log the user out if it fails to set scheduled maintenance state', async () => {
     const scheduledMaintenanceState = { show: true, message: 'test' };
     mockAxios.put = jest.fn().mockImplementation(() =>
       Promise.reject({
@@ -367,7 +369,8 @@ describe('ICAT auth provider', () => {
         // catch error
       });
 
-    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
   it('should call api to set maintenance state', async () => {
@@ -382,7 +385,7 @@ describe('ICAT auth provider', () => {
     });
   });
 
-  it('should not log the user out if it fails to set maintenance state', async () => {
+  it('should log the user out if it fails to set maintenance state', async () => {
     const maintenanceState = { show: true, message: 'test' };
     mockAxios.put = jest.fn().mockImplementation(() =>
       Promise.reject({
@@ -396,6 +399,7 @@ describe('ICAT auth provider', () => {
       // catch error
     });
 
-    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
 });

@@ -100,14 +100,20 @@ class Routing extends React.Component<
           />
           <Route exact path={scigatewayRoutes.help} component={HelpPage} />
           {/* Admin check required because the component does not have an adminPlugin prop */}
-          {this.props.userIsAdmin ? (
+          {this.props.userIsAdmin && (
             <Route
               exact
               path={scigatewayRoutes.admin}
               render={() => <AuthorisedAdminPage />}
             />
-          ) : null}
-          <Route exact path={scigatewayRoutes.login} component={LoginPage} />
+          )}
+          <Route exact path={scigatewayRoutes.login}>
+            {!this.props.userIsloggedIn ? (
+              <LoginPage />
+            ) : (
+              <Redirect to={scigatewayRoutes.home} />
+            )}
+          </Route>
           <Route
             exact
             path={scigatewayRoutes.cookies}
@@ -144,7 +150,12 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   location: state.router.location.pathname,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
-  userIsloggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  userIsloggedIn:
+    state.scigateway.authorisation.provider.isLoggedIn() &&
+    !(
+      state.scigateway.authorisation.provider.autoLogin &&
+      localStorage.getItem('autoLogin') === 'true'
+    ),
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   homepageUrl: state.scigateway.homepageUrl,
 });

@@ -168,6 +168,7 @@ export function handleSuccessfulLogin(state: ScigatewayState): ScigatewayState {
 }
 
 const resetAuth = (authorisation: AuthState): AuthState => {
+  authorisation.provider.logOut();
   return {
     ...authorisation,
     failedToLogin: false,
@@ -193,7 +194,6 @@ export function handleUnsuccessfulLogin(
 
 export function handleSignOut(state: ScigatewayState): ScigatewayState {
   log.debug(`User is being signed out`);
-  state.authorisation.provider.logOut();
   return {
     ...state,
     drawerOpen: false,
@@ -202,7 +202,6 @@ export function handleSignOut(state: ScigatewayState): ScigatewayState {
 }
 
 export function handleTokenExpiration(state: ScigatewayState): ScigatewayState {
-  state.authorisation.provider.logOut();
   return {
     ...state,
     drawerOpen: false,

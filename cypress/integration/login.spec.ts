@@ -158,6 +158,12 @@ describe('Login', () => {
     cy.contains('Sign in').should('not.exist');
   });
 
+  it('should redirect to homepage if logged in and navigating to login page', () => {
+    cy.login('username', 'password');
+    cy.visit('/login');
+    cy.title().should('equal', 'SciGateway');
+  });
+
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
     // if token cannot be deciphered
     cy.contains('Sign in').should('be.visible');

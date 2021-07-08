@@ -82,6 +82,13 @@ export default abstract class BaseAuthProvider implements AuthProvider {
 
   /* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
   protected handleAuthError(err: any): void {
+    if (
+      err.response &&
+      err.response.status &&
+      (err.response.status === 401 || err.response.status === 403)
+    ) {
+      this.logOut();
+    }
     throw err;
   }
 

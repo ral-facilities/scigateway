@@ -40,18 +40,84 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       path="/help"
     />
     <Route
+      exact={true}
+      path="/login"
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
       component={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LoginPageComponent)",
+          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
       exact={true}
-      path="/login"
+      path="/cookies"
     />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(WithAuthComponent)",
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</div>
+`;
+
+exports[`Routing component redirects to the homepage if navigating to login page while logged in 1`] = `
+<div
+  className="container-class"
+>
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <Connect(HomePage) />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ContactPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/contact"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(HelpPage)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/help"
+    />
+    <Route
+      exact={true}
+      path="/login"
+    >
+      <Redirect
+        to="/"
+      />
+    </Route>
     <Route
       component={
         Object {
@@ -667,18 +733,11 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       path="/help"
     />
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(LoginPageComponent)",
-          "type": [Function],
-        }
-      }
       exact={true}
       path="/login"
-    />
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
     <Route
       component={
         Object {
@@ -745,18 +804,11 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/help"
     />
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(LoginPageComponent)",
-          "type": [Function],
-        }
-      }
       exact={true}
       path="/login"
-    />
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
     <Route
       component={
         Object {

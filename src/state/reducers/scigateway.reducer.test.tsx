@@ -177,14 +177,14 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
-  it('should remain logged in if unsuccessfully attempting to login with another account', () => {
+  it('unsuccessful log in should update authorisation to not logged in state', () => {
     const action = unauthorised();
     state.authorisation.provider = new TestAuthProvider('logged in');
 
     const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeTruthy();
-    expect(updatedState.authorisation.provider.isLoggedIn()).toBeTruthy();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 
   it('token invalidation should reset authorisation and indicate invalidation', () => {
