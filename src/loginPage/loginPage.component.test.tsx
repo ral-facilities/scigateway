@@ -7,6 +7,7 @@ import LoginPage, {
   RedirectLoginScreen,
   CombinedLoginProps,
   AnonLoginScreen,
+  LoginSelector,
 } from './loginPage.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { buildTheme } from '../theming';
@@ -16,21 +17,72 @@ import { createLocation } from 'history';
 import axios from 'axios';
 import { flushPromises } from '../setupTests';
 import { act } from 'react-dom/test-utils';
-import { StateType } from '../state/state.types';
+import { ICATAuthenticator, StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import {
-  loadAuthProvider,
-  loadingAuthentication,
-} from '../state/actions/scigateway.actions';
+import { loadingAuthentication } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
-import { Select } from '@material-ui/core';
 
 jest.mock('loglevel');
+
+describe('Login selector component', () => {
+  let shallow;
+  let props: CombinedLoginProps;
+
+  const dummyClasses = {
+    root: 'root-1',
+    paper: 'paper-class',
+    avatar: 'avatar-class',
+    spinner: 'spinner-class',
+  };
+
+  beforeEach(() => {
+    shallow = createShallow({ untilSelector: 'div' });
+
+    props = {
+      auth: {
+        failedToLogin: false,
+        signedOutDueToTokenInvalidation: false,
+        loading: false,
+        provider: new TestAuthProvider(null),
+      },
+      location: createLocation('/'),
+      res: undefined,
+      classes: dummyClasses,
+    };
+  });
+
+  it('sets a new mnemonic in local state on mnemonic change', () => {
+    const mnemonics: ICATAuthenticator[] = [
+      {
+        mnemonic: 'user/pass',
+        keys: [{ name: 'username' }, { name: 'password' }],
+      },
+      {
+        mnemonic: 'anon',
+        keys: [],
+      },
+    ];
+    const testSetMnemonic = jest.fn();
+    const event = { target: { name: 'mnemonicChange', value: 'anon' } };
+
+    const wrapper = shallow(
+      <LoginSelector
+        {...props}
+        mnemonics={mnemonics}
+        mnemonic="user/pass"
+        setMnemonic={testSetMnemonic}
+      />
+    );
+
+    wrapper.find('#select-mnemonic').simulate('change', event);
+    expect(testSetMnemonic).toBeCalledWith('anon');
+  });
+});
 
 describe('Login page component', () => {
   let shallow;
@@ -66,7 +118,6 @@ describe('Login page component', () => {
       location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      changeMnemonic: jest.fn(),
       classes: dummyClasses,
     };
 
@@ -318,50 +369,6 @@ describe('Login page component', () => {
     spy.mockRestore();
   });
 
-  it('loadAuthProvider action should be sent when user selects an authenticator in authenticator dropdown', async () => {
-    state.scigateway.authorisation.provider.mnemonic = '';
-    state.scigateway.authorisation.provider.authUrl = 'http://localhost:8000';
-
-    (axios.get as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'user/pass',
-            keys: [{ name: 'username' }, { name: 'password' }],
-          },
-          {
-            mnemonic: 'anon',
-            keys: [],
-          },
-        ],
-      })
-    );
-
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
-      </Provider>
-    );
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    // Find the Select component for the dropdown authenticators list.
-    const simulateDropdown = wrapper.find(Select).first();
-    simulateDropdown.prop('onChange')({ target: { value: 'user/pass' } });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadAuthProvider('icat.user/pass', 'http://localhost:8000')
-    );
-  });
-
   it('on submit verification method should be called with username and password arguments', async () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
@@ -384,7 +391,12 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
-    expect(mockLoginfn.mock.calls[0]).toEqual(['new username', 'new password']);
+    expect(mockLoginfn.mock.calls[0]).toEqual([
+      'new username',
+      'new password',
+      undefined,
+      undefined,
+    ]);
 
     simulateUsernameInput.instance().value = 'new username 2';
     simulateUsernameInput.simulate('change');
@@ -403,6 +415,8 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[1]).toEqual([
       'new username 2',
       'new password 2',
+      undefined,
+      undefined,
     ]);
   });
 
@@ -441,13 +455,19 @@ describe('Login page component', () => {
     );
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-    expect(mockLoginfn.mock.calls[0]).toEqual(['', '?token=test_token']);
+    expect(mockLoginfn.mock.calls[0]).toEqual([
+      '',
+      '?token=test_token',
+      undefined,
+      undefined,
+    ]);
   });
 
   it('on submit verification method should be called when logs in via anon authenticator', async () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'anon';
+    props.auth.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -475,7 +495,12 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
-    expect(mockLoginfn.mock.calls[0]).toEqual(['', '']);
+    expect(mockLoginfn.mock.calls[0]).toEqual([
+      '',
+      '',
+      'anon',
+      'http://example.com',
+    ]);
 
     wrapper
       .find(AnonLoginScreen)
@@ -485,16 +510,34 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(2);
 
-    expect(mockLoginfn.mock.calls[1]).toEqual(['', '']);
+    expect(mockLoginfn.mock.calls[1]).toEqual([
+      '',
+      '',
+      'anon',
+      'http://example.com',
+    ]);
   });
 
-  it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', () => {
+  it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
     state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
     state.router.location.search = '?token=test_token';
+    state.scigateway.authorisation.provider.mnemonic = 'anon';
+    state.scigateway.authorisation.provider.authUrl = 'http://example.com';
+
+    (axios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: [
+          {
+            mnemonic: 'anon',
+            keys: [],
+          },
+        ],
+      })
+    );
 
     const testStore = mockStore(state);
 
-    mount(
+    const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
           <LoginPage />
@@ -502,7 +545,11 @@ describe('Login page component', () => {
       </Provider>
     );
 
-    expect(testStore.getActions().length).toEqual(1);
+    await act(async () => {
+      await flushPromises();
+      wrapper.update();
+    });
+
     expect(testStore.getActions()[0]).toEqual(loadingAuthentication());
   });
 });

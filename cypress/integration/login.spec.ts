@@ -57,6 +57,8 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
     cy.contains('Failed to log in. Invalid username or password.');
   });
 
@@ -156,6 +158,12 @@ describe('Login', () => {
     cy.contains('Sign in').should('not.exist');
   });
 
+  it('should redirect to homepage if logged in and navigating to login page', () => {
+    cy.login('username', 'password');
+    cy.visit('/login');
+    cy.url().should('eq', 'http://127.0.0.1:3000/');
+  });
+
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
     // if token cannot be deciphered
     cy.contains('Sign in').should('be.visible');
@@ -235,7 +243,7 @@ describe('Login', () => {
 
     it('should be able to select anon from the dropdown', () => {
       cy.get('#select-mnemonic').click();
-      cy.contains('anon').click();
+      cy.get('ul li').contains('anon').click();
 
       cy.contains('Sign in').should('not.be.disabled');
     });
@@ -335,7 +343,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.contains('anon').click();
+      cy.get('ul li').contains('anon').click();
 
       cy.get('[alt="SciGateway"]').click();
 
@@ -349,7 +357,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.contains('anon').click();
+      cy.get('ul li').contains('anon').click();
 
       cy.get('#select-mnemonic')
         .parent()

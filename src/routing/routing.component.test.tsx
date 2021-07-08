@@ -156,4 +156,26 @@ describe('Routing component', () => {
 
     expect(wrapper).toMatchSnapshot();
   });
+
+  it('redirects to the homepage if navigating to login page while logged in', () => {
+    state.scigateway.authorisation.provider.isLoggedIn = jest
+      .fn()
+      .mockImplementationOnce(() => true);
+
+    state.scigateway.authorisation.provider.autoLogin = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.reject());
+
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementationOnce((name) =>
+        name === 'autoLogin' ? 'false' : null
+      );
+
+    const wrapper = shallow(
+      <Routing store={mockStore(state)} classes={classes} />
+    );
+
+    expect(wrapper).toMatchSnapshot();
+  });
 });
