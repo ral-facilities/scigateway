@@ -161,7 +161,7 @@ describe('Login', () => {
   it('should redirect to homepage if logged in and navigating to login page', () => {
     cy.login('username', 'password');
     cy.visit('/login');
-    cy.title().should('equal', 'SciGateway');
+    cy.url().should('eq', 'http://127.0.0.1:3000/');
   });
 
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
