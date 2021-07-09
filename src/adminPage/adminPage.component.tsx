@@ -85,16 +85,29 @@ export type CombinedAdminPageProps = AdminPageProps &
   WithStyles<typeof styles>;
 
 const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
-  const [
+  const {
     scheduledMaintenance,
-    setScheduledMaintenance,
-  ] = useState<ScheduledMaintenanceState>(props.scheduledMaintenance);
-  const [maintenance, setMaintenance] = useState<MaintenanceState>(
-    props.maintenance
+    setScheduledMaintenanceState,
+    maintenance,
+    setMaintenanceState,
+  } = props;
+
+  const [
+    tempScheduledMaintenance,
+    setTempScheduledMaintenance,
+  ] = useState<ScheduledMaintenanceState>(scheduledMaintenance);
+  const [tempMaintenance, setTempMaintenance] = useState<MaintenanceState>(
+    maintenance
   );
   const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
     'maintenance'
   );
+
+  React.useEffect(() => {
+    // Catch changes to maintenance objects and update local state
+    setTempScheduledMaintenance(scheduledMaintenance);
+    setTempMaintenance(maintenance);
+  }, [scheduledMaintenance, maintenance]);
 
   return (
     <Paper className={props.classes.root}>
@@ -137,10 +150,10 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
             )}
             rows={7}
             placeholder={getString(props.res, 'message-placeholder')}
-            value={scheduledMaintenance.message}
+            value={tempScheduledMaintenance.message}
             onChange={(e) =>
-              setScheduledMaintenance({
-                ...scheduledMaintenance,
+              setTempScheduledMaintenance({
+                ...tempScheduledMaintenance,
                 message: e.currentTarget.value,
               })
             }
@@ -148,13 +161,13 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
           <div style={{ display: 'row' }}>
             <FormControlLabel
               style={{ float: 'left' }}
-              value={scheduledMaintenance.show}
+              value={tempScheduledMaintenance.show}
               control={
                 <Checkbox
-                  checked={scheduledMaintenance.show}
+                  checked={tempScheduledMaintenance.show}
                   onChange={(e) =>
-                    setScheduledMaintenance({
-                      ...scheduledMaintenance,
+                    setTempScheduledMaintenance({
+                      ...tempScheduledMaintenance,
                       show: e.target.checked,
                     })
                   }
@@ -174,9 +187,9 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
               style={{ float: 'right' }}
               variant="contained"
               color="primary"
-              onClick={() => {
-                props.setScheduledMaintenanceState(scheduledMaintenance);
-              }}
+              onClick={() =>
+                setScheduledMaintenanceState(tempScheduledMaintenance)
+              }
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'save-button')}
@@ -193,10 +206,10 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
             aria-label={getString(props.res, 'maintenance-message-arialabel')}
             rows={7}
             placeholder={getString(props.res, 'message-placeholder')}
-            value={maintenance.message}
+            value={tempMaintenance.message}
             onChange={(e) =>
-              setMaintenance({
-                ...maintenance,
+              setTempMaintenance({
+                ...tempMaintenance,
                 message: e.currentTarget.value,
               })
             }
@@ -204,12 +217,15 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
           <div style={{ display: 'row' }}>
             <FormControlLabel
               style={{ float: 'left' }}
-              value={maintenance.show}
+              value={tempMaintenance.show}
               control={
                 <Checkbox
-                  checked={maintenance.show}
+                  checked={tempMaintenance.show}
                   onChange={(e) =>
-                    setMaintenance({ ...maintenance, show: e.target.checked })
+                    setTempMaintenance({
+                      ...tempMaintenance,
+                      show: e.target.checked,
+                    })
                   }
                   inputProps={{
                     'aria-label': getString(
@@ -227,9 +243,7 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
               style={{ float: 'right' }}
               variant="contained"
               color="primary"
-              onClick={() => {
-                props.setMaintenanceState(maintenance);
-              }}
+              onClick={() => setMaintenanceState(tempMaintenance)}
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'save-button')}
