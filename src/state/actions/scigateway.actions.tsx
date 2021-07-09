@@ -205,10 +205,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPromises = [];
 
         const provider = getState().scigateway.authorisation.provider;
-
         if (provider.fetchMaintenanceState) {
           provider.fetchMaintenanceState().then((maintenanceState) => {
             dispatch(loadMaintenanceState(maintenanceState));
+
+            // If enabled, display the maintenance banner.
+            if (maintenanceState['show']) {
+              displayMaintenanceBanner(maintenanceState['message']);
+            }
           });
         }
 
@@ -342,16 +346,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           // Checking the state in the GET response because it does not get
           // loaded into the store before this check is performed
           if (scheduledMaintenanceState['show']) {
-            displayScheduledMaintenanceBanner(
-              scheduledMaintenanceState['message']
-            );
+            displayMaintenanceBanner(scheduledMaintenanceState['message']);
           }
         });
     }
   };
 };
 
-const displayScheduledMaintenanceBanner = (message: string): void => {
+const displayMaintenanceBanner = (message: string): void => {
   document.dispatchEvent(
     new CustomEvent('scigateway', {
       detail: {
