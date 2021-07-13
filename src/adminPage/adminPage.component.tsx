@@ -103,11 +103,14 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
     'maintenance'
   );
 
+  // Catch changes to maintenance objects and update local state
   React.useEffect(() => {
-    // Catch changes to maintenance objects and update local state
     setTempScheduledMaintenance(scheduledMaintenance);
+  }, [scheduledMaintenance]);
+
+  React.useEffect(() => {
     setTempMaintenance(maintenance);
-  }, [scheduledMaintenance, maintenance]);
+  }, [maintenance]);
 
   return (
     <Paper className={props.classes.root}>
