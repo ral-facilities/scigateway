@@ -111,13 +111,16 @@ export default class ICATAuthProvider extends BaseAuthProvider {
 
   public setScheduledMaintenanceState(
     scheduledMaintenanceState: ScheduledMaintenanceState
-  ): Promise<void> {
+  ): Promise<string | void> {
     return Axios.put(`${this.authUrl}/scheduled_maintenance`, {
       token: this.token,
       scheduledMaintenance: scheduledMaintenanceState,
     })
-      .then(() => {
-        // do nothing
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data);
+          return res.data;
+        }
       })
       .catch((err) => {
         this.handleAuthError(err);
@@ -126,13 +129,16 @@ export default class ICATAuthProvider extends BaseAuthProvider {
 
   public setMaintenanceState(
     maintenanceState: MaintenanceState
-  ): Promise<void> {
+  ): Promise<string | void> {
     return Axios.put(`${this.authUrl}/maintenance`, {
       token: this.token,
       maintenance: maintenanceState,
     })
-      .then(() => {
-        // do nothing
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data);
+          return res.data;
+        }
       })
       .catch((err) => {
         this.handleAuthError(err);

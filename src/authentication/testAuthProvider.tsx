@@ -63,13 +63,13 @@ export default class TestAuthProvider implements AuthProvider {
 
   public setScheduledMaintenanceState(
     scheduledMaintenanceState: ScheduledMaintenanceState
-  ): Promise<void> {
-    return Promise.resolve();
+  ): Promise<string | void> {
+    return Promise.resolve('test');
   }
 
   public setMaintenanceState(
     maintenanceState: MaintenanceState
-  ): Promise<void> {
-    return Promise.resolve();
+  ): Promise<string | void> {
+    return Promise.resolve('test');
   }
 }
