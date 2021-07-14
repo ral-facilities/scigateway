@@ -118,7 +118,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
     })
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
           return res.data;
         }
       })
@@ -136,7 +135,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
     })
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
           return res.data;
         }
       })

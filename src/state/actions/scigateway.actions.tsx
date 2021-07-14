@@ -437,6 +437,13 @@ export const setScheduledMaintenanceState = (
           if (message) {
             displayMaintenanceBanner(message, 'success', true);
           }
+        })
+        .catch(() => {
+          displayMaintenanceBanner(
+            'An error occurred when attempting to save. Try again or contact the support team.',
+            'error',
+            true
+          );
         });
     }
   };
@@ -457,6 +464,13 @@ export const setMaintenanceState = (
           if (message) {
             displayMaintenanceBanner(message, 'success', true);
           }
+        })
+        .catch(() => {
+          displayMaintenanceBanner(
+            'An error occurred when attempting to save. Try again or contact the support team.',
+            'error',
+            true
+          );
         });
     }
   };
