@@ -727,6 +727,7 @@ describe('scigateway actions', () => {
       payload: {
         message: 'test',
         severity: 'warning',
+        instant: false,
       },
     });
   });
@@ -790,6 +791,7 @@ describe('scigateway actions', () => {
       payload: {
         message: 'test',
         severity: 'warning',
+        instant: false,
       },
     });
   });

@@ -117,7 +117,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       scheduledMaintenance: scheduledMaintenanceState,
     })
       .then((res) => {
-        if (res.data) {
+        if (res?.data) {
           return res.data;
         }
       })
@@ -134,7 +134,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       maintenance: maintenanceState,
     })
       .then((res) => {
-        if (res.data) {
+        if (res?.data) {
           return res.data;
         }
       })

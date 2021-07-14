@@ -151,7 +151,6 @@ export const listenToPlugins = (
               toastrMessage(message, severity);
             }
           } else {
-            // TODO: instant is undefined but false?
             dispatch(pluginMessage.detail);
 
             // If "instant" is not used, by default we only show "warning" and "error" messages.
