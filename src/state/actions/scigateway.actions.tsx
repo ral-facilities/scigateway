@@ -205,10 +205,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPromises = [];
 
         const provider = getState().scigateway.authorisation.provider;
-
         if (provider.fetchMaintenanceState) {
           provider.fetchMaintenanceState().then((maintenanceState) => {
             dispatch(loadMaintenanceState(maintenanceState));
+
+            // If enabled, display the maintenance banner.
+            if (maintenanceState['show']) {
+              displayMaintenanceBanner(maintenanceState['message'], 'warning');
+            }
           });
         }
 
@@ -342,8 +346,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           // Checking the state in the GET response because it does not get
           // loaded into the store before this check is performed
           if (scheduledMaintenanceState['show']) {
-            displayScheduledMaintenanceBanner(
-              scheduledMaintenanceState['message']
+            displayMaintenanceBanner(
+              scheduledMaintenanceState['message'],
+              'warning'
             );
           }
         });
@@ -351,14 +356,19 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
   };
 };
 
-const displayScheduledMaintenanceBanner = (message: string): void => {
+const displayMaintenanceBanner = (
+  message: string,
+  severity: 'success' | 'warning' | 'error',
+  instant = false
+): void => {
   document.dispatchEvent(
     new CustomEvent('scigateway', {
       detail: {
         type: NotificationType,
         payload: {
-          severity: 'warning',
-          message: message,
+          severity,
+          message,
+          instant,
         },
       },
     })
@@ -420,8 +430,20 @@ export const setScheduledMaintenanceState = (
     if (authProvider.setScheduledMaintenanceState) {
       await authProvider
         .setScheduledMaintenanceState(scheduledMaintenanceState)
-        .then(() => {
+        .then((message) => {
           dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
+
+          // Displaying the banner to show that the state has been updated.
+          if (message) {
+            displayMaintenanceBanner(message, 'success', true);
+          }
+        })
+        .catch(() => {
+          displayMaintenanceBanner(
+            'An error occurred when attempting to save. Try again or contact the support team.',
+            'error',
+            true
+          );
         });
     }
   };
@@ -433,9 +455,23 @@ export const setMaintenanceState = (
   return async (dispatch, getState) => {
     const authProvider = getState().scigateway.authorisation.provider;
     if (authProvider.setMaintenanceState) {
-      await authProvider.setMaintenanceState(maintenanceState).then(() => {
-        dispatch(loadMaintenanceState(maintenanceState));
-      });
+      await authProvider
+        .setMaintenanceState(maintenanceState)
+        .then((message) => {
+          dispatch(loadMaintenanceState(maintenanceState));
+
+          // Displaying the banner to show that the state has been updated.
+          if (message) {
+            displayMaintenanceBanner(message, 'success', true);
+          }
+        })
+        .catch(() => {
+          displayMaintenanceBanner(
+            'An error occurred when attempting to save. Try again or contact the support team.',
+            'error',
+            true
+          );
+        });
     }
   };
 };

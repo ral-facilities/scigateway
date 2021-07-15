@@ -75,9 +75,11 @@ export interface AuthProvider {
   fetchScheduledMaintenanceState?: () => Promise<ScheduledMaintenanceState>;
   setScheduledMaintenanceState?: (
     scheduledMaintenanceState: ScheduledMaintenanceState
-  ) => Promise<void>;
+  ) => Promise<string | void>;
   fetchMaintenanceState?: () => Promise<MaintenanceState>;
-  setMaintenanceState?: (maintenanceState: MaintenanceState) => Promise<void>;
+  setMaintenanceState?: (
+    maintenanceState: MaintenanceState
+  ) => Promise<string | void>;
   redirectUrl: string | null;
   authUrl: string | undefined;
   user: User | null;

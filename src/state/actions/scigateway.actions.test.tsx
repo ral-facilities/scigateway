@@ -662,7 +662,7 @@ describe('scigateway actions', () => {
     );
   });
 
-  it('should not display a warning when maintenance is not scheduled', async () => {
+  it('should not display a warning when maintenance is not scheduled or enabled', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {},
@@ -727,6 +727,7 @@ describe('scigateway actions', () => {
       payload: {
         message: 'test',
         severity: 'warning',
+        instant: false,
       },
     });
   });
@@ -751,5 +752,47 @@ describe('scigateway actions', () => {
     expect(actions).toContainEqual(
       loadMaintenanceState({ show: false, message: 'test' })
     );
+  });
+
+  it('should display a warning when in maintenance', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
+    const events: CustomEvent<AnyAction>[] = [];
+    const dispatchEventSpy = jest
+      .spyOn(document, 'dispatchEvent')
+      .mockImplementation((e) => {
+        events.push(e as CustomEvent<AnyAction>);
+        return true;
+      });
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const state = JSON.parse(JSON.stringify(initialState));
+    const testAuthProvider = new TestAuthProvider(null);
+    testAuthProvider.fetchMaintenanceState = () =>
+      Promise.resolve({
+        show: true,
+        message: 'test',
+      });
+    state.authorisation.provider = testAuthProvider;
+
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    await asyncAction(dispatch, getState);
+
+    expect(dispatchEventSpy).toHaveBeenCalled();
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual({
+      type: NotificationType,
+      payload: {
+        message: 'test',
+        severity: 'warning',
+        instant: false,
+      },
+    });
   });
 });

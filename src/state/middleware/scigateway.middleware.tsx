@@ -44,6 +44,25 @@ const toastrMessageOptions = {
   removeOnHoverTimeOut: 0,
 };
 
+const toastrMessage = (
+  message: string,
+  severity: 'success' | 'warning' | 'error'
+): void => {
+  switch (severity) {
+    case 'success':
+      toastr.success('Success', message, toastrMessageOptions);
+      break;
+    case 'warning':
+      toastr.warning('Warning', message, toastrMessageOptions);
+      break;
+    case 'error':
+      toastr.error('Error', message, toastrMessageOptions);
+      break;
+    default:
+      log.error(`Invalid severity provided: ${severity}`);
+  }
+};
+
 export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
@@ -122,14 +141,25 @@ export const listenToPlugins = (
           break;
 
         case NotificationType:
-          dispatch(pluginMessage.detail);
+          // Only add to state if it is not intended to be an "instant" notification.
+          if (
+            pluginMessage.detail.payload.instant !== undefined &&
+            pluginMessage.detail.payload.instant === true
+          ) {
+            if (pluginMessage.detail.payload.severity !== undefined) {
+              const { severity, message } = pluginMessage.detail.payload;
+              toastrMessage(message, severity);
+            }
+          } else {
+            dispatch(pluginMessage.detail);
 
-          if (pluginMessage.detail.payload.severity !== undefined) {
-            const { severity, message } = pluginMessage.detail.payload;
-            if (severity === 'error') {
-              toastr.error('Error', message, toastrMessageOptions);
-            } else if (severity === 'warning') {
-              toastr.warning('Warning', message, toastrMessageOptions);
+            // If "instant" is not used, by default we only show "warning" and "error" messages.
+            if (pluginMessage.detail.payload.severity !== undefined) {
+              const { severity, message } = pluginMessage.detail.payload;
+
+              if (severity !== 'success') {
+                toastrMessage(message, severity);
+              }
             }
           }
           break;
