@@ -78,7 +78,7 @@ const styles = (theme: Theme): StyleRules =>
 
 interface LoginPageProps {
   auth: AuthState;
-  res: AppStrings | undefined;
+  res?: AppStrings;
   location: Location;
 }
 
@@ -86,8 +86,8 @@ interface LoginPageDispatchProps {
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic: string | undefined,
-    authUrl: string | undefined
+    mnemonic?: string,
+    authUrl?: string
   ) => Promise<void>;
 }
 
@@ -124,8 +124,8 @@ export const RedirectLoginScreen = (
 
 export const CredentialsLoginScreen = (
   props: CombinedLoginProps & {
-    mnemonic: string | undefined;
-    authUrl: string | undefined;
+    mnemonic?: string;
+    authUrl?: string;
   }
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
@@ -202,8 +202,8 @@ export const CredentialsLoginScreen = (
 
 export const AnonLoginScreen = (
   props: CombinedLoginProps & {
-    mnemonic: string | undefined;
-    authUrl: string | undefined;
+    mnemonic?: string;
+    authUrl?: string;
   }
 ): React.ReactElement => (
   <div
@@ -242,8 +242,8 @@ export const AnonLoginScreen = (
 export const LoginSelector = (
   props: CombinedLoginProps & {
     mnemonics: ICATAuthenticator[];
-    mnemonic: string | undefined;
-    setMnemonic: React.Dispatch<React.SetStateAction<string | undefined>>;
+    mnemonic?: string;
+    setMnemonic: (mnemonic: string) => void;
   }
 ): React.ReactElement => {
   return (
@@ -271,9 +271,7 @@ export const LoginSelector = (
   );
 };
 
-function fetchMnemonics(
-  authUrl: string | undefined
-): Promise<ICATAuthenticator[]> {
+function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
   return axios
     .get(`${authUrl}/authenticators`)
     .then((res) => {
@@ -437,8 +435,8 @@ const mapDispatchToProps = (
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic: string | undefined,
-    authUrl: string | undefined
+    mnemonic?: string,
+    authUrl?: string
   ) =>
     dispatch(
       verifyUsernameAndPassword(
