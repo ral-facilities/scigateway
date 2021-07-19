@@ -338,7 +338,11 @@ describe('ICAT auth provider', () => {
 
   it('should call api to set scheduled maintenance state', async () => {
     const scheduledMaintenanceState = { show: true, message: 'test' };
-    mockAxios.put = jest.fn().mockImplementation(() => Promise.resolve());
+    mockAxios.put = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        data: 'test',
+      })
+    );
 
     await icatAuthProvider.setScheduledMaintenanceState(
       scheduledMaintenanceState
@@ -375,7 +379,9 @@ describe('ICAT auth provider', () => {
 
   it('should call api to set maintenance state', async () => {
     const maintenanceState = { show: true, message: 'test' };
-    mockAxios.put = jest.fn().mockImplementation(() => Promise.resolve());
+    mockAxios.put = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ data: 'test' }));
 
     await icatAuthProvider.setMaintenanceState(maintenanceState);
 

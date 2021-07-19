@@ -120,7 +120,7 @@ describe('Admin page component', () => {
     );
   });
 
-  it.skip('redirects to Admin Download table when Admin Downlod tab is clicked', () => {
+  it.skip('redirects to Admin Download table when Admin Download tab is clicked', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
