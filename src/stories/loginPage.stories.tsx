@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { FakeAsyncAction, FakeReduxAction } from './utils';
+import { FakeAsyncAction } from './utils';
 import { LoginPageWithStyles } from '../loginPage/loginPage.component';
 import { storybookResourceStrings } from './storybookResourceStrings';
 import { createLocation } from 'history';
@@ -20,9 +20,6 @@ const buildLoginPage = (
     verifyUsernameAndPassword={(u, p) =>
       FakeAsyncAction(`verify username and password: ${u},${p}`)()
     }
-    changeMnemonic={(m) => {
-      FakeReduxAction(`change mnemonic: ${m}`)();
-    }}
     auth={{
       failedToLogin,
       signedOutDueToTokenInvalidation: false,

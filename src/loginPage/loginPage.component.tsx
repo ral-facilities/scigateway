@@ -16,10 +16,7 @@ import {
   createStyles,
   WithStyles,
 } from '@material-ui/core/styles';
-import {
-  verifyUsernameAndPassword,
-  loadAuthProvider,
-} from '../state/actions/scigateway.actions';
+import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
 import { UKRITheme } from '../theming';
@@ -81,16 +78,17 @@ const styles = (theme: Theme): StyleRules =>
 
 interface LoginPageProps {
   auth: AuthState;
-  res: AppStrings | undefined;
+  res?: AppStrings;
   location: Location;
 }
 
 interface LoginPageDispatchProps {
   verifyUsernameAndPassword: (
     username: string,
-    password: string
+    password: string,
+    mnemonic?: string,
+    authUrl?: string
   ) => Promise<void>;
-  changeMnemonic: (mnemonic: string, authUrl: string | undefined) => void;
 }
 
 export type CombinedLoginProps = LoginPageProps &
@@ -125,7 +123,10 @@ export const RedirectLoginScreen = (
 );
 
 export const CredentialsLoginScreen = (
-  props: CombinedLoginProps
+  props: CombinedLoginProps & {
+    mnemonic?: string;
+    authUrl?: string;
+  }
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -141,7 +142,12 @@ export const CredentialsLoginScreen = (
           e.key === 'Enter' &&
           isInputValid()
         ) {
-          props.verifyUsernameAndPassword(username, password);
+          props.verifyUsernameAndPassword(
+            username,
+            password,
+            props.mnemonic,
+            props.authUrl
+          );
         }
       }}
     >
@@ -178,7 +184,12 @@ export const CredentialsLoginScreen = (
         className={props.classes.button}
         disabled={!isInputValid() || props.auth.loading}
         onClick={() => {
-          props.verifyUsernameAndPassword(username, password);
+          props.verifyUsernameAndPassword(
+            username,
+            password,
+            props.mnemonic,
+            props.authUrl
+          );
         }}
       >
         <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
@@ -190,13 +201,16 @@ export const CredentialsLoginScreen = (
 };
 
 export const AnonLoginScreen = (
-  props: CombinedLoginProps
+  props: CombinedLoginProps & {
+    mnemonic?: string;
+    authUrl?: string;
+  }
 ): React.ReactElement => (
   <div
     className={props.classes.root}
     onKeyPress={(e) => {
       if (e.key === 'Enter') {
-        props.verifyUsernameAndPassword('', '');
+        props.verifyUsernameAndPassword('', '', props.mnemonic, props.authUrl);
       }
     }}
   >
@@ -215,7 +229,7 @@ export const AnonLoginScreen = (
       color="primary"
       className={props.classes.button}
       onClick={() => {
-        props.verifyUsernameAndPassword('', '');
+        props.verifyUsernameAndPassword('', '', props.mnemonic, props.authUrl);
       }}
     >
       <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
@@ -226,13 +240,12 @@ export const AnonLoginScreen = (
 );
 
 export const LoginSelector = (
-  props: CombinedLoginProps & { mnemonics: ICATAuthenticator[] }
+  props: CombinedLoginProps & {
+    mnemonics: ICATAuthenticator[];
+    mnemonic?: string;
+    setMnemonic: (mnemonic: string) => void;
+  }
 ): React.ReactElement => {
-  const mnemonics = props.mnemonics;
-  const mnemonic = props.auth.provider.mnemonic || '';
-  const setMnemonic = props.changeMnemonic;
-  const authUrl = props.auth.provider.authUrl;
-
   return (
     <FormControl style={{ minWidth: 120 }}>
       <InputLabel htmlFor="mnemonic-select" color="secondary">
@@ -242,13 +255,13 @@ export const LoginSelector = (
         className={props.classes.textField}
         id="select-mnemonic"
         labelId="mnemonic-select"
-        value={mnemonic}
+        value={props.mnemonic}
         onChange={(e) => {
-          setMnemonic(e.target.value as string, authUrl);
+          props.setMnemonic(e.target.value as string);
         }}
         color="secondary"
       >
-        {mnemonics.map((authenticator) => (
+        {props.mnemonics.map((authenticator) => (
           <MenuItem key={authenticator.mnemonic} value={authenticator.mnemonic}>
             {authenticator.friendly || authenticator.mnemonic}
           </MenuItem>
@@ -258,9 +271,7 @@ export const LoginSelector = (
   );
 };
 
-function fetchMnemonics(
-  authUrl: string | undefined
-): Promise<ICATAuthenticator[]> {
+function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
   return axios
     .get(`${authUrl}/authenticators`)
     .then((res) => {
@@ -284,12 +295,13 @@ function fetchMnemonics(
 }
 
 const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
-  const mnemonic = props.auth.provider.mnemonic;
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
+  const [mnemonic, setMnemonic] = useState<string | undefined>(
+    props.auth.provider.mnemonic
+  );
 
-  const changeMnemonic = props.changeMnemonic;
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics(authUrl).then((mnemonics) => {
@@ -299,10 +311,19 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
         setMnemonics(nonAdminAuthenticators);
         setFetchedMnemonics(true);
         if (nonAdminAuthenticators.length === 1)
-          changeMnemonic(nonAdminAuthenticators[0].mnemonic, authUrl);
+          setMnemonic(nonAdminAuthenticators[0].mnemonic);
       });
     }
-  }, [changeMnemonic, mnemonic, fetchedMnemonics, authUrl]);
+  }, [mnemonic, fetchedMnemonics, authUrl]);
+
+  React.useEffect(() => {
+    if (
+      typeof props.auth.provider.mnemonic !== 'undefined' &&
+      props.auth.provider.mnemonic !== ''
+    ) {
+      setMnemonic(props.auth.provider.mnemonic);
+    }
+  }, [props.auth.provider.mnemonic]);
 
   React.useEffect(() => {
     if (
@@ -312,7 +333,12 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       !props.auth.failedToLogin
     ) {
       if (props.location.search) {
-        props.verifyUsernameAndPassword('', props.location.search);
+        props.verifyUsernameAndPassword(
+          '',
+          props.location.search,
+          mnemonic,
+          authUrl
+        );
       }
     }
   });
@@ -320,7 +346,13 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   let LoginScreen: React.ReactElement | null = null;
 
   if (typeof mnemonic === 'undefined') {
-    LoginScreen = <CredentialsLoginScreen {...props} />;
+    LoginScreen = (
+      <CredentialsLoginScreen
+        {...props}
+        mnemonic={mnemonic}
+        authUrl={authUrl}
+      />
+    );
     if (props.auth.provider.redirectUrl) {
       LoginScreen = <RedirectLoginScreen {...props} />;
     }
@@ -332,7 +364,9 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       )
     ) {
       // anon
-      LoginScreen = <AnonLoginScreen {...props} />;
+      LoginScreen = (
+        <AnonLoginScreen {...props} mnemonic={mnemonic} authUrl={authUrl} />
+      );
     } else if (
       mnemonics.find(
         (authenticator) =>
@@ -342,7 +376,13 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       )
     ) {
       // user/pass
-      LoginScreen = <CredentialsLoginScreen {...props} />;
+      LoginScreen = (
+        <CredentialsLoginScreen
+          {...props}
+          mnemonic={mnemonic}
+          authUrl={authUrl}
+        />
+      );
     } else if (
       mnemonics.find(
         (authenticator) =>
@@ -367,7 +407,12 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           {getString(props.res, 'title')}
         </Typography>
         {mnemonics.length > 1 && (
-          <LoginSelector {...props} mnemonics={mnemonics} />
+          <LoginSelector
+            {...props}
+            mnemonics={mnemonics}
+            mnemonic={mnemonic}
+            setMnemonic={setMnemonic}
+          />
         )}
         {LoginScreen}
         {props.auth.loading ? (
@@ -387,10 +432,20 @@ const mapStateToProps = (state: StateType): LoginPageProps => ({
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<StateType, null, AnyAction>
 ): LoginPageDispatchProps => ({
-  verifyUsernameAndPassword: (username, password) =>
-    dispatch(verifyUsernameAndPassword(username.trim(), password)),
-  changeMnemonic: (mnemonic, authUrl) =>
-    dispatch(loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)),
+  verifyUsernameAndPassword: (
+    username: string,
+    password: string,
+    mnemonic?: string,
+    authUrl?: string
+  ) =>
+    dispatch(
+      verifyUsernameAndPassword(
+        username.trim(),
+        password,
+        mnemonic !== undefined ? mnemonic : '',
+        authUrl !== undefined ? authUrl : ''
+      )
+    ),
 });
 
 export const LoginPageWithoutStyles = LoginPageComponent;

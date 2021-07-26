@@ -21,6 +21,7 @@ import {
   registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
+  loadAuthProvider,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -79,12 +80,20 @@ describe('scigateway actions', () => {
     expect(action.type).toEqual(ToggleDrawerType);
   });
 
-  it('given valid credentials verifyUsernameAndPassword should return with a valid token and successful authorisation', async () => {
+  it('given valid credentials verifyUsernameAndPassword should change auth provider and return with a valid token and successful authorisation', async () => {
     mockAxiosGetResponse(
       'this will be replaced by an API call to get access token'
     );
 
-    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const mnemonic = 'anon';
+    const authUrl = 'http://example.com';
+
+    const asyncAction = verifyUsernameAndPassword(
+      'username',
+      'password',
+      mnemonic,
+      authUrl
+    );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
@@ -107,8 +116,11 @@ describe('scigateway actions', () => {
     await action;
 
     expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(authorised('validLoginToken'));
-    expect(actions[2]).toEqual({
+    expect(actions[1]).toEqual(
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+    );
+    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
         args: ['/destination/after/login'],
@@ -117,12 +129,20 @@ describe('scigateway actions', () => {
     });
   });
 
-  it('given no referrer but valid credentials verifyUsernameAndPassword should redirect back to /', async () => {
+  it('given no referrer but valid credentials verifyUsernameAndPassword should change auth provider and redirect back to /', async () => {
     mockAxiosGetResponse(
       'this will be replaced by an API call to get access token'
     );
 
-    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const mnemonic = 'anon';
+    const authUrl = 'http://example.com';
+
+    const asyncAction = verifyUsernameAndPassword(
+      'username',
+      'password',
+      mnemonic,
+      authUrl
+    );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
@@ -144,8 +164,11 @@ describe('scigateway actions', () => {
     await action;
 
     expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(authorised('validLoginToken'));
-    expect(actions[2]).toEqual({
+    expect(actions[1]).toEqual(
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+    );
+    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
         args: ['/'],

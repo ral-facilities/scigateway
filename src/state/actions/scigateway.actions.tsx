@@ -392,15 +392,20 @@ export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
 
 export const verifyUsernameAndPassword = (
   username: string,
-  password: string
+  password: string,
+  newMnemonic: string,
+  authUrl: string
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
     const authProvider = getState().scigateway.authorisation.provider;
+    authProvider.mnemonic = newMnemonic;
+    authProvider.authUrl = authUrl;
     await authProvider
       .logIn(username, password)
       .then(() => {
+        dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to
