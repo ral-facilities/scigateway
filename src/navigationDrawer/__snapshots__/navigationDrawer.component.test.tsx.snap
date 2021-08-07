@@ -14,7 +14,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
 >
   <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
-      aria-label="Dropdown Menu"
+      aria-label="Close navigation menu"
       onClick={[Function]}
     >
       <Memo(ForwardRef(ChevronLeftIcon)) />
@@ -39,7 +39,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
 >
   <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
-      aria-label="Dropdown Menu"
+      aria-label="Close navigation menu"
       onClick={[Function]}
     >
       <Memo(ForwardRef(ChevronLeftIcon)) />
@@ -64,7 +64,7 @@ exports[`Navigation drawer component does not display link to homepage if a home
 >
   <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
-      aria-label="Dropdown Menu"
+      aria-label="Close navigation menu"
       onClick={[Function]}
     >
       <Memo(ForwardRef(ChevronLeftIcon)) />
@@ -144,7 +144,7 @@ exports[`Navigation drawer component does not render admin plugins in list 1`] =
 >
   <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
-      aria-label="Dropdown Menu"
+      aria-label="Close navigation menu"
       onClick={[Function]}
     >
       <Memo(ForwardRef(ChevronLeftIcon)) />
@@ -169,7 +169,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
 >
   <Styled(div)>
     <WithStyles(ForwardRef(IconButton))
-      aria-label="Dropdown Menu"
+      aria-label="Close navigation menu"
       onClick={[Function]}
     >
       <Memo(ForwardRef(ChevronLeftIcon)) />
