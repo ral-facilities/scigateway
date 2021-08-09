@@ -210,7 +210,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         <StyledHeader>
           <IconButton
             onClick={this.props.toggleDrawer}
-            aria-label="Dropdown Menu"
+            aria-label="Close navigation menu"
           >
             <ChevronLeftIcon />
           </IconButton>
