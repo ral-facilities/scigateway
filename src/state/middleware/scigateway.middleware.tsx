@@ -67,16 +67,6 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
-  let darkModePreference;
-  const darkModeLocalStorage = localStorage.getItem('darkMode');
-  if (darkModeLocalStorage) {
-    darkModePreference = darkModeLocalStorage === 'true' ? true : false;
-  } else {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    darkModePreference = mq.matches;
-  }
-  const theme = buildTheme(darkModePreference);
-
   document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
@@ -135,6 +125,15 @@ export const listenToPlugins = (
             );
           }
 
+          let darkModePreference: boolean;
+          const darkModeLocalStorage = localStorage.getItem('darkMode');
+          if (darkModeLocalStorage) {
+            darkModePreference = darkModeLocalStorage === 'true' ? true : false;
+          } else {
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
+            darkModePreference = mq.matches;
+          }
+          const theme = buildTheme(darkModePreference);
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
 
