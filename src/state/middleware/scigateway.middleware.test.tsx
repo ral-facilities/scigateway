@@ -227,6 +227,27 @@ describe('scigateway middleware', () => {
     );
   });
 
+  it('should extract dark mode value from user preferences', () => {
+    Storage.prototype.getItem = jest.fn().mockReturnValueOnce(undefined);
+    window.matchMedia = jest.fn().mockReturnValueOnce({ matches: true });
+    const theme = buildTheme(true);
+    const sendThemeOptionsAction = {
+      type: SendThemeOptionsType,
+      payload: {
+        theme,
+        broadcast: true,
+      },
+    };
+
+    listenToPlugins(store.dispatch, getState);
+
+    handler(new CustomEvent('test', { detail: registerRouteAction }));
+    expect(window.matchMedia).toHaveBeenCalled();
+    expect(JSON.stringify(store.getActions()[1])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
+  });
+
   it('should listen for events and fire registerroute action', () => {
     listenToPlugins(store.dispatch, getState);
 
