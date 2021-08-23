@@ -33,6 +33,7 @@ import { getAppStrings, getString } from '../state/strings';
 import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
+import { PluginConfig } from '../state/scigateway.types';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -42,6 +43,7 @@ interface MainAppProps {
   showAdminPageButton: boolean;
   loggedIn: boolean;
   darkMode: boolean;
+  plugins?: PluginConfig[];
 }
 
 interface MainAppDispatchProps {
@@ -120,6 +122,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     localStorage.setItem('darkMode', toggledPreference.toString());
     props.toggleDarkMode(toggledPreference);
   };
+
+  const logo = props.plugins ? props.plugins[0]?.logoDarkMode : undefined;
+
   return (
     <div className={props.classes.root}>
       <AppBar
@@ -150,7 +155,10 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             onClick={props.navigateToHome}
             aria-label="Homepage"
           >
-            <img src={ScigatewayLogo} alt={getString(props.res, 'title')} />
+            <img
+              src={logo ?? ScigatewayLogo}
+              alt={getString(props.res, 'title')}
+            />
           </Button>
           {props.showContactButton ? (
             <Button
@@ -244,6 +252,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
     state.scigateway.authorisation.provider.isAdmin(),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
+  plugins: state.scigateway.plugins,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
