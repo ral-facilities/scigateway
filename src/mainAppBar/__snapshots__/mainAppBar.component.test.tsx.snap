@@ -1,541 +1,129 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Main app bar component app bar indented when drawer is open 1`] = `
-<div
-  className="MainAppBar-root-1"
->
-  <WithStyles(ForwardRef(AppBar))
-    className="MainAppBar-appBar-2 MainAppBar-appBarShift-3"
-    position="static"
-  >
-    <WithStyles(ForwardRef(Toolbar))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open navigation menu"
-        className="MainAppBar-menuButton-7 MainAppBar-hide-9 tour-nav-menu"
-        color="inherit"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(MenuIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Homepage"
-        className="MainAppBar-titleButton-5 tour-title"
-        onClick={[Function]}
-      >
-        <img
-          alt="title"
-          src="scigateway-white-text-blue-mark-logo.svg"
-        />
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Contactpage"
-        className="MainAppBar-button-6 tour-contact"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          contact
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Helppage"
-        className="MainAppBar-button-6 tour-help"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          help
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Adminpage"
-        className="MainAppBar-button-6 tour-admin"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          admin
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <div
-        className="MainAppBar-grow-4"
-      />
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Help"
-        className="MainAppBar-button-6"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(HelpOutlineIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open browser settings"
-        className="MainAppBar-button-6 tour-settings"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(SettingsIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Menu))
-        anchorEl={null}
-        id="settings"
-        onClose={[Function]}
-        open={false}
-      >
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-manage-cookies"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(TuneIcon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="manage-cookies-button"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-dark-mode"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(Brightness4Icon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="toggle-dark-mode"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-      </WithStyles(ForwardRef(Menu))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(ForwardRef(Toolbar))>
-  </WithStyles(ForwardRef(AppBar))>
-</div>
+Object {
+  "classes": Object {
+    "appBar": "MainAppBar-appBar-50",
+    "appBarShift": "MainAppBar-appBarShift-51",
+    "button": "MainAppBar-button-54",
+    "grow": "MainAppBar-grow-52",
+    "hide": "MainAppBar-hide-57",
+    "menuButton": "MainAppBar-menuButton-55",
+    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-56",
+    "root": "MainAppBar-root-49",
+    "titleButton": "MainAppBar-titleButton-53",
+  },
+  "darkMode": false,
+  "drawerOpen": true,
+  "loggedIn": true,
+  "manageCookies": [Function],
+  "navigateToAdminPage": [Function],
+  "navigateToContactPage": [Function],
+  "navigateToHelpPage": [Function],
+  "navigateToHome": [Function],
+  "plugins": Array [],
+  "res": undefined,
+  "showAdminPageButton": true,
+  "showContactButton": true,
+  "showHelpPageButton": true,
+  "toggleDarkMode": [Function],
+  "toggleDrawer": [Function],
+  "toggleHelp": [Function],
+}
 `;
 
 exports[`Main app bar component app bar renders correctly 1`] = `
-<div
-  className="MainAppBar-root-1"
->
-  <WithStyles(ForwardRef(AppBar))
-    className="MainAppBar-appBar-2"
-    position="static"
-  >
-    <WithStyles(ForwardRef(Toolbar))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open navigation menu"
-        className="MainAppBar-menuButton-7 tour-nav-menu"
-        color="inherit"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(MenuIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Homepage"
-        className="MainAppBar-titleButton-5 tour-title"
-        onClick={[Function]}
-      >
-        <img
-          alt="title"
-          src="scigateway-white-text-blue-mark-logo.svg"
-        />
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Contactpage"
-        className="MainAppBar-button-6 tour-contact"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          contact
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Helppage"
-        className="MainAppBar-button-6 tour-help"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          help
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Adminpage"
-        className="MainAppBar-button-6 tour-admin"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          admin
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <div
-        className="MainAppBar-grow-4"
-      />
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Help"
-        className="MainAppBar-button-6"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(HelpOutlineIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open browser settings"
-        className="MainAppBar-button-6 tour-settings"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(SettingsIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Menu))
-        anchorEl={null}
-        id="settings"
-        onClose={[Function]}
-        open={false}
-      >
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-manage-cookies"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(TuneIcon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="manage-cookies-button"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-dark-mode"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(Brightness4Icon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="toggle-dark-mode"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-      </WithStyles(ForwardRef(Menu))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(ForwardRef(Toolbar))>
-  </WithStyles(ForwardRef(AppBar))>
-</div>
+Object {
+  "classes": Object {
+    "appBar": "MainAppBar-appBar-2",
+    "appBarShift": "MainAppBar-appBarShift-3",
+    "button": "MainAppBar-button-6",
+    "grow": "MainAppBar-grow-4",
+    "hide": "MainAppBar-hide-9",
+    "menuButton": "MainAppBar-menuButton-7",
+    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-8",
+    "root": "MainAppBar-root-1",
+    "titleButton": "MainAppBar-titleButton-5",
+  },
+  "darkMode": false,
+  "drawerOpen": false,
+  "loggedIn": true,
+  "manageCookies": [Function],
+  "navigateToAdminPage": [Function],
+  "navigateToContactPage": [Function],
+  "navigateToHelpPage": [Function],
+  "navigateToHome": [Function],
+  "plugins": Array [],
+  "res": undefined,
+  "showAdminPageButton": true,
+  "showContactButton": true,
+  "showHelpPageButton": true,
+  "toggleDarkMode": [Function],
+  "toggleDrawer": [Function],
+  "toggleHelp": [Function],
+}
 `;
 
 exports[`Main app bar component does not render Help button when feature is false 1`] = `
-<div
-  className="MainAppBar-root-1"
->
-  <WithStyles(ForwardRef(AppBar))
-    className="MainAppBar-appBar-2"
-    position="static"
-  >
-    <WithStyles(ForwardRef(Toolbar))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open navigation menu"
-        className="MainAppBar-menuButton-7 tour-nav-menu"
-        color="inherit"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(MenuIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Homepage"
-        className="MainAppBar-titleButton-5 tour-title"
-        onClick={[Function]}
-      >
-        <img
-          alt="title"
-          src="scigateway-white-text-blue-mark-logo.svg"
-        />
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Contactpage"
-        className="MainAppBar-button-6 tour-contact"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          contact
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Adminpage"
-        className="MainAppBar-button-6 tour-admin"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          admin
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <div
-        className="MainAppBar-grow-4"
-      />
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Help"
-        className="MainAppBar-button-6"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(HelpOutlineIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open browser settings"
-        className="MainAppBar-button-6 tour-settings"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(SettingsIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Menu))
-        anchorEl={null}
-        id="settings"
-        onClose={[Function]}
-        open={false}
-      >
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-manage-cookies"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(TuneIcon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="manage-cookies-button"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-dark-mode"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(Brightness4Icon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="toggle-dark-mode"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-      </WithStyles(ForwardRef(Menu))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(ForwardRef(Toolbar))>
-  </WithStyles(ForwardRef(AppBar))>
-</div>
+Object {
+  "classes": Object {
+    "appBar": "MainAppBar-appBar-34",
+    "appBarShift": "MainAppBar-appBarShift-35",
+    "button": "MainAppBar-button-38",
+    "grow": "MainAppBar-grow-36",
+    "hide": "MainAppBar-hide-41",
+    "menuButton": "MainAppBar-menuButton-39",
+    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-40",
+    "root": "MainAppBar-root-33",
+    "titleButton": "MainAppBar-titleButton-37",
+  },
+  "darkMode": false,
+  "drawerOpen": false,
+  "loggedIn": true,
+  "manageCookies": [Function],
+  "navigateToAdminPage": [Function],
+  "navigateToContactPage": [Function],
+  "navigateToHelpPage": [Function],
+  "navigateToHome": [Function],
+  "plugins": Array [],
+  "res": undefined,
+  "showAdminPageButton": true,
+  "showContactButton": true,
+  "showHelpPageButton": false,
+  "toggleDarkMode": [Function],
+  "toggleDrawer": [Function],
+  "toggleHelp": [Function],
+}
 `;
 
 exports[`Main app bar component does not render contact button when feature is false 1`] = `
-<div
-  className="MainAppBar-root-1"
->
-  <WithStyles(ForwardRef(AppBar))
-    className="MainAppBar-appBar-2"
-    position="static"
-  >
-    <WithStyles(ForwardRef(Toolbar))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open navigation menu"
-        className="MainAppBar-menuButton-7 tour-nav-menu"
-        color="inherit"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(MenuIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Homepage"
-        className="MainAppBar-titleButton-5 tour-title"
-        onClick={[Function]}
-      >
-        <img
-          alt="title"
-          src="scigateway-white-text-blue-mark-logo.svg"
-        />
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Helppage"
-        className="MainAppBar-button-6 tour-help"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          help
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <WithStyles(ForwardRef(Button))
-        aria-label="Adminpage"
-        className="MainAppBar-button-6 tour-admin"
-        onClick={[Function]}
-        style={
-          Object {
-            "paddingTop": 3,
-          }
-        }
-      >
-        <WithStyles(ForwardRef(Typography))
-          color="inherit"
-          noWrap={true}
-          style={
-            Object {
-              "marginTop": 3,
-            }
-          }
-        >
-          admin
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Button))>
-      <div
-        className="MainAppBar-grow-4"
-      />
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Help"
-        className="MainAppBar-button-6"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(HelpOutlineIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(IconButton))
-        aria-label="Open browser settings"
-        className="MainAppBar-button-6 tour-settings"
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(SettingsIcon)) />
-      </WithStyles(ForwardRef(IconButton))>
-      <WithStyles(ForwardRef(Menu))
-        anchorEl={null}
-        id="settings"
-        onClose={[Function]}
-        open={false}
-      >
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-manage-cookies"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(TuneIcon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="manage-cookies-button"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-        <WithStyles(ForwardRef(MenuItem))
-          id="item-dark-mode"
-          onClick={[Function]}
-        >
-          <WithStyles(ForwardRef(ListItemIcon))>
-            <Memo(ForwardRef(Brightness4Icon)) />
-          </WithStyles(ForwardRef(ListItemIcon))>
-          <WithStyles(ForwardRef(ListItemText))
-            primary="toggle-dark-mode"
-          />
-        </WithStyles(ForwardRef(MenuItem))>
-      </WithStyles(ForwardRef(Menu))>
-      <Connect(WithStyles(NotificationBadge)) />
-      <Connect(WithStyles(UserProfileComponent)) />
-    </WithStyles(ForwardRef(Toolbar))>
-  </WithStyles(ForwardRef(AppBar))>
-</div>
+Object {
+  "classes": Object {
+    "appBar": "MainAppBar-appBar-18",
+    "appBarShift": "MainAppBar-appBarShift-19",
+    "button": "MainAppBar-button-22",
+    "grow": "MainAppBar-grow-20",
+    "hide": "MainAppBar-hide-25",
+    "menuButton": "MainAppBar-menuButton-23",
+    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-24",
+    "root": "MainAppBar-root-17",
+    "titleButton": "MainAppBar-titleButton-21",
+  },
+  "darkMode": false,
+  "drawerOpen": false,
+  "loggedIn": true,
+  "manageCookies": [Function],
+  "navigateToAdminPage": [Function],
+  "navigateToContactPage": [Function],
+  "navigateToHelpPage": [Function],
+  "navigateToHome": [Function],
+  "plugins": Array [],
+  "res": undefined,
+  "showAdminPageButton": true,
+  "showContactButton": false,
+  "showHelpPageButton": true,
+  "toggleDarkMode": [Function],
+  "toggleDrawer": [Function],
+  "toggleHelp": [Function],
+}
 `;

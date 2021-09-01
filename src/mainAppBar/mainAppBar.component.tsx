@@ -129,7 +129,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
 
   React.useEffect(() => {
     let set = false;
-    if (props.plugins) {
+    if (props.plugins && props.plugins.length >= 1) {
       for (let i = 0; i < props.plugins.length; i++) {
         if (document.getElementById(props.plugins[i].plugin) !== null) {
           setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
