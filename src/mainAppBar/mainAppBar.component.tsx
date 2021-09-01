@@ -34,6 +34,7 @@ import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import { PluginConfig } from '../state/scigateway.types';
+import { useLocation } from 'react-router-dom';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -112,6 +113,7 @@ type CombinedMainAppBarProps = MainAppProps &
 
 const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const [logo, setLogo] = useState<string>(ScigatewayLogo);
   const closeMenu = (): void => setMenuAnchor(null);
   const manageCookies = (): void => {
     closeMenu();
@@ -123,7 +125,23 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     props.toggleDarkMode(toggledPreference);
   };
 
-  const logo = props.plugins ? props.plugins[0]?.logoDarkMode : undefined;
+  const location = useLocation();
+
+  React.useEffect(() => {
+    let set = false;
+    if (props.plugins) {
+      for (let i = 0; i < props.plugins.length; i++) {
+        if (document.getElementById(props.plugins[i].plugin) !== null) {
+          setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
+          set = true;
+          break;
+        }
+      }
+    }
+    if (!set || !props.plugins) {
+      setLogo(ScigatewayLogo);
+    }
+  }, [props.plugins, location]);
 
   return (
     <div className={props.classes.root}>
@@ -155,10 +173,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             onClick={props.navigateToHome}
             aria-label="Homepage"
           >
-            <img
-              src={logo ?? ScigatewayLogo}
-              alt={getString(props.res, 'title')}
-            />
+            <img src={logo} alt={getString(props.res, 'title')} />
           </Button>
           {props.showContactButton ? (
             <Button
