@@ -102,18 +102,8 @@ export const listenToPlugins = (
             );
           }
 
-          // Redirect to optional startUrl if set and current url is the normal homepage '/'
           if (
-            getState().router.location.pathname === '/' &&
-            getState().scigateway.startUrl === pluginMessage.detail.payload.link
-          ) {
-            dispatch(
-              push(pluginMessage.detail.payload.link, {
-                scigateway: { startUrl: pluginMessage.detail.payload.link },
-              })
-            );
-          } else if (
-            // Redirect to homepage if set. This overrides any startUrl currently set
+            // Redirect to homepage if one is set and current path is /
             getState().router.location.pathname === '/' &&
             getState().scigateway.homepageUrl ===
               pluginMessage.detail.payload.link

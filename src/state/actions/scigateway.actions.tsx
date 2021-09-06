@@ -33,7 +33,6 @@ import {
   MaintenanceState,
   MaintenanceStatePayLoad,
   NotificationType,
-  RegisterStartUrlType,
   RegisterHomepageUrlType,
   RequestPluginRerenderType,
   ScheduledMaintenanceState,
@@ -43,7 +42,6 @@ import {
   SignOutType,
   SiteLoadingPayload,
   SiteLoadingType,
-  StartUrlPayload,
   HomepageUrlPayload,
   ToggleDrawerType,
   ToggleHelpType,
@@ -81,15 +79,6 @@ export const loadFeatureSwitches = (
   type: ConfigureFeatureSwitchesType,
   payload: {
     switches: featureSwitches,
-  },
-});
-
-export const registerStartUrl = (
-  startUrl: string
-): ActionType<StartUrlPayload> => ({
-  type: RegisterStartUrlType,
-  payload: {
-    startUrl: startUrl,
   },
 });
 
@@ -262,10 +251,6 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         }
 
         dispatch(addHelpTourSteps(settings['help-tour-steps']));
-
-        if (settings['startUrl']) {
-          dispatch(registerStartUrl(settings['startUrl']));
-        }
 
         if (settings['homepageUrl']) {
           dispatch(registerHomepageUrl(settings['homepageUrl']));

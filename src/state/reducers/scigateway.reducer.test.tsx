@@ -16,7 +16,6 @@ import {
   invalidToken,
   loadedAuthentication,
   loadDarkModePreference,
-  registerStartUrl,
   registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
@@ -333,14 +332,6 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.maintenance.show).toBeTruthy();
     expect(updatedState.maintenance.message).toEqual('test');
-  });
-
-  it('should register the startUrl when provided', () => {
-    expect(state.startUrl).toBeFalsy();
-
-    const updatedState = ScigatewayReducer(state, registerStartUrl('/test'));
-
-    expect(updatedState.startUrl).toEqual('/test');
   });
 
   it('should register the homepageUrl when provided', () => {

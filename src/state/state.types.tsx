@@ -34,7 +34,6 @@ export interface ScigatewayState {
   features: FeatureSwitches;
   analytics?: AnalyticsState;
   darkMode: boolean;
-  startUrl?: string;
   homepageUrl?: string;
   scheduledMaintenance: ScheduledMaintenanceState;
   maintenance: MaintenanceState;

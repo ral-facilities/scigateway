@@ -16,7 +16,7 @@ interface WithAuthStateProps {
   userIsAdmin: boolean;
   provider: AuthProvider;
   location: string;
-  startUrlState?: StateType;
+  homepageUrlState?: StateType;
 }
 
 interface WithAuthDispatchProps {
@@ -37,7 +37,7 @@ const mapStateToProps = (state: StateType): WithAuthStateProps => ({
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   provider: state.scigateway.authorisation.provider,
   location: state.router.location.pathname,
-  startUrlState: state.router.location.state,
+  homepageUrlState: state.router.location.state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
@@ -66,7 +66,7 @@ export default function withAuth<T>(
         userIsAdmin,
         location,
         provider,
-        startUrlState,
+        homepageUrlState,
         requestPluginRerender,
         invalidToken,
         ...componentProps
@@ -89,10 +89,10 @@ export default function withAuth<T>(
           {!loading &&
           loggedIn &&
           (!adminPlugin || (adminPlugin && userIsAdmin)) ? (
-            startUrlState && startUrlState.scigateway.startUrl ? (
+            homepageUrlState && homepageUrlState.scigateway.homepageUrl ? (
               <Redirect
                 push
-                to={{ pathname: startUrlState.scigateway.startUrl }}
+                to={{ pathname: homepageUrlState.scigateway.homepageUrl }}
               />
             ) : (
               <ComponentToProtect {...(componentProps as T)} />
