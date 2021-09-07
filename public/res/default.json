@@ -19,6 +19,7 @@
   },
   "home-page": {
     "title": "SciGateway",
+    "logo-label": "SciGateway Logo",
     "how-label": "How it works...",
     "explore-label": "1. Explore",
     "explore-description": "Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.",

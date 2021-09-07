@@ -6,7 +6,7 @@ exports[`Home page component homepage renders correctly 1`] = `
     className="bigImage-class"
   >
     <img
-      alt="title"
+      alt="logo-label"
       src="scigateway-white-text-blue-mark-logo.svg"
     />
   </div>
@@ -36,7 +36,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           explore-label
         </WithStyles(ForwardRef(Typography))>
         <img
-          alt=""
+          alt="explore-label"
           className="howItWorksGridItemImage-class"
           src="explore.jpg"
         />
@@ -60,7 +60,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           analyse-label
         </WithStyles(ForwardRef(Typography))>
         <img
-          alt=""
+          alt="analyse-label"
           className="howItWorksGridItemImage-class"
           src="analyse.jpg"
         />
@@ -84,7 +84,7 @@ exports[`Home page component homepage renders correctly 1`] = `
           record-label
         </WithStyles(ForwardRef(Typography))>
         <img
-          alt=""
+          alt="record-label"
           className="howItWorksGridItemImage-class"
           src="record.jpg"
         />

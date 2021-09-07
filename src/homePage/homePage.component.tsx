@@ -87,7 +87,7 @@ export type CombinedHomePageProps = HomePageProps & WithStyles<typeof styles>;
 const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
   <div>
     <div className={props.classes.bigImage}>
-      <img src={ScigatewayLogo} alt={getString(props.res, 'title')} />
+      <img src={ScigatewayLogo} alt={getString(props.res, 'logo-label')} />
     </div>
     <div className={props.classes.howItWorks}>
       <Typography variant="h4" className={props.classes.howItWorksTitle}>
@@ -104,7 +104,7 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
           </Typography>
           <img
             src={ExploreImage}
-            alt=""
+            alt={getString(props.res, 'explore-label')}
             className={props.classes.howItWorksGridItemImage}
           />
           <Typography
@@ -123,7 +123,7 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
           </Typography>
           <img
             src={AnalyseImage}
-            alt=""
+            alt={getString(props.res, 'analyse-label')}
             className={props.classes.howItWorksGridItemImage}
           />
           <Typography
@@ -142,7 +142,7 @@ const HomePage = (props: CombinedHomePageProps): React.ReactElement => (
           </Typography>
           <img
             src={RecordImage}
-            alt=""
+            alt={getString(props.res, 'record-label')}
             className={props.classes.howItWorksGridItemImage}
           />
           <Typography
