@@ -17,7 +17,6 @@ import {
   invalidToken,
   loadedAuthentication,
   loadDarkModePreference,
-  registerStartUrl,
   registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
@@ -233,31 +232,6 @@ describe('scigateway actions', () => {
     expect(actions).toContainEqual(
       loadFeatureSwitches({ showContactButton: true })
     );
-  });
-
-  it('given a startUrl registration is run', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: {
-          startUrl: '/test',
-        },
-      })
-    );
-
-    const asyncAction = configureSite();
-    const actions: Action[] = [];
-    const dispatch = (action: Action): number => actions.push(action);
-    const getState = (): Partial<StateType> => ({
-      scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
-    });
-
-    await asyncAction(dispatch, getState);
-
-    expect(actions).toContainEqual(registerStartUrl('/test'));
   });
 
   it('given a homepageUrl registration is run', async () => {

@@ -95,13 +95,13 @@ describe('AuthorisedRoute component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders redirect when startUrl is configured and logged in', () => {
+  it('renders redirect when homepageUrl is configured and logged in', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
-    state.router.location.state = { scigateway: { startUrl: '/test' } };
+    state.router.location.state = { scigateway: { homepageUrl: '/test' } };
 
     const AuthorisedComponent = withAuth(ComponentToProtect);
     const wrapper = shallow(

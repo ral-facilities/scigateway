@@ -78,7 +78,7 @@ exports[`AuthorisedRoute component renders non admin component when non admin us
 </div>
 `;
 
-exports[`AuthorisedRoute component renders redirect when startUrl is configured and logged in 1`] = `
+exports[`AuthorisedRoute component renders redirect when homepageUrl is configured and logged in 1`] = `
 <div>
   <Redirect
     push={true}
