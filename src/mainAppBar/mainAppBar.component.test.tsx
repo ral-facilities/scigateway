@@ -178,7 +178,7 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
   });
 
-  it('sets plugin logo', () => {
+  it('sets plugin logo', async () => {
     const plugin: PluginConfig = {
       section: 'section',
       link: '/link',
@@ -188,6 +188,7 @@ describe('Main app bar component', () => {
       logoDarkMode: 'pluginLogo',
     };
     state.scigateway.plugins = [plugin];
+    state.scigateway.siteLoading = false;
 
     const testStore = mockStore(state);
     const wrapper = mount(
