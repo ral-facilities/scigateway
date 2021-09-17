@@ -178,7 +178,7 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
   });
 
-  it('sets plugin logo', async () => {
+  it('sets plugin logo', () => {
     const plugin: PluginConfig = {
       section: 'section',
       link: '/link',
