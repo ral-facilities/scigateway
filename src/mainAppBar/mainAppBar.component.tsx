@@ -45,6 +45,7 @@ interface MainAppProps {
   loggedIn: boolean;
   darkMode: boolean;
   plugins?: PluginConfig[];
+  loading: boolean;
 }
 
 interface MainAppDispatchProps {
@@ -128,20 +129,22 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   const location = useLocation();
 
   React.useEffect(() => {
-    let set = false;
-    if (props.plugins && props.plugins.length >= 1) {
-      for (let i = 0; i < props.plugins.length; i++) {
-        if (document.getElementById(props.plugins[i].plugin) !== null) {
-          setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
-          set = true;
-          break;
+    if (!props.loading) {
+      let set = false;
+      if (props.plugins && props.plugins.length >= 1) {
+        for (let i = 0; i < props.plugins.length; i++) {
+          if (document.getElementById(props.plugins[i].plugin) !== null) {
+            setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
+            set = true;
+            break;
+          }
         }
       }
+      if (!set || !props.plugins) {
+        setLogo(ScigatewayLogo);
+      }
     }
-    if (!set || !props.plugins) {
-      setLogo(ScigatewayLogo);
-    }
-  }, [props.plugins, location]);
+  }, [props.plugins, location, props.loading]);
 
   return (
     <div className={props.classes.root}>
@@ -268,6 +271,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
   plugins: state.scigateway.plugins,
+  loading: state.scigateway.siteLoading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({

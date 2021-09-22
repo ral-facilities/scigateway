@@ -188,6 +188,7 @@ describe('Main app bar component', () => {
       logoDarkMode: 'pluginLogo',
     };
     state.scigateway.plugins = [plugin];
+    state.scigateway.siteLoading = false;
 
     const testStore = mockStore(state);
     const wrapper = mount(
