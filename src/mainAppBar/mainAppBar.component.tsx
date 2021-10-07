@@ -139,6 +139,13 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             break;
           }
         }
+
+        //If logo is still not set, use the logo from the first loaded one
+        //This ensures datagateway will have correct logo even when on contact and help pages which do not have contents defined by the plugins
+        if (!set) {
+          setLogo(props.plugins[0].logoDarkMode ?? ScigatewayLogo);
+          set = true;
+        }
       }
       if (!set || !props.plugins) {
         setLogo(ScigatewayLogo);
