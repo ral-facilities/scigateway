@@ -9,12 +9,15 @@ import {
   Badge,
   Menu,
   createStyles,
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
 import { StyleRules } from '@material-ui/core/styles';
 import { StateType, ScigatewayNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { NotificationWithStyles } from './scigatewayNotification.component';
+import DeleteIcon from '@material-ui/icons/Clear';
 
 interface BadgeProps {
   notifications: ScigatewayNotification[];
@@ -59,20 +62,74 @@ function buildMenuItems(
   return menuItems;
 }
 
+const useNoNotificationsStyles = makeStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      root: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      text: {
+        display: 'inline',
+        marginLeft: 15,
+      },
+      button: {
+        marginLeft: 5,
+      },
+      deleteIcon: {
+        height: 15,
+        width: 15,
+      },
+    })
+);
+
+const NoNotificationsMessage = React.forwardRef(
+  (props: { onClose: () => void }): React.ReactElement => {
+    const classes = useNoNotificationsStyles();
+    return (
+      <div>
+        <Typography variant="body2" className={classes.text}>
+          {'No Notifications'}
+        </Typography>
+        <IconButton
+          className={classes.button}
+          onClick={props.onClose}
+          aria-label="Dismiss notification"
+        >
+          <DeleteIcon className={classes.deleteIcon} />
+        </IconButton>
+      </div>
+    );
+  }
+);
+NoNotificationsMessage.displayName = 'NoNotificationsMessage';
+
 const NotificationBadge = (
   props: CombinedNotificationBadgeProps
 ): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
-  const closeMenu = (): void => setMenuAnchor(null);
-  // Ensure menu is closed if no notifications, or all notifications are deleted
-  if (getMenuAnchor !== null && props.notifications.length === 0) {
+  const [displayNoNotifications, setDisplayNoNotifications] = useState(false);
+  const closeMenu = (): void => {
+    setMenuAnchor(null);
+    setDisplayNoNotifications(false);
+  };
+  // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
+  if (
+    !displayNoNotifications &&
+    getMenuAnchor !== null &&
+    props.notifications.length === 0
+  ) {
     closeMenu();
   }
   return (
     <div className="tour-notifications">
       <IconButton
         className={props.classes.button}
-        onClick={(e) => setMenuAnchor(e.currentTarget)}
+        onClick={(e) => {
+          if (!props.notifications || props.notifications.length === 0)
+            setDisplayNoNotifications(true);
+          setMenuAnchor(e.currentTarget);
+        }}
         aria-label="Open notification menu"
       >
         <Badge
@@ -92,6 +149,18 @@ const NotificationBadge = (
           onClose={closeMenu}
         >
           {buildMenuItems(props.notifications, props.deleteMenuItem)}
+        </Menu>
+      ) : null}
+      {displayNoNotifications ? (
+        <Menu
+          id="notifications-menu"
+          anchorEl={getMenuAnchor}
+          open={getMenuAnchor !== null}
+          onClose={closeMenu}
+        >
+          <NoNotificationsMessage
+            onClose={() => setDisplayNoNotifications(false)}
+          ></NoNotificationsMessage>
         </Menu>
       ) : null}
     </div>
