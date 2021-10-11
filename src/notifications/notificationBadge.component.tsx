@@ -122,6 +122,7 @@ const NotificationBadge = (
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [displayNoNotifications, setDisplayNoNotifications] = useState(false);
   const closeMenu = (): void => setMenuAnchor(null);
+  const closeNoNotifications = (): void => setDisplayNoNotifications(false);
   // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
   if (
     !displayNoNotifications &&
@@ -174,11 +175,11 @@ const NotificationBadge = (
           id="notifications-menu"
           anchorEl={getMenuAnchor}
           open={getMenuAnchor !== null}
-          onClose={() => setDisplayNoNotifications(false)}
+          onClose={closeNoNotifications}
         >
           <NoNotificationsMessage
             res={props.res}
-            onClose={() => setDisplayNoNotifications(false)}
+            onClose={closeNoNotifications}
           ></NoNotificationsMessage>
         </Menu>
       ) : null}

@@ -201,11 +201,11 @@ describe('Notification Badge component', () => {
       </Provider>
     );
 
+    //Check can close using close button
     wrapper
       .find('[aria-label="Open notification menu"]')
       .first()
       .simulate('click');
-    wrapper.update();
 
     expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
     expect(
