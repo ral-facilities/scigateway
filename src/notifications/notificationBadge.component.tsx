@@ -121,8 +121,10 @@ const NotificationBadge = (
 ): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [displayNoNotifications, setDisplayNoNotifications] = useState(false);
-  const closeMenu = (): void => setMenuAnchor(null);
-  const closeNoNotifications = (): void => setDisplayNoNotifications(false);
+  const closeMenu = (): void => {
+    setMenuAnchor(null);
+    setDisplayNoNotifications(false);
+  };
   // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
   if (
     !displayNoNotifications &&
@@ -160,27 +162,23 @@ const NotificationBadge = (
           <NotificationsIcon />
         </Badge>
       </IconButton>
-      {props.notifications && props.notifications.length ? (
+      {/* Only display menu if there is something to display */}
+      {displayNoNotifications ||
+      (props.notifications && props.notifications.length) ? (
         <Menu
           id="notifications-menu"
           anchorEl={getMenuAnchor}
           open={getMenuAnchor !== null}
           onClose={closeMenu}
         >
-          {buildMenuItems(props.notifications, props.deleteMenuItem)}
-        </Menu>
-      ) : null}
-      {displayNoNotifications ? (
-        <Menu
-          id="notifications-menu"
-          anchorEl={getMenuAnchor}
-          open={getMenuAnchor !== null}
-          onClose={closeNoNotifications}
-        >
-          <NoNotificationsMessage
-            res={props.res}
-            onClose={closeNoNotifications}
-          ></NoNotificationsMessage>
+          {displayNoNotifications ? (
+            <NoNotificationsMessage
+              res={props.res}
+              onClose={closeMenu}
+            ></NoNotificationsMessage>
+          ) : (
+            buildMenuItems(props.notifications, props.deleteMenuItem)
+          )}
         </Menu>
       ) : null}
     </div>
