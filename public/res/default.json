@@ -5,7 +5,8 @@
     "help": "Help",
     "admin": "Admin",
     "manage-cookies-button": "Manage cookies",
-    "toggle-dark-mode": "Toggle Dark Mode"
+    "toggle-dark-mode": "Toggle Dark Mode",
+    "no-notifications": "No notifications"
   },
   "login": {
     "title": "Sign in",

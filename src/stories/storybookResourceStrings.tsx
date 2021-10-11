@@ -4,6 +4,7 @@ export const storybookResourceStrings: ApplicationStrings = {
   'main-appbar': {
     title: 'SciGateway',
     contact: 'Contact',
+    'no-notifications': 'No notifications',
   },
   login: {
     title: 'Sign in',

@@ -17,10 +17,13 @@ import { StateType, ScigatewayNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { NotificationWithStyles } from './scigatewayNotification.component';
+import { AppStrings } from '../state/scigateway.types';
+import { getAppStrings, getString } from '../state/strings';
 import DeleteIcon from '@material-ui/icons/Clear';
 
 interface BadgeProps {
   notifications: ScigatewayNotification[];
+  res: AppStrings | undefined;
 }
 
 interface BadgeDispatchProps {
@@ -70,7 +73,6 @@ const useNoNotificationsStyles = makeStyles(
         alignItems: 'center',
       },
       text: {
-        display: 'inline',
         marginLeft: 15,
       },
       button: {
@@ -84,12 +86,15 @@ const useNoNotificationsStyles = makeStyles(
 );
 
 const NoNotificationsMessage = React.forwardRef(
-  (props: { onClose: () => void }): React.ReactElement => {
+  (props: {
+    res: AppStrings | undefined;
+    onClose: () => void;
+  }): React.ReactElement => {
     const classes = useNoNotificationsStyles();
     return (
-      <div>
+      <div className={classes.root}>
         <Typography variant="body2" className={classes.text}>
-          {'No Notifications'}
+          {getString(props.res, 'no-notifications')}
         </Typography>
         <IconButton
           className={classes.button}
@@ -109,10 +114,7 @@ const NotificationBadge = (
 ): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [displayNoNotifications, setDisplayNoNotifications] = useState(false);
-  const closeMenu = (): void => {
-    setMenuAnchor(null);
-    setDisplayNoNotifications(false);
-  };
+  const closeMenu = (): void => setMenuAnchor(null);
   // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
   if (
     !displayNoNotifications &&
@@ -121,6 +123,14 @@ const NotificationBadge = (
   ) {
     closeMenu();
   }
+  //Ensure 'no notifications' message does not display when there are notifications
+  if (
+    displayNoNotifications &&
+    props.notifications &&
+    props.notifications.length > 0
+  )
+    setDisplayNoNotifications(false);
+
   return (
     <div className="tour-notifications">
       <IconButton
@@ -156,9 +166,10 @@ const NotificationBadge = (
           id="notifications-menu"
           anchorEl={getMenuAnchor}
           open={getMenuAnchor !== null}
-          onClose={closeMenu}
+          onClose={() => setDisplayNoNotifications(false)}
         >
           <NoNotificationsMessage
+            res={props.res}
             onClose={() => setDisplayNoNotifications(false)}
           ></NoNotificationsMessage>
         </Menu>
@@ -174,6 +185,7 @@ export const NotificationBadgeWithStyles = withStyles(styles)(
 
 const mapStateToProps = (state: StateType): BadgeProps => ({
   notifications: state.scigateway.notifications,
+  res: getAppStrings(state, 'main-appbar'),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): BadgeDispatchProps => ({

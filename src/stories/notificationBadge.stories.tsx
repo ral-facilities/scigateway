@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { NotificationBadgeWithStyles } from '../notifications/notificationBadge.component';
 import { ScigatewayNotification } from '../state/state.types';
 import { FakeReduxAction } from './utils';
+import { storybookResourceStrings } from './storybookResourceStrings';
 
 const buildNotificationBadge = (
   notifications: ScigatewayNotification[]
@@ -10,6 +11,7 @@ const buildNotificationBadge = (
   <div style={{ background: '#1D4F91' }}>
     <NotificationBadgeWithStyles
       notifications={notifications}
+      res={storybookResourceStrings['main-appbar']}
       deleteMenuItem={FakeReduxAction('delete menu item')}
     />
   </div>
