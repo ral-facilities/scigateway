@@ -260,4 +260,22 @@ describe('Main app bar component', () => {
 
     expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
   });
+
+  it('opens no notifications message if alert icon clicked and there are no alerts', () => {
+    const testStore = mockStore(state);
+    const wrapper = createWrapper(testStore);
+
+    //Check notification only opens when clicked
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeFalsy();
+
+    wrapper
+      .find('button[aria-label="Open notification menu"]')
+      .simulate('click');
+
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeTruthy();
+  });
 });

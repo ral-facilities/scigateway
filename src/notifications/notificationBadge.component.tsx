@@ -86,13 +86,20 @@ const useNoNotificationsStyles = makeStyles(
 );
 
 const NoNotificationsMessage = React.forwardRef(
-  (props: {
-    res: AppStrings | undefined;
-    onClose: () => void;
-  }): React.ReactElement => {
+  (
+    props: {
+      res: AppStrings | undefined;
+      onClose: () => void;
+    },
+    ref: React.Ref<HTMLDivElement>
+  ): React.ReactElement => {
     const classes = useNoNotificationsStyles();
     return (
-      <div className={classes.root}>
+      <div
+        aria-label="No notifications message"
+        ref={ref}
+        className={classes.root}
+      >
         <Typography variant="body2" className={classes.text}>
           {getString(props.res, 'no-notifications')}
         </Typography>
@@ -128,8 +135,9 @@ const NotificationBadge = (
     displayNoNotifications &&
     props.notifications &&
     props.notifications.length > 0
-  )
+  ) {
     setDisplayNoNotifications(false);
+  }
 
   return (
     <div className="tour-notifications">
