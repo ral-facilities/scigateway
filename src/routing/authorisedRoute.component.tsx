@@ -71,8 +71,12 @@ export default function withAuth<T>(
         invalidToken,
         ...componentProps
       } = this.props;
-      const adminPlugin =
-        'adminPlugin' in componentProps ? componentProps['adminPlugin'] : false;
+      /* Temporarily removed for testing, seems to have a problem accessing properties
+       *  using [] as it seems to conflict with React.Props.children which is now
+       *  depreciated */
+      //const adminPlugin =
+      //'adminPlugin' in componentProps ? componentProps['adminPlugin'] : false;
+      const adminPlugin = true;
 
       return (
         <div>
