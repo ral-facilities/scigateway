@@ -71,12 +71,11 @@ export default function withAuth<T>(
         invalidToken,
         ...componentProps
       } = this.props;
-      /* Temporarily removed for testing, seems to have a problem accessing properties
-       *  using [] as it seems to conflict with React.Props.children which is now
-       *  depreciated */
-      //const adminPlugin =
-      //'adminPlugin' in componentProps ? componentProps['adminPlugin'] : false;
-      const adminPlugin = true;
+
+      const adminPlugin =
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        'adminPlugin' in componentProps ? componentProps['adminPlugin'] : false;
 
       return (
         <div>
