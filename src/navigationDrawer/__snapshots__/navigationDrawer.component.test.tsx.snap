@@ -101,7 +101,6 @@ exports[`Navigation drawer component does not display link to homepage if a home
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -206,7 +205,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -235,7 +233,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -289,7 +286,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -318,7 +314,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -347,7 +342,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -376,7 +370,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
         component={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
             "render": [Function],
           }
         }
@@ -411,7 +404,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   component={
     Object {
       "$$typeof": Symbol(react.forward_ref),
-      "displayName": "ForwardRefLink",
       "render": [Function],
     }
   }

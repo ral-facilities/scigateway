@@ -359,7 +359,6 @@ exports[`Admin page component should render correctly 1`] = `
                               component={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
-                                  "displayName": "Link",
                                   "propTypes": Object {
                                     "innerRef": [Function],
                                     "onClick": [Function],
@@ -399,7 +398,6 @@ exports[`Admin page component should render correctly 1`] = `
                                 component={
                                   Object {
                                     "$$typeof": Symbol(react.forward_ref),
-                                    "displayName": "Link",
                                     "propTypes": Object {
                                       "innerRef": [Function],
                                       "onClick": [Function],
@@ -426,7 +424,6 @@ exports[`Admin page component should render correctly 1`] = `
                                   component={
                                     Object {
                                       "$$typeof": Symbol(react.forward_ref),
-                                      "displayName": "Link",
                                       "propTypes": Object {
                                         "innerRef": [Function],
                                         "onClick": [Function],
@@ -459,7 +456,6 @@ exports[`Admin page component should render correctly 1`] = `
                                     component={
                                       Object {
                                         "$$typeof": Symbol(react.forward_ref),
-                                        "displayName": "Link",
                                         "propTypes": Object {
                                           "innerRef": [Function],
                                           "onClick": [Function],
