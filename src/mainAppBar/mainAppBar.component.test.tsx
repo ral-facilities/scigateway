@@ -14,7 +14,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { loadDarkModePreference } from '../state/actions/scigateway.actions';
 import { createMemoryHistory, History } from 'history';
 import { ReactWrapper } from 'enzyme';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 
 describe('Main app bar component', () => {

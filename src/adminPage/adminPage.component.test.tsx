@@ -16,7 +16,7 @@ import {
   loadMaintenanceState,
   loadScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Admin page component', () => {
   let mount;

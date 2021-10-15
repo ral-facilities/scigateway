@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
@@ -13,8 +13,26 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
 }));
-jest.mock('../adminPage/adminPage.component');
-jest.mock('../maintenancePage/maintenancePage.component');
+// Need to return something to avoid errors, use aria-label to ensure
+// correct components are being rendered in the snapshot
+jest.mock('../adminPage/adminPage.component', () => {
+  return {
+    __esModule: true,
+    // eslint-disable-next-line react/display-name
+    default: () => {
+      return <div aria-label="AdminPage"></div>;
+    },
+  };
+});
+jest.mock('../maintenancePage/maintenancePage.component', () => {
+  return {
+    __esModule: true,
+    // eslint-disable-next-line react/display-name
+    default: () => {
+      return <div aria-label="MaintenancePage"></div>;
+    },
+  };
+});
 
 describe('Routing component', () => {
   let shallow;

@@ -8,7 +8,7 @@ import { createShallow } from '@material-ui/core/test-utils';
 // history package is part of react-router, which we depend on
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createLocation } from 'history';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 import PageContainer from './pageContainer.component';
 import { StateType } from './state/state.types';

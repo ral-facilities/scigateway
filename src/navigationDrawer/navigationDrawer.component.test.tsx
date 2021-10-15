@@ -8,7 +8,7 @@ import { StateType } from '../state/state.types';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { PluginConfig } from '../state/scigateway.types';
 import { ListItemText } from '@material-ui/core';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Navigation drawer component', () => {
   let shallow;

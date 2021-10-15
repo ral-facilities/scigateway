@@ -6,7 +6,7 @@ import {
   StyleRules,
   WithStyles,
 } from '@material-ui/core/styles';
-import { Route, Switch, Redirect } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { StateType } from '../state/state.types';
 import {
   MaintenanceState,

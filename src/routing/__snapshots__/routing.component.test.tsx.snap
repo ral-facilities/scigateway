@@ -19,7 +19,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ContactPage)",
           "type": [Function],
         }
       }
@@ -32,7 +31,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -51,7 +49,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -64,7 +61,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
@@ -90,7 +86,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ContactPage)",
           "type": [Function],
         }
       }
@@ -103,7 +98,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -124,7 +118,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -137,7 +130,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
@@ -441,7 +433,11 @@ exports[`Routing component renders a route for admin page 1`] = `
                     userIsAdmin={true}
                   >
                     <div>
-                      <Connect(AdminPage) />
+                      <default>
+                        <div
+                          aria-label="AdminPage"
+                        />
+                      </default>
                     </div>
                   </WithAuthComponent>
                 </Connect(WithAuthComponent)>
@@ -553,73 +549,7 @@ exports[`Routing component renders a route for maintenance page when site is und
           >
             <Switch>
               <Route
-                component={
-                  Object {
-                    "$$typeof": Symbol(react.memo),
-                    "WrappedComponent": [MockFunction],
-                    "apply": [MockFunction],
-                    "bind": [MockFunction],
-                    "call": [MockFunction],
-                    "compare": null,
-                    "displayName": "Connect(MaintenancePage)",
-                    "type": [MockFunction] {
-                      "calls": Array [
-                        Array [
-                          Object {
-                            "history": Object {
-                              "action": "POP",
-                              "block": [Function],
-                              "canGo": [Function],
-                              "createHref": [Function],
-                              "entries": Array [
-                                Object {
-                                  "hash": "",
-                                  "key": "testKey",
-                                  "pathname": "/test_link",
-                                  "search": "",
-                                },
-                              ],
-                              "go": [Function],
-                              "goBack": [Function],
-                              "goForward": [Function],
-                              "index": 0,
-                              "length": 1,
-                              "listen": [Function],
-                              "location": Object {
-                                "hash": "",
-                                "key": "testKey",
-                                "pathname": "/test_link",
-                                "search": "",
-                              },
-                              "push": [Function],
-                              "replace": [Function],
-                            },
-                            "location": Object {
-                              "hash": "",
-                              "key": "testKey",
-                              "pathname": "/test_link",
-                              "search": "",
-                            },
-                            "match": Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
-                            },
-                            "staticContext": undefined,
-                          },
-                          Object {},
-                        ],
-                      ],
-                      "results": Array [
-                        Object {
-                          "type": "return",
-                          "value": undefined,
-                        },
-                      ],
-                    },
-                  }
-                }
+                component={[Function]}
                 computedMatch={
                   Object {
                     "isExact": false,
@@ -637,7 +567,7 @@ exports[`Routing component renders a route for maintenance page when site is und
                   }
                 }
               >
-                <Connect(MaintenancePage)
+                <default
                   history={
                     Object {
                       "action": "POP",
@@ -684,7 +614,11 @@ exports[`Routing component renders a route for maintenance page when site is und
                       "url": "/",
                     }
                   }
-                />
+                >
+                  <div
+                    aria-label="MaintenancePage"
+                  />
+                </default>
               </Route>
             </Switch>
           </div>
@@ -712,7 +646,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ContactPage)",
           "type": [Function],
         }
       }
@@ -725,7 +658,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -744,7 +676,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -757,7 +688,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
@@ -783,7 +713,6 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ContactPage)",
           "type": [Function],
         }
       }
@@ -796,7 +725,6 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -815,7 +743,6 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -838,7 +765,6 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
