@@ -33,7 +33,6 @@
   },
   "contact-page": {
     "title": "Contact",
-    "contact-details-title": "Contact Us",
     "contact-details-description": "For problems with SciGateway, please contact <a href=\"mailto:example@email.com?subject=Feedback From SciGateway\">example@email.com</a>"
   },
   "help-page": {

@@ -61,9 +61,6 @@ const ContactPage = (props: CombinedContactPageProps): React.ReactElement => {
         {getString(props.res, 'title')}
       </Typography>
       <div className={props.classes.container}>
-        <Typography variant="h4">
-          {getString(props.res, 'contact-details-title')}
-        </Typography>
         <Typography
           variant="body1"
           className={props.classes.contactDetails}
