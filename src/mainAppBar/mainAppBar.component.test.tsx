@@ -70,6 +70,13 @@ describe('Main app bar component', () => {
     expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
   });
 
+  it('uses single plugin logo when feature is true', () => {
+    state.scigateway.features.singlePluginLogo = true;
+    const testStore = mockStore(state);
+    const wrapper = createWrapper(testStore);
+    expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
+  });
+
   it('app bar indented when drawer is open', () => {
     state.scigateway.drawerOpen = true;
     const testStore = mockStore(state);
@@ -259,6 +266,48 @@ describe('Main app bar component', () => {
     );
 
     expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
+  });
+
+  it('sets first plugin logo when the singlePluginLogo setting is true', () => {
+    let testStore = mockStore(state);
+    let wrapper = createWrapper(testStore);
+    expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
+
+    state.scigateway.features.singlePluginLogo = true;
+    state.scigateway.plugins = [
+      {
+        section: 'section',
+        link: '/link',
+        plugin: 'plugin1',
+        displayName: 'pluginName',
+        order: 1,
+        logoDarkMode: 'pluginLogo',
+      },
+      {
+        section: 'section',
+        link: '/link',
+        plugin: 'plugin2',
+        displayName: 'pluginName',
+        order: 2,
+        logoDarkMode: 'pluginLogo2',
+      },
+    ];
+    state.scigateway.siteLoading = false;
+
+    testStore = mockStore(state);
+    wrapper = mount(
+      <div id="plugin2">
+        <MuiThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <Router history={history}>
+              <MainAppBarComponent />
+            </Router>
+          </Provider>
+        </MuiThemeProvider>
+      </div>
+    );
+
+    expect(wrapper.find('img').prop('src')).toEqual('pluginLogo');
   });
 
   it('opens no notifications message if alert icon clicked and there are no alerts', () => {
