@@ -67,6 +67,7 @@ export interface FeatureSwitchesPayload {
 export interface FeatureSwitches {
   showContactButton: boolean;
   showHelpPageButton: boolean;
+  singlePluginLogo: boolean;
 }
 
 export interface HomepageUrlPayload {

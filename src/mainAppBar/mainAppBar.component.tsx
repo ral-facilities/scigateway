@@ -42,6 +42,7 @@ interface MainAppProps {
   showContactButton: boolean;
   showHelpPageButton: boolean;
   showAdminPageButton: boolean;
+  singlePluginLogo: boolean;
   loggedIn: boolean;
   darkMode: boolean;
   plugins?: PluginConfig[];
@@ -132,19 +133,26 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     if (!props.loading) {
       let set = false;
       if (props.plugins && props.plugins.length >= 1) {
-        for (let i = 0; i < props.plugins.length; i++) {
-          if (document.getElementById(props.plugins[i].plugin) !== null) {
-            setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
-            set = true;
-            break;
+        //Use the first plugin's logo for everything if 'singlePluginLogo' is true, otherwise choose depending on current plugin visible
+        if (props.singlePluginLogo) {
+          setLogo(props.plugins[0].logoDarkMode ?? ScigatewayLogo);
+          set = true;
+        } else {
+          for (let i = 0; i < props.plugins.length; i++) {
+            if (document.getElementById(props.plugins[i].plugin) !== null) {
+              setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
+              set = true;
+              break;
+            }
           }
         }
       }
+
       if (!set || !props.plugins) {
         setLogo(ScigatewayLogo);
       }
     }
-  }, [props.plugins, location, props.loading]);
+  }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
   return (
     <div className={props.classes.root}>
@@ -264,6 +272,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.scigateway.drawerOpen,
   showContactButton: state.scigateway.features.showContactButton,
   showHelpPageButton: state.scigateway.features.showHelpPageButton,
+  singlePluginLogo: state.scigateway.features.singlePluginLogo,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   showAdminPageButton:
     state.scigateway.authorisation.provider.isLoggedIn() &&
