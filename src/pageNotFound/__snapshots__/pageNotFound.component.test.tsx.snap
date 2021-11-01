@@ -21,22 +21,35 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
       className="PageNotFound-bold-5"
       variant="h2"
     >
-      Page not found
+      page-not-found.title
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Typography))
       className="PageNotFound-message-6"
       variant="body1"
     >
-      We're sorry, the page you requested could not be found. Please check the page address for typos. Click
-       
-      <Link
-        className="PageNotFound-bold-5"
-        to="/"
+      <Trans
+        i18nKey="page-not-found.message"
+        t={[Function]}
       >
-        here
-      </Link>
-       
-      to return to the home page or contact support.
+        We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the
+         
+        <Link
+          className="PageNotFound-bold-5"
+          to="/"
+        >
+          homepage
+        </Link>
+         
+        or
+         
+        <Link
+          className="PageNotFound-bold-5"
+          to="/contact"
+        >
+          contact support
+        </Link>
+        .
+      </Trans>
     </WithStyles(ForwardRef(Typography))>
   </div>
 </div>
