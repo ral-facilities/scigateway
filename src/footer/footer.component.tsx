@@ -23,7 +23,7 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: theme.palette.background.default,
       '& a': {
         '&:link': {
-          color: '#257fff ',
+          color: theme.palette.type === 'dark' ? '#257fff' : '1E5DF8',
         },
         '&:visited': {
           color: '#BE2BBB',
