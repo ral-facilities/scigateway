@@ -10,6 +10,7 @@ import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
+import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -23,13 +24,13 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: theme.palette.background.default,
       '& a': {
         '&:link': {
-          color: theme.palette.type === 'dark' ? '#257fff' : '1E5DF8',
+          color: (theme as UKRITheme).link.default,
         },
         '&:visited': {
-          color: '#BE2BBB',
+          color: (theme as UKRITheme).link.visited,
         },
         '&:active': {
-          color: '#E94D36',
+          color: (theme as UKRITheme).link.active,
         },
       },
     },
