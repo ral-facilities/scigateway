@@ -63,7 +63,8 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           main: '#80ACFF',
         },
         background: {
-          default: '#212121',
+          default: '#1B1B1B',
+          paper: '#3A3A3A',
         },
       },
       ukri: {
@@ -88,7 +89,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
       overrides: {
         MuiLink: {
           root: {
-            color: '#80ACFF',
+            color: '#86b4ff',
           },
         },
         MuiTabs: {
