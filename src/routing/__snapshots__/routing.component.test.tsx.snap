@@ -50,7 +50,7 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       path="/logout"
     >
       <Redirect
-        to="/login"
+        to="/"
       />
     </Route>
     <Route
@@ -757,7 +757,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       path="/logout"
     >
       <Redirect
-        to="/login"
+        to="/"
       />
     </Route>
     <Route
@@ -836,7 +836,7 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/logout"
     >
       <Redirect
-        to="/login"
+        to="/"
       />
     </Route>
     <Route
