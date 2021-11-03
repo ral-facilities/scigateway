@@ -119,7 +119,7 @@ class Routing extends React.Component<
             {this.props.userIsloggedIn ? (
               <LogoutPage />
             ) : (
-              <Redirect to={scigatewayRoutes.login} />
+              <Redirect to={scigatewayRoutes.home} />
             )}
           </Route>
           <Route
