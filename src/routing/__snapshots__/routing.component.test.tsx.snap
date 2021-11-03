@@ -46,6 +46,14 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       <Connect(LoginPageComponent) />
     </Route>
     <Route
+      exact={true}
+      path="/logout"
+    >
+      <Redirect
+        to="/login"
+      />
+    </Route>
+    <Route
       component={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -115,8 +123,14 @@ exports[`Routing component redirects to the homepage if navigating to login page
       path="/login"
     >
       <Redirect
-        to="/"
+        to="/logout"
       />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={
@@ -739,6 +753,14 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       <Connect(LoginPageComponent) />
     </Route>
     <Route
+      exact={true}
+      path="/logout"
+    >
+      <Redirect
+        to="/login"
+      />
+    </Route>
+    <Route
       component={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -808,6 +830,14 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/login"
     >
       <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Redirect
+        to="/login"
+      />
     </Route>
     <Route
       component={

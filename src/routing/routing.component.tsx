@@ -18,6 +18,7 @@ import HomePage from '../homePage/homePage.component';
 import ContactPage from '../contactPage/contactPage.component';
 import HelpPage from '../helpPage/helpPage.component';
 import LoginPage from '../loginPage/loginPage.component';
+import LogoutPage from '../logoutPage/logoutPage.component';
 import CookiesPage from '../cookieConsent/cookiesPage.component';
 import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
@@ -111,7 +112,14 @@ class Routing extends React.Component<
             {!this.props.userIsloggedIn ? (
               <LoginPage />
             ) : (
-              <Redirect to={scigatewayRoutes.home} />
+              <Redirect to={scigatewayRoutes.logout} />
+            )}
+          </Route>
+          <Route exact path={scigatewayRoutes.logout}>
+            {this.props.userIsloggedIn ? (
+              <LogoutPage />
+            ) : (
+              <Redirect to={scigatewayRoutes.login} />
             )}
           </Route>
           <Route
