@@ -40,7 +40,7 @@ exports[`Tour component renders correctly 1`] = `
       "options": Object {
         "arrowColor": "#fafafa",
         "backgroundColor": "#fafafa",
-        "primaryColor": "#FF6900",
+        "primaryColor": "#C34F00",
         "textColor": "rgba(0, 0, 0, 0.87)",
         "zIndex": 1500,
       },
