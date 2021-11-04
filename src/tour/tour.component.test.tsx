@@ -305,4 +305,11 @@ describe('Tour component', () => {
       disableBeacon: true,
     });
   });
+
+  it('renders correctly in dark mode', () => {
+    props.theme = buildTheme(true);
+
+    const wrapper = shallow(<TourWithoutStyles {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 });
