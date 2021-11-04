@@ -37,6 +37,9 @@ exports[`Tour component renders correctly 1`] = `
   }
   styles={
     Object {
+      "buttonBack": Object {
+        "color": "#C34F00",
+      },
       "options": Object {
         "arrowColor": "#fafafa",
         "backgroundColor": "#fafafa",
