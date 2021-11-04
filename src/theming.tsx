@@ -17,6 +17,7 @@ export interface UKRIThemeOptions extends ThemeOptions {
     };
     contrast: {
       orange: string;
+      red: string;
     };
     deep: {
       orange: string;
@@ -47,6 +48,7 @@ export interface UKRITheme extends Theme {
     };
     contrast: {
       orange: string;
+      red: string;
     };
     deep: {
       orange: string;
@@ -94,6 +96,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         contrast: {
           orange: '#C34F00',
+          red: '#FF7F73',
         },
         deep: {
           orange: '#C13D33', // pure orange
@@ -152,6 +155,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         contrast: {
           orange: '#C34F00',
+          red: '#AC1600',
         },
         deep: {
           orange: '#C13D33', // pure orange

@@ -65,7 +65,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     warning: {
       marginTop: `${theme.spacing(1)}px`,
-      color: 'red',
+      color: (theme as UKRITheme).ukri.contrast.red,
     },
     info: {
       marginTop: `${theme.spacing(1)}px`,

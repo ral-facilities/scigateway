@@ -302,6 +302,10 @@ exports[`Help page component should render correctly 1`] = `
           "red": "#E94D36",
           "yellow": "#FBBB10",
         },
+        "contrast": Object {
+          "orange": "#C34F00",
+          "red": "#AC1600",
+        },
         "deep": Object {
           "blue": "#003088",
           "green": "#3E863E",
