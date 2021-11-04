@@ -55,6 +55,7 @@ interface RoutingProps {
   userIsloggedIn: boolean;
   userIsAdmin: boolean;
   homepageUrl?: string;
+  loading: boolean;
 }
 
 export class PluginPlaceHolder extends React.PureComponent<{
@@ -109,14 +110,18 @@ class Routing extends React.Component<
             />
           )}
           <Route exact path={scigatewayRoutes.login}>
-            {!this.props.userIsloggedIn ? (
+            {/* Waits until the site is fully loaded before doing the logic.
+             As the intial state of userIsLoggedIn is false we have to wait
+             until the page has fully loaded so it can receive the correct state
+             for userIsLoggedIn */}
+            {!this.props.userIsloggedIn || this.props.loading ? (
               <LoginPage />
             ) : (
               <Redirect to={scigatewayRoutes.logout} />
             )}
           </Route>
           <Route exact path={scigatewayRoutes.logout}>
-            {this.props.userIsloggedIn ? (
+            {this.props.userIsloggedIn || this.props.loading ? (
               <LogoutPage />
             ) : (
               <Redirect to={scigatewayRoutes.home} />
@@ -166,6 +171,7 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
     ),
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   homepageUrl: state.scigateway.homepageUrl,
+  loading: state.scigateway.siteLoading,
 });
 
 export default connect(mapStateToProps)(RoutingWithStyles);
