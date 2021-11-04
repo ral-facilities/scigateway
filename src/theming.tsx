@@ -25,6 +25,11 @@ export interface UKRIThemeOptions extends ThemeOptions {
     };
   };
   drawerWidth: number;
+  link: {
+    default: string;
+    visited: string;
+    active: string;
+  };
 }
 
 export interface UKRITheme extends Theme {
@@ -47,6 +52,11 @@ export interface UKRITheme extends Theme {
     };
   };
   drawerWidth: number;
+  link: {
+    default: string;
+    visited: string;
+    active: string;
+  };
 }
 
 export const buildTheme = (darkModePreference: boolean): Theme => {
@@ -63,7 +73,8 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           main: '#80ACFF',
         },
         background: {
-          default: '#212121',
+          default: '#1B1B1B',
+          paper: '#3A3A3A',
         },
       },
       ukri: {
@@ -85,10 +96,15 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
       },
       drawerWidth: 300,
+      link: {
+        default: '#257fff',
+        visited: '#BE2BBB',
+        active: '#E94D36',
+      },
       overrides: {
         MuiLink: {
           root: {
-            color: '#80ACFF',
+            color: '#86b4ff',
           },
         },
         MuiTabs: {
@@ -135,6 +151,11 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
       },
       drawerWidth: 300,
+      link: {
+        default: '#1E5DF8',
+        visited: '#BE2BBB',
+        active: '#E94D36',
+      },
       overrides: {
         MuiBadge: {
           colorPrimary: {
