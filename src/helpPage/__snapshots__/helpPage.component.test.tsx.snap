@@ -27,6 +27,11 @@ exports[`Help page component should render correctly 1`] = `
       },
       "direction": "ltr",
       "drawerWidth": 300,
+      "link": Object {
+        "active": "#E94D36",
+        "default": "#1E5DF8",
+        "visited": "#BE2BBB",
+      },
       "mixins": Object {
         "gutters": [Function],
         "toolbar": Object {
