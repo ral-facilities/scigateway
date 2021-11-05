@@ -161,7 +161,7 @@ describe('Login', () => {
 
   it('should redirect to Home page if not logged in and navigating to logout page', () => {
     cy.visit('/logout');
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://127.0.0.1:3000/login');
   });
 
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
