@@ -36,6 +36,7 @@ export const scigatewayRoutes = {
   help: '/help',
   admin: '/admin',
   login: '/login',
+  logout: '/logout',
   cookies: '/cookies',
 };
 

@@ -46,6 +46,12 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       <Connect(LoginPageComponent) />
     </Route>
     <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
+    </Route>
+    <Route
       component={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -114,9 +120,13 @@ exports[`Routing component redirects to the homepage if navigating to login page
       exact={true}
       path="/login"
     >
-      <Redirect
-        to="/"
-      />
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={
@@ -218,6 +228,7 @@ exports[`Routing component renders a route for a plugin when site is under maint
           }
           dispatch={[Function]}
           drawerOpen={false}
+          loading={false}
           location="/"
           maintenance={
             Object {
@@ -385,6 +396,7 @@ exports[`Routing component renders a route for admin page 1`] = `
           }
           dispatch={[Function]}
           drawerOpen={false}
+          loading={false}
           location="/"
           maintenance={
             Object {
@@ -527,6 +539,7 @@ exports[`Routing component renders a route for maintenance page when site is und
           }
           dispatch={[Function]}
           drawerOpen={false}
+          loading={false}
           location="/"
           maintenance={
             Object {
@@ -739,6 +752,12 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       <Connect(LoginPageComponent) />
     </Route>
     <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
+    </Route>
+    <Route
       component={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -808,6 +827,12 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/login"
     >
       <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={

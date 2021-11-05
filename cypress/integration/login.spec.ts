@@ -65,9 +65,7 @@ describe('Login', () => {
   it('should login given correct credentials', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.exist'
-    );
+    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
     cy.contains('Username*').parent().find('input').type('username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -90,9 +88,7 @@ describe('Login', () => {
   it('should login given username with leading or trailing whitespace', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.exist'
-    );
+    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
     cy.contains('Username*').parent().find('input').type(' username ');
     cy.contains('Password*').parent().find('input').type('password');
@@ -115,9 +111,7 @@ describe('Login', () => {
   it('should remain logged in following page refresh or redirect', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.exist'
-    );
+    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
     cy.contains('Username*').parent().find('input').type(' username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -132,36 +126,42 @@ describe('Login', () => {
 
     let storedToken: string | null;
 
-    cy.window().then(
-      (window) => {
-        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
-        storedToken = window.localStorage.getItem('scigateway:token');
-      });
+    cy.window().then((window) => {
+      expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+      storedToken = window.localStorage.getItem('scigateway:token');
+    });
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
 
     cy.reload();
-    cy.window().then(
-      (window) => {
-        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
-        expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
-      });
+    cy.window().then((window) => {
+      expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+      expect(storedToken).to.equal(
+        window.localStorage.getItem('scigateway:token')
+      );
+    });
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
     cy.visit('/contact');
-    cy.window().then(
-      (window) => {
-        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
-        expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
-      });
+    cy.window().then((window) => {
+      expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+      expect(storedToken).to.equal(
+        window.localStorage.getItem('scigateway:token')
+      );
+    });
     cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
   });
 
-  it('should redirect to homepage if logged in and navigating to login page', () => {
+  it('should redirect to logout page if logged in and navigating to login page', () => {
     cy.login('username', 'password');
     cy.visit('/login');
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://127.0.0.1:3000/logout');
+  });
+
+  it('should redirect to Home page if not logged in and navigating to logout page', () => {
+    cy.visit('/logout');
+    cy.url().should('eq', 'http://127.0.0.1:3000/login');
   });
 
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
@@ -254,7 +254,11 @@ describe('Login', () => {
     let verifyResponse: { statusCode: Number; body: string };
     let loginResponse: { statusCode: Number; body: string };
     const verifySuccess = { statusCode: 200, body: '' };
-    const loginSuccess = { statusCode: 200, body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk' };
+    const loginSuccess = {
+      statusCode: 200,
+      body:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk',
+    };
     const failure = { statusCode: 403, body: '' };
 
     beforeEach(() => {
@@ -282,8 +286,12 @@ describe('Login', () => {
           keys: [],
         },
       ]);
-      cy.intercept('POST', '/login', (req) => { req.reply(loginResponse) });
-      cy.intercept('POST', '/verify', (req) => { req.reply(verifyResponse) });
+      cy.intercept('POST', '/login', (req) => {
+        req.reply(loginResponse);
+      });
+      cy.intercept('POST', '/verify', (req) => {
+        req.reply(verifyResponse);
+      });
     });
 
     it('should show the sidebar and yet still show the Sign in button', () => {
@@ -308,13 +316,11 @@ describe('Login', () => {
     });
 
     it('should not display as logged in if autologin requests fail', () => {
-      loginResponse = failure
+      loginResponse = failure;
       verifyResponse = verifySuccess;
 
       cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should(
-        'not.exist'
-      );
+      cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
       // test that autologin fails after token validation + refresh fail
       verifyResponse = failure;
@@ -324,9 +330,7 @@ describe('Login', () => {
       );
       cy.reload();
       cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should(
-        'not.exist'
-      );
+      cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
     });
 
     it('should be able to directly view a plugin route without signing in', () => {
