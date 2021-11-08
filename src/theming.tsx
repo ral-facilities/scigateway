@@ -18,6 +18,8 @@ export interface UKRIThemeOptions extends ThemeOptions {
     contrast: {
       orange: string;
       red: string;
+      grey: string;
+      blue: string;
     };
     deep: {
       orange: string;
@@ -49,6 +51,8 @@ export interface UKRITheme extends Theme {
     contrast: {
       orange: string;
       red: string;
+      grey: string;
+      blue: string;
     };
     deep: {
       orange: string;
@@ -97,6 +101,8 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         contrast: {
           orange: '#C34F00',
           red: '#FF7F73',
+          grey: '#A4A4A4',
+          blue: '#86B4FF',
         },
         deep: {
           orange: '#C13D33', // pure orange
@@ -130,6 +136,21 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             backgroundColor: '#FF6900',
           },
         },
+        MuiPickersToolbar: {
+          toolbar: {
+            backgroundColor: '#003088',
+          },
+        },
+        MuiPickersCalendarHeader: {
+          dayLabel: {
+            color: 'A4A4A4',
+          },
+        },
+        MuiPickersDay: {
+          dayDisabled: {
+            color: '#A4A4A4',
+          },
+        },
       },
     };
   } else {
@@ -156,6 +177,8 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         contrast: {
           orange: '#C34F00',
           red: '#AC1600',
+          grey: '#727272',
+          blue: '#003088',
         },
         deep: {
           orange: '#C13D33', // pure orange
@@ -176,6 +199,21 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiBadge: {
           colorPrimary: {
             backgroundColor: '#FF6900',
+          },
+        },
+        MuiPickersToolbar: {
+          toolbar: {
+            backgroundColor: '#003088',
+          },
+        },
+        MuiPickersCalendarHeader: {
+          dayLabel: {
+            color: '727272',
+          },
+        },
+        MuiPickersDay: {
+          dayDisabled: {
+            color: '#727272',
           },
         },
       },
