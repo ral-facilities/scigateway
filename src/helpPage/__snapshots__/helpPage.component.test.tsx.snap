@@ -50,6 +50,21 @@ exports[`Help page component should render correctly 1`] = `
             "backgroundColor": "#FF6900",
           },
         },
+        "MuiPickersCalendarHeader": Object {
+          "dayLabel": Object {
+            "color": "727272",
+          },
+        },
+        "MuiPickersDay": Object {
+          "dayDisabled": Object {
+            "color": "#727272",
+          },
+        },
+        "MuiPickersToolbar": Object {
+          "toolbar": Object {
+            "backgroundColor": "#003088",
+          },
+        },
       },
       "palette": Object {
         "action": Object {
@@ -303,6 +318,8 @@ exports[`Help page component should render correctly 1`] = `
           "yellow": "#FBBB10",
         },
         "contrast": Object {
+          "blue": "#003088",
+          "grey": "#727272",
           "orange": "#C34F00",
           "red": "#AC1600",
         },
