@@ -50,6 +50,27 @@ exports[`Help page component should render correctly 1`] = `
             "backgroundColor": "#FF6900",
           },
         },
+        "MuiFormHelperText": Object {
+          "root": Object {
+            "&$error": Object {
+              "color": "#AC1600",
+            },
+          },
+        },
+        "MuiInput": Object {
+          "underline": Object {
+            "&$error:after": Object {
+              "borderBottomColor": "#AC1600",
+            },
+          },
+        },
+        "MuiOutlinedInput": Object {
+          "root": Object {
+            "&$error $notchedOutline": Object {
+              "borderColor": "#AC1600",
+            },
+          },
+        },
         "MuiPickersCalendarHeader": Object {
           "dayLabel": Object {
             "color": "#727272",

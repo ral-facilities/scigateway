@@ -136,6 +136,27 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             backgroundColor: '#FF6900',
           },
         },
+        MuiInput: {
+          underline: {
+            '&$error:after': {
+              borderBottomColor: '#FF7F73',
+            },
+          },
+        },
+        MuiOutlinedInput: {
+          root: {
+            '&$error $notchedOutline': {
+              borderColor: '#FF7F73',
+            },
+          },
+        },
+        MuiFormHelperText: {
+          root: {
+            '&$error': {
+              color: '#FF7F73',
+            },
+          },
+        },
         MuiPickersToolbar: {
           toolbar: {
             backgroundColor: '#003088',
@@ -220,6 +241,27 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiPickersToolbar: {
           toolbar: {
             backgroundColor: '#003088',
+          },
+        },
+        MuiInput: {
+          underline: {
+            '&$error:after': {
+              borderBottomColor: '#AC1600',
+            },
+          },
+        },
+        MuiOutlinedInput: {
+          root: {
+            '&$error $notchedOutline': {
+              borderColor: '#AC1600',
+            },
+          },
+        },
+        MuiFormHelperText: {
+          root: {
+            '&$error': {
+              color: '#AC1600',
+            },
           },
         },
         MuiPickersCalendarHeader: {
