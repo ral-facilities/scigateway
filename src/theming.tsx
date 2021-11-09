@@ -237,6 +237,11 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             color: '#727272',
           },
         },
+        MuiPickersMonth: {
+          monthDisabled: {
+            color: '#727272',
+          },
+        },
       },
     };
   }
