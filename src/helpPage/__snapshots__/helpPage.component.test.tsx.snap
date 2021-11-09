@@ -52,7 +52,7 @@ exports[`Help page component should render correctly 1`] = `
         },
         "MuiPickersCalendarHeader": Object {
           "dayLabel": Object {
-            "color": "727272",
+            "color": "#727272",
           },
         },
         "MuiPickersDay": Object {
@@ -63,6 +63,11 @@ exports[`Help page component should render correctly 1`] = `
         "MuiPickersToolbar": Object {
           "toolbar": Object {
             "backgroundColor": "#003088",
+          },
+        },
+        "MuiPickersYear": Object {
+          "yearDisabled": Object {
+            "color": "#727272",
           },
         },
       },

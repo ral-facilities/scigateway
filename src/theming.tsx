@@ -151,6 +151,22 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             color: '#A4A4A4',
           },
         },
+        MuiPickersYear: {
+          yearSelected: {
+            color: '#86b4ff',
+          },
+          yearDisabled: {
+            color: '#A4A4A4',
+          },
+        },
+        MuiPickersMonth: {
+          monthSelected: {
+            color: '#86b4ff',
+          },
+          monthDisabled: {
+            color: '#A4A4A4',
+          },
+        },
       },
     };
   } else {
@@ -208,11 +224,16 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         MuiPickersCalendarHeader: {
           dayLabel: {
-            color: '727272',
+            color: '#727272',
           },
         },
         MuiPickersDay: {
           dayDisabled: {
+            color: '#727272',
+          },
+        },
+        MuiPickersYear: {
+          yearDisabled: {
             color: '#727272',
           },
         },
