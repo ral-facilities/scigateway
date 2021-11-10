@@ -131,6 +131,18 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             textDecoration: 'underline',
           },
         },
+        MuiFormLabel: {
+          root: {
+            '&$error': {
+              color: '#FF7F73',
+            },
+          },
+          asterisk: {
+            '&$error': {
+              color: '#FF7F73',
+            },
+          },
+        },
         MuiBadge: {
           colorPrimary: {
             backgroundColor: '#FF6900',
@@ -249,6 +261,18 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         active: '#E94D36',
       },
       overrides: {
+        MuiFormLabel: {
+          root: {
+            '&$error': {
+              color: '#AC1600',
+            },
+          },
+          asterisk: {
+            '&$error': {
+              color: '#AC1600',
+            },
+          },
+        },
         MuiBadge: {
           colorPrimary: {
             backgroundColor: '#FF6900',
