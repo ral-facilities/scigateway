@@ -21,7 +21,6 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
-  <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
 `;
 
@@ -46,7 +45,6 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
-  <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
 `;
 
@@ -71,61 +69,44 @@ exports[`Navigation drawer component does not display link to homepage if a home
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
-  <WithStyles(ForwardRef(List))>
+  <WithStyles(ForwardRef(Typography))
+    className="NavigationDrawer-sectionTitle-3"
+    variant="h6"
+  >
+    DATA
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(List))
+    component="nav"
+  >
     <WithStyles(ForwardRef(ListItem))
-      classes={
+      button={true}
+      component={
         Object {
-          "root": "NavigationDrawer-sectionTitle-3",
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
         }
       }
+      dense={true}
+      id="plugin-link-plugin_link"
+      key="0"
+      to="plugin_link"
     >
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitleText-4",
+            "primary": "NavigationDrawer-menuItem-4",
           }
         }
-        primary="DATA"
+        inset={true}
+        primary="display name"
         primaryTypographyProps={
           Object {
-            "variant": "h6",
+            "variant": "subtitle1",
           }
         }
       />
     </WithStyles(ForwardRef(ListItem))>
-    <WithStyles(ForwardRef(List))
-      component="nav"
-    >
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-plugin_link"
-        key="0"
-        to="plugin_link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
-          }
-          inset={true}
-          primary="display name"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-    </WithStyles(ForwardRef(List))>
   </WithStyles(ForwardRef(List))>
 </WithStyles(ForwardRef(Drawer))>
 `;
@@ -151,7 +132,6 @@ exports[`Navigation drawer component does not render admin plugins in list 1`] =
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
-  <WithStyles(ForwardRef(List)) />
 </WithStyles(ForwardRef(Drawer))>
 `;
 
@@ -176,231 +156,199 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
     </WithStyles(ForwardRef(IconButton))>
   </Styled(div)>
   <WithStyles(ForwardRef(Divider)) />
-  <WithStyles(ForwardRef(List))>
+  <WithStyles(ForwardRef(Typography))
+    className="NavigationDrawer-sectionTitle-3"
+    variant="h6"
+  >
+    ANALYSIS
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(List))
+    component="nav"
+  >
     <WithStyles(ForwardRef(ListItem))
-      classes={
+      button={true}
+      component={
         Object {
-          "root": "NavigationDrawer-sectionTitle-3",
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
         }
       }
+      dense={true}
+      id="plugin-link-link"
+      key="0"
+      to="link"
     >
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitleText-4",
+            "primary": "NavigationDrawer-menuItem-4",
           }
         }
-        primary="ANALYSIS"
+        inset={true}
+        primary="analysis-plugin"
         primaryTypographyProps={
           Object {
-            "variant": "h6",
+            "variant": "subtitle1",
           }
         }
       />
     </WithStyles(ForwardRef(ListItem))>
-    <WithStyles(ForwardRef(List))
-      component="nav"
-    >
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="0"
-        to="link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
-          }
-          inset={true}
-          primary="analysis-plugin"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="1"
-        to="link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
-          }
-          inset={true}
-          primary="analysis-plugin2"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-    </WithStyles(ForwardRef(List))>
     <WithStyles(ForwardRef(ListItem))
-      classes={
+      button={true}
+      component={
         Object {
-          "root": "NavigationDrawer-sectionTitle-3",
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
         }
       }
+      dense={true}
+      id="plugin-link-link"
+      key="1"
+      to="link"
     >
       <WithStyles(ForwardRef(ListItemText))
         classes={
           Object {
-            "primary": "NavigationDrawer-sectionTitleText-4",
+            "primary": "NavigationDrawer-menuItem-4",
           }
         }
-        primary="DATA"
+        inset={true}
+        primary="analysis-plugin2"
         primaryTypographyProps={
           Object {
-            "variant": "h6",
+            "variant": "subtitle1",
           }
         }
       />
     </WithStyles(ForwardRef(ListItem))>
-    <WithStyles(ForwardRef(List))
-      component="nav"
+  </WithStyles(ForwardRef(List))>
+  <WithStyles(ForwardRef(Typography))
+    className="NavigationDrawer-sectionTitle-3"
+    variant="h6"
+  >
+    DATA
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(List))
+    component="nav"
+  >
+    <WithStyles(ForwardRef(ListItem))
+      button={true}
+      component={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
+        }
+      }
+      dense={true}
+      id="plugin-link-link"
+      key="0"
+      to="link"
     >
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
+      <WithStyles(ForwardRef(ListItemText))
+        classes={
           Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
+            "primary": "NavigationDrawer-menuItem-4",
           }
         }
-        dense={true}
-        id="plugin-link-link"
-        key="0"
-        to="link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
-          }
-          inset={true}
-          primary="data-plugin"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
+        inset={true}
+        primary="data-plugin"
+        primaryTypographyProps={
           Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
+            "variant": "subtitle1",
           }
         }
-        dense={true}
-        id="plugin-link-link"
-        key="1"
-        to="link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
-          }
-          inset={true}
-          primary="data-plugin1"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
+      />
+    </WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(ListItem))
+      button={true}
+      component={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
+        }
+      }
+      dense={true}
+      id="plugin-link-link"
+      key="1"
+      to="link"
+    >
+      <WithStyles(ForwardRef(ListItemText))
+        classes={
           Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
+            "primary": "NavigationDrawer-menuItem-4",
           }
         }
-        dense={true}
-        id="plugin-link-link"
-        key="2"
-        to="link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
-          }
-          inset={true}
-          primary="data-plugin2"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        component={
+        inset={true}
+        primary="data-plugin1"
+        primaryTypographyProps={
           Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "ForwardRefLink",
-            "render": [Function],
+            "variant": "subtitle1",
           }
         }
-        dense={true}
-        id="plugin-link-plugin_link"
-        key="3"
-        to="plugin_link"
-      >
-        <WithStyles(ForwardRef(ListItemText))
-          classes={
-            Object {
-              "primary": "NavigationDrawer-menuItem-5",
-            }
+      />
+    </WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(ListItem))
+      button={true}
+      component={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
+        }
+      }
+      dense={true}
+      id="plugin-link-link"
+      key="2"
+      to="link"
+    >
+      <WithStyles(ForwardRef(ListItemText))
+        classes={
+          Object {
+            "primary": "NavigationDrawer-menuItem-4",
           }
-          inset={true}
-          primary="data-plugin-no-displayname"
-          primaryTypographyProps={
-            Object {
-              "variant": "subtitle1",
-            }
+        }
+        inset={true}
+        primary="data-plugin2"
+        primaryTypographyProps={
+          Object {
+            "variant": "subtitle1",
           }
-        />
-      </WithStyles(ForwardRef(ListItem))>
-    </WithStyles(ForwardRef(List))>
+        }
+      />
+    </WithStyles(ForwardRef(ListItem))>
+    <WithStyles(ForwardRef(ListItem))
+      button={true}
+      component={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "ForwardRefLink",
+          "render": [Function],
+        }
+      }
+      dense={true}
+      id="plugin-link-plugin_link"
+      key="3"
+      to="plugin_link"
+    >
+      <WithStyles(ForwardRef(ListItemText))
+        classes={
+          Object {
+            "primary": "NavigationDrawer-menuItem-4",
+          }
+        }
+        inset={true}
+        primary="data-plugin-no-displayname"
+        primaryTypographyProps={
+          Object {
+            "variant": "subtitle1",
+          }
+        }
+      />
+    </WithStyles(ForwardRef(ListItem))>
   </WithStyles(ForwardRef(List))>
 </WithStyles(ForwardRef(Drawer))>
 `;
@@ -423,7 +371,7 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
   <WithStyles(ForwardRef(ListItemText))
     classes={
       Object {
-        "primary": "NavigationDrawer-menuItem-5",
+        "primary": "NavigationDrawer-menuItem-4",
       }
     }
     inset={true}

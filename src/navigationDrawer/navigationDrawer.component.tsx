@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { IconButton, Divider, Theme } from '@material-ui/core';
+import { IconButton, Divider, Theme, Typography } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -62,11 +62,10 @@ const styles = (theme: Theme): StyleRules =>
     // },
     sectionTitle: {
       textAlign: 'left',
-      paddingTop: 0,
+      paddingTop: theme.spacing(1),
       paddingBottom: 0,
-    },
-    sectionTitleText: {
       color: theme.palette.text.primary,
+      paddingLeft: theme.spacing(2),
     },
     menuItem: {
       textAlign: 'left',
@@ -75,7 +74,7 @@ const styles = (theme: Theme): StyleRules =>
     menuLogo: {
       paddingRight: 100,
       paddingTop: 10,
-      paddingBottom: 10,
+      paddingBottom: 20,
       height: 30,
       color: theme.palette.text.secondary,
     },
@@ -140,19 +139,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   ): React.ReactElement {
     return (
       <Fragment key={index}>
-        <ListItem
-          classes={{
-            root: this.props.classes.sectionTitle,
-          }}
-        >
-          <ListItemText
-            primary={sectionName}
-            primaryTypographyProps={{ variant: 'h6' }}
-            classes={{
-              primary: this.props.classes.sectionTitleText,
-            }}
-          />
-        </ListItem>
+        <Typography variant="h6" className={this.props.classes.sectionTitle}>
+          {sectionName}
+        </Typography>
         <List component="nav">
           {plugins.map((p, i) => {
             return p.link ? this.createLink(p, i) : null;
@@ -177,7 +166,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
     );
 
     return (
-      <List>
+      <Fragment>
         {Object.keys(sectionPlugins)
           .sort()
           .map((section, i) =>
@@ -187,7 +176,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
               i
             )
           )}
-      </List>
+      </Fragment>
     );
   }
 
