@@ -177,6 +177,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             '&:active': {
               color: '#86b4ff',
             },
+            '&:focus': {
+              color: '#86b4ff',
+            },
           },
           yearSelected: {
             color: '#86b4ff',
@@ -188,6 +191,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiPickersMonth: {
           root: {
             '&:active': {
+              color: '#86b4ff',
+            },
+            '&:focus': {
               color: '#86b4ff',
             },
           },
