@@ -168,6 +168,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           },
         },
         MuiPickersDay: {
+          current: {
+            color: '#86b4ff',
+          },
           dayDisabled: {
             color: '#A4A4A4',
           },
