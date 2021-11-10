@@ -57,6 +57,18 @@ exports[`Contact page componet should render correctly 1`] = `
             },
           },
         },
+        "MuiFormLabel": Object {
+          "asterisk": Object {
+            "&$error": Object {
+              "color": "#AC1600",
+            },
+          },
+          "root": Object {
+            "&$error": Object {
+              "color": "#AC1600",
+            },
+          },
+        },
         "MuiInput": Object {
           "underline": Object {
             "&$error:after": Object {
