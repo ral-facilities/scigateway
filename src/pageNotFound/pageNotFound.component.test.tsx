@@ -12,7 +12,6 @@ import { StateType } from '../state/state.types';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
-import TestAuthProvider from '../authentication/testAuthProvider';
 import { Router } from 'react-router';
 
 describe('Page Not found component', () => {
@@ -40,10 +39,6 @@ describe('Page Not found component', () => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
-
-    state.scigateway.authorisation.provider = new TestAuthProvider(
-      'test-token'
-    );
 
     history = createMemoryHistory();
 
