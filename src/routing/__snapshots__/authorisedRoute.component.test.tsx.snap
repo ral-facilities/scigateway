@@ -2,25 +2,25 @@
 
 exports[`AuthorisedRoute component renders PageNotFound component when non admin user accesses admin component 1`] = `
 <div>
-  <WithStyles(PageNotFound) />
+  <WithStyles(PageNotFoundComponent) />
 </div>
 `;
 
 exports[`AuthorisedRoute component renders PageNotFound component when site is loading due to LoadingAuthProvider 1`] = `
 <div>
-  <WithStyles(PageNotFound) />
+  <WithStyles(PageNotFoundComponent) />
 </div>
 `;
 
 exports[`AuthorisedRoute component renders PageNotFound component when site is loading due to loading prop 1`] = `
 <div>
-  <WithStyles(PageNotFound) />
+  <WithStyles(PageNotFoundComponent) />
 </div>
 `;
 
 exports[`AuthorisedRoute component renders PageNotFound component when site is loading due to siteLoading prop 1`] = `
 <div>
-  <WithStyles(PageNotFound) />
+  <WithStyles(PageNotFoundComponent) />
 </div>
 `;
 
@@ -104,6 +104,6 @@ exports[`AuthorisedRoute component renders redirect when user not logged in 1`] 
       }
     }
   />
-  <WithStyles(PageNotFound) />
+  <WithStyles(PageNotFoundComponent) />
 </div>
 `;

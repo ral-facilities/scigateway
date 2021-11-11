@@ -22,7 +22,7 @@ exports[`logout page component renders the logout page correctly with avatar usi
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Button))
       color="primary"
-      data-testid="logout-page-button"
+      data-test-id="logout-page-button"
       onClick={[Function]}
       variant="contained"
     >
@@ -65,7 +65,7 @@ exports[`logout page component renders the logout page correctly with default av
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Button))
       color="primary"
-      data-testid="logout-page-button"
+      data-test-id="logout-page-button"
       onClick={[Function]}
       variant="contained"
     >

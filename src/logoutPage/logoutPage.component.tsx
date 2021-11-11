@@ -115,7 +115,7 @@ export const LogoutPageComponent = (
           color="primary"
           className={props.classes.button}
           onClick={logout}
-          data-testid="logout-page-button"
+          data-test-id="logout-page-button"
         >
           <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
             {getString(props.res, 'logout-button')}
