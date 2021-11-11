@@ -21,6 +21,7 @@ const styles = (theme: Theme): StyleRules =>
       width: '100%',
       fontSize: 14,
       textAlign: 'center',
+      color: theme.palette.secondary.main,
       backgroundColor: theme.palette.background.default,
       '& a': {
         '&:link': {
