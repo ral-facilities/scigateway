@@ -89,7 +89,7 @@ describe('logout page component', () => {
     );
 
     wrapper
-      .find('[data-testid="logout-page-button"]')
+      .find('[data-test-id="logout-page-button"]')
       .first()
       .simulate('click');
 
