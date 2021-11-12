@@ -122,7 +122,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
       overrides: {
         MuiLink: {
           root: {
-            color: '#86b4ff',
+            color: '#86B4FF',
           },
         },
         MuiTabs: {
@@ -135,6 +135,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           root: {
             '&$error': {
               color: '#FF7F73',
+            },
+            '&$focused': {
+              color: '#86B4FF',
             },
           },
           asterisk: {
@@ -152,6 +155,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           underline: {
             '&$error:after': {
               borderBottomColor: '#FF7F73',
+            },
+            '&:after': {
+              borderBottomColor: '#86B4FF',
             },
           },
         },
@@ -181,7 +187,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         MuiPickersDay: {
           current: {
-            color: '#86b4ff',
+            color: '#86B4FF',
           },
           dayDisabled: {
             color: '#A4A4A4',
@@ -190,14 +196,14 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiPickersYear: {
           root: {
             '&:active': {
-              color: '#86b4ff',
+              color: '#86B4FF',
             },
             '&:focus': {
-              color: '#86b4ff',
+              color: '#86B4FF',
             },
           },
           yearSelected: {
-            color: '#86b4ff',
+            color: '#86B4FF',
           },
           yearDisabled: {
             color: '#A4A4A4',
@@ -206,14 +212,14 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiPickersMonth: {
           root: {
             '&:active': {
-              color: '#86b4ff',
+              color: '#86B4FF',
             },
             '&:focus': {
-              color: '#86b4ff',
+              color: '#86B4FF',
             },
           },
           monthSelected: {
-            color: '#86b4ff',
+            color: '#86B4FF',
           },
           monthDisabled: {
             color: '#A4A4A4',
