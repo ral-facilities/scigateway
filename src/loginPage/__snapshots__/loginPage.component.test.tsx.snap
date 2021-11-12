@@ -91,7 +91,7 @@ exports[`Login page component credential component renders correctly 1`] = `
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "username-or-email",
+        "aria-label": "input-username-or-email",
       }
     }
     label="username-placeholder"
@@ -103,7 +103,7 @@ exports[`Login page component credential component renders correctly 1`] = `
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "password",
+        "aria-label": "input-password",
       }
     }
     label="password-placeholder"
@@ -145,7 +145,7 @@ exports[`Login page component credential component renders failedToLogin error c
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "username-or-email",
+        "aria-label": "input-username-or-email",
       }
     }
     label="username-placeholder"
@@ -157,7 +157,7 @@ exports[`Login page component credential component renders failedToLogin error c
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "password",
+        "aria-label": "input-password",
       }
     }
     label="password-placeholder"
@@ -199,7 +199,7 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "username-or-email",
+        "aria-label": "input-username-or-email",
       }
     }
     label="username-placeholder"
@@ -211,7 +211,7 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "password",
+        "aria-label": "input-password",
       }
     }
     label="password-placeholder"
