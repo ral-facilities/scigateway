@@ -166,7 +166,7 @@ export const CredentialsLoginScreen = (
         label={getString(props.res, 'username-placeholder')}
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
-        inputProps={{ 'aria-label': 'Input username or email' }}
+        inputProps={{ 'aria-label': 'Input username' }}
         disabled={props.auth.loading}
         color="secondary"
       />
