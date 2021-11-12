@@ -136,6 +136,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
             '&$error': {
               color: '#FF7F73',
             },
+            '&$focused': {
+              color: '#86B4FF',
+            },
           },
           asterisk: {
             '&$error': {
@@ -152,6 +155,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
           underline: {
             '&$error:after': {
               borderBottomColor: '#FF7F73',
+            },
+            '&:after': {
+              borderBottomColor: '#86b4ff',
             },
           },
         },
