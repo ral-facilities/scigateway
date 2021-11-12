@@ -71,18 +71,43 @@ export interface UKRITheme extends Theme {
   };
 }
 
+interface ThemeColours {
+  primary: string;
+  secondary: string;
+  blue: string;
+  red: string;
+  grey: string;
+}
+
+const DARK_MODE_COLOURS: ThemeColours = {
+  primary: '#003088',
+  secondary: '#80ACFF',
+  blue: '#86B4FF',
+  red: '#FF7F73',
+  grey: '#A4A4A4',
+};
+
+const LIGHT_MODE_COLOURS: ThemeColours = {
+  primary: '#003088',
+  secondary: '#003088',
+  blue: '#003088',
+  red: '#AC1600',
+  grey: '#727272',
+};
+
 export const buildTheme = (darkModePreference: boolean): Theme => {
   let options: UKRIThemeOptions;
+  const colours = darkModePreference ? DARK_MODE_COLOURS : LIGHT_MODE_COLOURS;
   if (darkModePreference) {
     options = {
       palette: {
         // Light/dark mode
         type: 'dark',
         primary: {
-          main: '#003088',
+          main: colours.primary,
         },
         secondary: {
-          main: '#80ACFF',
+          main: colours.secondary,
         },
         background: {
           default: '#1B1B1B',
@@ -100,9 +125,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         contrast: {
           orange: '#C34F00',
-          red: '#FF7F73',
-          grey: '#A4A4A4',
-          blue: '#86B4FF',
+          red: colours.red,
+          grey: colours.grey,
+          blue: colours.blue,
         },
         deep: {
           orange: '#C13D33', // pure orange
@@ -122,7 +147,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
       overrides: {
         MuiLink: {
           root: {
-            color: '#86B4FF',
+            color: colours.blue,
           },
         },
         MuiTabs: {
@@ -134,15 +159,15 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiFormLabel: {
           root: {
             '&$error': {
-              color: '#FF7F73',
+              color: colours.red,
             },
             '&$focused': {
-              color: '#86B4FF',
+              color: colours.blue,
             },
           },
           asterisk: {
             '&$error': {
-              color: '#FF7F73',
+              color: colours.red,
             },
           },
         },
@@ -154,24 +179,24 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiInput: {
           underline: {
             '&$error:after': {
-              borderBottomColor: '#FF7F73',
+              borderBottomColor: colours.red,
             },
             '&:after': {
-              borderBottomColor: '#86B4FF',
+              borderBottomColor: colours.blue,
             },
           },
         },
         MuiOutlinedInput: {
           root: {
             '&$error $notchedOutline': {
-              borderColor: '#FF7F73',
+              borderColor: colours.red,
             },
           },
         },
         MuiFormHelperText: {
           root: {
             '&$error': {
-              color: '#FF7F73',
+              color: colours.red,
             },
           },
         },
@@ -182,47 +207,47 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         MuiPickersCalendarHeader: {
           dayLabel: {
-            color: 'A4A4A4',
+            color: colours.grey,
           },
         },
         MuiPickersDay: {
           current: {
-            color: '#86B4FF',
+            color: colours.blue,
           },
           dayDisabled: {
-            color: '#A4A4A4',
+            color: colours.grey,
           },
         },
         MuiPickersYear: {
           root: {
             '&:active': {
-              color: '#86B4FF',
+              color: colours.blue,
             },
             '&:focus': {
-              color: '#86B4FF',
+              color: colours.blue,
             },
           },
           yearSelected: {
-            color: '#86B4FF',
+            color: colours.blue,
           },
           yearDisabled: {
-            color: '#A4A4A4',
+            color: colours.grey,
           },
         },
         MuiPickersMonth: {
           root: {
             '&:active': {
-              color: '#86B4FF',
+              color: colours.blue,
             },
             '&:focus': {
-              color: '#86B4FF',
+              color: colours.blue,
             },
           },
           monthSelected: {
             color: '#86B4FF',
           },
           monthDisabled: {
-            color: '#A4A4A4',
+            color: colours.grey,
           },
         },
       },
@@ -233,10 +258,10 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         // Light/dark mode
         type: 'light',
         primary: {
-          main: '#003088', // blue (deep palette)
+          main: colours.primary, // blue (deep palette)
         },
         secondary: {
-          main: '#003088',
+          main: colours.secondary,
         },
       },
       ukri: {
@@ -250,9 +275,9 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         },
         contrast: {
           orange: '#C34F00',
-          red: '#AC1600',
-          grey: '#727272',
-          blue: '#003088',
+          red: colours.red,
+          grey: colours.grey,
+          blue: colours.blue,
         },
         deep: {
           orange: '#C13D33', // pure orange
@@ -273,12 +298,12 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiFormLabel: {
           root: {
             '&$error': {
-              color: '#AC1600',
+              color: colours.red,
             },
           },
           asterisk: {
             '&$error': {
-              color: '#AC1600',
+              color: colours.red,
             },
           },
         },
@@ -295,42 +320,42 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
         MuiInput: {
           underline: {
             '&$error:after': {
-              borderBottomColor: '#AC1600',
+              borderBottomColor: colours.red,
             },
           },
         },
         MuiOutlinedInput: {
           root: {
             '&$error $notchedOutline': {
-              borderColor: '#AC1600',
+              borderColor: colours.red,
             },
           },
         },
         MuiFormHelperText: {
           root: {
             '&$error': {
-              color: '#AC1600',
+              color: colours.red,
             },
           },
         },
         MuiPickersCalendarHeader: {
           dayLabel: {
-            color: '#727272',
+            color: colours.grey,
           },
         },
         MuiPickersDay: {
           dayDisabled: {
-            color: '#727272',
+            color: colours.grey,
           },
         },
         MuiPickersYear: {
           yearDisabled: {
-            color: '#727272',
+            color: colours.grey,
           },
         },
         MuiPickersMonth: {
           monthDisabled: {
-            color: '#727272',
+            color: colours.grey,
           },
         },
       },
