@@ -73,7 +73,8 @@ export interface UKRITheme extends Theme {
 
 /* Colours that may be used across light/dark modes e.g. the main app bar */
 const STATIC_COLOURS = {
-  darkBlue: '#80ACFF',
+  darkBlue: '#003088',
+  orange: '#FF6900',
 };
 
 /* Main colours used for dark/light modes respectively */
@@ -90,6 +91,19 @@ interface ThemeColours {
 
 const DARK_MODE_COLOURS: ThemeColours = {
   primary: '#003088',
+  secondary: '#80ACFF',
+  background: '#1B1B1B',
+  paper: '#3A3A3A',
+  blue: '#86B4FF',
+  orange: '#C34F00',
+  red: '#FF7F73',
+  grey: '#A4A4A4',
+};
+
+//For experimenting
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DARK_MODE_COLOURS_HIGH_CONTRAST: ThemeColours = {
+  primary: '#86B4FF',
   secondary: '#80ACFF',
   background: '#1B1B1B',
   paper: '#3A3A3A',
@@ -143,7 +157,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
     },
     MuiBadge: {
       colorPrimary: {
-        backgroundColor: colours.orange,
+        backgroundColor: STATIC_COLOURS.orange,
       },
     },
     MuiInput: {
@@ -172,7 +186,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
     },
     MuiPickersToolbar: {
       toolbar: {
-        backgroundColor: '#003088',
+        backgroundColor: STATIC_COLOURS.darkBlue,
       },
     },
     MuiPickersCalendarHeader: {
