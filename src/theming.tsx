@@ -71,6 +71,12 @@ export interface UKRITheme extends Theme {
   };
 }
 
+/* Colours that may be used across light/dark modes e.g. the main app bar */
+const STATIC_COLOURS = {
+  darkBlue: '#80ACFF',
+};
+
+/* Main colours used for dark/light modes respectively */
 interface ThemeColours {
   primary: string;
   secondary: string;
@@ -116,7 +122,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
     },
     MuiTabs: {
       indicator: {
-        color: '#80ACFF',
+        color: STATIC_COLOURS.darkBlue,
         textDecoration: 'underline',
       },
     },
@@ -137,7 +143,7 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
     },
     MuiBadge: {
       colorPrimary: {
-        backgroundColor: '#FF6900',
+        backgroundColor: colours.orange,
       },
     },
     MuiInput: {
