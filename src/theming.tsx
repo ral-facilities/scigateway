@@ -74,7 +74,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   background: '#1B1B1B',
   paper: '#3A3A3A',
   blue: '#86B4FF',
-  orange: '#C34F00',
+  orange: '#F26300',
   red: '#FF7F73',
   grey: '#A4A4A4',
   lightOrange: '#FF6900',
@@ -90,7 +90,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
 
 //For experimenting
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+const DARK_MODE_TEST1: ThemeColours = {
   primary: '#86B4FF',
   secondary: '#80ACFF',
   background: '#1B1B1B',
@@ -104,7 +104,29 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   information: '#003088',
   warning: '#FFA500',
   link: {
-    default: '#257fff',
+    default: '#B4CCFA',
+    visited: '#BE2BBB',
+    active: '#E94D36',
+  },
+};
+
+//For experimenting
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+  primary: '#86B4FF',
+  secondary: '#80ACFF',
+  background: '#000000',
+  paper: '#1A1A1A',
+  blue: '#B4CCFA', //Joshua's suggestion
+  orange: '#FFC14D',
+  red: '#FF7F73',
+  grey: '#A4A4A4',
+  lightOrange: '#FFC14D',
+  darkGreen: '#3E863E',
+  information: '#003088',
+  warning: '#FFC14D',
+  link: {
+    default: '#B4CCFA',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
@@ -139,9 +161,15 @@ export interface UKRITheme extends Theme {
   colours: ThemeColours;
 }
 
-export const buildTheme = (darkModePreference: boolean): Theme => {
-  let options: UKRIThemeOptions;
-  const colours = darkModePreference ? DARK_MODE_COLOURS : LIGHT_MODE_COLOURS;
+export const buildTheme = (
+  darkModePreference: boolean,
+  highContrastModePreference?: boolean
+): Theme => {
+  const colours = darkModePreference
+    ? highContrastModePreference
+      ? DARK_MODE_HIGH_CONTRAST_COLOURS
+      : DARK_MODE_COLOURS
+    : LIGHT_MODE_COLOURS;
 
   const overrides = {
     MuiLink: {
@@ -250,48 +278,25 @@ export const buildTheme = (darkModePreference: boolean): Theme => {
       },
     },
   };
-
-  if (darkModePreference) {
-    options = {
-      palette: {
-        // Light/dark mode
-        type: 'dark',
-        primary: {
-          main: colours.primary,
-        },
-        secondary: {
-          main: colours.secondary,
-        },
-        background: {
-          default: colours.background,
-          paper: colours.paper,
-        },
+  const options: UKRIThemeOptions = {
+    palette: {
+      // Light/dark mode
+      type: darkModePreference ? 'dark' : 'light',
+      primary: {
+        main: colours.primary,
       },
-      drawerWidth: 300,
-      overrides: overrides,
-      colours: colours,
-    };
-  } else {
-    options = {
-      palette: {
-        // Light/dark mode
-        type: 'light',
-        primary: {
-          main: colours.primary,
-        },
-        secondary: {
-          main: colours.secondary,
-        },
-        background: {
-          default: colours.background,
-          paper: colours.paper,
-        },
+      secondary: {
+        main: colours.secondary,
       },
-      drawerWidth: 300,
-      overrides: overrides,
-      colours: colours,
-    };
-  }
+      background: {
+        default: colours.background,
+        paper: colours.paper,
+      },
+    },
+    drawerWidth: 300,
+    overrides: overrides,
+    colours: colours,
+  };
 
   return createMuiTheme(options);
 };
@@ -312,8 +317,13 @@ const SciGatewayThemeProvider = (props: {
   const darkModePreference: boolean = useSelector(
     (state: StateType) => state.scigateway.darkMode
   );
+  const highContrastModePreference: boolean = useSelector(
+    (state: StateType) => state.scigateway.highContrastMode
+  );
   return (
-    <MuiThemeProvider theme={buildTheme(darkModePreference)}>
+    <MuiThemeProvider
+      theme={buildTheme(darkModePreference, highContrastModePreference)}
+    >
       {props.children}
     </MuiThemeProvider>
   );

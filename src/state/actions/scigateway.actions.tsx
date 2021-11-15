@@ -47,6 +47,8 @@ import {
   ToggleHelpType,
   RegisterRouteType,
   scigatewayRoutes,
+  LoadHighContrastModePreferenceType,
+  LoadHighContrastModePreferencePayload,
 } from '../scigateway.types';
 import { ActionType, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -320,6 +322,15 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       if (mq) dispatch(loadDarkModePreference(mq.matches));
     }
+    const highContrastModeLocalStorage = localStorage.getItem(
+      'highContrastMode'
+    );
+    if (highContrastModeLocalStorage)
+      dispatch(
+        loadHighContrastModePreference(
+          highContrastModeLocalStorage === 'true' ? true : false
+        )
+      );
 
     const provider = getState().scigateway.authorisation.provider;
     if (provider.fetchScheduledMaintenanceState) {
@@ -491,6 +502,15 @@ export const loadDarkModePreference = (
   type: LoadDarkModePreferenceType,
   payload: {
     darkMode: darkMode,
+  },
+});
+
+export const loadHighContrastModePreference = (
+  highContrastMode: boolean
+): ActionType<LoadHighContrastModePreferencePayload> => ({
+  type: LoadHighContrastModePreferenceType,
+  payload: {
+    highContrastMode: highContrastMode,
   },
 });
 
