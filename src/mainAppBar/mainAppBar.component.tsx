@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import MenuIcon from '@material-ui/icons/Menu';
 import BrightnessIcon from '@material-ui/icons/Brightness4';
-import PaletteIcon from '@material-ui/icons/Palette';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import TuneIcon from '@material-ui/icons/Tune';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
@@ -274,7 +274,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               onClick={toggleHighContrastMode}
             >
               <ListItemIcon>
-                <PaletteIcon />
+                <InvertColorsIcon />
               </ListItemIcon>
               <ListItemText
                 primary={getString(props.res, 'toggle-high-contrast-mode')}

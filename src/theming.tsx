@@ -29,7 +29,7 @@ const UKRI_COLOURS = {
 /* Colours that may be used across light/dark modes e.g. the main app bar */
 const STATIC_COLOURS = {
   darkBlue: '#003088',
-  orange: '#FF6900',
+  orange: '#C34F00',
 };
 
 /* Main colours used for dark/light modes respectively */
@@ -53,8 +53,9 @@ interface ThemeColours {
   /* Lighter colours */
   lightOrange: string; //Used for notifcation icon
 
-  /* Deeper colours */
+  /* Darker colours */
   darkGreen: string; //Used for cookie consent message
+  darkOrange: string; //Used for help tour
 
   /* Informational/Warning colours */
   information: string; //Used in open data label
@@ -79,39 +80,16 @@ const DARK_MODE_COLOURS: ThemeColours = {
   grey: '#A4A4A4',
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
   information: '#003088',
   warning: '#FFA500',
   link: {
-    default: '#257fff',
+    default: '#86B4FF',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
 };
 
-//For experimenting
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const DARK_MODE_TEST1: ThemeColours = {
-  primary: '#86B4FF',
-  secondary: '#80ACFF',
-  background: '#1B1B1B',
-  paper: '#3A3A3A',
-  blue: '#B4CCFA', //Joshua's suggestion
-  orange: '#C34F00',
-  red: '#FF7F73',
-  grey: '#A4A4A4',
-  lightOrange: '#FF6900',
-  darkGreen: '#3E863E',
-  information: '#003088',
-  warning: '#FFA500',
-  link: {
-    default: '#B4CCFA',
-    visited: '#BE2BBB',
-    active: '#E94D36',
-  },
-};
-
-//For experimenting
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   primary: '#86B4FF',
   secondary: '#80ACFF',
@@ -119,10 +97,11 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   paper: '#1A1A1A',
   blue: '#B4CCFA', //Joshua's suggestion
   orange: '#FFC14D',
-  red: '#FF7F73',
+  red: '#FFA198',
   grey: '#A4A4A4',
   lightOrange: '#FFC14D',
   darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
   information: '#003088',
   warning: '#FFC14D',
   link: {
@@ -143,6 +122,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   grey: '#727272',
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
   information: '#003088',
   warning: '#FFA500',
   link: {
@@ -157,16 +137,17 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   secondary: '#003088',
   background: '#FAFAFA',
   paper: '#FFF',
-  blue: '#003088',
+  blue: '#002466',
   orange: '#C34F00',
-  red: '#AC1600',
+  red: '#801100',
   grey: '#727272',
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
   information: '#003088',
   warning: '#FFA500',
   link: {
-    default: '#1E5DF8',
+    default: '#052d94',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
@@ -223,6 +204,7 @@ export const buildTheme = (
     MuiBadge: {
       colorPrimary: {
         backgroundColor: STATIC_COLOURS.orange,
+        color: 'white',
       },
     },
     MuiInput: {
@@ -251,7 +233,7 @@ export const buildTheme = (
     },
     MuiPickersToolbar: {
       toolbar: {
-        backgroundColor: STATIC_COLOURS.darkBlue,
+        backgroundColor: colours.primary,
       },
     },
     MuiPickersCalendarHeader: {
@@ -300,25 +282,51 @@ export const buildTheme = (
       },
     },
   };
-  const options: UKRIThemeOptions = {
-    palette: {
-      // Light/dark mode
-      type: darkModePreference ? 'dark' : 'light',
-      primary: {
-        main: colours.primary,
+  let options: UKRIThemeOptions;
+  if (!darkModePreference && highContrastModePreference) {
+    options = {
+      palette: {
+        // Light/dark mode
+        type: darkModePreference ? 'dark' : 'light',
+        primary: {
+          main: colours.primary,
+        },
+        secondary: {
+          main: colours.secondary,
+        },
+        text: {
+          secondary: '#000000',
+        },
+        background: {
+          default: colours.background,
+          paper: colours.paper,
+        },
       },
-      secondary: {
-        main: colours.secondary,
+      drawerWidth: 300,
+      overrides: overrides,
+      colours: colours,
+    };
+  } else {
+    options = {
+      palette: {
+        // Light/dark mode
+        type: darkModePreference ? 'dark' : 'light',
+        primary: {
+          main: colours.primary,
+        },
+        secondary: {
+          main: colours.secondary,
+        },
+        background: {
+          default: colours.background,
+          paper: colours.paper,
+        },
       },
-      background: {
-        default: colours.background,
-        paper: colours.paper,
-      },
-    },
-    drawerWidth: 300,
-    overrides: overrides,
-    colours: colours,
-  };
+      drawerWidth: 300,
+      overrides: overrides,
+      colours: colours,
+    };
+  }
 
   return createMuiTheme(options);
 };

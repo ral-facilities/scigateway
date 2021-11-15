@@ -6,7 +6,11 @@ import { PluginConfig } from '../state/scigateway.types';
 import configureStore from 'redux-mock-store';
 import { push } from 'connected-react-router';
 import { initialState } from '../state/reducers/scigateway.reducer';
-import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
+import {
+  loadHighContrastModePreference,
+  toggleDrawer,
+  toggleHelp,
+} from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
@@ -183,6 +187,22 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
+  });
+
+  it('sends load high contrast mode prefrence action if toggle high contrast mode is clicked', () => {
+    const testStore = mockStore(state);
+    const wrapper = createWrapper(testStore);
+
+    // Click the user menu button and click on the manage cookies menu item.
+    wrapper
+      .find('button[aria-label="Open browser settings"]')
+      .simulate('click');
+    wrapper.find('#item-high-contrast-mode').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(
+      loadHighContrastModePreference(true)
+    );
   });
 
   it('sets plugin logo', () => {
