@@ -120,14 +120,14 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
         styles={{
           buttonBack: {
             color:
-              //For WCAG 2.0 contrast, need dark mode colour be slighly lighter as
+              //For WCAG 2.1 contrast, need dark mode colour be slighly lighter as
               //same colour breaks contrast for next button
               theme.palette.type === 'dark'
-                ? lighten((theme as UKRITheme).ukri.contrast.orange, 0.15)
-                : (theme as UKRITheme).ukri.contrast.orange,
+                ? lighten((theme as UKRITheme).colours.orange, 0.15)
+                : (theme as UKRITheme).colours.orange,
           },
           options: {
-            primaryColor: (theme as UKRITheme).ukri.contrast.orange,
+            primaryColor: (theme as UKRITheme).colours.orange,
             backgroundColor: theme.palette.background.default,
             arrowColor: theme.palette.background.default,
             textColor: theme.palette.text.primary,

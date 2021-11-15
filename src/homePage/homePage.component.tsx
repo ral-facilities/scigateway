@@ -51,7 +51,7 @@ const styles = (theme: Theme): StyleRules =>
       alignItems: 'center',
     },
     howItWorksGridItemTitle: {
-      color: (theme as UKRITheme).ukri.bright.orange,
+      color: (theme as UKRITheme).colours.lightOrange,
       fontWeight: 'bold',
       paddingBottom: 10,
     },

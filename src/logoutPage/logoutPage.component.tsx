@@ -33,7 +33,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).ukri.bright.orange,
+      backgroundColor: (theme as UKRITheme).colours.orange,
     },
     avataUrl: {
       margin: theme.spacing(1),
