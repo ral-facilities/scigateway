@@ -25,13 +25,28 @@ exports[`Contact page componet should render correctly 1`] = `
         },
         "width": [Function],
       },
+      "colours": Object {
+        "background": "#FAFAFA",
+        "blue": "#003088",
+        "darkGreen": "#3E863E",
+        "darkOrange": "#C34F00",
+        "grey": "#727272",
+        "information": "#003088",
+        "lightOrange": "#FF6900",
+        "link": Object {
+          "active": "#E94D36",
+          "default": "#1E5DF8",
+          "visited": "#BE2BBB",
+        },
+        "orange": "#C34F00",
+        "paper": "#FFF",
+        "primary": "#003088",
+        "red": "#AC1600",
+        "secondary": "#003088",
+        "warning": "#FFA500",
+      },
       "direction": "ltr",
       "drawerWidth": 300,
-      "link": Object {
-        "active": "#E94D36",
-        "default": "#1E5DF8",
-        "visited": "#BE2BBB",
-      },
       "mixins": Object {
         "gutters": [Function],
         "toolbar": Object {
@@ -47,7 +62,8 @@ exports[`Contact page componet should render correctly 1`] = `
       "overrides": Object {
         "MuiBadge": Object {
           "colorPrimary": Object {
-            "backgroundColor": "#FF6900",
+            "backgroundColor": "#C34F00",
+            "color": "white",
           },
         },
         "MuiFormHelperText": Object {
@@ -67,6 +83,9 @@ exports[`Contact page componet should render correctly 1`] = `
             "&$error": Object {
               "color": "#AC1600",
             },
+            "&$focused": Object {
+              "color": "#003088",
+            },
           },
         },
         "MuiInput": Object {
@@ -74,6 +93,14 @@ exports[`Contact page componet should render correctly 1`] = `
             "&$error:after": Object {
               "borderBottomColor": "#AC1600",
             },
+            "&:after": Object {
+              "borderBottomColor": "#003088",
+            },
+          },
+        },
+        "MuiLink": Object {
+          "root": Object {
+            "color": "#003088",
           },
         },
         "MuiOutlinedInput": Object {
@@ -89,6 +116,9 @@ exports[`Contact page componet should render correctly 1`] = `
           },
         },
         "MuiPickersDay": Object {
+          "current": Object {
+            "color": "#003088",
+          },
           "dayDisabled": Object {
             "color": "#727272",
           },
@@ -97,6 +127,17 @@ exports[`Contact page componet should render correctly 1`] = `
           "monthDisabled": Object {
             "color": "#727272",
           },
+          "monthSelected": Object {
+            "color": "#003088",
+          },
+          "root": Object {
+            "&:active": Object {
+              "color": "#003088",
+            },
+            "&:focus": Object {
+              "color": "#003088",
+            },
+          },
         },
         "MuiPickersToolbar": Object {
           "toolbar": Object {
@@ -104,8 +145,25 @@ exports[`Contact page componet should render correctly 1`] = `
           },
         },
         "MuiPickersYear": Object {
+          "root": Object {
+            "&:active": Object {
+              "color": "#003088",
+            },
+            "&:focus": Object {
+              "color": "#003088",
+            },
+          },
           "yearDisabled": Object {
             "color": "#727272",
+          },
+          "yearSelected": Object {
+            "color": "#003088",
+          },
+        },
+        "MuiTabs": Object {
+          "indicator": Object {
+            "color": "#003088",
+            "textDecoration": "underline",
           },
         },
       },
@@ -125,8 +183,8 @@ exports[`Contact page componet should render correctly 1`] = `
         },
         "augmentColor": [Function],
         "background": Object {
-          "default": "#fafafa",
-          "paper": "#fff",
+          "default": "#FAFAFA",
+          "paper": "#FFF",
         },
         "common": Object {
           "black": "#000",
@@ -349,30 +407,6 @@ exports[`Contact page componet should render correctly 1`] = `
           "fontWeight": 500,
           "letterSpacing": "0.00714em",
           "lineHeight": 1.57,
-        },
-      },
-      "ukri": Object {
-        "bright": Object {
-          "blue": "#1E5DF8",
-          "green": "#67C04D",
-          "orange": "#FF6900",
-          "purple": "#BE2BBB",
-          "red": "#E94D36",
-          "yellow": "#FBBB10",
-        },
-        "contrast": Object {
-          "blue": "#003088",
-          "grey": "#727272",
-          "orange": "#C34F00",
-          "red": "#AC1600",
-        },
-        "deep": Object {
-          "blue": "#003088",
-          "green": "#3E863E",
-          "orange": "#C13D33",
-          "purple": "#8A1A9B",
-          "red": "#A91B2E",
-          "yellow": "#F08900",
         },
       },
       "zIndex": Object {
