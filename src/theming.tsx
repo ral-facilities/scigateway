@@ -151,6 +151,26 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
     active: '#E94D36',
   },
 };
+
+const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+  primary: '#003088',
+  secondary: '#003088',
+  background: '#FAFAFA',
+  paper: '#FFF',
+  blue: '#003088',
+  orange: '#C34F00',
+  red: '#AC1600',
+  grey: '#727272',
+  lightOrange: '#FF6900',
+  darkGreen: '#3E863E',
+  information: '#003088',
+  warning: '#FFA500',
+  link: {
+    default: '#1E5DF8',
+    visited: '#BE2BBB',
+    active: '#E94D36',
+  },
+};
 export interface UKRIThemeOptions extends ThemeOptions {
   drawerWidth: number;
   colours: ThemeColours;
@@ -169,6 +189,8 @@ export const buildTheme = (
     ? highContrastModePreference
       ? DARK_MODE_HIGH_CONTRAST_COLOURS
       : DARK_MODE_COLOURS
+    : highContrastModePreference
+    ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
     : LIGHT_MODE_COLOURS;
 
   const overrides = {
