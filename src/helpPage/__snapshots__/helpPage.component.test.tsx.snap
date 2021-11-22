@@ -28,6 +28,7 @@ exports[`Help page component should render correctly 1`] = `
       "colours": Object {
         "background": "#FAFAFA",
         "blue": "#003088",
+        "contrastGrey": "#E0E0E0",
         "darkGreen": "#3E863E",
         "darkOrange": "#C34F00",
         "grey": "#727272",
@@ -64,6 +65,11 @@ exports[`Help page component should render correctly 1`] = `
           "colorPrimary": Object {
             "backgroundColor": "#C34F00",
             "color": "white",
+          },
+        },
+        "MuiChip": Object {
+          "root": Object {
+            "backgroundColor": "#E0E0E0",
           },
         },
         "MuiFormHelperText": Object {

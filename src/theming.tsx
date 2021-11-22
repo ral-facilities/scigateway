@@ -57,6 +57,10 @@ interface ThemeColours {
   darkGreen: string; //Used for cookie consent message
   darkOrange: string; //Used for help tour
 
+  /* Contrast colours that need to change significantly between dark
+     and light modes */
+  contrastGrey: string; //Used for chip colours in cards and filters
+
   /* Informational/Warning colours */
   information: string; //Used in open data label
   warning: string; //Used for selection alert banner
@@ -81,6 +85,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#595959',
   information: '#003088',
   warning: '#FFA500',
   link: {
@@ -102,6 +107,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FFC14D',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#3A3A3A',
   information: '#003088',
   warning: '#FFC14D',
   link: {
@@ -123,6 +129,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#E0E0E0',
   information: '#003088',
   warning: '#FFA500',
   link: {
@@ -144,6 +151,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#E0E0E0',
   information: '#003088',
   warning: '#FFA500',
   link: {
@@ -229,6 +237,11 @@ export const buildTheme = (
         '&$error': {
           color: colours.red,
         },
+      },
+    },
+    MuiChip: {
+      root: {
+        backgroundColor: colours.contrastGrey,
       },
     },
     MuiPickersToolbar: {
