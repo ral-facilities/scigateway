@@ -7,6 +7,7 @@ import {
   ToggleDrawerType,
   SendThemeOptionsType,
   LoadDarkModePreferenceType,
+  LoadHighContrastModePreferenceType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -123,7 +124,13 @@ export const listenToPlugins = (
             const mq = window.matchMedia('(prefers-color-scheme: dark)');
             darkModePreference = mq.matches;
           }
-          const theme = buildTheme(darkModePreference);
+          const highContrastModePreference: boolean =
+            localStorage.getItem('highContrastMode') === 'true' ? true : false;
+
+          const theme = buildTheme(
+            darkModePreference,
+            highContrastModePreference
+          );
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
 
@@ -204,7 +211,20 @@ const ScigatewayMiddleware: Middleware = ((
 
   if (action.type === LoadDarkModePreferenceType) {
     next(action);
-    const theme = buildTheme(action.payload.darkMode);
+    const theme = buildTheme(
+      action.payload.darkMode,
+      state.scigateway.highContrastMode
+    );
+    store.dispatch(sendThemeOptions(theme));
+    return store.dispatch(requestPluginRerender());
+  }
+
+  if (action.type === LoadHighContrastModePreferenceType) {
+    next(action);
+    const theme = buildTheme(
+      state.scigateway.darkMode,
+      action.payload.highContrastMode
+    );
     store.dispatch(sendThemeOptions(theme));
     return store.dispatch(requestPluginRerender());
   }

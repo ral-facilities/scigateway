@@ -21,6 +21,7 @@ import {
   loadScheduledMaintenanceState,
   loadMaintenanceState,
   loadAuthProvider,
+  loadHighContrastModePreference,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -574,6 +575,39 @@ describe('scigateway actions', () => {
 
     expect(localStorage.getItem).toBeCalledWith('darkMode');
     expect(actions).toContainEqual(loadDarkModePreference(true));
+  });
+
+  it('should load high contrast mode preference into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
+
+    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation((name) =>
+        name === 'highContrastMode' ? 'true' : 'false'
+      );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(localStorage.getItem).toBeCalledWith('highContrastMode');
+    expect(actions).toContainEqual(loadHighContrastModePreference(true));
   });
 
   it('logs an error if settings.json fails to be loaded', async () => {

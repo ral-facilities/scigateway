@@ -17,12 +17,12 @@ const styles = (theme: Theme): StyleRules => ({
   bugIcon: {
     width: '10vw',
     height: '10vw',
-    color: (theme as UKRITheme).ukri.contrast.blue,
+    color: (theme as UKRITheme).colours.blue,
   },
   codeText: {
     fontWeight: 'bold',
     fontSize: '10vw',
-    color: (theme as UKRITheme).ukri.contrast.blue,
+    color: (theme as UKRITheme).colours.blue,
   },
   container: {
     display: 'flex',
