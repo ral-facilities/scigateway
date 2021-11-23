@@ -29,6 +29,7 @@ export const InitialiseAnalyticsType = 'scigateway:initialise_analytics';
 export const ToggleHelpType = 'scigateway:toggle_help';
 export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
 export const RegisterHomepageUrlType = 'scigateway:register_homepage_url';
+export const CustomLogoType = 'scigateway:custom_logo';
 
 export const scigatewayRoutes = {
   home: '/',
@@ -72,6 +73,10 @@ export interface FeatureSwitches {
 
 export interface HomepageUrlPayload {
   homepageUrl: string;
+}
+
+export interface CustomLogoPayload {
+  logo: string;
 }
 
 export interface RegisterRoutePayload {
