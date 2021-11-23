@@ -39,7 +39,7 @@ const styles = (theme: Theme): StyleRules => ({
   },
   warningIcon: {
     ...severityIconStyle,
-    color: (theme as UKRITheme).ukri.bright.orange,
+    color: (theme as UKRITheme).colours.lightOrange,
   },
   errorIcon: {
     ...severityIconStyle,

@@ -19,6 +19,7 @@ import {
   registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
+  loadHighContrastModePreference,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -369,6 +370,17 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, loadDarkModePreference(true));
 
     expect(updatedState.darkMode).toBeTruthy();
+  });
+
+  it('should load hight contrast mode property into store when load high contrast mode action is sent', () => {
+    expect(state.highContrastMode).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(
+      state,
+      loadHighContrastModePreference(true)
+    );
+
+    expect(updatedState.highContrastMode).toBeTruthy();
   });
 
   describe('register route', () => {

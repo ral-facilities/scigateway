@@ -18,6 +18,8 @@ export const RequestPluginRerenderType = 'scigateway:api:plugin_rerender';
 export const SendThemeOptionsType = 'scigateway:api:send_themeoptions';
 export const LoadDarkModePreferenceType =
   'scigateway:load_dark_mode_preference';
+export const LoadHighContrastModePreferenceType =
+  'scigateway:load_high_contrast_mode_preference';
 export const SignOutType = 'scigateway:signout';
 export const ToggleDrawerType = 'scigateway:toggledrawer';
 export const DismissNotificationType = 'scigateway:dismissnotification';
@@ -129,6 +131,10 @@ export interface SendThemeOptionsPayload {
 
 export interface LoadDarkModePreferencePayload {
   darkMode: boolean;
+}
+
+export interface LoadHighContrastModePreferencePayload {
+  highContrastMode: boolean;
 }
 
 export interface DismissNotificationPayload {

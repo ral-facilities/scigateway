@@ -10,6 +10,7 @@ import {
   LoadDarkModePreferenceType,
   SendThemeOptionsType,
   SignOutType,
+  LoadHighContrastModePreferenceType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
@@ -76,6 +77,13 @@ describe('scigateway middleware', () => {
 
   const signOutAction = {
     type: SignOutType,
+  };
+
+  const loadHighContrastModePreferenceAction = {
+    type: LoadHighContrastModePreferenceType,
+    payload: {
+      highContrastMode: false,
+    },
   };
 
   beforeEach(() => {
@@ -197,6 +205,9 @@ describe('scigateway middleware', () => {
   });
 
   it('should send theme options and request plugin rerender actions when LoadDarkModePreferenceType action is sent', () => {
+    store = configureStore()({
+      scigateway: initialState,
+    });
     ScigatewayMiddleware(store)(store.dispatch)(loadDarkModePreferenceAction);
 
     expect(store.getActions().length).toEqual(3);
@@ -207,7 +218,27 @@ describe('scigateway middleware', () => {
     expect(store.getActions()[2]).toEqual(requestPluginRerenderAction);
   });
 
+  it('should send theme options and request plugin rerender actions when LoadHighContrastModePreferenceType action is sent', () => {
+    store = configureStore()({
+      scigateway: initialState,
+    });
+    ScigatewayMiddleware(store)(store.dispatch)(
+      loadHighContrastModePreferenceAction
+    );
+
+    expect(store.getActions().length).toEqual(3);
+    expect(store.getActions()[0]).toEqual(loadHighContrastModePreferenceAction);
+    expect(JSON.stringify(store.getActions()[1])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
+    expect(store.getActions()[2]).toEqual(requestPluginRerenderAction);
+  });
+
   it('should send dark theme options when LoadDarkModePreferenceType action is sent and darkmode preference is true', () => {
+    store = configureStore()({
+      scigateway: initialState,
+    });
+
     const loadDarkModePreferenceAction = {
       type: LoadDarkModePreferenceType,
       payload: {
@@ -225,6 +256,37 @@ describe('scigateway middleware', () => {
       },
     };
     ScigatewayMiddleware(store)(store.dispatch)(loadDarkModePreferenceAction);
+
+    expect(store.getActions().length).toEqual(3);
+    expect(JSON.stringify(store.getActions()[1])).toEqual(
+      JSON.stringify(sendThemeOptionsAction)
+    );
+  });
+
+  it('should send high contrast theme options when LoadHighContrastModePreferenceType action is sent and high contrast mode preference is true', () => {
+    store = configureStore()({
+      scigateway: initialState,
+    });
+
+    const loadHighContrastModePreferenceAction = {
+      type: LoadHighContrastModePreferenceType,
+      payload: {
+        highContrastMode: true,
+      },
+    };
+
+    const theme = buildTheme(false, true);
+
+    const sendThemeOptionsAction = {
+      type: SendThemeOptionsType,
+      payload: {
+        theme,
+        broadcast: true,
+      },
+    };
+    ScigatewayMiddleware(store)(store.dispatch)(
+      loadHighContrastModePreferenceAction
+    );
 
     expect(store.getActions().length).toEqual(3);
     expect(JSON.stringify(store.getActions()[1])).toEqual(
