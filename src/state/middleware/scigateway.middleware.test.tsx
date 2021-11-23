@@ -9,6 +9,7 @@ import {
   ToggleDrawerType,
   LoadDarkModePreferenceType,
   SendThemeOptionsType,
+  SignOutType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
@@ -71,6 +72,10 @@ describe('scigateway middleware', () => {
     payload: {
       darkMode: false,
     },
+  };
+
+  const signOutAction = {
+    type: SignOutType,
   };
 
   beforeEach(() => {
@@ -500,6 +505,17 @@ describe('scigateway middleware', () => {
     handler(new CustomEvent('test', { detail: requestPluginRerenderAction }));
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
+    expect(mockLog.calls.length).toBe(0);
+  });
+
+  it('should ignore SignOut broadcasts', () => {
+    log.error = jest.fn();
+    const mockLog = (log.error as jest.Mock).mock;
+
+    listenToPlugins(store.dispatch, getState);
+    expect(document.addEventListener).toHaveBeenCalled();
+
+    handler(new CustomEvent('test', { detail: signOutAction }));
     expect(mockLog.calls.length).toBe(0);
   });
 

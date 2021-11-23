@@ -48,6 +48,9 @@ export default class ICATAuthProvider extends BaseAuthProvider {
           category: 'Login',
           action: 'Successfully logged in via JWT',
         });
+        if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
+          this.logOut();
+        }
         this.storeToken(res.data);
         localStorage.setItem('autoLogin', 'false');
         const payload: {

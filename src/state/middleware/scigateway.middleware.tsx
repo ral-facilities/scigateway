@@ -7,6 +7,7 @@ import {
   ToggleDrawerType,
   SendThemeOptionsType,
   LoadDarkModePreferenceType,
+  SignOutType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -70,6 +71,7 @@ export const listenToPlugins = (
   document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
+    if (pluginMessage?.detail?.type === SignOutType) return;
     if (
       pluginMessage.detail &&
       pluginMessage.detail.type &&
