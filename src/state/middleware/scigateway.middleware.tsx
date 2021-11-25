@@ -7,7 +7,7 @@ import {
   ToggleDrawerType,
   SendThemeOptionsType,
   LoadDarkModePreferenceType,
-  SignOutType,
+  BroadcastSignOutType,
   LoadHighContrastModePreferenceType,
 } from '../scigateway.types';
 import log from 'loglevel';
@@ -72,7 +72,6 @@ export const listenToPlugins = (
   document.addEventListener(microFrontendMessageId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
-    if (pluginMessage?.detail?.type === SignOutType) return;
     if (
       pluginMessage.detail &&
       pluginMessage.detail.type &&
@@ -85,6 +84,9 @@ export const listenToPlugins = (
           break;
 
         case SendThemeOptionsType:
+          break;
+
+        case BroadcastSignOutType:
           break;
 
         case RegisterRouteType:

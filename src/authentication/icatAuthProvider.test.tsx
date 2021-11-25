@@ -2,7 +2,7 @@ import mockAxios from 'axios';
 import ICATAuthProvider from './icatAuthProvider';
 import ReactGA from 'react-ga';
 import parseJwt from './parseJwt';
-import { SignOutType } from '../state/scigateway.types';
+import { BroadcastSignOutType } from '../state/scigateway.types';
 
 jest.mock('./parseJwt');
 
@@ -63,7 +63,7 @@ describe('ICAT auth provider', () => {
     expect(
       (document.dispatchEvent as jest.Mock).mock.calls[0][0].detail
     ).toEqual({
-      type: SignOutType,
+      type: BroadcastSignOutType,
     });
   });
 
@@ -96,7 +96,7 @@ describe('ICAT auth provider', () => {
     expect(
       (document.dispatchEvent as jest.Mock).mock.calls[0][0].detail
     ).toEqual({
-      type: SignOutType,
+      type: BroadcastSignOutType,
     });
 
     expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {

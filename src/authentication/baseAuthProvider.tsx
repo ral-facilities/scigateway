@@ -1,7 +1,7 @@
 import { AuthProvider, User } from '../state/state.types';
 import UserInfo from './user';
 import parseJwt from '../authentication/parseJwt';
-import { SignOutType } from '../state/scigateway.types';
+import { BroadcastSignOutType } from '../state/scigateway.types';
 
 const tokenLocalStorageName = 'scigateway:token';
 
@@ -59,7 +59,7 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     this.token = null;
     this.user = null;
     document.dispatchEvent(
-      new CustomEvent('scigateway', { detail: { type: SignOutType } })
+      new CustomEvent('scigateway', { detail: { type: BroadcastSignOutType } })
     );
   }
 
