@@ -43,10 +43,12 @@ import {
   SiteLoadingPayload,
   SiteLoadingType,
   HomepageUrlPayload,
+  CustomLogoPayload,
   ToggleDrawerType,
   ToggleHelpType,
   RegisterRouteType,
   scigatewayRoutes,
+  CustomLogoType,
   LoadHighContrastModePreferenceType,
   LoadHighContrastModePreferencePayload,
 } from '../scigateway.types';
@@ -90,6 +92,13 @@ export const registerHomepageUrl = (
   type: RegisterHomepageUrlType,
   payload: {
     homepageUrl: homepageUrl,
+  },
+});
+
+export const customLogo = (logo: string): ActionType<CustomLogoPayload> => ({
+  type: CustomLogoType,
+  payload: {
+    logo: logo,
   },
 });
 
@@ -256,6 +265,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         if (settings['homepageUrl']) {
           dispatch(registerHomepageUrl(settings['homepageUrl']));
+        }
+
+        if (settings['logo']) {
+          dispatch(customLogo(settings['logo']));
         }
 
         if (settings['ui-strings']) {

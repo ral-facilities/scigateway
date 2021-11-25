@@ -22,6 +22,7 @@ import {
   loadMaintenanceState,
   loadAuthProvider,
   loadHighContrastModePreference,
+  customLogo,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -258,6 +259,31 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(registerHomepageUrl('/test'));
+  });
+
+  it('given a custom logo is supplied', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          logo: '/test',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(customLogo('/test'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {

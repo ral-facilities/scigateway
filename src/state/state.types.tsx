@@ -36,6 +36,7 @@ export interface ScigatewayState {
   darkMode: boolean;
   highContrastMode: boolean;
   homepageUrl?: string;
+  logo?: string;
   scheduledMaintenance: ScheduledMaintenanceState;
   maintenance: MaintenanceState;
 }

@@ -50,6 +50,7 @@ interface MainAppProps {
   highContrastMode: boolean;
   plugins?: PluginConfig[];
   loading: boolean;
+  logo?: string;
 }
 
 interface MainAppDispatchProps {
@@ -119,7 +120,7 @@ type CombinedMainAppBarProps = MainAppProps &
 
 const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
-  const [logo, setLogo] = useState<string>(ScigatewayLogo);
+  const [defaultLogo, setLogo] = useState<string>(ScigatewayLogo);
   const closeMenu = (): void => setMenuAnchor(null);
   const manageCookies = (): void => {
     closeMenu();
@@ -194,7 +195,10 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             onClick={props.navigateToHome}
             aria-label="Homepage"
           >
-            <img src={logo} alt={getString(props.res, 'title')} />
+            <img
+              src={props.logo ? props.logo : defaultLogo}
+              alt={getString(props.res, 'title')}
+            />
           </Button>
           {props.showContactButton ? (
             <Button
@@ -303,6 +307,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   highContrastMode: state.scigateway.highContrastMode,
   plugins: state.scigateway.plugins,
   loading: state.scigateway.siteLoading,
+  logo: state.scigateway.logo,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
