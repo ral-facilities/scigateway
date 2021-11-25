@@ -20,6 +20,7 @@ import {
   loadScheduledMaintenanceState,
   loadMaintenanceState,
   loadHighContrastModePreference,
+  customLogo,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -341,6 +342,14 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, registerHomepageUrl('/test'));
 
     expect(updatedState.homepageUrl).toEqual('/test');
+  });
+
+  it('should show the custom logo when provided', () => {
+    expect(state.logo).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(state, customLogo('/test'));
+
+    expect(updatedState.logo).toEqual('/test');
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
