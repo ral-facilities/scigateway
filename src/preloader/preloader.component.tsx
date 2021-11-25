@@ -107,8 +107,7 @@ const Preloader = (
 export const PreloaderWithStyles = withStyles(styles)(Preloader);
 
 const mapStateToProps = (state: StateType): PreloaderProps => ({
-  loading:
-    state.scigateway.siteLoading && state.router.location.pathname !== '/login',
+  loading: state.scigateway.siteLoading,
 });
 
 export default connect(mapStateToProps)(PreloaderWithStyles);

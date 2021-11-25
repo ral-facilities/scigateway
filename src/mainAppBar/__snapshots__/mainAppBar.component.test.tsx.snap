@@ -15,6 +15,7 @@ Object {
   },
   "darkMode": false,
   "drawerOpen": true,
+  "highContrastMode": false,
   "loading": true,
   "loggedIn": true,
   "logo": undefined,
@@ -32,6 +33,7 @@ Object {
   "toggleDarkMode": [Function],
   "toggleDrawer": [Function],
   "toggleHelp": [Function],
+  "toggleHighContrastMode": [Function],
 }
 `;
 
@@ -50,6 +52,7 @@ Object {
   },
   "darkMode": false,
   "drawerOpen": false,
+  "highContrastMode": false,
   "loading": true,
   "loggedIn": true,
   "logo": undefined,
@@ -67,6 +70,7 @@ Object {
   "toggleDarkMode": [Function],
   "toggleDrawer": [Function],
   "toggleHelp": [Function],
+  "toggleHighContrastMode": [Function],
 }
 `;
 
@@ -85,6 +89,7 @@ Object {
   },
   "darkMode": false,
   "drawerOpen": false,
+  "highContrastMode": false,
   "loading": true,
   "loggedIn": true,
   "logo": undefined,
@@ -102,6 +107,7 @@ Object {
   "toggleDarkMode": [Function],
   "toggleDrawer": [Function],
   "toggleHelp": [Function],
+  "toggleHighContrastMode": [Function],
 }
 `;
 
@@ -120,6 +126,7 @@ Object {
   },
   "darkMode": false,
   "drawerOpen": false,
+  "highContrastMode": false,
   "loading": true,
   "loggedIn": true,
   "logo": undefined,
@@ -137,6 +144,7 @@ Object {
   "toggleDarkMode": [Function],
   "toggleDrawer": [Function],
   "toggleHelp": [Function],
+  "toggleHighContrastMode": [Function],
 }
 `;
 
@@ -155,6 +163,7 @@ Object {
   },
   "darkMode": false,
   "drawerOpen": false,
+  "highContrastMode": false,
   "loading": true,
   "loggedIn": true,
   "logo": undefined,
@@ -172,5 +181,6 @@ Object {
   "toggleDarkMode": [Function],
   "toggleDrawer": [Function],
   "toggleHelp": [Function],
+  "toggleHighContrastMode": [Function],
 }
 `;

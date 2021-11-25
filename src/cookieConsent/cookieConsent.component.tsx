@@ -25,7 +25,7 @@ const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
       color: theme.palette.primary.contrastText,
-      backgroundColor: (theme as UKRITheme).ukri.deep.green,
+      backgroundColor: (theme as UKRITheme).colours.darkGreen,
     },
     button: {
       color: theme.palette.primary.contrastText,

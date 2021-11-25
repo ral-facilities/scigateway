@@ -6,15 +6,18 @@
     "admin": "Admin",
     "manage-cookies-button": "Manage cookies",
     "toggle-dark-mode": "Toggle Dark Mode",
+    "toggle-high-contrast-mode": "Toggle High Contrast Mode",
     "no-notifications": "No notifications"
   },
   "login": {
     "title": "Sign in",
     "username-placeholder": "Username*",
     "password-placeholder": "Password*",
+    "username-description": "Signed in as:",
     "login-button": "Sign in",
     "logout-button": "Sign out",
     "login-error-msg": "Failed to log in. Invalid username or password.",
+    "logout-message": "Please log out to log in as another user",
     "login-redirect-error-msg": "Failed to log in. Re-direct token is invalid.",
     "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again."
   },

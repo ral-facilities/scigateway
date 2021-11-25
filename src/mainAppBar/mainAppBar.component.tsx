@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import MenuIcon from '@material-ui/icons/Menu';
 import BrightnessIcon from '@material-ui/icons/Brightness4';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import TuneIcon from '@material-ui/icons/Tune';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
@@ -25,6 +26,7 @@ import {
   toggleDrawer,
   toggleHelp,
   loadDarkModePreference,
+  loadHighContrastModePreference,
 } from '../state/actions/scigateway.actions';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
@@ -45,6 +47,7 @@ interface MainAppProps {
   singlePluginLogo: boolean;
   loggedIn: boolean;
   darkMode: boolean;
+  highContrastMode: boolean;
   plugins?: PluginConfig[];
   loading: boolean;
   logo?: string;
@@ -59,6 +62,7 @@ interface MainAppDispatchProps {
   toggleHelp: () => Action;
   manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
+  toggleHighContrastMode: (preference: boolean) => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -126,6 +130,12 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     const toggledPreference = !props.darkMode;
     localStorage.setItem('darkMode', toggledPreference.toString());
     props.toggleDarkMode(toggledPreference);
+  };
+
+  const toggleHighContrastMode = (): void => {
+    const toggledPreference = !props.highContrastMode;
+    localStorage.setItem('highContrastMode', toggledPreference.toString());
+    props.toggleHighContrastMode(toggledPreference);
   };
 
   const location = useLocation();
@@ -263,6 +273,17 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
                 primary={getString(props.res, 'toggle-dark-mode')}
               />
             </MenuItem>
+            <MenuItem
+              id="item-high-contrast-mode"
+              onClick={toggleHighContrastMode}
+            >
+              <ListItemIcon>
+                <InvertColorsIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={getString(props.res, 'toggle-high-contrast-mode')}
+              />
+            </MenuItem>
           </Menu>
           {props.loggedIn ? <NotificationBadgeComponent /> : null}
           <UserProfileComponent />
@@ -283,6 +304,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
     state.scigateway.authorisation.provider.isAdmin(),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
+  highContrastMode: state.scigateway.highContrastMode,
   plugins: state.scigateway.plugins,
   loading: state.scigateway.siteLoading,
   logo: state.scigateway.logo,
@@ -298,6 +320,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>
     dispatch(loadDarkModePreference(preference)),
+  toggleHighContrastMode: (preference: boolean) =>
+    dispatch(loadHighContrastModePreference(preference)),
 });
 
 export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);

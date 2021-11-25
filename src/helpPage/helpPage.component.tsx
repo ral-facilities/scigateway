@@ -20,13 +20,13 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: theme.palette.background.default,
       '& a': {
         '&:link': {
-          color: (theme as UKRITheme).ukri.bright.blue,
+          color: (theme as UKRITheme).colours.link.default,
         },
         '&:visited': {
-          color: (theme as UKRITheme).ukri.bright.purple,
+          color: (theme as UKRITheme).colours.link.visited,
         },
         '&:active': {
-          color: (theme as UKRITheme).ukri.bright.red,
+          color: (theme as UKRITheme).colours.link.active,
         },
       },
     },

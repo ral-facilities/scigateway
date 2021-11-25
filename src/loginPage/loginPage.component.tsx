@@ -38,7 +38,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).ukri.bright.orange,
+      backgroundColor: (theme as UKRITheme).colours.lightOrange,
     },
     paper: {
       marginTop: theme.spacing(8),
@@ -65,7 +65,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     warning: {
       marginTop: `${theme.spacing(1)}px`,
-      color: 'red',
+      color: (theme as UKRITheme).colours.red,
     },
     info: {
       marginTop: `${theme.spacing(1)}px`,
@@ -166,6 +166,7 @@ export const CredentialsLoginScreen = (
         label={getString(props.res, 'username-placeholder')}
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
+        inputProps={{ 'aria-label': 'Input username' }}
         disabled={props.auth.loading}
         color="secondary"
       />
@@ -175,6 +176,7 @@ export const CredentialsLoginScreen = (
         value={password}
         onChange={(e) => setPassword(e.currentTarget.value)}
         type="password"
+        inputProps={{ 'aria-label': 'Input password' }}
         disabled={props.auth.loading}
         color="secondary"
       />

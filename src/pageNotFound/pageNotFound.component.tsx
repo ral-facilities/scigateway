@@ -5,6 +5,7 @@ import { withStyles, WithStyles, Theme } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import { StyleRules } from '@material-ui/core/styles';
 import { useTranslation, Trans } from 'react-i18next';
+import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules => ({
   titleContainer: {
@@ -16,12 +17,12 @@ const styles = (theme: Theme): StyleRules => ({
   bugIcon: {
     width: '10vw',
     height: '10vw',
-    color: theme.palette.primary.main,
+    color: (theme as UKRITheme).colours.blue,
   },
   codeText: {
     fontWeight: 'bold',
     fontSize: '10vw',
-    color: theme.palette.primary.main,
+    color: (theme as UKRITheme).colours.blue,
   },
   container: {
     display: 'flex',
@@ -41,7 +42,10 @@ const styles = (theme: Theme): StyleRules => ({
   },
 });
 
-const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => {
+export type PageNotFoundProps = WithStyles<typeof styles>;
+export const PageNotFoundComponent = (
+  props: PageNotFoundProps
+): React.ReactElement => {
   const [t] = useTranslation();
   return (
     <div>
@@ -58,11 +62,19 @@ const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => {
             We&#39;re sorry, the page you requested was not found on the server.
             If you entered the URL manually please check your spelling and try
             again. Otherwise, return to the{' '}
-            <Link className={props.classes.bold} to="/">
+            <Link
+              data-test-id="page-not-found-homepage-link"
+              className={props.classes.bold}
+              to="/"
+            >
               homepage
             </Link>{' '}
             or{' '}
-            <Link className={props.classes.bold} to="/contact">
+            <Link
+              className={props.classes.bold}
+              data-test-id="page-not-found-contact-support-link"
+              to="/contact"
+            >
               contact support
             </Link>
             .
@@ -73,4 +85,7 @@ const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => {
   );
 };
 
-export default withStyles(styles)(PageNotFound);
+const PageNotFoundComponentWithStyles = withStyles(styles)(
+  PageNotFoundComponent
+);
+export default PageNotFoundComponentWithStyles;

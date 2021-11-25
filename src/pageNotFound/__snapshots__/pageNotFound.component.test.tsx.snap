@@ -1,30 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Page Not found component pageNotFound renders correctly 1`] = `
+exports[`Page Not found component renders pageNotFound page correctly 1`] = `
 <div>
   <div
-    className="PageNotFound-titleContainer-1"
+    className="titleContainer-class"
   >
     <Memo(ForwardRef(BugReportIcon))
-      className="PageNotFound-bugIcon-2"
+      className="paper-class"
     />
     <WithStyles(ForwardRef(Typography))
-      className="PageNotFound-codeText-3"
+      className="bugIcon-class"
     >
       404
     </WithStyles(ForwardRef(Typography))>
   </div>
   <div
-    className="PageNotFound-container-4"
+    className="container-class"
   >
     <WithStyles(ForwardRef(Typography))
-      className="PageNotFound-bold-5"
+      className="bold-class"
       variant="h2"
     >
       page-not-found.title
     </WithStyles(ForwardRef(Typography))>
     <WithStyles(ForwardRef(Typography))
-      className="PageNotFound-message-6"
+      className="message-class"
       variant="body1"
     >
       <Trans
@@ -34,7 +34,8 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
         We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the
          
         <Link
-          className="PageNotFound-bold-5"
+          className="bold-class"
+          data-test-id="page-not-found-homepage-link"
           to="/"
         >
           homepage
@@ -43,7 +44,8 @@ exports[`Page Not found component pageNotFound renders correctly 1`] = `
         or
          
         <Link
-          className="PageNotFound-bold-5"
+          className="bold-class"
+          data-test-id="page-not-found-contact-support-link"
           to="/contact"
         >
           contact support

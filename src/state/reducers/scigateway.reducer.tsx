@@ -37,6 +37,8 @@ import {
   MaintenanceStatePayLoad,
   LoadMaintenanceStateType,
   CustomLogoType,
+  LoadHighContrastModePreferencePayload,
+  LoadHighContrastModePreferenceType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -68,6 +70,7 @@ export const initialState: ScigatewayState = {
     singlePluginLogo: false,
   },
   darkMode: false,
+  highContrastMode: false,
   scheduledMaintenance: {
     show: false,
     message: '',
@@ -406,6 +409,16 @@ export function handleLoadDarkModePreference(
   };
 }
 
+export function handleLoadHighContrastModePreference(
+  state: ScigatewayState,
+  payload: LoadHighContrastModePreferencePayload
+): ScigatewayState {
+  return {
+    ...state,
+    highContrastMode: payload.highContrastMode,
+  };
+}
+
 const ScigatewayReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -428,6 +441,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
   [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
+  [LoadHighContrastModePreferenceType]: handleLoadHighContrastModePreference,
   [RegisterHomepageUrlType]: handleRegisterHomepageUrl,
   [CustomLogoType]: handleCustomLogo,
 });
