@@ -7,6 +7,7 @@ import {
   ToggleDrawerType,
   SendThemeOptionsType,
   LoadDarkModePreferenceType,
+  BroadcastSignOutType,
   LoadHighContrastModePreferenceType,
 } from '../scigateway.types';
 import log from 'loglevel';
@@ -83,6 +84,9 @@ export const listenToPlugins = (
           break;
 
         case SendThemeOptionsType:
+          break;
+
+        case BroadcastSignOutType:
           break;
 
         case RegisterRouteType:

@@ -34,7 +34,7 @@ const history = createBrowserHistory();
 const middleware = [thunk, routerMiddleware(history), ScigatewayMiddleware];
 if (process.env.NODE_ENV === `development`) {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const logger = (createLogger as any)();
+  const logger = (createLogger as any)({ collapsed: true });
   middleware.push(logger);
   // const {whyDidYouUpdate} = require('why-did-you-update');
   // whyDidYouUpdate(React);

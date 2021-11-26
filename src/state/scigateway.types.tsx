@@ -21,6 +21,7 @@ export const LoadDarkModePreferenceType =
 export const LoadHighContrastModePreferenceType =
   'scigateway:load_high_contrast_mode_preference';
 export const SignOutType = 'scigateway:signout';
+export const BroadcastSignOutType = 'scigateway:api:signout';
 export const ToggleDrawerType = 'scigateway:toggledrawer';
 export const DismissNotificationType = 'scigateway:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'scigateway:feature_switches';

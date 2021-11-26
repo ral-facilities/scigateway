@@ -9,6 +9,7 @@ import {
   ToggleDrawerType,
   LoadDarkModePreferenceType,
   SendThemeOptionsType,
+  BroadcastSignOutType,
   LoadHighContrastModePreferenceType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
@@ -72,6 +73,10 @@ describe('scigateway middleware', () => {
     payload: {
       darkMode: false,
     },
+  };
+
+  const signOutAction = {
+    type: BroadcastSignOutType,
   };
 
   const loadHighContrastModePreferenceAction = {
@@ -562,6 +567,17 @@ describe('scigateway middleware', () => {
     handler(new CustomEvent('test', { detail: requestPluginRerenderAction }));
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
+    expect(mockLog.calls.length).toBe(0);
+  });
+
+  it('should ignore BroadcastSignOut ', () => {
+    log.warn = jest.fn();
+    const mockLog = (log.warn as jest.Mock).mock;
+
+    listenToPlugins(store.dispatch, getState);
+    expect(document.addEventListener).toHaveBeenCalled();
+
+    handler(new CustomEvent('test', { detail: signOutAction }));
     expect(mockLog.calls.length).toBe(0);
   });
 
