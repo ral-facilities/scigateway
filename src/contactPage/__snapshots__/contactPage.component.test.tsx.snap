@@ -110,6 +110,11 @@ exports[`Contact page componet should render correctly 1`] = `
           },
         },
         "MuiOutlinedInput": Object {
+          "input": Object {
+            "&::placeholder": Object {
+              "opacity": 0.54,
+            },
+          },
           "root": Object {
             "&$error $notchedOutline": Object {
               "borderColor": "#AC1600",

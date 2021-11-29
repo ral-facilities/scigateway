@@ -231,6 +231,12 @@ export const buildTheme = (
           borderColor: colours.red,
         },
       },
+      //Override opacity of placeholder text
+      input: {
+        '&::placeholder': {
+          opacity: darkModePreference ? 0.7 : 0.54,
+        },
+      },
     },
     MuiFormHelperText: {
       root: {
