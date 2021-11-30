@@ -38,6 +38,9 @@ interface ThemeColours {
   primary: string;
   secondary: string;
 
+  /* Secondary text colour */
+  textSecondary: string;
+
   /* Background colours for the page and papers */
   background: string;
   paper: string;
@@ -76,6 +79,7 @@ interface ThemeColours {
 const DARK_MODE_COLOURS: ThemeColours = {
   primary: '#003088',
   secondary: '#80ACFF',
+  textSecondary: 'rgba(255, 255, 255, 0.7)',
   background: '#1B1B1B',
   paper: '#3A3A3A',
   blue: '#86B4FF',
@@ -98,6 +102,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
 const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   primary: '#86B4FF',
   secondary: '#80ACFF',
+  textSecondary: 'rgba(255, 255, 255, 0.7)',
   background: '#000000',
   paper: '#1A1A1A',
   blue: '#B4CCFA', //Joshua's suggestion
@@ -120,6 +125,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
 const LIGHT_MODE_COLOURS: ThemeColours = {
   primary: '#003088',
   secondary: '#003088',
+  textSecondary: 'rgba(0, 0, 0, 0.54)',
   background: '#FAFAFA',
   paper: '#FFF',
   blue: '#003088',
@@ -142,6 +148,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
 const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   primary: '#003088',
   secondary: '#003088',
+  textSecondary: '#000000',
   background: '#FAFAFA',
   paper: '#FFF',
   blue: '#002466',
@@ -231,6 +238,14 @@ export const buildTheme = (
           borderColor: colours.red,
         },
       },
+      //Override opacity of placeholder text
+      input: {
+        '&::placeholder': {
+          colour: colours.textSecondary,
+          opacity:
+            !darkModePreference && highContrastModePreference ? 1.0 : 0.7,
+        },
+      },
     },
     MuiFormHelperText: {
       root: {
@@ -295,51 +310,28 @@ export const buildTheme = (
       },
     },
   };
-  let options: UKRIThemeOptions;
-  if (!darkModePreference && highContrastModePreference) {
-    options = {
-      palette: {
-        // Light/dark mode
-        type: darkModePreference ? 'dark' : 'light',
-        primary: {
-          main: colours.primary,
-        },
-        secondary: {
-          main: colours.secondary,
-        },
-        text: {
-          secondary: '#000000',
-        },
-        background: {
-          default: colours.background,
-          paper: colours.paper,
-        },
+  const options: UKRIThemeOptions = {
+    palette: {
+      // Light/dark mode
+      type: darkModePreference ? 'dark' : 'light',
+      primary: {
+        main: colours.primary,
       },
-      drawerWidth: 300,
-      overrides: overrides,
-      colours: colours,
-    };
-  } else {
-    options = {
-      palette: {
-        // Light/dark mode
-        type: darkModePreference ? 'dark' : 'light',
-        primary: {
-          main: colours.primary,
-        },
-        secondary: {
-          main: colours.secondary,
-        },
-        background: {
-          default: colours.background,
-          paper: colours.paper,
-        },
+      secondary: {
+        main: colours.secondary,
       },
-      drawerWidth: 300,
-      overrides: overrides,
-      colours: colours,
-    };
-  }
+      text: {
+        secondary: colours.textSecondary,
+      },
+      background: {
+        default: colours.background,
+        paper: colours.paper,
+      },
+    },
+    drawerWidth: 300,
+    overrides: overrides,
+    colours: colours,
+  };
 
   return createMuiTheme(options);
 };
