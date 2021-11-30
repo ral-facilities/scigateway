@@ -44,6 +44,7 @@ exports[`Help page component should render correctly 1`] = `
         "primary": "#003088",
         "red": "#AC1600",
         "secondary": "#003088",
+        "textSecondary": "rgba(0, 0, 0, 0.54)",
         "warning": "#FFA500",
       },
       "direction": "ltr",
@@ -112,7 +113,8 @@ exports[`Help page component should render correctly 1`] = `
         "MuiOutlinedInput": Object {
           "input": Object {
             "&::placeholder": Object {
-              "opacity": 0.54,
+              "colour": "rgba(0, 0, 0, 0.54)",
+              "opacity": 0.7,
             },
           },
           "root": Object {
