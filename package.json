@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
-    "loglevel": "^1.7.1",
+    "loglevel": "^1.8.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.14.1",
     "react": "^16.14.0",
