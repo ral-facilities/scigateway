@@ -256,7 +256,11 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
                 <BrightnessIcon />
               </ListItemIcon>
               <ListItemText
-                primary={getString(props.res, 'toggle-dark-mode')}
+                primary={
+                  props.darkMode
+                    ? getString(props.res, 'switch-light-mode')
+                    : getString(props.res, 'switch-dark-mode')
+                }
               />
             </MenuItem>
             <MenuItem
@@ -267,7 +271,11 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
                 <InvertColorsIcon />
               </ListItemIcon>
               <ListItemText
-                primary={getString(props.res, 'toggle-high-contrast-mode')}
+                primary={
+                  props.highContrastMode
+                    ? getString(props.res, 'switch-high-contrast-off')
+                    : getString(props.res, 'switch-high-contrast-on')
+                }
               />
             </MenuItem>
           </Menu>
