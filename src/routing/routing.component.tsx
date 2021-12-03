@@ -15,7 +15,6 @@ import {
 } from '../state/scigateway.types';
 import { connect } from 'react-redux';
 import HomePage from '../homePage/homePage.component';
-import ContactPage from '../contactPage/contactPage.component';
 import HelpPage from '../helpPage/helpPage.component';
 import LoginPage from '../loginPage/loginPage.component';
 import LogoutPage from '../logoutPage/logoutPage.component';
@@ -95,11 +94,6 @@ class Routing extends React.Component<
               <HomePage />
             )}
           </Route>
-          <Route
-            exact
-            path={scigatewayRoutes.contact}
-            component={ContactPage}
-          />
           <Route exact path={scigatewayRoutes.help} component={HelpPage} />
           {/* Admin check required because the component does not have an adminPlugin prop */}
           {this.props.userIsAdmin && (

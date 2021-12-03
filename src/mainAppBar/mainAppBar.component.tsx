@@ -41,7 +41,6 @@ import { useLocation } from 'react-router-dom';
 interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
-  showContactButton: boolean;
   showHelpPageButton: boolean;
   showAdminPageButton: boolean;
   singlePluginLogo: boolean;
@@ -56,7 +55,6 @@ interface MainAppProps {
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
-  navigateToContactPage: () => Action;
   navigateToHelpPage: () => Action;
   navigateToAdminPage: () => Action;
   toggleHelp: () => Action;
@@ -200,18 +198,6 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               alt={getString(props.res, 'title')}
             />
           </Button>
-          {props.showContactButton ? (
-            <Button
-              className={classNames(props.classes.button, 'tour-contact')}
-              style={{ paddingTop: 3 }}
-              onClick={props.navigateToContactPage}
-              aria-label="Contactpage"
-            >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-                {getString(props.res, 'contact')}
-              </Typography>
-            </Button>
-          ) : null}
           {props.showHelpPageButton ? (
             <Button
               className={classNames(props.classes.button, 'tour-help')}
@@ -295,7 +281,6 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
 
 const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.scigateway.drawerOpen,
-  showContactButton: state.scigateway.features.showContactButton,
   showHelpPageButton: state.scigateway.features.showHelpPageButton,
   singlePluginLogo: state.scigateway.features.singlePluginLogo,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
@@ -313,7 +298,6 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
-  navigateToContactPage: () => dispatch(push('/contact')),
   navigateToHelpPage: () => dispatch(push('/help')),
   navigateToAdminPage: () => dispatch(push('/admin')),
   toggleHelp: () => dispatch(toggleHelp()),

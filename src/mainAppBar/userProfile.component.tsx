@@ -170,3 +170,8 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(UserProfileComponentWithStyles);
+
+export const UserProfileWithoutStyles = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserProfileComponent);

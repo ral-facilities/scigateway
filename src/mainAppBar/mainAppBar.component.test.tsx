@@ -108,16 +108,6 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/'));
   });
 
-  it('redirects to Contact page when Contact button clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-
-    wrapper.find('button[aria-label="Contactpage"]').first().simulate('click');
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/contact'));
-  });
-
   it('redirects to Help page when Help button clicked', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
