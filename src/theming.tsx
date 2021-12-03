@@ -112,7 +112,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   orange: '#FFC14D',
   red: '#FFA198',
   grey: '#A4A4A4',
-  lightBlue: UKRI_COLOURS.bright.blue,
+  lightBlue: UKRI_COLOURS.deep.blue,
   lightOrange: '#FFC14D',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,

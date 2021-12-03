@@ -201,18 +201,18 @@ describe('scigateway actions', () => {
   });
 
   it('given feature settings loadFeatureSwitches updates state to show feature', () => {
-    const features = { showContactButton: true };
+    const features = { singlePluginLogo: true };
 
     const action = loadFeatureSwitches(features);
     expect(action.type).toEqual(ConfigureFeatureSwitchesType);
-    expect(action.payload.switches).toEqual({ showContactButton: true });
+    expect(action.payload.switches).toEqual({ singlePluginLogo: true });
   });
 
   it('given a feature switch loadFeatureSwitches is run', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          features: { showContactButton: true },
+          features: { singlePluginLogo: true },
           'ui-strings': '/res/default.json',
         },
       })
@@ -232,7 +232,7 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(
-      loadFeatureSwitches({ showContactButton: true })
+      loadFeatureSwitches({ singlePluginLogo: true })
     );
   });
 
@@ -316,7 +316,7 @@ describe('scigateway actions', () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          features: { showContactButton: true },
+          features: { singlePluginLogo: true },
           plugins: [{ test: 'test' }],
           'ui-strings': '/res/default.json',
         },

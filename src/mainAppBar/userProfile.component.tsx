@@ -44,13 +44,10 @@ const styles = (theme: Theme): StyleRules =>
   createStyles({
     button: {
       margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
+      color: '#FFF',
       backgroundColor: (theme as UKRITheme).colours.lightBlue,
       '&:hover': {
-        backgroundColor: fade(
-          (theme as UKRITheme).colours.lightBlue,
-          theme.palette.action.hoverOpacity
-        ),
+        backgroundColor: fade((theme as UKRITheme).colours.lightBlue, 0.8),
       },
     },
     usernameContainer: {

@@ -65,7 +65,6 @@ export const initialState: ScigatewayState = {
   helpSteps: [],
   authorisation: authState,
   features: {
-    showContactButton: true,
     showHelpPageButton: true,
     singlePluginLogo: false,
   },
