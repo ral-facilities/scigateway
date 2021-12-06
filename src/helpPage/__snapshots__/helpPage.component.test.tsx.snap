@@ -37,7 +37,7 @@ exports[`Help page component should render correctly 1`] = `
         "lightOrange": "#FF6900",
         "link": Object {
           "active": "#E94D36",
-          "default": "#1E5DF8",
+          "default": "#FFFFFF",
           "visited": "#BE2BBB",
         },
         "orange": "#C34F00",

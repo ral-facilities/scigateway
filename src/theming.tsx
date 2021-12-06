@@ -96,7 +96,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
-    default: '#86B4FF',
+    default: '#FFFFFF',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
@@ -120,7 +120,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFC14D',
   link: {
-    default: '#B4CCFA',
+    default: '#000000',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
@@ -144,7 +144,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
-    default: '#1E5DF8',
+    default: '#FFFFFF',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
@@ -168,7 +168,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
-    default: '#052d94',
+    default: '#FFFFFF',
     visited: '#BE2BBB',
     active: '#E94D36',
   },
