@@ -24,7 +24,6 @@ const styles = (theme: Theme): StyleRules =>
       fontWeight: 'bold',
       textAlign: 'left',
       textIndent: '24px',
-
       color: (theme as UKRITheme).colours.link.default,
       backgroundColor: theme.palette.primary.main,
       '& a': {
