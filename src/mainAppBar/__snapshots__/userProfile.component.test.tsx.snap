@@ -7,7 +7,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
   <div>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Open user menu"
-      className="UserProfileComponent-button-1"
+      className="button-class"
       onClick={[Function]}
     >
       <Memo(ForwardRef(AccountCircleIcon)) />
@@ -18,15 +18,11 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       onClose={[Function]}
       open={false}
     >
-      <div
-        className="UserProfileComponent-usernameContainer-2"
-      >
+      <div>
         <WithStyles(ForwardRef(Typography))>
           Signed in as:
         </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(Typography))
-          className="UserProfileComponent-username-3"
-        >
+        <WithStyles(ForwardRef(Typography))>
           anonymous
         </WithStyles(ForwardRef(Typography))>
       </div>
@@ -52,7 +48,7 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
   className="tour-user-profile"
 >
   <WithStyles(ForwardRef(Button))
-    className="UserProfileComponent-button-1"
+    className="button-class"
     onClick={[Function]}
   >
     <WithStyles(ForwardRef(Typography))
@@ -75,7 +71,7 @@ exports[`User profile component renders sign in button if user signed in via aut
   className="tour-user-profile"
 >
   <WithStyles(ForwardRef(Button))
-    className="UserProfileComponent-button-1"
+    className="button-class"
     onClick={[Function]}
   >
     <WithStyles(ForwardRef(Typography))
@@ -101,7 +97,6 @@ exports[`User profile component renders user avatar if signed in with avatar url
     <WithStyles(ForwardRef(Avatar))
       alt="user"
       aria-label="Open user menu"
-      className="UserProfileComponent-avatar-4"
       onClick={[Function]}
       src="test_url"
     />
@@ -111,15 +106,11 @@ exports[`User profile component renders user avatar if signed in with avatar url
       onClose={[Function]}
       open={false}
     >
-      <div
-        className="UserProfileComponent-usernameContainer-2"
-      >
+      <div>
         <WithStyles(ForwardRef(Typography))>
           Signed in as:
         </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(Typography))
-          className="UserProfileComponent-username-3"
-        >
+        <WithStyles(ForwardRef(Typography))>
           test
         </WithStyles(ForwardRef(Typography))>
       </div>

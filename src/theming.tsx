@@ -8,6 +8,7 @@ import { connect, useSelector } from 'react-redux';
 /* UKRI colours */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UKRI_COLOURS = {
+  blue: '#2E2D62',
   bright: {
     orange: '#FF6900', // pure orange
     yellow: '#FBBB10', // yellow
@@ -54,6 +55,7 @@ interface ThemeColours {
   grey: string;
 
   /* Lighter colours */
+  lightBlue: string; //Used for lighter coloured buttons
   lightOrange: string; //Used for notifcation icon
 
   /* Darker colours */
@@ -77,7 +79,7 @@ interface ThemeColours {
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
-  primary: '#003088',
+  primary: UKRI_COLOURS.deep.blue,
   secondary: '#80ACFF',
   textSecondary: 'rgba(255, 255, 255, 0.7)',
   background: '#1B1B1B',
@@ -86,11 +88,12 @@ const DARK_MODE_COLOURS: ThemeColours = {
   orange: '#F26300',
   red: '#FF7F73',
   grey: '#A4A4A4',
+  lightBlue: UKRI_COLOURS.bright.blue,
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
   contrastGrey: '#595959',
-  information: '#003088',
+  information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
     default: '#86B4FF',
@@ -105,15 +108,16 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   textSecondary: 'rgba(255, 255, 255, 0.7)',
   background: '#000000',
   paper: '#1A1A1A',
-  blue: '#B4CCFA', //Joshua's suggestion
+  blue: '#B4CCFA',
   orange: '#FFC14D',
   red: '#FFA198',
   grey: '#A4A4A4',
+  lightBlue: UKRI_COLOURS.deep.blue,
   lightOrange: '#FFC14D',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
   contrastGrey: '#3A3A3A',
-  information: '#003088',
+  information: UKRI_COLOURS.deep.blue,
   warning: '#FFC14D',
   link: {
     default: '#B4CCFA',
@@ -123,20 +127,21 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
 };
 
 const LIGHT_MODE_COLOURS: ThemeColours = {
-  primary: '#003088',
-  secondary: '#003088',
+  primary: UKRI_COLOURS.deep.blue,
+  secondary: UKRI_COLOURS.deep.blue,
   textSecondary: 'rgba(0, 0, 0, 0.54)',
   background: '#FAFAFA',
   paper: '#FFF',
-  blue: '#003088',
+  blue: UKRI_COLOURS.deep.blue,
   orange: '#C34F00',
   red: '#AC1600',
   grey: '#727272',
+  lightBlue: UKRI_COLOURS.bright.blue,
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
   contrastGrey: '#E0E0E0',
-  information: '#003088',
+  information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
     default: '#1E5DF8',
@@ -146,8 +151,8 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
 };
 
 const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
-  primary: '#003088',
-  secondary: '#003088',
+  primary: UKRI_COLOURS.deep.blue,
+  secondary: UKRI_COLOURS.deep.blue,
   textSecondary: '#000000',
   background: '#FAFAFA',
   paper: '#FFF',
@@ -155,11 +160,12 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   orange: '#C34F00',
   red: '#801100',
   grey: '#727272',
+  lightBlue: UKRI_COLOURS.bright.blue,
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
   contrastGrey: '#E0E0E0',
-  information: '#003088',
+  information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
     default: '#052d94',

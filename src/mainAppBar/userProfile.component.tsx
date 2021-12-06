@@ -17,7 +17,7 @@ import {
   ListItemText,
   Avatar,
 } from '@material-ui/core';
-import { StyleRules } from '@material-ui/core/styles';
+import { StyleRules, fade } from '@material-ui/core/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { signOut } from '../state/actions/scigateway.actions';
@@ -27,6 +27,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
 import UserInfo from '../authentication/user';
+import { UKRITheme } from '../theming';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -43,7 +44,11 @@ const styles = (theme: Theme): StyleRules =>
   createStyles({
     button: {
       margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
+      color: '#FFF',
+      backgroundColor: (theme as UKRITheme).colours.lightBlue,
+      '&:hover': {
+        backgroundColor: fade((theme as UKRITheme).colours.lightBlue, 0.8),
+      },
     },
     usernameContainer: {
       paddingTop: 8,
@@ -162,3 +167,8 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(UserProfileComponentWithStyles);
+
+export const UserProfileWithoutStyles = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserProfileComponent);

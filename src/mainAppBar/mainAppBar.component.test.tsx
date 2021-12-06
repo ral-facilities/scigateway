@@ -60,13 +60,6 @@ describe('Main app bar component', () => {
     expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
   });
 
-  it('does not render contact button when feature is false', () => {
-    state.scigateway.features.showContactButton = false;
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-    expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
-  });
-
   it('does not render Help button when feature is false', () => {
     state.scigateway.features.showHelpPageButton = false;
     const testStore = mockStore(state);
@@ -106,16 +99,6 @@ describe('Main app bar component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));
-  });
-
-  it('redirects to Contact page when Contact button clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-
-    wrapper.find('button[aria-label="Contactpage"]').first().simulate('click');
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/contact'));
   });
 
   it('redirects to Help page when Help button clicked', () => {
@@ -159,6 +142,35 @@ describe('Main app bar component', () => {
       .simulate('click');
 
     expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
+
+    expect(wrapper.find('#item-dark-mode').first().text()).toEqual(
+      'switch-dark-mode'
+    );
+    expect(wrapper.find('#item-high-contrast-mode').first().text()).toEqual(
+      'switch-high-contrast-on'
+    );
+  });
+
+  it('settings display correctly when dark and high contrast modes are enabled', () => {
+    state.scigateway.darkMode = true;
+    state.scigateway.highContrastMode = true;
+    const testStore = mockStore(state);
+    const wrapper = createWrapper(testStore);
+
+    expect(wrapper.find('#settings').first().prop('open')).toBeFalsy();
+
+    wrapper
+      .find('button[aria-label="Open browser settings"]')
+      .simulate('click');
+
+    expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
+
+    expect(wrapper.find('#item-dark-mode').first().text()).toEqual(
+      'switch-light-mode'
+    );
+    expect(wrapper.find('#item-high-contrast-mode').first().text()).toEqual(
+      'switch-high-contrast-off'
+    );
   });
 
   it('opens cookie policy/management page if manage cookies clicked', () => {
@@ -198,6 +210,7 @@ describe('Main app bar component', () => {
       .find('button[aria-label="Open browser settings"]')
       .simulate('click');
     wrapper.find('#item-high-contrast-mode').first().simulate('click');
+    wrapper.update();
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(

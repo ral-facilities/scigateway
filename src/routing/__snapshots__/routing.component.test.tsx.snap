@@ -19,19 +19,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ContactPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
           "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
@@ -90,19 +77,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
     >
       <Connect(HomePage) />
     </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ContactPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
     <Route
       component={
         Object {
@@ -725,19 +699,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ContactPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
           "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
@@ -796,19 +757,6 @@ exports[`Routing component renders component with plugins 1`] = `
     >
       <Connect(HomePage) />
     </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ContactPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
     <Route
       component={
         Object {

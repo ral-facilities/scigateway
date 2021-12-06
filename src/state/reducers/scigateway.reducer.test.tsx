@@ -300,14 +300,14 @@ describe('scigateway reducer', () => {
   });
 
   it('should set feature switches property when configure feature switches action is sent', () => {
-    expect(state.features.showContactButton).toBeTruthy();
+    expect(state.features.singlePluginLogo).toBeFalsy();
 
     const updatedState = ScigatewayReducer(
       state,
-      loadFeatureSwitches({ showContactButton: false })
+      loadFeatureSwitches({ singlePluginLogo: true })
     );
 
-    expect(updatedState.features.showContactButton).toBeFalsy();
+    expect(updatedState.features.singlePluginLogo).toBeTruthy();
   });
 
   it('should update scheduled maintenance property when load scheduled maintenance state action is sent', () => {

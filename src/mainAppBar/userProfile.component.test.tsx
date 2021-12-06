@@ -1,20 +1,25 @@
 import React from 'react';
-import UserProfileComponent from './userProfile.component';
+import UserProfileComponent, {
+  UserProfileWithoutStyles,
+} from './userProfile.component';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Avatar } from '@material-ui/core';
+import { Avatar, MuiThemeProvider } from '@material-ui/core';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
+import { buildTheme } from '../theming';
+import { ReactWrapper } from 'enzyme';
 
 describe('User profile component', () => {
   let shallow;
   let mount;
   let mockStore;
   let state: StateType;
+  const theme = buildTheme(false);
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'div' });
@@ -33,10 +38,19 @@ describe('User profile component', () => {
     mount.cleanUp();
   });
 
+  const createShallowWrapper = (): ReactWrapper => {
+    return shallow(
+      <UserProfileWithoutStyles
+        store={mockStore(state)}
+        classes={{ button: 'button-class' }}
+      />
+    );
+  };
+
   it('renders sign in button if not signed in', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
-    const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
+    const wrapper = createShallowWrapper();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -46,7 +60,9 @@ describe('User profile component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <UserProfileComponent />
+        <MuiThemeProvider theme={theme}>
+          <UserProfileComponent />
+        </MuiThemeProvider>
       </Provider>
     );
 
@@ -63,13 +79,14 @@ describe('User profile component', () => {
       .fn()
       .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
 
-    const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
+    const wrapper = createShallowWrapper();
+
     expect(wrapper).toMatchSnapshot();
     expect(localStorage.getItem).toBeCalledWith('autoLogin');
   });
 
   it('renders default avatar if signed in', () => {
-    const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
+    const wrapper = createShallowWrapper();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -78,7 +95,7 @@ describe('User profile component', () => {
       username: 'test',
       avatarUrl: 'test_url',
     };
-    const wrapper = shallow(<UserProfileComponent store={mockStore(state)} />);
+    const wrapper = createShallowWrapper();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -87,7 +104,11 @@ describe('User profile component', () => {
       username: 'test',
       avatarUrl: 'test_url',
     };
-    const wrapper = mount(<UserProfileComponent store={mockStore(state)} />);
+    const wrapper = mount(
+      <MuiThemeProvider theme={theme}>
+        <UserProfileComponent store={mockStore(state)} />
+      </MuiThemeProvider>
+    );
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
 
@@ -100,7 +121,9 @@ describe('User profile component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <UserProfileComponent />
+        <MuiThemeProvider theme={theme}>
+          <UserProfileComponent />
+        </MuiThemeProvider>
       </Provider>
     );
 

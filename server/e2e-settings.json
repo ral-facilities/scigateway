@@ -1,7 +1,8 @@
 {
   "title": "e2e tests",
   "features": {
-    "showContactButton": true
+    "showHelpPageButton": true,
+    "singlePluginLogo": true
   },
   "plugins": [
     {
