@@ -21,6 +21,7 @@ const styles = (theme: Theme): StyleRules =>
       paddingTop: '14px',
       width: '100%',
       fontSize: 14,
+      height: '17px',
       fontWeight: 'bold',
       textAlign: 'left',
       textIndent: '24px',
