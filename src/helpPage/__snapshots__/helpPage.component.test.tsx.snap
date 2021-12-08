@@ -31,6 +31,10 @@ exports[`Help page component should render correctly 1`] = `
         "contrastGrey": "#E0E0E0",
         "darkGreen": "#3E863E",
         "darkOrange": "#C34F00",
+        "footerLink": Object {
+          "active": "#E58885",
+          "default": "#FFFFFF",
+        },
         "grey": "#727272",
         "information": "#003088",
         "lightBlue": "#1E5DF8",

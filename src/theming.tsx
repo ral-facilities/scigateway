@@ -76,6 +76,11 @@ interface ThemeColours {
     visited: string;
     active: string;
   };
+
+  footerLink: {
+    default: string;
+    active: string;
+  };
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
@@ -99,6 +104,10 @@ const DARK_MODE_COLOURS: ThemeColours = {
     default: '#86B4FF',
     visited: '#BE2BBB',
     active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
   },
 };
 
@@ -124,6 +133,10 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     visited: '#BE2BBB',
     active: '#E94D36',
   },
+  footerLink: {
+    default: '#000000',
+    active: '#851D0F',
+  },
 };
 
 const LIGHT_MODE_COLOURS: ThemeColours = {
@@ -148,6 +161,10 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
     visited: '#BE2BBB',
     active: '#E94D36',
   },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
+  },
 };
 
 const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
@@ -171,6 +188,10 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     default: '#052d94',
     visited: '#BE2BBB',
     active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
   },
 };
 export interface UKRIThemeOptions extends ThemeOptions {

@@ -17,21 +17,25 @@ const styles = (theme: Theme): StyleRules =>
     root: {
       position: 'absolute',
       bottom: 0,
-      paddingBottom: '5px',
+      paddingBottom: '14px',
+      paddingTop: '14px',
       width: '100%',
       fontSize: 14,
-      textAlign: 'center',
-      color: theme.palette.secondary.main,
-      backgroundColor: theme.palette.background.default,
+      height: '17px',
+      fontWeight: 'bold',
+      textAlign: 'left',
+      textIndent: '24px',
+      color: (theme as UKRITheme).colours.footerLink.default,
+      backgroundColor: theme.palette.primary.main,
       '& a': {
         '&:link': {
-          color: (theme as UKRITheme).colours.link.default,
+          color: (theme as UKRITheme).colours.footerLink.default,
         },
         '&:visited': {
-          color: (theme as UKRITheme).colours.link.visited,
+          color: (theme as UKRITheme).colours.footerLink.default,
         },
         '&:active': {
-          color: (theme as UKRITheme).colours.link.active,
+          color: (theme as UKRITheme).colours.footerLink.active,
         },
       },
     },
