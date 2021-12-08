@@ -76,6 +76,11 @@ interface ThemeColours {
     visited: string;
     active: string;
   };
+
+  footerLink: {
+    default: string;
+    active: string;
+  };
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
@@ -96,9 +101,13 @@ const DARK_MODE_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
-    default: '#FFFFFF',
+    default: '#86B4FF',
     visited: '#BE2BBB',
     active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
   },
 };
 
@@ -120,9 +129,13 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFC14D',
   link: {
-    default: '#000000',
+    default: '#B4CCFA',
     visited: '#BE2BBB',
     active: '#E94D36',
+  },
+  footerLink: {
+    default: '#000000',
+    active: '#851D0F',
   },
 };
 
@@ -144,9 +157,13 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
-    default: '#FFFFFF',
+    default: '#1E5DF8',
     visited: '#BE2BBB',
     active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
   },
 };
 
@@ -168,9 +185,13 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
-    default: '#FFFFFF',
+    default: '#052d94',
     visited: '#BE2BBB',
     active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
   },
 };
 export interface UKRIThemeOptions extends ThemeOptions {

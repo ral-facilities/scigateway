@@ -25,17 +25,17 @@ const styles = (theme: Theme): StyleRules =>
       fontWeight: 'bold',
       textAlign: 'left',
       textIndent: '24px',
-      color: (theme as UKRITheme).colours.link.default,
+      color: (theme as UKRITheme).colours.footerLink.default,
       backgroundColor: theme.palette.primary.main,
       '& a': {
         '&:link': {
-          color: (theme as UKRITheme).colours.link.default,
+          color: (theme as UKRITheme).colours.footerLink.default,
         },
         '&:visited': {
-          color: (theme as UKRITheme).colours.link.visited,
+          color: (theme as UKRITheme).colours.footerLink.default,
         },
         '&:active': {
-          color: (theme as UKRITheme).colours.link.active,
+          color: (theme as UKRITheme).colours.footerLink.active,
         },
       },
     },
