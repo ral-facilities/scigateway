@@ -95,8 +95,7 @@ describe('Main app bar component', () => {
     history.replace('/');
 
     const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-    wrapper.update();
+    createWrapper(testStore);
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());

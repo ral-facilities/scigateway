@@ -165,14 +165,17 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
   React.useEffect(() => {
-    if (
-      (location.pathname === props.homepageUrl || location.pathname === '/') &&
-      !props.drawerOpen
-    ) {
-      props.toggleDrawer();
+    if (props.loggedIn) {
+      if (
+        (location.pathname === props.homepageUrl ||
+          location.pathname === '/') &&
+        !props.drawerOpen
+      ) {
+        props.toggleDrawer();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, props.loading]);
+  }, [location.pathname, props.loading, props.loggedIn]);
 
   return (
     <div className={props.classes.root}>
