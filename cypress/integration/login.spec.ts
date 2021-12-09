@@ -105,7 +105,7 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('[aria-label="Close navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should remain logged in following page refresh or redirect', () => {
