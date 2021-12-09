@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { IconButton, Divider, Theme, Typography } from '@material-ui/core';
+import { IconButton, Theme, Typography } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -64,18 +64,21 @@ const styles = (theme: Theme): StyleRules =>
       textAlign: 'left',
       paddingTop: theme.spacing(1),
       paddingBottom: 0,
-      color: theme.palette.text.primary,
+      color: (theme as UKRITheme).colours.grey,
       paddingLeft: theme.spacing(2),
     },
     menuItem: {
       textAlign: 'left',
-      color: theme.palette.text.secondary,
+      fontWeight: 'bold',
+      color: (theme as UKRITheme).colours.blue,
     },
     menuLogo: {
-      paddingRight: 100,
-      paddingTop: 10,
-      paddingBottom: 20,
-      height: 30,
+      paddingRight: 32,
+      paddingLeft: 32,
+      paddingBottom: 24,
+      height: 40,
+      bottom: 0,
+      position: 'absolute',
       color: theme.palette.text.secondary,
     },
   });
@@ -205,7 +208,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           </IconButton>
         </StyledHeader>
         {/* </div> */}
-        <Divider />
+
+        {this.renderRoutes()}
+
         {imgSrc && (
           <img
             className={this.props.classes.menuLogo}
@@ -213,7 +218,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
             src={imgSrc}
           />
         )}
-        {this.renderRoutes()}
       </Drawer>
     );
   }
