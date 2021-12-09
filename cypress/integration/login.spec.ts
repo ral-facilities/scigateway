@@ -82,7 +82,7 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should login given username with leading or trailing whitespace', () => {
@@ -105,7 +105,7 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should remain logged in following page refresh or redirect', () => {
@@ -130,7 +130,7 @@ describe('Login', () => {
       expect(window.localStorage.getItem('scigateway:token')).not.be.null;
       storedToken = window.localStorage.getItem('scigateway:token');
     });
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
 
     cy.reload();
     cy.window().then((window) => {
@@ -139,10 +139,10 @@ describe('Login', () => {
         window.localStorage.getItem('scigateway:token')
       );
     });
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
-    cy.visit('/contact');
+    cy.visit('/help');
     cy.window().then((window) => {
       expect(window.localStorage.getItem('scigateway:token')).not.be.null;
       expect(storedToken).to.equal(
@@ -299,19 +299,19 @@ describe('Login', () => {
       loginResponse = loginSuccess;
       cy.visit('/');
 
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
       // test that token verification also works with autologin
       cy.reload();
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
       // test that autologin works after token valididation + refresh fail
       verifyResponse = failure;
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
@@ -351,7 +351,7 @@ describe('Login', () => {
 
       cy.get('[alt="SciGateway"]').click();
 
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
@@ -370,7 +370,7 @@ describe('Login', () => {
         .contains('button', 'Sign in')
         .click();
 
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
     });
