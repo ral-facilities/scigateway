@@ -1,113 +1,274 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Home page component homepage renders correctly 1`] = `
-<div>
+<div
+  id="dg-homepage"
+>
   <div
-    className="bigImage-class"
+    className="makeStyles-backgroundImage-1"
   >
-    <img
-      alt="logo-label"
-      src="scigateway-white-text-blue-mark-logo.svg"
-    />
-  </div>
-  <div
-    className="howItWorks-class"
-  >
-    <WithStyles(ForwardRef(Typography))
-      className="howItWorksTitle-class"
-      variant="h4"
+    <div
+      className="makeStyles-backgroundDecals-2"
     >
-      how-label
-    </WithStyles(ForwardRef(Typography))>
+      <Styled(MuiBox)
+        style={
+          Object {
+            "left": "50%",
+            "position": "relative",
+            "top": "45px",
+            "transform": "translate(-50%)",
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Typography))
+          className="makeStyles-backgroundTitle-3"
+          variant="h2"
+        >
+          <Trans
+            i18nKey="home-page.title_line1"
+          >
+            <strong>
+              Data discovery
+            </strong>
+             and 
+            <strong>
+              access
+            </strong>
+          </Trans>
+        </WithStyles(ForwardRef(Typography))>
+        <WithStyles(ForwardRef(Typography))
+          className="makeStyles-backgroundTitle-3"
+          variant="h2"
+        >
+          <Trans
+            i18nKey="home-page.title_line2"
+          >
+            for 
+            <strong>
+              large-scale
+            </strong>
+            science facilities
+          </Trans>
+        </WithStyles(ForwardRef(Typography))>
+      </Styled(MuiBox)>
+    </div>
+  </div>
+  <Styled(MuiBox)
+    className="makeStyles-contentBox-4"
+  >
+    <WithStyles(ForwardRef(Paper))
+      className="makeStyles-paper-5"
+      elevation={1}
+    >
+      <WithStyles(ForwardRef(Grid))
+        container={true}
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
+      >
+        <WithStyles(ForwardRef(Grid))
+          item={true}
+          xs={6}
+        >
+          <Styled(MuiBox)
+            className="makeStyles-paperContent-7"
+          >
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperHeading-10"
+              variant="h4"
+            >
+              home-page.browse.title
+            </WithStyles(ForwardRef(Typography))>
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperDescription-11"
+              variant="body1"
+            >
+              home-page.browse.description1
+            </WithStyles(ForwardRef(Typography))>
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperDescription-11"
+              variant="body1"
+            >
+              <Trans
+                i18nKey="home-page.browse.description2"
+              >
+                <strong>
+                  DataGateway
+                </strong>
+                 focuses on providing data discovery and data access functionality to the data.
+              </Trans>
+            </WithStyles(ForwardRef(Typography))>
+            <Styled(MuiBox)
+              marginTop="auto"
+            >
+              <WithStyles(ForwardRef(Button))
+                aria-label="home-page.browse.button_arialabel"
+                color="primary"
+                href="home-page.browse.link"
+                variant="contained"
+              >
+                home-page.browse.button
+              </WithStyles(ForwardRef(Button))>
+            </Styled(MuiBox)>
+          </Styled(MuiBox)>
+        </WithStyles(ForwardRef(Grid))>
+        <WithStyles(ForwardRef(Grid))
+          item={true}
+          xs={6}
+        >
+          <div
+            className="makeStyles-browseBackground-14"
+          >
+            <div
+              className="makeStyles-browseDecal-15"
+            />
+          </div>
+        </WithStyles(ForwardRef(Grid))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Paper))>
     <WithStyles(ForwardRef(Grid))
       container={true}
-      spacing={3}
+      spacing={2}
     >
       <WithStyles(ForwardRef(Grid))
-        className="howItWorksGridItem-class"
         item={true}
-        md={4}
-        sm={12}
+        sm={4}
+        xs={12}
       >
-        <WithStyles(ForwardRef(Typography))
-          className="howItWorksGridItemTitle-class"
-          variant="h5"
+        <WithStyles(ForwardRef(Paper))
+          className="makeStyles-paper-5"
+          elevation={1}
         >
-          explore-label
-        </WithStyles(ForwardRef(Typography))>
-        <img
-          alt="explore-label"
-          className="howItWorksGridItemImage-class"
-          src="explore.jpg"
-        />
-        <WithStyles(ForwardRef(Typography))
-          className="howItWorksGridItemCaption-class"
-          variant="body1"
-        >
-          explore-description
-        </WithStyles(ForwardRef(Typography))>
+          <Styled(MuiBox)
+            className="makeStyles-paperContent-7"
+          >
+            <WithStyles(ForwardRef(Avatar))
+              className="makeStyles-avatar-8"
+            >
+              <Memo(ForwardRef(SearchIcon))
+                className="makeStyles-avatarIcon-9"
+              />
+            </WithStyles(ForwardRef(Avatar))>
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperHeading-10"
+              variant="h4"
+            >
+              home-page.search.title
+            </WithStyles(ForwardRef(Typography))>
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperDescription-11"
+              variant="body1"
+            >
+              home-page.search.description
+            </WithStyles(ForwardRef(Typography))>
+            <Styled(MuiBox)
+              marginTop="auto"
+            >
+              <WithStyles(ForwardRef(Button))
+                aria-label="home-page.search.button_arialabel"
+                color="primary"
+                href="home-page.search.link"
+                variant="contained"
+              >
+                home-page.search.button
+              </WithStyles(ForwardRef(Button))>
+            </Styled(MuiBox)>
+          </Styled(MuiBox)>
+        </WithStyles(ForwardRef(Paper))>
       </WithStyles(ForwardRef(Grid))>
       <WithStyles(ForwardRef(Grid))
-        className="howItWorksGridItem-class"
         item={true}
-        md={4}
-        sm={12}
+        sm={4}
+        xs={12}
       >
-        <WithStyles(ForwardRef(Typography))
-          className="howItWorksGridItemTitle-class"
-          variant="h5"
+        <WithStyles(ForwardRef(Paper))
+          className="makeStyles-paper-5"
+          elevation={1}
         >
-          analyse-label
-        </WithStyles(ForwardRef(Typography))>
-        <img
-          alt="analyse-label"
-          className="howItWorksGridItemImage-class"
-          src="analyse.jpg"
-        />
-        <WithStyles(ForwardRef(Typography))
-          className="howItWorksGridItemCaption-class"
-          variant="body1"
-        >
-          analyse-description
-        </WithStyles(ForwardRef(Typography))>
+          <Styled(MuiBox)
+            className="makeStyles-paperContent-7"
+          >
+            <WithStyles(ForwardRef(Avatar))
+              className="makeStyles-avatar-8"
+            >
+              <Memo(ForwardRef(GetAppIcon))
+                className="makeStyles-avatarIcon-9"
+              />
+            </WithStyles(ForwardRef(Avatar))>
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperHeading-10"
+              variant="h4"
+            >
+              home-page.download.title
+            </WithStyles(ForwardRef(Typography))>
+            <WithStyles(ForwardRef(Typography))
+              className="makeStyles-paperDescription-11"
+              variant="body1"
+            >
+              home-page.download.description
+            </WithStyles(ForwardRef(Typography))>
+            <Styled(MuiBox)
+              marginTop="auto"
+            >
+              <WithStyles(ForwardRef(Button))
+                aria-label="home-page.download.button_arialabel"
+                color="primary"
+                href="home-page.download.link"
+                variant="contained"
+              >
+                home-page.download.button
+              </WithStyles(ForwardRef(Button))>
+            </Styled(MuiBox)>
+          </Styled(MuiBox)>
+        </WithStyles(ForwardRef(Paper))>
       </WithStyles(ForwardRef(Grid))>
       <WithStyles(ForwardRef(Grid))
-        className="howItWorksGridItem-class"
         item={true}
-        md={4}
-        sm={12}
+        sm={4}
+        xs={12}
       >
-        <WithStyles(ForwardRef(Typography))
-          className="howItWorksGridItemTitle-class"
-          variant="h5"
+        <WithStyles(ForwardRef(Paper))
+          className="makeStyles-bluePaper-6"
+          elevation={1}
         >
-          record-label
-        </WithStyles(ForwardRef(Typography))>
-        <img
-          alt="record-label"
-          className="howItWorksGridItemImage-class"
-          src="record.jpg"
-        />
-        <WithStyles(ForwardRef(Typography))
-          className="howItWorksGridItemCaption-class"
-          variant="body1"
-        >
-          record-description
-        </WithStyles(ForwardRef(Typography))>
+          <div
+            className="makeStyles-facilityDecal-16"
+          >
+            <Styled(MuiBox)
+              className="makeStyles-paperContent-7"
+            >
+              <WithStyles(ForwardRef(Typography))
+                className="makeStyles-bluePaperHeading-12"
+                variant="h4"
+              >
+                home-page.facility.title
+              </WithStyles(ForwardRef(Typography))>
+              <WithStyles(ForwardRef(Typography))
+                className="makeStyles-bluePaperDescription-13"
+                variant="body1"
+              >
+                home-page.facility.description
+              </WithStyles(ForwardRef(Typography))>
+              <Styled(MuiBox)
+                marginTop="auto"
+              >
+                <WithStyles(ForwardRef(Button))
+                  aria-label="home-page.facility.button_arialabel"
+                  className="makeStyles-lightBlueButton-17"
+                  color="primary"
+                  href="home-page.facility.link"
+                  variant="contained"
+                >
+                  home-page.facility.button
+                </WithStyles(ForwardRef(Button))>
+              </Styled(MuiBox)>
+            </Styled(MuiBox)>
+          </div>
+        </WithStyles(ForwardRef(Paper))>
       </WithStyles(ForwardRef(Grid))>
     </WithStyles(ForwardRef(Grid))>
-    <WithStyles(ForwardRef(Typography))
-      className="strapline-class"
-      variant="h6"
-    >
-      banner-one
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))
-      className="purpose-class"
-      variant="h5"
-    >
-      banner-two
-    </WithStyles(ForwardRef(Typography))>
-  </div>
+  </Styled(MuiBox)>
 </div>
 `;
