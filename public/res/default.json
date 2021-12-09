@@ -24,17 +24,37 @@
     "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again."
   },
   "home-page": {
-    "title": "SciGateway",
-    "logo-label": "SciGateway Logo",
-    "how-label": "How it works...",
-    "explore-label": "1. Explore",
-    "explore-description": "Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.",
-    "analyse-label": "2. Analyse",
-    "analyse-description": "Connect to a virtual environment already equipped with the software and tools to analyse your data.",
-    "record-label": "3. Record",
-    "record-description": "Store your results and findings, making them available to others for review and further research.",
-    "banner-one": "transforming the use of real time data processing, computer simulation and data analytics...",
-    "banner-two": "...to deliver more effective research at our national facilities"
+    "title_line1": "<0>Data discovery</0> and <2>access</2>",
+    "title_line2": "for <1>large-scale</1> science facilities",
+    "browse": {
+      "title": "Browse, explore and visualise experimental data",
+      "description1": "SciGateway is a ReactJs based parent application within a micro-front end architecture. It provides access to large facilities science.",
+      "description2": "The <0>SciGateway</0> application offers features such as authentication and authorisation functionality, notifications, cookies management.",
+      "link": "/browse/investigation",
+      "button": "Browse data",
+      "button_arialabel": "Browse data"
+    },
+    "search": {
+      "title": "Search",
+      "description": "Search for the experimental data according to different criteria.",
+      "link": "/search",
+      "button": "Search data",
+      "button_arialabel": "Search data"
+    },
+    "download": {
+      "title": "Download",
+      "description": "Retrieve the experimental data using a variety of download methods.",
+      "link": "/download",
+      "button": "Download data",
+      "button_arialabel": "Download data"
+    },
+    "facility": {
+      "title": "Facility Title",
+      "description": "Facility Description",
+      "link": "#",
+      "button": "Read more",
+      "button_arialabel": "Read more"
+    }
   },
   "contact-page": {
     "title": "Contact",
