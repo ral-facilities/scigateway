@@ -3154,10 +3154,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-redux-toastr@^7.4.1":
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/@types/react-redux-toastr/-/react-redux-toastr-7.6.0.tgz#ab4190df509515928e9d8d0da685a0ba3b4a3e70"
-  integrity sha512-x3xue0nQl4JGbgtMAldv3zvBz7Wc6gnpazKcK1t8eLjLWszs6QOoVO+ayZIRqsLC8Bakg+Vrkryn2pO5WFV7Xg==
+"@types/react-redux-toastr@^7.6.2":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@types/react-redux-toastr/-/react-redux-toastr-7.6.2.tgz#e2860ee3712ef4bd0c3edc069bb6d37998700d58"
+  integrity sha512-gVc5wn49OwkG6nh64iUXchNXWZ1A5vEhz6UyqcWgbL4VyNNp7u+K7GBPbYxmT3W/FcEY/OKLis2s8XM3B7zG1w==
   dependencies:
     "@types/react" "*"
     redux "^3.6.0 || ^4.0.0"
@@ -13754,10 +13754,10 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-query-string@^6.14.1:
-  version "6.14.1"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.14.1.tgz#7ac2dca46da7f309449ba0f86b1fd28255b0c86a"
-  integrity sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==
+query-string@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.0.1.tgz#45bd149cf586aaa582dffc7ec7a8ad97dd02f75d"
+  integrity sha512-uIw3iRvHnk9to1blJCG3BTc+Ro56CBowJXKmNNAm3RulvPBzWLRqKSiiDk+IplJhsydwtuNMHi8UGQFcCLVfkA==
   dependencies:
     decode-uri-component "^0.2.0"
     filter-obj "^1.1.0"
