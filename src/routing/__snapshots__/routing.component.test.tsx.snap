@@ -75,7 +75,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
       exact={true}
       path="/"
     >
-      <Connect(HomePage) />
+      <HomePage />
     </Route>
     <Route
       component={
@@ -691,7 +691,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       exact={true}
       path="/"
     >
-      <Connect(HomePage) />
+      <HomePage />
     </Route>
     <Route
       component={
@@ -755,7 +755,7 @@ exports[`Routing component renders component with plugins 1`] = `
       exact={true}
       path="/"
     >
-      <Connect(HomePage) />
+      <HomePage />
     </Route>
     <Route
       component={

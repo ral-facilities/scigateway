@@ -35,6 +35,9 @@ const STATIC_COLOURS = {
 
 /* Main colours used for dark/light modes respectively */
 interface ThemeColours {
+  /* The type of mode this is */
+  type: 'default' | 'contrast';
+
   /* Primary/secondary colours used for MUI */
   primary: string;
   secondary: string;
@@ -81,9 +84,18 @@ interface ThemeColours {
     default: string;
     active: string;
   };
+
+  /* Colours used on the homepage */
+  homePage: {
+    heading: string;
+    description: string;
+    blueDescription: string;
+    blueButton: string;
+  };
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
+  type: 'default',
   primary: UKRI_COLOURS.deep.blue,
   secondary: '#80ACFF',
   textSecondary: 'rgba(255, 255, 255, 0.7)',
@@ -109,9 +121,16 @@ const DARK_MODE_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
+  homePage: {
+    heading: '#FFFFFF',
+    description: '#E6E6E6',
+    blueDescription: '#E6E6E6',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
 };
 
 const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+  type: 'contrast',
   primary: '#86B4FF',
   secondary: '#80ACFF',
   textSecondary: 'rgba(255, 255, 255, 0.7)',
@@ -137,14 +156,21 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     default: '#000000',
     active: '#851D0F',
   },
+  homePage: {
+    heading: '#FFFFFF',
+    description: '#FFFFFF',
+    blueDescription: '#FFFFFF',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
 };
 
 const LIGHT_MODE_COLOURS: ThemeColours = {
+  type: 'default',
   primary: UKRI_COLOURS.deep.blue,
   secondary: UKRI_COLOURS.deep.blue,
   textSecondary: 'rgba(0, 0, 0, 0.54)',
   background: '#FAFAFA',
-  paper: '#FFF',
+  paper: '#FFFFFF',
   blue: UKRI_COLOURS.deep.blue,
   orange: '#C34F00',
   red: '#AC1600',
@@ -165,14 +191,21 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
+  homePage: {
+    heading: '#333333',
+    description: '#717171',
+    blueDescription: '#E6E6E6',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
 };
 
 const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+  type: 'contrast',
   primary: UKRI_COLOURS.deep.blue,
   secondary: UKRI_COLOURS.deep.blue,
   textSecondary: '#000000',
   background: '#FAFAFA',
-  paper: '#FFF',
+  paper: '#FFFFFF',
   blue: '#002466',
   orange: '#C34F00',
   red: '#801100',
@@ -192,6 +225,12 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   footerLink: {
     default: '#FFFFFF',
     active: '#E58885',
+  },
+  homePage: {
+    heading: '#000000',
+    description: '#000000',
+    blueDescription: '#FFFFFF',
+    blueButton: UKRI_COLOURS.bright.blue,
   },
 };
 export interface UKRIThemeOptions extends ThemeOptions {
