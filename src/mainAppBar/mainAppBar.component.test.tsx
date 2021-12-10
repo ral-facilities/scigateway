@@ -81,15 +81,24 @@ describe('Main app bar component', () => {
     expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
   });
 
-  it('sends toggleDrawer action when menu clicked', () => {
+  it('sends toggleDrawer action when menu clicked (open drawer)', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
-
-    console.log(wrapper.debug());
 
     wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
+  });
+
+  it('sends toggleDrawer action when menu clicked (closes drawer)', () => {
+    state.scigateway.drawerOpen = true;
+    const testStore = mockStore(state);
+    const wrapper = createWrapper(testStore);
+
+    wrapper.find('button').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
