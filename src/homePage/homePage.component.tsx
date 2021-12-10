@@ -24,6 +24,7 @@ import Decal2Image from '../images/decal2.svg';
 import Decal2DarkImage from '../images/decal2-dark.svg';
 import Decal2DarkHCImage from '../images/decal2-darkhc.svg';
 import FacilityImage from '../images/facility.jpg';
+import { Link } from 'react-router-dom';
 
 export interface HomePageProps {
   logo: string;
@@ -235,8 +236,9 @@ const HomePage = (): React.ReactElement => {
                   <Button
                     color="primary"
                     variant="contained"
-                    href={t('home-page.browse.link')}
-                    aria-label={t('home-page.browse.button_arialabel')}
+                    component={Link}
+                    to={t('home-page.browse.link')}
+                    data-testid="browse-button"
                   >
                     {t('home-page.browse.button')}
                   </Button>
@@ -270,8 +272,9 @@ const HomePage = (): React.ReactElement => {
                   <Button
                     color="primary"
                     variant="contained"
-                    href={t('home-page.search.link')}
-                    aria-label={t('home-page.search.button_arialabel')}
+                    component={Link}
+                    to={t('home-page.search.link')}
+                    data-testid="search-button"
                   >
                     {t('home-page.search.button')}
                   </Button>
@@ -298,8 +301,9 @@ const HomePage = (): React.ReactElement => {
                   <Button
                     color="primary"
                     variant="contained"
-                    href={t('home-page.download.link')}
-                    aria-label={t('home-page.download.button_arialabel')}
+                    component={Link}
+                    to={t('home-page.download.link')}
+                    data-testid="download-button"
                   >
                     {t('home-page.download.button')}
                   </Button>
@@ -326,7 +330,7 @@ const HomePage = (): React.ReactElement => {
                       variant="contained"
                       className={classes.lightBlueButton}
                       href={t('home-page.facility.link')}
-                      aria-label={t('home-page.facility.button_arialabel')}
+                      data-testid="facility-button"
                     >
                       {t('home-page.facility.button')}
                     </Button>
