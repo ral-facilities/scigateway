@@ -85,6 +85,8 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
+    console.log(wrapper.debug());
+
     wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
@@ -105,7 +107,9 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
-    wrapper.find('button[aria-label="Homepage"]').first().simulate('click');
+    // console.log(wrapper.find('button').debug());
+
+    wrapper.find('button[aria-label="home-page"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[1]).toEqual(push('/'));
@@ -115,7 +119,7 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
-    wrapper.find('button[aria-label="Helppage"]').first().simulate('click');
+    wrapper.find('button[aria-label="help-page"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[1]).toEqual(push('/help'));
@@ -125,7 +129,7 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
-    wrapper.find('button[aria-label="Adminpage"]').first().simulate('click');
+    wrapper.find('button[aria-label="admin-page"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[1]).toEqual(push('/admin'));
@@ -135,7 +139,7 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
-    wrapper.find('button[aria-label="Help"]').first().simulate('click');
+    wrapper.find('button[aria-label="help"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[1]).toEqual(toggleHelp());
@@ -148,7 +152,7 @@ describe('Main app bar component', () => {
     expect(wrapper.find('#settings').first().prop('open')).toBeFalsy();
 
     wrapper
-      .find('button[aria-label="Open browser settings"]')
+      .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
 
     expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
@@ -170,7 +174,7 @@ describe('Main app bar component', () => {
     expect(wrapper.find('#settings').first().prop('open')).toBeFalsy();
 
     wrapper
-      .find('button[aria-label="Open browser settings"]')
+      .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
 
     expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
@@ -189,7 +193,7 @@ describe('Main app bar component', () => {
 
     // Click the user menu button and click on the manage cookies menu item.
     wrapper
-      .find('button[aria-label="Open browser settings"]')
+      .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
     wrapper.find('#item-manage-cookies').first().simulate('click');
 
@@ -203,7 +207,7 @@ describe('Main app bar component', () => {
 
     // Click the user menu button and click on the manage cookies menu item.
     wrapper
-      .find('button[aria-label="Open browser settings"]')
+      .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
     wrapper.find('#item-dark-mode').first().simulate('click');
 
@@ -217,7 +221,7 @@ describe('Main app bar component', () => {
 
     // Click the user menu button and click on the manage cookies menu item.
     wrapper
-      .find('button[aria-label="Open browser settings"]')
+      .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
     wrapper.find('#item-high-contrast-mode').first().simulate('click');
     wrapper.update();

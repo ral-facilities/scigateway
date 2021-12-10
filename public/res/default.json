@@ -9,7 +9,13 @@
     "switch-dark-mode": "Switch to dark mode",
     "switch-high-contrast-off": "Switch high contrast mode off",
     "switch-high-contrast-on": "Switch high contrast mode on",
-    "no-notifications": "No notifications"
+    "no-notifications": "No notifications",
+    "open-navigation-menu": "Open navigation menu",
+    "close-navigation-menu": "Close navigation menu",
+    "admin-page": "Admin page",
+    "help-page": "Help page",
+    "open-browser-settings": "Open browser settings",
+    "home-page": "Home page"
   },
   "login": {
     "title": "Sign in",
@@ -115,7 +121,6 @@
     "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy</a> | <a href=\"mailto:#\">Contact</a>"
   },
   "navigation-drawer": {
-    "alternative-text": "Science and Technology Facilities Council",
-    "close-navigation-menu": "Close navigation menu"
+    "alternative-text": "Science and Technology Facilities Council"
   }
 }

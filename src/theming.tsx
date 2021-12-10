@@ -235,11 +235,19 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
 };
 export interface UKRIThemeOptions extends ThemeOptions {
   drawerWidth: number;
+  footerPaddingTop: string;
+  footerPaddingBottom: string;
+  footerHeight: string;
+  mainAppBarHeight: string;
   colours: ThemeColours;
 }
 
 export interface UKRITheme extends Theme {
   drawerWidth: number;
+  footerPaddingTop: string;
+  footerPaddingBottom: string;
+  footerHeight: string;
+  mainAppBarHeight: string;
   colours: ThemeColours;
 }
 
@@ -395,6 +403,10 @@ export const buildTheme = (
       },
     },
     drawerWidth: 220,
+    footerPaddingTop: '14px',
+    footerPaddingBottom: '14px',
+    footerHeight: '17px',
+    mainAppBarHeight: '64px',
     overrides: overrides,
     colours: colours,
   };

@@ -20,13 +20,6 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
       elevation={0}
       square={true}
     >
-      <Styled(div)>
-        <WithStyles(ForwardRef(IconButton))
-          aria-label="close-navigation-menu"
-        >
-          <Memo(ForwardRef(ChevronLeftIcon)) />
-        </WithStyles(ForwardRef(IconButton))>
-      </Styled(div)>
       <img
         alt="alternative-text"
         className="menuLogo-1"
@@ -57,13 +50,6 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
       elevation={0}
       square={true}
     >
-      <Styled(div)>
-        <WithStyles(ForwardRef(IconButton))
-          aria-label="close-navigation-menu"
-        >
-          <Memo(ForwardRef(ChevronLeftIcon)) />
-        </WithStyles(ForwardRef(IconButton))>
-      </Styled(div)>
       <img
         alt="alternative-text"
         className="menuLogo-1"
@@ -94,13 +80,6 @@ exports[`Navigation drawer component does not display link to homepage if a home
       elevation={0}
       square={true}
     >
-      <Styled(div)>
-        <WithStyles(ForwardRef(IconButton))
-          aria-label="close-navigation-menu"
-        >
-          <Memo(ForwardRef(ChevronLeftIcon)) />
-        </WithStyles(ForwardRef(IconButton))>
-      </Styled(div)>
       <WithStyles(ForwardRef(Typography))
         className="sectionTitle-1"
         variant="h6"
@@ -170,13 +149,6 @@ exports[`Navigation drawer component does not render admin plugins in list 1`] =
       elevation={0}
       square={true}
     >
-      <Styled(div)>
-        <WithStyles(ForwardRef(IconButton))
-          aria-label="close-navigation-menu"
-        >
-          <Memo(ForwardRef(ChevronLeftIcon)) />
-        </WithStyles(ForwardRef(IconButton))>
-      </Styled(div)>
       <img
         alt="alternative-text"
         className="menuLogo-1"
@@ -207,13 +179,6 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       elevation={0}
       square={true}
     >
-      <Styled(div)>
-        <WithStyles(ForwardRef(IconButton))
-          aria-label="close-navigation-menu"
-        >
-          <Memo(ForwardRef(ChevronLeftIcon)) />
-        </WithStyles(ForwardRef(IconButton))>
-      </Styled(div)>
       <WithStyles(ForwardRef(Typography))
         className="sectionTitle-1"
         variant="h6"

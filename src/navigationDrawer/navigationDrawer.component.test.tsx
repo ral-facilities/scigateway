@@ -1,38 +1,21 @@
 import React from 'react';
-import configureStore from 'redux-mock-store';
-import { RouterState } from 'connected-react-router';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
-import NavigationDrawer, {
+import {
   NavigationDrawerWithoutStyles,
   CombinedNavigationProps,
 } from './navigationDrawer.component';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { StateType } from '../state/state.types';
-import { toggleDrawer } from '../state/actions/scigateway.actions';
+
 import { PluginConfig } from '../state/scigateway.types';
-import { ListItemText, MuiThemeProvider } from '@material-ui/core';
+import { ListItemText } from '@material-ui/core';
 import { MemoryRouter } from 'react-router';
 import { createMemoryHistory, History } from 'history';
-import { Provider } from 'react-redux';
-import { buildTheme } from '../theming';
 
 describe('Navigation drawer component', () => {
   let shallow;
   let mount;
-  let mockStore;
-  let state: StateType;
   let props: CombinedNavigationProps;
   let history: History;
-  const routerState: RouterState = {
-    action: 'POP',
-    location: {
-      hash: '',
-      key: '',
-      pathname: '/',
-      search: '',
-      state: {},
-    },
-  };
+
   const dummyClasses = {
     root: 'root-1',
     drawer: 'drawer-1',
@@ -45,20 +28,13 @@ describe('Navigation drawer component', () => {
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'NavigationDrawer' });
     mount = createMount();
-    mockStore = configureStore();
     history = createMemoryHistory();
     history.replace('/help');
-    state = {
-      scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { ...routerState },
-    };
   });
 
   afterEach(() => {
     mount.cleanUp();
   });
-
-  const theme = buildTheme(false);
 
   it('Navigation drawer renders correctly when open', () => {
     props = {
@@ -82,22 +58,6 @@ describe('Navigation drawer component', () => {
 
     const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it('sends toggleDrawer action when chevron clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NavigationDrawer />
-        </MuiThemeProvider>
-      </Provider>
-    );
-
-    wrapper.find('button').first().simulate('click');
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
   function buildPlugin(

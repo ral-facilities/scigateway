@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { IconButton, Theme, Typography } from '@material-ui/core';
+import { Theme, Typography } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,9 +9,9 @@ import {
   createStyles,
   StyleRules,
   WithStyles,
-  styled,
+  // styled,
 } from '@material-ui/core/styles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
@@ -39,13 +39,13 @@ interface NavigationDrawerDispatchProps {
 // TODO
 // There is a bug with the typing of mixins (see mui-org/material-ui#22208)
 // Until this is fixed, use a styled component as a workaround
-const StyledHeader = styled('div')(({ theme }) => ({
-  ...theme.mixins.toolbar,
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0 8px',
-  justifyContent: 'flex-end',
-}));
+// const StyledHeader = styled('div')(({ theme }) => ({
+//   ...theme.mixins.toolbar,
+//   display: 'flex',
+//   alignItems: 'center',
+//   padding: '0 8px',
+//   justifyContent: 'flex-end',
+// }));
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -57,7 +57,11 @@ const styles = (theme: Theme): StyleRules =>
       width: (theme as UKRITheme).drawerWidth,
       background: theme.palette.background.default,
       top: '64px',
-      height: 'calc(100% - 45px - 64px)',
+      height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
+        (theme as UKRITheme).footerPaddingTop
+      } - ${(theme as UKRITheme).footerHeight} - ${
+        (theme as UKRITheme).mainAppBarHeight
+      } )`,
       position: 'absolute',
     },
     // drawerHeader: {
@@ -82,7 +86,6 @@ const styles = (theme: Theme): StyleRules =>
     menuLogo: {
       paddingRight: 25,
       paddingLeft: 25,
-      paddingBottom: 24,
       height: 40,
       bottom: 24,
       position: 'absolute',
@@ -191,7 +194,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   }
 
   public render(): React.ReactElement {
-    // const { plugins } = this.props;
     const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
     return (
       <Drawer
@@ -203,17 +205,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           paper: this.props.classes.drawerPaper,
         }}
       >
-        {/* <div className={this.props.classes.drawerHeader}> */}
-        <StyledHeader>
-          <IconButton
-            onClick={this.props.toggleDrawer}
-            aria-label={getString(this.props.res, 'close-navigation-menu')}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-        </StyledHeader>
-        {/* </div> */}
-
         {this.renderRoutes()}
 
         {imgSrc && (
