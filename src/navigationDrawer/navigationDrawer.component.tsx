@@ -56,6 +56,9 @@ const styles = (theme: Theme): StyleRules =>
     drawerPaper: {
       width: (theme as UKRITheme).drawerWidth,
       background: theme.palette.background.default,
+      top: '64px',
+      height: 'calc(100% - 45px - 64px)',
+      position: 'absolute',
     },
     // drawerHeader: {
     //   ...theme.mixins.toolbar,
@@ -68,7 +71,7 @@ const styles = (theme: Theme): StyleRules =>
       textAlign: 'left',
       paddingTop: theme.spacing(1),
       paddingBottom: 0,
-      color: (theme as UKRITheme).colours.grey,
+      color: (theme as UKRITheme).colours.homePage.description,
       paddingLeft: theme.spacing(2),
     },
     menuItem: {
@@ -81,13 +84,13 @@ const styles = (theme: Theme): StyleRules =>
       paddingLeft: 25,
       paddingBottom: 24,
       height: 40,
-      bottom: 0,
+      bottom: 24,
       position: 'absolute',
       color: theme.palette.text.secondary,
     },
   });
 
-type CombinedNavigationProps = NavigationDrawerDispatchProps &
+export type CombinedNavigationProps = NavigationDrawerDispatchProps &
   NavigationDrawerProps &
   WithStyles<typeof styles>;
 
@@ -240,6 +243,7 @@ const mapDispatchToProps = (
 });
 
 export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
+export const NavigationDrawerWithoutStyles = NavigationDrawer;
 
 export default connect(
   mapStateToProps,

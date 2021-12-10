@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
 import { UKRITheme } from '../theming';
-import classNames from 'classnames';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -40,20 +39,6 @@ const styles = (theme: Theme): StyleRules =>
         },
       },
     },
-    footerBar: {
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    footerBarShift: {
-      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
-      marginLeft: (theme as UKRITheme).drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
   });
 
 interface FooterProps {
@@ -66,17 +51,11 @@ export type CombinedFooterProps = FooterProps & WithStyles<typeof styles>;
 const Footer = (props: CombinedFooterProps): React.ReactElement => {
   return (
     <div
-      className={classNames(props.classes.footerBar, {
-        [props.classes.footerBarShift]: props.drawerOpen,
-      })}
-    >
-      <div
-        className={props.classes.root}
-        dangerouslySetInnerHTML={{
-          __html: getString(props.res, 'html'),
-        }}
-      />
-    </div>
+      className={props.classes.root}
+      dangerouslySetInnerHTML={{
+        __html: getString(props.res, 'html'),
+      }}
+    />
   );
 };
 

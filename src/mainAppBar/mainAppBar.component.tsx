@@ -32,7 +32,7 @@ import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
-import { UKRITheme } from '../theming';
+//import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import { PluginConfig } from '../state/scigateway.types';
@@ -71,18 +71,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     appBar: {
       backgroundColor: theme.palette.primary.main,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
-      marginLeft: (theme as UKRITheme).drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      height: '64px',
     },
     grow: {
       flexGrow: 1,
@@ -179,12 +168,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
 
   return (
     <div className={props.classes.root}>
-      <AppBar
-        position="static"
-        className={classNames(props.classes.appBar, {
-          [props.classes.appBarShift]: props.drawerOpen,
-        })}
-      >
+      <AppBar position="static" className={props.classes.appBar}>
         <Toolbar>
           {props.loggedIn ? (
             <IconButton
