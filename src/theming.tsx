@@ -355,7 +355,7 @@ export const buildTheme = (
         paper: colours.paper,
       },
     },
-    drawerWidth: 300,
+    drawerWidth: 220,
     overrides: overrides,
     colours: colours,
   };

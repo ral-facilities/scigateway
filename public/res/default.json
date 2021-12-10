@@ -93,5 +93,9 @@
   },
   "footer": {
     "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy</a> | <a href=\"mailto:#\">Contact</a>"
+  },
+  "navigation-drawer": {
+    "alternative-text": "Science and Technology Facilities Council",
+    "close-navigation-menu": "Close navigation menu"
   }
 }

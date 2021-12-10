@@ -16,16 +16,20 @@ import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
-import { PluginConfig } from '../state/scigateway.types';
+import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
+import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
+import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
+import { getAppStrings, getString } from '../state/strings';
 
 interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
   darkMode: boolean;
   homepageUrl?: string;
+  res: AppStrings | undefined;
 }
 
 interface NavigationDrawerDispatchProps {
@@ -73,8 +77,8 @@ const styles = (theme: Theme): StyleRules =>
       color: (theme as UKRITheme).colours.blue,
     },
     menuLogo: {
-      paddingRight: 32,
-      paddingLeft: 32,
+      paddingRight: 25,
+      paddingLeft: 25,
       paddingBottom: 24,
       height: 40,
       bottom: 0,
@@ -184,10 +188,8 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   }
 
   public render(): React.ReactElement {
-    const { plugins } = this.props;
-    const imgSrc = this.props.darkMode
-      ? plugins[0]?.logoDarkMode
-      : plugins[0]?.logoLightMode;
+    // const { plugins } = this.props;
+    const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
     return (
       <Drawer
         className={this.props.classes.drawer}
@@ -202,7 +204,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         <StyledHeader>
           <IconButton
             onClick={this.props.toggleDrawer}
-            aria-label="Close navigation menu"
+            aria-label={getString(this.props.res, 'close-navigation-menu')}
           >
             <ChevronLeftIcon />
           </IconButton>
@@ -214,7 +216,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         {imgSrc && (
           <img
             className={this.props.classes.menuLogo}
-            alt={plugins[0].logoAltText}
+            alt={getString(this.props.res, 'alternative-text')}
             src={imgSrc}
           />
         )}
@@ -228,6 +230,7 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   plugins: state.scigateway.plugins,
   darkMode: state.scigateway.darkMode,
   homepageUrl: state.scigateway.homepageUrl,
+  res: getAppStrings(state, 'navigation-drawer'),
 });
 
 const mapDispatchToProps = (
