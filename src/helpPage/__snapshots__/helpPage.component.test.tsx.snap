@@ -60,7 +60,11 @@ exports[`Help page component should render correctly 1`] = `
         "warning": "#FFA500",
       },
       "direction": "ltr",
-      "drawerWidth": 300,
+      "drawerWidth": 220,
+      "footerHeight": "17px",
+      "footerPaddingBottom": "14px",
+      "footerPaddingTop": "14px",
+      "mainAppBarHeight": "64px",
       "mixins": Object {
         "gutters": [Function],
         "toolbar": Object {

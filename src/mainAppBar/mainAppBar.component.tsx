@@ -13,6 +13,7 @@ import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import TuneIcon from '@material-ui/icons/Tune';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import {
   withStyles,
   createStyles,
@@ -32,11 +33,12 @@ import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
-import { UKRITheme } from '../theming';
+//import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import { PluginConfig } from '../state/scigateway.types';
 import { useLocation } from 'react-router-dom';
+import { UKRITheme } from '../theming';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -71,18 +73,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     appBar: {
       backgroundColor: theme.palette.primary.main,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
-      marginLeft: (theme as UKRITheme).drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      height: (theme as UKRITheme).mainAppBarHeight,
     },
     grow: {
       flexGrow: 1,
@@ -108,8 +99,10 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: 20,
       width: 48,
     },
-    hide: {
-      display: 'none',
+    menuButtonOpen: {
+      marginLeft: -12,
+      marginRight: 20,
+      color: theme.palette.primary.contrastText,
     },
   });
 
@@ -179,33 +172,42 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
 
   return (
     <div className={props.classes.root}>
-      <AppBar
-        position="static"
-        className={classNames(props.classes.appBar, {
-          [props.classes.appBarShift]: props.drawerOpen,
-        })}
-      >
+      <AppBar position="static" className={props.classes.appBar}>
         <Toolbar>
           {props.loggedIn ? (
-            <IconButton
-              className={classNames(
-                props.classes.menuButton,
-                props.drawerOpen && props.classes.hide,
-                'tour-nav-menu'
-              )}
-              color="inherit"
-              onClick={props.toggleDrawer}
-              aria-label="Open navigation menu"
-            >
-              <MenuIcon />
-            </IconButton>
+            props.drawerOpen === false ? (
+              <IconButton
+                className={classNames(
+                  props.classes.menuButton,
+                  props.drawerOpen && props.classes.menuButtonOpen
+                )}
+                color="inherit"
+                onClick={props.toggleDrawer}
+                aria-label={getString(props.res, 'open-navigation-menu')}
+              >
+                <MenuIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                className={classNames(
+                  props.classes.menuButtonOpen,
+                  props.drawerOpen && props.classes.menuButton,
+                  'tour-nav-menu'
+                )}
+                color="inherit"
+                onClick={props.toggleDrawer}
+                aria-label={getString(props.res, 'close-navigation-menu')}
+              >
+                <MenuOpenIcon />
+              </IconButton>
+            )
           ) : (
             <div className={props.classes.menuButtonPlaceholder} />
           )}
           <Button
             className={classNames(props.classes.titleButton, 'tour-title')}
             onClick={props.navigateToHome}
-            aria-label="Homepage"
+            aria-label={getString(props.res, 'home-page')}
           >
             <img
               src={props.logo ? props.logo : defaultLogo}
@@ -217,7 +219,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               className={classNames(props.classes.button, 'tour-help')}
               style={{ paddingTop: 3 }}
               onClick={props.navigateToHelpPage}
-              aria-label="Helppage"
+              aria-label={getString(props.res, 'help-page')}
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'help')}
@@ -229,7 +231,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               className={classNames(props.classes.button, 'tour-admin')}
               style={{ paddingTop: 3 }}
               onClick={props.navigateToAdminPage}
-              aria-label="Adminpage"
+              aria-label={getString(props.res, 'admin-page')}
             >
               <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
                 {getString(props.res, 'admin')}
@@ -240,14 +242,14 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           <IconButton
             className={props.classes.button}
             onClick={props.toggleHelp}
-            aria-label="Help"
+            aria-label={getString(props.res, 'help')}
           >
             <HelpIcon />
           </IconButton>
           <IconButton
             className={classNames(props.classes.button, 'tour-settings')}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
-            aria-label="Open browser settings"
+            aria-label={getString(props.res, 'open-browser-settings')}
           >
             <SettingsIcon />
           </IconButton>

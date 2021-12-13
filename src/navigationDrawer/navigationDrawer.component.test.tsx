@@ -1,39 +1,35 @@
 import React from 'react';
-import configureStore from 'redux-mock-store';
-import { RouterState } from 'connected-react-router';
 import { createShallow, createMount } from '@material-ui/core/test-utils';
-import NavigationDrawer from './navigationDrawer.component';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { StateType } from '../state/state.types';
-import { toggleDrawer } from '../state/actions/scigateway.actions';
+import {
+  NavigationDrawerWithoutStyles,
+  CombinedNavigationProps,
+} from './navigationDrawer.component';
+
 import { PluginConfig } from '../state/scigateway.types';
 import { ListItemText } from '@material-ui/core';
 import { MemoryRouter } from 'react-router';
+import { createMemoryHistory, History } from 'history';
 
 describe('Navigation drawer component', () => {
   let shallow;
   let mount;
-  let mockStore;
-  let state: StateType;
-  const routerState: RouterState = {
-    action: 'POP',
-    location: {
-      hash: '',
-      key: '',
-      pathname: '/',
-      search: '',
-      state: {},
-    },
+  let props: CombinedNavigationProps;
+  let history: History;
+
+  const dummyClasses = {
+    root: 'root-1',
+    drawer: 'drawer-1',
+    drawerPaper: 'drawerPaper-1',
+    sectionTitle: 'sectionTitle-1',
+    menuItem: 'menuItem-1',
+    menuLogo: 'menuLogo-1',
   };
 
   beforeEach(() => {
     shallow = createShallow({ untilSelector: 'NavigationDrawer' });
     mount = createMount();
-    mockStore = configureStore();
-    state = {
-      scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { ...routerState },
-    };
+    history = createMemoryHistory();
+    history.replace('/help');
   });
 
   afterEach(() => {
@@ -41,27 +37,27 @@ describe('Navigation drawer component', () => {
   });
 
   it('Navigation drawer renders correctly when open', () => {
-    state.scigateway.drawerOpen = true;
+    props = {
+      open: true,
+      plugins: [],
+      res: undefined,
+      classes: dummyClasses,
+    };
 
-    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('Navigation drawer renders correctly when closed', () => {
-    state.scigateway.drawerOpen = false;
+    props = {
+      open: false,
+      plugins: [],
+      res: undefined,
+      classes: dummyClasses,
+    };
 
-    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it('sends toggleDrawer action when chevron clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(<NavigationDrawer store={testStore} />);
-
-    wrapper.find('button').first().simulate('click');
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
   function buildPlugin(
@@ -92,10 +88,15 @@ describe('Navigation drawer component', () => {
         section: 'DATA',
       },
     ];
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
 
-    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      classes: dummyClasses,
+    };
+
+    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
 
     expect(wrapper).toMatchSnapshot();
 
@@ -114,10 +115,14 @@ describe('Navigation drawer component', () => {
       },
     ];
 
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      classes: dummyClasses,
+    };
 
-    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -140,11 +145,16 @@ describe('Navigation drawer component', () => {
         displayName: 'display name',
       },
     ];
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
-    state.scigateway.homepageUrl = homepageLink;
 
-    const wrapper = shallow(<NavigationDrawer store={mockStore(state)} />);
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      classes: dummyClasses,
+      homepageUrl: homepageLink,
+    };
+
+    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
 
     expect(wrapper).toMatchSnapshot();
 
@@ -161,13 +171,17 @@ describe('Navigation drawer component', () => {
         displayName: '\xa0display name',
       },
     ];
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
 
-    const testStore = mockStore(state);
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      classes: dummyClasses,
+    };
+
     const wrapper = mount(
       <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawer store={testStore} />
+        <NavigationDrawerWithoutStyles {...props} />
       </MemoryRouter>
     );
 
@@ -175,7 +189,7 @@ describe('Navigation drawer component', () => {
     expect(listItemText.text()).toEqual('\xa0display name');
   });
 
-  it('renders the light mode logo at the top', () => {
+  it('renders the light mode logo at the bottom', () => {
     const dummyPlugins: PluginConfig[] = [
       {
         order: 0,
@@ -183,24 +197,25 @@ describe('Navigation drawer component', () => {
         link: 'plugin_link',
         section: 'DATA',
         displayName: '\xa0display name',
-        logoAltText: 'DataGateway',
-        logoDarkMode: '/darkLogo.svg',
-        logoLightMode: '/lightLogo.svg',
       },
     ];
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
-    state.scigateway.darkMode = false;
 
-    const testStore = mockStore(state);
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      classes: dummyClasses,
+      darkMode: false,
+    };
+
     const wrapper = mount(
       <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawer store={testStore} />
+        <NavigationDrawerWithoutStyles {...props} />
       </MemoryRouter>
     );
 
     expect(wrapper.find('img')).toHaveLength(1);
-    expect(wrapper.find('img').prop('src')).toEqual('/lightLogo.svg');
+    expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-blue-text.png');
   });
 
   it('renders the dark mode logo at the top', () => {
@@ -211,23 +226,23 @@ describe('Navigation drawer component', () => {
         link: 'plugin_link',
         section: 'DATA',
         displayName: '\xa0display name',
-        logoAltText: 'DataGateway',
-        logoDarkMode: '/darkLogo.svg',
-        logoLightMode: '/lightLogo.svg',
       },
     ];
-    state.scigateway.plugins = dummyPlugins;
-    state.scigateway.drawerOpen = true;
-    state.scigateway.darkMode = true;
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      classes: dummyClasses,
+      darkMode: true,
+    };
 
-    const testStore = mockStore(state);
     const wrapper = mount(
       <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawer store={testStore} />
+        <NavigationDrawerWithoutStyles {...props} />
       </MemoryRouter>
     );
 
     expect(wrapper.find('img')).toHaveLength(1);
-    expect(wrapper.find('img').prop('src')).toEqual('/darkLogo.svg');
+    expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-white-text.png');
   });
 });

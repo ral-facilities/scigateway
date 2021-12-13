@@ -17,11 +17,11 @@ const styles = (theme: Theme): StyleRules =>
     root: {
       position: 'absolute',
       bottom: 0,
-      paddingBottom: '14px',
-      paddingTop: '14px',
+      paddingBottom: (theme as UKRITheme).footerPaddingBottom,
+      paddingTop: (theme as UKRITheme).footerPaddingTop,
       width: '100%',
       fontSize: 14,
-      height: '17px',
+      height: (theme as UKRITheme).footerHeight,
       fontWeight: 'bold',
       textAlign: 'left',
       textIndent: '24px',
@@ -43,6 +43,7 @@ const styles = (theme: Theme): StyleRules =>
 
 interface FooterProps {
   res: AppStrings | undefined;
+  drawerOpen: boolean;
 }
 
 export type CombinedFooterProps = FooterProps & WithStyles<typeof styles>;
@@ -60,6 +61,7 @@ const Footer = (props: CombinedFooterProps): React.ReactElement => {
 
 const mapStateToProps = (state: StateType): FooterProps => ({
   res: getAppStrings(state, 'footer'),
+  drawerOpen: state.scigateway.drawerOpen,
 });
 
 export const FooterWithoutStyles = Footer;
