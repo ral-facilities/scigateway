@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Theme, Typography } from '@material-ui/core';
+import { Box, Theme, Typography } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,9 +9,7 @@ import {
   createStyles,
   StyleRules,
   WithStyles,
-  // styled,
 } from '@material-ui/core/styles';
-
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch, Action } from 'redux';
@@ -36,17 +34,6 @@ interface NavigationDrawerDispatchProps {
   toggleDrawer: () => Action;
 }
 
-// TODO
-// There is a bug with the typing of mixins (see mui-org/material-ui#22208)
-// Until this is fixed, use a styled component as a workaround
-// const StyledHeader = styled('div')(({ theme }) => ({
-//   ...theme.mixins.toolbar,
-//   display: 'flex',
-//   alignItems: 'center',
-//   padding: '0 8px',
-//   justifyContent: 'flex-end',
-// }));
-
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     drawer: {
@@ -56,7 +43,7 @@ const styles = (theme: Theme): StyleRules =>
     drawerPaper: {
       width: (theme as UKRITheme).drawerWidth,
       background: theme.palette.background.default,
-      top: '64px',
+      top: (theme as UKRITheme).mainAppBarHeight,
       height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
         (theme as UKRITheme).footerPaddingTop
       } - ${(theme as UKRITheme).footerHeight} - ${
@@ -64,13 +51,6 @@ const styles = (theme: Theme): StyleRules =>
       } )`,
       position: 'absolute',
     },
-    // drawerHeader: {
-    //   ...theme.mixins.toolbar,
-    //   display: 'flex',
-    //   alignItems: 'center',
-    //   padding: '0 8px',
-    //   justifyContent: 'flex-end',
-    // },
     sectionTitle: {
       textAlign: 'left',
       paddingTop: theme.spacing(1),
@@ -87,8 +67,7 @@ const styles = (theme: Theme): StyleRules =>
       paddingRight: 25,
       paddingLeft: 25,
       height: 40,
-      bottom: 24,
-      position: 'absolute',
+      paddingBottom: 24,
       color: theme.palette.text.secondary,
     },
   });
@@ -125,14 +104,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         button
         dense
       >
-        {/* Uncomment this to add DataGateway logo next to each button */}
-        {/* {imgSrc && (
-          <img
-            className={this.props.classes.menuLogo}
-            alt={plugin.logoAltText}
-            src={imgSrc}
-          />
-        )} */}
         <ListItemText
           inset={!imgSrc}
           primary={displayText}
@@ -205,15 +176,25 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           paper: this.props.classes.drawerPaper,
         }}
       >
-        {this.renderRoutes()}
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="flex-start"
+          height="100%"
+          boxSizing="border-box"
+        >
+          {this.renderRoutes()}
 
-        {imgSrc && (
-          <img
-            className={this.props.classes.menuLogo}
-            alt={getString(this.props.res, 'alternative-text')}
-            src={imgSrc}
-          />
-        )}
+          {imgSrc && (
+            <Box marginTop="auto">
+              <img
+                className={this.props.classes.menuLogo}
+                alt={getString(this.props.res, 'alternative-text')}
+                src={imgSrc}
+              />
+            </Box>
+          )}
+        </Box>
       </Drawer>
     );
   }

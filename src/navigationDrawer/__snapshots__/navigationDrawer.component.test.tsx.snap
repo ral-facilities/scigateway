@@ -20,11 +20,23 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
       elevation={0}
       square={true}
     >
-      <img
-        alt="alternative-text"
-        className="menuLogo-1"
-        src="stfc-logo-blue-text.png"
-      />
+      <Styled(MuiBox)
+        boxSizing="border-box"
+        display="flex"
+        flexDirection="column"
+        height="100%"
+        justifyContent="flex-start"
+      >
+        <Styled(MuiBox)
+          marginTop="auto"
+        >
+          <img
+            alt="alternative-text"
+            className="menuLogo-1"
+            src="stfc-logo-blue-text.png"
+          />
+        </Styled(MuiBox)>
+      </Styled(MuiBox)>
     </WithStyles(ForwardRef(Paper))>
   </ForwardRef(Slide)>
 </div>
@@ -50,11 +62,23 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
       elevation={0}
       square={true}
     >
-      <img
-        alt="alternative-text"
-        className="menuLogo-1"
-        src="stfc-logo-blue-text.png"
-      />
+      <Styled(MuiBox)
+        boxSizing="border-box"
+        display="flex"
+        flexDirection="column"
+        height="100%"
+        justifyContent="flex-start"
+      >
+        <Styled(MuiBox)
+          marginTop="auto"
+        >
+          <img
+            alt="alternative-text"
+            className="menuLogo-1"
+            src="stfc-logo-blue-text.png"
+          />
+        </Styled(MuiBox)>
+      </Styled(MuiBox)>
     </WithStyles(ForwardRef(Paper))>
   </ForwardRef(Slide)>
 </div>
@@ -80,50 +104,62 @@ exports[`Navigation drawer component does not display link to homepage if a home
       elevation={0}
       square={true}
     >
-      <WithStyles(ForwardRef(Typography))
-        className="sectionTitle-1"
-        variant="h6"
+      <Styled(MuiBox)
+        boxSizing="border-box"
+        display="flex"
+        flexDirection="column"
+        height="100%"
+        justifyContent="flex-start"
       >
-        DATA
-      </WithStyles(ForwardRef(Typography))>
-      <WithStyles(ForwardRef(List))
-        component="nav"
-      >
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
-            }
-          }
-          dense={true}
-          id="plugin-link-plugin_link"
-          key="0"
-          to="plugin_link"
+        <WithStyles(ForwardRef(Typography))
+          className="sectionTitle-1"
+          variant="h6"
         >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
+          DATA
+        </WithStyles(ForwardRef(Typography))>
+        <WithStyles(ForwardRef(List))
+          component="nav"
+        >
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
               Object {
-                "primary": "menuItem-1",
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
               }
             }
-            inset={true}
-            primary="display name"
-            primaryTypographyProps={
-              Object {
-                "variant": "subtitle1",
+            dense={true}
+            id="plugin-link-plugin_link"
+            key="0"
+            to="plugin_link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
               }
-            }
+              inset={true}
+              primary="display name"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+        </WithStyles(ForwardRef(List))>
+        <Styled(MuiBox)
+          marginTop="auto"
+        >
+          <img
+            alt="alternative-text"
+            className="menuLogo-1"
+            src="stfc-logo-blue-text.png"
           />
-        </WithStyles(ForwardRef(ListItem))>
-      </WithStyles(ForwardRef(List))>
-      <img
-        alt="alternative-text"
-        className="menuLogo-1"
-        src="stfc-logo-blue-text.png"
-      />
+        </Styled(MuiBox)>
+      </Styled(MuiBox)>
     </WithStyles(ForwardRef(Paper))>
   </ForwardRef(Slide)>
 </div>
@@ -149,11 +185,23 @@ exports[`Navigation drawer component does not render admin plugins in list 1`] =
       elevation={0}
       square={true}
     >
-      <img
-        alt="alternative-text"
-        className="menuLogo-1"
-        src="stfc-logo-blue-text.png"
-      />
+      <Styled(MuiBox)
+        boxSizing="border-box"
+        display="flex"
+        flexDirection="column"
+        height="100%"
+        justifyContent="flex-start"
+      >
+        <Styled(MuiBox)
+          marginTop="auto"
+        >
+          <img
+            alt="alternative-text"
+            className="menuLogo-1"
+            src="stfc-logo-blue-text.png"
+          />
+        </Styled(MuiBox)>
+      </Styled(MuiBox)>
     </WithStyles(ForwardRef(Paper))>
   </ForwardRef(Slide)>
 </div>
@@ -179,205 +227,217 @@ exports[`Navigation drawer component renders a plugin list grouped by sections o
       elevation={0}
       square={true}
     >
-      <WithStyles(ForwardRef(Typography))
-        className="sectionTitle-1"
-        variant="h6"
+      <Styled(MuiBox)
+        boxSizing="border-box"
+        display="flex"
+        flexDirection="column"
+        height="100%"
+        justifyContent="flex-start"
       >
-        ANALYSIS
-      </WithStyles(ForwardRef(Typography))>
-      <WithStyles(ForwardRef(List))
-        component="nav"
-      >
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
-            }
-          }
-          dense={true}
-          id="plugin-link-link"
-          key="0"
-          to="link"
+        <WithStyles(ForwardRef(Typography))
+          className="sectionTitle-1"
+          variant="h6"
         >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
-              Object {
-                "primary": "menuItem-1",
-              }
-            }
-            inset={true}
-            primary="analysis-plugin"
-            primaryTypographyProps={
-              Object {
-                "variant": "subtitle1",
-              }
-            }
-          />
-        </WithStyles(ForwardRef(ListItem))>
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
-            }
-          }
-          dense={true}
-          id="plugin-link-link"
-          key="1"
-          to="link"
+          ANALYSIS
+        </WithStyles(ForwardRef(Typography))>
+        <WithStyles(ForwardRef(List))
+          component="nav"
         >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
               Object {
-                "primary": "menuItem-1",
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
               }
             }
-            inset={true}
-            primary="analysis-plugin2"
-            primaryTypographyProps={
+            dense={true}
+            id="plugin-link-link"
+            key="0"
+            to="link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
+              }
+              inset={true}
+              primary="analysis-plugin"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
               Object {
-                "variant": "subtitle1",
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
               }
             }
-          />
-        </WithStyles(ForwardRef(ListItem))>
-      </WithStyles(ForwardRef(List))>
-      <WithStyles(ForwardRef(Typography))
-        className="sectionTitle-1"
-        variant="h6"
-      >
-        DATA
-      </WithStyles(ForwardRef(Typography))>
-      <WithStyles(ForwardRef(List))
-        component="nav"
-      >
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
-            }
-          }
-          dense={true}
-          id="plugin-link-link"
-          key="0"
-          to="link"
+            dense={true}
+            id="plugin-link-link"
+            key="1"
+            to="link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
+              }
+              inset={true}
+              primary="analysis-plugin2"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+        </WithStyles(ForwardRef(List))>
+        <WithStyles(ForwardRef(Typography))
+          className="sectionTitle-1"
+          variant="h6"
         >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
-              Object {
-                "primary": "menuItem-1",
-              }
-            }
-            inset={true}
-            primary="data-plugin"
-            primaryTypographyProps={
-              Object {
-                "variant": "subtitle1",
-              }
-            }
-          />
-        </WithStyles(ForwardRef(ListItem))>
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
-            }
-          }
-          dense={true}
-          id="plugin-link-link"
-          key="1"
-          to="link"
+          DATA
+        </WithStyles(ForwardRef(Typography))>
+        <WithStyles(ForwardRef(List))
+          component="nav"
         >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
               Object {
-                "primary": "menuItem-1",
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
               }
             }
-            inset={true}
-            primary="data-plugin1"
-            primaryTypographyProps={
+            dense={true}
+            id="plugin-link-link"
+            key="0"
+            to="link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
+              }
+              inset={true}
+              primary="data-plugin"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
               Object {
-                "variant": "subtitle1",
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
               }
             }
-          />
-        </WithStyles(ForwardRef(ListItem))>
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
+            dense={true}
+            id="plugin-link-link"
+            key="1"
+            to="link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
+              }
+              inset={true}
+              primary="data-plugin1"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
+              }
             }
-          }
-          dense={true}
-          id="plugin-link-link"
-          key="2"
-          to="link"
+            dense={true}
+            id="plugin-link-link"
+            key="2"
+            to="link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
+              }
+              inset={true}
+              primary="data-plugin2"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+          <WithStyles(ForwardRef(ListItem))
+            button={true}
+            component={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "ForwardRefLink",
+                "render": [Function],
+              }
+            }
+            dense={true}
+            id="plugin-link-plugin_link"
+            key="3"
+            to="plugin_link"
+          >
+            <WithStyles(ForwardRef(ListItemText))
+              classes={
+                Object {
+                  "primary": "menuItem-1",
+                }
+              }
+              inset={true}
+              primary="data-plugin-no-displayname"
+              primaryTypographyProps={
+                Object {
+                  "variant": "subtitle1",
+                }
+              }
+            />
+          </WithStyles(ForwardRef(ListItem))>
+        </WithStyles(ForwardRef(List))>
+        <Styled(MuiBox)
+          marginTop="auto"
         >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
-              Object {
-                "primary": "menuItem-1",
-              }
-            }
-            inset={true}
-            primary="data-plugin2"
-            primaryTypographyProps={
-              Object {
-                "variant": "subtitle1",
-              }
-            }
+          <img
+            alt="alternative-text"
+            className="menuLogo-1"
+            src="stfc-logo-blue-text.png"
           />
-        </WithStyles(ForwardRef(ListItem))>
-        <WithStyles(ForwardRef(ListItem))
-          button={true}
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "ForwardRefLink",
-              "render": [Function],
-            }
-          }
-          dense={true}
-          id="plugin-link-plugin_link"
-          key="3"
-          to="plugin_link"
-        >
-          <WithStyles(ForwardRef(ListItemText))
-            classes={
-              Object {
-                "primary": "menuItem-1",
-              }
-            }
-            inset={true}
-            primary="data-plugin-no-displayname"
-            primaryTypographyProps={
-              Object {
-                "variant": "subtitle1",
-              }
-            }
-          />
-        </WithStyles(ForwardRef(ListItem))>
-      </WithStyles(ForwardRef(List))>
-      <img
-        alt="alternative-text"
-        className="menuLogo-1"
-        src="stfc-logo-blue-text.png"
-      />
+        </Styled(MuiBox)>
+      </Styled(MuiBox)>
     </WithStyles(ForwardRef(Paper))>
   </ForwardRef(Slide)>
 </div>
