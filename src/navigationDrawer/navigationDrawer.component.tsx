@@ -12,8 +12,6 @@ import {
 } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
-import { Dispatch, Action } from 'redux';
-import { toggleDrawer } from '../state/actions/scigateway.actions';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
@@ -28,10 +26,6 @@ interface NavigationDrawerProps {
   darkMode: boolean;
   homepageUrl?: string;
   res: AppStrings | undefined;
-}
-
-interface NavigationDrawerDispatchProps {
-  toggleDrawer: () => Action;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -72,8 +66,7 @@ const styles = (theme: Theme): StyleRules =>
     },
   });
 
-export type CombinedNavigationProps = NavigationDrawerDispatchProps &
-  NavigationDrawerProps &
+export type CombinedNavigationProps = NavigationDrawerProps &
   WithStyles<typeof styles>;
 
 // This has been adapted from the MaterialUI composition guide
@@ -208,16 +201,7 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   res: getAppStrings(state, 'navigation-drawer'),
 });
 
-const mapDispatchToProps = (
-  dispatch: Dispatch
-): NavigationDrawerDispatchProps => ({
-  toggleDrawer: () => dispatch(toggleDrawer()),
-});
-
 export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
 export const NavigationDrawerWithoutStyles = NavigationDrawer;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavigationDrawerWithStyles);
+export default connect(mapStateToProps)(NavigationDrawerWithStyles);
