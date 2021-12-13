@@ -37,29 +37,25 @@
       "description1": "SciGateway is a ReactJs based parent application within a micro-front end architecture. It provides access to large facilities science.",
       "description2": "The <0>SciGateway</0> application offers features such as authentication and authorisation functionality, notifications, cookies management.",
       "link": "/browse/investigation",
-      "button": "Browse data",
-      "button_arialabel": "Browse data"
+      "button": "Browse data"
     },
     "search": {
       "title": "Search",
       "description": "Search for the experimental data according to different criteria.",
       "link": "/search",
-      "button": "Search data",
-      "button_arialabel": "Search data"
+      "button": "Search data"
     },
     "download": {
       "title": "Download",
       "description": "Retrieve the experimental data using a variety of download methods.",
       "link": "/download",
-      "button": "Download data",
-      "button_arialabel": "Download data"
+      "button": "Download data"
     },
     "facility": {
       "title": "Facility Title",
       "description": "Facility Description",
       "link": "#",
-      "button": "Read more",
-      "button_arialabel": "Read more"
+      "button": "Read more"
     }
   },
   "contact-page": {
