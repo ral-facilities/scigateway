@@ -4,34 +4,25 @@ exports[`Footer component footer renders correctly 1`] = `
 <div
   className="root-class"
 >
-  <Styled(MuiBox)
-    boxSizing="border-box"
-    display="flex"
-    flexDirection="row"
-    justifyContent="flex-start"
-    width="100%"
-  >
-    <div
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "html",
-        }
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "html",
       }
-    />
-    <Styled(MuiBox)
-      marginLeft="auto"
+    }
+  />
+  <div>
+    <Trans
+      i18nKey="footer.website-development-provider"
     >
-      <div>
-        <Trans
-          i18nKey="footer.website-development-provider"
-        >
-          Built by the 
-          <strong>
-            Data and Software Engineering Group
-          </strong>
-        </Trans>
-      </div>
-    </Styled(MuiBox)>
-  </Styled(MuiBox)>
+      Built by the
+       
+      <a
+        href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
+      >
+        Data and Software Engineering Group
+      </a>
+    </Trans>
+  </div>
 </div>
 `;
