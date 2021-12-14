@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
 import { UKRITheme } from '../theming';
-import { Box } from '@material-ui/core';
 import { Trans } from 'react-i18next';
 
 const styles = (theme: Theme): StyleRules =>
@@ -23,15 +22,9 @@ const styles = (theme: Theme): StyleRules =>
       paddingTop: (theme as UKRITheme).footerPaddingTop,
       width: '100%',
       height: (theme as UKRITheme).footerHeight,
+      display: 'flex',
       color: (theme as UKRITheme).colours.footerLink.default,
       backgroundColor: theme.palette.primary.main,
-    },
-    leftText: {
-      textAlign: 'left',
-      fontWeight: 'bold',
-      fontSize: 14,
-      textIndent: '24px',
-      display: 'inline-block',
       '& a': {
         '&:link': {
           color: (theme as UKRITheme).colours.footerLink.default,
@@ -44,11 +37,22 @@ const styles = (theme: Theme): StyleRules =>
         },
       },
     },
+    leftText: {
+      textAlign: 'left',
+      fontWeight: 'bold',
+      fontSize: 14,
+      textIndent: '24px',
+      display: 'inline-block',
+    },
     rightText: {
       textAlign: 'right',
-      display: 'inline-block',
       fontSize: 14,
+      right: 0,
       paddingRight: 24,
+      marginLeft: 'auto',
+    },
+    bold: {
+      fontWeight: 'bold',
     },
   });
 
@@ -62,27 +66,23 @@ export type CombinedFooterProps = FooterProps & WithStyles<typeof styles>;
 const Footer = (props: CombinedFooterProps): React.ReactElement => {
   return (
     <div className={props.classes.root}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="flex-start"
-        width="100%"
-        boxSizing="border-box"
-      >
-        <div
-          className={props.classes.leftText}
-          dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'html'),
-          }}
-        />
-        <Box marginLeft="auto">
-          <div className={props.classes.rightText}>
-            <Trans i18nKey="footer.website-development-provider">
-              Built by the <strong>Data and Software Engineering Group</strong>
-            </Trans>
-          </div>
-        </Box>
-      </Box>
+      <div
+        className={props.classes.leftText}
+        dangerouslySetInnerHTML={{
+          __html: getString(props.res, 'html'),
+        }}
+      />
+      <div className={props.classes.rightText}>
+        <Trans i18nKey="footer.website-development-provider">
+          Built by the{' '}
+          <a
+            className={props.classes.bold}
+            href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
+          >
+            Data and Software Engineering Group
+          </a>
+        </Trans>
+      </div>
     </div>
   );
 };

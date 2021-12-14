@@ -119,7 +119,7 @@
   },
   "footer": {
     "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy statement</a> | <a href=\"#\">Data policy</a> | <a href=\"mailto:#\">Contact</a>",
-    "website-development-provider": "Built by the <1>Data and Software Engineering Group</1>"
+    "website-development-provider": "Built by the <2>Data and Software Engineering Group</2>"
   },
   "navigation-drawer": {
     "alternative-text": "Science and Technology Facilities Council"
