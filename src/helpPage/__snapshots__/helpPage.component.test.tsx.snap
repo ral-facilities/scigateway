@@ -61,7 +61,7 @@ exports[`Help page component should render correctly 1`] = `
       },
       "direction": "ltr",
       "drawerWidth": 220,
-      "footerHeight": "17px",
+      "footerHeight": "20px",
       "footerPaddingBottom": "14px",
       "footerPaddingTop": "14px",
       "mainAppBarHeight": "64px",

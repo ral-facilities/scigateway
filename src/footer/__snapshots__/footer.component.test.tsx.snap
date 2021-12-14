@@ -3,10 +3,35 @@
 exports[`Footer component footer renders correctly 1`] = `
 <div
   className="root-class"
-  dangerouslySetInnerHTML={
-    Object {
-      "__html": "html",
-    }
-  }
-/>
+>
+  <Styled(MuiBox)
+    boxSizing="border-box"
+    display="flex"
+    flexDirection="row"
+    justifyContent="flex-start"
+    width="100%"
+  >
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "html",
+        }
+      }
+    />
+    <Styled(MuiBox)
+      marginLeft="auto"
+    >
+      <div>
+        <Trans
+          i18nKey="footer.website-development-provider"
+        >
+          Built by the 
+          <strong>
+            Data and Software Engineering Group
+          </strong>
+        </Trans>
+      </div>
+    </Styled(MuiBox)>
+  </Styled(MuiBox)>
+</div>
 `;

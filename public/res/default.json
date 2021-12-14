@@ -118,7 +118,8 @@
     "message": "We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the <2>homepage</2> or <6>contact support</6>."
   },
   "footer": {
-    "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy</a> | <a href=\"mailto:#\">Contact</a>"
+    "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy statement</a> | <a href=\"#\">Data policy</a> | <a href=\"mailto:#\">Contact</a>",
+    "website-development-provider": "Built by the <1>Data and Software Engineering Group</1>"
   },
   "navigation-drawer": {
     "alternative-text": "Science and Technology Facilities Council"
