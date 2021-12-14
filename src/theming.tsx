@@ -67,7 +67,7 @@ interface ThemeColours {
 
   /* Contrast colours that need to change significantly between dark
      and light modes */
-  contrastGrey: string; //Used for chip colours in cards and filters
+  contrastGrey: string; //Used on homepage
 
   /* Informational/Warning colours */
   information: string; //Used in open data label
@@ -85,10 +85,11 @@ interface ThemeColours {
     active: string;
   };
 
+  chip: string; //Used for chip colours in cards and filters
+
   /* Colours used on the homepage */
   homePage: {
     heading: string;
-    description: string;
     blueDescription: string;
     blueButton: string;
   };
@@ -109,7 +110,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
-  contrastGrey: '#595959',
+  contrastGrey: '#E6E6E6',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
@@ -121,9 +122,9 @@ const DARK_MODE_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
+  chip: '#595959',
   homePage: {
     heading: '#FFFFFF',
-    description: '#E6E6E6',
     blueDescription: '#E6E6E6',
     blueButton: UKRI_COLOURS.bright.blue,
   },
@@ -144,7 +145,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FFC14D',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
-  contrastGrey: '#3A3A3A',
+  contrastGrey: '#FFFFFF',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFC14D',
   link: {
@@ -156,9 +157,9 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     default: '#000000',
     active: '#851D0F',
   },
+  chip: '#3A3A3A',
   homePage: {
     heading: '#FFFFFF',
-    description: '#FFFFFF',
     blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
@@ -179,7 +180,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
-  contrastGrey: '#E0E0E0',
+  contrastGrey: '#717171',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
@@ -191,9 +192,9 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
+  chip: '#E0E0E0',
   homePage: {
     heading: '#333333',
-    description: '#717171',
     blueDescription: '#E6E6E6',
     blueButton: UKRI_COLOURS.bright.blue,
   },
@@ -214,7 +215,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3E863E',
   darkOrange: STATIC_COLOURS.orange,
-  contrastGrey: '#E0E0E0',
+  contrastGrey: '#000000',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
   link: {
@@ -226,9 +227,9 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
+  chip: '#E0E0E0',
   homePage: {
     heading: '#000000',
-    description: '#000000',
     blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
@@ -330,7 +331,7 @@ export const buildTheme = (
     },
     MuiChip: {
       root: {
-        backgroundColor: colours.contrastGrey,
+        backgroundColor: colours.chip,
       },
     },
     MuiPickersToolbar: {
