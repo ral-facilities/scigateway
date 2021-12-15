@@ -3,10 +3,26 @@
 exports[`Footer component footer renders correctly 1`] = `
 <div
   className="root-class"
-  dangerouslySetInnerHTML={
-    Object {
-      "__html": "html",
+>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "html",
+      }
     }
-  }
-/>
+  />
+  <div>
+    <Trans
+      i18nKey="footer.website-development-provider"
+    >
+      Built by the
+       
+      <a
+        href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
+      >
+        Data and Software Engineering Group
+      </a>
+    </Trans>
+  </div>
+</div>
 `;
