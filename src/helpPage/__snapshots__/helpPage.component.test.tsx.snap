@@ -28,7 +28,8 @@ exports[`Help page component should render correctly 1`] = `
       "colours": Object {
         "background": "#FAFAFA",
         "blue": "#003088",
-        "contrastGrey": "#E0E0E0",
+        "chip": "#E0E0E0",
+        "contrastGrey": "#717171",
         "darkGreen": "#3E863E",
         "darkOrange": "#C34F00",
         "footerLink": Object {
@@ -39,7 +40,6 @@ exports[`Help page component should render correctly 1`] = `
         "homePage": Object {
           "blueButton": "#1E5DF8",
           "blueDescription": "#E6E6E6",
-          "description": "#717171",
           "heading": "#333333",
         },
         "information": "#003088",
