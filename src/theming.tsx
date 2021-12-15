@@ -406,7 +406,7 @@ export const buildTheme = (
     drawerWidth: 220,
     footerPaddingTop: '14px',
     footerPaddingBottom: '14px',
-    footerHeight: '17px',
+    footerHeight: '20px',
     mainAppBarHeight: '64px',
     overrides: overrides,
     colours: colours,

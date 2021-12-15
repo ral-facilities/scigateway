@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
 import { UKRITheme } from '../theming';
+import { Trans } from 'react-i18next';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -20,11 +21,8 @@ const styles = (theme: Theme): StyleRules =>
       paddingBottom: (theme as UKRITheme).footerPaddingBottom,
       paddingTop: (theme as UKRITheme).footerPaddingTop,
       width: '100%',
-      fontSize: 14,
       height: (theme as UKRITheme).footerHeight,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      textIndent: '24px',
+      display: 'flex',
       color: (theme as UKRITheme).colours.footerLink.default,
       backgroundColor: theme.palette.primary.main,
       '& a': {
@@ -39,6 +37,23 @@ const styles = (theme: Theme): StyleRules =>
         },
       },
     },
+    leftText: {
+      textAlign: 'left',
+      fontWeight: 'bold',
+      fontSize: 14,
+      textIndent: '24px',
+      display: 'inline-block',
+    },
+    rightText: {
+      textAlign: 'right',
+      fontSize: 14,
+      right: 0,
+      paddingRight: 24,
+      marginLeft: 'auto',
+    },
+    bold: {
+      fontWeight: 'bold',
+    },
   });
 
 interface FooterProps {
@@ -50,12 +65,25 @@ export type CombinedFooterProps = FooterProps & WithStyles<typeof styles>;
 
 const Footer = (props: CombinedFooterProps): React.ReactElement => {
   return (
-    <div
-      className={props.classes.root}
-      dangerouslySetInnerHTML={{
-        __html: getString(props.res, 'html'),
-      }}
-    />
+    <div className={props.classes.root}>
+      <div
+        className={props.classes.leftText}
+        dangerouslySetInnerHTML={{
+          __html: getString(props.res, 'html'),
+        }}
+      />
+      <div className={props.classes.rightText}>
+        <Trans i18nKey="footer.website-development-provider">
+          Built by the{' '}
+          <a
+            className={props.classes.bold}
+            href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
+          >
+            Data and Software Engineering Group
+          </a>
+        </Trans>
+      </div>
+    </div>
   );
 };
 
