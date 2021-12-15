@@ -191,7 +191,7 @@ exports[`Help page component should render correctly 1`] = `
         },
         "MuiTabs": Object {
           "indicator": Object {
-            "color": "#003088",
+            "backgroundColor": "#FF0000",
             "textDecoration": "underline",
           },
         },
