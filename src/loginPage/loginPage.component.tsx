@@ -308,7 +308,8 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics(authUrl).then((mnemonics) => {
         const nonAdminAuthenticators = mnemonics.filter(
-          (authenticator) => !authenticator.admin
+          (authenticator) =>
+            !authenticator.admin && authenticator.mnemonic !== 'anon'
         );
         setMnemonics(nonAdminAuthenticators);
         setFetchedMnemonics(true);
