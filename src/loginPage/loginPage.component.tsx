@@ -21,7 +21,6 @@ import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
 import { UKRITheme } from '../theming';
-import { getAppStrings, getString } from '../state/strings';
 import { Location } from 'history';
 import {
   Select,
@@ -45,7 +44,7 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: theme.spacing(3),
     },
     avatar: {
-      margin: theme.spacing(1),
+      margin: '12px',
       backgroundColor: (theme as UKRITheme).colours.lightBlue,
       alignItems: 'center',
     },
@@ -66,7 +65,6 @@ const styles = (theme: Theme): StyleRules =>
       minWidth: 200,
     },
     button: {
-      marginTop: `${theme.spacing(1)}px`,
       width: '352px',
     },
     warning: {
@@ -90,6 +88,7 @@ const styles = (theme: Theme): StyleRules =>
       fontSize: 14,
       paddingBottom: '24px',
       paddingTop: '12px',
+      color: (theme as UKRITheme).colours.contrastGrey,
     },
     helpMessage: {
       fontSize: 14,
@@ -107,7 +106,7 @@ const useDividerStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     border: {
-      borderBottom: '2px solid',
+      borderBottom: '1px solid',
       color: (theme as UKRITheme).colours.contrastGrey,
       width: '100%',
     },
@@ -157,30 +156,33 @@ export type CombinedLoginProps = LoginPageProps &
 
 export const RedirectLoginScreen = (
   props: CombinedLoginProps
-): React.ReactElement => (
-  <div className={props.classes.root}>
-    {props.auth.failedToLogin ? (
-      <Typography className={props.classes.warning}>
-        {getString(props.res, 'login-redirect-error-msg')}
-      </Typography>
-    ) : null}
-    <Button
-      variant="contained"
-      color="primary"
-      className={props.classes.button}
-      disabled={props.auth.loading}
-      onClick={() => {
-        if (props.auth.provider.redirectUrl) {
-          window.location.href = props.auth.provider.redirectUrl;
-        }
-      }}
-    >
-      <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-        Login with Github
-      </Typography>
-    </Button>
-  </div>
-);
+): React.ReactElement => {
+  const [t] = useTranslation();
+  return (
+    <div className={props.classes.root}>
+      {props.auth.failedToLogin ? (
+        <Typography className={props.classes.warning}>
+          {t('login.login-redirect-error-msg')}
+        </Typography>
+      ) : null}
+      <Button
+        variant="contained"
+        color="primary"
+        className={props.classes.button}
+        disabled={props.auth.loading}
+        onClick={() => {
+          if (props.auth.provider.redirectUrl) {
+            window.location.href = props.auth.provider.redirectUrl;
+          }
+        }}
+      >
+        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          Login with Github
+        </Typography>
+      </Button>
+    </div>
+  );
+};
 
 export const CredentialsLoginScreen = (
   props: CombinedLoginProps & {
@@ -263,7 +265,11 @@ export const CredentialsLoginScreen = (
           );
         }}
       >
-        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+        <Typography
+          color="inherit"
+          noWrap
+          style={{ marginTop: 3, fontWeight: 'bold' }}
+        >
           {t('login.login-button')}
         </Typography>
       </Button>
@@ -275,7 +281,7 @@ export const CredentialsLoginScreen = (
         </Trans>
       </Typography>
       <DividerWithText>
-        <Typography>0r</Typography>
+        <Typography>or</Typography>
       </DividerWithText>
       <Typography className={props.classes.registerMessage}>
         <Trans i18nKey="login.dont-have-an-account-sign-up-now">
@@ -294,39 +300,52 @@ export const AnonLoginScreen = (
     mnemonic?: string;
     authUrl?: string;
   }
-): React.ReactElement => (
-  <div
-    className={props.classes.root}
-    onKeyPress={(e) => {
-      if (e.key === 'Enter') {
-        props.verifyUsernameAndPassword('', '', props.mnemonic, props.authUrl);
-      }
-    }}
-  >
-    {props.auth.failedToLogin ? (
-      <Typography className={props.classes.warning}>
-        {getString(props.res, 'login-error-msg')}
-      </Typography>
-    ) : null}
-    {props.auth.signedOutDueToTokenInvalidation ? (
-      <Typography className={props.classes.info}>
-        {getString(props.res, 'token-invalid-msg')}
-      </Typography>
-    ) : null}
-    <Button
-      variant="contained"
-      color="primary"
-      className={props.classes.button}
-      onClick={() => {
-        props.verifyUsernameAndPassword('', '', props.mnemonic, props.authUrl);
+): React.ReactElement => {
+  const [t] = useTranslation();
+  return (
+    <div
+      className={props.classes.root}
+      onKeyPress={(e) => {
+        if (e.key === 'Enter') {
+          props.verifyUsernameAndPassword(
+            '',
+            '',
+            props.mnemonic,
+            props.authUrl
+          );
+        }
       }}
     >
-      <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-        {getString(props.res, 'login-button')}
-      </Typography>
-    </Button>
-  </div>
-);
+      {props.auth.failedToLogin ? (
+        <Typography className={props.classes.warning}>
+          {t('login.login-error-msg')}
+        </Typography>
+      ) : null}
+      {props.auth.signedOutDueToTokenInvalidation ? (
+        <Typography className={props.classes.info}>
+          {t('login.token-invalid-msg')}
+        </Typography>
+      ) : null}
+      <Button
+        variant="contained"
+        color="primary"
+        className={props.classes.button}
+        onClick={() => {
+          props.verifyUsernameAndPassword(
+            '',
+            '',
+            props.mnemonic,
+            props.authUrl
+          );
+        }}
+      >
+        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          {t('login.login-button')}
+        </Typography>
+      </Button>
+    </div>
+  );
+};
 
 export const LoginSelector = (
   props: CombinedLoginProps & {
@@ -336,7 +355,7 @@ export const LoginSelector = (
   }
 ): React.ReactElement => {
   return (
-    <FormControl style={{ minWidth: 120 }}>
+    <FormControl style={{ minWidth: 120, paddingTop: '8px', fontSize: 14 }}>
       <InputLabel htmlFor="mnemonic-select" color="secondary">
         Authenticator
       </InputLabel>
@@ -486,15 +505,25 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
     }
   }
 
+  const [t] = useTranslation();
+
   return (
     <div className={props.classes.root}>
       <Paper className={props.classes.paper}>
         <Avatar className={props.classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          {getString(props.res, 'title')}
+        <Typography
+          component="h1"
+          variant="h5"
+          style={{
+            fontWeight: 'bold',
+            paddingBottom: '16px',
+          }}
+        >
+          {t('login.title')}
         </Typography>
+
         {mnemonics.length > 1 && (
           <LoginSelector
             {...props}
@@ -514,7 +543,6 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
   auth: state.scigateway.authorisation,
-  res: getAppStrings(state, 'login'),
   location: state.router.location,
 });
 
