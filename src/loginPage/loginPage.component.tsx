@@ -15,6 +15,7 @@ import {
   StyleRules,
   createStyles,
   WithStyles,
+  makeStyles,
 } from '@material-ui/core/styles';
 import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
@@ -22,9 +23,16 @@ import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
 import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 import { Location } from 'history';
-import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core';
+import {
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Link,
+} from '@material-ui/core';
 import axios from 'axios';
 import log from 'loglevel';
+import { Trans, useTranslation } from 'react-i18next';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -38,23 +46,20 @@ const styles = (theme: Theme): StyleRules =>
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).colours.lightOrange,
+      backgroundColor: (theme as UKRITheme).colours.lightBlue,
+      alignItems: 'center',
     },
     paper: {
       marginTop: theme.spacing(8),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: theme.spacing(3),
-      [theme.breakpoints.up(400 + theme.spacing(6))]: {
-        width: 400,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
+      paddingTop: '24px',
+      width: 400,
     },
     textField: {
       marginTop: theme.spacing(1),
-      minWidth: 200,
+      width: '352px',
     },
     formControl: {
       margin: theme.spacing(1),
@@ -62,6 +67,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     button: {
       marginTop: `${theme.spacing(1)}px`,
+      width: '352px',
     },
     warning: {
       marginTop: `${theme.spacing(1)}px`,
@@ -74,7 +80,61 @@ const styles = (theme: Theme): StyleRules =>
     spinner: {
       marginTop: 15,
     },
+    forgotPasswordText: {
+      fontSize: 14,
+      marginLeft: 'auto',
+      paddingBottom: '24px',
+      paddingTop: '12px',
+    },
+    registerMessage: {
+      fontSize: 14,
+      paddingBottom: '24px',
+      paddingTop: '12px',
+    },
+    helpMessage: {
+      fontSize: 14,
+      paddingBottom: '12px',
+      paddingTop: '24px',
+    },
+    orText: { display: 'flex', fontSize: 14 },
   });
+
+const useDividerStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+    },
+    border: {
+      borderBottom: '2px solid',
+      color: (theme as UKRITheme).colours.contrastGrey,
+      width: '100%',
+    },
+    content: {
+      // paddingTop: theme.spacing(0.5),
+      // paddingBottom: theme.spacing(0.5),
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      fontSize: 14,
+      color: (theme as UKRITheme).colours.contrastGrey,
+    },
+  })
+);
+
+const DividerWithText = (props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: React.ReactElement<any, any>;
+}): React.ReactElement => {
+  const classes = useDividerStyles();
+  return (
+    <div className={classes.container}>
+      <div className={classes.border} />
+      <span className={classes.content}>{props.children}</span>
+      <div className={classes.border} />
+    </div>
+  );
+};
 
 interface LoginPageProps {
   auth: AuthState;
@@ -133,6 +193,8 @@ export const CredentialsLoginScreen = (
 
   const isInputValid = (): boolean => username !== '' && password !== '';
 
+  const [t] = useTranslation();
+
   return (
     <div
       className={props.classes.root}
@@ -153,33 +215,40 @@ export const CredentialsLoginScreen = (
     >
       {props.auth.failedToLogin ? (
         <Typography className={props.classes.warning}>
-          {getString(props.res, 'login-error-msg')}
+          {t('login.login-error-msg')}
         </Typography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
         <Typography className={props.classes.info}>
-          {getString(props.res, 'token-invalid-msg')}
+          {t('login.token-invalid-msg')}
         </Typography>
       ) : null}
       <TextField
         className={props.classes.textField}
-        label={getString(props.res, 'username-placeholder')}
+        label={t('login.username-placeholder')}
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
-        inputProps={{ 'aria-label': 'Input username' }}
+        inputProps={{ 'aria-label': t('login.username-arialabel') }}
         disabled={props.auth.loading}
         color="secondary"
       />
       <TextField
         className={props.classes.textField}
-        label={getString(props.res, 'password-placeholder')}
+        label={t('login.password-placeholder')}
         value={password}
         onChange={(e) => setPassword(e.currentTarget.value)}
         type="password"
-        inputProps={{ 'aria-label': 'Input password' }}
+        inputProps={{ 'aria-label': t('login.password-arialabel') }}
         disabled={props.auth.loading}
         color="secondary"
       />
+      <Typography className={props.classes.forgotPasswordText}>
+        <Trans i18nKey="login.forgotten-your-password">
+          <Link href={t('login.forgotten-your-password-link')}>
+            Forgotten your Password?
+          </Link>
+        </Trans>
+      </Typography>
       <Button
         variant="contained"
         color="primary"
@@ -195,9 +264,27 @@ export const CredentialsLoginScreen = (
         }}
       >
         <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-          {getString(props.res, 'login-button')}
+          {t('login.login-button')}
         </Typography>
       </Button>
+      <Typography className={props.classes.helpMessage}>
+        <Trans i18nKey="login.need-help-signing-in">
+          <Link href={t('login.need-help-signing-in-link')}>
+            Need help signing in?
+          </Link>
+        </Trans>
+      </Typography>
+      <DividerWithText>
+        <Typography>0r</Typography>
+      </DividerWithText>
+      <Typography className={props.classes.registerMessage}>
+        <Trans i18nKey="login.dont-have-an-account-sign-up-now">
+          Don&#39;t have an account?{' '}
+          <Link href={t('login.dont-have-an-account-sign-up-now-link')}>
+            Sign up now
+          </Link>
+        </Trans>
+      </Typography>
     </div>
   );
 };
