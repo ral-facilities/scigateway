@@ -1,6 +1,12 @@
-import ScigatewayMiddleware, { listenToPlugins } from './scigateway.middleware';
+import ScigatewayMiddleware, {
+  listenToPlugins,
+  autoLoginMiddleware,
+} from './scigateway.middleware';
 import { AnyAction } from 'redux';
-import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
+import configureStore, {
+  MockStoreCreator,
+  MockStoreEnhanced,
+} from 'redux-mock-store';
 import log from 'loglevel';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
@@ -11,6 +17,8 @@ import {
   SendThemeOptionsType,
   BroadcastSignOutType,
   LoadHighContrastModePreferenceType,
+  SignOutType,
+  AuthFailureType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
@@ -19,11 +27,14 @@ import TestAuthProvider from '../../authentication/testAuthProvider';
 import { flushPromises } from '../../setupTests';
 import { authState, initialState } from '../reducers/scigateway.reducer';
 import { buildTheme } from '../../theming';
+import thunk from 'redux-thunk';
+import { autoLoginAuthorised } from '../actions/scigateway.actions';
 
 describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
   let handler: (event: Event) => void;
-  let store: MockStoreEnhanced;
+  let store: MockStoreEnhanced<StateType>;
+  const mockStore: MockStoreCreator<StateType> = configureStore([thunk]);
   const getState: () => StateType = () => ({
     scigateway: { ...initialState, authorisation: { ...authState } },
     router: {
@@ -75,7 +86,7 @@ describe('scigateway middleware', () => {
     },
   };
 
-  const signOutAction = {
+  const broadcastSignOutAction = {
     type: BroadcastSignOutType,
   };
 
@@ -103,8 +114,7 @@ describe('scigateway middleware', () => {
       }
     );
 
-    const mockStore = configureStore();
-    store = mockStore({});
+    store = mockStore(getState());
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
 
     Storage.prototype.getItem = jest.fn(() => 'false');
@@ -112,6 +122,81 @@ describe('scigateway middleware', () => {
 
   afterEach(() => {
     ReactGA.testModeAPI.resetCalls();
+  });
+
+  describe('autoLoginMiddleware', () => {
+    let autoLogin: jest.Mock;
+    beforeEach(() => {
+      autoLogin = jest.fn(() => Promise.resolve());
+      store = mockStore({
+        ...getState(),
+        scigateway: {
+          ...getState().scigateway,
+          authorisation: {
+            ...getState().scigateway.authorisation,
+            provider: {
+              ...getState().scigateway.authorisation.provider,
+              autoLogin,
+            },
+          },
+        },
+      });
+    });
+    beforeEach(() => {
+      autoLogin.mockClear();
+    });
+
+    it('auto logs in when SignOut action sent', async () => {
+      autoLoginMiddleware(store)(store.dispatch)({ type: SignOutType });
+
+      expect(autoLogin).toHaveBeenCalled();
+      await flushPromises();
+      expect(store.getActions().length).toEqual(2);
+      expect(store.getActions()[1]).toEqual(autoLoginAuthorised());
+    });
+
+    it('auto logs in when AuthFailure action sent', async () => {
+      autoLoginMiddleware(store)(store.dispatch)({ type: AuthFailureType });
+
+      expect(autoLogin).toHaveBeenCalled();
+      await flushPromises();
+      expect(store.getActions().length).toEqual(2);
+      expect(store.getActions()[1]).toEqual(autoLoginAuthorised());
+    });
+
+    it('auto logs in when InvalidateToken action sent', async () => {
+      autoLoginMiddleware(store)(store.dispatch)({ type: InvalidateTokenType });
+
+      expect(autoLogin).toHaveBeenCalled();
+      await flushPromises();
+      expect(store.getActions().length).toEqual(2);
+      expect(store.getActions()[1]).toEqual(autoLoginAuthorised());
+    });
+
+    it('does nothing when random action sent', () => {
+      autoLoginMiddleware(store)(store.dispatch)({ type: 'test' });
+
+      expect(autoLogin).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when no autoLogin function is defined', () => {
+      store = mockStore({
+        ...getState(),
+        scigateway: {
+          ...getState().scigateway,
+          authorisation: {
+            ...getState().scigateway.authorisation,
+            provider: {
+              ...getState().scigateway.authorisation.provider,
+            },
+          },
+        },
+      });
+
+      autoLoginMiddleware(store)(store.dispatch)({ type: SignOutType });
+
+      expect(autoLogin).not.toHaveBeenCalled();
+    });
   });
 
   it('should broadcast messages with broadcast flag', () => {
@@ -132,7 +217,7 @@ describe('scigateway middleware', () => {
   });
 
   it("should not send page views if analytics haven't been initialised", () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: {},
     });
     ScigatewayMiddleware(store)(store.dispatch)({
@@ -147,7 +232,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should send page views on location change event', () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: { analytics: { id: 'test id', initialised: true } },
     });
 
@@ -171,7 +256,7 @@ describe('scigateway middleware', () => {
   });
 
   it("should not send page views on location change event when location hasn't changed", () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: { analytics: { id: 'test id', initialised: true } },
     });
 
@@ -205,7 +290,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should send theme options and request plugin rerender actions when LoadDarkModePreferenceType action is sent', () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: initialState,
     });
     ScigatewayMiddleware(store)(store.dispatch)(loadDarkModePreferenceAction);
@@ -219,7 +304,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should send theme options and request plugin rerender actions when LoadHighContrastModePreferenceType action is sent', () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: initialState,
     });
     ScigatewayMiddleware(store)(store.dispatch)(
@@ -235,7 +320,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should send dark theme options when LoadDarkModePreferenceType action is sent and darkmode preference is true', () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: initialState,
     });
 
@@ -264,7 +349,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should send high contrast theme options when LoadHighContrastModePreferenceType action is sent and high contrast mode preference is true', () => {
-    store = configureStore()({
+    store = mockStore({
       scigateway: initialState,
     });
 
@@ -577,7 +662,7 @@ describe('scigateway middleware', () => {
     listenToPlugins(store.dispatch, getState);
     expect(document.addEventListener).toHaveBeenCalled();
 
-    handler(new CustomEvent('test', { detail: signOutAction }));
+    handler(new CustomEvent('test', { detail: broadcastSignOutAction }));
     expect(mockLog.calls.length).toBe(0);
   });
 

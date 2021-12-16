@@ -216,7 +216,47 @@ describe('Login page component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('login page renders dropdown if mnemonic present + there are multiple mnemonics', async () => {
+  it('login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon)', async () => {
+    props.auth.provider.mnemonic = '';
+    (axios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: [
+          {
+            mnemonic: 'user/pass',
+            keys: [{ name: 'username' }, { name: 'password' }],
+          },
+          {
+            mnemonic: 'ldap',
+            keys: [{ name: 'username' }, { name: 'password' }],
+          },
+          {
+            mnemonic: 'anon',
+            keys: [],
+          },
+        ],
+      })
+    );
+
+    const spy = jest
+      .spyOn(React, 'useEffect')
+      .mockImplementationOnce((f) => f());
+
+    const wrapper = shallow(
+      <MuiThemeProvider theme={theme}>
+        <LoginPageWithoutStyles {...props} />
+      </MuiThemeProvider>
+    );
+
+    await act(async () => {
+      await flushPromises();
+      wrapper.update();
+    });
+
+    expect(wrapper).toMatchSnapshot();
+    spy.mockRestore();
+  });
+
+  it("login page doesn't render dropdown if anon is the only other authenticator", async () => {
     props.auth.provider.mnemonic = '';
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -252,13 +292,13 @@ describe('Login page component', () => {
     spy.mockRestore();
   });
 
-  it('login page renders anonymous login if mnemonic present + anon is selected', async () => {
-    props.auth.provider.mnemonic = 'anon';
+  it('login page renders anonymous login if mnemonic present with no keys', async () => {
+    props.auth.provider.mnemonic = 'nokeys';
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
-            mnemonic: 'anon',
+            mnemonic: 'nokeys',
             keys: [],
           },
         ],
@@ -463,17 +503,17 @@ describe('Login page component', () => {
     ]);
   });
 
-  it('on submit verification method should be called when logs in via anon authenticator', async () => {
+  it('on submit verification method should be called when logs in via keyless authenticator', async () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
-    props.auth.provider.mnemonic = 'anon';
+    props.auth.provider.mnemonic = 'nokeys';
     props.auth.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
-            mnemonic: 'anon',
+            mnemonic: 'nokeys',
             keys: [],
           },
         ],
@@ -498,7 +538,7 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[0]).toEqual([
       '',
       '',
-      'anon',
+      'nokeys',
       'http://example.com',
     ]);
 
@@ -513,7 +553,7 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[1]).toEqual([
       '',
       '',
-      'anon',
+      'nokeys',
       'http://example.com',
     ]);
   });
@@ -521,14 +561,14 @@ describe('Login page component', () => {
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
     state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
     state.router.location.search = '?token=test_token';
-    state.scigateway.authorisation.provider.mnemonic = 'anon';
+    state.scigateway.authorisation.provider.mnemonic = 'nokeys';
     state.scigateway.authorisation.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
-            mnemonic: 'anon',
+            mnemonic: 'nokeys',
             keys: [],
           },
         ],

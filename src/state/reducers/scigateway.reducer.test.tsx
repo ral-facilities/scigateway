@@ -21,6 +21,7 @@ import {
   loadMaintenanceState,
   loadHighContrastModePreference,
   customLogo,
+  autoLoginAuthorised,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -176,6 +177,26 @@ describe('scigateway reducer', () => {
       updatedState.authorisation.signedOutDueToTokenInvalidation
     ).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
+  });
+
+  it('successful autologin should only reset loading flag', () => {
+    const action = autoLoginAuthorised();
+    state.authorisation.provider = new TestAuthProvider(null);
+    state.authorisation.loading = true;
+    state.authorisation.failedToLogin = true;
+
+    let updatedState = ScigatewayReducer(state, action);
+
+    expect(updatedState.authorisation.loading).toBeFalsy();
+    expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+
+    state.authorisation.loading = true;
+    state.authorisation.failedToLogin = false;
+
+    updatedState = ScigatewayReducer(state, action);
+
+    expect(updatedState.authorisation.loading).toBeFalsy();
+    expect(updatedState.authorisation.failedToLogin).toBeFalsy();
   });
 
   it('unsuccessful log in should update authorisation to not logged in state', () => {
