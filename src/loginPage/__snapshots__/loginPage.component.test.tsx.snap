@@ -112,15 +112,11 @@ exports[`Login page component credential component renders correctly 1`] = `
     value=""
   />
   <WithStyles(ForwardRef(Typography))>
-    <Trans
-      i18nKey="login.forgotten-your-password"
+    <WithStyles(ForwardRef(Link))
+      href="login.forgotten-your-password-link"
     >
-      <WithStyles(ForwardRef(Link))
-        href="login.forgotten-your-password-link"
-      >
-        Forgotten your Password?
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      login.forgotten-your-password
+    </WithStyles(ForwardRef(Link))>
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
@@ -142,15 +138,11 @@ exports[`Login page component credential component renders correctly 1`] = `
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
   <WithStyles(ForwardRef(Typography))>
-    <Trans
-      i18nKey="login.need-help-signing-in"
+    <WithStyles(ForwardRef(Link))
+      href="login.need-help-signing-in-link"
     >
-      <WithStyles(ForwardRef(Link))
-        href="login.need-help-signing-in-link"
-      >
-        Need help signing in?
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      login.need-help-signing-in
+    </WithStyles(ForwardRef(Link))>
   </WithStyles(ForwardRef(Typography))>
   <DividerWithText>
     <WithStyles(ForwardRef(Typography))>
@@ -160,6 +152,7 @@ exports[`Login page component credential component renders correctly 1`] = `
   <WithStyles(ForwardRef(Typography))>
     <Trans
       i18nKey="login.dont-have-an-account-sign-up-now"
+      t={[Function]}
     >
       Don't have an account?
        
@@ -207,15 +200,11 @@ exports[`Login page component credential component renders failedToLogin error c
     value=""
   />
   <WithStyles(ForwardRef(Typography))>
-    <Trans
-      i18nKey="login.forgotten-your-password"
+    <WithStyles(ForwardRef(Link))
+      href="login.forgotten-your-password-link"
     >
-      <WithStyles(ForwardRef(Link))
-        href="login.forgotten-your-password-link"
-      >
-        Forgotten your Password?
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      login.forgotten-your-password
+    </WithStyles(ForwardRef(Link))>
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
@@ -237,15 +226,11 @@ exports[`Login page component credential component renders failedToLogin error c
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
   <WithStyles(ForwardRef(Typography))>
-    <Trans
-      i18nKey="login.need-help-signing-in"
+    <WithStyles(ForwardRef(Link))
+      href="login.need-help-signing-in-link"
     >
-      <WithStyles(ForwardRef(Link))
-        href="login.need-help-signing-in-link"
-      >
-        Need help signing in?
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      login.need-help-signing-in
+    </WithStyles(ForwardRef(Link))>
   </WithStyles(ForwardRef(Typography))>
   <DividerWithText>
     <WithStyles(ForwardRef(Typography))>
@@ -255,6 +240,7 @@ exports[`Login page component credential component renders failedToLogin error c
   <WithStyles(ForwardRef(Typography))>
     <Trans
       i18nKey="login.dont-have-an-account-sign-up-now"
+      t={[Function]}
     >
       Don't have an account?
        
@@ -302,15 +288,11 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     value=""
   />
   <WithStyles(ForwardRef(Typography))>
-    <Trans
-      i18nKey="login.forgotten-your-password"
+    <WithStyles(ForwardRef(Link))
+      href="login.forgotten-your-password-link"
     >
-      <WithStyles(ForwardRef(Link))
-        href="login.forgotten-your-password-link"
-      >
-        Forgotten your Password?
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      login.forgotten-your-password
+    </WithStyles(ForwardRef(Link))>
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
@@ -332,15 +314,11 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
   <WithStyles(ForwardRef(Typography))>
-    <Trans
-      i18nKey="login.need-help-signing-in"
+    <WithStyles(ForwardRef(Link))
+      href="login.need-help-signing-in-link"
     >
-      <WithStyles(ForwardRef(Link))
-        href="login.need-help-signing-in-link"
-      >
-        Need help signing in?
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      login.need-help-signing-in
+    </WithStyles(ForwardRef(Link))>
   </WithStyles(ForwardRef(Typography))>
   <DividerWithText>
     <WithStyles(ForwardRef(Typography))>
@@ -350,6 +328,7 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
   <WithStyles(ForwardRef(Typography))>
     <Trans
       i18nKey="login.dont-have-an-account-sign-up-now"
+      t={[Function]}
     >
       Don't have an account?
        

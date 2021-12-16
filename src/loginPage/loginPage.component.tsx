@@ -245,11 +245,9 @@ export const CredentialsLoginScreen = (
         color="secondary"
       />
       <Typography className={props.classes.forgotPasswordText}>
-        <Trans i18nKey="login.forgotten-your-password">
-          <Link href={t('login.forgotten-your-password-link')}>
-            Forgotten your Password?
-          </Link>
-        </Trans>
+        <Link href={t('login.forgotten-your-password-link')}>
+          {t('login.forgotten-your-password')}
+        </Link>
       </Typography>
       <Button
         variant="contained"
@@ -274,17 +272,15 @@ export const CredentialsLoginScreen = (
         </Typography>
       </Button>
       <Typography className={props.classes.helpMessage}>
-        <Trans i18nKey="login.need-help-signing-in">
-          <Link href={t('login.need-help-signing-in-link')}>
-            Need help signing in?
-          </Link>
-        </Trans>
+        <Link href={t('login.need-help-signing-in-link')}>
+          {t('login.need-help-signing-in')}
+        </Link>
       </Typography>
       <DividerWithText>
         <Typography>or</Typography>
       </DividerWithText>
       <Typography className={props.classes.registerMessage}>
-        <Trans i18nKey="login.dont-have-an-account-sign-up-now">
+        <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
           Don&#39;t have an account?{' '}
           <Link href={t('login.dont-have-an-account-sign-up-now-link')}>
             Sign up now
@@ -406,6 +402,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
+  const [t] = useTranslation();
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
   );
@@ -504,8 +501,6 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       // unrecognised authenticator type
     }
   }
-
-  const [t] = useTranslation();
 
   return (
     <div className={props.classes.root}>
