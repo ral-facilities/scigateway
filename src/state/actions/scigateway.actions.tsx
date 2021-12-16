@@ -12,6 +12,7 @@ import {
   AuthFailureType,
   AuthProviderPayload,
   AuthSuccessType,
+  AutoLoginSuccessType,
   ConfigureAnalyticsPayload,
   ConfigureAnalyticsType,
   ConfigureFeatureSwitchesType,
@@ -154,6 +155,10 @@ export const unauthorised = (): Action => ({
 
 export const authorised = (): Action => ({
   type: AuthSuccessType,
+});
+
+export const autoLoginAuthorised = (): Action => ({
+  type: AutoLoginSuccessType,
 });
 
 export const invalidToken = (): Action => ({

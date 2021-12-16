@@ -12,6 +12,7 @@ import {
 } from './state/actions/scigateway.actions';
 import ScigatewayMiddleware, {
   listenToPlugins,
+  autoLoginMiddleware,
 } from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
@@ -31,7 +32,12 @@ const generateClassName = createGenerateClassName({
 
 const history = createBrowserHistory();
 
-const middleware = [thunk, routerMiddleware(history), ScigatewayMiddleware];
+const middleware = [
+  thunk,
+  routerMiddleware(history),
+  ScigatewayMiddleware,
+  autoLoginMiddleware,
+];
 if (process.env.NODE_ENV === `development`) {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const logger = (createLogger as any)({ collapsed: true });

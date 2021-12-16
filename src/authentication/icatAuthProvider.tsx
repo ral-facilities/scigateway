@@ -6,7 +6,6 @@ import { ScheduledMaintenanceState } from '../state/scigateway.types';
 import { MaintenanceState } from '../state/scigateway.types';
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
-  public autoLogin: () => Promise<void>;
 
   public constructor(
     mnemonic: string | undefined,
@@ -14,21 +13,20 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   ) {
     super(authUrl);
     this.mnemonic = mnemonic || '';
-    if (this.mnemonic === '') {
-      this.mnemonic = 'anon';
-      this.autoLogin = () =>
-        this.logIn('', '')
-          .then(() => localStorage.setItem('autoLogin', 'true'))
-          .catch((err) => {
-            localStorage.setItem('autoLogin', 'false');
-            throw err;
-          })
-          .finally(() => {
-            this.mnemonic = '';
-          });
-    } else {
-      this.autoLogin = () => Promise.resolve();
-    }
+    this.autoLogin = this.autoLogin.bind(this);
+  }
+
+  public autoLogin(): Promise<void> {
+    this.mnemonic = 'anon';
+    return this.logIn('', '')
+      .then(() => localStorage.setItem('autoLogin', 'true'))
+      .catch((err) => {
+        localStorage.setItem('autoLogin', 'false');
+        throw err;
+      })
+      .finally(() => {
+        this.mnemonic = '';
+      });
   }
 
   public logIn(username: string, password: string): Promise<void> {
