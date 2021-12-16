@@ -49,7 +49,7 @@ const styles = (theme: Theme): StyleRules =>
       textAlign: 'left',
       paddingTop: theme.spacing(1),
       paddingBottom: 0,
-      color: (theme as UKRITheme).colours.homePage.description,
+      color: (theme as UKRITheme).colours.contrastGrey,
       paddingLeft: theme.spacing(2),
     },
     menuItem: {
