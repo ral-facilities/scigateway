@@ -272,7 +272,7 @@ export const buildTheme = (
     },
     MuiTabs: {
       indicator: {
-        backgroundColor: '#FF0000',
+        color: STATIC_COLOURS.darkBlue,
         textDecoration: 'underline',
       },
     },
