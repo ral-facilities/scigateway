@@ -252,7 +252,6 @@ describe('Login', () => {
     });
 
     it('should be able to select user/pass from the dropdown', () => {
-      cy.visit('/login');
       cy.get('#select-mnemonic').click();
       cy.contains('user/pass').click();
 
@@ -261,7 +260,6 @@ describe('Login', () => {
     });
 
     it('should be able to select nokey from the dropdown', () => {
-      cy.visit('/login');
       cy.get('#select-mnemonic').click();
       cy.get('ul li').contains('nokey').click();
 
