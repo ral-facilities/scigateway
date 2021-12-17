@@ -232,6 +232,13 @@ describe('Login', () => {
           keys: [],
         },
       ]).as('auths');
+      cy.intercept('POST', '/login', (req) => {
+        req.reply({
+          statusCode: 200,
+          body:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk',
+        });
+      });
       cy.visit('/login');
     });
 
@@ -245,6 +252,7 @@ describe('Login', () => {
     });
 
     it('should be able to select user/pass from the dropdown', () => {
+      cy.visit('/login');
       cy.get('#select-mnemonic').click();
       cy.contains('user/pass').click();
 
@@ -253,6 +261,7 @@ describe('Login', () => {
     });
 
     it('should be able to select nokey from the dropdown', () => {
+      cy.visit('/login');
       cy.get('#select-mnemonic').click();
       cy.get('ul li').contains('nokey').click();
 
