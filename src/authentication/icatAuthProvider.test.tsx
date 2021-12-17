@@ -178,7 +178,6 @@ describe('ICAT auth provider', () => {
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
     icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
-    expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin();
@@ -218,7 +217,6 @@ describe('ICAT auth provider', () => {
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
     icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
-    expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin().catch(() => {
