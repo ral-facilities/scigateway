@@ -407,7 +407,7 @@ export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
 export const verifyUsernameAndPassword = (
   username: string,
   password: string,
-  newMnemonic: string,
+  newMnemonic: string | undefined,
   authUrl: string
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
@@ -419,7 +419,8 @@ export const verifyUsernameAndPassword = (
     await authProvider
       .logIn(username, password)
       .then(() => {
-        dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
+        if (newMnemonic)
+          dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to

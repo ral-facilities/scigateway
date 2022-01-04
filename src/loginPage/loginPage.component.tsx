@@ -544,15 +544,15 @@ const mapDispatchToProps = (
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic?: string,
+    mnemonic: string | undefined,
     authUrl?: string
   ) =>
     dispatch(
       verifyUsernameAndPassword(
         username.trim(),
         password,
-        mnemonic !== undefined ? mnemonic : '',
-        authUrl !== undefined ? authUrl : ''
+        mnemonic,
+        authUrl ?? ''
       )
     ),
 });
