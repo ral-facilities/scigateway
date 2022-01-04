@@ -12,6 +12,7 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
+  makeStyles: (styles) => (component) => component,
 }));
 jest.mock('../adminPage/adminPage.component');
 jest.mock('../maintenancePage/maintenancePage.component');
