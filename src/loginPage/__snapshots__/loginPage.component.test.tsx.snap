@@ -19,7 +19,7 @@ exports[`Login page component anonymous component renders correctly 1`] = `
         }
       }
     >
-      login-button
+      login.login-button
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
 </div>
@@ -31,7 +31,7 @@ exports[`Login page component anonymous component renders failedToLogin error co
   onKeyPress={[Function]}
 >
   <WithStyles(ForwardRef(Typography))>
-    login-error-msg
+    login.login-error-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
@@ -47,7 +47,7 @@ exports[`Login page component anonymous component renders failedToLogin error co
         }
       }
     >
-      login-button
+      login.login-button
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
 </div>
@@ -59,7 +59,7 @@ exports[`Login page component anonymous component renders signedOutDueToTokenInv
   onKeyPress={[Function]}
 >
   <WithStyles(ForwardRef(Typography))>
-    token-invalid-msg
+    login.token-invalid-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
@@ -75,7 +75,7 @@ exports[`Login page component anonymous component renders signedOutDueToTokenInv
         }
       }
     >
-      login-button
+      login.login-button
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
 </div>
@@ -91,10 +91,10 @@ exports[`Login page component credential component renders correctly 1`] = `
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "Input username",
+        "aria-label": "login.username-arialabel",
       }
     }
-    label="username-placeholder"
+    label="login.username-placeholder"
     onChange={[Function]}
     value=""
   />
@@ -103,14 +103,21 @@ exports[`Login page component credential component renders correctly 1`] = `
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "Input password",
+        "aria-label": "login.password-arialabel",
       }
     }
-    label="password-placeholder"
+    label="login.password-placeholder"
     onChange={[Function]}
     type="password"
     value=""
   />
+  <WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Link))
+      href="login.forgotten-your-password-link"
+    >
+      login.forgotten-your-password
+    </WithStyles(ForwardRef(Link))>
+  </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
     disabled={true}
@@ -122,13 +129,40 @@ exports[`Login page component credential component renders correctly 1`] = `
       noWrap={true}
       style={
         Object {
+          "fontWeight": "bold",
           "marginTop": 3,
         }
       }
     >
-      login-button
+      login.login-button
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
+  <WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Link))
+      href="login.need-help-signing-in-link"
+    >
+      login.need-help-signing-in
+    </WithStyles(ForwardRef(Link))>
+  </WithStyles(ForwardRef(Typography))>
+  <DividerWithText>
+    <WithStyles(ForwardRef(Typography))>
+      or
+    </WithStyles(ForwardRef(Typography))>
+  </DividerWithText>
+  <WithStyles(ForwardRef(Typography))>
+    <Trans
+      i18nKey="login.dont-have-an-account-sign-up-now"
+      t={[Function]}
+    >
+      Don't have an account?
+       
+      <WithStyles(ForwardRef(Link))
+        href="login.dont-have-an-account-sign-up-now-link"
+      >
+        Sign up now
+      </WithStyles(ForwardRef(Link))>
+    </Trans>
+  </WithStyles(ForwardRef(Typography))>
 </div>
 `;
 
@@ -138,17 +172,17 @@ exports[`Login page component credential component renders failedToLogin error c
   onKeyPress={[Function]}
 >
   <WithStyles(ForwardRef(Typography))>
-    login-error-msg
+    login.login-error-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(TextField))
     color="secondary"
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "Input username",
+        "aria-label": "login.username-arialabel",
       }
     }
-    label="username-placeholder"
+    label="login.username-placeholder"
     onChange={[Function]}
     value=""
   />
@@ -157,14 +191,21 @@ exports[`Login page component credential component renders failedToLogin error c
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "Input password",
+        "aria-label": "login.password-arialabel",
       }
     }
-    label="password-placeholder"
+    label="login.password-placeholder"
     onChange={[Function]}
     type="password"
     value=""
   />
+  <WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Link))
+      href="login.forgotten-your-password-link"
+    >
+      login.forgotten-your-password
+    </WithStyles(ForwardRef(Link))>
+  </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
     disabled={true}
@@ -176,13 +217,40 @@ exports[`Login page component credential component renders failedToLogin error c
       noWrap={true}
       style={
         Object {
+          "fontWeight": "bold",
           "marginTop": 3,
         }
       }
     >
-      login-button
+      login.login-button
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
+  <WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Link))
+      href="login.need-help-signing-in-link"
+    >
+      login.need-help-signing-in
+    </WithStyles(ForwardRef(Link))>
+  </WithStyles(ForwardRef(Typography))>
+  <DividerWithText>
+    <WithStyles(ForwardRef(Typography))>
+      or
+    </WithStyles(ForwardRef(Typography))>
+  </DividerWithText>
+  <WithStyles(ForwardRef(Typography))>
+    <Trans
+      i18nKey="login.dont-have-an-account-sign-up-now"
+      t={[Function]}
+    >
+      Don't have an account?
+       
+      <WithStyles(ForwardRef(Link))
+        href="login.dont-have-an-account-sign-up-now-link"
+      >
+        Sign up now
+      </WithStyles(ForwardRef(Link))>
+    </Trans>
+  </WithStyles(ForwardRef(Typography))>
 </div>
 `;
 
@@ -192,17 +260,17 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
   onKeyPress={[Function]}
 >
   <WithStyles(ForwardRef(Typography))>
-    token-invalid-msg
+    login.token-invalid-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(TextField))
     color="secondary"
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "Input username",
+        "aria-label": "login.username-arialabel",
       }
     }
-    label="username-placeholder"
+    label="login.username-placeholder"
     onChange={[Function]}
     value=""
   />
@@ -211,14 +279,21 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     disabled={false}
     inputProps={
       Object {
-        "aria-label": "Input password",
+        "aria-label": "login.password-arialabel",
       }
     }
-    label="password-placeholder"
+    label="login.password-placeholder"
     onChange={[Function]}
     type="password"
     value=""
   />
+  <WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Link))
+      href="login.forgotten-your-password-link"
+    >
+      login.forgotten-your-password
+    </WithStyles(ForwardRef(Link))>
+  </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
     disabled={true}
@@ -230,13 +305,40 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
       noWrap={true}
       style={
         Object {
+          "fontWeight": "bold",
           "marginTop": 3,
         }
       }
     >
-      login-button
+      login.login-button
     </WithStyles(ForwardRef(Typography))>
   </WithStyles(ForwardRef(Button))>
+  <WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Link))
+      href="login.need-help-signing-in-link"
+    >
+      login.need-help-signing-in
+    </WithStyles(ForwardRef(Link))>
+  </WithStyles(ForwardRef(Typography))>
+  <DividerWithText>
+    <WithStyles(ForwardRef(Typography))>
+      or
+    </WithStyles(ForwardRef(Typography))>
+  </DividerWithText>
+  <WithStyles(ForwardRef(Typography))>
+    <Trans
+      i18nKey="login.dont-have-an-account-sign-up-now"
+      t={[Function]}
+    >
+      Don't have an account?
+       
+      <WithStyles(ForwardRef(Link))
+        href="login.dont-have-an-account-sign-up-now-link"
+      >
+        Sign up now
+      </WithStyles(ForwardRef(Link))>
+    </Trans>
+  </WithStyles(ForwardRef(Typography))>
 </div>
 `;
 
@@ -254,9 +356,15 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <AnonLoginScreen
       auth={
@@ -311,9 +419,15 @@ exports[`Login page component login page renders credential component if no redi
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <CredentialsLoginScreen
       auth={
@@ -367,9 +481,15 @@ exports[`Login page component login page renders credentials login if mnemonic p
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <CredentialsLoginScreen
       auth={
@@ -424,9 +544,15 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <LoginSelector
       auth={
@@ -501,9 +627,15 @@ exports[`Login page component login page renders redirect component if redirect 
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <RedirectLoginScreen
       auth={
@@ -557,9 +689,15 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <CredentialsLoginScreen
       auth={
@@ -632,7 +770,7 @@ exports[`Login page component redirect component renders failedToLogin error cor
   className="root-1"
 >
   <WithStyles(ForwardRef(Typography))>
-    login-redirect-error-msg
+    login.login-redirect-error-msg
   </WithStyles(ForwardRef(Typography))>
   <WithStyles(ForwardRef(Button))
     color="primary"
