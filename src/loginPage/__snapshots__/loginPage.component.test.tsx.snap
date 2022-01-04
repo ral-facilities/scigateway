@@ -356,9 +356,15 @@ exports[`Login page component login page doesn't render dropdown if anon is the 
     </WithStyles(ForwardRef(Avatar))>
     <WithStyles(ForwardRef(Typography))
       component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
       variant="h5"
     >
-      title
+      login.title
     </WithStyles(ForwardRef(Typography))>
     <CredentialsLoginScreen
       auth={
