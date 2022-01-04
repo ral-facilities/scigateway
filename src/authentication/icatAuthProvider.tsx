@@ -17,6 +17,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public autoLogin(): Promise<void> {
+    const prevMnemonic = this.mnemonic;
     this.mnemonic = 'anon';
     return this.logIn('', '')
       .then(() => localStorage.setItem('autoLogin', 'true'))
@@ -25,7 +26,7 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         throw err;
       })
       .finally(() => {
-        this.mnemonic = '';
+        this.mnemonic = prevMnemonic;
       });
   }
 
