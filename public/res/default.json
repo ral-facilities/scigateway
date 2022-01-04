@@ -30,9 +30,9 @@
     "logout-message": "Please log out to log in as another user",
     "login-redirect-error-msg": "Failed to log in. Re-direct token is invalid.",
     "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again.",
-    "forgotten-your-password": "<0>Forgotten your password?</0>",
+    "forgotten-your-password": "Forgotten your password?",
     "forgotten-your-password-link": "https://users.facilities.rl.ac.uk/auth/ForgotPassword.aspx?",
-    "need-help-signing-in": "<0>Need help signing in?</0>",
+    "need-help-signing-in": "Need help signing in?",
     "need-help-signing-in-link": "https://www.isis.stfc.ac.uk/Pages/Troubleshoot-Login.aspx",
     "dont-have-an-account-sign-up-now": "Don't have an account? <2>Sign up now</2>",
     "dont-have-an-account-sign-up-now-link": "https://users.facilities.rl.ac.uk/auth/CreateAccount.aspx"

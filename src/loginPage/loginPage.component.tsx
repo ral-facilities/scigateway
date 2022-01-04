@@ -73,10 +73,10 @@ const styles = (theme: Theme): StyleRules =>
     },
     info: {
       marginTop: `${theme.spacing(1)}px`,
-      color: theme.palette.secondary.main,
+      color: (theme as UKRITheme).colours.blue,
     },
     spinner: {
-      marginTop: 15,
+      marginBottom: '24px',
     },
     forgotPasswordText: {
       fontSize: 14,
@@ -111,8 +111,6 @@ const useDividerStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     content: {
-      // paddingTop: theme.spacing(0.5),
-      // paddingBottom: theme.spacing(0.5),
       paddingRight: theme.spacing(2),
       paddingLeft: theme.spacing(2),
       fontSize: 14,
