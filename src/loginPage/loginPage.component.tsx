@@ -320,10 +320,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   }, [mnemonic, fetchedMnemonics, authUrl]);
 
   React.useEffect(() => {
-    if (
-      typeof props.auth.provider.mnemonic !== 'undefined' &&
-      props.auth.provider.mnemonic !== ''
-    ) {
+    if (typeof props.auth.provider.mnemonic !== 'undefined') {
       setMnemonic(props.auth.provider.mnemonic);
     }
   }, [props.auth.provider.mnemonic]);
