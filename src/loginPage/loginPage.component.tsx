@@ -46,6 +46,7 @@ const styles = (theme: Theme): StyleRules =>
     avatar: {
       margin: '12px',
       backgroundColor: (theme as UKRITheme).colours.lightBlue,
+      color: '#FFFFFF',
       alignItems: 'center',
     },
     paper: {
