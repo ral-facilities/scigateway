@@ -219,6 +219,15 @@ describe('Login', () => {
           keys: [{ name: 'username' }, { name: 'password' }],
         },
         {
+          mnemonic: 'nokey',
+          keys: [],
+        },
+        {
+          mnemonic: 'simple',
+          keys: [{ name: 'username' }, { name: 'password' }],
+          admin: true,
+        },
+        {
           mnemonic: 'anon',
           keys: [],
         },
@@ -226,11 +235,13 @@ describe('Login', () => {
       cy.visit('/login');
     });
 
-    it('should show a dropdown', () => {
+    it('should show a dropdown with filtered out admin and anon authenticators', () => {
       cy.contains('Authenticator').should('be.visible');
       cy.get('#select-mnemonic').click();
       cy.contains('user/pass').should('be.visible');
-      cy.contains('anon').should('be.visible');
+      cy.contains('nokey').should('be.visible');
+      cy.contains('anon').should('not.exist');
+      cy.contains('ldap').should('not.exist');
     });
 
     it('should be able to select user/pass from the dropdown', () => {
@@ -241,9 +252,9 @@ describe('Login', () => {
       cy.contains('Password*').should('be.visible');
     });
 
-    it('should be able to select anon from the dropdown', () => {
+    it('should be able to select nokey from the dropdown', () => {
       cy.get('#select-mnemonic').click();
-      cy.get('ul li').contains('anon').click();
+      cy.get('ul li').contains('nokey').click();
 
       cy.contains('Sign in').should('not.be.disabled');
     });
@@ -282,7 +293,7 @@ describe('Login', () => {
           keys: [{ name: 'username' }, { name: 'password' }],
         },
         {
-          mnemonic: 'anon',
+          mnemonic: 'nokey',
           keys: [],
         },
       ]);
@@ -307,7 +318,7 @@ describe('Login', () => {
       cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
-      // test that autologin works after token valididation + refresh fail
+      // test that autologin works after token validation + refresh fail
       verifyResponse = failure;
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
@@ -347,7 +358,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.get('ul li').contains('anon').click();
+      cy.contains('nokey').click();
 
       cy.get('[alt="SciGateway"]').click();
 
@@ -361,7 +372,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.get('ul li').contains('anon').click();
+      cy.contains('nokey').click();
 
       cy.get('#select-mnemonic')
         .parent()
@@ -373,6 +384,28 @@ describe('Login', () => {
       cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+
+    it('should autoLogin after logout', () => {
+      window.localStorage.setItem(
+        'scigateway:token',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0LXVzZXIiLCJ1c2VybmFtZSI6InRlc3QtdXNlciIsImV4cCI6OTIzNDkyODM0MH0.MXtdkSQbam5QRTgzO_FExlKCu6p531k35Dhjhb5PRrQ'
+      );
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
+      cy.visit('/');
+      cy.title().should('equal', 'SciGateway');
+
+      cy.get('[aria-label="Open user menu"]').click();
+
+      cy.contains('Sign out').click();
+
+      cy.contains('Sign in').should('be.visible');
+      cy.contains('a', 'Demo Plugin').should('be.visible');
+      cy.contains('a', 'Demo Plugin').click();
+
+      cy.url().should('contain', '/plugin1');
+      cy.contains('div', 'Demo Plugin').should('be.visible');
     });
   });
 });

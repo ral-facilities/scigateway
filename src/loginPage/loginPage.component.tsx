@@ -410,7 +410,8 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics(authUrl).then((mnemonics) => {
         const nonAdminAuthenticators = mnemonics.filter(
-          (authenticator) => !authenticator.admin
+          (authenticator) =>
+            !authenticator.admin && authenticator.mnemonic !== 'anon'
         );
         setMnemonics(nonAdminAuthenticators);
         setFetchedMnemonics(true);
@@ -421,10 +422,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   }, [mnemonic, fetchedMnemonics, authUrl]);
 
   React.useEffect(() => {
-    if (
-      typeof props.auth.provider.mnemonic !== 'undefined' &&
-      props.auth.provider.mnemonic !== ''
-    ) {
+    if (typeof props.auth.provider.mnemonic !== 'undefined') {
       setMnemonic(props.auth.provider.mnemonic);
     }
   }, [props.auth.provider.mnemonic]);
@@ -546,15 +544,15 @@ const mapDispatchToProps = (
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic?: string,
+    mnemonic: string | undefined,
     authUrl?: string
   ) =>
     dispatch(
       verifyUsernameAndPassword(
         username.trim(),
         password,
-        mnemonic !== undefined ? mnemonic : '',
-        authUrl !== undefined ? authUrl : ''
+        mnemonic,
+        authUrl ?? ''
       )
     ),
 });

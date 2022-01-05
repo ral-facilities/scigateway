@@ -342,7 +342,70 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
 </div>
 `;
 
-exports[`Login page component login page renders anonymous login if mnemonic present + anon is selected 1`] = `
+exports[`Login page component login page doesn't render dropdown if anon is the only other authenticator 1`] = `
+<div
+  className="root-1"
+>
+  <WithStyles(ForwardRef(Paper))
+    className="paper-class"
+  >
+    <WithStyles(ForwardRef(Avatar))
+      className="avatar-class"
+    >
+      <Memo(ForwardRef(LockOutlinedIcon)) />
+    </WithStyles(ForwardRef(Avatar))>
+    <WithStyles(ForwardRef(Typography))
+      component="h1"
+      style={
+        Object {
+          "fontWeight": "bold",
+          "paddingBottom": "16px",
+        }
+      }
+      variant="h5"
+    >
+      login.title
+    </WithStyles(ForwardRef(Typography))>
+    <CredentialsLoginScreen
+      auth={
+        Object {
+          "failedToLogin": false,
+          "loading": false,
+          "provider": TestAuthProvider {
+            "authUrl": undefined,
+            "autoLogin": undefined,
+            "mnemonic": "",
+            "redirectUrl": null,
+            "token": null,
+            "user": null,
+          },
+          "signedOutDueToTokenInvalidation": false,
+        }
+      }
+      classes={
+        Object {
+          "avatar": "avatar-class",
+          "paper": "paper-class",
+          "root": "root-1",
+          "spinner": "spinner-class",
+        }
+      }
+      location={
+        Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        }
+      }
+      mnemonic="user/pass"
+      verifyUsernameAndPassword={[Function]}
+    />
+  </WithStyles(ForwardRef(Paper))>
+</div>
+`;
+
+exports[`Login page component login page renders anonymous login if mnemonic present with no keys 1`] = `
 <div
   className="root-1"
 >
@@ -374,7 +437,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "provider": TestAuthProvider {
             "authUrl": undefined,
             "autoLogin": undefined,
-            "mnemonic": "anon",
+            "mnemonic": "nokeys",
             "redirectUrl": null,
             "token": null,
             "user": null,
@@ -398,7 +461,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "state": undefined,
         }
       }
-      mnemonic="anon"
+      mnemonic="nokeys"
       verifyUsernameAndPassword={[Function]}
     />
   </WithStyles(ForwardRef(Paper))>
@@ -530,7 +593,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
 </div>
 `;
 
-exports[`Login page component login page renders dropdown if mnemonic present + there are multiple mnemonics 1`] = `
+exports[`Login page component login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon) 1`] = `
 <div
   className="root-1"
 >
@@ -601,8 +664,15 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
             "mnemonic": "user/pass",
           },
           Object {
-            "keys": Array [],
-            "mnemonic": "anon",
+            "keys": Array [
+              Object {
+                "name": "username",
+              },
+              Object {
+                "name": "password",
+              },
+            ],
+            "mnemonic": "ldap",
           },
         ]
       }

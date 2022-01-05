@@ -6,6 +6,7 @@ import {
   RegisterRoutePayload,
   ToggleDrawerType,
   AuthSuccessType,
+  AutoLoginSuccessType,
   AuthFailureType,
   ConfigureStringsType,
   ConfigureStringsPayload,
@@ -165,6 +166,19 @@ export function handleSuccessfulLogin(state: ScigatewayState): ScigatewayState {
       ...state.authorisation,
       failedToLogin: false,
       signedOutDueToTokenInvalidation: false,
+      loading: false,
+    },
+  };
+}
+
+export function handleSuccessfulAutoLogin(
+  state: ScigatewayState
+): ScigatewayState {
+  log.debug(`Successfully auto logged in`);
+  return {
+    ...state,
+    authorisation: {
+      ...state.authorisation,
       loading: false,
     },
   };
@@ -424,6 +438,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [RegisterRouteType]: handleRegisterPlugin,
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
+  [AutoLoginSuccessType]: handleSuccessfulAutoLogin,
   [LoadingAuthType]: handleLoadingAuth,
   [LoadedAuthType]: handleLoadedAuth,
   [LoadAuthProviderType]: handleAuthProviderUpdate,

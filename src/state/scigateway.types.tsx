@@ -3,6 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 export const AuthSuccessType = 'scigateway:auth_success';
 export const AuthFailureType = 'scigateway:auth_failure';
+export const AutoLoginSuccessType = 'scigateway:autologin_success';
 export const LoadingAuthType = 'scigateway:loading_auth';
 export const LoadedAuthType = 'scigateway:loaded_auth';
 export const LoadAuthProviderType = 'scigateway:loading_auth_provider';

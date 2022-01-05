@@ -9,6 +9,8 @@ import {
   LoadDarkModePreferenceType,
   BroadcastSignOutType,
   LoadHighContrastModePreferenceType,
+  AuthFailureType,
+  SignOutType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -16,11 +18,13 @@ import {
   addHelpTourSteps,
   requestPluginRerender,
   sendThemeOptions,
+  autoLoginAuthorised,
 } from '../actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
 import { push } from 'connected-react-router';
+import { ThunkDispatch } from 'redux-thunk';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -235,5 +239,27 @@ const ScigatewayMiddleware: Middleware = ((
 
   return next(action);
 }) as Middleware;
+
+export const autoLoginMiddleware: Middleware<
+  ThunkDispatch<StateType, void, AnyAction>,
+  StateType,
+  ThunkDispatch<StateType, void, AnyAction>
+> = ({ dispatch, getState }) => (next) => async (action) => {
+  const autoLogin = getState().scigateway.authorisation.provider.autoLogin;
+  if (
+    autoLogin &&
+    // these are the three actions that can cause a user sign out
+    (action.type === SignOutType ||
+      action.type === AuthFailureType ||
+      action.type === InvalidateTokenType)
+  ) {
+    next(action);
+    return await autoLogin().then(() => {
+      dispatch(autoLoginAuthorised());
+    });
+  }
+
+  return next(action);
+};
 
 export default ScigatewayMiddleware;
