@@ -125,7 +125,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   chip: '#595959',
   homePage: {
     heading: '#FFFFFF',
-    blueDescription: '#E6E6E6',
+    blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
 };
@@ -195,7 +195,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   chip: '#E0E0E0',
   homePage: {
     heading: '#333333',
-    blueDescription: '#E6E6E6',
+    blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
 };
@@ -404,12 +404,17 @@ export const buildTheme = (
       },
     },
     drawerWidth: 220,
-    footerPaddingTop: '14px',
-    footerPaddingBottom: '14px',
+    footerPaddingTop: '8px',
+    footerPaddingBottom: '8px',
     footerHeight: '20px',
     mainAppBarHeight: '64px',
     overrides: overrides,
     colours: colours,
+    typography: {
+      button: {
+        textTransform: 'none',
+      },
+    },
   };
 
   return createMuiTheme(options);
