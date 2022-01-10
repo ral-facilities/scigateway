@@ -210,6 +210,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           <Button
             className={classNames(props.classes.titleButton, 'tour-title')}
             onClick={props.navigateToHome}
+            aria-label={getString(props.res, 'home-page')}
           >
             <img
               src={props.logo ? props.logo : defaultLogo}

@@ -241,7 +241,7 @@ const HomePage = (): React.ReactElement => {
                     discovery and data access functionality to the data.
                   </Trans>
                 </Typography>
-                <Box marginTop="auto">
+                <Box marginTop="16px">
                   <Button
                     color="primary"
                     variant="contained"

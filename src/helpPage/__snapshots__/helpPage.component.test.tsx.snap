@@ -39,7 +39,7 @@ exports[`Help page component should render correctly 1`] = `
         "grey": "#727272",
         "homePage": Object {
           "blueButton": "#1E5DF8",
-          "blueDescription": "#E6E6E6",
+          "blueDescription": "#FFFFFF",
           "heading": "#333333",
         },
         "information": "#003088",
@@ -62,8 +62,8 @@ exports[`Help page component should render correctly 1`] = `
       "direction": "ltr",
       "drawerWidth": 220,
       "footerHeight": "20px",
-      "footerPaddingBottom": "14px",
-      "footerPaddingTop": "14px",
+      "footerPaddingBottom": "8px",
+      "footerPaddingTop": "8px",
       "mainAppBarHeight": "64px",
       "mixins": Object {
         "gutters": [Function],
@@ -355,7 +355,7 @@ exports[`Help page component should render correctly 1`] = `
           "fontWeight": 500,
           "letterSpacing": "0.02857em",
           "lineHeight": 1.75,
-          "textTransform": "uppercase",
+          "textTransform": "none",
         },
         "caption": Object {
           "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
