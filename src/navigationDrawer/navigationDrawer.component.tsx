@@ -47,7 +47,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     sectionTitle: {
       textAlign: 'left',
-      paddingTop: theme.spacing(1),
+      paddingTop: theme.spacing(2),
       paddingBottom: 0,
       color: (theme as UKRITheme).colours.contrastGrey,
       paddingLeft: theme.spacing(2),
@@ -58,8 +58,8 @@ const styles = (theme: Theme): StyleRules =>
       color: (theme as UKRITheme).colours.blue,
     },
     menuLogo: {
-      paddingRight: 25,
-      paddingLeft: 25,
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
       height: 40,
       paddingBottom: 24,
       color: theme.palette.text.secondary,

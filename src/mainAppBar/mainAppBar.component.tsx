@@ -173,7 +173,10 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   return (
     <div className={props.classes.root}>
       <AppBar position="static" className={props.classes.appBar}>
-        <Toolbar>
+        <Toolbar
+          disableGutters
+          style={{ marginLeft: '16px', marginRight: '16px' }}
+        >
           {props.loggedIn ? (
             props.drawerOpen === false ? (
               <IconButton
