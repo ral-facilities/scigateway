@@ -350,7 +350,14 @@ export const LoginSelector = (
   }
 ): React.ReactElement => {
   return (
-    <FormControl style={{ minWidth: 120, paddingTop: '8px', fontSize: 14 }}>
+    <FormControl
+      style={{
+        minWidth: 120,
+        paddingTop: '8px',
+        paddingBottom: '16px',
+        fontSize: 14,
+      }}
+    >
       <InputLabel htmlFor="mnemonic-select" color="secondary">
         Authenticator
       </InputLabel>

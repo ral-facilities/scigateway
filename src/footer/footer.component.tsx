@@ -6,12 +6,13 @@ import {
   withStyles,
   WithStyles,
 } from '@material-ui/core/styles';
-import { getAppStrings, getString } from '../state/strings';
+import { getAppStrings } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
 import { UKRITheme } from '../theming';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import Link from '@material-ui/core/Link';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -41,14 +42,14 @@ const styles = (theme: Theme): StyleRules =>
       textAlign: 'left',
       fontWeight: 'bold',
       fontSize: 14,
-      textIndent: '24px',
+      textIndent: '16px',
       display: 'inline-block',
     },
     rightText: {
       textAlign: 'right',
       fontSize: 14,
       right: 0,
-      paddingRight: 24,
+      paddingRight: '16px',
       marginLeft: 'auto',
     },
     bold: {
@@ -64,23 +65,47 @@ interface FooterProps {
 export type CombinedFooterProps = FooterProps & WithStyles<typeof styles>;
 
 const Footer = (props: CombinedFooterProps): React.ReactElement => {
+  const [t] = useTranslation();
+
   return (
     <div className={props.classes.root}>
-      <div
-        className={props.classes.leftText}
-        dangerouslySetInnerHTML={{
-          __html: getString(props.res, 'html'),
-        }}
-      />
+      <div className={props.classes.leftText}>
+        <Trans i18nKey="footer.links.text">
+          <Link
+            className={props.classes.bold}
+            href={t('footer.links.facility')}
+          >
+            Facility Home
+          </Link>
+          {' | '}
+          <Link
+            className={props.classes.bold}
+            href={t('footer.links.privacy-statement')}
+          >
+            Privacy statement
+          </Link>
+          {' | '}
+          <Link
+            className={props.classes.bold}
+            href={t('footer.links.data-policy')}
+          >
+            Data policy
+          </Link>
+          {' | '}
+          <Link className={props.classes.bold} href={t('footer.links.contact')}>
+            Contact
+          </Link>
+        </Trans>
+      </div>
       <div className={props.classes.rightText}>
         <Trans i18nKey="footer.website-development-provider">
           Built by the{' '}
-          <a
+          <Link
             className={props.classes.bold}
             href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
           >
             Data and Software Engineering Group
-          </a>
+          </Link>
         </Trans>
       </div>
     </div>

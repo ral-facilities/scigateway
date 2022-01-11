@@ -4,24 +4,46 @@ exports[`Footer component footer renders correctly 1`] = `
 <div
   className="root-class"
 >
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "html",
-      }
-    }
-  />
+  <div>
+    <Trans
+      i18nKey="footer.links.text"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="footer.links.facility"
+      >
+        Facility Home
+      </WithStyles(ForwardRef(Link))>
+       | 
+      <WithStyles(ForwardRef(Link))
+        href="footer.links.privacy-statement"
+      >
+        Privacy statement
+      </WithStyles(ForwardRef(Link))>
+       | 
+      <WithStyles(ForwardRef(Link))
+        href="footer.links.data-policy"
+      >
+        Data policy
+      </WithStyles(ForwardRef(Link))>
+       | 
+      <WithStyles(ForwardRef(Link))
+        href="footer.links.contact"
+      >
+        Contact
+      </WithStyles(ForwardRef(Link))>
+    </Trans>
+  </div>
   <div>
     <Trans
       i18nKey="footer.website-development-provider"
     >
       Built by the
        
-      <a
+      <WithStyles(ForwardRef(Link))
         href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
       >
         Data and Software Engineering Group
-      </a>
+      </WithStyles(ForwardRef(Link))>
     </Trans>
   </div>
 </div>

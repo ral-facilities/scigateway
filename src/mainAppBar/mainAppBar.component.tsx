@@ -91,17 +91,17 @@ const styles = (theme: Theme): StyleRules =>
     },
     menuButton: {
       marginLeft: -12,
-      marginRight: 20,
+      marginRight: 0,
       color: theme.palette.primary.contrastText,
     },
     menuButtonPlaceholder: {
       marginLeft: -12,
-      marginRight: 20,
+      marginRight: 0,
       width: 48,
     },
     menuButtonOpen: {
       marginLeft: -12,
-      marginRight: 20,
+      marginRight: 0,
       color: theme.palette.primary.contrastText,
     },
   });
@@ -173,7 +173,10 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   return (
     <div className={props.classes.root}>
       <AppBar position="static" className={props.classes.appBar}>
-        <Toolbar>
+        <Toolbar
+          disableGutters
+          style={{ marginLeft: '16px', marginRight: '16px' }}
+        >
           {props.loggedIn ? (
             props.drawerOpen === false ? (
               <IconButton
@@ -217,11 +220,14 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           {props.showHelpPageButton ? (
             <Button
               className={classNames(props.classes.button, 'tour-help')}
-              style={{ paddingTop: 3 }}
               onClick={props.navigateToHelpPage}
               aria-label={getString(props.res, 'help-page')}
             >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+              <Typography
+                color="inherit"
+                noWrap
+                style={{ fontWeight: 500, marginTop: 3 }}
+              >
                 {getString(props.res, 'help')}
               </Typography>
             </Button>
@@ -229,11 +235,14 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           {props.showAdminPageButton ? (
             <Button
               className={classNames(props.classes.button, 'tour-admin')}
-              style={{ paddingTop: 3 }}
               onClick={props.navigateToAdminPage}
               aria-label={getString(props.res, 'admin-page')}
             >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+              <Typography
+                color="inherit"
+                noWrap
+                style={{ fontWeight: 500, marginTop: 3 }}
+              >
                 {getString(props.res, 'admin')}
               </Typography>
             </Button>

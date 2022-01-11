@@ -124,13 +124,19 @@ const UserProfileComponent = (
         </div>
       ) : (
         <Button
+          color="primary"
+          variant="contained"
           className={props.classes.button}
           onClick={() => {
             props.signIn();
             log.debug('signing in');
           }}
         >
-          <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          <Typography
+            color="inherit"
+            noWrap
+            style={{ fontWeight: 500, marginTop: 3 }}
+          >
             {getString(props.res, 'login-button')}
           </Typography>
         </Button>

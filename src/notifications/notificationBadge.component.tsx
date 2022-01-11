@@ -33,6 +33,7 @@ interface BadgeDispatchProps {
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     button: {
+      margin: theme.spacing(1),
       color: theme.palette.primary.contrastText,
     },
     menuItem: {

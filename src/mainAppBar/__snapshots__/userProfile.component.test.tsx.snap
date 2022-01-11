@@ -49,13 +49,16 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
 >
   <WithStyles(ForwardRef(Button))
     className="button-class"
+    color="primary"
     onClick={[Function]}
+    variant="contained"
   >
     <WithStyles(ForwardRef(Typography))
       color="inherit"
       noWrap={true}
       style={
         Object {
+          "fontWeight": 500,
           "marginTop": 3,
         }
       }
@@ -72,13 +75,16 @@ exports[`User profile component renders sign in button if user signed in via aut
 >
   <WithStyles(ForwardRef(Button))
     className="button-class"
+    color="primary"
     onClick={[Function]}
+    variant="contained"
   >
     <WithStyles(ForwardRef(Typography))
       color="inherit"
       noWrap={true}
       style={
         Object {
+          "fontWeight": 500,
           "marginTop": 3,
         }
       }
