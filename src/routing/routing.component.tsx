@@ -29,7 +29,7 @@ import withAuth from './authorisedRoute.component';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     container: {
-      paddingBottom: '30px',
+      paddingBottom: '36px',
       width: '100%',
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeIn,
