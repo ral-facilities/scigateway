@@ -16,7 +16,19 @@ code {
 }
 
 .top-center {
-  top: 70px !important
+  top: 70px !important;
+}
+
+.redux-toastr .toastr.rrt-warning {
+  color: #000000;
+}
+
+.redux-toastr .toastr.rrt-error {
+  color: #000000;
+}
+
+.redux-toastr .toastr .rrt-left-container .toastr-icon {
+  fill: #000000;
 }
 
 @keyframes rotate {
