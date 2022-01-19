@@ -55,7 +55,7 @@ exports[`Help page component should render correctly 1`] = `
         "primary": "#003088",
         "red": "#AC1600",
         "secondary": "#003088",
-        "tabs": "#EEEEEE",
+        "tabsGrey": "#EEEEEE",
         "textSecondary": "rgba(0, 0, 0, 0.54)",
         "type": "default",
         "warning": "#FFA500",
@@ -198,11 +198,6 @@ exports[`Help page component should render correctly 1`] = `
           "indicator": Object {
             "color": "#003088",
             "textDecoration": "underline",
-          },
-          "root": Object {
-            "backgroundColor": "#EEEEEE",
-            "boxShadow": "none",
-            "color": "#003088",
           },
         },
       },
