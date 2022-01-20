@@ -93,6 +93,9 @@ interface ThemeColours {
     blueDescription: string;
     blueButton: string;
   };
+
+  /* Colour for Tabs in search */
+  tabsGrey: string;
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
@@ -128,6 +131,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
     blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
+  tabsGrey: '#3A3A3A',
 };
 
 const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
@@ -163,6 +167,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
+  tabsGrey: '#1A1A1A',
 };
 
 const LIGHT_MODE_COLOURS: ThemeColours = {
@@ -198,6 +203,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
     blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
+  tabsGrey: '#EEEEEE',
 };
 
 const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
@@ -233,6 +239,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     blueDescription: '#FFFFFF',
     blueButton: UKRI_COLOURS.bright.blue,
   },
+  tabsGrey: '#EEEEEE',
 };
 export interface UKRIThemeOptions extends ThemeOptions {
   drawerWidth: number;
@@ -268,6 +275,10 @@ export const buildTheme = (
     MuiLink: {
       root: {
         color: colours.blue,
+      },
+      button: {
+        fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+        verticalAlign: 'none',
       },
     },
     MuiTabs: {
