@@ -29,6 +29,13 @@ import * as log from 'loglevel';
 
 jest.mock('loglevel');
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: 'localhost:3000/login',
+  }),
+}));
+
 describe('Login selector component', () => {
   let shallow;
   let props: CombinedLoginProps;

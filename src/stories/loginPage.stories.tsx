@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { FakeAsyncAction } from './utils';
+import { FakeAsyncAction, FakeReduxAction } from './utils';
 import { LoginPageWithStyles } from '../loginPage/loginPage.component';
 import { storybookResourceStrings } from './storybookResourceStrings';
 import { createLocation } from 'history';
@@ -20,6 +20,7 @@ const buildLoginPage = (
     verifyUsernameAndPassword={(u, p) =>
       FakeAsyncAction(`verify username and password: ${u},${p}`)()
     }
+    resetAuthState={FakeReduxAction(`reset auth state`)}
     auth={{
       failedToLogin,
       signedOutDueToTokenInvalidation: false,

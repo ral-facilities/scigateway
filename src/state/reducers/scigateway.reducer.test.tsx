@@ -22,6 +22,7 @@ import {
   loadHighContrastModePreference,
   customLogo,
   autoLoginAuthorised,
+  resetAuthState,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -231,6 +232,19 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
     expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+  });
+
+  it('should reset the auth state for a resetAuthState message', () => {
+    state.authorisation.failedToLogin = true;
+    state.authorisation.signedOutDueToTokenInvalidation = true;
+    state.authorisation.loading = true;
+
+    const updatedState = ScigatewayReducer(state, resetAuthState());
+    expect(updatedState.authorisation.failedToLogin).toBeFalsy();
+    expect(
+      updatedState.authorisation.signedOutDueToTokenInvalidation
+    ).toBeFalsy();
+    expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
   it('should change auth provider when a LoadAuthProvider action is sent', () => {

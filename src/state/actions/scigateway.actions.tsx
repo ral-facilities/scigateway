@@ -52,6 +52,7 @@ import {
   CustomLogoType,
   LoadHighContrastModePreferenceType,
   LoadHighContrastModePreferencePayload,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { ActionType, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -403,6 +404,10 @@ export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
   dispatch({ type: SignOutType });
   dispatch(push('/'));
 };
+
+export const resetAuthState = (): Action => ({
+  type: ResetAuthStateType,
+});
 
 export const verifyUsernameAndPassword = (
   username: string,
