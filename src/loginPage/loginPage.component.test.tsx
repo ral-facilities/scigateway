@@ -20,7 +20,10 @@ import { act } from 'react-dom/test-utils';
 import { ICATAuthenticator, StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { loadingAuthentication } from '../state/actions/scigateway.actions';
+import {
+  loadingAuthentication,
+  resetAuthState,
+} from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -598,5 +601,22 @@ describe('Login page component', () => {
     });
 
     expect(testStore.getActions()[0]).toEqual(loadingAuthentication());
+  });
+
+  it('visiting the login page after a failed login attempt resets the auth state', () => {
+    state.scigateway.authorisation.failedToLogin = true;
+    state.scigateway.authorisation.signedOutDueToTokenInvalidation = false;
+
+    const testStore = mockStore(state);
+
+    mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <LoginPage />
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    expect(testStore.getActions()[0]).toEqual(resetAuthState());
   });
 });
