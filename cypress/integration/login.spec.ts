@@ -62,6 +62,30 @@ describe('Login', () => {
     cy.contains('Failed to log in. Invalid username or password.');
   });
 
+  it('should reset login message when navigating from somewhere else', () => {
+    cy.visit('/login');
+
+    cy.contains('Username*').parent().find('input').type('wrongusername');
+    cy.contains('Password*').parent().find('input').type('wrongpassword');
+
+    cy.contains('Username*')
+      .parent()
+      .parent()
+      .contains('button', 'Sign in')
+      .click();
+
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+    cy.contains('Failed to log in. Invalid username or password.');
+    cy.visit('/test');
+    cy.visit('/login');
+
+    cy.contains('Username*').parent().find('input').should('exist');
+    cy.contains('Failed to log in. Invalid username or password.').should(
+      'not.exist'
+    );
+  });
+
   it('should login given correct credentials', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');

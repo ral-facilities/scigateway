@@ -23,6 +23,7 @@ import {
   loadAuthProvider,
   loadHighContrastModePreference,
   customLogo,
+  resetAuthState,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -33,6 +34,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsType,
   NotificationType,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { initialState } from '../reducers/scigateway.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -560,6 +562,11 @@ describe('scigateway actions', () => {
   it('toggleHelp only needs a type', () => {
     const action = toggleHelp();
     expect(action.type).toEqual(ToggleHelpType);
+  });
+
+  it('resetAuthState only needs a type', () => {
+    const action = resetAuthState();
+    expect(action.type).toEqual(ResetAuthStateType);
   });
 
   it('given a steps array addHelpTourSteps returns a AddHelpTourStepsType with payload', () => {
