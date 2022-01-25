@@ -262,7 +262,7 @@ const HomePage = (): React.ReactElement => {
           </Grid>
         </Paper>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid item sm={12} md={4}>
             <Paper className={classes.paper} elevation={1}>
               <Box className={classes.paperContent}>
                 <Avatar className={classes.avatar}>
@@ -291,7 +291,7 @@ const HomePage = (): React.ReactElement => {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item sm={12} md={4}>
             <Paper className={classes.paper} elevation={1}>
               <Box className={classes.paperContent}>
                 <Avatar className={classes.avatar}>
@@ -320,7 +320,7 @@ const HomePage = (): React.ReactElement => {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item sm={12} md={4}>
             <Paper className={classes.bluePaper} elevation={1}>
               <div className={classes.facilityDecal}>
                 <Box className={classes.paperContent}>
