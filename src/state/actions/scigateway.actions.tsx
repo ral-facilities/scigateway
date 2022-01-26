@@ -55,6 +55,7 @@ import {
 } from '../scigateway.types';
 import { ActionType, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
+import * as singleSpa from 'single-spa';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -301,12 +302,13 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                 const pluginMessage = event as CustomEvent<AnyAction>;
                 if (
                   pluginMessage?.detail?.type === RegisterRouteType &&
-                  currUrl === pluginMessage.detail.payload.link
+                  currUrl.startsWith(pluginMessage.detail.payload.link)
                 ) {
                   dispatch(siteLoadingUpdate(false));
                   eventFired = true;
                   document.removeEventListener('scigateway', handler);
                   resolve();
+                  singleSpa.triggerAppChange();
                 }
               };
 
@@ -316,6 +318,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                 }
                 document.removeEventListener('scigateway', handler);
                 resolve();
+                singleSpa.triggerAppChange();
               }, 3000);
 
               document.addEventListener('scigateway', handler);
