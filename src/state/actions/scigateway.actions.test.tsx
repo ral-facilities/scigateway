@@ -356,6 +356,7 @@ describe('scigateway actions', () => {
   });
 
   it('dispatches a site loading update after settings are loaded with failed auth, no features, no leading slash on ui-strings and timeout on plugin route', async () => {
+    jest.useFakeTimers();
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
