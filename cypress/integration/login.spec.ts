@@ -173,7 +173,7 @@ describe('Login', () => {
         window.localStorage.getItem('scigateway:token')
       );
     });
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
   });
 

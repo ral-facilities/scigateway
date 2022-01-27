@@ -7,7 +7,6 @@ exports[`User profile component renders default avatar if signed in 1`] = `
   <div>
     <WithStyles(ForwardRef(IconButton))
       aria-label="Open user menu"
-      className="button-class"
       onClick={[Function]}
     >
       <Memo(ForwardRef(AccountCircleIcon)) />
@@ -48,7 +47,6 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
   className="tour-user-profile"
 >
   <WithStyles(ForwardRef(Button))
-    className="button-class"
     color="primary"
     onClick={[Function]}
     variant="contained"
@@ -74,7 +72,6 @@ exports[`User profile component renders sign in button if user signed in via aut
   className="tour-user-profile"
 >
   <WithStyles(ForwardRef(Button))
-    className="button-class"
     color="primary"
     onClick={[Function]}
     variant="contained"
