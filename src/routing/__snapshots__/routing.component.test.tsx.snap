@@ -762,6 +762,7 @@ exports[`Routing component renders component with plugins 1`] = `
       path={
         Array [
           "test link",
+          "test link alt",
         ]
       }
     >
@@ -779,6 +780,19 @@ exports[`Routing component renders component with plugins 1`] = `
     >
       <Connect(WithAuthComponent)
         id="test_plugin_name_2"
+      />
+    </Route>
+    <Route
+      key="test_plugin_name_admin"
+      path={
+        Array [
+          "test link admin",
+          "test link admin alt",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name"
       />
     </Route>
     <Route
