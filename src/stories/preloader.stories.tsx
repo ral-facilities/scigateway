@@ -6,4 +6,4 @@ import '../index.css';
 
 storiesOf('Preloader', module)
   .addDecorator(ReduxDecorator((s) => s))
-  .add('renders correctly', () => <Preloader />);
+  .add('renders correctly', () => <Preloader fullScreen={true} />);

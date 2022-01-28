@@ -46,9 +46,9 @@ const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
 });
 
 // generator function to create an authentication layer around the given component
-export default function withAuth<T>(
+const withAuth = (adminSection: boolean) => <T,>(
   ComponentToProtect: ComponentType<T>
-): NamedExoticComponent<T> {
+): NamedExoticComponent<T> => {
   class WithAuthComponent extends Component<WithAuthProps> {
     public componentDidMount(): void {
       if (!this.props.loading) {
@@ -71,8 +71,6 @@ export default function withAuth<T>(
         invalidToken,
         ...componentProps
       } = this.props;
-      const adminPlugin =
-        'adminPlugin' in componentProps ? componentProps['adminPlugin'] : false;
 
       return (
         <div>
@@ -88,7 +86,7 @@ export default function withAuth<T>(
           {/* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */}
           {!loading &&
           loggedIn &&
-          (!adminPlugin || (adminPlugin && userIsAdmin)) ? (
+          (!adminSection || (adminSection && userIsAdmin)) ? (
             homepageUrlState && homepageUrlState.scigateway.homepageUrl ? (
               <Redirect
                 push
@@ -122,4 +120,6 @@ export default function withAuth<T>(
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(WithAuthComponent);
-}
+};
+
+export default withAuth;

@@ -1,23 +1,17 @@
 import React from 'react';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
-import {
-  createStyles,
-  StyleRules,
-  Theme,
-  withStyles,
-  WithStyles,
-} from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const colors = ['#8C4799', '#1D4F91', '#C34613', '#008275', '#63666A'];
 const innerRadius = 140;
 const border = 8;
 const spacing = 1;
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles<Theme, PreloaderCombinedProps>((theme: Theme) =>
   createStyles({
     spinner: {
-      position: 'relative',
+      position: (props) => (props.fullScreen ? 'relative' : undefined),
       display: 'block',
       margin: 'auto',
       width: innerRadius + colors.length * 2 * (border + spacing),
@@ -30,13 +24,13 @@ const styles = (theme: Theme): StyleRules =>
     },
     container: {
       zIndex: 1000,
-      position: 'fixed',
+      position: (props) => (props.fullScreen ? 'fixed' : undefined),
       width: '100%',
       height: '100%',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
+      top: (props) => (props.fullScreen ? 0 : undefined),
+      left: (props) => (props.fullScreen ? 0 : undefined),
+      right: (props) => (props.fullScreen ? 0 : undefined),
+      bottom: (props) => (props.fullScreen ? 0 : undefined),
       backgroundColor: theme.palette.background.default,
       display: 'flex',
       flexDirection: 'column',
@@ -46,11 +40,18 @@ const styles = (theme: Theme): StyleRules =>
     text: {
       color: theme.palette.text.primary,
     },
-  });
+  })
+);
 
-interface PreloaderProps {
+interface PreloaderStateProps {
   loading: boolean;
 }
+
+interface PreloaderProps {
+  fullScreen: boolean;
+}
+
+type PreloaderCombinedProps = PreloaderStateProps & PreloaderProps;
 
 interface SpinnerStyle {
   [id: string]: string | number;
@@ -83,31 +84,32 @@ const spinnerStyle = (index: number): SpinnerStyle => {
   };
 };
 
-const Preloader = (
-  props: PreloaderProps & WithStyles<typeof styles>
-): React.ReactElement => (
-  <div>
-    {props.loading ? (
-      <div className={props.classes.container}>
-        <div className={props.classes.wrapper}>
-          <div className={props.classes.spinner}>
-            <i style={spinnerStyle(0)} />
-            <i style={spinnerStyle(1)} />
-            <i style={spinnerStyle(2)} />
-            <i style={spinnerStyle(3)} />
-            <i style={spinnerStyle(4)} />
+export const Preloader = (
+  props: PreloaderCombinedProps
+): React.ReactElement => {
+  const classes = useStyles(props);
+  return (
+    <div>
+      {props.loading ? (
+        <div className={classes.container}>
+          <div className={classes.wrapper}>
+            <div className={classes.spinner}>
+              <i style={spinnerStyle(0)} />
+              <i style={spinnerStyle(1)} />
+              <i style={spinnerStyle(2)} />
+              <i style={spinnerStyle(3)} />
+              <i style={spinnerStyle(4)} />
+            </div>
           </div>
+          <div className={classes.text}>Loading...</div>
         </div>
-        <div className={props.classes.text}>Loading...</div>
-      </div>
-    ) : null}
-  </div>
-);
+      ) : null}
+    </div>
+  );
+};
 
-export const PreloaderWithStyles = withStyles(styles)(Preloader);
-
-const mapStateToProps = (state: StateType): PreloaderProps => ({
+const mapStateToProps = (state: StateType): PreloaderStateProps => ({
   loading: state.scigateway.siteLoading,
 });
 
-export default connect(mapStateToProps)(PreloaderWithStyles);
+export default connect(mapStateToProps)(Preloader);
