@@ -79,33 +79,41 @@ export const AuthorisedAdminPlugin = withAuth(true)(PluginPlaceHolder);
 // Prevents the component from updating when the draw is opened/ closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
+const getPluginRoutes = (
+  plugins: PluginConfig[]
+): {
+  [plugin: string]: string[];
+} => {
+  const pluginRoutes: {
+    [plugin: string]: string[];
+  } = {};
+  plugins.forEach((p) => {
+    if (!p.admin) {
+      if (pluginRoutes[p.plugin]) {
+        pluginRoutes[p.plugin].push(p.link);
+      } else {
+        pluginRoutes[p.plugin] = [p.link];
+      }
+    } else {
+      if (pluginRoutes[`${p.plugin}_admin`]) {
+        pluginRoutes[`${p.plugin}_admin`].push(p.link);
+      } else {
+        pluginRoutes[`${p.plugin}_admin`] = [p.link];
+      }
+    }
+  });
+  return pluginRoutes;
+};
+
 const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
   props: RoutingProps & WithStyles<typeof styles>
 ) => {
-  const [pluginRoutes, setPluginRoutes] = React.useState<{
-    [plugin: string]: string[];
-  }>({});
+  const [pluginRoutes, setPluginRoutes] = React.useState(
+    getPluginRoutes(props.plugins)
+  );
 
   React.useEffect(() => {
-    const newPluginRoutes: {
-      [plugin: string]: string[];
-    } = {};
-    props.plugins.forEach((p) => {
-      if (!p.admin) {
-        if (newPluginRoutes[p.plugin]) {
-          newPluginRoutes[p.plugin].push(p.link);
-        } else {
-          newPluginRoutes[p.plugin] = [p.link];
-        }
-      } else {
-        if (newPluginRoutes[`${p.plugin}_admin`]) {
-          newPluginRoutes[`${p.plugin}_admin`].push(p.link);
-        } else {
-          newPluginRoutes[`${p.plugin}_admin`] = [p.link];
-        }
-      }
-    });
-    setPluginRoutes(newPluginRoutes);
+    setPluginRoutes(getPluginRoutes(props.plugins));
 
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount
@@ -193,10 +201,10 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
           <Route component={MaintenancePage} />
         ) : (
           Object.entries(pluginRoutes).map(([key, value]) => {
-            const [pluginId, admin] = key.split('_');
+            const pluginId = key.endsWith('_admin') ? key.slice(0, -6) : key;
             return (
               <Route key={key} path={value}>
-                {admin ? (
+                {key.endsWith('_admin') ? (
                   <AuthorisedAdminPlugin id={pluginId} />
                 ) : (
                   <AuthorisedPlugin id={pluginId} />

@@ -14,8 +14,13 @@ jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
   makeStyles: (styles) => (component) => component,
 }));
-jest.mock('../adminPage/adminPage.component');
-jest.mock('../maintenancePage/maintenancePage.component');
+jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
+jest.mock('../maintenancePage/maintenancePage.component', () => () =>
+  'Mocked MaintenancePage'
+);
+jest.mock('../preloader/preloader.component', () => ({
+  Preloader: () => 'Mocked Preloader',
+}));
 
 describe('Routing component', () => {
   let shallow;
