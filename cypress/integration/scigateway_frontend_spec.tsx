@@ -15,8 +15,8 @@ describe('Scigateway', () => {
     // the plugin should have loaded
     cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
 
-    // the plugin should be able to rerender when the sidebar is opened
-    cy.get('[aria-label="Open navigation menu"]').click();
+    // the plugin should be able to rerender when the sidebar is closed
+    cy.get('[aria-label="Close navigation menu"]').click();
     cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
 
     // plugin link should be visible in sidebar

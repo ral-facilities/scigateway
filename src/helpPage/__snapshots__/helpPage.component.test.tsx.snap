@@ -55,6 +55,7 @@ exports[`Help page component should render correctly 1`] = `
         "primary": "#003088",
         "red": "#AC1600",
         "secondary": "#003088",
+        "tabsGrey": "#EEEEEE",
         "textSecondary": "rgba(0, 0, 0, 0.54)",
         "type": "default",
         "warning": "#FFA500",
@@ -122,6 +123,10 @@ exports[`Help page component should render correctly 1`] = `
           },
         },
         "MuiLink": Object {
+          "button": Object {
+            "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+            "verticalAlign": "none",
+          },
           "root": Object {
             "color": "#003088",
           },

@@ -41,6 +41,7 @@ import {
   CustomLogoType,
   LoadHighContrastModePreferencePayload,
   LoadHighContrastModePreferenceType,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -224,6 +225,15 @@ export function handleSignOut(state: ScigatewayState): ScigatewayState {
     ...state,
     drawerOpen: false,
     authorisation: resetAuth(state.authorisation),
+  };
+}
+
+export function handleResetAuthState(state: ScigatewayState): ScigatewayState {
+  return {
+    ...state,
+    authorisation: {
+      ...resetAuth(state.authorisation),
+    },
   };
 }
 
@@ -452,6 +462,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [LoadAuthProviderType]: handleAuthProviderUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
+  [ResetAuthStateType]: handleResetAuthState,
   [InvalidateTokenType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [LoadScheduledMaintenanceStateType]: handleLoadScheduledMaintenanceState,

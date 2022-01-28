@@ -42,13 +42,17 @@ interface UserProfileDispatchProps {
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
-    button: {
+    signInButton: {
       margin: theme.spacing(1),
       color: '#FFF',
       backgroundColor: (theme as UKRITheme).colours.lightBlue,
       '&:hover': {
         backgroundColor: fade((theme as UKRITheme).colours.lightBlue, 0.8),
       },
+    },
+    userButton: {
+      margin: theme.spacing(1),
+      color: '#FFF',
     },
     usernameContainer: {
       paddingTop: 8,
@@ -94,7 +98,7 @@ const UserProfileComponent = (
             />
           ) : (
             <IconButton
-              className={props.classes.button}
+              className={props.classes.userButton}
               onClick={(e) => setMenuAnchor(e.currentTarget)}
               aria-label="Open user menu"
             >
@@ -126,7 +130,7 @@ const UserProfileComponent = (
         <Button
           color="primary"
           variant="contained"
-          className={props.classes.button}
+          className={props.classes.signInButton}
           onClick={() => {
             props.signIn();
             log.debug('signing in');
