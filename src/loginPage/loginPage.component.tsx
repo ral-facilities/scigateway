@@ -399,7 +399,8 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
           detail: {
             type: NotificationType,
             payload: {
-              message: 'Failed to fetch authenticator information from ICAT',
+              message:
+                'It is not possible to authenticate you at the moment. Please, try again later',
               severity: 'error',
             },
           },
