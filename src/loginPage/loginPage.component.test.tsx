@@ -407,14 +407,15 @@ describe('Login page component', () => {
     expect(events[0].detail).toEqual({
       type: NotificationType,
       payload: {
-        message: 'Failed to fetch authenticator information from ICAT',
+        message:
+          'It is not possible to authenticate you at the moment. Please, try again later',
         severity: 'error',
       },
     });
 
     expect(log.error).toHaveBeenCalled();
     expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
-      'Failed to fetch authenticator information from ICAT'
+      'It is not possible to authenticate you at the moment. Please, try again later'
     );
     spy.mockRestore();
   });
