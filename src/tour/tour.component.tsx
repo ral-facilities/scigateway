@@ -6,7 +6,7 @@ import Joyride, {
   ACTIONS,
   EVENTS,
 } from 'react-joyride';
-import { lighten, Theme, withTheme } from '@mui/material/styles';
+import { lighten, useTheme } from '@mui/material/styles';
 import { UKRITheme } from '../theming';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
@@ -20,40 +20,29 @@ interface TourProps {
   loggedIn: boolean;
 }
 
-interface TourState {
-  stepIndex: number;
-}
-
 interface TourDispatchProps {
   dismissHelp: () => Action;
   toggleDrawer: () => Action;
 }
 
-export type CombinedTourProps = TourProps &
-  TourDispatchProps & { theme: Theme };
+export type CombinedTourProps = TourProps & TourDispatchProps;
 
-class Tour extends React.Component<CombinedTourProps, TourState> {
-  public constructor(props: CombinedTourProps) {
-    super(props);
+export const Tour = (props: CombinedTourProps): React.ReactElement => {
+  const theme = useTheme();
+  const [stepIndex, setStepIndex] = React.useState(0);
+  const { helpSteps, loggedIn, showHelp } = props;
 
-    this.state = {
-      stepIndex: 0,
-    };
-
-    this.handleJoyrideCallback = this.handleJoyrideCallback.bind(this);
-  }
-
-  private handleJoyrideCallback = (
+  const handleJoyrideCallback = (
     data: CallBackProps,
     indexMenuOpen: number,
     waitTime: number
   ): void => {
     const { status, action, index, type } = data;
-    const { toggleDrawer, drawerOpen, dismissHelp } = this.props;
+    const { toggleDrawer, drawerOpen, dismissHelp } = props;
 
     if (action === ACTIONS.START && type === EVENTS.STEP_BEFORE && drawerOpen) {
       toggleDrawer();
-      this.setState({ stepIndex: 0 });
+      setStepIndex(0);
     } else if (
       index === indexMenuOpen - 1 &&
       action === ACTIONS.NEXT &&
@@ -62,7 +51,7 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
     ) {
       toggleDrawer();
       setTimeout(() => {
-        this.setState({ stepIndex: index + 1 });
+        setStepIndex(index + 1);
       }, waitTime);
     } else if (
       index === indexMenuOpen &&
@@ -72,72 +61,67 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
     ) {
       toggleDrawer();
       setTimeout(() => {
-        this.setState({ stepIndex: index - 1 });
+        setStepIndex(index - 1);
       }, waitTime);
     } else if (
       status === STATUS.FINISHED ||
       (type === EVENTS.STEP_AFTER && action === ACTIONS.CLOSE)
     ) {
-      this.setState({ stepIndex: 0 });
+      setStepIndex(0);
       dismissHelp();
     } else if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
-      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+      setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
     }
   };
 
-  public render(): React.ReactElement {
-    const { helpSteps, loggedIn, showHelp, theme } = this.props;
-
-    const steps = helpSteps
-      .map((step) => ({ ...step, disableBeacon: true }))
-      .filter(
-        (step) => !step.target.toString().includes('plugin-link') || loggedIn
-      )
-      .filter(
-        (step) =>
-          !step.target.toString().startsWith('.tour-') ||
-          document.getElementsByClassName(step.target.toString().substr(1))
-            .length
-      );
-
-    const indexPluginLinks = steps.findIndex((step) =>
-      step.target.toString().includes('plugin-link')
+  const steps = helpSteps
+    .map((step) => ({ ...step, disableBeacon: true }))
+    .filter(
+      (step) => !step.target.toString().includes('plugin-link') || loggedIn
+    )
+    .filter(
+      (step) =>
+        !step.target.toString().startsWith('.tour-') ||
+        document.getElementsByClassName(step.target.toString().substr(1)).length
     );
 
-    return (
-      <Joyride
-        steps={steps}
-        stepIndex={this.state.stepIndex}
-        run={showHelp}
-        continuous={true}
-        callback={(data: CallBackProps) =>
-          this.handleJoyrideCallback(
-            data,
-            indexPluginLinks,
-            theme.transitions.duration.enteringScreen + 200
-          )
-        }
-        styles={{
-          buttonBack: {
-            color:
-              //For WCAG 2.1 contrast, need dark mode colour be slighly lighter as
-              //same colour breaks contrast for next button
-              theme.palette.mode === 'dark'
-                ? lighten((theme as UKRITheme).colours.orange, 0.15)
-                : (theme as UKRITheme).colours.orange,
-          },
-          options: {
-            primaryColor: (theme as UKRITheme).colours.darkOrange,
-            backgroundColor: theme.palette.background.default,
-            arrowColor: theme.palette.background.default,
-            textColor: theme.palette.text.primary,
-            zIndex: 1500,
-          },
-        }}
-      />
-    );
-  }
-}
+  const indexPluginLinks = steps.findIndex((step) =>
+    step.target.toString().includes('plugin-link')
+  );
+
+  return (
+    <Joyride
+      steps={steps}
+      stepIndex={stepIndex}
+      run={showHelp}
+      continuous={true}
+      callback={(data: CallBackProps) =>
+        handleJoyrideCallback(
+          data,
+          indexPluginLinks,
+          theme.transitions.duration.enteringScreen + 200
+        )
+      }
+      styles={{
+        buttonBack: {
+          color:
+            //For WCAG 2.1 contrast, need dark mode colour be slighly lighter as
+            //same colour breaks contrast for next button
+            theme.palette.mode === 'dark'
+              ? lighten((theme as UKRITheme).colours.orange, 0.15)
+              : (theme as UKRITheme).colours.orange,
+        },
+        options: {
+          primaryColor: (theme as UKRITheme).colours.darkOrange,
+          backgroundColor: theme.palette.background.default,
+          arrowColor: theme.palette.background.default,
+          textColor: theme.palette.text.primary,
+          zIndex: 1500,
+        },
+      }}
+    />
+  );
+};
 
 const mapStateToProps = (state: StateType): TourProps => ({
   showHelp: state.scigateway.showHelp,
@@ -151,7 +135,4 @@ const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
 
-export const TourWithoutStyles = Tour;
-export const TourWithStyles = withTheme(Tour);
-
-export default connect(mapStateToProps, mapDispatchToProps)(TourWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(Tour);
