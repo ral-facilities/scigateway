@@ -19,27 +19,16 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-<<<<<<< HEAD
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-=======
-          "displayName": "Connect(HelpPage)",
->>>>>>> master
           "type": [Function],
         }
       }
       exact={true}
       path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
     />
     <Route
       exact={true}
@@ -96,27 +85,16 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-<<<<<<< HEAD
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-=======
-          "displayName": "Connect(HelpPage)",
->>>>>>> master
           "type": [Function],
         }
       }
       exact={true}
       path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
     />
     <Route
       exact={true}
@@ -263,7 +241,7 @@ exports[`Routing component renders a route for a plugin when site is under maint
                     "url": "/test_link",
                   }
                 }
-                key="test section_/test_link"
+                key="test_plugin_name"
                 location={
                   Object {
                     "hash": "",
@@ -272,15 +250,16 @@ exports[`Routing component renders a route for a plugin when site is under maint
                     "search": "",
                   }
                 }
-                path="/test_link"
-                render={[Function]}
+                path={
+                  Array [
+                    "/test_link",
+                  ]
+                }
               >
                 <Connect(WithAuthComponent)
-                  adminPlugin={false}
                   id="test_plugin_name"
                 >
                   <WithAuthComponent
-                    adminPlugin={false}
                     id="test_plugin_name"
                     invalidToken={[Function]}
                     loading={false}
@@ -301,14 +280,17 @@ exports[`Routing component renders a route for a plugin when site is under maint
                   >
                     <div>
                       <PluginPlaceHolder
-                        adminPlugin={false}
                         id="test_plugin_name"
                       >
                         <div
                           id="test_plugin_name"
                         >
-                          test_plugin_name
-                           failed to load correctly
+                          <Preloader
+                            fullScreen={false}
+                            loading={true}
+                          >
+                            Mocked Preloader
+                          </Preloader>
                         </div>
                       </PluginPlaceHolder>
                     </div>
@@ -453,11 +435,9 @@ exports[`Routing component renders a route for admin page 1`] = `
                     userIsAdmin={true}
                   >
                     <div>
-                      <default>
-                        <div
-                          aria-label="AdminPage"
-                        />
-                      </default>
+                      <Component>
+                        Mocked AdminPage
+                      </Component>
                     </div>
                   </WithAuthComponent>
                 </Connect(WithAuthComponent)>
@@ -588,7 +568,7 @@ exports[`Routing component renders a route for maintenance page when site is und
                   }
                 }
               >
-                <default
+                <Component
                   history={
                     Object {
                       "action": "POP",
@@ -636,10 +616,8 @@ exports[`Routing component renders a route for maintenance page when site is und
                     }
                   }
                 >
-                  <div
-                    aria-label="MaintenancePage"
-                  />
-                </default>
+                  Mocked MaintenancePage
+                </Component>
               </Route>
             </Switch>
           </div>
@@ -667,27 +645,16 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-<<<<<<< HEAD
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-=======
-          "displayName": "Connect(HelpPage)",
->>>>>>> master
           "type": [Function],
         }
       }
       exact={true}
       path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
     />
     <Route
       exact={true}
@@ -744,27 +711,16 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-<<<<<<< HEAD
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/contact"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-=======
-          "displayName": "Connect(HelpPage)",
->>>>>>> master
           "type": [Function],
         }
       }
       exact={true}
       path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
     />
     <Route
       exact={true}
@@ -791,15 +747,43 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/cookies"
     />
     <Route
-      key="test section_test link"
-      path="test link"
-      render={[Function]}
-    />
+      key="test_plugin_name"
+      path={
+        Array [
+          "test link",
+          "test link alt",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name"
+      />
+    </Route>
     <Route
-      key="test section 2_test link 2"
-      path="test link 2"
-      render={[Function]}
-    />
+      key="test_plugin_name_2"
+      path={
+        Array [
+          "test link 2",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name_2"
+      />
+    </Route>
+    <Route
+      key="test_plugin_name_admin"
+      path={
+        Array [
+          "test link admin",
+          "test link admin alt",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name"
+      />
+    </Route>
     <Route
       component={
         Object {
@@ -818,7 +802,9 @@ exports[`Routing component renders placeholder for a plugin 1`] = `
 <div
   id="test_id"
 >
-  test_id
-   failed to load correctly
+  <Preloader
+    fullScreen={false}
+    loading={true}
+  />
 </div>
 `;

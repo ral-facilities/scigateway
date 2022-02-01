@@ -25,6 +25,8 @@ import PageNotFound from '../pageNotFound/pageNotFound.component';
 import classNames from 'classnames';
 import { UKRITheme } from '../theming';
 import withAuth from './authorisedRoute.component';
+import { Preloader } from '../preloader/preloader.component';
+import * as singleSpa from 'single-spa';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -59,96 +61,163 @@ interface RoutingProps {
 
 export class PluginPlaceHolder extends React.PureComponent<{
   id: string;
-  adminPlugin: boolean;
 }> {
   public render(): React.ReactNode {
     const { id } = this.props;
-    return <div id={id}>{id} failed to load correctly</div>;
-  }
-}
-
-export const AuthorisedPlugin = withAuth(PluginPlaceHolder);
-// Prevents the component from updating when the draw is opened/ closed
-export const AuthorisedAdminPage = withAuth(AdminPage);
-
-class Routing extends React.Component<
-  RoutingProps & WithStyles<typeof styles>
-> {
-  public render(): React.ReactNode {
     return (
-      // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
-      // Otherwise render the login component. Successful logins will continue to the requested
-      // route, otherwise they will continue to be prompted to log in.
-      // "/" is always accessible
-      <div
-        className={classNames(this.props.classes.container, {
-          [this.props.classes.containerShift]: this.props.drawerOpen,
-        })}
-      >
-        {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
-        <Switch>
-          <Route exact path={scigatewayRoutes.home}>
-            {this.props.homepageUrl && this.props.homepageUrl !== '/' ? (
-              <Redirect to={this.props.homepageUrl} />
-            ) : (
-              <HomePage />
-            )}
-          </Route>
-          <Route exact path={scigatewayRoutes.help} component={HelpPage} />
-          {/* Admin check required because the component does not have an adminPlugin prop */}
-          {this.props.userIsAdmin && (
-            <Route
-              exact
-              path={scigatewayRoutes.admin}
-              render={() => <AuthorisedAdminPage />}
-            />
-          )}
-          <Route exact path={scigatewayRoutes.login}>
-            {/* Waits until the site is fully loaded before doing the logic.
-             As the intial state of userIsLoggedIn is false we have to wait
-             until the page has fully loaded so it can receive the correct state
-             for userIsLoggedIn */}
-            {!this.props.userIsloggedIn || this.props.loading ? (
-              <LoginPage />
-            ) : (
-              <Redirect to={scigatewayRoutes.logout} />
-            )}
-          </Route>
-          <Route exact path={scigatewayRoutes.logout}>
-            {this.props.userIsloggedIn || this.props.loading ? (
-              <LogoutPage />
-            ) : (
-              <Redirect to={scigatewayRoutes.login} />
-            )}
-          </Route>
-          <Route
-            exact
-            path={scigatewayRoutes.cookies}
-            component={CookiesPage}
-          />
-          {/* Only display maintenance page to non-admin users when site under maintenance */}
-          {this.props.maintenance.show && !this.props.userIsAdmin ? (
-            <Route component={MaintenancePage} />
-          ) : (
-            this.props.plugins.map((p) => (
-              <Route
-                key={`${p.section}_${p.link}`}
-                path={p.link}
-                render={() => (
-                  <AuthorisedPlugin
-                    id={p.plugin}
-                    adminPlugin={p.admin ? p.admin : false}
-                  />
-                )}
-              />
-            ))
-          )}
-          <Route component={withAuth(PageNotFound)} />
-        </Switch>
+      <div id={id}>
+        {/* display a loading indicator whilst the plugin is mounting
+            the loading indicator is replaced when the plugin itself mounts */}
+        <Preloader loading={true} fullScreen={false} />
       </div>
     );
   }
 }
+
+export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
+export const AuthorisedAdminPlugin = withAuth(true)(PluginPlaceHolder);
+// Prevents the component from updating when the draw is opened/ closed
+export const AuthorisedAdminPage = withAuth(true)(AdminPage);
+
+const getPluginRoutes = (
+  plugins: PluginConfig[]
+): {
+  [plugin: string]: string[];
+} => {
+  const pluginRoutes: {
+    [plugin: string]: string[];
+  } = {};
+  plugins.forEach((p) => {
+    if (!p.admin) {
+      if (pluginRoutes[p.plugin]) {
+        pluginRoutes[p.plugin].push(p.link);
+      } else {
+        pluginRoutes[p.plugin] = [p.link];
+      }
+    } else {
+      if (pluginRoutes[`${p.plugin}_admin`]) {
+        pluginRoutes[`${p.plugin}_admin`].push(p.link);
+      } else {
+        pluginRoutes[`${p.plugin}_admin`] = [p.link];
+      }
+    }
+  });
+  return pluginRoutes;
+};
+
+const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
+  props: RoutingProps & WithStyles<typeof styles>
+) => {
+  const [pluginRoutes, setPluginRoutes] = React.useState(
+    getPluginRoutes(props.plugins)
+  );
+
+  React.useEffect(() => {
+    setPluginRoutes(getPluginRoutes(props.plugins));
+
+    // switching between an admin & non-admin route of the same app causes problems
+    // as the Route and thus the plugin div changes but single-spa doesn't remount
+    // so we need to explicitly tell single-spa to remount that specific plugin
+    const handler = (
+      event: CustomEvent<{
+        oldUrl: string;
+        newUrl: string;
+      }>
+    ): void => {
+      const oldPlugin = props.plugins.find((p) =>
+        new URL(event.detail.oldUrl).pathname.startsWith(p.link)
+      );
+      const newPlugin = props.plugins.find((p) =>
+        new URL(event.detail.newUrl).pathname.startsWith(p.link)
+      );
+
+      if (
+        oldPlugin &&
+        newPlugin &&
+        oldPlugin.plugin === newPlugin.plugin &&
+        ((oldPlugin.admin && !newPlugin.admin) ||
+          (newPlugin.admin && !oldPlugin.admin))
+      ) {
+        singleSpa.unloadApplication(oldPlugin.plugin);
+      }
+    };
+    window.addEventListener(
+      'single-spa:before-no-app-change',
+      handler as EventListener
+    );
+    return () =>
+      window.removeEventListener(
+        'single-spa:before-no-app-change',
+        handler as EventListener
+      );
+  }, [props.plugins]);
+
+  return (
+    // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
+    // Otherwise render the login component. Successful logins will continue to the requested
+    // route, otherwise they will continue to be prompted to log in.
+    // "/" is always accessible
+    <div
+      className={classNames(props.classes.container, {
+        [props.classes.containerShift]: props.drawerOpen,
+      })}
+    >
+      {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
+      <Switch>
+        <Route exact path={scigatewayRoutes.home}>
+          {props.homepageUrl && props.homepageUrl !== '/' ? (
+            <Redirect to={props.homepageUrl} />
+          ) : (
+            <HomePage />
+          )}
+        </Route>
+        <Route exact path={scigatewayRoutes.help} component={HelpPage} />
+        <Route
+          exact
+          path={scigatewayRoutes.admin}
+          render={() => <AuthorisedAdminPage />}
+        />
+        <Route exact path={scigatewayRoutes.login}>
+          {/* Waits until the site is fully loaded before doing the logic.
+             As the intial state of userIsLoggedIn is false we have to wait
+             until the page has fully loaded so it can receive the correct state
+             for userIsLoggedIn */}
+          {!props.userIsloggedIn || props.loading ? (
+            <LoginPage />
+          ) : (
+            <Redirect to={scigatewayRoutes.logout} />
+          )}
+        </Route>
+        <Route exact path={scigatewayRoutes.logout}>
+          {props.userIsloggedIn || props.loading ? (
+            <LogoutPage />
+          ) : (
+            <Redirect to={scigatewayRoutes.login} />
+          )}
+        </Route>
+        <Route exact path={scigatewayRoutes.cookies} component={CookiesPage} />
+        {/* Only display maintenance page to non-admin users when site under maintenance */}
+        {props.maintenance.show && !props.userIsAdmin ? (
+          <Route component={MaintenancePage} />
+        ) : (
+          Object.entries(pluginRoutes).map(([key, value]) => {
+            const pluginId = key.endsWith('_admin') ? key.slice(0, -6) : key;
+            return (
+              <Route key={key} path={value}>
+                {key.endsWith('_admin') ? (
+                  <AuthorisedAdminPlugin id={pluginId} />
+                ) : (
+                  <AuthorisedPlugin id={pluginId} />
+                )}
+              </Route>
+            );
+          })
+        )}
+        <Route component={withAuth(false)(PageNotFound)} />
+      </Switch>
+    </div>
+  );
+};
 
 export const RoutingWithStyles = withStyles(styles)(Routing);
 
