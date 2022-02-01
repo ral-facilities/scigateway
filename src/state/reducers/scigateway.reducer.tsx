@@ -1,4 +1,5 @@
 import createReducer from './createReducer';
+import { singleSpaPluginRoutes } from '../actions/loadMicroFrontends';
 import {
   NotificationType,
   NotificationPayload,
@@ -122,6 +123,13 @@ const updatePlugins = (
   existingPlugins: PluginConfig[],
   payload: RegisterRoutePayload
 ): PluginConfig[] => {
+  if (singleSpaPluginRoutes[payload.plugin]) {
+    if (!singleSpaPluginRoutes[payload.plugin].includes(payload.link))
+      singleSpaPluginRoutes[payload.plugin].push(payload.link);
+  } else {
+    singleSpaPluginRoutes[payload.plugin] = [payload.link];
+  }
+
   if (!existingPlugins.some((p) => p.link === payload.link)) {
     return [...existingPlugins, buildPluginConfig(payload)];
   }

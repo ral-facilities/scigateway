@@ -26,7 +26,7 @@ const PageContainer = (
 ): React.ReactElement => {
   return (
     <div className={props.classes.root}>
-      <Preloader />
+      <Preloader fullScreen={true} />
       <MainAppBar />
       <NavigationDrawer />
       <Tour />

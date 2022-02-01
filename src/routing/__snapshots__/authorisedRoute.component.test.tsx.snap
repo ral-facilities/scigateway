@@ -27,7 +27,6 @@ exports[`AuthorisedRoute component renders PageNotFound component when site is l
 exports[`AuthorisedRoute component renders admin component when admin user accesses it 1`] = `
 <div>
   <ComponentToProtect
-    adminPlugin={true}
     store={
       Object {
         "clearActions": [Function],
@@ -45,7 +44,6 @@ exports[`AuthorisedRoute component renders admin component when admin user acces
 exports[`AuthorisedRoute component renders non admin component when admin user accesses it 1`] = `
 <div>
   <ComponentToProtect
-    adminPlugin={false}
     store={
       Object {
         "clearActions": [Function],
@@ -63,7 +61,6 @@ exports[`AuthorisedRoute component renders non admin component when admin user a
 exports[`AuthorisedRoute component renders non admin component when non admin user accesses it 1`] = `
 <div>
   <ComponentToProtect
-    adminPlugin={false}
     store={
       Object {
         "clearActions": [Function],

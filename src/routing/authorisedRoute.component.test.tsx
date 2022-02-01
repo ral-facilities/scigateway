@@ -42,10 +42,8 @@ describe('AuthorisedRoute component', () => {
       'test-token'
     );
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -57,10 +55,8 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -72,10 +68,8 @@ describe('AuthorisedRoute component', () => {
       'test-token'
     );
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={true} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(true)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -87,10 +81,8 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={true} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(true)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -103,10 +95,8 @@ describe('AuthorisedRoute component', () => {
     );
     state.router.location.state = { scigateway: { homepageUrl: '/test' } };
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -116,10 +106,8 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -129,10 +117,8 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new LoadingAuthProvider();
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -141,10 +127,8 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = true;
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -152,10 +136,8 @@ describe('AuthorisedRoute component', () => {
   it('renders PageNotFound component when site is loading due to siteLoading prop', () => {
     state.scigateway.siteLoading = true;
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={mockStore(state)} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -168,10 +150,8 @@ describe('AuthorisedRoute component', () => {
 
     const testStore = mockStore(state);
 
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    const wrapper = shallow(
-      <AuthorisedComponent adminPlugin={false} store={testStore} />
-    );
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const wrapper = shallow(<AuthorisedComponent store={testStore} />);
 
     wrapper.setProps({ loading: false });
     expect(testStore.getActions().length).toEqual(1);
@@ -193,8 +173,8 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.provider = testAuthProvider;
 
     const testStore = mockStore(state);
-    const AuthorisedComponent = withAuth(ComponentToProtect);
-    shallow(<AuthorisedComponent adminPlugin={false} store={testStore} />);
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    shallow(<AuthorisedComponent store={testStore} />);
 
     await flushPromises();
 

@@ -23,6 +23,8 @@ const loadReactApp = async (name: string) => {
   return (window as any)[name];
 };
 
+export const singleSpaPluginRoutes: { [name: string]: string[] } = {};
+
 async function loadApp(name: string, appURL: string) {
   await runScript(appURL);
 
@@ -30,7 +32,21 @@ async function loadApp(name: string, appURL: string) {
   singleSpa.registerApplication(
     name,
     () => loadReactApp(name),
-    () => true
+    (location) => {
+      if (singleSpaPluginRoutes?.[name]) {
+        if (
+          singleSpaPluginRoutes[name].findIndex((route) =>
+            location.pathname.startsWith(route)
+          ) !== -1
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
   );
 }
 
