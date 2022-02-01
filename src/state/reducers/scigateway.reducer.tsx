@@ -6,6 +6,7 @@ import {
   RegisterRoutePayload,
   ToggleDrawerType,
   AuthSuccessType,
+  AutoLoginSuccessType,
   AuthFailureType,
   ConfigureStringsType,
   ConfigureStringsPayload,
@@ -30,11 +31,16 @@ import {
   LoadDarkModePreferenceType,
   LoadDarkModePreferencePayload,
   HomepageUrlPayload,
+  CustomLogoPayload,
   RegisterHomepageUrlType,
   LoadScheduledMaintenanceStateType,
   ScheduledMaintenanceStatePayLoad,
   MaintenanceStatePayLoad,
   LoadMaintenanceStateType,
+  CustomLogoType,
+  LoadHighContrastModePreferencePayload,
+  LoadHighContrastModePreferenceType,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -61,10 +67,11 @@ export const initialState: ScigatewayState = {
   helpSteps: [],
   authorisation: authState,
   features: {
-    showContactButton: true,
     showHelpPageButton: true,
+    singlePluginLogo: false,
   },
   darkMode: false,
+  highContrastMode: false,
   scheduledMaintenance: {
     show: false,
     message: '',
@@ -165,6 +172,19 @@ export function handleSuccessfulLogin(state: ScigatewayState): ScigatewayState {
   };
 }
 
+export function handleSuccessfulAutoLogin(
+  state: ScigatewayState
+): ScigatewayState {
+  log.debug(`Successfully auto logged in`);
+  return {
+    ...state,
+    authorisation: {
+      ...state.authorisation,
+      loading: false,
+    },
+  };
+}
+
 const resetAuth = (authorisation: AuthState): AuthState => {
   return {
     ...authorisation,
@@ -197,6 +217,15 @@ export function handleSignOut(state: ScigatewayState): ScigatewayState {
     ...state,
     drawerOpen: false,
     authorisation: resetAuth(state.authorisation),
+  };
+}
+
+export function handleResetAuthState(state: ScigatewayState): ScigatewayState {
+  return {
+    ...state,
+    authorisation: {
+      ...resetAuth(state.authorisation),
+    },
   };
 }
 
@@ -249,6 +278,16 @@ export function handleRegisterHomepageUrl(
   return {
     ...state,
     homepageUrl: payload.homepageUrl,
+  };
+}
+
+export function handleCustomLogo(
+  state: ScigatewayState,
+  payload: CustomLogoPayload
+): ScigatewayState {
+  return {
+    ...state,
+    logo: payload.logo,
   };
 }
 
@@ -393,17 +432,29 @@ export function handleLoadDarkModePreference(
   };
 }
 
+export function handleLoadHighContrastModePreference(
+  state: ScigatewayState,
+  payload: LoadHighContrastModePreferencePayload
+): ScigatewayState {
+  return {
+    ...state,
+    highContrastMode: payload.highContrastMode,
+  };
+}
+
 const ScigatewayReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
   [RegisterRouteType]: handleRegisterPlugin,
   [AuthSuccessType]: handleSuccessfulLogin,
   [AuthFailureType]: handleUnsuccessfulLogin,
+  [AutoLoginSuccessType]: handleSuccessfulAutoLogin,
   [LoadingAuthType]: handleLoadingAuth,
   [LoadedAuthType]: handleLoadedAuth,
   [LoadAuthProviderType]: handleAuthProviderUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
+  [ResetAuthStateType]: handleResetAuthState,
   [InvalidateTokenType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [LoadScheduledMaintenanceStateType]: handleLoadScheduledMaintenanceState,
@@ -415,7 +466,9 @@ const ScigatewayReducer = createReducer(initialState, {
   [ToggleHelpType]: handleToggleHelp,
   [AddHelpTourStepsType]: handleAddHelpTourSteps,
   [LoadDarkModePreferenceType]: handleLoadDarkModePreference,
+  [LoadHighContrastModePreferenceType]: handleLoadHighContrastModePreference,
   [RegisterHomepageUrlType]: handleRegisterHomepageUrl,
+  [CustomLogoType]: handleCustomLogo,
 });
 
 export default ScigatewayReducer;

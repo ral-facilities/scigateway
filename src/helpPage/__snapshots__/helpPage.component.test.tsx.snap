@@ -25,8 +25,47 @@ exports[`Help page component should render correctly 1`] = `
         },
         "width": [Function],
       },
+      "colours": Object {
+        "background": "#FAFAFA",
+        "blue": "#003088",
+        "chip": "#E0E0E0",
+        "contrastGrey": "#717171",
+        "darkGreen": "#3E863E",
+        "darkOrange": "#C34F00",
+        "footerLink": Object {
+          "active": "#E58885",
+          "default": "#FFFFFF",
+        },
+        "grey": "#727272",
+        "homePage": Object {
+          "blueButton": "#1E5DF8",
+          "blueDescription": "#FFFFFF",
+          "heading": "#333333",
+        },
+        "information": "#003088",
+        "lightBlue": "#1E5DF8",
+        "lightOrange": "#FF6900",
+        "link": Object {
+          "active": "#E94D36",
+          "default": "#1E5DF8",
+          "visited": "#BE2BBB",
+        },
+        "orange": "#C34F00",
+        "paper": "#FFFFFF",
+        "primary": "#003088",
+        "red": "#AC1600",
+        "secondary": "#003088",
+        "tabsGrey": "#EEEEEE",
+        "textSecondary": "rgba(0, 0, 0, 0.54)",
+        "type": "default",
+        "warning": "#FFA500",
+      },
       "direction": "ltr",
-      "drawerWidth": 300,
+      "drawerWidth": 220,
+      "footerHeight": "20px",
+      "footerPaddingBottom": "8px",
+      "footerPaddingTop": "8px",
+      "mainAppBarHeight": "64px",
       "mixins": Object {
         "gutters": [Function],
         "toolbar": Object {
@@ -42,7 +81,123 @@ exports[`Help page component should render correctly 1`] = `
       "overrides": Object {
         "MuiBadge": Object {
           "colorPrimary": Object {
-            "backgroundColor": "#FF6900",
+            "backgroundColor": "#C34F00",
+            "color": "white",
+          },
+        },
+        "MuiChip": Object {
+          "root": Object {
+            "backgroundColor": "#E0E0E0",
+          },
+        },
+        "MuiFormHelperText": Object {
+          "root": Object {
+            "&$error": Object {
+              "color": "#AC1600",
+            },
+          },
+        },
+        "MuiFormLabel": Object {
+          "asterisk": Object {
+            "&$error": Object {
+              "color": "#AC1600",
+            },
+          },
+          "root": Object {
+            "&$error": Object {
+              "color": "#AC1600",
+            },
+            "&$focused": Object {
+              "color": "#003088",
+            },
+          },
+        },
+        "MuiInput": Object {
+          "underline": Object {
+            "&$error:after": Object {
+              "borderBottomColor": "#AC1600",
+            },
+            "&:after": Object {
+              "borderBottomColor": "#003088",
+            },
+          },
+        },
+        "MuiLink": Object {
+          "button": Object {
+            "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+            "verticalAlign": "none",
+          },
+          "root": Object {
+            "color": "#003088",
+          },
+        },
+        "MuiOutlinedInput": Object {
+          "input": Object {
+            "&::placeholder": Object {
+              "colour": "rgba(0, 0, 0, 0.54)",
+              "opacity": 0.7,
+            },
+          },
+          "root": Object {
+            "&$error $notchedOutline": Object {
+              "borderColor": "#AC1600",
+            },
+          },
+        },
+        "MuiPickersCalendarHeader": Object {
+          "dayLabel": Object {
+            "color": "#727272",
+          },
+        },
+        "MuiPickersDay": Object {
+          "current": Object {
+            "color": "#003088",
+          },
+          "dayDisabled": Object {
+            "color": "#727272",
+          },
+        },
+        "MuiPickersMonth": Object {
+          "monthDisabled": Object {
+            "color": "#727272",
+          },
+          "monthSelected": Object {
+            "color": "#003088",
+          },
+          "root": Object {
+            "&:active": Object {
+              "color": "#003088",
+            },
+            "&:focus": Object {
+              "color": "#003088",
+            },
+          },
+        },
+        "MuiPickersToolbar": Object {
+          "toolbar": Object {
+            "backgroundColor": "#003088",
+          },
+        },
+        "MuiPickersYear": Object {
+          "root": Object {
+            "&:active": Object {
+              "color": "#003088",
+            },
+            "&:focus": Object {
+              "color": "#003088",
+            },
+          },
+          "yearDisabled": Object {
+            "color": "#727272",
+          },
+          "yearSelected": Object {
+            "color": "#003088",
+          },
+        },
+        "MuiTabs": Object {
+          "indicator": Object {
+            "color": "#003088",
+            "textDecoration": "underline",
           },
         },
       },
@@ -62,8 +217,8 @@ exports[`Help page component should render correctly 1`] = `
         },
         "augmentColor": [Function],
         "background": Object {
-          "default": "#fafafa",
-          "paper": "#fff",
+          "default": "#FAFAFA",
+          "paper": "#FFFFFF",
         },
         "common": Object {
           "black": "#000",
@@ -205,7 +360,7 @@ exports[`Help page component should render correctly 1`] = `
           "fontWeight": 500,
           "letterSpacing": "0.02857em",
           "lineHeight": 1.75,
-          "textTransform": "uppercase",
+          "textTransform": "none",
         },
         "caption": Object {
           "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
@@ -286,24 +441,6 @@ exports[`Help page component should render correctly 1`] = `
           "fontWeight": 500,
           "letterSpacing": "0.00714em",
           "lineHeight": 1.57,
-        },
-      },
-      "ukri": Object {
-        "bright": Object {
-          "blue": "#1E5DF8",
-          "green": "#67C04D",
-          "orange": "#FF6900",
-          "purple": "#BE2BBB",
-          "red": "#E94D36",
-          "yellow": "#FBBB10",
-        },
-        "deep": Object {
-          "blue": "#003088",
-          "green": "#3E863E",
-          "orange": "#C13D33",
-          "purple": "#8A1A9B",
-          "red": "#A91B2E",
-          "yellow": "#F08900",
         },
       },
       "zIndex": Object {

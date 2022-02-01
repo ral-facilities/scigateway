@@ -3,6 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 export const AuthSuccessType = 'scigateway:auth_success';
 export const AuthFailureType = 'scigateway:auth_failure';
+export const AutoLoginSuccessType = 'scigateway:autologin_success';
 export const LoadingAuthType = 'scigateway:loading_auth';
 export const LoadedAuthType = 'scigateway:loaded_auth';
 export const LoadAuthProviderType = 'scigateway:loading_auth_provider';
@@ -18,7 +19,11 @@ export const RequestPluginRerenderType = 'scigateway:api:plugin_rerender';
 export const SendThemeOptionsType = 'scigateway:api:send_themeoptions';
 export const LoadDarkModePreferenceType =
   'scigateway:load_dark_mode_preference';
+export const LoadHighContrastModePreferenceType =
+  'scigateway:load_high_contrast_mode_preference';
 export const SignOutType = 'scigateway:signout';
+export const ResetAuthStateType = 'scigateway:reset_auth_state';
+export const BroadcastSignOutType = 'scigateway:api:signout';
 export const ToggleDrawerType = 'scigateway:toggledrawer';
 export const DismissNotificationType = 'scigateway:dismissnotification';
 export const ConfigureFeatureSwitchesType = 'scigateway:feature_switches';
@@ -29,6 +34,7 @@ export const InitialiseAnalyticsType = 'scigateway:initialise_analytics';
 export const ToggleHelpType = 'scigateway:toggle_help';
 export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
 export const RegisterHomepageUrlType = 'scigateway:register_homepage_url';
+export const CustomLogoType = 'scigateway:custom_logo';
 
 export const scigatewayRoutes = {
   home: '/',
@@ -36,6 +42,7 @@ export const scigatewayRoutes = {
   help: '/help',
   admin: '/admin',
   login: '/login',
+  logout: '/logout',
   cookies: '/cookies',
 };
 
@@ -65,12 +72,16 @@ export interface FeatureSwitchesPayload {
 }
 
 export interface FeatureSwitches {
-  showContactButton: boolean;
   showHelpPageButton: boolean;
+  singlePluginLogo: boolean;
 }
 
 export interface HomepageUrlPayload {
   homepageUrl: string;
+}
+
+export interface CustomLogoPayload {
+  logo: string;
 }
 
 export interface RegisterRoutePayload {
@@ -127,6 +138,10 @@ export interface SendThemeOptionsPayload {
 
 export interface LoadDarkModePreferencePayload {
   darkMode: boolean;
+}
+
+export interface LoadHighContrastModePreferencePayload {
+  highContrastMode: boolean;
 }
 
 export interface DismissNotificationPayload {

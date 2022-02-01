@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { IconButton, Divider, Theme } from '@material-ui/core';
+import { Box, Theme, Typography } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,39 +9,24 @@ import {
   createStyles,
   StyleRules,
   WithStyles,
-  styled,
 } from '@material-ui/core/styles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
-import { Dispatch, Action } from 'redux';
-import { toggleDrawer } from '../state/actions/scigateway.actions';
-import { PluginConfig } from '../state/scigateway.types';
+import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
+import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
+import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
+import { getAppStrings, getString } from '../state/strings';
 
 interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
   darkMode: boolean;
   homepageUrl?: string;
+  res: AppStrings | undefined;
 }
-
-interface NavigationDrawerDispatchProps {
-  toggleDrawer: () => Action;
-}
-
-// TODO
-// There is a bug with the typing of mixins (see mui-org/material-ui#22208)
-// Until this is fixed, use a styled component as a workaround
-const StyledHeader = styled('div')(({ theme }) => ({
-  ...theme.mixins.toolbar,
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0 8px',
-  justifyContent: 'flex-end',
-}));
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -52,37 +37,36 @@ const styles = (theme: Theme): StyleRules =>
     drawerPaper: {
       width: (theme as UKRITheme).drawerWidth,
       background: theme.palette.background.default,
+      top: (theme as UKRITheme).mainAppBarHeight,
+      height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
+        (theme as UKRITheme).footerPaddingTop
+      } - ${(theme as UKRITheme).footerHeight} - ${
+        (theme as UKRITheme).mainAppBarHeight
+      } )`,
+      position: 'absolute',
     },
-    // drawerHeader: {
-    //   ...theme.mixins.toolbar,
-    //   display: 'flex',
-    //   alignItems: 'center',
-    //   padding: '0 8px',
-    //   justifyContent: 'flex-end',
-    // },
     sectionTitle: {
       textAlign: 'left',
-      paddingTop: 0,
+      paddingTop: theme.spacing(2),
       paddingBottom: 0,
-    },
-    sectionTitleText: {
-      color: theme.palette.text.primary,
+      color: (theme as UKRITheme).colours.contrastGrey,
+      paddingLeft: theme.spacing(2),
     },
     menuItem: {
       textAlign: 'left',
-      color: theme.palette.text.secondary,
+      fontWeight: 'bold',
+      color: (theme as UKRITheme).colours.blue,
     },
     menuLogo: {
-      paddingRight: 100,
-      paddingTop: 10,
-      paddingBottom: 10,
-      height: 30,
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      height: 40,
+      paddingBottom: 24,
       color: theme.palette.text.secondary,
     },
   });
 
-type CombinedNavigationProps = NavigationDrawerDispatchProps &
-  NavigationDrawerProps &
+export type CombinedNavigationProps = NavigationDrawerProps &
   WithStyles<typeof styles>;
 
 // This has been adapted from the MaterialUI composition guide
@@ -113,14 +97,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         button
         dense
       >
-        {/* Uncomment this to add DataGateway logo next to each button */}
-        {/* {imgSrc && (
-          <img
-            className={this.props.classes.menuLogo}
-            alt={plugin.logoAltText}
-            src={imgSrc}
-          />
-        )} */}
         <ListItemText
           inset={!imgSrc}
           primary={displayText}
@@ -140,19 +116,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   ): React.ReactElement {
     return (
       <Fragment key={index}>
-        <ListItem
-          classes={{
-            root: this.props.classes.sectionTitle,
-          }}
-        >
-          <ListItemText
-            primary={sectionName}
-            primaryTypographyProps={{ variant: 'h6' }}
-            classes={{
-              primary: this.props.classes.sectionTitleText,
-            }}
-          />
-        </ListItem>
+        <Typography variant="h6" className={this.props.classes.sectionTitle}>
+          {sectionName}
+        </Typography>
         <List component="nav">
           {plugins.map((p, i) => {
             return p.link ? this.createLink(p, i) : null;
@@ -177,7 +143,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
     );
 
     return (
-      <List>
+      <Fragment>
         {Object.keys(sectionPlugins)
           .sort()
           .map((section, i) =>
@@ -187,15 +153,12 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
               i
             )
           )}
-      </List>
+      </Fragment>
     );
   }
 
   public render(): React.ReactElement {
-    const { plugins } = this.props;
-    const imgSrc = this.props.darkMode
-      ? plugins[0]?.logoDarkMode
-      : plugins[0]?.logoLightMode;
+    const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
     return (
       <Drawer
         className={this.props.classes.drawer}
@@ -206,25 +169,25 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           paper: this.props.classes.drawerPaper,
         }}
       >
-        {/* <div className={this.props.classes.drawerHeader}> */}
-        <StyledHeader>
-          <IconButton
-            onClick={this.props.toggleDrawer}
-            aria-label="Close navigation menu"
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-        </StyledHeader>
-        {/* </div> */}
-        <Divider />
-        {imgSrc && (
-          <img
-            className={this.props.classes.menuLogo}
-            alt={plugins[0].logoAltText}
-            src={imgSrc}
-          />
-        )}
-        {this.renderRoutes()}
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="flex-start"
+          height="100%"
+          boxSizing="border-box"
+        >
+          {this.renderRoutes()}
+
+          {imgSrc && (
+            <Box marginTop="auto">
+              <img
+                className={this.props.classes.menuLogo}
+                alt={getString(this.props.res, 'alternative-text')}
+                src={imgSrc}
+              />
+            </Box>
+          )}
+        </Box>
       </Drawer>
     );
   }
@@ -235,17 +198,10 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   plugins: state.scigateway.plugins,
   darkMode: state.scigateway.darkMode,
   homepageUrl: state.scigateway.homepageUrl,
-});
-
-const mapDispatchToProps = (
-  dispatch: Dispatch
-): NavigationDrawerDispatchProps => ({
-  toggleDrawer: () => dispatch(toggleDrawer()),
+  res: getAppStrings(state, 'navigation-drawer'),
 });
 
 export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
+export const NavigationDrawerWithoutStyles = NavigationDrawer;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavigationDrawerWithStyles);
+export default connect(mapStateToProps)(NavigationDrawerWithStyles);

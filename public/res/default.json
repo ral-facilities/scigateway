@@ -5,34 +5,69 @@
     "help": "Help",
     "admin": "Admin",
     "manage-cookies-button": "Manage cookies",
-    "toggle-dark-mode": "Toggle Dark Mode"
+    "switch-light-mode": "Switch to light mode",
+    "switch-dark-mode": "Switch to dark mode",
+    "switch-high-contrast-off": "Switch high contrast mode off",
+    "switch-high-contrast-on": "Switch high contrast mode on",
+    "no-notifications": "No notifications",
+    "open-navigation-menu": "Open navigation menu",
+    "close-navigation-menu": "Close navigation menu",
+    "admin-page": "Admin page",
+    "help-page": "Help page",
+    "open-browser-settings": "Open browser settings",
+    "home-page": "Home page"
   },
   "login": {
     "title": "Sign in",
     "username-placeholder": "Username*",
     "password-placeholder": "Password*",
+    "username-arialabel": "Input username",
+    "password-arialabel": "Input password",
+    "username-description": "Signed in as:",
     "login-button": "Sign in",
     "logout-button": "Sign out",
     "login-error-msg": "Failed to log in. Invalid username or password.",
+    "logout-message": "Please log out to log in as another user",
     "login-redirect-error-msg": "Failed to log in. Re-direct token is invalid.",
-    "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again."
+    "token-invalid-msg": "Your session token has expired or been invalidated, please sign in again.",
+    "forgotten-your-password": "Forgotten your password?",
+    "forgotten-your-password-link": "https://users.facilities.rl.ac.uk/auth/ForgotPassword.aspx?",
+    "need-help-signing-in": "Need help signing in?",
+    "need-help-signing-in-link": "https://www.isis.stfc.ac.uk/Pages/Troubleshoot-Login.aspx",
+    "dont-have-an-account-sign-up-now": "Don't have an account? <2>Sign up now</2>",
+    "dont-have-an-account-sign-up-now-link": "https://users.facilities.rl.ac.uk/auth/CreateAccount.aspx"
   },
   "home-page": {
-    "title": "SciGateway",
-    "logo-label": "SciGateway Logo",
-    "how-label": "How it works...",
-    "explore-label": "1. Explore",
-    "explore-description": "Explore and visualise your data. Select and pre-process data to pull in to your analysis environment.",
-    "analyse-label": "2. Analyse",
-    "analyse-description": "Connect to a virtual environment already equipped with the software and tools to analyse your data.",
-    "record-label": "3. Record",
-    "record-description": "Store your results and findings, making them available to others for review and further research.",
-    "banner-one": "transforming the use of real time data processing, computer simulation and data analytics...",
-    "banner-two": "...to deliver more effective research at our national facilities"
+    "title_line1": "<0>Data discovery</0> and <2>access</2>",
+    "title_line2": "for <1>large-scale</1> science facilities",
+    "browse": {
+      "title": "Browse, explore and visualise experimental data",
+      "description1": "SciGateway is a ReactJs based parent application within a micro-front end architecture. It provides access to large facilities science.",
+      "description2": "The <0>SciGateway</0> application offers features such as authentication and authorisation functionality, notifications, cookies management.",
+      "link": "/browse/investigation",
+      "button": "Browse data"
+    },
+    "search": {
+      "title": "Search",
+      "description": "Search for the experimental data according to different criteria.",
+      "link": "/search/data",
+      "button": "Search data"
+    },
+    "download": {
+      "title": "Download",
+      "description": "Retrieve the experimental data using a variety of download methods.",
+      "link": "/download",
+      "button": "Download data"
+    },
+    "facility": {
+      "title": "Facility Title",
+      "description": "Facility Description",
+      "link": "#",
+      "button": "Read more"
+    }
   },
   "contact-page": {
     "title": "Contact",
-    "contact-details-title": "Contact Us",
     "contact-details-description": "For problems with SciGateway, please contact <a href=\"mailto:example@email.com?subject=Feedback From SciGateway\">example@email.com</a>"
   },
   "help-page": {
@@ -82,7 +117,21 @@
     "accept-button": "Accept",
     "manage-preferences-button": "Manage Preferences"
   },
+  "page-not-found": {
+    "title": "Page not found",
+    "message": "We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the <2>homepage</2> or <6>contact support</6>."
+  },
   "footer": {
-    "html": "<a href=\"#\">Facility Name</a> | <a href=\"#\">Privacy Policy</a> | <a href=\"#\">About Us</a>"
+    "links": {
+      "text": "<0>ISIS Home</0> | <2>Privacy statement</2> | <4>Data policy</4> | <6>Contact</6>",
+      "facility": "#",
+      "privacy-statement": "#",
+      "data-policy": "#",
+      "contact": "#"
+    },
+    "website-development-provider": "Built by the <2>Data and Software Engineering Group</2>"
+  },
+  "navigation-drawer": {
+    "alternative-text": "Science and Technology Facilities Council"
   }
 }

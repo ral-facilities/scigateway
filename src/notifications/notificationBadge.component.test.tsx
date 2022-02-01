@@ -131,4 +131,95 @@ describe('Notification Badge component', () => {
 
     expect(wrapper.find('#notifications-menu').exists()).toBeFalsy();
   });
+
+  it('opens menu with no notifications message when button clicked and there are no notifications', () => {
+    state.scigateway.notifications = [];
+
+    const testStore = mockStore(state);
+
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <NotificationBadge />
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    wrapper
+      .find('[aria-label="Open notification menu"]')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeTruthy();
+  });
+
+  it('no notifications message disappears when a notification occurs', () => {
+    state.scigateway.notifications = [];
+
+    let testStore = mockStore(state);
+
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <NotificationBadge />
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    wrapper
+      .find('[aria-label="Open notification menu"]')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeTruthy();
+
+    state.scigateway.notifications = props.notifications;
+    testStore = mockStore(state);
+    wrapper.setProps({ store: testStore });
+
+    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeFalsy();
+  });
+
+  it('no notifications message can be closed', () => {
+    state.scigateway.notifications = [];
+    const testStore = mockStore(state);
+
+    const wrapper = mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <NotificationBadge />
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    //Check can close using close button
+    wrapper
+      .find('[aria-label="Open notification menu"]')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeTruthy();
+
+    wrapper
+      .find('[aria-label="Dismiss notification"]')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('#notifications-menu').exists()).toBeFalsy();
+    expect(
+      wrapper.find('[aria-label="No notifications message"]').exists()
+    ).toBeFalsy();
+  });
 });

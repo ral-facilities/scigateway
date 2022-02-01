@@ -19,6 +19,7 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+<<<<<<< HEAD
           "type": [Function],
         }
       }
@@ -31,6 +32,9 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+=======
+          "displayName": "Connect(HelpPage)",
+>>>>>>> master
           "type": [Function],
         }
       }
@@ -42,6 +46,12 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       path="/login"
     >
       <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={
@@ -78,7 +88,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
       exact={true}
       path="/"
     >
-      <Connect(HomePage) />
+      <HomePage />
     </Route>
     <Route
       component={
@@ -86,6 +96,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+<<<<<<< HEAD
           "type": [Function],
         }
       }
@@ -98,6 +109,9 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+=======
+          "displayName": "Connect(HelpPage)",
+>>>>>>> master
           "type": [Function],
         }
       }
@@ -108,9 +122,13 @@ exports[`Routing component redirects to the homepage if navigating to login page
       exact={true}
       path="/login"
     >
-      <Redirect
-        to="/"
-      />
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={
@@ -210,6 +228,7 @@ exports[`Routing component renders a route for a plugin when site is under maint
           }
           dispatch={[Function]}
           drawerOpen={false}
+          loading={false}
           location="/"
           maintenance={
             Object {
@@ -377,6 +396,7 @@ exports[`Routing component renders a route for admin page 1`] = `
           }
           dispatch={[Function]}
           drawerOpen={false}
+          loading={false}
           location="/"
           maintenance={
             Object {
@@ -523,6 +543,7 @@ exports[`Routing component renders a route for maintenance page when site is und
           }
           dispatch={[Function]}
           drawerOpen={false}
+          loading={false}
           location="/"
           maintenance={
             Object {
@@ -638,7 +659,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       exact={true}
       path="/"
     >
-      <Connect(HomePage) />
+      <HomePage />
     </Route>
     <Route
       component={
@@ -646,6 +667,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+<<<<<<< HEAD
           "type": [Function],
         }
       }
@@ -658,6 +680,9 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+=======
+          "displayName": "Connect(HelpPage)",
+>>>>>>> master
           "type": [Function],
         }
       }
@@ -669,6 +694,12 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       path="/login"
     >
       <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={
@@ -705,7 +736,7 @@ exports[`Routing component renders component with plugins 1`] = `
       exact={true}
       path="/"
     >
-      <Connect(HomePage) />
+      <HomePage />
     </Route>
     <Route
       component={
@@ -713,6 +744,7 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+<<<<<<< HEAD
           "type": [Function],
         }
       }
@@ -725,6 +757,9 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+=======
+          "displayName": "Connect(HelpPage)",
+>>>>>>> master
           "type": [Function],
         }
       }
@@ -736,6 +771,12 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/login"
     >
       <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(LogoutPageComponent) />
     </Route>
     <Route
       component={

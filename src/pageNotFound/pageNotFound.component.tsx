@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles, WithStyles, Theme } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import { StyleRules } from '@material-ui/core/styles';
+import { useTranslation, Trans } from 'react-i18next';
+import { UKRITheme } from '../theming';
 
 const styles = (theme: Theme): StyleRules => ({
   titleContainer: {
@@ -15,12 +17,12 @@ const styles = (theme: Theme): StyleRules => ({
   bugIcon: {
     width: '10vw',
     height: '10vw',
-    color: theme.palette.primary.main,
+    color: (theme as UKRITheme).colours.blue,
   },
   codeText: {
     fontWeight: 'bold',
     fontSize: '10vw',
-    color: theme.palette.primary.main,
+    color: (theme as UKRITheme).colours.blue,
   },
   container: {
     display: 'flex',
@@ -40,26 +42,50 @@ const styles = (theme: Theme): StyleRules => ({
   },
 });
 
-const PageNotFound = (props: WithStyles<typeof styles>): React.ReactElement => (
-  <div>
-    <div className={props.classes.titleContainer}>
-      <BugReportIcon className={props.classes.bugIcon} />
-      <Typography className={props.classes.codeText}>404</Typography>
+export type PageNotFoundProps = WithStyles<typeof styles>;
+export const PageNotFoundComponent = (
+  props: PageNotFoundProps
+): React.ReactElement => {
+  const [t] = useTranslation();
+  return (
+    <div>
+      <div className={props.classes.titleContainer}>
+        <BugReportIcon className={props.classes.bugIcon} />
+        <Typography className={props.classes.codeText}>404</Typography>
+      </div>
+      <div className={props.classes.container}>
+        <Typography variant="h2" className={props.classes.bold}>
+          {t('page-not-found.title')}
+        </Typography>
+        <Typography variant="body1" className={props.classes.message}>
+          <Trans t={t} i18nKey="page-not-found.message">
+            We&#39;re sorry, the page you requested was not found on the server.
+            If you entered the URL manually please check your spelling and try
+            again. Otherwise, return to the{' '}
+            <Link
+              data-test-id="page-not-found-homepage-link"
+              className={props.classes.bold}
+              to="/"
+            >
+              homepage
+            </Link>{' '}
+            or{' '}
+            <Link
+              className={props.classes.bold}
+              data-test-id="page-not-found-contact-support-link"
+              to="/contact"
+            >
+              contact support
+            </Link>
+            .
+          </Trans>
+        </Typography>
+      </div>
     </div>
-    <div className={props.classes.container}>
-      <Typography variant="h2" className={props.classes.bold}>
-        Page not found
-      </Typography>
-      <Typography variant="body1" className={props.classes.message}>
-        We&apos;re sorry, the page you requested could not be found. Please
-        check the page address for typos. Click{' '}
-        <Link className={props.classes.bold} to="/">
-          here
-        </Link>{' '}
-        to return to the home page or contact support.
-      </Typography>
-    </div>
-  </div>
-);
+  );
+};
 
-export default withStyles(styles)(PageNotFound);
+const PageNotFoundComponentWithStyles = withStyles(styles)(
+  PageNotFoundComponent
+);
+export default PageNotFoundComponentWithStyles;

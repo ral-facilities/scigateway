@@ -1,8 +1,9 @@
 {
   "title": "a cool title",
+  "logo": "",
   "features": {
-    "showContactButton": true,
-    "showHelpPageButton": true
+    "showHelpPageButton": true,
+    "singlePluginLogo": true
   },
   "plugins": [
     {

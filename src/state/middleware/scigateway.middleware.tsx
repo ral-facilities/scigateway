@@ -7,6 +7,10 @@ import {
   ToggleDrawerType,
   SendThemeOptionsType,
   LoadDarkModePreferenceType,
+  BroadcastSignOutType,
+  LoadHighContrastModePreferenceType,
+  AuthFailureType,
+  SignOutType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -14,11 +18,13 @@ import {
   addHelpTourSteps,
   requestPluginRerender,
   sendThemeOptions,
+  autoLoginAuthorised,
 } from '../actions/scigateway.actions';
 import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
 import { push } from 'connected-react-router';
+import { ThunkDispatch } from 'redux-thunk';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -84,6 +90,9 @@ export const listenToPlugins = (
         case SendThemeOptionsType:
           break;
 
+        case BroadcastSignOutType:
+          break;
+
         case RegisterRouteType:
           dispatch(pluginMessage.detail);
           if ('helpSteps' in pluginMessage.detail.payload) {
@@ -123,7 +132,13 @@ export const listenToPlugins = (
             const mq = window.matchMedia('(prefers-color-scheme: dark)');
             darkModePreference = mq.matches;
           }
-          const theme = buildTheme(darkModePreference);
+          const highContrastModePreference: boolean =
+            localStorage.getItem('highContrastMode') === 'true' ? true : false;
+
+          const theme = buildTheme(
+            darkModePreference,
+            highContrastModePreference
+          );
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
 
@@ -204,12 +219,47 @@ const ScigatewayMiddleware: Middleware = ((
 
   if (action.type === LoadDarkModePreferenceType) {
     next(action);
-    const theme = buildTheme(action.payload.darkMode);
+    const theme = buildTheme(
+      action.payload.darkMode,
+      state.scigateway.highContrastMode
+    );
+    store.dispatch(sendThemeOptions(theme));
+    return store.dispatch(requestPluginRerender());
+  }
+
+  if (action.type === LoadHighContrastModePreferenceType) {
+    next(action);
+    const theme = buildTheme(
+      state.scigateway.darkMode,
+      action.payload.highContrastMode
+    );
     store.dispatch(sendThemeOptions(theme));
     return store.dispatch(requestPluginRerender());
   }
 
   return next(action);
 }) as Middleware;
+
+export const autoLoginMiddleware: Middleware<
+  ThunkDispatch<StateType, void, AnyAction>,
+  StateType,
+  ThunkDispatch<StateType, void, AnyAction>
+> = ({ dispatch, getState }) => (next) => async (action) => {
+  const autoLogin = getState().scigateway.authorisation.provider.autoLogin;
+  if (
+    autoLogin &&
+    // these are the three actions that can cause a user sign out
+    (action.type === SignOutType ||
+      action.type === AuthFailureType ||
+      action.type === InvalidateTokenType)
+  ) {
+    next(action);
+    return await autoLogin().then(() => {
+      dispatch(autoLoginAuthorised());
+    });
+  }
+
+  return next(action);
+};
 
 export default ScigatewayMiddleware;

@@ -62,12 +62,34 @@ describe('Login', () => {
     cy.contains('Failed to log in. Invalid username or password.');
   });
 
+  it('should reset login message when navigating from somewhere else', () => {
+    cy.visit('/login');
+
+    cy.contains('Username*').parent().find('input').type('wrongusername');
+    cy.contains('Password*').parent().find('input').type('wrongpassword');
+
+    cy.contains('Username*')
+      .parent()
+      .parent()
+      .contains('button', 'Sign in')
+      .click();
+
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+    cy.contains('Failed to log in. Invalid username or password.');
+    cy.visit('/test');
+    cy.visit('/login');
+
+    cy.contains('Username*').parent().find('input').should('exist');
+    cy.contains('Failed to log in. Invalid username or password.').should(
+      'not.exist'
+    );
+  });
+
   it('should login given correct credentials', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.exist'
-    );
+    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
     cy.contains('Username*').parent().find('input').type('username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -84,15 +106,13 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should login given username with leading or trailing whitespace', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.exist'
-    );
+    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
     cy.contains('Username*').parent().find('input').type(' username ');
     cy.contains('Password*').parent().find('input').type('password');
@@ -109,15 +129,13 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should remain logged in following page refresh or redirect', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should(
-      'not.exist'
-    );
+    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
     cy.contains('Username*').parent().find('input').type(' username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -132,36 +150,42 @@ describe('Login', () => {
 
     let storedToken: string | null;
 
-    cy.window().then(
-      (window) => {
-        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
-        storedToken = window.localStorage.getItem('scigateway:token');
-      });
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.window().then((window) => {
+      expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+      storedToken = window.localStorage.getItem('scigateway:token');
+    });
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
 
     cy.reload();
-    cy.window().then(
-      (window) => {
-        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
-        expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
-      });
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.window().then((window) => {
+      expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+      expect(storedToken).to.equal(
+        window.localStorage.getItem('scigateway:token')
+      );
+    });
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
-    cy.visit('/contact');
-    cy.window().then(
-      (window) => {
-        expect(window.localStorage.getItem('scigateway:token')).not.be.null;
-        expect(storedToken).to.equal(window.localStorage.getItem('scigateway:token'));
-      });
-    cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+    cy.visit('/help');
+    cy.window().then((window) => {
+      expect(window.localStorage.getItem('scigateway:token')).not.be.null;
+      expect(storedToken).to.equal(
+        window.localStorage.getItem('scigateway:token')
+      );
+    });
+    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
   });
 
-  it('should redirect to homepage if logged in and navigating to login page', () => {
+  it('should redirect to logout page if logged in and navigating to login page', () => {
     cy.login('username', 'password');
     cy.visit('/login');
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://127.0.0.1:3000/logout');
+  });
+
+  it('should redirect to Home page if not logged in and navigating to logout page', () => {
+    cy.visit('/logout');
+    cy.url().should('eq', 'http://127.0.0.1:3000/login');
   });
 
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
@@ -219,6 +243,15 @@ describe('Login', () => {
           keys: [{ name: 'username' }, { name: 'password' }],
         },
         {
+          mnemonic: 'nokey',
+          keys: [],
+        },
+        {
+          mnemonic: 'simple',
+          keys: [{ name: 'username' }, { name: 'password' }],
+          admin: true,
+        },
+        {
           mnemonic: 'anon',
           keys: [],
         },
@@ -226,11 +259,13 @@ describe('Login', () => {
       cy.visit('/login');
     });
 
-    it('should show a dropdown', () => {
+    it('should show a dropdown with filtered out admin and anon authenticators', () => {
       cy.contains('Authenticator').should('be.visible');
       cy.get('#select-mnemonic').click();
       cy.contains('user/pass').should('be.visible');
-      cy.contains('anon').should('be.visible');
+      cy.contains('nokey').should('be.visible');
+      cy.contains('anon').should('not.exist');
+      cy.contains('ldap').should('not.exist');
     });
 
     it('should be able to select user/pass from the dropdown', () => {
@@ -241,9 +276,9 @@ describe('Login', () => {
       cy.contains('Password*').should('be.visible');
     });
 
-    it('should be able to select anon from the dropdown', () => {
+    it('should be able to select nokey from the dropdown', () => {
       cy.get('#select-mnemonic').click();
-      cy.get('ul li').contains('anon').click();
+      cy.get('ul li').contains('nokey').click();
 
       cy.contains('Sign in').should('not.be.disabled');
     });
@@ -254,7 +289,11 @@ describe('Login', () => {
     let verifyResponse: { statusCode: Number; body: string };
     let loginResponse: { statusCode: Number; body: string };
     const verifySuccess = { statusCode: 200, body: '' };
-    const loginSuccess = { statusCode: 200, body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk' };
+    const loginSuccess = {
+      statusCode: 200,
+      body:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk',
+    };
     const failure = { statusCode: 403, body: '' };
 
     beforeEach(() => {
@@ -278,12 +317,16 @@ describe('Login', () => {
           keys: [{ name: 'username' }, { name: 'password' }],
         },
         {
-          mnemonic: 'anon',
+          mnemonic: 'nokey',
           keys: [],
         },
       ]);
-      cy.intercept('POST', '/login', (req) => { req.reply(loginResponse) });
-      cy.intercept('POST', '/verify', (req) => { req.reply(verifyResponse) });
+      cy.intercept('POST', '/login', (req) => {
+        req.reply(loginResponse);
+      });
+      cy.intercept('POST', '/verify', (req) => {
+        req.reply(verifyResponse);
+      });
     });
 
     it('should show the sidebar and yet still show the Sign in button', () => {
@@ -291,30 +334,28 @@ describe('Login', () => {
       loginResponse = loginSuccess;
       cy.visit('/');
 
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
       // test that token verification also works with autologin
       cy.reload();
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
-      // test that autologin works after token valididation + refresh fail
+      // test that autologin works after token validation + refresh fail
       verifyResponse = failure;
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
     it('should not display as logged in if autologin requests fail', () => {
-      loginResponse = failure
+      loginResponse = failure;
       verifyResponse = verifySuccess;
 
       cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should(
-        'not.exist'
-      );
+      cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
 
       // test that autologin fails after token validation + refresh fail
       verifyResponse = failure;
@@ -324,9 +365,7 @@ describe('Login', () => {
       );
       cy.reload();
       cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should(
-        'not.exist'
-      );
+      cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
     });
 
     it('should be able to directly view a plugin route without signing in', () => {
@@ -343,11 +382,11 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.get('ul li').contains('anon').click();
+      cy.contains('nokey').click();
 
       cy.get('[alt="SciGateway"]').click();
 
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
@@ -357,7 +396,7 @@ describe('Login', () => {
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
-      cy.get('ul li').contains('anon').click();
+      cy.contains('nokey').click();
 
       cy.get('#select-mnemonic')
         .parent()
@@ -366,9 +405,31 @@ describe('Login', () => {
         .contains('button', 'Sign in')
         .click();
 
-      cy.get('button[aria-label="Open navigation menu"]').should('be.visible');
+      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+
+    it('should autoLogin after logout', () => {
+      window.localStorage.setItem(
+        'scigateway:token',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0LXVzZXIiLCJ1c2VybmFtZSI6InRlc3QtdXNlciIsImV4cCI6OTIzNDkyODM0MH0.MXtdkSQbam5QRTgzO_FExlKCu6p531k35Dhjhb5PRrQ'
+      );
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
+      cy.visit('/');
+      cy.title().should('equal', 'SciGateway');
+
+      cy.get('[aria-label="Open user menu"]').click();
+
+      cy.contains('Sign out').click();
+
+      cy.contains('Sign in').should('be.visible');
+      cy.contains('a', 'Demo Plugin').should('be.visible');
+      cy.contains('a', 'Demo Plugin').click();
+
+      cy.url().should('contain', '/plugin1');
+      cy.contains('div', 'Demo Plugin').should('be.visible');
     });
   });
 });

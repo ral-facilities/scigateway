@@ -12,6 +12,7 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 // this removes a lot of unnecessary styling information in the snapshots
 jest.mock('@material-ui/core/styles', () => ({
   withStyles: (styles) => (component) => component,
+  makeStyles: (styles) => (component) => component,
 }));
 // Need to return something to avoid errors, use aria-label to ensure
 // correct components are being rendered in the snapshot

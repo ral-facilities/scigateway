@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { AnyAction } from 'redux';
+import { Action, AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -15,16 +15,27 @@ import {
   StyleRules,
   createStyles,
   WithStyles,
+  makeStyles,
 } from '@material-ui/core/styles';
-import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
+import {
+  verifyUsernameAndPassword,
+  resetAuthState,
+} from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
 import { UKRITheme } from '../theming';
-import { getAppStrings, getString } from '../state/strings';
 import { Location } from 'history';
-import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core';
+import {
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Link,
+} from '@material-ui/core';
 import axios from 'axios';
 import log from 'loglevel';
+import { Trans, useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -37,44 +48,95 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: theme.spacing(3),
     },
     avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).ukri.bright.orange,
+      margin: '12px',
+      backgroundColor: (theme as UKRITheme).colours.lightBlue,
+      color: '#FFFFFF',
+      alignItems: 'center',
     },
     paper: {
       marginTop: theme.spacing(8),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: theme.spacing(3),
-      [theme.breakpoints.up(400 + theme.spacing(6))]: {
-        width: 400,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
+      paddingTop: '24px',
+      width: 400,
     },
     textField: {
       marginTop: theme.spacing(1),
-      minWidth: 200,
+      width: '352px',
     },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 200,
     },
     button: {
-      marginTop: `${theme.spacing(1)}px`,
+      width: '352px',
     },
     warning: {
       marginTop: `${theme.spacing(1)}px`,
-      color: 'red',
+      color: (theme as UKRITheme).colours.red,
     },
     info: {
       marginTop: `${theme.spacing(1)}px`,
-      color: theme.palette.secondary.main,
+      color: (theme as UKRITheme).colours.blue,
     },
     spinner: {
-      marginTop: 15,
+      marginBottom: '24px',
     },
+    forgotPasswordText: {
+      fontSize: 14,
+      marginLeft: 'auto',
+      paddingBottom: '24px',
+      paddingTop: '12px',
+    },
+    registerMessage: {
+      fontSize: 14,
+      paddingBottom: '24px',
+      paddingTop: '12px',
+      color: (theme as UKRITheme).colours.contrastGrey,
+    },
+    helpMessage: {
+      fontSize: 14,
+      paddingBottom: '12px',
+      paddingTop: '24px',
+    },
+    orText: { display: 'flex', fontSize: 14 },
   });
+
+const useDividerStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+    },
+    border: {
+      borderBottom: '1px solid',
+      color: (theme as UKRITheme).colours.contrastGrey,
+      width: '100%',
+    },
+    content: {
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      fontSize: 14,
+      color: (theme as UKRITheme).colours.contrastGrey,
+    },
+  })
+);
+
+const DividerWithText = (props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: React.ReactElement<any, any>;
+}): React.ReactElement => {
+  const classes = useDividerStyles();
+  return (
+    <div className={classes.container}>
+      <div className={classes.border} />
+      <span className={classes.content}>{props.children}</span>
+      <div className={classes.border} />
+    </div>
+  );
+};
 
 interface LoginPageProps {
   auth: AuthState;
@@ -89,6 +151,7 @@ interface LoginPageDispatchProps {
     mnemonic?: string,
     authUrl?: string
   ) => Promise<void>;
+  resetAuthState: () => Action;
 }
 
 export type CombinedLoginProps = LoginPageProps &
@@ -97,30 +160,33 @@ export type CombinedLoginProps = LoginPageProps &
 
 export const RedirectLoginScreen = (
   props: CombinedLoginProps
-): React.ReactElement => (
-  <div className={props.classes.root}>
-    {props.auth.failedToLogin ? (
-      <Typography className={props.classes.warning}>
-        {getString(props.res, 'login-redirect-error-msg')}
-      </Typography>
-    ) : null}
-    <Button
-      variant="contained"
-      color="primary"
-      className={props.classes.button}
-      disabled={props.auth.loading}
-      onClick={() => {
-        if (props.auth.provider.redirectUrl) {
-          window.location.href = props.auth.provider.redirectUrl;
-        }
-      }}
-    >
-      <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-        Login with Github
-      </Typography>
-    </Button>
-  </div>
-);
+): React.ReactElement => {
+  const [t] = useTranslation();
+  return (
+    <div className={props.classes.root}>
+      {props.auth.failedToLogin ? (
+        <Typography className={props.classes.warning}>
+          {t('login.login-redirect-error-msg')}
+        </Typography>
+      ) : null}
+      <Button
+        variant="contained"
+        color="primary"
+        className={props.classes.button}
+        disabled={props.auth.loading}
+        onClick={() => {
+          if (props.auth.provider.redirectUrl) {
+            window.location.href = props.auth.provider.redirectUrl;
+          }
+        }}
+      >
+        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          Login with Github
+        </Typography>
+      </Button>
+    </div>
+  );
+};
 
 export const CredentialsLoginScreen = (
   props: CombinedLoginProps & {
@@ -132,6 +198,8 @@ export const CredentialsLoginScreen = (
   const [password, setPassword] = useState<string>('');
 
   const isInputValid = (): boolean => username !== '' && password !== '';
+
+  const [t] = useTranslation();
 
   return (
     <div
@@ -153,31 +221,38 @@ export const CredentialsLoginScreen = (
     >
       {props.auth.failedToLogin ? (
         <Typography className={props.classes.warning}>
-          {getString(props.res, 'login-error-msg')}
+          {t('login.login-error-msg')}
         </Typography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
         <Typography className={props.classes.info}>
-          {getString(props.res, 'token-invalid-msg')}
+          {t('login.token-invalid-msg')}
         </Typography>
       ) : null}
       <TextField
         className={props.classes.textField}
-        label={getString(props.res, 'username-placeholder')}
+        label={t('login.username-placeholder')}
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
+        inputProps={{ 'aria-label': t('login.username-arialabel') }}
         disabled={props.auth.loading}
         color="secondary"
       />
       <TextField
         className={props.classes.textField}
-        label={getString(props.res, 'password-placeholder')}
+        label={t('login.password-placeholder')}
         value={password}
         onChange={(e) => setPassword(e.currentTarget.value)}
         type="password"
+        inputProps={{ 'aria-label': t('login.password-arialabel') }}
         disabled={props.auth.loading}
         color="secondary"
       />
+      <Typography className={props.classes.forgotPasswordText}>
+        <Link href={t('login.forgotten-your-password-link')}>
+          {t('login.forgotten-your-password')}
+        </Link>
+      </Typography>
       <Button
         variant="contained"
         color="primary"
@@ -192,10 +267,30 @@ export const CredentialsLoginScreen = (
           );
         }}
       >
-        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-          {getString(props.res, 'login-button')}
+        <Typography
+          color="inherit"
+          noWrap
+          style={{ marginTop: 3, fontWeight: 'bold' }}
+        >
+          {t('login.login-button')}
         </Typography>
       </Button>
+      <Typography className={props.classes.helpMessage}>
+        <Link href={t('login.need-help-signing-in-link')}>
+          {t('login.need-help-signing-in')}
+        </Link>
+      </Typography>
+      <DividerWithText>
+        <Typography>or</Typography>
+      </DividerWithText>
+      <Typography className={props.classes.registerMessage}>
+        <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
+          Don&#39;t have an account?{' '}
+          <Link href={t('login.dont-have-an-account-sign-up-now-link')}>
+            Sign up now
+          </Link>
+        </Trans>
+      </Typography>
     </div>
   );
 };
@@ -205,39 +300,52 @@ export const AnonLoginScreen = (
     mnemonic?: string;
     authUrl?: string;
   }
-): React.ReactElement => (
-  <div
-    className={props.classes.root}
-    onKeyPress={(e) => {
-      if (e.key === 'Enter') {
-        props.verifyUsernameAndPassword('', '', props.mnemonic, props.authUrl);
-      }
-    }}
-  >
-    {props.auth.failedToLogin ? (
-      <Typography className={props.classes.warning}>
-        {getString(props.res, 'login-error-msg')}
-      </Typography>
-    ) : null}
-    {props.auth.signedOutDueToTokenInvalidation ? (
-      <Typography className={props.classes.info}>
-        {getString(props.res, 'token-invalid-msg')}
-      </Typography>
-    ) : null}
-    <Button
-      variant="contained"
-      color="primary"
-      className={props.classes.button}
-      onClick={() => {
-        props.verifyUsernameAndPassword('', '', props.mnemonic, props.authUrl);
+): React.ReactElement => {
+  const [t] = useTranslation();
+  return (
+    <div
+      className={props.classes.root}
+      onKeyPress={(e) => {
+        if (e.key === 'Enter') {
+          props.verifyUsernameAndPassword(
+            '',
+            '',
+            props.mnemonic,
+            props.authUrl
+          );
+        }
       }}
     >
-      <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-        {getString(props.res, 'login-button')}
-      </Typography>
-    </Button>
-  </div>
-);
+      {props.auth.failedToLogin ? (
+        <Typography className={props.classes.warning}>
+          {t('login.login-error-msg')}
+        </Typography>
+      ) : null}
+      {props.auth.signedOutDueToTokenInvalidation ? (
+        <Typography className={props.classes.info}>
+          {t('login.token-invalid-msg')}
+        </Typography>
+      ) : null}
+      <Button
+        variant="contained"
+        color="primary"
+        className={props.classes.button}
+        onClick={() => {
+          props.verifyUsernameAndPassword(
+            '',
+            '',
+            props.mnemonic,
+            props.authUrl
+          );
+        }}
+      >
+        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          {t('login.login-button')}
+        </Typography>
+      </Button>
+    </div>
+  );
+};
 
 export const LoginSelector = (
   props: CombinedLoginProps & {
@@ -247,7 +355,14 @@ export const LoginSelector = (
   }
 ): React.ReactElement => {
   return (
-    <FormControl style={{ minWidth: 120 }}>
+    <FormControl
+      style={{
+        minWidth: 120,
+        paddingTop: '8px',
+        paddingBottom: '16px',
+        fontSize: 14,
+      }}
+    >
       <InputLabel htmlFor="mnemonic-select" color="secondary">
         Authenticator
       </InputLabel>
@@ -278,13 +393,16 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
       return res.data;
     })
     .catch((err) => {
-      log.error('Failed to fetch authenticator information from ICAT');
+      log.error(
+        'It is not possible to authenticate you at the moment. Please, try again later'
+      );
       document.dispatchEvent(
         new CustomEvent('scigateway', {
           detail: {
             type: NotificationType,
             payload: {
-              message: 'Failed to fetch authenticator information from ICAT',
+              message:
+                'It is not possible to authenticate you at the moment. Please, try again later',
               severity: 'error',
             },
           },
@@ -298,15 +416,18 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
+  const [t] = useTranslation();
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
   );
+  const location = useLocation();
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics(authUrl).then((mnemonics) => {
         const nonAdminAuthenticators = mnemonics.filter(
-          (authenticator) => !authenticator.admin
+          (authenticator) =>
+            !authenticator.admin && authenticator.mnemonic !== 'anon'
         );
         setMnemonics(nonAdminAuthenticators);
         setFetchedMnemonics(true);
@@ -317,10 +438,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   }, [mnemonic, fetchedMnemonics, authUrl]);
 
   React.useEffect(() => {
-    if (
-      typeof props.auth.provider.mnemonic !== 'undefined' &&
-      props.auth.provider.mnemonic !== ''
-    ) {
+    if (typeof props.auth.provider.mnemonic !== 'undefined') {
       setMnemonic(props.auth.provider.mnemonic);
     }
   }, [props.auth.provider.mnemonic]);
@@ -342,6 +460,13 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       }
     }
   });
+
+  React.useEffect(() => {
+    //Only remove error if not visiting due to token invalidation
+    if (props.auth.failedToLogin && !props.auth.signedOutDueToTokenInvalidation)
+      props.resetAuthState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   let LoginScreen: React.ReactElement | null = null;
 
@@ -403,9 +528,17 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
         <Avatar className={props.classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          {getString(props.res, 'title')}
+        <Typography
+          component="h1"
+          variant="h5"
+          style={{
+            fontWeight: 'bold',
+            paddingBottom: '16px',
+          }}
+        >
+          {t('login.title')}
         </Typography>
+
         {mnemonics.length > 1 && (
           <LoginSelector
             {...props}
@@ -425,7 +558,6 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
   auth: state.scigateway.authorisation,
-  res: getAppStrings(state, 'login'),
   location: state.router.location,
 });
 
@@ -435,17 +567,18 @@ const mapDispatchToProps = (
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic?: string,
+    mnemonic: string | undefined,
     authUrl?: string
   ) =>
     dispatch(
       verifyUsernameAndPassword(
         username.trim(),
         password,
-        mnemonic !== undefined ? mnemonic : '',
-        authUrl !== undefined ? authUrl : ''
+        mnemonic,
+        authUrl ?? ''
       )
     ),
+  resetAuthState: () => dispatch(resetAuthState()),
 });
 
 export const LoginPageWithoutStyles = LoginPageComponent;

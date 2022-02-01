@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import { createLocation } from 'history';
+import { createLocation, createMemoryHistory } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
@@ -16,7 +16,7 @@ import {
   loadMaintenanceState,
   loadScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
 
 describe('Admin page component', () => {
   let mount;
@@ -120,21 +120,21 @@ describe('Admin page component', () => {
     );
   });
 
-  it.skip('redirects to Admin Download table when Admin Download tab is clicked', () => {
+  it('redirects to Admin Download table when Admin Download tab is clicked', () => {
     const testStore = mockStore(state);
+    const history = createMemoryHistory();
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <Router history={history}>
             <AdminPage />
-          </MemoryRouter>
+          </Router>
         </MuiThemeProvider>
       </Provider>
     );
 
-    wrapper.find('#download-tab').hostNodes().simulate('click');
+    wrapper.find('#download-tab').first().simulate('click', { button: 0 });
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/admin-download'));
+    expect(history.location.pathname).toEqual('/admin-download');
   });
 });

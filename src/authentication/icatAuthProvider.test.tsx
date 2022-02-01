@@ -2,6 +2,7 @@ import mockAxios from 'axios';
 import ICATAuthProvider from './icatAuthProvider';
 import ReactGA from 'react-ga';
 import parseJwt from './parseJwt';
+import { BroadcastSignOutType } from '../state/scigateway.types';
 
 jest.mock('./parseJwt');
 
@@ -34,6 +35,8 @@ describe('ICAT auth provider', () => {
       (token) =>
         `{"sessionId": "${token}", "username": "${token} username", "userIsAdmin": true}`
     );
+
+    document.dispatchEvent = jest.fn();
   });
 
   afterEach(() => {
@@ -51,15 +54,59 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
-  it('should clear the token when logging out', () => {
+  it('should clear the token & broadcast signout action when logging out', () => {
     icatAuthProvider.logOut();
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+    expect(document.dispatchEvent).toHaveBeenCalled();
+    expect(
+      (document.dispatchEvent as jest.Mock).mock.calls[0][0].detail
+    ).toEqual({
+      type: BroadcastSignOutType,
+    });
   });
 
   it('should successfully log in if user is already logged in', () => {
     return icatAuthProvider.logIn('user', 'password');
+  });
+
+  it('should successfully log in if user is already logged in via autoLogin', async () => {
+    (mockAxios.post as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: testToken,
+      })
+    );
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation((name) => {
+        if (name === 'scigateway:token') {
+          return testToken;
+        } else if (name === 'autoLogin') {
+          return 'true';
+        } else {
+          return null;
+        }
+      });
+
+    await icatAuthProvider.logIn('user', 'password');
+
+    // should send sign out action for autologin logout
+    expect(document.dispatchEvent).toHaveBeenCalled();
+    expect(
+      (document.dispatchEvent as jest.Mock).mock.calls[0][0].detail
+    ).toEqual({
+      type: BroadcastSignOutType,
+    });
+
+    expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
+      mnemonic: 'mnemonic',
+      credentials: { username: 'user', password: 'password' },
+    });
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', testToken);
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
+
+    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
   it('should call the api to authenticate', async () => {
@@ -131,7 +178,6 @@ describe('ICAT auth provider', () => {
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
     icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
-    expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin();
@@ -171,7 +217,6 @@ describe('ICAT auth provider', () => {
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
     icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
-    expect(icatAuthProvider.mnemonic).toBe('anon');
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin().catch(() => {

@@ -5,145 +5,428 @@ import React from 'react';
 import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
 
-export interface UKRIThemeOptions extends ThemeOptions {
-  ukri: {
-    bright: {
-      orange: string;
-      yellow: string;
-      green: string;
-      blue: string;
-      purple: string;
-      red: string;
-    };
-    deep: {
-      orange: string;
-      yellow: string;
-      green: string;
-      blue: string;
-      purple: string;
-      red: string;
-    };
+/* UKRI colours */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const UKRI_COLOURS = {
+  blue: '#2E2D62',
+  bright: {
+    orange: '#FF6900', // pure orange
+    yellow: '#FBBB10', // yellow
+    green: '#67C04D', // light green
+    blue: '#1E5DF8', // blue
+    purple: '#BE2BBB', // bright purple
+    red: '#E94D36', // light red
+  },
+  deep: {
+    orange: '#C13D33', // pure orange
+    yellow: '#F08900', // vivid yellow
+    green: '#3E863E', // green
+    blue: '#003088', // blue
+    purple: '#8A1A9B', // bright purple
+    red: '#A91B2E', // red
+  },
+};
+
+/* Colours that may be used across light/dark modes e.g. the main app bar */
+const STATIC_COLOURS = {
+  darkBlue: '#003088',
+  orange: '#C34F00',
+};
+
+/* Main colours used for dark/light modes respectively */
+interface ThemeColours {
+  /* The type of mode this is */
+  type: 'default' | 'contrast';
+
+  /* Primary/secondary colours used for MUI */
+  primary: string;
+  secondary: string;
+
+  /* Secondary text colour */
+  textSecondary: string;
+
+  /* Background colours for the page and papers */
+  background: string;
+  paper: string;
+
+  /* Standard colours used in plugins (change to lighter/darker shades
+    between light and dark modes) - these are meant to give good contrast
+    for text on the chosen paper background colour */
+  blue: string;
+  orange: string;
+  red: string;
+  grey: string;
+
+  /* Lighter colours */
+  lightBlue: string; //Used for lighter coloured buttons
+  lightOrange: string; //Used for notifcation icon
+
+  /* Darker colours */
+  darkGreen: string; //Used for cookie consent message
+  darkOrange: string; //Used for help tour
+
+  /* Contrast colours that need to change significantly between dark
+     and light modes */
+  contrastGrey: string; //Used on homepage
+
+  /* Informational/Warning colours */
+  information: string; //Used in open data label
+  warning: string; //Used for selection alert banner
+
+  /* Colours for <a> style links */
+  link: {
+    default: string;
+    visited: string;
+    active: string;
   };
+
+  footerLink: {
+    default: string;
+    active: string;
+  };
+
+  chip: string; //Used for chip colours in cards and filters
+
+  /* Colours used on the homepage */
+  homePage: {
+    heading: string;
+    blueDescription: string;
+    blueButton: string;
+  };
+
+  /* Colour for Tabs in search */
+  tabsGrey: string;
+}
+
+const DARK_MODE_COLOURS: ThemeColours = {
+  type: 'default',
+  primary: UKRI_COLOURS.deep.blue,
+  secondary: '#80ACFF',
+  textSecondary: 'rgba(255, 255, 255, 0.7)',
+  background: '#1B1B1B',
+  paper: '#3A3A3A',
+  blue: '#86B4FF',
+  orange: '#F26300',
+  red: '#FF7F73',
+  grey: '#A4A4A4',
+  lightBlue: UKRI_COLOURS.bright.blue,
+  lightOrange: '#FF6900',
+  darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#E6E6E6',
+  information: UKRI_COLOURS.deep.blue,
+  warning: '#FFA500',
+  link: {
+    default: '#86B4FF',
+    visited: '#BE2BBB',
+    active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
+  },
+  chip: '#595959',
+  homePage: {
+    heading: '#FFFFFF',
+    blueDescription: '#FFFFFF',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
+  tabsGrey: '#3A3A3A',
+};
+
+const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+  type: 'contrast',
+  primary: '#86B4FF',
+  secondary: '#80ACFF',
+  textSecondary: 'rgba(255, 255, 255, 0.7)',
+  background: '#000000',
+  paper: '#1A1A1A',
+  blue: '#B4CCFA',
+  orange: '#FFC14D',
+  red: '#FFA198',
+  grey: '#A4A4A4',
+  lightBlue: UKRI_COLOURS.deep.blue,
+  lightOrange: '#FFC14D',
+  darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#FFFFFF',
+  information: UKRI_COLOURS.deep.blue,
+  warning: '#FFC14D',
+  link: {
+    default: '#B4CCFA',
+    visited: '#BE2BBB',
+    active: '#E94D36',
+  },
+  footerLink: {
+    default: '#000000',
+    active: '#851D0F',
+  },
+  chip: '#3A3A3A',
+  homePage: {
+    heading: '#FFFFFF',
+    blueDescription: '#FFFFFF',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
+  tabsGrey: '#1A1A1A',
+};
+
+const LIGHT_MODE_COLOURS: ThemeColours = {
+  type: 'default',
+  primary: UKRI_COLOURS.deep.blue,
+  secondary: UKRI_COLOURS.deep.blue,
+  textSecondary: 'rgba(0, 0, 0, 0.54)',
+  background: '#FAFAFA',
+  paper: '#FFFFFF',
+  blue: UKRI_COLOURS.deep.blue,
+  orange: '#C34F00',
+  red: '#AC1600',
+  grey: '#727272',
+  lightBlue: UKRI_COLOURS.bright.blue,
+  lightOrange: '#FF6900',
+  darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#717171',
+  information: UKRI_COLOURS.deep.blue,
+  warning: '#FFA500',
+  link: {
+    default: '#1E5DF8',
+    visited: '#BE2BBB',
+    active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
+  },
+  chip: '#E0E0E0',
+  homePage: {
+    heading: '#333333',
+    blueDescription: '#FFFFFF',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
+  tabsGrey: '#EEEEEE',
+};
+
+const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
+  type: 'contrast',
+  primary: UKRI_COLOURS.deep.blue,
+  secondary: UKRI_COLOURS.deep.blue,
+  textSecondary: '#000000',
+  background: '#FAFAFA',
+  paper: '#FFFFFF',
+  blue: '#002466',
+  orange: '#C34F00',
+  red: '#801100',
+  grey: '#727272',
+  lightBlue: UKRI_COLOURS.bright.blue,
+  lightOrange: '#FF6900',
+  darkGreen: '#3E863E',
+  darkOrange: STATIC_COLOURS.orange,
+  contrastGrey: '#000000',
+  information: UKRI_COLOURS.deep.blue,
+  warning: '#FFA500',
+  link: {
+    default: '#052d94',
+    visited: '#BE2BBB',
+    active: '#E94D36',
+  },
+  footerLink: {
+    default: '#FFFFFF',
+    active: '#E58885',
+  },
+  chip: '#E0E0E0',
+  homePage: {
+    heading: '#000000',
+    blueDescription: '#FFFFFF',
+    blueButton: UKRI_COLOURS.bright.blue,
+  },
+  tabsGrey: '#EEEEEE',
+};
+export interface UKRIThemeOptions extends ThemeOptions {
   drawerWidth: number;
+  footerPaddingTop: string;
+  footerPaddingBottom: string;
+  footerHeight: string;
+  mainAppBarHeight: string;
+  colours: ThemeColours;
 }
 
 export interface UKRITheme extends Theme {
-  ukri: {
-    bright: {
-      orange: string;
-      yellow: string;
-      green: string;
-      blue: string;
-      purple: string;
-      red: string;
-    };
-    deep: {
-      orange: string;
-      yellow: string;
-      green: string;
-      blue: string;
-      purple: string;
-      red: string;
-    };
-  };
   drawerWidth: number;
+  footerPaddingTop: string;
+  footerPaddingBottom: string;
+  footerHeight: string;
+  mainAppBarHeight: string;
+  colours: ThemeColours;
 }
 
-export const buildTheme = (darkModePreference: boolean): Theme => {
-  let options: UKRIThemeOptions;
-  if (darkModePreference) {
-    options = {
-      palette: {
-        // Light/dark mode
-        type: 'dark',
-        primary: {
-          main: '#003088',
+export const buildTheme = (
+  darkModePreference: boolean,
+  highContrastModePreference?: boolean
+): Theme => {
+  const colours = darkModePreference
+    ? highContrastModePreference
+      ? DARK_MODE_HIGH_CONTRAST_COLOURS
+      : DARK_MODE_COLOURS
+    : highContrastModePreference
+    ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
+    : LIGHT_MODE_COLOURS;
+
+  const overrides = {
+    MuiLink: {
+      root: {
+        color: colours.blue,
+      },
+      button: {
+        fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+        verticalAlign: 'none',
+      },
+    },
+    MuiTabs: {
+      indicator: {
+        color: STATIC_COLOURS.darkBlue,
+        textDecoration: 'underline',
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        '&$error': {
+          color: colours.red,
         },
-        secondary: {
-          main: '#80ACFF',
-        },
-        background: {
-          default: '#212121',
+        '&$focused': {
+          color: colours.blue,
         },
       },
-      ukri: {
-        bright: {
-          orange: '#FF6900', // pure orange
-          yellow: '#FBBB10', // yellow
-          green: '#67C04D', // light green
-          blue: '#1E5DF8', // blue
-          purple: '#BE2BBB', // bright purple
-          red: '#E94D36', // light red
-        },
-        deep: {
-          orange: '#C13D33', // pure orange
-          yellow: '#F08900', // vivid yellow
-          green: '#3E863E', // green
-          blue: '#003088', // blue
-          purple: '#8A1A9B', // bright purple
-          red: '#A91B2E', // red
+      asterisk: {
+        '&$error': {
+          color: colours.red,
         },
       },
-      drawerWidth: 300,
-      overrides: {
-        MuiLink: {
-          root: {
-            color: '#80ACFF',
-          },
+    },
+    MuiBadge: {
+      colorPrimary: {
+        backgroundColor: STATIC_COLOURS.orange,
+        color: 'white',
+      },
+    },
+    MuiInput: {
+      underline: {
+        '&$error:after': {
+          borderBottomColor: colours.red,
         },
-        MuiTabs: {
-          indicator: {
-            color: '#80ACFF',
-            textDecoration: 'underline',
-          },
-        },
-        MuiBadge: {
-          colorPrimary: {
-            backgroundColor: '#FF6900',
-          },
+        '&:after': {
+          borderBottomColor: colours.blue,
         },
       },
-    };
-  } else {
-    options = {
-      palette: {
-        // Light/dark mode
-        type: 'light',
-        primary: {
-          main: '#003088', // blue (deep palette)
-        },
-        secondary: {
-          main: '#003088',
+    },
+    MuiOutlinedInput: {
+      root: {
+        '&$error $notchedOutline': {
+          borderColor: colours.red,
         },
       },
-      ukri: {
-        bright: {
-          orange: '#FF6900', // pure orange
-          yellow: '#FBBB10', // yellow
-          green: '#67C04D', // light green
-          blue: '#1E5DF8', // blue
-          purple: '#BE2BBB', // bright purple
-          red: '#E94D36', // light red
-        },
-        deep: {
-          orange: '#C13D33', // pure orange
-          yellow: '#F08900', // vivid yellow
-          green: '#3E863E', // green
-          blue: '#003088', // blue
-          purple: '#8A1A9B', // bright purple
-          red: '#A91B2E', // red
+      //Override opacity of placeholder text
+      input: {
+        '&::placeholder': {
+          colour: colours.textSecondary,
+          opacity:
+            !darkModePreference && highContrastModePreference ? 1.0 : 0.7,
         },
       },
-      drawerWidth: 300,
-      overrides: {
-        MuiBadge: {
-          colorPrimary: {
-            backgroundColor: '#FF6900',
-          },
+    },
+    MuiFormHelperText: {
+      root: {
+        '&$error': {
+          color: colours.red,
         },
       },
-    };
-  }
+    },
+    MuiChip: {
+      root: {
+        backgroundColor: colours.chip,
+      },
+    },
+    MuiPickersToolbar: {
+      toolbar: {
+        backgroundColor: colours.primary,
+      },
+    },
+    MuiPickersCalendarHeader: {
+      dayLabel: {
+        color: colours.grey,
+      },
+    },
+    MuiPickersDay: {
+      current: {
+        color: colours.blue,
+      },
+      dayDisabled: {
+        color: colours.grey,
+      },
+    },
+    MuiPickersYear: {
+      root: {
+        '&:active': {
+          color: colours.blue,
+        },
+        '&:focus': {
+          color: colours.blue,
+        },
+      },
+      yearSelected: {
+        color: colours.blue,
+      },
+      yearDisabled: {
+        color: colours.grey,
+      },
+    },
+    MuiPickersMonth: {
+      root: {
+        '&:active': {
+          color: colours.blue,
+        },
+        '&:focus': {
+          color: colours.blue,
+        },
+      },
+      monthSelected: {
+        color: colours.blue,
+      },
+      monthDisabled: {
+        color: colours.grey,
+      },
+    },
+  };
+  const options: UKRIThemeOptions = {
+    palette: {
+      // Light/dark mode
+      type: darkModePreference ? 'dark' : 'light',
+      primary: {
+        main: colours.primary,
+      },
+      secondary: {
+        main: colours.secondary,
+      },
+      text: {
+        secondary: colours.textSecondary,
+      },
+      background: {
+        default: colours.background,
+        paper: colours.paper,
+      },
+    },
+    drawerWidth: 220,
+    footerPaddingTop: '8px',
+    footerPaddingBottom: '8px',
+    footerHeight: '20px',
+    mainAppBarHeight: '64px',
+    overrides: overrides,
+    colours: colours,
+    typography: {
+      button: {
+        textTransform: 'none',
+      },
+    },
+  };
 
   return createMuiTheme(options);
 };
@@ -164,8 +447,13 @@ const SciGatewayThemeProvider = (props: {
   const darkModePreference: boolean = useSelector(
     (state: StateType) => state.scigateway.darkMode
   );
+  const highContrastModePreference: boolean = useSelector(
+    (state: StateType) => state.scigateway.highContrastMode
+  );
   return (
-    <MuiThemeProvider theme={buildTheme(darkModePreference)}>
+    <MuiThemeProvider
+      theme={buildTheme(darkModePreference, highContrastModePreference)}
+    >
       {props.children}
     </MuiThemeProvider>
   );

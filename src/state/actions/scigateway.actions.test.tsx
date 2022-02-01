@@ -21,6 +21,9 @@ import {
   loadScheduledMaintenanceState,
   loadMaintenanceState,
   loadAuthProvider,
+  loadHighContrastModePreference,
+  customLogo,
+  resetAuthState,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -31,6 +34,7 @@ import {
   ToggleHelpType,
   AddHelpTourStepsType,
   NotificationType,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { initialState } from '../reducers/scigateway.reducer';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -199,18 +203,18 @@ describe('scigateway actions', () => {
   });
 
   it('given feature settings loadFeatureSwitches updates state to show feature', () => {
-    const features = { showContactButton: true };
+    const features = { singlePluginLogo: true };
 
     const action = loadFeatureSwitches(features);
     expect(action.type).toEqual(ConfigureFeatureSwitchesType);
-    expect(action.payload.switches).toEqual({ showContactButton: true });
+    expect(action.payload.switches).toEqual({ singlePluginLogo: true });
   });
 
   it('given a feature switch loadFeatureSwitches is run', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          features: { showContactButton: true },
+          features: { singlePluginLogo: true },
           'ui-strings': '/res/default.json',
         },
       })
@@ -230,7 +234,7 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(
-      loadFeatureSwitches({ showContactButton: true })
+      loadFeatureSwitches({ singlePluginLogo: true })
     );
   });
 
@@ -257,6 +261,31 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(registerHomepageUrl('/test'));
+  });
+
+  it('given a custom logo is supplied', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          logo: '/test',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(customLogo('/test'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {
@@ -289,7 +318,7 @@ describe('scigateway actions', () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          features: { showContactButton: true },
+          features: { singlePluginLogo: true },
           plugins: [{ test: 'test' }],
           'ui-strings': '/res/default.json',
         },
@@ -535,6 +564,11 @@ describe('scigateway actions', () => {
     expect(action.type).toEqual(ToggleHelpType);
   });
 
+  it('resetAuthState only needs a type', () => {
+    const action = resetAuthState();
+    expect(action.type).toEqual(ResetAuthStateType);
+  });
+
   it('given a steps array addHelpTourSteps returns a AddHelpTourStepsType with payload', () => {
     const action = addHelpTourSteps([{ target: '.test', content: 'test' }]);
     expect(action.type).toEqual(AddHelpTourStepsType);
@@ -574,6 +608,39 @@ describe('scigateway actions', () => {
 
     expect(localStorage.getItem).toBeCalledWith('darkMode');
     expect(actions).toContainEqual(loadDarkModePreference(true));
+  });
+
+  it('should load high contrast mode preference into store', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
+
+    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation((name) =>
+        name === 'highContrastMode' ? 'true' : 'false'
+      );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(localStorage.getItem).toBeCalledWith('highContrastMode');
+    expect(actions).toContainEqual(loadHighContrastModePreference(true));
   });
 
   it('logs an error if settings.json fails to be loaded', async () => {

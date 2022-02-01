@@ -12,6 +12,7 @@ import {
   AuthFailureType,
   AuthProviderPayload,
   AuthSuccessType,
+  AutoLoginSuccessType,
   ConfigureAnalyticsPayload,
   ConfigureAnalyticsType,
   ConfigureFeatureSwitchesType,
@@ -43,10 +44,15 @@ import {
   SiteLoadingPayload,
   SiteLoadingType,
   HomepageUrlPayload,
+  CustomLogoPayload,
   ToggleDrawerType,
   ToggleHelpType,
   RegisterRouteType,
   scigatewayRoutes,
+  CustomLogoType,
+  LoadHighContrastModePreferenceType,
+  LoadHighContrastModePreferencePayload,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { ActionType, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -88,6 +94,13 @@ export const registerHomepageUrl = (
   type: RegisterHomepageUrlType,
   payload: {
     homepageUrl: homepageUrl,
+  },
+});
+
+export const customLogo = (logo: string): ActionType<CustomLogoPayload> => ({
+  type: CustomLogoType,
+  payload: {
+    logo: logo,
   },
 });
 
@@ -143,6 +156,10 @@ export const unauthorised = (): Action => ({
 
 export const authorised = (): Action => ({
   type: AuthSuccessType,
+});
+
+export const autoLoginAuthorised = (): Action => ({
+  type: AutoLoginSuccessType,
 });
 
 export const invalidToken = (): Action => ({
@@ -256,6 +273,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(registerHomepageUrl(settings['homepageUrl']));
         }
 
+        if (settings['logo']) {
+          dispatch(customLogo(settings['logo']));
+        }
+
         if (settings['ui-strings']) {
           const uiStringResourcesPath = !settings['ui-strings'].startsWith('/')
             ? '/' + settings['ui-strings']
@@ -320,6 +341,15 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       if (mq) dispatch(loadDarkModePreference(mq.matches));
     }
+    const highContrastModeLocalStorage = localStorage.getItem(
+      'highContrastMode'
+    );
+    if (highContrastModeLocalStorage)
+      dispatch(
+        loadHighContrastModePreference(
+          highContrastModeLocalStorage === 'true' ? true : false
+        )
+      );
 
     const provider = getState().scigateway.authorisation.provider;
     if (provider.fetchScheduledMaintenanceState) {
@@ -375,10 +405,14 @@ export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
   dispatch(push('/'));
 };
 
+export const resetAuthState = (): Action => ({
+  type: ResetAuthStateType,
+});
+
 export const verifyUsernameAndPassword = (
   username: string,
   password: string,
-  newMnemonic: string,
+  newMnemonic: string | undefined,
   authUrl: string
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
@@ -390,7 +424,8 @@ export const verifyUsernameAndPassword = (
     await authProvider
       .logIn(username, password)
       .then(() => {
-        dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
+        if (newMnemonic)
+          dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to
@@ -491,6 +526,15 @@ export const loadDarkModePreference = (
   type: LoadDarkModePreferenceType,
   payload: {
     darkMode: darkMode,
+  },
+});
+
+export const loadHighContrastModePreference = (
+  highContrastMode: boolean
+): ActionType<LoadHighContrastModePreferencePayload> => ({
+  type: LoadHighContrastModePreferenceType,
+  payload: {
+    highContrastMode: highContrastMode,
   },
 });
 

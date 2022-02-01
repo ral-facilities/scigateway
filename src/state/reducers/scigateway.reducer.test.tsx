@@ -19,6 +19,10 @@ import {
   registerHomepageUrl,
   loadScheduledMaintenanceState,
   loadMaintenanceState,
+  loadHighContrastModePreference,
+  customLogo,
+  autoLoginAuthorised,
+  resetAuthState,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -176,6 +180,26 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
+  it('successful autologin should only reset loading flag', () => {
+    const action = autoLoginAuthorised();
+    state.authorisation.provider = new TestAuthProvider(null);
+    state.authorisation.loading = true;
+    state.authorisation.failedToLogin = true;
+
+    let updatedState = ScigatewayReducer(state, action);
+
+    expect(updatedState.authorisation.loading).toBeFalsy();
+    expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+
+    state.authorisation.loading = true;
+    state.authorisation.failedToLogin = false;
+
+    updatedState = ScigatewayReducer(state, action);
+
+    expect(updatedState.authorisation.loading).toBeFalsy();
+    expect(updatedState.authorisation.failedToLogin).toBeFalsy();
+  });
+
   it('unsuccessful log in should update authorisation to not logged in state', () => {
     const action = unauthorised();
     state.authorisation.provider = new TestAuthProvider('logged in');
@@ -208,6 +232,19 @@ describe('scigateway reducer', () => {
     expect(updatedState.authorisation.failedToLogin).toBeFalsy();
     expect(updatedState.authorisation.loading).toBeFalsy();
     expect(updatedState.authorisation.signedOutDueToTokenExpiry).toBeFalsy();
+  });
+
+  it('should reset the auth state for a resetAuthState message', () => {
+    state.authorisation.failedToLogin = true;
+    state.authorisation.signedOutDueToTokenInvalidation = true;
+    state.authorisation.loading = true;
+
+    const updatedState = ScigatewayReducer(state, resetAuthState());
+    expect(updatedState.authorisation.failedToLogin).toBeFalsy();
+    expect(
+      updatedState.authorisation.signedOutDueToTokenInvalidation
+    ).toBeFalsy();
+    expect(updatedState.authorisation.loading).toBeFalsy();
   });
 
   it('should change auth provider when a LoadAuthProvider action is sent', () => {
@@ -298,14 +335,14 @@ describe('scigateway reducer', () => {
   });
 
   it('should set feature switches property when configure feature switches action is sent', () => {
-    expect(state.features.showContactButton).toBeTruthy();
+    expect(state.features.singlePluginLogo).toBeFalsy();
 
     const updatedState = ScigatewayReducer(
       state,
-      loadFeatureSwitches({ showContactButton: false })
+      loadFeatureSwitches({ singlePluginLogo: true })
     );
 
-    expect(updatedState.features.showContactButton).toBeFalsy();
+    expect(updatedState.features.singlePluginLogo).toBeTruthy();
   });
 
   it('should update scheduled maintenance property when load scheduled maintenance state action is sent', () => {
@@ -342,6 +379,14 @@ describe('scigateway reducer', () => {
     expect(updatedState.homepageUrl).toEqual('/test');
   });
 
+  it('should show the custom logo when provided', () => {
+    expect(state.logo).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(state, customLogo('/test'));
+
+    expect(updatedState.logo).toEqual('/test');
+  });
+
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
     const action = dismissMenuItem(2);
     const notificationsInState = {
@@ -369,6 +414,17 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, loadDarkModePreference(true));
 
     expect(updatedState.darkMode).toBeTruthy();
+  });
+
+  it('should load hight contrast mode property into store when load high contrast mode action is sent', () => {
+    expect(state.highContrastMode).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(
+      state,
+      loadHighContrastModePreference(true)
+    );
+
+    expect(updatedState.highContrastMode).toBeTruthy();
   });
 
   describe('register route', () => {
