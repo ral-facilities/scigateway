@@ -393,13 +393,16 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
       return res.data;
     })
     .catch((err) => {
-      log.error('Failed to fetch authenticator information from ICAT');
+      log.error(
+        'It is not possible to authenticate you at the moment. Please, try again later'
+      );
       document.dispatchEvent(
         new CustomEvent('scigateway', {
           detail: {
             type: NotificationType,
             payload: {
-              message: 'Failed to fetch authenticator information from ICAT',
+              message:
+                'It is not possible to authenticate you at the moment. Please, try again later',
               severity: 'error',
             },
           },
