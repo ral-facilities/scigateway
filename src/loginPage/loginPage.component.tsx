@@ -223,6 +223,7 @@ export const CredentialsLoginScreen = (
         </Typography>
       ) : null}
       <TextField
+        variant="standard"
         className={classes.textField}
         label={t('login.username-placeholder')}
         value={username}
@@ -232,6 +233,7 @@ export const CredentialsLoginScreen = (
         color="secondary"
       />
       <TextField
+        variant="standard"
         className={classes.textField}
         label={t('login.password-placeholder')}
         value={password}
@@ -242,7 +244,7 @@ export const CredentialsLoginScreen = (
         color="secondary"
       />
       <Typography className={classes.forgotPasswordText}>
-        <Link href={t('login.forgotten-your-password-link')}>
+        <Link href={t('login.forgotten-your-password-link')} underline="hover">
           {t('login.forgotten-your-password')}
         </Link>
       </Typography>
@@ -269,7 +271,7 @@ export const CredentialsLoginScreen = (
         </Typography>
       </Button>
       <Typography className={classes.helpMessage}>
-        <Link href={t('login.need-help-signing-in-link')}>
+        <Link href={t('login.need-help-signing-in-link')} underline="hover">
           {t('login.need-help-signing-in')}
         </Link>
       </Typography>
@@ -279,7 +281,10 @@ export const CredentialsLoginScreen = (
       <Typography className={classes.registerMessage}>
         <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
           Don&#39;t have an account?{' '}
-          <Link href={t('login.dont-have-an-account-sign-up-now-link')}>
+          <Link
+            href={t('login.dont-have-an-account-sign-up-now-link')}
+            underline="hover"
+          >
             Sign up now
           </Link>
         </Trans>

@@ -67,22 +67,35 @@ const Footer = (props: FooterProps): React.ReactElement => {
     <div className={classes.root}>
       <div className={classes.leftText}>
         <Trans i18nKey="footer.links.text">
-          <Link className={classes.bold} href={t('footer.links.facility')}>
+          <Link
+            className={classes.bold}
+            href={t('footer.links.facility')}
+            underline="hover"
+          >
             Facility Home
           </Link>
           {' | '}
           <Link
             className={classes.bold}
             href={t('footer.links.privacy-statement')}
+            underline="hover"
           >
             Privacy statement
           </Link>
           {' | '}
-          <Link className={classes.bold} href={t('footer.links.data-policy')}>
+          <Link
+            className={classes.bold}
+            href={t('footer.links.data-policy')}
+            underline="hover"
+          >
             Data policy
           </Link>
           {' | '}
-          <Link className={classes.bold} href={t('footer.links.contact')}>
+          <Link
+            className={classes.bold}
+            href={t('footer.links.contact')}
+            underline="hover"
+          >
             Contact
           </Link>
         </Trans>
@@ -93,6 +106,7 @@ const Footer = (props: FooterProps): React.ReactElement => {
           <Link
             className={classes.bold}
             href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
+            underline="hover"
           >
             Data and Software Engineering Group
           </Link>
