@@ -1,7 +1,10 @@
 import React from 'react';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const colors = ['#8C4799', '#1D4F91', '#C34613', '#008275', '#63666A'];
 const innerRadius = 140;

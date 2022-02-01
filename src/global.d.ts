@@ -6,7 +6,7 @@ declare module 'single-spa';
 type overridesNameToClassKey = {
   [P in keyof MuiPickersOverrides]: keyof MuiPickersOverrides[P];
 };
-declare module '@material-ui/core/styles/overrides' {
+declare module '@mui/material/styles/overrides' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface ComponentNameToClassKey extends overridesNameToClassKey {}
 }

@@ -1,5 +1,5 @@
 import { Step } from 'react-joyride';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { Theme } from '@mui/material/styles';
 
 export const AuthSuccessType = 'scigateway:auth_success';
 export const AuthFailureType = 'scigateway:auth_failure';

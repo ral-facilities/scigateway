@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { Dispatch, Action, AnyAction } from 'redux';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import LogoutIcon from '@material-ui/icons/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/ExitToApp';
 import {
   IconButton,
-  withStyles,
   Theme,
-  createStyles,
   Menu,
   MenuItem,
-  WithStyles,
   Button,
   Typography,
   Divider,
   ListItemIcon,
   ListItemText,
   Avatar,
-} from '@material-ui/core';
-import { StyleRules, fade } from '@material-ui/core/styles';
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import { alpha } from '@mui/material/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { signOut } from '../state/actions/scigateway.actions';
@@ -40,14 +39,14 @@ interface UserProfileDispatchProps {
   signOut: () => void;
 }
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     signInButton: {
       margin: theme.spacing(1),
       color: '#FFF',
       backgroundColor: (theme as UKRITheme).colours.lightBlue,
       '&:hover': {
-        backgroundColor: fade((theme as UKRITheme).colours.lightBlue, 0.8),
+        backgroundColor: alpha((theme as UKRITheme).colours.lightBlue, 0.8),
       },
     },
     userButton: {
@@ -69,13 +68,12 @@ const styles = (theme: Theme): StyleRules =>
       margin: theme.spacing(1),
       cursor: 'pointer',
     },
-  });
+  })
+);
 
-type CombinedUserProfileProps = UserProfileProps &
-  UserProfileDispatchProps &
-  WithStyles<typeof styles>;
+type CombinedUserProfileProps = UserProfileProps & UserProfileDispatchProps;
 
-const UserProfileComponent = (
+export const UserProfileComponent = (
   props: CombinedUserProfileProps
 ): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
@@ -84,13 +82,16 @@ const UserProfileComponent = (
     closeMenu();
     props.signOut();
   };
+
+  const classes = useStyles();
+
   return (
     <div className="tour-user-profile">
       {props.loggedIn ? (
         <div>
           {props.user.avatarUrl !== '' ? (
             <Avatar
-              className={props.classes.avatar}
+              className={classes.avatar}
               alt="user"
               src={props.user.avatarUrl}
               onClick={(e) => setMenuAnchor(e.currentTarget)}
@@ -98,9 +99,10 @@ const UserProfileComponent = (
             />
           ) : (
             <IconButton
-              className={props.classes.userButton}
+              className={classes.userButton}
               onClick={(e) => setMenuAnchor(e.currentTarget)}
               aria-label="Open user menu"
+              size="large"
             >
               <AccountCircleIcon />
             </IconButton>
@@ -111,9 +113,9 @@ const UserProfileComponent = (
             open={getMenuAnchor !== null}
             onClose={closeMenu}
           >
-            <div className={props.classes.usernameContainer}>
+            <div className={classes.usernameContainer}>
               <Typography>Signed in as:</Typography>
-              <Typography className={props.classes.username}>
+              <Typography className={classes.username}>
                 {props.user.username}
               </Typography>
             </div>
@@ -130,7 +132,7 @@ const UserProfileComponent = (
         <Button
           color="primary"
           variant="contained"
-          className={props.classes.signInButton}
+          className={classes.signInButton}
           onClick={() => {
             props.signIn();
             log.debug('signing in');
@@ -148,10 +150,6 @@ const UserProfileComponent = (
     </div>
   );
 };
-
-export const UserProfileComponentWithStyles = withStyles(styles)(
-  UserProfileComponent
-);
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
   loggedIn:
@@ -174,11 +172,6 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserProfileComponentWithStyles);
-
-export const UserProfileWithoutStyles = connect(
   mapStateToProps,
   mapDispatchToProps
 )(UserProfileComponent);

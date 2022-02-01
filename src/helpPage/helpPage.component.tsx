@@ -1,19 +1,15 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
-} from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { UKRITheme } from '../theming';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: theme.spacing(2),
@@ -45,87 +41,89 @@ const styles = (theme: Theme): StyleRules =>
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
-  });
+  })
+);
 
 interface HelpPageProps {
   res: AppStrings | undefined;
 }
 
-export type CombinedHelpPageProps = HelpPageProps & WithStyles<typeof styles>;
+export type CombinedHelpPageProps = HelpPageProps;
 
-const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
+export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
+  const classes = useStyles();
   return (
-    <div className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+    <div className={classes.root}>
+      <Typography variant="h3" className={classes.titleText}>
         {getString(props.res, 'title')}
       </Typography>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'logging-in-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.description}
+          className={classes.description}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'logging-in-description'),
           }}
         />
       </div>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'my-data-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.description}
+          className={classes.description}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'my-data-description'),
           }}
         />
       </div>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'browse-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.description}
+          className={classes.description}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'browse-description'),
           }}
         />
       </div>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'search-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.description}
+          className={classes.description}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'search-description'),
           }}
         />
       </div>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'cart-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.description}
+          className={classes.description}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'cart-description'),
           }}
         />
       </div>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'download-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.description}
+          className={classes.description}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'download-description'),
           }}
@@ -139,7 +137,4 @@ const mapStateToProps = (state: StateType): HelpPageProps => ({
   res: getAppStrings(state, 'help-page'),
 });
 
-export const HelpPageWithoutStyles = HelpPage;
-export const HelpPageWithStyles = withStyles(styles)(HelpPage);
-
-export default connect(mapStateToProps)(HelpPageWithStyles);
+export default connect(mapStateToProps)(HelpPage);

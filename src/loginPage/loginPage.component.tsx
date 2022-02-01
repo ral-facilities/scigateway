@@ -2,21 +2,17 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Action, AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import {
-  withStyles,
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  makeStyles,
-} from '@material-ui/core/styles';
+import Avatar from '@mui/material/Avatar';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { StyleRules } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {
   verifyUsernameAndPassword,
   resetAuthState,
@@ -25,83 +21,79 @@ import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
 import { UKRITheme } from '../theming';
 import { Location } from 'history';
-import {
-  Select,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Link,
-} from '@material-ui/core';
+import { Select, FormControl, InputLabel, MenuItem, Link } from '@mui/material';
 import axios from 'axios';
 import log from 'loglevel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      width: 'auto',
-      marginLeft: theme.spacing(3),
-      marginRight: theme.spacing(3),
-    },
-    avatar: {
-      margin: '12px',
-      backgroundColor: (theme as UKRITheme).colours.lightBlue,
-      color: '#FFFFFF',
-      alignItems: 'center',
-    },
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      paddingTop: '24px',
-      width: 400,
-    },
-    textField: {
-      marginTop: theme.spacing(1),
-      width: '352px',
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 200,
-    },
-    button: {
-      width: '352px',
-    },
-    warning: {
-      marginTop: `${theme.spacing(1)}px`,
-      color: (theme as UKRITheme).colours.red,
-    },
-    info: {
-      marginTop: `${theme.spacing(1)}px`,
-      color: (theme as UKRITheme).colours.blue,
-    },
-    spinner: {
-      marginBottom: '24px',
-    },
-    forgotPasswordText: {
-      fontSize: 14,
-      marginLeft: 'auto',
-      paddingBottom: '24px',
-      paddingTop: '12px',
-    },
-    registerMessage: {
-      fontSize: 14,
-      paddingBottom: '24px',
-      paddingTop: '12px',
-      color: (theme as UKRITheme).colours.contrastGrey,
-    },
-    helpMessage: {
-      fontSize: 14,
-      paddingBottom: '12px',
-      paddingTop: '24px',
-    },
-    orText: { display: 'flex', fontSize: 14 },
-  });
+const useStyles = makeStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: 'auto',
+        marginLeft: theme.spacing(3),
+        marginRight: theme.spacing(3),
+      },
+      avatar: {
+        margin: '12px',
+        backgroundColor: (theme as UKRITheme).colours.lightBlue,
+        color: '#FFFFFF',
+        alignItems: 'center',
+      },
+      paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: '24px',
+        width: 400,
+      },
+      textField: {
+        marginTop: theme.spacing(1),
+        width: '352px',
+      },
+      formControl: {
+        margin: theme.spacing(1),
+        minWidth: 200,
+      },
+      button: {
+        width: '352px',
+      },
+      warning: {
+        marginTop: theme.spacing(1),
+        color: (theme as UKRITheme).colours.red,
+      },
+      info: {
+        marginTop: theme.spacing(1),
+        color: (theme as UKRITheme).colours.blue,
+      },
+      spinner: {
+        marginBottom: '24px',
+      },
+      forgotPasswordText: {
+        fontSize: 14,
+        marginLeft: 'auto',
+        paddingBottom: '24px',
+        paddingTop: '12px',
+      },
+      registerMessage: {
+        fontSize: 14,
+        paddingBottom: '24px',
+        paddingTop: '12px',
+        color: (theme as UKRITheme).colours.contrastGrey,
+      },
+      helpMessage: {
+        fontSize: 14,
+        paddingBottom: '12px',
+        paddingTop: '24px',
+      },
+      orText: { display: 'flex', fontSize: 14 },
+    })
+);
 
 const useDividerStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -154,25 +146,25 @@ interface LoginPageDispatchProps {
   resetAuthState: () => Action;
 }
 
-export type CombinedLoginProps = LoginPageProps &
-  LoginPageDispatchProps &
-  WithStyles<typeof styles>;
+export type CombinedLoginProps = LoginPageProps & LoginPageDispatchProps;
 
 export const RedirectLoginScreen = (
   props: CombinedLoginProps
 ): React.ReactElement => {
   const [t] = useTranslation();
+  const classes = useStyles();
+
   return (
-    <div className={props.classes.root}>
+    <div className={classes.root}>
       {props.auth.failedToLogin ? (
-        <Typography className={props.classes.warning}>
+        <Typography className={classes.warning}>
           {t('login.login-redirect-error-msg')}
         </Typography>
       ) : null}
       <Button
         variant="contained"
         color="primary"
-        className={props.classes.button}
+        className={classes.button}
         disabled={props.auth.loading}
         onClick={() => {
           if (props.auth.provider.redirectUrl) {
@@ -200,10 +192,11 @@ export const CredentialsLoginScreen = (
   const isInputValid = (): boolean => username !== '' && password !== '';
 
   const [t] = useTranslation();
+  const classes = useStyles();
 
   return (
     <div
-      className={props.classes.root}
+      className={classes.root}
       onKeyPress={(e) => {
         if (
           !props.auth.provider.redirectUrl &&
@@ -220,17 +213,17 @@ export const CredentialsLoginScreen = (
       }}
     >
       {props.auth.failedToLogin ? (
-        <Typography className={props.classes.warning}>
+        <Typography className={classes.warning}>
           {t('login.login-error-msg')}
         </Typography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
-        <Typography className={props.classes.info}>
+        <Typography className={classes.info}>
           {t('login.token-invalid-msg')}
         </Typography>
       ) : null}
       <TextField
-        className={props.classes.textField}
+        className={classes.textField}
         label={t('login.username-placeholder')}
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
@@ -239,7 +232,7 @@ export const CredentialsLoginScreen = (
         color="secondary"
       />
       <TextField
-        className={props.classes.textField}
+        className={classes.textField}
         label={t('login.password-placeholder')}
         value={password}
         onChange={(e) => setPassword(e.currentTarget.value)}
@@ -248,7 +241,7 @@ export const CredentialsLoginScreen = (
         disabled={props.auth.loading}
         color="secondary"
       />
-      <Typography className={props.classes.forgotPasswordText}>
+      <Typography className={classes.forgotPasswordText}>
         <Link href={t('login.forgotten-your-password-link')}>
           {t('login.forgotten-your-password')}
         </Link>
@@ -256,7 +249,7 @@ export const CredentialsLoginScreen = (
       <Button
         variant="contained"
         color="primary"
-        className={props.classes.button}
+        className={classes.button}
         disabled={!isInputValid() || props.auth.loading}
         onClick={() => {
           props.verifyUsernameAndPassword(
@@ -275,7 +268,7 @@ export const CredentialsLoginScreen = (
           {t('login.login-button')}
         </Typography>
       </Button>
-      <Typography className={props.classes.helpMessage}>
+      <Typography className={classes.helpMessage}>
         <Link href={t('login.need-help-signing-in-link')}>
           {t('login.need-help-signing-in')}
         </Link>
@@ -283,7 +276,7 @@ export const CredentialsLoginScreen = (
       <DividerWithText>
         <Typography>or</Typography>
       </DividerWithText>
-      <Typography className={props.classes.registerMessage}>
+      <Typography className={classes.registerMessage}>
         <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
           Don&#39;t have an account?{' '}
           <Link href={t('login.dont-have-an-account-sign-up-now-link')}>
@@ -302,9 +295,11 @@ export const AnonLoginScreen = (
   }
 ): React.ReactElement => {
   const [t] = useTranslation();
+  const classes = useStyles();
+
   return (
     <div
-      className={props.classes.root}
+      className={classes.root}
       onKeyPress={(e) => {
         if (e.key === 'Enter') {
           props.verifyUsernameAndPassword(
@@ -317,19 +312,19 @@ export const AnonLoginScreen = (
       }}
     >
       {props.auth.failedToLogin ? (
-        <Typography className={props.classes.warning}>
+        <Typography className={classes.warning}>
           {t('login.login-error-msg')}
         </Typography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
-        <Typography className={props.classes.info}>
+        <Typography className={classes.info}>
           {t('login.token-invalid-msg')}
         </Typography>
       ) : null}
       <Button
         variant="contained"
         color="primary"
-        className={props.classes.button}
+        className={classes.button}
         onClick={() => {
           props.verifyUsernameAndPassword(
             '',
@@ -354,6 +349,8 @@ export const LoginSelector = (
     setMnemonic: (mnemonic: string) => void;
   }
 ): React.ReactElement => {
+  const classes = useStyles();
+
   return (
     <FormControl
       style={{
@@ -367,7 +364,7 @@ export const LoginSelector = (
         Authenticator
       </InputLabel>
       <Select
-        className={props.classes.textField}
+        className={classes.textField}
         id="select-mnemonic"
         labelId="mnemonic-select"
         value={props.mnemonic}
@@ -412,7 +409,9 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
     });
 }
 
-const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
+export const LoginPageComponent = (
+  props: CombinedLoginProps
+): React.ReactElement => {
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
@@ -421,6 +420,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
     props.auth.provider.mnemonic
   );
   const location = useLocation();
+  const classes = useStyles();
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
@@ -523,9 +523,9 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   }
 
   return (
-    <div className={props.classes.root}>
-      <Paper className={props.classes.paper}>
-        <Avatar className={props.classes.avatar}>
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography
@@ -549,7 +549,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
         )}
         {LoginScreen}
         {props.auth.loading ? (
-          <CircularProgress className={props.classes.spinner} />
+          <CircularProgress className={classes.spinner} />
         ) : null}
       </Paper>
     </div>
@@ -581,10 +581,4 @@ const mapDispatchToProps = (
   resetAuthState: () => dispatch(resetAuthState()),
 });
 
-export const LoginPageWithoutStyles = LoginPageComponent;
-export const LoginPageWithStyles = withStyles(styles)(LoginPageComponent);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginPageWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPageComponent);

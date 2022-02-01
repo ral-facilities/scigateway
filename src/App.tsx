@@ -20,10 +20,8 @@ import './index.css';
 import { ConnectedThemeProvider } from './theming';
 import ReduxToastr from 'react-redux-toastr';
 import PageContainer from './pageContainer.component';
-import {
-  StylesProvider,
-  createGenerateClassName,
-} from '@material-ui/core/styles';
+import StylesProvider from '@mui/styles/StylesProvider';
+import createGenerateClassName from '@mui/styles/createGenerateClassName';
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'sgw',

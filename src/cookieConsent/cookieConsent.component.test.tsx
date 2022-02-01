@@ -4,14 +4,14 @@ import CookieConsent, {
   CookieConsentWithoutStyles,
   CombinedCookieConsentProps,
 } from './cookieConsent.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
@@ -67,11 +67,13 @@ describe('Cookie consent component', () => {
   it('should navigate to cookie page on user clicking manage preferences', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <CookieConsent />
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <CookieConsent />
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').first().simulate('click');
@@ -84,11 +86,13 @@ describe('Cookie consent component', () => {
     Cookies.set = jest.fn();
     const testStore = mockStore(state);
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <CookieConsent />
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <CookieConsent />
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').last().simulate('click');
@@ -113,11 +117,13 @@ describe('Cookie consent component', () => {
 
     const testStore = mockStore(state);
     mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <CookieConsent />
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <CookieConsent />
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(testStore.getActions().length).toEqual(1);

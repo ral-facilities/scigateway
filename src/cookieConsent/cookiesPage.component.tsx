@@ -1,15 +1,11 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import {
-  StyleRules,
-  withStyles,
-  Theme,
-  WithStyles,
-  createStyles,
-} from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
@@ -19,7 +15,7 @@ import { Dispatch, Action } from 'redux';
 import { push } from 'connected-react-router';
 import { UKRITheme } from '../theming';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: theme.spacing(2),
@@ -64,7 +60,8 @@ const styles = (theme: Theme): StyleRules =>
     cookieListItem: {
       display: 'list-item',
     },
-  });
+  })
+);
 
 interface CookiesPageProps {
   res: AppStrings | undefined;
@@ -75,8 +72,7 @@ interface CookiesPageDispatchProps {
 }
 
 export type CombinedCookiesPageProps = CookiesPageProps &
-  CookiesPageDispatchProps &
-  WithStyles<typeof styles>;
+  CookiesPageDispatchProps;
 
 const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
   if (!analytics) {
@@ -93,30 +89,33 @@ const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
   );
 };
 
-const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
+export const CookiesPage = (
+  props: CombinedCookiesPageProps
+): React.ReactElement => {
   const cookieConsent = Cookies.getJSON('cookie-consent');
   const [analytics, setAnalytics] = React.useState(
     cookieConsent ? cookieConsent.analytics : false
   );
+  const classes = useStyles();
 
   return (
-    <div className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+    <div className={classes.root}>
+      <Typography variant="h3" className={classes.titleText}>
         {getString(props.res, 'title')}
       </Typography>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'cookie-policy-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.cookiePolicy}
+          className={classes.cookiePolicy}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'cookie-policy'),
           }}
         />
       </div>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">
           {getString(props.res, 'cookie-management-title')}
         </Typography>
@@ -124,9 +123,9 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
           container
           spacing={4}
           direction="column"
-          className={props.classes.cookieTypes}
+          className={classes.cookieTypes}
         >
-          <Grid container item alignItems="center" justify="flex-start">
+          <Grid container item alignItems="center" justifyContent="flex-start">
             <Grid item xs={2} sm={1}>
               <Switch
                 disabled
@@ -147,25 +146,25 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <Typography variant="body1">
                 {getString(props.res, 'essential-cookies-description')}
               </Typography>
-              <ul className={props.classes.cookieList}>
+              <ul className={classes.cookieList}>
                 <Typography
                   variant="body1"
                   component="li"
-                  className={props.classes.cookieListItem}
+                  className={classes.cookieListItem}
                 >
                   {getString(props.res, 'cookie-consent-description')}
                 </Typography>
                 <Typography
                   variant="body1"
                   component="li"
-                  className={props.classes.cookieListItem}
+                  className={classes.cookieListItem}
                 >
                   {getString(props.res, 'scigateway-token-description')}
                 </Typography>
               </ul>
             </Grid>
           </Grid>
-          <Grid container item alignItems="center" justify="flex-start">
+          <Grid container item alignItems="center" justifyContent="flex-start">
             <Grid item xs={2} sm={1}>
               <Switch
                 checked={analytics}
@@ -186,11 +185,11 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <Typography variant="body1">
                 {getString(props.res, 'analytics-cookies-description')}
               </Typography>
-              <ul className={props.classes.cookieList}>
+              <ul className={classes.cookieList}>
                 <Typography
                   variant="body1"
                   component="li"
-                  className={props.classes.cookieListItem}
+                  className={classes.cookieListItem}
                 >
                   {getString(props.res, 'google-analytics-description')}
                 </Typography>
@@ -203,7 +202,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
         variant="contained"
         color="primary"
         size="medium"
-        className={props.classes.button}
+        className={classes.button}
         onClick={() => {
           handleSavePreferences({ analytics });
           props.navigateToHome();
@@ -223,10 +222,4 @@ const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
   navigateToHome: () => dispatch(push('/')),
 });
 
-export const CookiesPageWithoutStyles = CookiesPage;
-export const CookiesPageWithStyles = withStyles(styles)(CookiesPage);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CookiesPageWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(CookiesPage);

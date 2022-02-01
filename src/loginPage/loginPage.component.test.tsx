@@ -9,9 +9,9 @@ import LoginPage, {
   AnonLoginScreen,
   LoginSelector,
 } from './loginPage.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { createLocation } from 'history';
 import axios from 'axios';
@@ -140,9 +140,11 @@ describe('Login page component', () => {
 
   it('credential component renders correctly', () => {
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CredentialsLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -150,9 +152,11 @@ describe('Login page component', () => {
   it('credential component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CredentialsLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -160,18 +164,22 @@ describe('Login page component', () => {
   it('credential component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CredentialsLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it('redirect component renders correctly', () => {
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <RedirectLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -179,18 +187,22 @@ describe('Login page component', () => {
   it('redirect component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <RedirectLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders correctly', () => {
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <AnonLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -198,9 +210,11 @@ describe('Login page component', () => {
   it('anonymous component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <AnonLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -208,9 +222,11 @@ describe('Login page component', () => {
   it('anonymous component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <AnonLoginScreen {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -252,9 +268,11 @@ describe('Login page component', () => {
       .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithoutStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -288,9 +306,11 @@ describe('Login page component', () => {
       .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithoutStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -320,9 +340,11 @@ describe('Login page component', () => {
       .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithoutStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -352,9 +374,11 @@ describe('Login page component', () => {
       .mockImplementationOnce((f) => f());
 
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithoutStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -369,9 +393,11 @@ describe('Login page component', () => {
   it('login page renders spinner if auth is loading', () => {
     props.auth.loading = true;
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithoutStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -392,9 +418,11 @@ describe('Login page component', () => {
       });
 
     const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithoutStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -425,9 +453,11 @@ describe('Login page component', () => {
     props.verifyUsernameAndPassword = mockLoginfn;
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     const simulateUsernameInput = wrapper.find('input').at(0);
@@ -481,9 +511,11 @@ describe('Login page component', () => {
     });
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').simulate('click');
@@ -500,9 +532,11 @@ describe('Login page component', () => {
 
     // TODO: switch to shallow when enzyme supports hooks/useEffect
     mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
@@ -532,9 +566,11 @@ describe('Login page component', () => {
     );
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LoginPageWithStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -590,9 +626,11 @@ describe('Login page component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LoginPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -612,9 +650,11 @@ describe('Login page component', () => {
 
     mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LoginPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

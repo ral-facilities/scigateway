@@ -6,7 +6,7 @@ import Joyride, {
   ACTIONS,
   EVENTS,
 } from 'react-joyride';
-import { lighten, Theme, withTheme } from '@material-ui/core/styles';
+import { lighten, Theme, withTheme } from '@mui/material/styles';
 import { UKRITheme } from '../theming';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
@@ -122,7 +122,7 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
             color:
               //For WCAG 2.1 contrast, need dark mode colour be slighly lighter as
               //same colour breaks contrast for next button
-              theme.palette.type === 'dark'
+              theme.palette.mode === 'dark'
                 ? lighten((theme as UKRITheme).colours.orange, 0.15)
                 : (theme as UKRITheme).colours.orange,
           },

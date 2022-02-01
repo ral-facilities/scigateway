@@ -1,6 +1,6 @@
 import React from 'react';
 import MainAppBarComponent from './mainAppBar.component';
-import { createMount } from '@material-ui/core/test-utils';
+import { createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import { PluginConfig } from '../state/scigateway.types';
 import configureStore from 'redux-mock-store';
@@ -14,7 +14,7 @@ import {
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { loadDarkModePreference } from '../state/actions/scigateway.actions';
 import { createMemoryHistory, History } from 'history';
 import { ReactWrapper } from 'enzyme';
@@ -29,13 +29,15 @@ describe('Main app bar component', () => {
 
   const createWrapper = (testStore): ReactWrapper => {
     return mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <Router history={history}>
-            <MainAppBarComponent />
-          </Router>
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <Router history={history}>
+              <MainAppBarComponent />
+            </Router>
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
   };
 
@@ -256,13 +258,15 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <div id="plugin">
-        <MuiThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <Router history={history}>
-              <MainAppBarComponent />
-            </Router>
-          </Provider>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <Provider store={testStore}>
+              <Router history={history}>
+                <MainAppBarComponent />
+              </Router>
+            </Provider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </div>
     );
 
@@ -287,13 +291,15 @@ describe('Main app bar component', () => {
     testStore = mockStore(state);
     wrapper = mount(
       <div id="plugin2">
-        <MuiThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <Router history={history}>
-              <MainAppBarComponent />
-            </Router>
-          </Provider>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <Provider store={testStore}>
+              <Router history={history}>
+                <MainAppBarComponent />
+              </Router>
+            </Provider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </div>
     );
 
@@ -311,13 +317,15 @@ describe('Main app bar component', () => {
     testStore = mockStore(state);
     wrapper = mount(
       <div id="plugin">
-        <MuiThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <Router history={history}>
-              <MainAppBarComponent />
-            </Router>
-          </Provider>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <Provider store={testStore}>
+              <Router history={history}>
+                <MainAppBarComponent />
+              </Router>
+            </Provider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </div>
     );
 
@@ -353,13 +361,15 @@ describe('Main app bar component', () => {
     testStore = mockStore(state);
     wrapper = mount(
       <div id="plugin2">
-        <MuiThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <Router history={history}>
-              <MainAppBarComponent />
-            </Router>
-          </Provider>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <Provider store={testStore}>
+              <Router history={history}>
+                <MainAppBarComponent />
+              </Router>
+            </Provider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </div>
     );
 

@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import {
   Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
   Paper,
   TextareaAutosize,
   FormControlLabel,
   Checkbox,
   Button,
-} from '@material-ui/core';
+} from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import {
@@ -26,11 +23,12 @@ import {
   setMaintenanceState,
   setScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { Link } from 'react-router-dom';
+import makeStyles from '@mui/styles/makeStyles';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: theme.spacing(2),
@@ -47,7 +45,9 @@ const styles = (theme: Theme): StyleRules =>
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
       padding: theme.spacing(2),
-      [theme.breakpoints.up(800 + theme.spacing(8))]: {
+      [theme.breakpoints.up(
+        800 + parseInt(theme.spacing(8).replace('px', ''))
+      )]: {
         width: 800,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -65,7 +65,8 @@ const styles = (theme: Theme): StyleRules =>
       minWidth: '40%',
       maxWidth: '100%',
     },
-  });
+  })
+);
 
 interface AdminPageProps {
   scheduledMaintenance: ScheduledMaintenanceState;
@@ -80,17 +81,19 @@ interface AdminPageDispatchProps {
   setMaintenanceState: (maintenanceState: MaintenanceState) => Promise<void>;
 }
 
-export type CombinedAdminPageProps = AdminPageProps &
-  AdminPageDispatchProps &
-  WithStyles<typeof styles>;
+export type CombinedAdminPageProps = AdminPageProps & AdminPageDispatchProps;
 
-const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
+export const AdminPage = (
+  props: CombinedAdminPageProps
+): React.ReactElement => {
   const {
     scheduledMaintenance,
     setScheduledMaintenanceState,
     maintenance,
     setMaintenanceState,
   } = props;
+
+  const classes = useStyles();
 
   const [
     tempScheduledMaintenance,
@@ -113,8 +116,8 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
   }, [maintenance]);
 
   return (
-    <Paper className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+    <Paper className={classes.root}>
+      <Typography variant="h3" className={classes.titleText}>
         {getString(props.res, 'title')}
       </Typography>
       <Tabs
@@ -141,17 +144,17 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
         role="tabpanel"
         hidden={tabValue !== 'maintenance'}
       >
-        <Paper className={props.classes.paper}>
+        <Paper className={classes.paper}>
           <Typography variant="h4">
             {getString(props.res, 'scheduled-maintenance-title')}
           </Typography>
           <TextareaAutosize
-            className={props.classes.textArea}
+            className={classes.textArea}
             aria-label={getString(
               props.res,
               'scheduled-maintenance-message-arialabel'
             )}
-            rows={7}
+            minRows={7}
             placeholder={getString(props.res, 'message-placeholder')}
             value={tempScheduledMaintenance.message}
             onChange={(e) =>
@@ -200,14 +203,14 @@ const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
             </Button>
           </div>
         </Paper>
-        <Paper className={props.classes.paper}>
+        <Paper className={classes.paper}>
           <Typography variant="h4">
             {getString(props.res, 'maintenance-title')}
           </Typography>
           <TextareaAutosize
-            className={props.classes.textArea}
+            className={classes.textArea}
             aria-label={getString(props.res, 'maintenance-message-arialabel')}
-            rows={7}
+            minRows={7}
             placeholder={getString(props.res, 'message-placeholder')}
             value={tempMaintenance.message}
             onChange={(e) =>
@@ -274,10 +277,4 @@ const mapDispatchToProps = (
     dispatch(setMaintenanceState(maintenanceState)),
 });
 
-export const AdminPageWithoutStyles = AdminPage;
-export const AdminPageWithStyles = withStyles(styles)(AdminPage);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AdminPageWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);

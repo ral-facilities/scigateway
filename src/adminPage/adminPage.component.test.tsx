@@ -1,12 +1,12 @@
 import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
+import { createMount } from '@mui/material/test-utils';
 import { createLocation, createMemoryHistory } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import AdminPage from './adminPage.component';
 import { Provider } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
@@ -58,11 +58,13 @@ describe('Admin page component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-            <AdminPage />
-          </MemoryRouter>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+              <AdminPage />
+            </MemoryRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -91,11 +93,13 @@ describe('Admin page component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-            <AdminPage />
-          </MemoryRouter>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+              <AdminPage />
+            </MemoryRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -125,11 +129,13 @@ describe('Admin page component', () => {
     const history = createMemoryHistory();
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <Router history={history}>
-            <AdminPage />
-          </Router>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <Router history={history}>
+              <AdminPage />
+            </Router>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

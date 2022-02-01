@@ -1,5 +1,11 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { ThemeOptions, Theme } from '@material-ui/core/styles/createMuiTheme';
+import {
+  createTheme,
+  ThemeProvider,
+  StyledEngineProvider,
+  adaptV4Theme,
+  DeprecatedThemeOptions,
+  Theme,
+} from '@mui/material/styles';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import React from 'react';
 import { StateType } from './state/state.types';
@@ -241,7 +247,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   },
   tabsGrey: '#EEEEEE',
 };
-export interface UKRIThemeOptions extends ThemeOptions {
+export interface UKRIThemeOptions extends DeprecatedThemeOptions {
   drawerWidth: number;
   footerPaddingTop: string;
   footerPaddingBottom: string;
@@ -399,7 +405,7 @@ export const buildTheme = (
   const options: UKRIThemeOptions = {
     palette: {
       // Light/dark mode
-      type: darkModePreference ? 'dark' : 'light',
+      mode: darkModePreference ? 'dark' : 'light',
       primary: {
         main: colours.primary,
       },
@@ -428,7 +434,7 @@ export const buildTheme = (
     },
   };
 
-  return createMuiTheme(options);
+  return createTheme(adaptV4Theme(options));
 };
 
 function mapThemeProviderStateToProps(
@@ -451,11 +457,13 @@ const SciGatewayThemeProvider = (props: {
     (state: StateType) => state.scigateway.highContrastMode
   );
   return (
-    <MuiThemeProvider
-      theme={buildTheme(darkModePreference, highContrastModePreference)}
-    >
-      {props.children}
-    </MuiThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider
+        theme={buildTheme(darkModePreference, highContrastModePreference)}
+      >
+        {props.children}
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

@@ -3,14 +3,14 @@ import PageNotFoundWithStyles, {
   PageNotFoundComponent,
   PageNotFoundProps,
 } from './pageNotFound.component';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
+import { createMount, createShallow } from '@mui/material/test-utils';
 import thunk from 'redux-thunk';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createMemoryHistory, History } from 'history';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { Provider } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { Router } from 'react-router';
 
@@ -61,9 +61,11 @@ describe('Page Not found component', () => {
     const wrapper = mount(
       <Provider store={testStore}>
         <Router history={history}>
-          <MuiThemeProvider theme={theme}>
-            <PageNotFoundWithStyles />
-          </MuiThemeProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <PageNotFoundWithStyles />
+            </ThemeProvider>
+          </StyledEngineProvider>
         </Router>
       </Provider>
     );

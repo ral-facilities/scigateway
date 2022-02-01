@@ -2,13 +2,13 @@ import React from 'react';
 import UserProfileComponent, {
   UserProfileWithoutStyles,
 } from './userProfile.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Avatar, MuiThemeProvider } from '@material-ui/core';
+import { Avatar, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
@@ -60,9 +60,11 @@ describe('User profile component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <UserProfileComponent />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <UserProfileComponent />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -105,9 +107,11 @@ describe('User profile component', () => {
       avatarUrl: 'test_url',
     };
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <UserProfileComponent store={mockStore(state)} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UserProfileComponent store={mockStore(state)} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
@@ -121,9 +125,11 @@ describe('User profile component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <UserProfileComponent />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <UserProfileComponent />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

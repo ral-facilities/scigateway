@@ -3,7 +3,7 @@ import LogoutPage, {
   LogoutPageComponent,
   CombinedLogoutPageProps,
 } from './logoutPage.component';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
+import { createMount, createShallow } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -12,7 +12,7 @@ import { push } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { createLocation } from 'history';
 
 describe('logout page component', () => {
@@ -82,9 +82,11 @@ describe('logout page component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LogoutPage />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LogoutPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

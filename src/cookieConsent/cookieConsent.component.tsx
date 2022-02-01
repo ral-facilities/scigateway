@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  Theme,
-  createStyles,
-  StyleRules,
-  WithStyles,
-  withStyles,
-} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 import { UKRITheme } from '../theming';
 import Cookies from 'js-cookie';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
@@ -21,7 +17,7 @@ import { AppStrings } from '../state/scigateway.types';
 import { push } from 'connected-react-router';
 import { Location } from 'history';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       color: theme.palette.primary.contrastText,
@@ -31,7 +27,8 @@ const styles = (theme: Theme): StyleRules =>
       color: theme.palette.primary.contrastText,
       margin: theme.spacing(1),
     },
-  });
+  })
+);
 
 interface CookieConsentStateProps {
   analytics?: AnalyticsState;
@@ -46,12 +43,12 @@ interface CookieConsentDispatchProps {
 }
 
 export type CombinedCookieConsentProps = CookieConsentStateProps &
-  CookieConsentDispatchProps &
-  WithStyles<typeof styles>;
+  CookieConsentDispatchProps;
 
-const CookieConsent = (
+export const CookieConsent = (
   props: CombinedCookieConsentProps
 ): React.ReactElement => {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -108,14 +105,14 @@ const CookieConsent = (
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      ContentProps={{ className: props.classes.root }}
+      ContentProps={{ className: classes.root }}
       open={open}
       message={<div>{getString(props.res, 'text')}</div>}
       action={[
         <Button
           key="decline"
           variant="outlined"
-          className={props.classes.button}
+          className={classes.button}
           size="small"
           onClick={props.navigateToCookies}
         >
@@ -125,7 +122,7 @@ const CookieConsent = (
           key="accept"
           variant="contained"
           color="primary"
-          className={props.classes.button}
+          className={classes.button}
           size="small"
           onClick={handleAccept}
         >
@@ -150,10 +147,4 @@ const mapDispatchToProps = (
   navigateToCookies: () => dispatch(push('/cookies')),
 });
 
-export const CookieConsentWithoutStyles = CookieConsent;
-export const CookieConsentWithStyles = withStyles(styles)(CookieConsent);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CookieConsentWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(CookieConsent);

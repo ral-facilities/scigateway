@@ -1,12 +1,12 @@
 import React from 'react';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import {
   NavigationDrawerWithoutStyles,
   CombinedNavigationProps,
 } from './navigationDrawer.component';
 
 import { PluginConfig } from '../state/scigateway.types';
-import { ListItemText } from '@material-ui/core';
+import { ListItemText } from '@mui/material';
 import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory, History } from 'history';
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
+import { createMount } from '@mui/material/test-utils';
 import {
   HelpPageWithStyles,
   CombinedHelpPageProps,
 } from './helpPage.component';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 
 const dummyClasses = {
@@ -31,9 +31,11 @@ describe('Help page component', () => {
 
   it('should render correctly', () => {
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <HelpPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <HelpPageWithStyles {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
     expect(wrapper).toMatchSnapshot();
   });

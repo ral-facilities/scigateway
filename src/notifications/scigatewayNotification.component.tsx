@@ -1,16 +1,11 @@
 import React from 'react';
-import {
-  Theme,
-  withStyles,
-  IconButton,
-  WithStyles,
-  Typography,
-} from '@material-ui/core';
-import { StyleRules } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Clear';
-import TickIcon from '@material-ui/icons/CheckCircle';
-import WarningIcon from '@material-ui/icons/ErrorOutline';
-import ErrorIcon from '@material-ui/icons/HighlightOff';
+import { Theme, IconButton, Typography } from '@mui/material';
+import { WithStyles, StyleRules } from '@mui/styles';
+import withStyles from '@mui/styles/withStyles';
+import DeleteIcon from '@mui/icons-material/Clear';
+import TickIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/ErrorOutline';
+import ErrorIcon from '@mui/icons-material/HighlightOff';
 import { Action } from 'redux';
 import { UKRITheme } from '../theming';
 
@@ -82,6 +77,7 @@ const ForwardRefScigatewayNotification = React.forwardRef(
           className={props.classes.button}
           onClick={props.dismissNotification}
           aria-label="Dismiss notification"
+          size="large"
         >
           <DeleteIcon className={props.classes.deleteIcon} />
         </IconButton>

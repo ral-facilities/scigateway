@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import { withStyles, WithStyles, Theme } from '@material-ui/core';
-import BugReportIcon from '@material-ui/icons/BugReport';
-import { StyleRules } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material';
+import { WithStyles, StyleRules } from '@mui/styles';
+import withStyles from '@mui/styles/withStyles';
+import BugReportIcon from '@mui/icons-material/BugReport';
 import { useTranslation, Trans } from 'react-i18next';
 import { UKRITheme } from '../theming';
 

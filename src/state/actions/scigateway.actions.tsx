@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { Theme } from '@mui/material/styles';
 import axios from 'axios';
 import { push } from 'connected-react-router';
 import log from 'loglevel';

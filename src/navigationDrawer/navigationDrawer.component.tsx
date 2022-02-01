@@ -1,15 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { Box, Theme, Typography } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import {
-  withStyles,
-  createStyles,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
+import React, { Fragment } from 'react';
+import { Box, Theme, Typography } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
@@ -28,7 +24,7 @@ interface NavigationDrawerProps {
   res: AppStrings | undefined;
 }
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
       width: (theme as UKRITheme).drawerWidth,
@@ -64,10 +60,8 @@ const styles = (theme: Theme): StyleRules =>
       paddingBottom: 24,
       color: theme.palette.text.secondary,
     },
-  });
-
-export type CombinedNavigationProps = NavigationDrawerProps &
-  WithStyles<typeof styles>;
+  })
+);
 
 // This has been adapted from the MaterialUI composition guide
 // (https://material-ui.com/guides/composition/)
@@ -76,11 +70,16 @@ const ForwardRefLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
 );
 ForwardRefLink.displayName = 'ForwardRefLink';
 
-class NavigationDrawer extends Component<CombinedNavigationProps> {
-  private createLink(plugin: PluginConfig, index: number): React.ReactElement {
-    const imgSrc = this.props.darkMode
-      ? plugin.logoDarkMode
-      : plugin.logoLightMode;
+export const NavigationDrawer = (
+  props: NavigationDrawerProps
+): React.ReactElement => {
+  const classes = useStyles();
+
+  const createLink = (
+    plugin: PluginConfig,
+    index: number
+  ): React.ReactElement => {
+    const imgSrc = props.darkMode ? plugin.logoDarkMode : plugin.logoLightMode;
 
     const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
 
@@ -102,40 +101,38 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           primary={displayText}
           primaryTypographyProps={{ variant: 'subtitle1' }}
           classes={{
-            primary: this.props.classes.menuItem,
+            primary: classes.menuItem,
           }}
         />
       </ListItem>
     );
-  }
+  };
 
-  private buildMenuSection(
+  const buildMenuSection = (
     sectionName: string,
     plugins: PluginConfig[],
     index: number
-  ): React.ReactElement {
+  ): React.ReactElement => {
     return (
       <Fragment key={index}>
-        <Typography variant="h6" className={this.props.classes.sectionTitle}>
+        <Typography variant="h6" className={classes.sectionTitle}>
           {sectionName}
         </Typography>
         <List component="nav">
           {plugins.map((p, i) => {
-            return p.link ? this.createLink(p, i) : null;
+            return p.link ? createLink(p, i) : null;
           })}
         </List>
       </Fragment>
     );
-  }
+  };
 
-  private renderRoutes(): React.ReactFragment {
-    let { plugins } = this.props;
+  const renderRoutes = (): React.ReactFragment => {
+    let { plugins } = props;
 
-    if (this.props.homepageUrl) {
+    if (props.homepageUrl) {
       // don't include link to homepage in nav bar
-      plugins = plugins.filter(
-        (plugin) => plugin.link !== this.props.homepageUrl
-      );
+      plugins = plugins.filter((plugin) => plugin.link !== props.homepageUrl);
     }
     // Do not include non admin plugins in the drawer list
     const sectionPlugins = structureMenuData(
@@ -147,7 +144,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         {Object.keys(sectionPlugins)
           .sort()
           .map((section, i) =>
-            this.buildMenuSection(
+            buildMenuSection(
               section,
               sectionPlugins[section] as PluginConfig[],
               i
@@ -155,43 +152,41 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           )}
       </Fragment>
     );
-  }
+  };
 
-  public render(): React.ReactElement {
-    const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
-    return (
-      <Drawer
-        className={this.props.classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={this.props.open}
-        classes={{
-          paper: this.props.classes.drawerPaper,
-        }}
+  const imgSrc = props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
+  return (
+    <Drawer
+      className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={props.open}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-start"
+        height="100%"
+        boxSizing="border-box"
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="flex-start"
-          height="100%"
-          boxSizing="border-box"
-        >
-          {this.renderRoutes()}
+        {renderRoutes()}
 
-          {imgSrc && (
-            <Box marginTop="auto">
-              <img
-                className={this.props.classes.menuLogo}
-                alt={getString(this.props.res, 'alternative-text')}
-                src={imgSrc}
-              />
-            </Box>
-          )}
-        </Box>
-      </Drawer>
-    );
-  }
-}
+        {imgSrc && (
+          <Box marginTop="auto">
+            <img
+              className={classes.menuLogo}
+              alt={getString(props.res, 'alternative-text')}
+              src={imgSrc}
+            />
+          </Box>
+        )}
+      </Box>
+    </Drawer>
+  );
+};
 
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   open: state.scigateway.drawerOpen,
@@ -201,7 +196,4 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   res: getAppStrings(state, 'navigation-drawer'),
 });
 
-export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
-export const NavigationDrawerWithoutStyles = NavigationDrawer;
-
-export default connect(mapStateToProps)(NavigationDrawerWithStyles);
+export default connect(mapStateToProps)(NavigationDrawer);

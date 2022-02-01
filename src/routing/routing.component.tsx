@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  withStyles,
-  createStyles,
-  Theme,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { StateType } from '../state/state.types';
 import {
@@ -28,7 +24,7 @@ import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       paddingBottom: '36px',
@@ -46,7 +42,8 @@ const styles = (theme: Theme): StyleRules =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-  });
+  })
+);
 
 interface RoutingProps {
   plugins: PluginConfig[];
@@ -105,12 +102,12 @@ const getPluginRoutes = (
   return pluginRoutes;
 };
 
-const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
-  props: RoutingProps & WithStyles<typeof styles>
-) => {
+const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   const [pluginRoutes, setPluginRoutes] = React.useState(
     getPluginRoutes(props.plugins)
   );
+
+  const classes = useStyles();
 
   React.useEffect(() => {
     setPluginRoutes(getPluginRoutes(props.plugins));
@@ -158,8 +155,8 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
     // route, otherwise they will continue to be prompted to log in.
     // "/" is always accessible
     <div
-      className={classNames(props.classes.container, {
-        [props.classes.containerShift]: props.drawerOpen,
+      className={classNames(classes.container, {
+        [classes.containerShift]: props.drawerOpen,
       })}
     >
       {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
@@ -219,8 +216,6 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
   );
 };
 
-export const RoutingWithStyles = withStyles(styles)(Routing);
-
 const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
   location: state.router.location.pathname,
@@ -237,4 +232,4 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   loading: state.scigateway.siteLoading,
 });
 
-export default connect(mapStateToProps)(RoutingWithStyles);
+export default connect(mapStateToProps)(Routing);

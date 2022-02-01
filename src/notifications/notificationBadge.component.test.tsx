@@ -1,12 +1,12 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import NotificationBadge, {
   NotificationBadgeWithoutStyles,
   CombinedNotificationBadgeProps,
 } from './notificationBadge.component';
-import Badge from '@material-ui/core/Badge';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import Badge from '@mui/material/Badge';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { buildTheme } from '../theming';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -77,9 +77,11 @@ describe('Notification Badge component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <NotificationBadge />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -105,9 +107,11 @@ describe('Notification Badge component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <NotificationBadge />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -139,9 +143,11 @@ describe('Notification Badge component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <NotificationBadge />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -163,9 +169,11 @@ describe('Notification Badge component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <NotificationBadge />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -195,9 +203,11 @@ describe('Notification Badge component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <NotificationBadge />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

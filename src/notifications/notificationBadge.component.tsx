@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import {
-  Theme,
-  WithStyles,
-  withStyles,
-  Badge,
-  Menu,
-  createStyles,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import { StyleRules } from '@material-ui/core/styles';
+import IconButton from '@mui/material/IconButton';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Theme, Badge, Menu, Typography } from '@mui/material';
+import { StyleRules } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { StateType, ScigatewayNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { NotificationWithStyles } from './scigatewayNotification.component';
 import { AppStrings } from '../state/scigateway.types';
 import { getAppStrings, getString } from '../state/strings';
-import DeleteIcon from '@material-ui/icons/Clear';
+import DeleteIcon from '@mui/icons-material/Clear';
 
 interface BadgeProps {
   notifications: ScigatewayNotification[];
@@ -30,7 +23,7 @@ interface BadgeDispatchProps {
   deleteMenuItem: (index: number) => Action;
 }
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
       margin: theme.spacing(1),
@@ -42,11 +35,10 @@ const styles = (theme: Theme): StyleRules =>
     message: {
       flexGrow: 1,
     },
-  });
+  })
+);
 
-export type CombinedNotificationBadgeProps = BadgeProps &
-  BadgeDispatchProps &
-  WithStyles<typeof styles>;
+export type CombinedNotificationBadgeProps = BadgeProps & BadgeDispatchProps;
 
 function buildMenuItems(
   notifications: ScigatewayNotification[],
@@ -108,6 +100,7 @@ const NoNotificationsMessage = React.forwardRef(
           className={classes.button}
           onClick={props.onClose}
           aria-label="Dismiss notification"
+          size="large"
         >
           <DeleteIcon className={classes.deleteIcon} />
         </IconButton>
@@ -126,6 +119,9 @@ const NotificationBadge = (
     setMenuAnchor(null);
     setDisplayNoNotifications(false);
   };
+
+  const classes = useStyles();
+
   // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
   if (
     !displayNoNotifications &&
@@ -146,13 +142,14 @@ const NotificationBadge = (
   return (
     <div className="tour-notifications">
       <IconButton
-        className={props.classes.button}
+        className={classes.button}
         onClick={(e) => {
           if (!props.notifications || props.notifications.length === 0)
             setDisplayNoNotifications(true);
           setMenuAnchor(e.currentTarget);
         }}
         aria-label="Open notification menu"
+        size="large"
       >
         <Badge
           badgeContent={
@@ -186,11 +183,6 @@ const NotificationBadge = (
   );
 };
 
-export const NotificationBadgeWithoutStyles = NotificationBadge;
-export const NotificationBadgeWithStyles = withStyles(styles)(
-  NotificationBadge
-);
-
 const mapStateToProps = (state: StateType): BadgeProps => ({
   notifications: state.scigateway.notifications,
   res: getAppStrings(state, 'main-appbar'),
@@ -202,7 +194,4 @@ const mapDispatchToProps = (dispatch: Dispatch): BadgeDispatchProps => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationBadgeWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationBadge);

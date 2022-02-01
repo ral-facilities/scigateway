@@ -1,6 +1,6 @@
 import React from 'react';
 import ExampleComponent from './example.component';
-import { createShallow } from '@material-ui/core/test-utils';
+import { createShallow } from '@mui/material/test-utils';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from './state/reducers/scigateway.reducer';
 import { StateType } from './state/state.types';

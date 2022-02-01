@@ -1,6 +1,6 @@
 import React from 'react';
 import Routing, { PluginPlaceHolder } from './routing.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -11,7 +11,7 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 import * as singleSpa from 'single-spa';
 
 // this removes a lot of unnecessary styling information in the snapshots
-jest.mock('@material-ui/core/styles', () => ({
+jest.mock('@mui/material/styles', () => ({
   withStyles: (styles) => (component) => component,
   makeStyles: (styles) => (component) => component,
 }));

@@ -2,7 +2,7 @@ import React from 'react';
 import Preloader, {
   Preloader as UnconnectedPreloader,
 } from './preloader.component';
-import { createShallow } from '@material-ui/core/test-utils';
+import { createShallow } from '@mui/material/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';

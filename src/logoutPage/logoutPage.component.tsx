@@ -1,27 +1,23 @@
 import React from 'react';
 import { signOut } from '../state/actions/scigateway.actions';
-import Button from '@material-ui/core/Button';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Button from '@mui/material/Button';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { push } from 'connected-react-router';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { ThunkDispatch } from 'redux-thunk';
 import { Dispatch, Action, AnyAction } from 'redux';
-import {
-  withStyles,
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-} from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 import UserInfo from '../authentication/user';
-import { Avatar, Paper } from '@material-ui/core';
+import { Avatar, Paper } from '@mui/material';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -36,7 +32,7 @@ const styles = (theme: Theme): StyleRules =>
       backgroundColor: (theme as UKRITheme).colours.lightBlue,
       color: '#FFFFFF',
     },
-    avataUrl: {
+    avatarUrl: {
       margin: theme.spacing(1),
     },
     paper: {
@@ -45,7 +41,9 @@ const styles = (theme: Theme): StyleRules =>
       flexDirection: 'column',
       alignItems: 'center',
       padding: theme.spacing(3),
-      [theme.breakpoints.up(400 + theme.spacing(6))]: {
+      [theme.breakpoints.up(
+        400 + parseInt(theme.spacing(6).replace('px', ''))
+      )]: {
         width: 400,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -60,13 +58,14 @@ const styles = (theme: Theme): StyleRules =>
       fontSize: 17,
     },
     button: {
-      marginTop: `${theme.spacing(1)}px`,
+      marginTop: theme.spacing(1),
     },
     info: {
-      marginTop: `${theme.spacing(1)}px`,
+      marginTop: theme.spacing(1),
       color: theme.palette.secondary.main,
     },
-  });
+  })
+);
 
 interface LogoutPageProps {
   user: User;
@@ -77,44 +76,45 @@ interface LogoutPageDispatchProps {
   signIn: () => Action;
   signOut: () => void;
 }
-export type CombinedLogoutPageProps = LogoutPageProps &
-  LogoutPageDispatchProps &
-  WithStyles<typeof styles>;
+export type CombinedLogoutPageProps = LogoutPageProps & LogoutPageDispatchProps;
 
 export const LogoutPageComponent = (
   props: CombinedLogoutPageProps
 ): React.ReactElement => {
+  const classes = useStyles();
+
   const logout = (): void => {
     props.signOut();
   };
+
   return (
     <div className="logout-page">
-      <Paper className={props.classes.paper}>
+      <Paper className={classes.paper}>
         {props.user.avatarUrl !== '' ? (
           <Avatar
-            className={props.classes.avatarUrl}
+            className={classes.avatarUrl}
             alt="user"
             src={props.user.avatarUrl}
           />
         ) : (
-          <Avatar className={props.classes.avatar}>
+          <Avatar className={classes.avatar}>
             <AccountCircleIcon />
           </Avatar>
         )}
 
-        <Typography className={props.classes.textField}>
+        <Typography className={classes.textField}>
           {getString(props.res, 'username-description')}
         </Typography>
-        <Typography className={props.classes.username}>
+        <Typography className={classes.username}>
           {props.user.username}
         </Typography>
-        <Typography className={props.classes.info}>
+        <Typography className={classes.info}>
           {getString(props.res, 'logout-message')}
         </Typography>
         <Button
           variant="contained"
           color="primary"
-          className={props.classes.button}
+          className={classes.button}
           onClick={logout}
           data-test-id="logout-page-button"
         >
@@ -126,10 +126,6 @@ export const LogoutPageComponent = (
     </div>
   );
 };
-
-export const LogoutPageComponentWithStyles = withStyles(styles)(
-  LogoutPageComponent
-);
 
 const mapStateToProps = (state: StateType): LogoutPageProps => ({
   user:
@@ -148,4 +144,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LogoutPageDispatchProps => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LogoutPageComponentWithStyles);
+)(LogoutPageComponent);

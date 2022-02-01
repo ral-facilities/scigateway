@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
+import { createMount } from '@mui/material/test-utils';
 import configureStore from 'redux-mock-store';
 import { default as MaintenancePage } from './maintenancePage.component';
 import { Provider } from 'react-redux';

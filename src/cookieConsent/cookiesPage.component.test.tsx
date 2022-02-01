@@ -3,12 +3,12 @@ import CookiesPage, {
   CookiesPageWithoutStyles,
   CombinedCookiesPageProps,
 } from './cookiesPage.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { createShallow, createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
@@ -64,9 +64,11 @@ describe('Cookies page component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <CookiesPage store={testStore} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CookiesPage store={testStore} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper
@@ -95,9 +97,11 @@ describe('Cookies page component', () => {
       );
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <CookiesPage store={testStore} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CookiesPage store={testStore} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(

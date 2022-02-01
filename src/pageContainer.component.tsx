@@ -1,15 +1,12 @@
 import React from 'react';
-import {
-  WithStyles,
-  withStyles,
-  StyleRules,
-  Theme,
-} from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import { WithStyles, StyleRules } from '@mui/styles';
+import withStyles from '@mui/styles/withStyles';
 import Preloader from './preloader/preloader.component';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
 import Routing from './routing/routing.component';
-import Tour from './tour/tour.component';
+//import Tour from './tour/tour.component';
 import CookieConsent from './cookieConsent/cookieConsent.component';
 import Footer from './footer/footer.component';
 
@@ -29,7 +26,7 @@ const PageContainer = (
       <Preloader fullScreen={true} />
       <MainAppBar />
       <NavigationDrawer />
-      <Tour />
+      {/* <Tour /> */}
       <CookieConsent />
       <Routing />
       <Footer />

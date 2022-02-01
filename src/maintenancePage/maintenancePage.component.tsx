@@ -1,16 +1,12 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
-} from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: theme.spacing(2),
@@ -28,24 +24,22 @@ const styles = (theme: Theme): StyleRules =>
       fontWeight: 'bold',
       color: theme.palette.secondary.main,
     },
-  });
+  })
+);
 
 interface MaintenancePageProps {
   message: string;
 }
 
-export type CombinedMaintenancePageProps = MaintenancePageProps &
-  WithStyles<typeof styles>;
+const MaintenancePage = (props: MaintenancePageProps): React.ReactElement => {
+  const classes = useStyles();
 
-const MaintenancePage = (
-  props: CombinedMaintenancePageProps
-): React.ReactElement => {
   return (
-    <div className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+    <div className={classes.root}>
+      <Typography variant="h3" className={classes.titleText}>
         Maintenance
       </Typography>
-      <div className={props.classes.container}>
+      <div className={classes.container}>
         <Typography variant="h4">{props.message}</Typography>
       </div>
     </div>
@@ -56,6 +50,4 @@ const mapStateToProps = (state: StateType): MaintenancePageProps => ({
   message: state.scigateway.maintenance.message,
 });
 
-const MaintenancePageWithStyles = withStyles(styles)(MaintenancePage);
-
-export default connect(mapStateToProps)(MaintenancePageWithStyles);
+export default connect(mapStateToProps)(MaintenancePage);

@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/HelpOutline';
-import MenuIcon from '@material-ui/icons/Menu';
-import BrightnessIcon from '@material-ui/icons/Brightness4';
-import InvertColorsIcon from '@material-ui/icons/InvertColors';
-import TuneIcon from '@material-ui/icons/Tune';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import {
-  withStyles,
-  createStyles,
-  Theme,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import HelpIcon from '@mui/icons-material/HelpOutline';
+import MenuIcon from '@mui/icons-material/Menu';
+import BrightnessIcon from '@mui/icons-material/Brightness4';
+import InvertColorsIcon from '@mui/icons-material/InvertColors';
+import TuneIcon from '@mui/icons-material/Tune';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import classNames from 'classnames';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
@@ -66,7 +62,7 @@ interface MainAppDispatchProps {
   toggleHighContrastMode: (preference: boolean) => Action;
 }
 
-const styles = (theme: Theme): StyleRules =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
@@ -104,13 +100,14 @@ const styles = (theme: Theme): StyleRules =>
       marginRight: 0,
       color: theme.palette.primary.contrastText,
     },
-  });
+  })
+);
 
-type CombinedMainAppBarProps = MainAppProps &
-  MainAppDispatchProps &
-  WithStyles<typeof styles>;
+type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 
-const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
+export const MainAppBar = (
+  props: CombinedMainAppBarProps
+): React.ReactElement => {
   const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [defaultLogo, setLogo] = useState<string>(ScigatewayLogo);
   const closeMenu = (): void => setMenuAnchor(null);
@@ -131,6 +128,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   };
 
   const location = useLocation();
+  const classes = useStyles();
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -164,8 +162,8 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   }, [props.loading, props.loggedIn]);
 
   return (
-    <div className={props.classes.root}>
-      <AppBar position="static" className={props.classes.appBar}>
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar
           disableGutters
           style={{ marginLeft: '16px', marginRight: '16px' }}
@@ -174,34 +172,36 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             props.drawerOpen === false ? (
               <IconButton
                 className={classNames(
-                  props.classes.menuButton,
-                  props.drawerOpen && props.classes.menuButtonOpen
+                  classes.menuButton,
+                  props.drawerOpen && classes.menuButtonOpen
                 )}
                 color="inherit"
                 onClick={props.toggleDrawer}
                 aria-label={getString(props.res, 'open-navigation-menu')}
+                size="large"
               >
                 <MenuIcon />
               </IconButton>
             ) : (
               <IconButton
                 className={classNames(
-                  props.classes.menuButtonOpen,
-                  props.drawerOpen && props.classes.menuButton,
+                  classes.menuButtonOpen,
+                  props.drawerOpen && classes.menuButton,
                   'tour-nav-menu'
                 )}
                 color="inherit"
                 onClick={props.toggleDrawer}
                 aria-label={getString(props.res, 'close-navigation-menu')}
+                size="large"
               >
                 <MenuOpenIcon />
               </IconButton>
             )
           ) : (
-            <div className={props.classes.menuButtonPlaceholder} />
+            <div className={classes.menuButtonPlaceholder} />
           )}
           <Button
-            className={classNames(props.classes.titleButton, 'tour-title')}
+            className={classNames(classes.titleButton, 'tour-title')}
             onClick={props.navigateToHome}
             aria-label={getString(props.res, 'home-page')}
           >
@@ -212,7 +212,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           </Button>
           {props.showHelpPageButton ? (
             <Button
-              className={classNames(props.classes.button, 'tour-help')}
+              className={classNames(classes.button, 'tour-help')}
               onClick={props.navigateToHelpPage}
               aria-label={getString(props.res, 'help-page')}
             >
@@ -227,7 +227,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           ) : null}
           {props.showAdminPageButton ? (
             <Button
-              className={classNames(props.classes.button, 'tour-admin')}
+              className={classNames(classes.button, 'tour-admin')}
               onClick={props.navigateToAdminPage}
               aria-label={getString(props.res, 'admin-page')}
             >
@@ -240,18 +240,20 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               </Typography>
             </Button>
           ) : null}
-          <div className={props.classes.grow} />
+          <div className={classes.grow} />
           <IconButton
-            className={props.classes.button}
+            className={classes.button}
             onClick={props.toggleHelp}
             aria-label={getString(props.res, 'help')}
+            size="large"
           >
             <HelpIcon />
           </IconButton>
           <IconButton
-            className={classNames(props.classes.button, 'tour-settings')}
+            className={classNames(classes.button, 'tour-settings')}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
             aria-label={getString(props.res, 'open-browser-settings')}
+            size="large"
           >
             <SettingsIcon />
           </IconButton>
@@ -335,9 +337,4 @@ const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
     dispatch(loadHighContrastModePreference(preference)),
 });
 
-export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainAppBarWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(MainAppBar);
