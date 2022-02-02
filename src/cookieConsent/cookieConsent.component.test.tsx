@@ -1,10 +1,9 @@
 import React from 'react';
 
 import CookieConsent, {
-  CookieConsentWithoutStyles,
+  CookieConsentWithoutRedux,
   CombinedCookieConsentProps,
 } from './cookieConsent.component';
-import { createShallow, createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -16,18 +15,14 @@ import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
+import { shallow, mount } from 'enzyme';
 
 describe('Cookie consent component', () => {
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedCookieConsentProps;
 
   beforeEach(() => {
-    shallow = createShallow({});
-    mount = createMount();
-
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -46,21 +41,13 @@ describe('Cookie consent component', () => {
       loading: state.scigateway.siteLoading,
       initialiseAnalytics: jest.fn(),
       navigateToCookies: jest.fn(),
-      classes: {
-        root: 'root-class',
-        button: 'button-class',
-      },
     };
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -154,7 +141,7 @@ describe('Cookie consent component', () => {
         name === 'cookie-consent' ? { analytics: true } : null
       );
 
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
@@ -162,7 +149,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if site is loading', () => {
     props.loading = false;
 
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
@@ -170,7 +157,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if on /cookies page', () => {
     props.location = createLocation('/cookies');
 
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });

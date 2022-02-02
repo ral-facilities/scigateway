@@ -1,7 +1,5 @@
 import React from 'react';
-import { Theme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
+import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import { UKRITheme } from '../theming';
@@ -17,18 +15,10 @@ import { AppStrings } from '../state/scigateway.types';
 import { push } from 'connected-react-router';
 import { Location } from 'history';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      color: theme.palette.primary.contrastText,
-      backgroundColor: (theme as UKRITheme).colours.darkGreen,
-    },
-    button: {
-      color: theme.palette.primary.contrastText,
-      margin: theme.spacing(1),
-    },
-  })
-);
+const StyledButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  margin: theme.spacing(1),
+}));
 
 interface CookieConsentStateProps {
   analytics?: AnalyticsState;
@@ -48,7 +38,6 @@ export type CombinedCookieConsentProps = CookieConsentStateProps &
 export const CookieConsent = (
   props: CombinedCookieConsentProps
 ): React.ReactElement => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -105,29 +94,32 @@ export const CookieConsent = (
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      ContentProps={{ className: classes.root }}
+      ContentProps={{
+        sx: {
+          color: 'primary.contrastText',
+          backgroundColor: (theme) => (theme as UKRITheme).colours.darkGreen,
+        },
+      }}
       open={open}
       message={<div>{getString(props.res, 'text')}</div>}
       action={[
-        <Button
+        <StyledButton
           key="decline"
           variant="outlined"
-          className={classes.button}
           size="small"
           onClick={props.navigateToCookies}
         >
           {getString(props.res, 'manage-preferences-button')}
-        </Button>,
-        <Button
+        </StyledButton>,
+        <StyledButton
           key="accept"
           variant="contained"
           color="primary"
-          className={classes.button}
           size="small"
           onClick={handleAccept}
         >
           {getString(props.res, 'accept-button')}
-        </Button>,
+        </StyledButton>,
       ]}
     />
   );
@@ -146,5 +138,7 @@ const mapDispatchToProps = (
   initialiseAnalytics: () => dispatch(initialiseAnalytics()),
   navigateToCookies: () => dispatch(push('/cookies')),
 });
+
+export const CookieConsentWithoutRedux = CookieConsent;
 
 export default connect(mapStateToProps, mapDispatchToProps)(CookieConsent);
