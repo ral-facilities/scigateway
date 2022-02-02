@@ -139,6 +139,6 @@ const mapDispatchToProps = (
   navigateToCookies: () => dispatch(push('/cookies')),
 });
 
-export const CookieConsentWithoutRedux = CookieConsent;
+export const UnconnectedCookieConsent = CookieConsent;
 
 export default connect(mapStateToProps, mapDispatchToProps)(CookieConsent);

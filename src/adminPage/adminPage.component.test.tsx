@@ -1,10 +1,9 @@
 import React from 'react';
-import { createMount } from '@mui/material/test-utils';
 import { createLocation, createMemoryHistory } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import AdminPage from './adminPage.component';
+import AdminPage, { UnconnectedAdminPage } from './adminPage.component';
 import { Provider } from 'react-redux';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { buildTheme } from '../theming';
@@ -17,14 +16,14 @@ import {
   loadScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
 import { MemoryRouter, Router } from 'react-router-dom';
+import { mount, shallow } from 'enzyme';
+import { ScheduledMaintenanceState } from '../state/scigateway.types';
 
 describe('Admin page component', () => {
-  let mount;
   let mockStore;
   let state: StateType;
 
   beforeEach(() => {
-    mount = createMount();
     mockStore = configureStore([thunk]);
 
     state = {
@@ -34,21 +33,24 @@ describe('Admin page component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const testStore = mockStore(state);
+    const scheduledMaintenanceState: ScheduledMaintenanceState = {
+      show: false,
+      message: 'Test scheduled message',
+    };
+    const maintenenceState: ScheduledMaintenanceState = {
+      show: false,
+      message: 'Test message',
+    };
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-          <AdminPage />
-        </MemoryRouter>
-      </Provider>
+    const wrapper = shallow(
+      <UnconnectedAdminPage
+        res={undefined}
+        scheduledMaintenance={scheduledMaintenanceState}
+        maintenance={maintenenceState}
+      />
     );
 
     expect(wrapper).toMatchSnapshot();
@@ -75,6 +77,7 @@ describe('Admin page component', () => {
     scheduledMaintenanceMessageInput.simulate('change');
     wrapper
       .find('[aria-label="scheduled-maintenance-checkbox-arialabel"]')
+      .last()
       .simulate('change', { target: { checked: true } });
     wrapper.find('button').at(1).simulate('click');
 
@@ -110,6 +113,7 @@ describe('Admin page component', () => {
     maintenanceMessageInput.simulate('change');
     wrapper
       .find('[aria-label="maintenance-checkbox-arialabel"]')
+      .last()
       .simulate('change', { target: { checked: true } });
     wrapper.find('button').last().simulate('click');
 
@@ -139,7 +143,7 @@ describe('Admin page component', () => {
       </Provider>
     );
 
-    wrapper.find('#download-tab').first().simulate('click', { button: 0 });
+    wrapper.find('#download-tab').last().simulate('click', { button: 0 });
 
     expect(history.location.pathname).toEqual('/admin-download');
   });

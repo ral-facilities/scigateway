@@ -103,6 +103,6 @@ const mapStateToProps = (state: StateType): FooterProps => ({
   drawerOpen: state.scigateway.drawerOpen,
 });
 
-export const FooterWithoutRedux = Footer;
+export const UnconnectedFooter = Footer;
 
 export default connect(mapStateToProps)(Footer);

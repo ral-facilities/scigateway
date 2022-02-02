@@ -1,5 +1,5 @@
 import React from 'react';
-import { FooterWithoutRedux, FooterProps } from './footer.component';
+import { UnconnectedFooter, FooterProps } from './footer.component';
 import { shallow } from 'enzyme';
 
 describe('Footer component', () => {
@@ -12,7 +12,7 @@ describe('Footer component', () => {
   });
 
   it('footer renders correctly', () => {
-    const wrapper = shallow(<FooterWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedFooter {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

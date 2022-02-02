@@ -1,6 +1,6 @@
 import React from 'react';
 import CookiesPage, {
-  CookiesPageWithoutRedux,
+  UnconnectedCookiesPage,
   CombinedCookiesPageProps,
 } from './cookiesPage.component';
 import { StateType } from '../state/state.types';
@@ -37,7 +37,7 @@ describe('Cookies page component', () => {
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(<CookiesPageWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedCookiesPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 

@@ -131,6 +131,6 @@ const mapStateToProps = (state: StateType): HelpPageProps => ({
   res: getAppStrings(state, 'help-page'),
 });
 
-export const HelpPageWithoutRedux = HelpPage;
+export const UnconnectedHelpPage = HelpPage;
 
 export default connect(mapStateToProps)(HelpPage);

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  HelpPageWithoutRedux,
+  UnconnectedHelpPage,
   CombinedHelpPageProps,
 } from './helpPage.component';
 import { shallow } from 'enzyme';
@@ -15,7 +15,7 @@ describe('Help page component', () => {
   });
 
   it('should render correctly', () => {
-    const wrapper = shallow(<HelpPageWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedHelpPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

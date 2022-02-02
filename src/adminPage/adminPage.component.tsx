@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import {
-  Theme,
   Paper,
   TextareaAutosize,
   FormControlLabel,
   Checkbox,
   Button,
+  styled,
 } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import {
@@ -26,47 +25,29 @@ import {
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Link } from 'react-router-dom';
-import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
-    },
-    titleText: {
-      color: theme.palette.secondary.main,
-      fontWeight: 'bold',
-    },
-    paper: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      padding: theme.spacing(2),
-      [theme.breakpoints.up(
-        800 + parseInt(theme.spacing(8).replace('px', ''))
-      )]: {
-        width: 800,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
-    },
-    form: {
-      flexDirection: 'column',
-    },
-    textArea: {
-      backgroundColor: 'inherit',
-      color: theme.palette.text.primary,
-      font: 'inherit',
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      minWidth: '40%',
-      maxWidth: '100%',
-    },
-  })
-);
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  padding: theme.spacing(2),
+  [theme.breakpoints.up(800 + parseInt(theme.spacing(8).replace('px', '')))]: {
+    width: 800,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+}));
+
+const StyledTextArea = styled(TextareaAutosize)(({ theme }) => ({
+  backgroundColor: 'inherit',
+  color: theme.palette.text.primary,
+  font: 'inherit',
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+  minWidth: '40%',
+  maxWidth: '100%',
+}));
 
 interface AdminPageProps {
   scheduledMaintenance: ScheduledMaintenanceState;
@@ -93,8 +74,6 @@ export const AdminPage = (
     setMaintenanceState,
   } = props;
 
-  const classes = useStyles();
-
   const [
     tempScheduledMaintenance,
     setTempScheduledMaintenance,
@@ -116,8 +95,17 @@ export const AdminPage = (
   }, [maintenance]);
 
   return (
-    <Paper className={classes.root}>
-      <Typography variant="h3" className={classes.titleText}>
+    <Paper
+      sx={{
+        padding: 2,
+        flexGrow: 1,
+        backgroundColor: 'background.default',
+      }}
+    >
+      <Typography
+        variant="h3"
+        sx={{ color: 'secondary.main', fontWeight: 'bold' }}
+      >
         {getString(props.res, 'title')}
       </Typography>
       <Tabs
@@ -144,12 +132,11 @@ export const AdminPage = (
         role="tabpanel"
         hidden={tabValue !== 'maintenance'}
       >
-        <Paper className={classes.paper}>
+        <StyledPaper>
           <Typography variant="h4">
             {getString(props.res, 'scheduled-maintenance-title')}
           </Typography>
-          <TextareaAutosize
-            className={classes.textArea}
+          <StyledTextArea
             aria-label={getString(
               props.res,
               'scheduled-maintenance-message-arialabel'
@@ -202,13 +189,12 @@ export const AdminPage = (
               </Typography>
             </Button>
           </div>
-        </Paper>
-        <Paper className={classes.paper}>
+        </StyledPaper>
+        <StyledPaper>
           <Typography variant="h4">
             {getString(props.res, 'maintenance-title')}
           </Typography>
-          <TextareaAutosize
-            className={classes.textArea}
+          <StyledTextArea
             aria-label={getString(props.res, 'maintenance-message-arialabel')}
             minRows={7}
             placeholder={getString(props.res, 'message-placeholder')}
@@ -256,7 +242,7 @@ export const AdminPage = (
               </Typography>
             </Button>
           </div>
-        </Paper>
+        </StyledPaper>
       </div>
     </Paper>
   );
@@ -276,5 +262,7 @@ const mapDispatchToProps = (
   setMaintenanceState: (maintenanceState) =>
     dispatch(setMaintenanceState(maintenanceState)),
 });
+
+export const UnconnectedAdminPage = AdminPage;
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);

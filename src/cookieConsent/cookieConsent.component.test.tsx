@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CookieConsent, {
-  CookieConsentWithoutRedux,
+  UnconnectedCookieConsent,
   CombinedCookieConsentProps,
 } from './cookieConsent.component';
 import { StateType } from '../state/state.types';
@@ -47,7 +47,7 @@ describe('Cookie consent component', () => {
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -141,7 +141,7 @@ describe('Cookie consent component', () => {
         name === 'cookie-consent' ? { analytics: true } : null
       );
 
-    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
@@ -149,7 +149,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if site is loading', () => {
     props.loading = false;
 
-    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
@@ -157,7 +157,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if on /cookies page', () => {
     props.location = createLocation('/cookies');
 
-    const wrapper = shallow(<CookieConsentWithoutRedux {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
