@@ -1,7 +1,5 @@
 import React from 'react';
-import { Theme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
+import { styled } from '@mui/material/styles';
 import { getAppStrings } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
@@ -10,109 +8,93 @@ import { UKRITheme } from '../theming';
 import { Trans, useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      position: 'absolute',
-      bottom: 0,
-      paddingBottom: (theme as UKRITheme).footerPaddingBottom,
-      paddingTop: (theme as UKRITheme).footerPaddingTop,
-      width: '100%',
-      height: (theme as UKRITheme).footerHeight,
-      display: 'flex',
+const RootDiv = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  bottom: 0,
+  paddingBottom: (theme as UKRITheme).footerPaddingBottom,
+  paddingTop: (theme as UKRITheme).footerPaddingTop,
+  width: '100%',
+  height: (theme as UKRITheme).footerHeight,
+  display: 'flex',
+  color: (theme as UKRITheme).colours.footerLink.default,
+  backgroundColor: theme.palette.primary.main,
+  '& a': {
+    '&:link': {
       color: (theme as UKRITheme).colours.footerLink.default,
-      backgroundColor: theme.palette.primary.main,
-      '& a': {
-        '&:link': {
-          color: (theme as UKRITheme).colours.footerLink.default,
-        },
-        '&:visited': {
-          color: (theme as UKRITheme).colours.footerLink.default,
-        },
-        '&:active': {
-          color: (theme as UKRITheme).colours.footerLink.active,
-        },
-      },
     },
-    leftText: {
-      textAlign: 'left',
-      fontWeight: 'bold',
-      fontSize: 14,
-      textIndent: '16px',
-      display: 'inline-block',
+    '&:visited': {
+      color: (theme as UKRITheme).colours.footerLink.default,
     },
-    rightText: {
-      textAlign: 'right',
-      fontSize: 14,
-      right: 0,
-      paddingRight: '16px',
-      marginLeft: 'auto',
+    '&:active': {
+      color: (theme as UKRITheme).colours.footerLink.active,
     },
-    bold: {
-      fontWeight: 'bold',
-    },
-  })
-);
+  },
+}));
 
-interface FooterProps {
+const StyledLink = styled(Link)({
+  fontWeight: 'bold',
+});
+
+export interface FooterProps {
   res: AppStrings | undefined;
   drawerOpen: boolean;
 }
 
 const Footer = (props: FooterProps): React.ReactElement => {
-  const classes = useStyles();
   const [t] = useTranslation();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.leftText}>
+    <RootDiv>
+      <div
+        style={{
+          textAlign: 'left',
+          fontWeight: 'bold',
+          fontSize: 14,
+          textIndent: '16px',
+          display: 'inline-block',
+        }}
+      >
         <Trans i18nKey="footer.links.text">
-          <Link
-            className={classes.bold}
-            href={t('footer.links.facility')}
-            underline="hover"
-          >
+          <StyledLink href={t('footer.links.facility')} underline="hover">
             Facility Home
-          </Link>
+          </StyledLink>
           {' | '}
-          <Link
-            className={classes.bold}
+          <StyledLink
             href={t('footer.links.privacy-statement')}
             underline="hover"
           >
             Privacy statement
-          </Link>
+          </StyledLink>
           {' | '}
-          <Link
-            className={classes.bold}
-            href={t('footer.links.data-policy')}
-            underline="hover"
-          >
+          <StyledLink href={t('footer.links.data-policy')} underline="hover">
             Data policy
-          </Link>
+          </StyledLink>
           {' | '}
-          <Link
-            className={classes.bold}
-            href={t('footer.links.contact')}
-            underline="hover"
-          >
+          <StyledLink href={t('footer.links.contact')} underline="hover">
             Contact
-          </Link>
+          </StyledLink>
         </Trans>
       </div>
-      <div className={classes.rightText}>
+      <div
+        style={{
+          textAlign: 'right',
+          fontSize: 14,
+          right: 0,
+          paddingRight: '16px',
+          marginLeft: 'auto',
+        }}
+      >
         <Trans i18nKey="footer.website-development-provider">
           Built by the{' '}
-          <Link
-            className={classes.bold}
+          <StyledLink
             href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
             underline="hover"
           >
             Data and Software Engineering Group
-          </Link>
+          </StyledLink>
         </Trans>
       </div>
-    </div>
+    </RootDiv>
   );
 };
 
@@ -120,5 +102,7 @@ const mapStateToProps = (state: StateType): FooterProps => ({
   res: getAppStrings(state, 'footer'),
   drawerOpen: state.scigateway.drawerOpen,
 });
+
+export const FooterWithoutRedux = Footer;
 
 export default connect(mapStateToProps)(Footer);

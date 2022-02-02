@@ -1,9 +1,8 @@
 import React from 'react';
 import CookiesPage, {
-  CookiesPageWithoutStyles,
+  CookiesPageWithoutRedux,
   CombinedCookiesPageProps,
 } from './cookiesPage.component';
-import { createShallow, createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -12,18 +11,14 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
+import { shallow, mount } from 'enzyme';
 
 describe('Cookies page component', () => {
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedCookiesPageProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'CookiesPage' });
-    mount = createMount();
-
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -33,30 +28,16 @@ describe('Cookies page component', () => {
     props = {
       res: undefined,
       navigateToHome: jest.fn(),
-      classes: {
-        root: 'root-class',
-        container: 'container-class',
-        titleText: 'titleText-class',
-        cookiePolicy: 'cookiePolicy-class',
-        cookieTypes: 'cookieTypes-class',
-        button: 'button-class',
-        cookieList: 'cookieList-class',
-        cookieListItem: 'cookieListItem-class',
-      },
     };
 
     Cookies.set = jest.fn();
     Cookies.remove = jest.fn();
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(<CookiesPageWithoutStyles {...props} />);
+    const wrapper = shallow(<CookiesPageWithoutRedux {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
