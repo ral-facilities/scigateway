@@ -1,15 +1,13 @@
 import React from 'react';
 import * as singleSpa from 'single-spa';
 import LoginPage, {
-  LoginPageWithoutStyles,
-  LoginPageWithStyles,
+  UnconnectedLoginPage,
   CredentialsLoginScreen,
   RedirectLoginScreen,
   CombinedLoginProps,
   AnonLoginScreen,
   LoginSelector,
 } from './loginPage.component';
-import { createShallow, createMount } from '@mui/material/test-utils';
 import { buildTheme } from '../theming';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -29,6 +27,7 @@ import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
+import { mount, shallow } from 'enzyme';
 
 jest.mock('loglevel');
 
@@ -40,19 +39,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Login selector component', () => {
-  let shallow;
   let props: CombinedLoginProps;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-    spinner: 'spinner-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-
     props = {
       auth: {
         failedToLogin: false,
@@ -62,7 +51,6 @@ describe('Login selector component', () => {
       },
       location: createLocation('/'),
       res: undefined,
-      classes: dummyClasses,
     };
   });
 
@@ -95,22 +83,11 @@ describe('Login selector component', () => {
 });
 
 describe('Login page component', () => {
-  let shallow;
-  let mount;
   let props: CombinedLoginProps;
   let mockStore;
   let state: StateType;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-    spinner: 'spinner-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
     mockStore = configureStore([thunk]);
 
     state = {
@@ -128,7 +105,6 @@ describe('Login page component', () => {
       location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      classes: dummyClasses,
     };
 
     state.scigateway.authorisation = props.auth;
@@ -139,106 +115,58 @@ describe('Login page component', () => {
   const theme = buildTheme(false);
 
   it('credential component renders correctly', () => {
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CredentialsLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<CredentialsLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('credential component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CredentialsLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<CredentialsLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('credential component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CredentialsLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<CredentialsLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('redirect component renders correctly', () => {
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <RedirectLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<RedirectLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('redirect component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <RedirectLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<RedirectLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders correctly', () => {
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <AnonLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<AnonLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <AnonLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<AnonLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <AnonLoginScreen {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<AnonLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders credential component if no redirect url', () => {
-    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders redirect component if redirect url present', () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -267,13 +195,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <LoginPageWithoutStyles {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -305,13 +227,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <LoginPageWithoutStyles {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -339,13 +255,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <LoginPageWithoutStyles {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -373,13 +283,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <LoginPageWithoutStyles {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -392,13 +296,7 @@ describe('Login page component', () => {
 
   it('login page renders spinner if auth is loading', () => {
     props.auth.loading = true;
-    const wrapper = shallow(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <LoginPageWithoutStyles {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -407,9 +305,6 @@ describe('Login page component', () => {
     (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
     const dispatchEventSpy = jest
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
@@ -417,10 +312,10 @@ describe('Login page component', () => {
         return true;
       });
 
-    const wrapper = shallow(
+    const wrapper = mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <LoginPageWithoutStyles {...props} />
+          <UnconnectedLoginPage {...props} />
         </ThemeProvider>
       </StyledEngineProvider>
     );
@@ -445,7 +340,6 @@ describe('Login page component', () => {
     expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
       'It is not possible to authenticate you at the moment. Please, try again later'
     );
-    spy.mockRestore();
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
@@ -455,7 +349,7 @@ describe('Login page component', () => {
     const wrapper = mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <LoginPageWithStyles {...props} />
+          <UnconnectedLoginPage {...props} />
         </ThemeProvider>
       </StyledEngineProvider>
     );
@@ -513,7 +407,7 @@ describe('Login page component', () => {
     const wrapper = mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <LoginPageWithStyles {...props} />
+          <UnconnectedLoginPage {...props} />
         </ThemeProvider>
       </StyledEngineProvider>
     );
@@ -534,7 +428,7 @@ describe('Login page component', () => {
     mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <LoginPageWithStyles {...props} />
+          <UnconnectedLoginPage {...props} />
         </ThemeProvider>
       </StyledEngineProvider>
     );
@@ -568,7 +462,7 @@ describe('Login page component', () => {
     const wrapper = mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <LoginPageWithStyles {...props} />
+          <UnconnectedLoginPage {...props} />
         </ThemeProvider>
       </StyledEngineProvider>
     );

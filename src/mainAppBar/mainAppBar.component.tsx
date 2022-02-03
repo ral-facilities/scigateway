@@ -15,9 +15,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { Theme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
-import classNames from 'classnames';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
   toggleDrawer,
@@ -62,46 +59,22 @@ interface MainAppDispatchProps {
   toggleHighContrastMode: (preference: boolean) => Action;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100%',
-    },
-    appBar: {
-      backgroundColor: theme.palette.primary.main,
-      height: (theme as UKRITheme).mainAppBarHeight,
-    },
-    grow: {
-      flexGrow: 1,
-    },
-    titleButton: {
-      padding: 4,
-      margin: theme.spacing(1),
-      '& img': {
-        height: 24,
-      },
-    },
-    button: {
-      margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 0,
-      color: theme.palette.primary.contrastText,
-    },
-    menuButtonPlaceholder: {
-      marginLeft: -12,
-      marginRight: 0,
-      width: 48,
-    },
-    menuButtonOpen: {
-      marginLeft: -12,
-      marginRight: 0,
-      color: theme.palette.primary.contrastText,
-    },
-  })
-);
+const buttonStyles = {
+  margin: 1,
+  color: 'primary.contrastText',
+};
+
+const menuButtonStyles = {
+  marginLeft: '-12px',
+  marginRight: 0,
+  color: 'primary.contrastText',
+};
+
+const menuButtonPlaceholderStyles = {
+  marginLeft: '-12px',
+  marginRight: 0,
+  width: '48px',
+};
 
 type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 
@@ -128,7 +101,6 @@ export const MainAppBar = (
   };
 
   const location = useLocation();
-  const classes = useStyles();
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -162,8 +134,14 @@ export const MainAppBar = (
   }, [props.loading, props.loggedIn]);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar}>
+    <div style={{ width: '100%' }}>
+      <AppBar
+        position="static"
+        sx={(theme: Theme) => ({
+          backgroundColor: theme.palette.primary.main,
+          height: (theme as UKRITheme).mainAppBarHeight,
+        })}
+      >
         <Toolbar
           disableGutters
           style={{ marginLeft: '16px', marginRight: '16px' }}
@@ -171,10 +149,7 @@ export const MainAppBar = (
           {props.loggedIn ? (
             props.drawerOpen === false ? (
               <IconButton
-                className={classNames(
-                  classes.menuButton,
-                  props.drawerOpen && classes.menuButtonOpen
-                )}
+                sx={menuButtonStyles}
                 color="inherit"
                 onClick={props.toggleDrawer}
                 aria-label={getString(props.res, 'open-navigation-menu')}
@@ -184,11 +159,8 @@ export const MainAppBar = (
               </IconButton>
             ) : (
               <IconButton
-                className={classNames(
-                  classes.menuButtonOpen,
-                  props.drawerOpen && classes.menuButton,
-                  'tour-nav-menu'
-                )}
+                className={'tour-nav-menu'}
+                sx={menuButtonStyles}
                 color="inherit"
                 onClick={props.toggleDrawer}
                 aria-label={getString(props.res, 'close-navigation-menu')}
@@ -198,10 +170,17 @@ export const MainAppBar = (
               </IconButton>
             )
           ) : (
-            <div className={classes.menuButtonPlaceholder} />
+            <div style={menuButtonPlaceholderStyles} />
           )}
           <Button
-            className={classNames(classes.titleButton, 'tour-title')}
+            className="tour-title"
+            sx={{
+              padding: '4px',
+              margin: 1,
+              '& img': {
+                height: '24px',
+              },
+            }}
             onClick={props.navigateToHome}
             aria-label={getString(props.res, 'home-page')}
           >
@@ -212,7 +191,8 @@ export const MainAppBar = (
           </Button>
           {props.showHelpPageButton ? (
             <Button
-              className={classNames(classes.button, 'tour-help')}
+              className={'tour-help'}
+              sx={buttonStyles}
               onClick={props.navigateToHelpPage}
               aria-label={getString(props.res, 'help-page')}
             >
@@ -227,7 +207,8 @@ export const MainAppBar = (
           ) : null}
           {props.showAdminPageButton ? (
             <Button
-              className={classNames(classes.button, 'tour-admin')}
+              className={'tour-admin'}
+              sx={buttonStyles}
               onClick={props.navigateToAdminPage}
               aria-label={getString(props.res, 'admin-page')}
             >
@@ -240,9 +221,9 @@ export const MainAppBar = (
               </Typography>
             </Button>
           ) : null}
-          <div className={classes.grow} />
+          <div style={{ flexGrow: 1 }} />
           <IconButton
-            className={classes.button}
+            sx={buttonStyles}
             onClick={props.toggleHelp}
             aria-label={getString(props.res, 'help')}
             size="large"
@@ -250,7 +231,8 @@ export const MainAppBar = (
             <HelpIcon />
           </IconButton>
           <IconButton
-            className={classNames(classes.button, 'tour-settings')}
+            className={'tour-settings'}
+            sx={buttonStyles}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
             aria-label={getString(props.res, 'open-browser-settings')}
             size="large"

@@ -1,6 +1,5 @@
 import React from 'react';
 import MainAppBarComponent from './mainAppBar.component';
-import { createMount } from '@mui/material/test-utils';
 import { StateType } from '../state/state.types';
 import { PluginConfig } from '../state/scigateway.types';
 import configureStore from 'redux-mock-store';
@@ -17,12 +16,11 @@ import { buildTheme } from '../theming';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { loadDarkModePreference } from '../state/actions/scigateway.actions';
 import { createMemoryHistory, History } from 'history';
-import { ReactWrapper } from 'enzyme';
+import { ReactWrapper, mount } from 'enzyme';
 import { Router } from 'react-router-dom';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 
 describe('Main app bar component', () => {
-  let mount;
   let mockStore;
   let state: StateType;
   let history: History;
@@ -42,16 +40,11 @@ describe('Main app bar component', () => {
   };
 
   beforeEach(() => {
-    mount = createMount();
     history = createMemoryHistory();
 
     mockStore = configureStore();
     state = JSON.parse(JSON.stringify({ scigateway: initialState }));
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   const theme = buildTheme(false);
@@ -206,7 +199,7 @@ describe('Main app bar component', () => {
     wrapper
       .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
-    wrapper.find('#item-manage-cookies').first().simulate('click');
+    wrapper.find('#item-manage-cookies').last().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/cookies'));
@@ -220,7 +213,7 @@ describe('Main app bar component', () => {
     wrapper
       .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
-    wrapper.find('#item-dark-mode').first().simulate('click');
+    wrapper.find('#item-dark-mode').last().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
@@ -234,7 +227,7 @@ describe('Main app bar component', () => {
     wrapper
       .find('button[aria-label="open-browser-settings"]')
       .simulate('click');
-    wrapper.find('#item-high-contrast-mode').first().simulate('click');
+    wrapper.find('#item-high-contrast-mode').last().simulate('click');
     wrapper.update();
 
     expect(testStore.getActions().length).toEqual(1);
@@ -256,6 +249,9 @@ describe('Main app bar component', () => {
     state.scigateway.siteLoading = false;
 
     const testStore = mockStore(state);
+    // Need to use attachTo something to ensure document.getElementById works as expected
+    const holder = document.createElement('div');
+    document.body.appendChild(holder);
     const wrapper = mount(
       <div id="plugin">
         <StyledEngineProvider injectFirst>
@@ -267,7 +263,8 @@ describe('Main app bar component', () => {
             </Provider>
           </ThemeProvider>
         </StyledEngineProvider>
-      </div>
+      </div>,
+      { attachTo: holder }
     );
 
     expect(wrapper.find('img').prop('src')).toEqual('pluginLogo');

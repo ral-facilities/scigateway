@@ -7,65 +7,18 @@ import Typography from '@mui/material/Typography';
 import { ThunkDispatch } from 'redux-thunk';
 import { Dispatch, Action, AnyAction } from 'redux';
 import { Theme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 import UserInfo from '../authentication/user';
-import { Avatar, Paper } from '@mui/material';
+import { Avatar, Paper, styled } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      width: 'auto',
-      marginLeft: theme.spacing(3),
-      marginRight: theme.spacing(3),
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: (theme as UKRITheme).colours.lightBlue,
-      color: '#FFFFFF',
-    },
-    avatarUrl: {
-      margin: theme.spacing(1),
-    },
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: theme.spacing(3),
-      [theme.breakpoints.up(
-        400 + parseInt(theme.spacing(6).replace('px', ''))
-      )]: {
-        width: 400,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
-    },
-    textField: {
-      marginTop: theme.spacing(1),
-    },
-    username: {
-      paddingTop: 3,
-      fontWeight: 'bold',
-      fontSize: 17,
-    },
-    button: {
-      marginTop: theme.spacing(1),
-    },
-    info: {
-      marginTop: theme.spacing(1),
-      color: theme.palette.secondary.main,
-    },
-  })
-);
+const InfoTypography = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  color: theme.palette.secondary.main,
+}));
 
 interface LogoutPageProps {
   user: User;
@@ -76,45 +29,64 @@ interface LogoutPageDispatchProps {
   signIn: () => Action;
   signOut: () => void;
 }
+
 export type CombinedLogoutPageProps = LogoutPageProps & LogoutPageDispatchProps;
 
-export const LogoutPageComponent = (
+export const UnconnectedLogoutPage = (
   props: CombinedLogoutPageProps
 ): React.ReactElement => {
-  const classes = useStyles();
-
   const logout = (): void => {
     props.signOut();
   };
 
   return (
     <div className="logout-page">
-      <Paper className={classes.paper}>
+      <Paper
+        sx={(theme: Theme) => ({
+          marginTop: theme.spacing(8),
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: theme.spacing(3),
+          [theme.breakpoints.up(
+            400 + parseInt(theme.spacing(6).replace('px', ''))
+          )]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          },
+        })}
+      >
         {props.user.avatarUrl !== '' ? (
-          <Avatar
-            className={classes.avatarUrl}
-            alt="user"
-            src={props.user.avatarUrl}
-          />
+          <Avatar sx={{ margin: 1 }} alt="user" src={props.user.avatarUrl} />
         ) : (
-          <Avatar className={classes.avatar}>
+          <Avatar
+            sx={{
+              margin: 1,
+              backgroundColor: (theme: Theme) =>
+                (theme as UKRITheme).colours.lightBlue,
+              color: '#FFFFFF',
+            }}
+          >
             <AccountCircleIcon />
           </Avatar>
         )}
 
-        <Typography className={classes.textField}>
+        <Typography sx={{ marginTop: 1 }}>
           {getString(props.res, 'username-description')}
         </Typography>
-        <Typography className={classes.username}>
+        <Typography
+          sx={{ paddingTop: '3px', fontWeight: 'bold', fontSize: 17 }}
+        >
           {props.user.username}
         </Typography>
-        <Typography className={classes.info}>
+        <InfoTypography>
           {getString(props.res, 'logout-message')}
-        </Typography>
+        </InfoTypography>
         <Button
           variant="contained"
           color="primary"
-          className={classes.button}
+          sx={{ marginTop: 1 }}
           onClick={logout}
           data-test-id="logout-page-button"
         >
@@ -144,4 +116,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LogoutPageDispatchProps => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LogoutPageComponent);
+)(UnconnectedLogoutPage);

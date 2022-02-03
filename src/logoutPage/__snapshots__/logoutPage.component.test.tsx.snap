@@ -4,29 +4,53 @@ exports[`logout page component renders the logout page correctly with avatar usi
 <div
   className="logout-page"
 >
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+  <ForwardRef(Paper)
+    sx={[Function]}
   >
-    <WithStyles(ForwardRef(Avatar))
+    <ForwardRef(Avatar)
       alt="user"
       src="test_url"
+      sx={
+        Object {
+          "margin": 1,
+        }
+      }
     />
-    <WithStyles(ForwardRef(Typography))>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "marginTop": 1,
+        }
+      }
+    >
       username-description
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "fontSize": 17,
+          "fontWeight": "bold",
+          "paddingTop": "3px",
+        }
+      }
+    >
       simple/root
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
+    <Styled(ForwardRef(Typography))>
       logout-message
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Button))
+    </Styled(ForwardRef(Typography))>
+    <ForwardRef(Button)
       color="primary"
       data-test-id="logout-page-button"
       onClick={[Function]}
+      sx={
+        Object {
+          "marginTop": 1,
+        }
+      }
       variant="contained"
     >
-      <WithStyles(ForwardRef(Typography))
+      <ForwardRef(Typography)
         color="inherit"
         noWrap={true}
         style={
@@ -36,9 +60,9 @@ exports[`logout page component renders the logout page correctly with avatar usi
         }
       >
         logout-button
-      </WithStyles(ForwardRef(Typography))>
-    </WithStyles(ForwardRef(Button))>
-  </WithStyles(ForwardRef(Paper))>
+      </ForwardRef(Typography)>
+    </ForwardRef(Button)>
+  </ForwardRef(Paper)>
 </div>
 `;
 
@@ -46,30 +70,55 @@ exports[`logout page component renders the logout page correctly with default av
 <div
   className="logout-page"
 >
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+  <ForwardRef(Paper)
+    sx={[Function]}
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": 1,
+        }
+      }
     >
       <Memo(ForwardRef(AccountCircleIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "marginTop": 1,
+        }
+      }
+    >
       username-description
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "fontSize": 17,
+          "fontWeight": "bold",
+          "paddingTop": "3px",
+        }
+      }
+    >
       simple/root
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
+    <Styled(ForwardRef(Typography))>
       logout-message
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Button))
+    </Styled(ForwardRef(Typography))>
+    <ForwardRef(Button)
       color="primary"
       data-test-id="logout-page-button"
       onClick={[Function]}
+      sx={
+        Object {
+          "marginTop": 1,
+        }
+      }
       variant="contained"
     >
-      <WithStyles(ForwardRef(Typography))
+      <ForwardRef(Typography)
         color="inherit"
         noWrap={true}
         style={
@@ -79,8 +128,8 @@ exports[`logout page component renders the logout page correctly with default av
         }
       >
         logout-button
-      </WithStyles(ForwardRef(Typography))>
-    </WithStyles(ForwardRef(Button))>
-  </WithStyles(ForwardRef(Paper))>
+      </ForwardRef(Typography)>
+    </ForwardRef(Button)>
+  </ForwardRef(Paper)>
 </div>
 `;

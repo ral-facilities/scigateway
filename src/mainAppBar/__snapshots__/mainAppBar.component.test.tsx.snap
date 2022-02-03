@@ -2,16 +2,6 @@
 
 exports[`Main app bar component app bar indented when drawer is open 1`] = `
 Object {
-  "classes": Object {
-    "appBar": "MainAppBar-appBar-50",
-    "button": "MainAppBar-button-53",
-    "grow": "MainAppBar-grow-51",
-    "menuButton": "MainAppBar-menuButton-54",
-    "menuButtonOpen": "MainAppBar-menuButtonOpen-56",
-    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-55",
-    "root": "MainAppBar-root-49",
-    "titleButton": "MainAppBar-titleButton-52",
-  },
   "darkMode": false,
   "drawerOpen": true,
   "highContrastMode": false,
@@ -37,16 +27,6 @@ Object {
 
 exports[`Main app bar component app bar renders correctly 1`] = `
 Object {
-  "classes": Object {
-    "appBar": "MainAppBar-appBar-2",
-    "button": "MainAppBar-button-5",
-    "grow": "MainAppBar-grow-3",
-    "menuButton": "MainAppBar-menuButton-6",
-    "menuButtonOpen": "MainAppBar-menuButtonOpen-8",
-    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-7",
-    "root": "MainAppBar-root-1",
-    "titleButton": "MainAppBar-titleButton-4",
-  },
   "darkMode": false,
   "drawerOpen": false,
   "highContrastMode": false,
@@ -72,16 +52,6 @@ Object {
 
 exports[`Main app bar component does not render Help button when feature is false 1`] = `
 Object {
-  "classes": Object {
-    "appBar": "MainAppBar-appBar-18",
-    "button": "MainAppBar-button-21",
-    "grow": "MainAppBar-grow-19",
-    "menuButton": "MainAppBar-menuButton-22",
-    "menuButtonOpen": "MainAppBar-menuButtonOpen-24",
-    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-23",
-    "root": "MainAppBar-root-17",
-    "titleButton": "MainAppBar-titleButton-20",
-  },
   "darkMode": false,
   "drawerOpen": false,
   "highContrastMode": false,
@@ -107,16 +77,6 @@ Object {
 
 exports[`Main app bar component uses single plugin logo when feature is true 1`] = `
 Object {
-  "classes": Object {
-    "appBar": "MainAppBar-appBar-34",
-    "button": "MainAppBar-button-37",
-    "grow": "MainAppBar-grow-35",
-    "menuButton": "MainAppBar-menuButton-38",
-    "menuButtonOpen": "MainAppBar-menuButtonOpen-40",
-    "menuButtonPlaceholder": "MainAppBar-menuButtonPlaceholder-39",
-    "root": "MainAppBar-root-33",
-    "titleButton": "MainAppBar-titleButton-36",
-  },
   "darkMode": false,
   "drawerOpen": false,
   "highContrastMode": false,

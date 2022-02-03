@@ -1,16 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login page component anonymous component renders correctly 1`] = `
-<div
-  className="root-1"
+<Styled(div)
   onKeyPress={[Function]}
 >
-  <WithStyles(ForwardRef(Button))
+  <ForwardRef(Button)
     color="primary"
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -20,25 +24,29 @@ exports[`Login page component anonymous component renders correctly 1`] = `
       }
     >
       login.login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-</div>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+</Styled(div)>
 `;
 
 exports[`Login page component anonymous component renders failedToLogin error correctly 1`] = `
-<div
-  className="root-1"
+<Styled(div)
   onKeyPress={[Function]}
 >
-  <WithStyles(ForwardRef(Typography))>
+  <Styled(ForwardRef(Typography))>
     login.login-error-msg
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(Button))
+  </Styled(ForwardRef(Typography))>
+  <ForwardRef(Button)
     color="primary"
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -48,25 +56,29 @@ exports[`Login page component anonymous component renders failedToLogin error co
       }
     >
       login.login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-</div>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+</Styled(div)>
 `;
 
 exports[`Login page component anonymous component renders signedOutDueToTokenInvalidation error correctly 1`] = `
-<div
-  className="root-1"
+<Styled(div)
   onKeyPress={[Function]}
 >
-  <WithStyles(ForwardRef(Typography))>
+  <Styled(ForwardRef(Typography))>
     login.token-invalid-msg
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(Button))
+  </Styled(ForwardRef(Typography))>
+  <ForwardRef(Button)
     color="primary"
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -76,17 +88,16 @@ exports[`Login page component anonymous component renders signedOutDueToTokenInv
       }
     >
       login.login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-</div>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+</Styled(div)>
 `;
 
 exports[`Login page component credential component renders correctly 1`] = `
-<div
-  className="root-1"
+<Styled(div)
   onKeyPress={[Function]}
 >
-  <WithStyles(ForwardRef(TextField))
+  <ForwardRef(TextField)
     color="secondary"
     disabled={false}
     inputProps={
@@ -96,9 +107,16 @@ exports[`Login page component credential component renders correctly 1`] = `
     }
     label="login.username-placeholder"
     onChange={[Function]}
+    sx={
+      Object {
+        "marginTop": 1,
+        "width": "352px",
+      }
+    }
     value=""
+    variant="standard"
   />
-  <WithStyles(ForwardRef(TextField))
+  <ForwardRef(TextField)
     color="secondary"
     disabled={false}
     inputProps={
@@ -108,23 +126,45 @@ exports[`Login page component credential component renders correctly 1`] = `
     }
     label="login.password-placeholder"
     onChange={[Function]}
+    sx={
+      Object {
+        "marginTop": 1,
+        "width": "352px",
+      }
+    }
     type="password"
     value=""
+    variant="standard"
   />
-  <WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Link))
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "fontSize": 14,
+        "marginLeft": "auto",
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
+    <ForwardRef(Link)
       href="login.forgotten-your-password-link"
+      underline="hover"
     >
       login.forgotten-your-password
-    </WithStyles(ForwardRef(Link))>
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(Button))
+    </ForwardRef(Link)>
+  </ForwardRef(Typography)>
+  <ForwardRef(Button)
     color="primary"
     disabled={true}
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -135,46 +175,64 @@ exports[`Login page component credential component renders correctly 1`] = `
       }
     >
       login.login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-  <WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Link))
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "fontSize": 14,
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
+    <ForwardRef(Link)
       href="login.need-help-signing-in-link"
+      underline="hover"
     >
       login.need-help-signing-in
-    </WithStyles(ForwardRef(Link))>
-  </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Link)>
+  </ForwardRef(Typography)>
   <DividerWithText>
-    <WithStyles(ForwardRef(Typography))>
+    <ForwardRef(Typography)>
       or
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
   </DividerWithText>
-  <WithStyles(ForwardRef(Typography))>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "color": [Function],
+        "fontSize": 14,
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
     <Trans
       i18nKey="login.dont-have-an-account-sign-up-now"
       t={[Function]}
     >
       Don't have an account?
        
-      <WithStyles(ForwardRef(Link))
+      <ForwardRef(Link)
         href="login.dont-have-an-account-sign-up-now-link"
+        underline="hover"
       >
         Sign up now
-      </WithStyles(ForwardRef(Link))>
+      </ForwardRef(Link)>
     </Trans>
-  </WithStyles(ForwardRef(Typography))>
-</div>
+  </ForwardRef(Typography)>
+</Styled(div)>
 `;
 
 exports[`Login page component credential component renders failedToLogin error correctly 1`] = `
-<div
-  className="root-1"
+<Styled(div)
   onKeyPress={[Function]}
 >
-  <WithStyles(ForwardRef(Typography))>
+  <Styled(ForwardRef(Typography))>
     login.login-error-msg
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(TextField))
+  </Styled(ForwardRef(Typography))>
+  <ForwardRef(TextField)
     color="secondary"
     disabled={false}
     inputProps={
@@ -184,9 +242,16 @@ exports[`Login page component credential component renders failedToLogin error c
     }
     label="login.username-placeholder"
     onChange={[Function]}
+    sx={
+      Object {
+        "marginTop": 1,
+        "width": "352px",
+      }
+    }
     value=""
+    variant="standard"
   />
-  <WithStyles(ForwardRef(TextField))
+  <ForwardRef(TextField)
     color="secondary"
     disabled={false}
     inputProps={
@@ -196,23 +261,45 @@ exports[`Login page component credential component renders failedToLogin error c
     }
     label="login.password-placeholder"
     onChange={[Function]}
+    sx={
+      Object {
+        "marginTop": 1,
+        "width": "352px",
+      }
+    }
     type="password"
     value=""
+    variant="standard"
   />
-  <WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Link))
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "fontSize": 14,
+        "marginLeft": "auto",
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
+    <ForwardRef(Link)
       href="login.forgotten-your-password-link"
+      underline="hover"
     >
       login.forgotten-your-password
-    </WithStyles(ForwardRef(Link))>
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(Button))
+    </ForwardRef(Link)>
+  </ForwardRef(Typography)>
+  <ForwardRef(Button)
     color="primary"
     disabled={true}
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -223,46 +310,64 @@ exports[`Login page component credential component renders failedToLogin error c
       }
     >
       login.login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-  <WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Link))
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "fontSize": 14,
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
+    <ForwardRef(Link)
       href="login.need-help-signing-in-link"
+      underline="hover"
     >
       login.need-help-signing-in
-    </WithStyles(ForwardRef(Link))>
-  </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Link)>
+  </ForwardRef(Typography)>
   <DividerWithText>
-    <WithStyles(ForwardRef(Typography))>
+    <ForwardRef(Typography)>
       or
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
   </DividerWithText>
-  <WithStyles(ForwardRef(Typography))>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "color": [Function],
+        "fontSize": 14,
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
     <Trans
       i18nKey="login.dont-have-an-account-sign-up-now"
       t={[Function]}
     >
       Don't have an account?
        
-      <WithStyles(ForwardRef(Link))
+      <ForwardRef(Link)
         href="login.dont-have-an-account-sign-up-now-link"
+        underline="hover"
       >
         Sign up now
-      </WithStyles(ForwardRef(Link))>
+      </ForwardRef(Link)>
     </Trans>
-  </WithStyles(ForwardRef(Typography))>
-</div>
+  </ForwardRef(Typography)>
+</Styled(div)>
 `;
 
 exports[`Login page component credential component renders signedOutDueToTokenInvalidation error correctly 1`] = `
-<div
-  className="root-1"
+<Styled(div)
   onKeyPress={[Function]}
 >
-  <WithStyles(ForwardRef(Typography))>
+  <Styled(ForwardRef(Typography))>
     login.token-invalid-msg
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(TextField))
+  </Styled(ForwardRef(Typography))>
+  <ForwardRef(TextField)
     color="secondary"
     disabled={false}
     inputProps={
@@ -272,9 +377,16 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     }
     label="login.username-placeholder"
     onChange={[Function]}
+    sx={
+      Object {
+        "marginTop": 1,
+        "width": "352px",
+      }
+    }
     value=""
+    variant="standard"
   />
-  <WithStyles(ForwardRef(TextField))
+  <ForwardRef(TextField)
     color="secondary"
     disabled={false}
     inputProps={
@@ -284,23 +396,45 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
     }
     label="login.password-placeholder"
     onChange={[Function]}
+    sx={
+      Object {
+        "marginTop": 1,
+        "width": "352px",
+      }
+    }
     type="password"
     value=""
+    variant="standard"
   />
-  <WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Link))
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "fontSize": 14,
+        "marginLeft": "auto",
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
+    <ForwardRef(Link)
       href="login.forgotten-your-password-link"
+      underline="hover"
     >
       login.forgotten-your-password
-    </WithStyles(ForwardRef(Link))>
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(Button))
+    </ForwardRef(Link)>
+  </ForwardRef(Typography)>
+  <ForwardRef(Button)
     color="primary"
     disabled={true}
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -311,50 +445,83 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
       }
     >
       login.login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-  <WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Link))
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "fontSize": 14,
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
+    <ForwardRef(Link)
       href="login.need-help-signing-in-link"
+      underline="hover"
     >
       login.need-help-signing-in
-    </WithStyles(ForwardRef(Link))>
-  </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Link)>
+  </ForwardRef(Typography)>
   <DividerWithText>
-    <WithStyles(ForwardRef(Typography))>
+    <ForwardRef(Typography)>
       or
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
   </DividerWithText>
-  <WithStyles(ForwardRef(Typography))>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "color": [Function],
+        "fontSize": 14,
+        "paddingBottom": "24px",
+        "paddingTop": "12px",
+      }
+    }
+  >
     <Trans
       i18nKey="login.dont-have-an-account-sign-up-now"
       t={[Function]}
     >
       Don't have an account?
        
-      <WithStyles(ForwardRef(Link))
+      <ForwardRef(Link)
         href="login.dont-have-an-account-sign-up-now-link"
+        underline="hover"
       >
         Sign up now
-      </WithStyles(ForwardRef(Link))>
+      </ForwardRef(Link)>
     </Trans>
-  </WithStyles(ForwardRef(Typography))>
-</div>
+  </ForwardRef(Typography)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page doesn't render dropdown if anon is the only other authenticator 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -365,7 +532,7 @@ exports[`Login page component login page doesn't render dropdown if anon is the 
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <CredentialsLoginScreen
       auth={
         Object {
@@ -382,14 +549,6 @@ exports[`Login page component login page doesn't render dropdown if anon is the 
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
-        }
-      }
       location={
         Object {
           "hash": "",
@@ -401,23 +560,37 @@ exports[`Login page component login page doesn't render dropdown if anon is the 
       mnemonic="user/pass"
       verifyUsernameAndPassword={[Function]}
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page renders anonymous login if mnemonic present with no keys 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -428,7 +601,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <AnonLoginScreen
       auth={
         Object {
@@ -445,14 +618,6 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
-        }
-      }
       location={
         Object {
           "hash": "",
@@ -464,23 +629,37 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
       mnemonic="nokeys"
       verifyUsernameAndPassword={[Function]}
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page renders credential component if no redirect url 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -491,7 +670,7 @@ exports[`Login page component login page renders credential component if no redi
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <CredentialsLoginScreen
       auth={
         Object {
@@ -508,14 +687,6 @@ exports[`Login page component login page renders credential component if no redi
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
-        }
-      }
       location={
         Object {
           "hash": "",
@@ -526,23 +697,37 @@ exports[`Login page component login page renders credential component if no redi
       }
       verifyUsernameAndPassword={[Function]}
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page renders credentials login if mnemonic present + user/pass is selected 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -553,7 +738,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <CredentialsLoginScreen
       auth={
         Object {
@@ -570,14 +755,6 @@ exports[`Login page component login page renders credentials login if mnemonic p
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
-        }
-      }
       location={
         Object {
           "hash": "",
@@ -589,23 +766,37 @@ exports[`Login page component login page renders credentials login if mnemonic p
       mnemonic="user/pass"
       verifyUsernameAndPassword={[Function]}
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon) 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -616,7 +807,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <LoginSelector
       auth={
         Object {
@@ -631,14 +822,6 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
             "user": null,
           },
           "signedOutDueToTokenInvalidation": false,
-        }
-      }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
         }
       }
       location={
@@ -679,23 +862,37 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
       setMnemonic={[Function]}
       verifyUsernameAndPassword={[Function]}
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page renders redirect component if redirect url present 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -706,7 +903,7 @@ exports[`Login page component login page renders redirect component if redirect 
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <RedirectLoginScreen
       auth={
         Object {
@@ -723,14 +920,6 @@ exports[`Login page component login page renders redirect component if redirect 
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
-        }
-      }
       location={
         Object {
           "hash": "",
@@ -741,23 +930,37 @@ exports[`Login page component login page renders redirect component if redirect 
       }
       verifyUsernameAndPassword={[Function]}
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component login page renders spinner if auth is loading 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Paper))
-    className="paper-class"
+<Styled(div)>
+  <ForwardRef(Paper)
+    sx={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": 8,
+        "paddingTop": "24px",
+        "width": 400,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Avatar))
-      className="avatar-class"
+    <ForwardRef(Avatar)
+      sx={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": [Function],
+          "color": "#FFFFFF",
+          "margin": "12px",
+        }
+      }
     >
       <Memo(ForwardRef(LockOutlinedIcon)) />
-    </WithStyles(ForwardRef(Avatar))>
-    <WithStyles(ForwardRef(Typography))
+    </ForwardRef(Avatar)>
+    <ForwardRef(Typography)
       component="h1"
       style={
         Object {
@@ -768,7 +971,7 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
       variant="h5"
     >
       login.title
-    </WithStyles(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <CredentialsLoginScreen
       auth={
         Object {
@@ -785,14 +988,6 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
           "signedOutDueToTokenInvalidation": false,
         }
       }
-      classes={
-        Object {
-          "avatar": "avatar-class",
-          "paper": "paper-class",
-          "root": "root-1",
-          "spinner": "spinner-class",
-        }
-      }
       location={
         Object {
           "hash": "",
@@ -803,24 +998,31 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
       }
       verifyUsernameAndPassword={[Function]}
     />
-    <WithStyles(ForwardRef(CircularProgress))
-      className="spinner-class"
+    <ForwardRef(CircularProgress)
+      sx={
+        Object {
+          "marginBottom": 3,
+        }
+      }
     />
-  </WithStyles(ForwardRef(Paper))>
-</div>
+  </ForwardRef(Paper)>
+</Styled(div)>
 `;
 
 exports[`Login page component redirect component renders correctly 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Button))
+<Styled(div)>
+  <ForwardRef(Button)
     color="primary"
     disabled={false}
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -830,25 +1032,28 @@ exports[`Login page component redirect component renders correctly 1`] = `
       }
     >
       Login with Github
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-</div>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+</Styled(div)>
 `;
 
 exports[`Login page component redirect component renders failedToLogin error correctly 1`] = `
-<div
-  className="root-1"
->
-  <WithStyles(ForwardRef(Typography))>
+<Styled(div)>
+  <Styled(ForwardRef(Typography))>
     login.login-redirect-error-msg
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(Button))
+  </Styled(ForwardRef(Typography))>
+  <ForwardRef(Button)
     color="primary"
     disabled={false}
     onClick={[Function]}
+    sx={
+      Object {
+        "width": "352px",
+      }
+    }
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
       style={
@@ -858,7 +1063,7 @@ exports[`Login page component redirect component renders failedToLogin error cor
       }
     >
       Login with Github
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
-</div>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
+</Styled(div)>
 `;
