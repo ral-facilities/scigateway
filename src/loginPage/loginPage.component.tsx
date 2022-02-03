@@ -199,6 +199,8 @@ export const CredentialsLoginScreen = (
 
   const isInputValid = (): boolean => username !== '' && password !== '';
 
+  let isTextVisible = false;
+
   const [t] = useTranslation();
 
   return (
@@ -252,7 +254,12 @@ export const CredentialsLoginScreen = (
         <Link href={t('login.forgotten-your-password-link')}>
           {t('login.forgotten-your-password')}
         </Link>
+        {(isTextVisible = true)}
       </Typography>
+      {console.log(isTextVisible)}
+      {!isTextVisible ? (
+        <CircularProgress className={props.classes.spinner} />
+      ) : null}
       <Button
         variant="contained"
         color="primary"
