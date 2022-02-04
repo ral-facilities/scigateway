@@ -1,4 +1,5 @@
 import createReducer from './createReducer';
+import { singleSpaPluginRoutes } from '../actions/loadMicroFrontends';
 import {
   NotificationType,
   NotificationPayload,
@@ -40,6 +41,7 @@ import {
   CustomLogoType,
   LoadHighContrastModePreferencePayload,
   LoadHighContrastModePreferenceType,
+  ResetAuthStateType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -121,6 +123,13 @@ const updatePlugins = (
   existingPlugins: PluginConfig[],
   payload: RegisterRoutePayload
 ): PluginConfig[] => {
+  if (singleSpaPluginRoutes[payload.plugin]) {
+    if (!singleSpaPluginRoutes[payload.plugin].includes(payload.link))
+      singleSpaPluginRoutes[payload.plugin].push(payload.link);
+  } else {
+    singleSpaPluginRoutes[payload.plugin] = [payload.link];
+  }
+
   if (!existingPlugins.some((p) => p.link === payload.link)) {
     return [...existingPlugins, buildPluginConfig(payload)];
   }
@@ -216,6 +225,15 @@ export function handleSignOut(state: ScigatewayState): ScigatewayState {
     ...state,
     drawerOpen: false,
     authorisation: resetAuth(state.authorisation),
+  };
+}
+
+export function handleResetAuthState(state: ScigatewayState): ScigatewayState {
+  return {
+    ...state,
+    authorisation: {
+      ...resetAuth(state.authorisation),
+    },
   };
 }
 
@@ -444,6 +462,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [LoadAuthProviderType]: handleAuthProviderUpdate,
   [ConfigureStringsType]: handleConfigureStrings,
   [SignOutType]: handleSignOut,
+  [ResetAuthStateType]: handleResetAuthState,
   [InvalidateTokenType]: handleTokenExpiration,
   [ConfigureFeatureSwitchesType]: handleConfigureFeatureSwitches,
   [LoadScheduledMaintenanceStateType]: handleLoadScheduledMaintenanceState,

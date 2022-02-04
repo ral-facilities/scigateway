@@ -81,17 +81,17 @@ describe('Main app bar component', () => {
     expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
   });
 
-  it('sends toggleDrawer action when menu clicked (open drawer)', () => {
+  it('sends toggleDrawer action when site has loaded', () => {
+    state.scigateway.drawerOpen = false;
+    state.scigateway.siteLoading = false;
     const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+    createWrapper(testStore);
 
-    wrapper.find('button').first().simulate('click');
-
-    expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('sends toggleDrawer action when menu clicked (closes drawer)', () => {
+  it('sends toggleDrawer action when menu clicked (open drawer)', () => {
     state.scigateway.drawerOpen = true;
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
@@ -102,11 +102,11 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('sends toggleDrawer action when on "/"', () => {
-    history.replace('/');
-
+  it('sends toggleDrawer action when menu clicked (close drawer)', () => {
     const testStore = mockStore(state);
-    createWrapper(testStore);
+    const wrapper = createWrapper(testStore);
+
+    wrapper.find('button').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
@@ -120,8 +120,8 @@ describe('Main app bar component', () => {
 
     wrapper.find('button[aria-label="home-page"]').first().simulate('click');
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(push('/'));
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/'));
   });
 
   it('redirects to Help page when Help button clicked', () => {
@@ -130,8 +130,8 @@ describe('Main app bar component', () => {
 
     wrapper.find('button[aria-label="help-page"]').first().simulate('click');
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(push('/help'));
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/help'));
   });
 
   it('redirects to Admin page when Admin button clicked', () => {
@@ -140,8 +140,8 @@ describe('Main app bar component', () => {
 
     wrapper.find('button[aria-label="admin-page"]').first().simulate('click');
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(push('/admin'));
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/admin'));
   });
 
   it('sends toggleHelp action when help button is clicked', () => {
@@ -150,8 +150,8 @@ describe('Main app bar component', () => {
 
     wrapper.find('button[aria-label="help"]').first().simulate('click');
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(toggleHelp());
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(toggleHelp());
   });
 
   it('opens settings when button clicked', () => {
@@ -206,8 +206,8 @@ describe('Main app bar component', () => {
       .simulate('click');
     wrapper.find('#item-manage-cookies').first().simulate('click');
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(push('/cookies'));
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/cookies'));
   });
 
   it('sends load dark mode prefrence action if toggle dark mode is clicked', () => {
@@ -220,8 +220,8 @@ describe('Main app bar component', () => {
       .simulate('click');
     wrapper.find('#item-dark-mode').first().simulate('click');
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(loadDarkModePreference(true));
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
   });
 
   it('sends load high contrast mode prefrence action if toggle high contrast mode is clicked', () => {
@@ -235,8 +235,8 @@ describe('Main app bar component', () => {
     wrapper.find('#item-high-contrast-mode').first().simulate('click');
     wrapper.update();
 
-    expect(testStore.getActions().length).toEqual(2);
-    expect(testStore.getActions()[1]).toEqual(
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(
       loadHighContrastModePreference(true)
     );
   });

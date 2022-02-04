@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { AnyAction } from 'redux';
+import { Action, AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -17,7 +17,10 @@ import {
   WithStyles,
   makeStyles,
 } from '@material-ui/core/styles';
-import { verifyUsernameAndPassword } from '../state/actions/scigateway.actions';
+import {
+  verifyUsernameAndPassword,
+  resetAuthState,
+} from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
 import { UKRITheme } from '../theming';
@@ -32,6 +35,7 @@ import {
 import axios from 'axios';
 import log from 'loglevel';
 import { Trans, useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -147,6 +151,7 @@ interface LoginPageDispatchProps {
     mnemonic?: string,
     authUrl?: string
   ) => Promise<void>;
+  resetAuthState: () => Action;
 }
 
 export type CombinedLoginProps = LoginPageProps &
@@ -388,13 +393,16 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
       return res.data;
     })
     .catch((err) => {
-      log.error('Failed to fetch authenticator information from ICAT');
+      log.error(
+        'It is not possible to authenticate you at the moment. Please, try again later'
+      );
       document.dispatchEvent(
         new CustomEvent('scigateway', {
           detail: {
             type: NotificationType,
             payload: {
-              message: 'Failed to fetch authenticator information from ICAT',
+              message:
+                'It is not possible to authenticate you at the moment. Please, try again later',
               severity: 'error',
             },
           },
@@ -412,6 +420,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
   );
+  const location = useLocation();
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
@@ -451,6 +460,13 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       }
     }
   });
+
+  React.useEffect(() => {
+    //Only remove error if not visiting due to token invalidation
+    if (props.auth.failedToLogin && !props.auth.signedOutDueToTokenInvalidation)
+      props.resetAuthState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   let LoginScreen: React.ReactElement | null = null;
 
@@ -562,6 +578,7 @@ const mapDispatchToProps = (
         authUrl ?? ''
       )
     ),
+  resetAuthState: () => dispatch(resetAuthState()),
 });
 
 export const LoginPageWithoutStyles = LoginPageComponent;

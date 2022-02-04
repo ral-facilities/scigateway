@@ -1,5 +1,7 @@
 import React from 'react';
-import Preloader from './preloader.component';
+import Preloader, {
+  Preloader as UnconnectedPreloader,
+} from './preloader.component';
 import { createShallow } from '@material-ui/core/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
@@ -24,10 +26,19 @@ describe('Preloader component', () => {
     mockStore = configureStore();
   });
 
-  it('renders correctly', () => {
+  it('renders fullscreen correctly', () => {
     state.scigateway.siteLoading = true;
 
-    const wrapper = shallow(<Preloader store={mockStore(state)} />);
+    const wrapper = shallow(
+      <Preloader store={mockStore(state)} fullScreen={true} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('renders not fullscreen correctly', () => {
+    const wrapper = shallow(
+      <UnconnectedPreloader loading={true} fullScreen={false} />
+    );
     expect(wrapper).toMatchSnapshot();
   });
 
