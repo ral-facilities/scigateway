@@ -1,50 +1,58 @@
 import React from 'react';
-import { createShallow, createMount } from '@mui/material/test-utils';
+import { mount, MountWrapper, shallow, ShallowWrapper } from 'enzyme';
 import {
-  NavigationDrawerWithoutStyles,
-  CombinedNavigationProps,
+  UnconnectedNavigationDrawer,
+  NavigationDrawerProps,
 } from './navigationDrawer.component';
 
 import { PluginConfig } from '../state/scigateway.types';
-import { ListItemText } from '@mui/material';
+import {
+  ListItemText,
+  StyledEngineProvider,
+  ThemeProvider,
+} from '@mui/material';
 import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory, History } from 'history';
+import { buildTheme } from '../theming';
 
 describe('Navigation drawer component', () => {
-  let shallow;
-  let mount;
-  let props: CombinedNavigationProps;
+  let props: NavigationDrawerProps;
   let history: History;
-
-  const dummyClasses = {
-    root: 'root-1',
-    drawer: 'drawer-1',
-    drawerPaper: 'drawerPaper-1',
-    sectionTitle: 'sectionTitle-1',
-    menuItem: 'menuItem-1',
-    menuLogo: 'menuLogo-1',
-  };
+  const theme = buildTheme(false);
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'NavigationDrawer' });
-    mount = createMount();
     history = createMemoryHistory();
     history.replace('/help');
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
+  const createShallowWrapper = (): ShallowWrapper =>
+    shallow(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedNavigationDrawer {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    );
+
+  const createWrapper = (): MountWrapper =>
+    mount(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <UnconnectedNavigationDrawer {...props} />
+          </MemoryRouter>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    );
 
   it('Navigation drawer renders correctly when open', () => {
     props = {
       open: true,
       plugins: [],
       res: undefined,
-      classes: dummyClasses,
     };
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedNavigationDrawer {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -53,10 +61,9 @@ describe('Navigation drawer component', () => {
       open: false,
       plugins: [],
       res: undefined,
-      classes: dummyClasses,
     };
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedNavigationDrawer {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -93,14 +100,14 @@ describe('Navigation drawer component', () => {
       open: true,
       plugins: dummyPlugins,
       res: undefined,
-      classes: dummyClasses,
     };
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
+    const wrapper = createShallowWrapper();
+    const drawerWrapper = wrapper.find(UnconnectedNavigationDrawer).dive();
 
-    expect(wrapper).toMatchSnapshot();
+    expect(drawerWrapper).toMatchSnapshot();
 
-    expect(wrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
+    expect(drawerWrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
   });
 
   it('does not render admin plugins in list', () => {
@@ -119,12 +126,12 @@ describe('Navigation drawer component', () => {
       open: true,
       plugins: dummyPlugins,
       res: undefined,
-      classes: dummyClasses,
     };
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
+    const wrapper = createShallowWrapper();
+    const drawerWrapper = wrapper.find(UnconnectedNavigationDrawer).dive();
 
-    expect(wrapper).toMatchSnapshot();
+    expect(drawerWrapper).toMatchSnapshot();
   });
 
   it('does not display link to homepage if a homepage link is set', () => {
@@ -150,15 +157,15 @@ describe('Navigation drawer component', () => {
       open: true,
       plugins: dummyPlugins,
       res: undefined,
-      classes: dummyClasses,
       homepageUrl: homepageLink,
     };
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
+    const wrapper = createShallowWrapper();
+    const drawerWrapper = wrapper.find(UnconnectedNavigationDrawer).dive();
 
-    expect(wrapper).toMatchSnapshot();
+    expect(drawerWrapper).toMatchSnapshot();
 
-    expect(wrapper.find('[to="homepage"]')).toEqual({});
+    expect(drawerWrapper.find('[to="homepage"]')).toEqual({});
   });
 
   it('renders a plugin', () => {
@@ -176,14 +183,9 @@ describe('Navigation drawer component', () => {
       open: true,
       plugins: dummyPlugins,
       res: undefined,
-      classes: dummyClasses,
     };
 
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawerWithoutStyles {...props} />
-      </MemoryRouter>
-    );
+    const wrapper = createWrapper();
 
     const listItemText = wrapper.find(ListItemText).last();
     expect(listItemText.text()).toEqual('\xa0display name');
@@ -204,15 +206,10 @@ describe('Navigation drawer component', () => {
       open: true,
       plugins: dummyPlugins,
       res: undefined,
-      classes: dummyClasses,
       darkMode: false,
     };
 
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawerWithoutStyles {...props} />
-      </MemoryRouter>
-    );
+    const wrapper = createWrapper();
 
     expect(wrapper.find('img')).toHaveLength(1);
     expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-blue-text.png');
@@ -232,15 +229,10 @@ describe('Navigation drawer component', () => {
       open: true,
       plugins: dummyPlugins,
       res: undefined,
-      classes: dummyClasses,
       darkMode: true,
     };
 
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawerWithoutStyles {...props} />
-      </MemoryRouter>
-    );
+    const wrapper = createWrapper();
 
     expect(wrapper.find('img')).toHaveLength(1);
     expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-white-text.png');

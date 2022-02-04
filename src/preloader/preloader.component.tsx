@@ -1,50 +1,12 @@
 import React from 'react';
 import { StateType } from '../state/state.types';
 import { connect } from 'react-redux';
-import { Theme } from '@mui/material/styles';
-
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { Box } from '@mui/material';
 
 const colors = ['#8C4799', '#1D4F91', '#C34613', '#008275', '#63666A'];
 const innerRadius = 140;
 const border = 8;
 const spacing = 1;
-
-const useStyles = makeStyles<Theme, PreloaderCombinedProps>((theme: Theme) =>
-  createStyles({
-    spinner: {
-      position: (props) => (props.fullScreen ? 'relative' : undefined),
-      display: 'block',
-      margin: 'auto',
-      width: innerRadius + colors.length * 2 * (border + spacing),
-      height: innerRadius + colors.length * 2 * (border + spacing),
-      animation: 'rotate 10s infinite linear',
-    },
-    wrapper: {
-      boxSizing: 'border-box',
-      padding: '10px 0',
-    },
-    container: {
-      zIndex: 1000,
-      position: (props) => (props.fullScreen ? 'fixed' : undefined),
-      width: '100%',
-      height: '100%',
-      top: (props) => (props.fullScreen ? 0 : undefined),
-      left: (props) => (props.fullScreen ? 0 : undefined),
-      right: (props) => (props.fullScreen ? 0 : undefined),
-      bottom: (props) => (props.fullScreen ? 0 : undefined),
-      backgroundColor: theme.palette.background.default,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    text: {
-      color: theme.palette.text.primary,
-    },
-  })
-);
 
 interface PreloaderStateProps {
   loading: boolean;
@@ -90,13 +52,37 @@ const spinnerStyle = (index: number): SpinnerStyle => {
 export const Preloader = (
   props: PreloaderCombinedProps
 ): React.ReactElement => {
-  const classes = useStyles(props);
   return (
     <div>
       {props.loading ? (
-        <div className={classes.container}>
-          <div className={classes.wrapper}>
-            <div className={classes.spinner}>
+        <Box
+          sx={{
+            zIndex: 1000,
+            position: props.fullScreen ? 'fixed' : undefined,
+            width: '100%',
+            height: '100%',
+            top: props.fullScreen ? 0 : undefined,
+            left: props.fullScreen ? 0 : undefined,
+            right: props.fullScreen ? 0 : undefined,
+            bottom: props.fullScreen ? 0 : undefined,
+            backgroundColor: 'background.default',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div style={{ boxSizing: 'border-box', padding: '10px 0' }}>
+            <div
+              style={{
+                position: props.fullScreen ? 'relative' : undefined,
+                display: 'block',
+                margin: 'auto',
+                width: innerRadius + colors.length * 2 * (border + spacing),
+                height: innerRadius + colors.length * 2 * (border + spacing),
+                animation: 'rotate 10s infinite linear',
+              }}
+            >
               <i style={spinnerStyle(0)} />
               <i style={spinnerStyle(1)} />
               <i style={spinnerStyle(2)} />
@@ -104,8 +90,8 @@ export const Preloader = (
               <i style={spinnerStyle(4)} />
             </div>
           </div>
-          <div className={classes.text}>Loading...</div>
-        </div>
+          <Box sx={{ color: 'text.primary' }}>Loading...</Box>
+        </Box>
       ) : null}
     </div>
   );

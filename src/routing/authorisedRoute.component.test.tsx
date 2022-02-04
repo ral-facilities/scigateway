@@ -1,6 +1,6 @@
 import React from 'react';
 import withAuth from './authorisedRoute.component';
-import { createShallow } from '@mui/material/test-utils';
+import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -12,9 +12,9 @@ import {
   requestPluginRerender,
 } from '../state/actions/scigateway.actions';
 import { flushPromises } from '../setupTests';
+import { Provider } from 'react-redux';
 
 describe('AuthorisedRoute component', () => {
-  let shallow;
   let mockStore;
   let state: StateType;
   const ComponentToProtect = (): React.ReactElement => (
@@ -22,8 +22,6 @@ describe('AuthorisedRoute component', () => {
   );
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
@@ -151,7 +149,10 @@ describe('AuthorisedRoute component', () => {
     const testStore = mockStore(state);
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={testStore} />);
+
+    const wrapper = shallow(<AuthorisedComponent store={testStore} />)
+      .dive()
+      .dive();
 
     wrapper.setProps({ loading: false });
     expect(testStore.getActions().length).toEqual(1);
@@ -174,7 +175,11 @@ describe('AuthorisedRoute component', () => {
 
     const testStore = mockStore(state);
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    shallow(<AuthorisedComponent store={testStore} />);
+    mount(
+      <Provider store={testStore}>
+        <AuthorisedComponent />
+      </Provider>
+    );
 
     await flushPromises();
 

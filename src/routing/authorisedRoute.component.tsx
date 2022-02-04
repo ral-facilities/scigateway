@@ -71,7 +71,6 @@ const withAuth = (adminSection: boolean) => <T,>(
         invalidToken,
         ...componentProps
       } = this.props;
-
       return (
         <div>
           {!loading && !loggedIn ? (
@@ -109,7 +108,6 @@ const withAuth = (adminSection: boolean) => <T,>(
           props.invalidToken();
         });
       }
-
       if (
         (props.loggedIn && prevProps.loading && !props.loading) ||
         (!props.loading && !prevProps.loggedIn && props.loggedIn)

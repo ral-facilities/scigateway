@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
-import { Box, Theme, Typography } from '@mui/material';
+import { Box, styled, Theme, Typography } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { makeStyles } from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
@@ -16,7 +14,7 @@ import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import { getAppStrings, getString } from '../state/strings';
 
-interface NavigationDrawerProps {
+export interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
   darkMode: boolean;
@@ -24,44 +22,13 @@ interface NavigationDrawerProps {
   res: AppStrings | undefined;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    drawer: {
-      width: (theme as UKRITheme).drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: (theme as UKRITheme).drawerWidth,
-      background: theme.palette.background.default,
-      top: (theme as UKRITheme).mainAppBarHeight,
-      height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
-        (theme as UKRITheme).footerPaddingTop
-      } - ${(theme as UKRITheme).footerHeight} - ${
-        (theme as UKRITheme).mainAppBarHeight
-      } )`,
-      position: 'absolute',
-    },
-    sectionTitle: {
-      textAlign: 'left',
-      paddingTop: theme.spacing(2),
-      paddingBottom: 0,
-      color: (theme as UKRITheme).colours.contrastGrey,
-      paddingLeft: theme.spacing(2),
-    },
-    menuItem: {
-      textAlign: 'left',
-      fontWeight: 'bold',
-      color: (theme as UKRITheme).colours.blue,
-    },
-    menuLogo: {
-      paddingRight: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      height: 40,
-      paddingBottom: 24,
-      color: theme.palette.text.secondary,
-    },
-  })
-);
+const LogoImage = styled('img')(({ theme }) => ({
+  paddingRight: theme.spacing(2),
+  paddingLeft: theme.spacing(2),
+  height: 40,
+  paddingBottom: 24,
+  color: theme.palette.text.secondary,
+}));
 
 // This has been adapted from the MaterialUI composition guide
 // (https://material-ui.com/guides/composition/)
@@ -73,8 +40,6 @@ ForwardRefLink.displayName = 'ForwardRefLink';
 export const NavigationDrawer = (
   props: NavigationDrawerProps
 ): React.ReactElement => {
-  const classes = useStyles();
-
   const createLink = (
     plugin: PluginConfig,
     index: number
@@ -99,9 +64,13 @@ export const NavigationDrawer = (
         <ListItemText
           inset={!imgSrc}
           primary={displayText}
-          primaryTypographyProps={{ variant: 'subtitle1' }}
-          classes={{
-            primary: classes.menuItem,
+          primaryTypographyProps={{
+            variant: 'subtitle1',
+            sx: {
+              textAlign: 'left',
+              fontWeight: 'bold',
+              color: (theme: Theme) => (theme as UKRITheme).colours.blue,
+            },
           }}
         />
       </ListItem>
@@ -115,7 +84,16 @@ export const NavigationDrawer = (
   ): React.ReactElement => {
     return (
       <Fragment key={index}>
-        <Typography variant="h6" className={classes.sectionTitle}>
+        <Typography
+          variant="h6"
+          sx={{
+            textAlign: 'left',
+            paddingTop: 2,
+            paddingBottom: 0,
+            color: (theme: Theme) => (theme as UKRITheme).colours.contrastGrey,
+            paddingLeft: 2,
+          }}
+        >
           {sectionName}
         </Typography>
         <List component="nav">
@@ -157,12 +135,25 @@ export const NavigationDrawer = (
   const imgSrc = props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
   return (
     <Drawer
-      className={classes.drawer}
+      sx={{
+        width: (theme: Theme) => (theme as UKRITheme).drawerWidth,
+        flexShrink: 0,
+      }}
       variant="persistent"
       anchor="left"
       open={props.open}
-      classes={{
-        paper: classes.drawerPaper,
+      PaperProps={{
+        sx: (theme: Theme) => ({
+          width: (theme as UKRITheme).drawerWidth,
+          background: theme.palette.background.default,
+          top: (theme as UKRITheme).mainAppBarHeight,
+          height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
+            (theme as UKRITheme).footerPaddingTop
+          } - ${(theme as UKRITheme).footerHeight} - ${
+            (theme as UKRITheme).mainAppBarHeight
+          } )`,
+          position: 'absolute',
+        }),
       }}
     >
       <Box
@@ -176,8 +167,7 @@ export const NavigationDrawer = (
 
         {imgSrc && (
           <Box marginTop="auto">
-            <img
-              className={classes.menuLogo}
+            <LogoImage
               alt={getString(props.res, 'alternative-text')}
               src={imgSrc}
             />
@@ -195,5 +185,7 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   homepageUrl: state.scigateway.homepageUrl,
   res: getAppStrings(state, 'navigation-drawer'),
 });
+
+export const UnconnectedNavigationDrawer = NavigationDrawer;
 
 export default connect(mapStateToProps)(NavigationDrawer);

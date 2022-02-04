@@ -2,20 +2,17 @@ import React from 'react';
 import Preloader, {
   Preloader as UnconnectedPreloader,
 } from './preloader.component';
-import { createShallow } from '@mui/material/test-utils';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
+import { shallow } from 'enzyme';
 
 describe('Preloader component', () => {
-  let shallow;
   let mockStore;
   let state: StateType;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
