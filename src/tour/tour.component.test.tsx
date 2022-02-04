@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Tour, { TourWithoutStyles, CombinedTourProps } from './tour.component';
-import { createShallow, createMount } from '@mui/material/test-utils';
+import Tour, { UnconnectedTour, CombinedTourProps } from './tour.component';
+import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/scigateway.reducer';
@@ -35,16 +35,12 @@ jest.mock('popper.js', () => {
 describe('Tour component', () => {
   const theme = buildTheme(false);
 
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedTourProps;
+  let holder;
 
   beforeEach(() => {
-    shallow = createShallow({});
-    mount = createMount();
-
     state = {
       scigateway: {
         ...initialState,
@@ -78,16 +74,40 @@ describe('Tour component', () => {
 
       dismissHelp: jest.fn(),
       toggleDrawer: jest.fn(),
-
-      theme: theme,
     };
+
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
   });
 
   it('renders correctly', () => {
     props.showHelp = true;
 
-    const wrapper = shallow(<TourWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const wrapper = shallow(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedTour {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    )
+      .dive()
+      .dive();
+    expect(wrapper.find(UnconnectedTour)).toMatchSnapshot();
+  });
+
+  it('renders correctly in dark mode', () => {
+    const darkTheme = buildTheme(true);
+
+    const wrapper = shallow(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={darkTheme}>
+          <UnconnectedTour {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    )
+      .dive()
+      .dive();
+    expect(wrapper.find(UnconnectedTour)).toMatchSnapshot();
   });
 
   it('shows next tooltip when next is clicked', () => {
@@ -105,7 +125,8 @@ describe('Tour component', () => {
             </div>
           </Provider>
         </ThemeProvider>
-      </StyledEngineProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -135,7 +156,8 @@ describe('Tour component', () => {
             </div>
           </Provider>
         </ThemeProvider>
-      </StyledEngineProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -166,7 +188,8 @@ describe('Tour component', () => {
             </div>
           </Provider>
         </ThemeProvider>
-      </StyledEngineProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     wrapper
@@ -210,7 +233,8 @@ describe('Tour component', () => {
             </div>
           </Provider>
         </ThemeProvider>
-      </StyledEngineProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -263,7 +287,8 @@ describe('Tour component', () => {
             </div>
           </Provider>
         </ThemeProvider>
-      </StyledEngineProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -306,7 +331,8 @@ describe('Tour component', () => {
             </div>
           </Provider>
         </ThemeProvider>
-      </StyledEngineProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const steps = wrapper.find('Joyride').prop('steps');
@@ -316,12 +342,5 @@ describe('Tour component', () => {
       content: 'Plugin link test',
       disableBeacon: true,
     });
-  });
-
-  it('renders correctly in dark mode', () => {
-    props.theme = buildTheme(true);
-
-    const wrapper = shallow(<TourWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
   });
 });

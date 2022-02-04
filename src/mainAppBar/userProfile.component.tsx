@@ -14,8 +14,6 @@ import {
   ListItemText,
   Avatar,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import createStyles from '@mui/styles/createStyles';
 import { alpha } from '@mui/material/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
@@ -39,51 +37,20 @@ interface UserProfileDispatchProps {
   signOut: () => void;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    signInButton: {
-      margin: theme.spacing(1),
-      color: '#FFF',
-      backgroundColor: (theme as UKRITheme).colours.lightBlue,
-      '&:hover': {
-        backgroundColor: alpha((theme as UKRITheme).colours.lightBlue, 0.8),
-      },
-    },
-    userButton: {
-      margin: theme.spacing(1),
-      color: '#FFF',
-    },
-    usernameContainer: {
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 15,
-      paddingRight: 15,
-    },
-    username: {
-      paddingTop: 3,
-      fontWeight: 'bold',
-      fontSize: 17,
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      cursor: 'pointer',
-    },
-  })
-);
-
 type CombinedUserProfileProps = UserProfileProps & UserProfileDispatchProps;
 
 export const UserProfileComponent = (
   props: CombinedUserProfileProps
 ): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const [getMenuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(
+    null
+  );
   const closeMenu = (): void => setMenuAnchor(null);
   const logout = (): void => {
     closeMenu();
     props.signOut();
   };
-
-  const classes = useStyles();
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
 
   return (
     <div className="tour-user-profile">
@@ -91,18 +58,25 @@ export const UserProfileComponent = (
         <div>
           {props.user.avatarUrl !== '' ? (
             <Avatar
-              className={classes.avatar}
+              sx={{ margin: '1px', cursor: 'pointer' }}
               alt="user"
               src={props.user.avatarUrl}
-              onClick={(e) => setMenuAnchor(e.currentTarget)}
+              onClick={() =>
+                setMenuAnchor(buttonRef.current ? buttonRef.current : null)
+              }
               aria-label="Open user menu"
+              component={IconButton}
+              ref={buttonRef}
             />
           ) : (
             <IconButton
-              className={classes.userButton}
-              onClick={(e) => setMenuAnchor(e.currentTarget)}
+              sx={{ margin: 1, color: '#FFF' }}
+              onClick={(e) =>
+                setMenuAnchor(buttonRef.current ? buttonRef.current : null)
+              }
               aria-label="Open user menu"
               size="large"
+              ref={buttonRef}
             >
               <AccountCircleIcon />
             </IconButton>
@@ -113,9 +87,18 @@ export const UserProfileComponent = (
             open={getMenuAnchor !== null}
             onClose={closeMenu}
           >
-            <div className={classes.usernameContainer}>
+            <div
+              style={{
+                paddingTop: '8px',
+                paddingBottom: '8px',
+                paddingLeft: '15px',
+                paddingRight: '15px',
+              }}
+            >
               <Typography>Signed in as:</Typography>
-              <Typography className={classes.username}>
+              <Typography
+                sx={{ paddingTop: '3px', fontWeight: 'bold', fontSize: '17px' }}
+              >
                 {props.user.username}
               </Typography>
             </div>
@@ -132,7 +115,17 @@ export const UserProfileComponent = (
         <Button
           color="primary"
           variant="contained"
-          className={classes.signInButton}
+          sx={(theme: Theme) => ({
+            margin: 1,
+            color: '#FFF',
+            backgroundColor: (theme as UKRITheme).colours.lightBlue,
+            '&:hover': {
+              backgroundColor: alpha(
+                (theme as UKRITheme).colours.lightBlue,
+                0.8
+              ),
+            },
+          })}
           onClick={() => {
             props.signIn();
             log.debug('signing in');
@@ -141,7 +134,7 @@ export const UserProfileComponent = (
           <Typography
             color="inherit"
             noWrap
-            style={{ fontWeight: 500, marginTop: 3 }}
+            sx={{ fontWeight: 500, marginTop: '3px' }}
           >
             {getString(props.res, 'login-button')}
           </Typography>

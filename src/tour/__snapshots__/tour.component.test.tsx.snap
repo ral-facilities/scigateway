@@ -1,105 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tour component renders correctly 1`] = `
-<Joyride
-  callback={[Function]}
-  continuous={true}
-  debug={false}
-  disableCloseOnEsc={false}
-  disableOverlay={false}
-  disableOverlayClose={false}
-  disableScrollParentFix={false}
-  disableScrolling={false}
-  getHelpers={[Function]}
-  hideBackButton={false}
-  run={true}
-  scrollDuration={300}
-  scrollOffset={20}
-  scrollToFirstStep={false}
-  showProgress={false}
-  showSkipButton={false}
-  spotlightClicks={false}
-  spotlightPadding={10}
-  stepIndex={0}
-  steps={
+<Tour
+  dismissHelp={[MockFunction]}
+  drawerOpen={false}
+  helpSteps={
     Array [
       Object {
         "content": "Test 1",
-        "disableBeacon": true,
         "target": ".test-1",
       },
       Object {
         "content": "Test 2",
-        "disableBeacon": true,
         "target": ".test-2",
+      },
+      Object {
+        "content": "Plugin link test",
+        "target": "#plugin-link-test",
       },
     ]
   }
-  styles={
-    Object {
-      "buttonBack": Object {
-        "color": "#C34F00",
-      },
-      "options": Object {
-        "arrowColor": "#FAFAFA",
-        "backgroundColor": "#FAFAFA",
-        "primaryColor": "#C34F00",
-        "textColor": "rgba(0, 0, 0, 0.87)",
-        "zIndex": 1500,
-      },
-    }
-  }
+  loggedIn={false}
+  showHelp={true}
+  toggleDrawer={[MockFunction]}
 />
 `;
 
 exports[`Tour component renders correctly in dark mode 1`] = `
-<Joyride
-  callback={[Function]}
-  continuous={true}
-  debug={false}
-  disableCloseOnEsc={false}
-  disableOverlay={false}
-  disableOverlayClose={false}
-  disableScrollParentFix={false}
-  disableScrolling={false}
-  getHelpers={[Function]}
-  hideBackButton={false}
-  run={false}
-  scrollDuration={300}
-  scrollOffset={20}
-  scrollToFirstStep={false}
-  showProgress={false}
-  showSkipButton={false}
-  spotlightClicks={false}
-  spotlightPadding={10}
-  stepIndex={0}
-  steps={
+<Tour
+  dismissHelp={[MockFunction]}
+  drawerOpen={false}
+  helpSteps={
     Array [
       Object {
         "content": "Test 1",
-        "disableBeacon": true,
         "target": ".test-1",
       },
       Object {
         "content": "Test 2",
-        "disableBeacon": true,
         "target": ".test-2",
+      },
+      Object {
+        "content": "Plugin link test",
+        "target": "#plugin-link-test",
       },
     ]
   }
-  styles={
-    Object {
-      "buttonBack": Object {
-        "color": "rgb(243, 122, 38)",
-      },
-      "options": Object {
-        "arrowColor": "#1B1B1B",
-        "backgroundColor": "#1B1B1B",
-        "primaryColor": "#C34F00",
-        "textColor": "#fff",
-        "zIndex": 1500,
-      },
-    }
-  }
+  loggedIn={false}
+  showHelp={false}
+  toggleDrawer={[MockFunction]}
 />
 `;

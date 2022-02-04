@@ -5,39 +5,63 @@ exports[`User profile component renders default avatar if signed in 1`] = `
   className="tour-user-profile"
 >
   <div>
-    <WithStyles(ForwardRef(IconButton))
+    <ForwardRef(IconButton)
       aria-label="Open user menu"
       onClick={[Function]}
+      size="large"
+      sx={
+        Object {
+          "color": "#FFF",
+          "margin": 1,
+        }
+      }
     >
       <Memo(ForwardRef(AccountCircleIcon)) />
-    </WithStyles(ForwardRef(IconButton))>
-    <WithStyles(ForwardRef(Menu))
+    </ForwardRef(IconButton)>
+    <ForwardRef(Menu)
       anchorEl={null}
       id="simple-menu"
       onClose={[Function]}
       open={false}
     >
-      <div>
-        <WithStyles(ForwardRef(Typography))>
+      <div
+        style={
+          Object {
+            "paddingBottom": "8px",
+            "paddingLeft": "15px",
+            "paddingRight": "15px",
+            "paddingTop": "8px",
+          }
+        }
+      >
+        <ForwardRef(Typography)>
           Signed in as:
-        </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(Typography))>
+        </ForwardRef(Typography)>
+        <ForwardRef(Typography)
+          sx={
+            Object {
+              "fontSize": "17px",
+              "fontWeight": "bold",
+              "paddingTop": "3px",
+            }
+          }
+        >
           anonymous
-        </WithStyles(ForwardRef(Typography))>
+        </ForwardRef(Typography)>
       </div>
-      <WithStyles(ForwardRef(Divider)) />
-      <WithStyles(ForwardRef(MenuItem))
+      <ForwardRef(Divider) />
+      <ForwardRef(MenuItem)
         id="item-sign-out"
         onClick={[Function]}
       >
-        <WithStyles(ForwardRef(ListItemIcon))>
+        <ForwardRef(ListItemIcon)>
           <Memo(ForwardRef(ExitToAppIcon)) />
-        </WithStyles(ForwardRef(ListItemIcon))>
-        <WithStyles(ForwardRef(ListItemText))
+        </ForwardRef(ListItemIcon)>
+        <ForwardRef(ListItemText)
           primary="logout-button"
         />
-      </WithStyles(ForwardRef(MenuItem))>
-    </WithStyles(ForwardRef(Menu))>
+      </ForwardRef(MenuItem)>
+    </ForwardRef(Menu)>
   </div>
 </div>
 `;
@@ -46,24 +70,25 @@ exports[`User profile component renders sign in button if not signed in 1`] = `
 <div
   className="tour-user-profile"
 >
-  <WithStyles(ForwardRef(Button))
+  <ForwardRef(Button)
     color="primary"
     onClick={[Function]}
+    sx={[Function]}
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
-      style={
+      sx={
         Object {
           "fontWeight": 500,
-          "marginTop": 3,
+          "marginTop": "3px",
         }
       }
     >
       login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
 </div>
 `;
 
@@ -71,24 +96,25 @@ exports[`User profile component renders sign in button if user signed in via aut
 <div
   className="tour-user-profile"
 >
-  <WithStyles(ForwardRef(Button))
+  <ForwardRef(Button)
     color="primary"
     onClick={[Function]}
+    sx={[Function]}
     variant="contained"
   >
-    <WithStyles(ForwardRef(Typography))
+    <ForwardRef(Typography)
       color="inherit"
       noWrap={true}
-      style={
+      sx={
         Object {
           "fontWeight": 500,
-          "marginTop": 3,
+          "marginTop": "3px",
         }
       }
     >
       login-button
-    </WithStyles(ForwardRef(Typography))>
-  </WithStyles(ForwardRef(Button))>
+    </ForwardRef(Typography)>
+  </ForwardRef(Button)>
 </div>
 `;
 
@@ -97,39 +123,80 @@ exports[`User profile component renders user avatar if signed in with avatar url
   className="tour-user-profile"
 >
   <div>
-    <WithStyles(ForwardRef(Avatar))
+    <ForwardRef(Avatar)
       alt="user"
       aria-label="Open user menu"
+      component={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "propTypes": Object {
+            "children": [Function],
+            "className": [Function],
+            "classes": [Function],
+            "color": [Function],
+            "disableFocusRipple": [Function],
+            "disableRipple": [Function],
+            "disabled": [Function],
+            "edge": [Function],
+            "size": [Function],
+            "sx": [Function],
+          },
+          "render": [Function],
+        }
+      }
       onClick={[Function]}
       src="test_url"
+      sx={
+        Object {
+          "cursor": "pointer",
+          "margin": "1px",
+        }
+      }
     />
-    <WithStyles(ForwardRef(Menu))
+    <ForwardRef(Menu)
       anchorEl={null}
       id="simple-menu"
       onClose={[Function]}
       open={false}
     >
-      <div>
-        <WithStyles(ForwardRef(Typography))>
+      <div
+        style={
+          Object {
+            "paddingBottom": "8px",
+            "paddingLeft": "15px",
+            "paddingRight": "15px",
+            "paddingTop": "8px",
+          }
+        }
+      >
+        <ForwardRef(Typography)>
           Signed in as:
-        </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(Typography))>
+        </ForwardRef(Typography)>
+        <ForwardRef(Typography)
+          sx={
+            Object {
+              "fontSize": "17px",
+              "fontWeight": "bold",
+              "paddingTop": "3px",
+            }
+          }
+        >
           test
-        </WithStyles(ForwardRef(Typography))>
+        </ForwardRef(Typography)>
       </div>
-      <WithStyles(ForwardRef(Divider)) />
-      <WithStyles(ForwardRef(MenuItem))
+      <ForwardRef(Divider) />
+      <ForwardRef(MenuItem)
         id="item-sign-out"
         onClick={[Function]}
       >
-        <WithStyles(ForwardRef(ListItemIcon))>
+        <ForwardRef(ListItemIcon)>
           <Memo(ForwardRef(ExitToAppIcon)) />
-        </WithStyles(ForwardRef(ListItemIcon))>
-        <WithStyles(ForwardRef(ListItemText))
+        </ForwardRef(ListItemIcon)>
+        <ForwardRef(ListItemText)
           primary="logout-button"
         />
-      </WithStyles(ForwardRef(MenuItem))>
-    </WithStyles(ForwardRef(Menu))>
+      </ForwardRef(MenuItem)>
+    </ForwardRef(Menu)>
   </div>
 </div>
 `;

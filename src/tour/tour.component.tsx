@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Joyride, {
   Step,
   CallBackProps,
@@ -27,52 +27,58 @@ interface TourDispatchProps {
 
 export type CombinedTourProps = TourProps & TourDispatchProps;
 
-export const Tour = (props: CombinedTourProps): React.ReactElement => {
+const Tour = (props: CombinedTourProps): React.ReactElement => {
   const theme = useTheme();
   const [stepIndex, setStepIndex] = React.useState(0);
   const { helpSteps, loggedIn, showHelp } = props;
 
-  const handleJoyrideCallback = (
-    data: CallBackProps,
-    indexMenuOpen: number,
-    waitTime: number
-  ): void => {
-    const { status, action, index, type } = data;
-    const { toggleDrawer, drawerOpen, dismissHelp } = props;
+  const handleJoyrideCallback = useCallback(
+    (data: CallBackProps, indexMenuOpen: number, waitTime: number): void => {
+      const { status, action, index, type } = data;
+      const { toggleDrawer, drawerOpen, dismissHelp } = props;
 
-    if (action === ACTIONS.START && type === EVENTS.STEP_BEFORE && drawerOpen) {
-      toggleDrawer();
-      setStepIndex(0);
-    } else if (
-      index === indexMenuOpen - 1 &&
-      action === ACTIONS.NEXT &&
-      type === EVENTS.STEP_AFTER &&
-      !drawerOpen
-    ) {
-      toggleDrawer();
-      setTimeout(() => {
-        setStepIndex(index + 1);
-      }, waitTime);
-    } else if (
-      index === indexMenuOpen &&
-      action === ACTIONS.PREV &&
-      type === EVENTS.STEP_AFTER &&
-      drawerOpen
-    ) {
-      toggleDrawer();
-      setTimeout(() => {
-        setStepIndex(index - 1);
-      }, waitTime);
-    } else if (
-      status === STATUS.FINISHED ||
-      (type === EVENTS.STEP_AFTER && action === ACTIONS.CLOSE)
-    ) {
-      setStepIndex(0);
-      dismissHelp();
-    } else if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
-      setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
-    }
-  };
+      if (
+        action === ACTIONS.START &&
+        type === EVENTS.STEP_BEFORE &&
+        drawerOpen
+      ) {
+        toggleDrawer();
+        setStepIndex(0);
+      } else if (
+        index === indexMenuOpen - 1 &&
+        action === ACTIONS.NEXT &&
+        type === EVENTS.STEP_AFTER &&
+        !drawerOpen
+      ) {
+        toggleDrawer();
+        setTimeout(() => {
+          setStepIndex(index + 1);
+        }, waitTime);
+      } else if (
+        index === indexMenuOpen &&
+        action === ACTIONS.PREV &&
+        type === EVENTS.STEP_AFTER &&
+        drawerOpen
+      ) {
+        toggleDrawer();
+        setTimeout(() => {
+          setStepIndex(index - 1);
+        }, waitTime);
+      } else if (
+        status === STATUS.FINISHED ||
+        (type === EVENTS.STEP_AFTER && action === ACTIONS.CLOSE)
+      ) {
+        setStepIndex(0);
+        dismissHelp();
+      } else if (
+        type === EVENTS.STEP_AFTER ||
+        type === EVENTS.TARGET_NOT_FOUND
+      ) {
+        setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
+      }
+    },
+    [props]
+  );
 
   const steps = helpSteps
     .map((step) => ({ ...step, disableBeacon: true }))
@@ -134,5 +140,7 @@ const mapDispatchToProps = (dispatch: Dispatch): TourDispatchProps => ({
   dismissHelp: () => dispatch(toggleHelp()),
   toggleDrawer: () => dispatch(toggleDrawer()),
 });
+
+export const UnconnectedTour = Tour;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tour);

@@ -1,30 +1,23 @@
 import React from 'react';
-import UserProfileComponent, {
-  UserProfileWithoutStyles,
-} from './userProfile.component';
-import { createShallow, createMount } from '@mui/material/test-utils';
+import UserProfileComponent from './userProfile.component';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Avatar, ThemeProvider, StyledEngineProvider } from '@mui/material';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { ReactWrapper } from 'enzyme';
+import { mount, shallow, ShallowWrapper } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 
 describe('User profile component', () => {
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   const theme = buildTheme(false);
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
     mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -34,17 +27,10 @@ describe('User profile component', () => {
     );
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
-  const createShallowWrapper = (): ReactWrapper => {
-    return shallow(
-      <UserProfileWithoutStyles
-        store={mockStore(state)}
-        classes={{ button: 'button-class' }}
-      />
-    );
+  const createShallowWrapper = (): ShallowWrapper => {
+    return shallow(<UserProfileComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
   };
 
   it('renders sign in button if not signed in', () => {
@@ -116,7 +102,15 @@ describe('User profile component', () => {
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
 
-    wrapper.find(Avatar).simulate('click');
+    act(() => {
+      wrapper.find('[aria-label="Open user menu"]').first().prop('onClick')({
+        currentTarget: wrapper
+          .find('[aria-label="Open user menu"]')
+          .first()
+          .getDOMNode(),
+      });
+    });
+    wrapper.update();
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeTruthy();
   });
@@ -135,7 +129,7 @@ describe('User profile component', () => {
 
     // Click the user menu button and click on the sign out menu item.
     wrapper.find('button').simulate('click');
-    wrapper.find('#item-sign-out').first().simulate('click');
+    wrapper.find('#item-sign-out').last().simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
