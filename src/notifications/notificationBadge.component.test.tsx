@@ -1,8 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { createShallow, createMount } from '@mui/material/test-utils';
 import NotificationBadge, {
-  NotificationBadgeWithoutStyles,
+  UnconnectedNotificationBadge,
   CombinedNotificationBadgeProps,
 } from './notificationBadge.component';
 import Badge from '@mui/material/Badge';
@@ -13,19 +12,16 @@ import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { StateType } from '../state/state.types';
+import { mount, shallow } from 'enzyme';
 
 describe('Notification Badge component', () => {
   const theme = buildTheme(false);
 
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedNotificationBadgeProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
     mockStore = configureStore();
 
     state = {
@@ -34,22 +30,18 @@ describe('Notification Badge component', () => {
     props = {
       notifications: [{ message: 'my message', severity: 'warning' }],
       deleteMenuItem: jest.fn(),
-      classes: {
-        button: 'button-class',
-        badge: 'badge-class',
-      },
     };
   });
 
   it('Notification badge renders correctly', () => {
-    const wrapper = shallow(<NotificationBadgeWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedNotificationBadge {...props} />);
 
     expect(wrapper).toMatchSnapshot();
   });
 
   it('renders correct number of notifications in the badge', () => {
     let wrapper = shallow(
-      <NotificationBadgeWithoutStyles
+      <UnconnectedNotificationBadge
         {...props}
         notifications={[
           ...props.notifications,
@@ -61,7 +53,7 @@ describe('Notification Badge component', () => {
     expect(wrapper.find(Badge).prop('badgeContent')).toEqual(2);
 
     wrapper = shallow(
-      <NotificationBadgeWithoutStyles
+      <UnconnectedNotificationBadge
         {...props}
         notifications={[]}
         deleteMenuItem={props.deleteMenuItem}
@@ -87,13 +79,13 @@ describe('Notification Badge component', () => {
 
     wrapper
       .find('[aria-label="Open notification menu"]')
-      .first()
+      .last()
       .simulate('click');
     wrapper.update();
 
     wrapper
       .find('[aria-label="Dismiss notification"]')
-      .first()
+      .last()
       .simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
@@ -153,7 +145,7 @@ describe('Notification Badge component', () => {
 
     wrapper
       .find('[aria-label="Open notification menu"]')
-      .first()
+      .last()
       .simulate('click');
 
     expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
@@ -179,7 +171,7 @@ describe('Notification Badge component', () => {
 
     wrapper
       .find('[aria-label="Open notification menu"]')
-      .first()
+      .last()
       .simulate('click');
 
     expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
@@ -214,7 +206,7 @@ describe('Notification Badge component', () => {
     //Check can close using close button
     wrapper
       .find('[aria-label="Open notification menu"]')
-      .first()
+      .last()
       .simulate('click');
 
     expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
@@ -224,7 +216,7 @@ describe('Notification Badge component', () => {
 
     wrapper
       .find('[aria-label="Dismiss notification"]')
-      .first()
+      .last()
       .simulate('click');
 
     expect(wrapper.find('#notifications-menu').exists()).toBeFalsy();

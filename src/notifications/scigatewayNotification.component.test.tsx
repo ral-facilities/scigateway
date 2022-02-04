@@ -1,58 +1,24 @@
 import React from 'react';
-import { createShallow, createMount } from '@mui/material/test-utils';
-import {
-  NotificationWithoutStyles,
-  NotificationWithStyles,
-} from './scigatewayNotification.component';
+import Notification from './scigatewayNotification.component';
 import { Action } from 'redux';
-import { buildTheme } from '../theming';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-
-const theme = buildTheme(false);
+import { mount, shallow } from 'enzyme';
 
 function createScigatewayNotification(
   severity: string,
   message: string
 ): React.ReactElement {
-  const props = {
-    classes: {
-      root: 'root-class',
-      successIcon: 'successIcon-class',
-      warningIcon: 'warningIcon-class',
-      errorIcon: 'errorIcon-class',
-      button: 'button-class',
-      deleteIcon: 'deleteIcon-class',
-    },
-  };
-
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <NotificationWithoutStyles
-          message={message}
-          severity={severity}
-          index={0}
-          dismissNotification={(): Action => ({ type: 'test' })}
-          {...props}
-        />
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <Notification
+      message={message}
+      severity={severity}
+      index={0}
+      dismissNotification={(): Action => ({ type: 'test' })}
+    />
   );
 }
 
 describe('Scigateway Notification component', () => {
-  let shallow;
-  let mount;
-
-  beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   it('Scigateway Notification success message renders correctly', () => {
     const wrapper = shallow(
       createScigatewayNotification('success', 'success message')
@@ -80,7 +46,7 @@ describe('Scigateway Notification component', () => {
     const wrapper = mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <NotificationWithStyles
+          <Notification
             message={'warning message'}
             severity={'warning'}
             index={0}

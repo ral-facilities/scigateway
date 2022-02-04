@@ -1,92 +1,85 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import { Theme } from '@mui/material';
-import { WithStyles, StyleRules } from '@mui/styles';
-import withStyles from '@mui/styles/withStyles';
+import { Box, styled, Theme } from '@mui/material';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import { useTranslation, Trans } from 'react-i18next';
 import { UKRITheme } from '../theming';
 
-const styles = (theme: Theme): StyleRules => ({
-  titleContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.default,
-  },
-  bugIcon: {
-    width: '10vw',
-    height: '10vw',
-    color: (theme as UKRITheme).colours.blue,
-  },
-  codeText: {
-    fontWeight: 'bold',
-    fontSize: '10vw',
-    color: (theme as UKRITheme).colours.blue,
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.default,
-  },
-  bold: {
-    color: theme.palette.text.primary,
-  },
-  message: {
-    padding: 15,
-    maxWidth: 600,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.text.primary,
+}));
 
-export type PageNotFoundProps = WithStyles<typeof styles>;
-export const PageNotFoundComponent = (
-  props: PageNotFoundProps
-): React.ReactElement => {
+export const PageNotFoundComponent = (): React.ReactElement => {
   const [t] = useTranslation();
   return (
     <div>
-      <div className={props.classes.titleContainer}>
-        <BugReportIcon className={props.classes.bugIcon} />
-        <Typography className={props.classes.codeText}>404</Typography>
-      </div>
-      <div className={props.classes.container}>
-        <Typography variant="h2" className={props.classes.bold}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'background.default',
+        }}
+      >
+        <BugReportIcon
+          sx={{
+            width: '10vw',
+            height: '10vw',
+            color: (theme: Theme) => (theme as UKRITheme).colours.blue,
+          }}
+        />
+        <Typography
+          sx={{
+            fontWeight: 'bold',
+            fontSize: '10vw',
+            color: (theme: Theme) => (theme as UKRITheme).colours.blue,
+          }}
+        >
+          404
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'background.default',
+        }}
+      >
+        <Typography variant="h2" sx={{ color: 'text.primary' }}>
           {t('page-not-found.title')}
         </Typography>
-        <Typography variant="body1" className={props.classes.message}>
+        <Typography
+          variant="body1"
+          sx={{
+            padding: '15px',
+            maxWidth: '600px',
+            textAlign: 'center',
+            color: 'text.secondary',
+          }}
+        >
           <Trans t={t} i18nKey="page-not-found.message">
             We&#39;re sorry, the page you requested was not found on the server.
             If you entered the URL manually please check your spelling and try
             again. Otherwise, return to the{' '}
-            <Link
-              data-test-id="page-not-found-homepage-link"
-              className={props.classes.bold}
-              to="/"
-            >
+            <StyledLink data-test-id="page-not-found-homepage-link" to="/">
               homepage
-            </Link>{' '}
+            </StyledLink>{' '}
             or{' '}
-            <Link
-              className={props.classes.bold}
+            <StyledLink
               data-test-id="page-not-found-contact-support-link"
               to="/contact"
             >
               contact support
-            </Link>
+            </StyledLink>
             .
           </Trans>
         </Typography>
-      </div>
+      </Box>
     </div>
   );
 };
 
-const PageNotFoundComponentWithStyles = withStyles(styles)(
-  PageNotFoundComponent
-);
-export default PageNotFoundComponentWithStyles;
+export default PageNotFoundComponent;

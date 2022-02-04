@@ -4,31 +4,37 @@ exports[`Notification Badge component Notification badge renders correctly 1`] =
 <div
   className="tour-notifications"
 >
-  <WithStyles(ForwardRef(IconButton))
+  <ForwardRef(IconButton)
     aria-label="Open notification menu"
-    className="button-class"
     onClick={[Function]}
+    size="large"
+    sx={
+      Object {
+        "color": "primary.contrastText",
+        "margin": 1,
+      }
+    }
   >
-    <WithStyles(ForwardRef(Badge))
+    <ForwardRef(Badge)
       badgeContent={1}
       color="primary"
     >
       <Memo(ForwardRef(NotificationsIcon)) />
-    </WithStyles(ForwardRef(Badge))>
-  </WithStyles(ForwardRef(IconButton))>
-  <WithStyles(ForwardRef(Menu))
+    </ForwardRef(Badge)>
+  </ForwardRef(IconButton)>
+  <ForwardRef(Menu)
     anchorEl={null}
     id="notifications-menu"
     onClose={[Function]}
     open={false}
   >
-    <WithStyles(ForwardRef(ScigatewayNotification))
+    <ForwardRef(ScigatewayNotification)
       dismissNotification={[Function]}
       index={0}
       key="0"
       message="my message"
       severity="warning"
     />
-  </WithStyles(ForwardRef(Menu))>
+  </ForwardRef(Menu)>
 </div>
 `;
