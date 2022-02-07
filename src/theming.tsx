@@ -278,133 +278,159 @@ export const buildTheme = (
     ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
     : LIGHT_MODE_COLOURS;
 
-  const componentOverrides = {};
-  /*const overrides = {
+  const componentOverrides = {
     MuiLink: {
-      root: {
-        color: colours.blue,
-      },
-      button: {
-        fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-        verticalAlign: 'none',
+      styleOverrides: {
+        root: {
+          color: colours.blue,
+        },
+        button: {
+          fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+          verticalAlign: 'none',
+        },
       },
     },
     MuiTabs: {
-      indicator: {
-        color: STATIC_COLOURS.darkBlue,
-        textDecoration: 'underline',
+      styleOverrides: {
+        indicator: {
+          color: STATIC_COLOURS.darkBlue,
+          textDecoration: 'underline',
+        },
       },
     },
     MuiFormLabel: {
-      root: {
-        '&$error': {
-          color: colours.red,
+      styleOverrides: {
+        root: {
+          '&$error': {
+            color: colours.red,
+          },
+          '&$focused': {
+            color: colours.blue,
+          },
         },
-        '&$focused': {
-          color: colours.blue,
-        },
-      },
-      asterisk: {
-        '&$error': {
-          color: colours.red,
+        asterisk: {
+          '&$error': {
+            color: colours.red,
+          },
         },
       },
     },
     MuiBadge: {
-      colorPrimary: {
-        backgroundColor: STATIC_COLOURS.orange,
-        color: 'white',
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: STATIC_COLOURS.orange,
+          color: 'white',
+        },
       },
     },
     MuiInput: {
-      underline: {
-        '&$error:after': {
-          borderBottomColor: colours.red,
-        },
-        '&:after': {
-          borderBottomColor: colours.blue,
+      styleOverrides: {
+        underline: {
+          '&$error:after': {
+            borderBottomColor: colours.red,
+          },
+          '&:after': {
+            borderBottomColor: colours.blue,
+          },
         },
       },
     },
     MuiOutlinedInput: {
-      root: {
-        '&$error $notchedOutline': {
-          borderColor: colours.red,
+      styleOverrides: {
+        root: {
+          '&$error $notchedOutline': {
+            borderColor: colours.red,
+          },
         },
-      },
-      //Override opacity of placeholder text
-      input: {
-        '&::placeholder': {
-          colour: colours.textSecondary,
-          opacity:
-            !darkModePreference && highContrastModePreference ? 1.0 : 0.7,
+        //Override opacity of placeholder text
+        input: {
+          '&::placeholder': {
+            colour: colours.textSecondary,
+            opacity:
+              !darkModePreference && highContrastModePreference ? 1.0 : 0.7,
+          },
         },
       },
     },
     MuiFormHelperText: {
-      root: {
-        '&$error': {
-          color: colours.red,
+      styleOverrides: {
+        root: {
+          '&$error': {
+            color: colours.red,
+          },
         },
       },
     },
     MuiChip: {
-      root: {
-        backgroundColor: colours.chip,
+      styleOverrides: {
+        root: {
+          backgroundColor: colours.chip,
+        },
       },
     },
     MuiPickersToolbar: {
-      toolbar: {
-        backgroundColor: colours.primary,
+      styleOverrides: {
+        toolbar: {
+          backgroundColor: colours.primary,
+        },
       },
     },
     MuiPickersCalendarHeader: {
-      dayLabel: {
-        color: colours.grey,
+      styleOverrides: {
+        dayLabel: {
+          color: colours.grey,
+        },
       },
     },
     MuiPickersDay: {
-      current: {
-        color: colours.blue,
-      },
-      dayDisabled: {
-        color: colours.grey,
+      styleOverrides: {
+        current: {
+          color: colours.blue,
+        },
+        dayDisabled: {
+          color: colours.grey,
+        },
       },
     },
     MuiPickersYear: {
-      root: {
-        '&:active': {
+      styleOverrides: {
+        root: {
+          '&:active': {
+            color: colours.blue,
+          },
+          '&:focus': {
+            color: colours.blue,
+          },
+        },
+        yearSelected: {
           color: colours.blue,
         },
-        '&:focus': {
-          color: colours.blue,
+        yearDisabled: {
+          color: colours.grey,
         },
-      },
-      yearSelected: {
-        color: colours.blue,
-      },
-      yearDisabled: {
-        color: colours.grey,
       },
     },
     MuiPickersMonth: {
-      root: {
-        '&:active': {
+      styleOverrides: {
+        root: {
+          '&:active': {
+            color: colours.blue,
+          },
+          '&:focus': {
+            color: colours.blue,
+          },
+        },
+        monthSelected: {
           color: colours.blue,
         },
-        '&:focus': {
-          color: colours.blue,
+        monthDisabled: {
+          color: colours.grey,
         },
-      },
-      monthSelected: {
-        color: colours.blue,
-      },
-      monthDisabled: {
-        color: colours.grey,
       },
     },
   };
-  const options: UKRIThemeOptions = {
+
+  return createTheme({
     palette: {
       // Light/dark mode
       mode: darkModePreference ? 'dark' : 'light',
@@ -422,21 +448,11 @@ export const buildTheme = (
         paper: colours.paper,
       },
     },
-    drawerWidth: 220,
-    footerPaddingTop: '8px',
-    footerPaddingBottom: '8px',
-    footerHeight: '20px',
-    mainAppBarHeight: '64px',
-    overrides: overrides,
-    colours: colours,
     typography: {
       button: {
         textTransform: 'none',
       },
     },
-  };*/
-
-  return createTheme({
     components: componentOverrides,
     colours: colours,
     drawerWidth: '220px',
