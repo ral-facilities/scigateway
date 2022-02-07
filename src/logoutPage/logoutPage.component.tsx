@@ -10,7 +10,6 @@ import { Theme } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
-import { UKRITheme } from '../theming';
 import { getAppStrings, getString } from '../state/strings';
 import UserInfo from '../authentication/user';
 import { Avatar, Paper, styled } from '@mui/material';
@@ -63,8 +62,7 @@ export const UnconnectedLogoutPage = (
           <Avatar
             sx={{
               margin: 1,
-              backgroundColor: (theme: Theme) =>
-                (theme as UKRITheme).colours.lightBlue,
+              backgroundColor: (theme: Theme) => theme.colours.lightBlue,
               color: '#FFFFFF',
             }}
           >

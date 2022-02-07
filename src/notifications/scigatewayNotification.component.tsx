@@ -5,7 +5,6 @@ import TickIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/ErrorOutline';
 import ErrorIcon from '@mui/icons-material/HighlightOff';
 import { Action } from 'redux';
-import { UKRITheme } from '../theming';
 
 const severityIconStyle = {
   marginLeft: '5px',
@@ -40,7 +39,7 @@ const ScigatewayNotification = React.forwardRef(function ScigatewayNotification(
         <WarningIcon
           sx={{
             ...severityIconStyle,
-            color: (theme: Theme) => (theme as UKRITheme).colours.lightOrange,
+            color: (theme: Theme) => theme.colours.lightOrange,
           }}
         />
       ) : null}

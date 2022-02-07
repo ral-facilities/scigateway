@@ -16,7 +16,6 @@ import {
 } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
-import { UKRITheme } from '../theming';
 import { Location } from 'history';
 import {
   Select,
@@ -43,12 +42,12 @@ const RootDiv = styled('div')(({ theme }) => ({
 
 const ErrorTypography = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
-  color: (theme as UKRITheme).colours.red,
+  color: theme.colours.red,
 }));
 
 const InfoTypography = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
-  color: (theme as UKRITheme).colours.blue,
+  color: theme.colours.blue,
 }));
 
 const textFieldStyles = { marginTop: 1, width: '352px' };
@@ -57,7 +56,7 @@ const textStyles = { fontSize: 14, paddingBottom: '24px', paddingTop: '12px' };
 
 const DividerLine = styled('div')(({ theme }) => ({
   borderBottom: '1px solid',
-  color: (theme as UKRITheme).colours.contrastGrey,
+  color: theme.colours.contrastGrey,
   width: '100%',
 }));
 
@@ -73,7 +72,7 @@ const DividerWithText = (props: {
           paddingRight: 2,
           paddingLeft: 2,
           fontSize: 14,
-          color: (theme: Theme) => (theme as UKRITheme).colours.contrastGrey,
+          color: (theme: Theme) => theme.colours.contrastGrey,
         }}
       >
         {props.children}
@@ -225,7 +224,7 @@ export const CredentialsLoginScreen = (
       <Typography
         sx={{
           ...textStyles,
-          color: (theme: Theme) => (theme as UKRITheme).colours.contrastGrey,
+          color: (theme: Theme) => theme.colours.contrastGrey,
         }}
       >
         <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
@@ -482,8 +481,7 @@ export const LoginPageComponent = (
         <Avatar
           sx={{
             margin: '12px',
-            backgroundColor: (theme: Theme) =>
-              (theme as UKRITheme).colours.lightBlue,
+            backgroundColor: (theme: Theme) => theme.colours.lightBlue,
             color: '#FFFFFF',
             alignItems: 'center',
           }}

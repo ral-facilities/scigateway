@@ -9,7 +9,6 @@ import { Link, LinkProps } from 'react-router-dom';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
-import { UKRITheme } from '../theming';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import { getAppStrings, getString } from '../state/strings';
@@ -69,7 +68,7 @@ export const NavigationDrawer = (
             sx: {
               textAlign: 'left',
               fontWeight: 'bold',
-              color: (theme: Theme) => (theme as UKRITheme).colours.blue,
+              color: (theme: Theme) => theme.colours.blue,
             },
           }}
         />
@@ -90,7 +89,7 @@ export const NavigationDrawer = (
             textAlign: 'left',
             paddingTop: 2,
             paddingBottom: 0,
-            color: (theme: Theme) => (theme as UKRITheme).colours.contrastGrey,
+            color: (theme: Theme) => theme.colours.contrastGrey,
             paddingLeft: 2,
           }}
         >
@@ -136,7 +135,7 @@ export const NavigationDrawer = (
   return (
     <Drawer
       sx={{
-        width: (theme: Theme) => (theme as UKRITheme).drawerWidth,
+        width: (theme: Theme) => theme.drawerWidth,
         flexShrink: 0,
       }}
       variant="persistent"
@@ -144,14 +143,10 @@ export const NavigationDrawer = (
       open={props.open}
       PaperProps={{
         sx: (theme: Theme) => ({
-          width: (theme as UKRITheme).drawerWidth,
+          width: theme.drawerWidth,
           background: theme.palette.background.default,
-          top: (theme as UKRITheme).mainAppBarHeight,
-          height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
-            (theme as UKRITheme).footerPaddingTop
-          } - ${(theme as UKRITheme).footerHeight} - ${
-            (theme as UKRITheme).mainAppBarHeight
-          } )`,
+          top: theme.mainAppBarHeight,
+          height: `calc(100% - ${theme.footerPaddingBottom} - ${theme.footerPaddingTop} - ${theme.footerHeight} - ${theme.mainAppBarHeight})`,
           position: 'absolute',
         }),
       }}

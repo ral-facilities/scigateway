@@ -16,7 +16,6 @@ import CookiesPage from '../cookieConsent/cookiesPage.component';
 import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
-import { UKRITheme } from '../theming';
 import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
@@ -31,8 +30,8 @@ const ContainerDiv = styled('div', {
   if (drawerOpen) {
     return {
       paddingBottom: '36px',
-      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
-      marginLeft: (theme as UKRITheme).drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth})`,
+      marginLeft: theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,

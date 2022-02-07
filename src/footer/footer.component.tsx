@@ -4,29 +4,28 @@ import { getAppStrings } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { AppStrings } from '../state/scigateway.types';
-import { UKRITheme } from '../theming';
 import { Trans, useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
 
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'absolute',
   bottom: 0,
-  paddingBottom: (theme as UKRITheme).footerPaddingBottom,
-  paddingTop: (theme as UKRITheme).footerPaddingTop,
+  paddingBottom: theme.footerPaddingBottom,
+  paddingTop: theme.footerPaddingTop,
   width: '100%',
-  height: (theme as UKRITheme).footerHeight,
+  height: theme.footerHeight,
   display: 'flex',
-  color: (theme as UKRITheme).colours.footerLink.default,
+  color: theme.colours.footerLink.default,
   backgroundColor: theme.palette.primary.main,
   '& a': {
     '&:link': {
-      color: (theme as UKRITheme).colours.footerLink.default,
+      color: theme.colours.footerLink.default,
     },
     '&:visited': {
-      color: (theme as UKRITheme).colours.footerLink.default,
+      color: theme.colours.footerLink.default,
     },
     '&:active': {
-      color: (theme as UKRITheme).colours.footerLink.active,
+      color: theme.colours.footerLink.active,
     },
   },
 }));

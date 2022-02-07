@@ -2,7 +2,6 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-import { UKRITheme } from '../theming';
 import Cookies from 'js-cookie';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import ReactGA from 'react-ga';
@@ -97,7 +96,8 @@ export const CookieConsent = (
       ContentProps={{
         sx: {
           color: 'primary.contrastText',
-          backgroundColor: (theme) => (theme as UKRITheme).colours.darkGreen,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          backgroundColor: (theme) => theme.colours.darkGreen,
         },
       }}
       open={open}

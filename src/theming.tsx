@@ -2,8 +2,6 @@ import {
   createTheme,
   ThemeProvider,
   StyledEngineProvider,
-  adaptV4Theme,
-  DeprecatedThemeOptions,
   Theme,
 } from '@mui/material/styles';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
@@ -102,6 +100,26 @@ interface ThemeColours {
 
   /* Colour for Tabs in search */
   tabsGrey: string;
+}
+
+declare module '@mui/material/styles' {
+  interface Theme {
+    colours: ThemeColours;
+    drawerWidth: string;
+    footerPaddingTop: string;
+    footerPaddingBottom: string;
+    footerHeight: string;
+    mainAppBarHeight: string;
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    colours: ThemeColours;
+    drawerWidth: string;
+    footerPaddingTop: string;
+    footerPaddingBottom: string;
+    footerHeight: string;
+    mainAppBarHeight: string;
+  }
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
@@ -247,23 +265,6 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   },
   tabsGrey: '#EEEEEE',
 };
-export interface UKRIThemeOptions extends DeprecatedThemeOptions {
-  drawerWidth: number;
-  footerPaddingTop: string;
-  footerPaddingBottom: string;
-  footerHeight: string;
-  mainAppBarHeight: string;
-  colours: ThemeColours;
-}
-
-export interface UKRITheme extends Theme {
-  drawerWidth: number;
-  footerPaddingTop: string;
-  footerPaddingBottom: string;
-  footerHeight: string;
-  mainAppBarHeight: string;
-  colours: ThemeColours;
-}
 
 export const buildTheme = (
   darkModePreference: boolean,
@@ -277,7 +278,8 @@ export const buildTheme = (
     ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
     : LIGHT_MODE_COLOURS;
 
-  const overrides = {
+  const componentOverrides = {};
+  /*const overrides = {
     MuiLink: {
       root: {
         color: colours.blue,
@@ -432,9 +434,17 @@ export const buildTheme = (
         textTransform: 'none',
       },
     },
-  };
+  };*/
 
-  return createTheme(adaptV4Theme(options));
+  return createTheme({
+    components: componentOverrides,
+    colours: colours,
+    drawerWidth: '220px',
+    footerPaddingTop: '8px',
+    footerPaddingBottom: '8px',
+    footerHeight: '20px',
+    mainAppBarHeight: '64px',
+  });
 };
 
 function mapThemeProviderStateToProps(

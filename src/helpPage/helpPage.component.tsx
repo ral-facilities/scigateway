@@ -5,20 +5,19 @@ import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import { UKRITheme } from '../theming';
 
 const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
   '& a': {
     '&:link': {
-      color: (theme as UKRITheme).colours.link.default,
+      color: theme.colours.link.default,
     },
     '&:visited': {
-      color: (theme as UKRITheme).colours.link.visited,
+      color: theme.colours.link.visited,
     },
     '&:active': {
-      color: (theme as UKRITheme).colours.link.active,
+      color: theme.colours.link.active,
     },
   },
 }));

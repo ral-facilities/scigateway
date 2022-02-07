@@ -26,12 +26,10 @@ import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
-//import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import { PluginConfig } from '../state/scigateway.types';
 import { useLocation } from 'react-router-dom';
-import { UKRITheme } from '../theming';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -139,7 +137,7 @@ export const MainAppBar = (
         position="static"
         sx={(theme: Theme) => ({
           backgroundColor: theme.palette.primary.main,
-          height: (theme as UKRITheme).mainAppBarHeight,
+          height: theme.mainAppBarHeight,
         })}
       >
         <Toolbar

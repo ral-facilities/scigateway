@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { Box, styled, Theme } from '@mui/material';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import { useTranslation, Trans } from 'react-i18next';
-import { UKRITheme } from '../theming';
 
 const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -26,14 +25,14 @@ export const PageNotFoundComponent = (): React.ReactElement => {
           sx={{
             width: '10vw',
             height: '10vw',
-            color: (theme: Theme) => (theme as UKRITheme).colours.blue,
+            color: (theme: Theme) => theme.colours.blue,
           }}
         />
         <Typography
           sx={{
             fontWeight: 'bold',
             fontSize: '10vw',
-            color: (theme: Theme) => (theme as UKRITheme).colours.blue,
+            color: (theme: Theme) => theme.colours.blue,
           }}
         >
           404

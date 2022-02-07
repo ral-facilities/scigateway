@@ -24,7 +24,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
 import UserInfo from '../authentication/user';
-import { UKRITheme } from '../theming';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -118,12 +117,9 @@ export const UserProfileComponent = (
           sx={(theme: Theme) => ({
             margin: 1,
             color: '#FFF',
-            backgroundColor: (theme as UKRITheme).colours.lightBlue,
+            backgroundColor: theme.colours.lightBlue,
             '&:hover': {
-              backgroundColor: alpha(
-                (theme as UKRITheme).colours.lightBlue,
-                0.8
-              ),
+              backgroundColor: alpha(theme.colours.lightBlue, 0.8),
             },
           })}
           onClick={() => {
