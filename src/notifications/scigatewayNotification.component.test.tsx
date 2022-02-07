@@ -3,6 +3,7 @@ import Notification from './scigatewayNotification.component';
 import { Action } from 'redux';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { mount, shallow } from 'enzyme';
+import { buildTheme } from '../theming';
 
 function createScigatewayNotification(
   severity: string,
@@ -42,6 +43,8 @@ describe('Scigateway Notification component', () => {
 
   it('an action is fired when Scigateway Notification button is clicked', () => {
     const mockDismissFn = jest.fn();
+
+    const theme = buildTheme(false);
 
     const wrapper = mount(
       <StyledEngineProvider injectFirst>

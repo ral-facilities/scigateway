@@ -1,4 +1,4 @@
-import { createMount } from '@mui/material/test-utils';
+import { mount } from 'enzyme';
 import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,15 +10,8 @@ import { flushPromises } from './setupTests';
 import { loadAuthProvider } from './state/actions/scigateway.actions';
 
 describe('App', () => {
-  let mount;
-
   beforeEach(() => {
-    mount = createMount();
     singleSpa.start();
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   it('renders without crashing', () => {
