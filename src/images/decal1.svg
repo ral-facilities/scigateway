@@ -1,11 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="246" height="250" version="1.1" viewBox="0 0 65.087 66.146" xmlns="http://www.w3.org/2000/svg">
-<g transform="matrix(0 .26458 -.26458 0 65.346 1.0326)">
-<g transform="translate(-233.81 -84.341)">
-<path d="m479.95 84.341v247s-238.97-248-246-247 246 0 246 0z" fill="#1e5df8" stroke-width="0" vector-effect="non-scaling-stroke"/>
-</g>
-</g>
-<g transform="matrix(0 .26458 -.26458 0 65.238 .0067861)">
-<path d="m0 0h70v150h-70v-150z" fill="#1e5df8" stroke-width="0" vector-effect="non-scaling-stroke"/>
-</g>
+<svg width="246" height="250" viewBox="0 0 65.087 66.146" xmlns="http://www.w3.org/2000/svg">
+  <path d="M65.347 66.158H-.004S65.613 2.93 65.347 1.07c-.266-1.86 0 65.087 0 65.087z" vector-effect="non-scaling-stroke" fill="#1e5df8"/>
+  <path d="M65.238.008v18.52H25.551V.009h39.687Z" vector-effect="non-scaling-stroke" fill="#1e5df8"/>
 </svg>
