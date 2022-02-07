@@ -135,6 +135,7 @@ export const MainAppBar = (
     <div style={{ width: '100%' }}>
       <AppBar
         position="static"
+        color="transparent"
         sx={(theme: Theme) => ({
           backgroundColor: theme.palette.primary.main,
           height: theme.mainAppBarHeight,

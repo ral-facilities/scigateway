@@ -279,6 +279,9 @@ export const buildTheme = (
     : LIGHT_MODE_COLOURS;
 
   const componentOverrides = {
+    MuiPaper: {
+      styleOverrides: { root: { backgroundImage: 'unset' } },
+    },
     MuiLink: {
       styleOverrides: {
         root: {
