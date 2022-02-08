@@ -283,6 +283,9 @@ export const buildTheme = (
       styleOverrides: { root: { backgroundImage: 'unset' } },
     },
     MuiLink: {
+      defaultProps: {
+        underline: 'hover' as 'always' | 'none' | 'hover' | undefined,
+      },
       styleOverrides: {
         root: {
           color: colours.blue,
