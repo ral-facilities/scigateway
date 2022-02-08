@@ -25,4 +25,4 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-export const flushPromises = (): Promise<void> => new Promise(setImmediate);
+export const flushPromises = (): Promise<void> => new Promise(process.nextTick);
