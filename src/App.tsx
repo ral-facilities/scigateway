@@ -39,8 +39,7 @@ const middleware = [
   autoLoginMiddleware,
 ];
 if (process.env.NODE_ENV === `development`) {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const logger = (createLogger as any)({ collapsed: true });
+  const logger = createLogger({ collapsed: true });
   middleware.push(logger);
   // const {whyDidYouUpdate} = require('why-did-you-update');
   // whyDidYouUpdate(React);

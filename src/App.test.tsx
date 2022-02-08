@@ -19,6 +19,7 @@ describe('App', () => {
 
   afterEach(() => {
     mount.cleanUp();
+    jest.useRealTimers();
   });
 
   it('renders without crashing', () => {
@@ -28,7 +29,9 @@ describe('App', () => {
   });
 
   it('loadMaintenanceState dispatched when maintenance changes', async () => {
-    jest.useFakeTimers();
+    // this test only works with old jest fake timers
+    // when they remove legacy timers refactor this test to use real timers
+    jest.useFakeTimers('legacy');
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
