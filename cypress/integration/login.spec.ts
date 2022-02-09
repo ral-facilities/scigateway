@@ -1,5 +1,8 @@
 describe('Login', () => {
   beforeEach(() => {
+    // intercept these requests so they don't throw exceptions
+    cy.intercept('/scheduled_maintenance', {}).as('scheduled_maintenance');
+    cy.intercept('/maintenance', {}).as('maintenance');
     // localStorage isn't always cleaned up properly between tests
     // see cypress issues #2573, #781, #5876
     cy.visit('/');
@@ -291,8 +294,7 @@ describe('Login', () => {
     const verifySuccess = { statusCode: 200, body: '' };
     const loginSuccess = {
       statusCode: 200,
-      body:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk',
+      body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk',
     };
     const failure = { statusCode: 403, body: '' };
 
