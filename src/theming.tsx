@@ -431,9 +431,9 @@ export const buildTheme = (
   return createMuiTheme(options);
 };
 
-function mapThemeProviderStateToProps(
-  state: StateType
-): { prefersDarkMode: boolean } {
+function mapThemeProviderStateToProps(state: StateType): {
+  prefersDarkMode: boolean;
+} {
   return {
     prefersDarkMode: state.scigateway.darkMode,
   };

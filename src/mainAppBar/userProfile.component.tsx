@@ -149,9 +149,8 @@ const UserProfileComponent = (
   );
 };
 
-export const UserProfileComponentWithStyles = withStyles(styles)(
-  UserProfileComponent
-);
+export const UserProfileComponentWithStyles =
+  withStyles(styles)(UserProfileComponent);
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
   loggedIn:

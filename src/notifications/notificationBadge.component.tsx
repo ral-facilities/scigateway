@@ -187,9 +187,8 @@ const NotificationBadge = (
 };
 
 export const NotificationBadgeWithoutStyles = NotificationBadge;
-export const NotificationBadgeWithStyles = withStyles(styles)(
-  NotificationBadge
-);
+export const NotificationBadgeWithStyles =
+  withStyles(styles)(NotificationBadge);
 
 const mapStateToProps = (state: StateType): BadgeProps => ({
   notifications: state.scigateway.notifications,
