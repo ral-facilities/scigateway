@@ -344,9 +344,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       if (mq) dispatch(loadDarkModePreference(mq.matches));
     }
-    const highContrastModeLocalStorage = localStorage.getItem(
-      'highContrastMode'
-    );
+    const highContrastModeLocalStorage =
+      localStorage.getItem('highContrastMode');
     if (highContrastModeLocalStorage)
       dispatch(
         loadHighContrastModePreference(
@@ -401,12 +400,11 @@ export const toggleHelp = (): Action => ({
   type: ToggleHelpType,
 });
 
-export const signOut = (): ThunkAction<void, StateType, null, AnyAction> => (
-  dispatch
-) => {
-  dispatch({ type: SignOutType });
-  dispatch(push('/'));
-};
+export const signOut =
+  (): ThunkAction<void, StateType, null, AnyAction> => (dispatch) => {
+    dispatch({ type: SignOutType });
+    dispatch(push('/'));
+  };
 
 export const resetAuthState = (): Action => ({
   type: ResetAuthStateType,

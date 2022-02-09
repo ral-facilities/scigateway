@@ -74,13 +74,10 @@ export const AdminPage = (
     setMaintenanceState,
   } = props;
 
-  const [
-    tempScheduledMaintenance,
-    setTempScheduledMaintenance,
-  ] = useState<ScheduledMaintenanceState>(scheduledMaintenance);
-  const [tempMaintenance, setTempMaintenance] = useState<MaintenanceState>(
-    maintenance
-  );
+  const [tempScheduledMaintenance, setTempScheduledMaintenance] =
+    useState<ScheduledMaintenanceState>(scheduledMaintenance);
+  const [tempMaintenance, setTempMaintenance] =
+    useState<MaintenanceState>(maintenance);
   const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
     'maintenance'
   );

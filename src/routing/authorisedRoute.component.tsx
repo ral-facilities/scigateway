@@ -46,78 +46,78 @@ const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
 });
 
 // generator function to create an authentication layer around the given component
-const withAuth = (adminSection: boolean) => <T,>(
-  ComponentToProtect: ComponentType<T>
-): NamedExoticComponent<T> => {
-  class WithAuthComponent extends Component<WithAuthProps> {
-    public componentDidMount(): void {
-      if (!this.props.loading) {
-        // Needed for when an authorised route is accessed after loading has completed
-        this.props.provider.verifyLogIn().catch(() => {
-          this.props.invalidToken();
-        });
+const withAuth =
+  (adminSection: boolean) =>
+  <T,>(ComponentToProtect: ComponentType<T>): NamedExoticComponent<T> => {
+    class WithAuthComponent extends Component<WithAuthProps> {
+      public componentDidMount(): void {
+        if (!this.props.loading) {
+          // Needed for when an authorised route is accessed after loading has completed
+          this.props.provider.verifyLogIn().catch(() => {
+            this.props.invalidToken();
+          });
+        }
       }
-    }
 
-    public render(): React.ReactElement {
-      const {
-        loading,
-        loggedIn,
-        userIsAdmin,
-        location,
-        provider,
-        homepageUrlState,
-        requestPluginRerender,
-        invalidToken,
-        ...componentProps
-      } = this.props;
-      return (
-        <div>
-          {!loading && !loggedIn ? (
-            <Redirect
-              push
-              to={{
-                pathname: '/login',
-                state: { referrer: location },
-              }}
-            />
-          ) : null}
-          {/* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */}
-          {!loading &&
-          loggedIn &&
-          (!adminSection || (adminSection && userIsAdmin)) ? (
-            homepageUrlState && homepageUrlState.scigateway.homepageUrl ? (
+      public render(): React.ReactElement {
+        const {
+          loading,
+          loggedIn,
+          userIsAdmin,
+          location,
+          provider,
+          homepageUrlState,
+          requestPluginRerender,
+          invalidToken,
+          ...componentProps
+        } = this.props;
+        return (
+          <div>
+            {!loading && !loggedIn ? (
               <Redirect
                 push
-                to={{ pathname: homepageUrlState.scigateway.homepageUrl }}
+                to={{
+                  pathname: '/login',
+                  state: { referrer: location },
+                }}
               />
+            ) : null}
+            {/* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */}
+            {!loading &&
+            loggedIn &&
+            (!adminSection || (adminSection && userIsAdmin)) ? (
+              homepageUrlState && homepageUrlState.scigateway.homepageUrl ? (
+                <Redirect
+                  push
+                  to={{ pathname: homepageUrlState.scigateway.homepageUrl }}
+                />
+              ) : (
+                <ComponentToProtect {...(componentProps as T)} />
+              )
             ) : (
-              <ComponentToProtect {...(componentProps as T)} />
-            )
-          ) : (
-            <PageNotFound />
-          )}
-        </div>
-      );
-    }
-
-    public componentDidUpdate(prevProps: WithAuthProps): void {
-      const { props } = this;
-      if (!props.loading && prevProps.loading) {
-        props.provider.verifyLogIn().catch(() => {
-          props.invalidToken();
-        });
+              <PageNotFound />
+            )}
+          </div>
+        );
       }
-      if (
-        (props.loggedIn && prevProps.loading && !props.loading) ||
-        (!props.loading && !prevProps.loggedIn && props.loggedIn)
-      ) {
-        props.requestPluginRerender();
+
+      public componentDidUpdate(prevProps: WithAuthProps): void {
+        const { props } = this;
+        if (!props.loading && prevProps.loading) {
+          props.provider.verifyLogIn().catch(() => {
+            props.invalidToken();
+          });
+        }
+        if (
+          (props.loggedIn && prevProps.loading && !props.loading) ||
+          (!props.loading && !prevProps.loggedIn && props.loggedIn)
+        ) {
+          props.requestPluginRerender();
+        }
       }
     }
-  }
 
-  return connect(mapStateToProps, mapDispatchToProps)(WithAuthComponent);
-};
+    return connect(mapStateToProps, mapDispatchToProps)(WithAuthComponent);
+  };
 
 export default withAuth;

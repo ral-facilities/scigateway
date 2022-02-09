@@ -11,8 +11,9 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 import * as singleSpa from 'single-spa';
 
 jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
-jest.mock('../maintenancePage/maintenancePage.component', () => () =>
-  'Mocked MaintenancePage'
+jest.mock(
+  '../maintenancePage/maintenancePage.component',
+  () => () => 'Mocked MaintenancePage'
 );
 jest.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',

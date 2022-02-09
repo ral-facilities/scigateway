@@ -469,9 +469,9 @@ export const buildTheme = (
   });
 };
 
-function mapThemeProviderStateToProps(
-  state: StateType
-): { prefersDarkMode: boolean } {
+function mapThemeProviderStateToProps(state: StateType): {
+  prefersDarkMode: boolean;
+} {
   return {
     prefersDarkMode: state.scigateway.darkMode,
   };
