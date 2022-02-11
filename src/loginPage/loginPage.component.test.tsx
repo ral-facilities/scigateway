@@ -96,6 +96,7 @@ describe('Login selector component', () => {
 
     wrapper.find('#select-mnemonic').simulate('change', event);
     expect(testSetMnemonic).toBeCalledWith('anon');
+    expect(setTextVisible).toBeCalledWith(true);
   });
 });
 
@@ -155,6 +156,7 @@ describe('Login page component', () => {
         <CredentialsLoginScreen {...props} setTextVisible={setTextVisible} />
       </MuiThemeProvider>
     );
+    expect(setTextVisible).toBeCalledWith(true);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -184,6 +186,7 @@ describe('Login page component', () => {
         <RedirectLoginScreen {...props} setTextVisible={setTextVisible} />
       </MuiThemeProvider>
     );
+    expect(setTextVisible).toBeCalledWith(true);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -194,6 +197,7 @@ describe('Login page component', () => {
         <RedirectLoginScreen {...props} setTextVisible={setTextVisible} />
       </MuiThemeProvider>
     );
+    expect(setTextVisible).toBeCalledWith(true);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -203,6 +207,7 @@ describe('Login page component', () => {
         <AnonLoginScreen {...props} setTextVisible={setTextVisible} />
       </MuiThemeProvider>
     );
+    expect(setTextVisible).toBeCalledWith(true);
     expect(wrapper).toMatchSnapshot();
   });
 
