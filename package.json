@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "connected-react-router": "^6.9.1",
     "cookie-parser": "^1.4.5",
     "custom-event-polyfill": "^1.0.7",
@@ -31,7 +31,7 @@
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
+    "redux-thunk": "^2.4.1",
     "single-spa": "^5.9.1",
     "typeface-roboto": "1.1.13",
     "typescript": "4.5.5"
