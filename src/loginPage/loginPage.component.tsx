@@ -160,13 +160,13 @@ export type CombinedLoginProps = LoginPageProps &
 
 export const RedirectLoginScreen = (
   props: CombinedLoginProps & {
-    setTextVisible: (isTextVisible: boolean) => void;
+    setComponentVisible: (isComponentVisible: boolean) => void;
   }
 ): React.ReactElement => {
   const [t] = useTranslation();
   return (
     <div className={props.classes.root}>
-      {props.setTextVisible(true)}
+      {props.setComponentVisible(true)}
       {props.auth.failedToLogin ? (
         <Typography className={props.classes.warning}>
           {t('login.login-redirect-error-msg')}
@@ -193,7 +193,7 @@ export const RedirectLoginScreen = (
 
 export const CredentialsLoginScreen = (
   props: CombinedLoginProps & {
-    setTextVisible: (isTextVisible: boolean) => void;
+    setComponentVisible: (isComponentVisible: boolean) => void;
     mnemonic?: string;
     authUrl?: string;
   }
@@ -223,7 +223,7 @@ export const CredentialsLoginScreen = (
         }
       }}
     >
-      {props.setTextVisible(true)}
+      {props.setComponentVisible(true)}
       {props.auth.failedToLogin ? (
         <Typography className={props.classes.warning}>
           {t('login.login-error-msg')}
@@ -302,7 +302,7 @@ export const CredentialsLoginScreen = (
 
 export const AnonLoginScreen = (
   props: CombinedLoginProps & {
-    setTextVisible: (isTextVisible: boolean) => void;
+    setComponentVisible: (isComponentVisible: boolean) => void;
     mnemonic?: string;
     authUrl?: string;
   }
@@ -322,7 +322,7 @@ export const AnonLoginScreen = (
         }
       }}
     >
-      {props.setTextVisible(true)}
+      {props.setComponentVisible(true)}
       {props.auth.failedToLogin ? (
         <Typography className={props.classes.warning}>
           {t('login.login-error-msg')}
@@ -359,7 +359,7 @@ export const LoginSelector = (
     mnemonics: ICATAuthenticator[];
     mnemonic?: string;
     setMnemonic: (mnemonic: string) => void;
-    setTextVisible: (isTextVisible: boolean) => void;
+    setComponentVisible: (isComponentVisible: boolean) => void;
   }
 ): React.ReactElement => {
   return (
@@ -371,7 +371,7 @@ export const LoginSelector = (
         fontSize: 14,
       }}
     >
-      {props.setTextVisible(true)}
+      {props.setComponentVisible(true)}
       <InputLabel htmlFor="mnemonic-select" color="secondary">
         Authenticator
       </InputLabel>
@@ -425,7 +425,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
-  const [isTextVisible, setTextVisible] = useState<boolean>(false);
+  const [isComponentVisible, setComponentVisible] = useState<boolean>(false);
   const [t] = useTranslation();
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
@@ -486,13 +486,16 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
         {...props}
         mnemonic={mnemonic}
         authUrl={authUrl}
-        setTextVisible={setTextVisible}
+        setComponentVisible={setComponentVisible}
       />
     );
 
     if (props.auth.provider.redirectUrl) {
       LoginScreen = (
-        <RedirectLoginScreen {...props} setTextVisible={setTextVisible} />
+        <RedirectLoginScreen
+          {...props}
+          setComponentVisible={setComponentVisible}
+        />
       );
     }
   } else {
@@ -506,7 +509,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       LoginScreen = (
         <AnonLoginScreen
           {...props}
-          setTextVisible={setTextVisible}
+          setComponentVisible={setComponentVisible}
           mnemonic={mnemonic}
           authUrl={authUrl}
         />
@@ -525,7 +528,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           {...props}
           mnemonic={mnemonic}
           authUrl={authUrl}
-          setTextVisible={setTextVisible}
+          setComponentVisible={setComponentVisible}
         />
       );
     } else if (
@@ -537,7 +540,10 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
     ) {
       // redirect
       LoginScreen = (
-        <RedirectLoginScreen {...props} setTextVisible={setTextVisible} />
+        <RedirectLoginScreen
+          {...props}
+          setComponentVisible={setComponentVisible}
+        />
       );
     } else {
       // unrecognised authenticator type
@@ -567,7 +573,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
             mnemonics={mnemonics}
             mnemonic={mnemonic}
             setMnemonic={setMnemonic}
-            setTextVisible={setTextVisible}
+            setComponentVisible={setComponentVisible}
           />
         )}
         {LoginScreen}
@@ -575,7 +581,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           <CircularProgress className={props.classes.spinner} />
         ) : null}
 
-        {!isTextVisible ? (
+        {!isComponentVisible ? (
           <CircularProgress className={props.classes.spinner} />
         ) : null}
       </Paper>
