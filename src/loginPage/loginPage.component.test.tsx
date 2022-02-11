@@ -259,10 +259,6 @@ describe('Login page component', () => {
             mnemonic: 'anon',
             keys: [],
           },
-          {
-            mnemonic: 'test',
-            keys: [{ name: 'token' }],
-          },
         ],
       })
     );
