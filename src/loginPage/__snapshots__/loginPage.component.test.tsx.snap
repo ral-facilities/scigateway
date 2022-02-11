@@ -690,6 +690,14 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
             ],
             "mnemonic": "ldap",
           },
+          Object {
+            "keys": Array [
+              Object {
+                "name": "token",
+              },
+            ],
+            "mnemonic": "test",
+          },
         ]
       }
       setMnemonic={[Function]}
