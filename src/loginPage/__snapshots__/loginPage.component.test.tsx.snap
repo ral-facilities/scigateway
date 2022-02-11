@@ -399,7 +399,11 @@ exports[`Login page component login page doesn't render dropdown if anon is the 
         }
       }
       mnemonic="user/pass"
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
   </WithStyles(ForwardRef(Paper))>
 </div>
@@ -462,7 +466,11 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
         }
       }
       mnemonic="nokeys"
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
   </WithStyles(ForwardRef(Paper))>
 </div>
@@ -524,7 +532,11 @@ exports[`Login page component login page renders credential component if no redi
           "state": undefined,
         }
       }
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
   </WithStyles(ForwardRef(Paper))>
 </div>
@@ -587,7 +599,11 @@ exports[`Login page component login page renders credentials login if mnemonic p
         }
       }
       mnemonic="user/pass"
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
   </WithStyles(ForwardRef(Paper))>
 </div>
@@ -677,7 +693,11 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
         ]
       }
       setMnemonic={[Function]}
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
   </WithStyles(ForwardRef(Paper))>
 </div>
@@ -739,7 +759,11 @@ exports[`Login page component login page renders redirect component if redirect 
           "state": undefined,
         }
       }
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
   </WithStyles(ForwardRef(Paper))>
 </div>
@@ -801,7 +825,11 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
           "state": undefined,
         }
       }
+      setTextVisible={[Function]}
       verifyUsernameAndPassword={[Function]}
+    />
+    <WithStyles(ForwardRef(CircularProgress))
+      className="spinner-class"
     />
     <WithStyles(ForwardRef(CircularProgress))
       className="spinner-class"
