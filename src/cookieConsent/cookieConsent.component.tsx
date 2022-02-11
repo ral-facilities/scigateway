@@ -55,7 +55,7 @@ const CookieConsent = (
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    const consentCookie = Cookies.getJSON('cookie-consent');
+    const consentCookie = JSON.parse(Cookies.get('cookie-consent') ?? 'null');
     if (
       props.analytics &&
       !props.analytics.initialised &&
@@ -80,7 +80,7 @@ const CookieConsent = (
 
     if (
       props.loading ||
-      Cookies.getJSON('cookie-consent') ||
+      JSON.parse(Cookies.get('cookie-consent') ?? 'null') ||
       props.location.pathname === '/cookies'
     ) {
       setOpen(false);
@@ -92,13 +92,9 @@ const CookieConsent = (
   const handleAccept = (
     event: React.SyntheticEvent | React.MouseEvent
   ): void => {
-    Cookies.set(
-      'cookie-consent',
-      { analytics: true },
-      {
-        expires: 365,
-      }
-    );
+    Cookies.set('cookie-consent', JSON.stringify({ analytics: true }), {
+      expires: 365,
+    });
     setOpen(false);
   };
 
