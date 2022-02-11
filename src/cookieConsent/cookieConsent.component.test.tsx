@@ -97,14 +97,14 @@ describe('Cookie consent component', () => {
     const mockCookies = (Cookies.set as jest.Mock).mock;
     const callArguments = mockCookies.calls[0];
     expect(callArguments[0]).toEqual('cookie-consent');
-    expect(callArguments[1]).toEqual({ analytics: true });
+    expect(callArguments[1]).toEqual(JSON.stringify({ analytics: true }));
   });
 
   it("initalises analytics if cookie consent is true but analytics hasn't yet been initialised", () => {
-    Cookies.getJSON = jest
+    Cookies.get = jest
       .fn()
       .mockImplementationOnce((name) =>
-        name === 'cookie-consent' ? { analytics: true } : null
+        name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : 'null'
       );
 
     ReactGA.initialize = jest.fn();
@@ -145,7 +145,7 @@ describe('Cookie consent component', () => {
     Cookies.get = jest
       .fn()
       .mockImplementationOnce((name) =>
-        name === 'cookie-consent' ? { analytics: true } : null
+        name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null
       );
 
     const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
