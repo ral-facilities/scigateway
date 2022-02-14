@@ -191,75 +191,80 @@ export const listenToPlugins = (
 };
 
 const ScigatewayMiddleware: Middleware = ((
-  store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
-) => (next: Dispatch<AnyAction>) => (action: AnyAction): AnyAction => {
-  const state = store.getState();
+    store: MiddlewareAPI<Dispatch<AnyAction>, StateType>
+  ) =>
+  (next: Dispatch<AnyAction>) =>
+  (action: AnyAction): AnyAction => {
+    const state = store.getState();
 
-  if (action.payload && action.payload.broadcast) {
-    broadcastToPlugins(action);
-  }
-
-  if (
-    action.type === '@@router/LOCATION_CHANGE' &&
-    state.scigateway.analytics &&
-    state.scigateway.analytics.initialised
-  ) {
-    const nextPage = `${action.payload.location.pathname}${action.payload.location.search}`;
-
-    if (currentPage !== nextPage) {
-      currentPage = nextPage;
-      trackPage(nextPage);
+    if (action.payload && action.payload.broadcast) {
+      broadcastToPlugins(action);
     }
-  }
 
-  if (action.type === ToggleDrawerType) {
-    next(action);
-    return store.dispatch(requestPluginRerender());
-  }
+    if (
+      action.type === '@@router/LOCATION_CHANGE' &&
+      state.scigateway.analytics &&
+      state.scigateway.analytics.initialised
+    ) {
+      const nextPage = `${action.payload.location.pathname}${action.payload.location.search}`;
 
-  if (action.type === LoadDarkModePreferenceType) {
-    next(action);
-    const theme = buildTheme(
-      action.payload.darkMode,
-      state.scigateway.highContrastMode
-    );
-    store.dispatch(sendThemeOptions(theme));
-    return store.dispatch(requestPluginRerender());
-  }
+      if (currentPage !== nextPage) {
+        currentPage = nextPage;
+        trackPage(nextPage);
+      }
+    }
 
-  if (action.type === LoadHighContrastModePreferenceType) {
-    next(action);
-    const theme = buildTheme(
-      state.scigateway.darkMode,
-      action.payload.highContrastMode
-    );
-    store.dispatch(sendThemeOptions(theme));
-    return store.dispatch(requestPluginRerender());
-  }
+    if (action.type === ToggleDrawerType) {
+      next(action);
+      return store.dispatch(requestPluginRerender());
+    }
 
-  return next(action);
-}) as Middleware;
+    if (action.type === LoadDarkModePreferenceType) {
+      next(action);
+      const theme = buildTheme(
+        action.payload.darkMode,
+        state.scigateway.highContrastMode
+      );
+      store.dispatch(sendThemeOptions(theme));
+      return store.dispatch(requestPluginRerender());
+    }
+
+    if (action.type === LoadHighContrastModePreferenceType) {
+      next(action);
+      const theme = buildTheme(
+        state.scigateway.darkMode,
+        action.payload.highContrastMode
+      );
+      store.dispatch(sendThemeOptions(theme));
+      return store.dispatch(requestPluginRerender());
+    }
+
+    return next(action);
+  }) as Middleware;
 
 export const autoLoginMiddleware: Middleware<
   ThunkDispatch<StateType, void, AnyAction>,
   StateType,
   ThunkDispatch<StateType, void, AnyAction>
-> = ({ dispatch, getState }) => (next) => async (action) => {
-  const autoLogin = getState().scigateway.authorisation.provider.autoLogin;
-  if (
-    autoLogin &&
-    // these are the three actions that can cause a user sign out
-    (action.type === SignOutType ||
-      action.type === AuthFailureType ||
-      action.type === InvalidateTokenType)
-  ) {
-    next(action);
-    return await autoLogin().then(() => {
-      dispatch(autoLoginAuthorised());
-    });
-  }
+> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  async (action) => {
+    const autoLogin = getState().scigateway.authorisation.provider.autoLogin;
+    if (
+      autoLogin &&
+      // these are the three actions that can cause a user sign out
+      (action.type === SignOutType ||
+        action.type === AuthFailureType ||
+        action.type === InvalidateTokenType)
+    ) {
+      next(action);
+      return await autoLogin().then(() => {
+        dispatch(autoLoginAuthorised());
+      });
+    }
 
-  return next(action);
-};
+    return next(action);
+  };
 
 export default ScigatewayMiddleware;

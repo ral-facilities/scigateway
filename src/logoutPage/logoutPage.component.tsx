@@ -127,9 +127,8 @@ export const LogoutPageComponent = (
   );
 };
 
-export const LogoutPageComponentWithStyles = withStyles(styles)(
-  LogoutPageComponent
-);
+export const LogoutPageComponentWithStyles =
+  withStyles(styles)(LogoutPageComponent);
 
 const mapStateToProps = (state: StateType): LogoutPageProps => ({
   user:

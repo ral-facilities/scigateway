@@ -79,7 +79,7 @@ describe('Cookies page component', () => {
     const mockCookies = (Cookies.set as jest.Mock).mock;
     const callArguments = mockCookies.calls[0];
     expect(callArguments[0]).toEqual('cookie-consent');
-    expect(callArguments[1]).toEqual({ analytics: true });
+    expect(callArguments[1]).toEqual(JSON.stringify({ analytics: true }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));
@@ -88,10 +88,10 @@ describe('Cookies page component', () => {
   it('should remove cookies when user revokes consent', () => {
     const testStore = mockStore(state);
 
-    Cookies.getJSON = jest
+    Cookies.get = jest
       .fn()
       .mockImplementationOnce((name) =>
-        name === 'cookie-consent' ? { analytics: true } : null
+        name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null
       );
 
     const wrapper = mount(
@@ -115,7 +115,7 @@ describe('Cookies page component', () => {
     const mockCookiesSet = (Cookies.set as jest.Mock).mock;
     const setCallArguments = mockCookiesSet.calls[0];
     expect(setCallArguments[0]).toEqual('cookie-consent');
-    expect(setCallArguments[1]).toEqual({ analytics: false });
+    expect(setCallArguments[1]).toEqual(JSON.stringify({ analytics: false }));
 
     expect(Cookies.remove).toHaveBeenCalledTimes(2);
     const mockCookiesRemove = (Cookies.remove as jest.Mock).mock;
