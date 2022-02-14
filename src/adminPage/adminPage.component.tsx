@@ -150,7 +150,7 @@ export const AdminPage = (
           />
           <div style={{ display: 'row' }}>
             <FormControlLabel
-              style={{ float: 'left' }}
+              sx={{ float: 'left' }}
               value={tempScheduledMaintenance.show}
               control={
                 <Checkbox
@@ -174,7 +174,7 @@ export const AdminPage = (
               labelPlacement="end"
             />
             <Button
-              style={{ float: 'right' }}
+              sx={{ float: 'right' }}
               variant="contained"
               color="primary"
               onClick={() =>
@@ -205,7 +205,7 @@ export const AdminPage = (
           />
           <div style={{ display: 'row' }}>
             <FormControlLabel
-              style={{ float: 'left' }}
+              sx={{ float: 'left' }}
               value={tempMaintenance.show}
               control={
                 <Checkbox
@@ -229,12 +229,12 @@ export const AdminPage = (
               labelPlacement="end"
             />
             <Button
-              style={{ float: 'right' }}
+              sx={{ float: 'right' }}
               variant="contained"
               color="primary"
               onClick={() => setMaintenanceState(tempMaintenance)}
             >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+              <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
                 {getString(props.res, 'save-button')}
               </Typography>
             </Button>

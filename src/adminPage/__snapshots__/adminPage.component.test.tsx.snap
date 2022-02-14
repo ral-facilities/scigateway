@@ -92,7 +92,7 @@ exports[`Admin page component should render correctly 1`] = `
           }
           label="display-checkbox"
           labelPlacement="end"
-          style={
+          sx={
             Object {
               "float": "left",
             }
@@ -102,7 +102,7 @@ exports[`Admin page component should render correctly 1`] = `
         <ForwardRef(Button)
           color="primary"
           onClick={[Function]}
-          style={
+          sx={
             Object {
               "float": "right",
             }
@@ -158,7 +158,7 @@ exports[`Admin page component should render correctly 1`] = `
           }
           label="display-checkbox"
           labelPlacement="end"
-          style={
+          sx={
             Object {
               "float": "left",
             }
@@ -168,7 +168,7 @@ exports[`Admin page component should render correctly 1`] = `
         <ForwardRef(Button)
           color="primary"
           onClick={[Function]}
-          style={
+          sx={
             Object {
               "float": "right",
             }
@@ -178,9 +178,9 @@ exports[`Admin page component should render correctly 1`] = `
           <ForwardRef(Typography)
             color="inherit"
             noWrap={true}
-            style={
+            sx={
               Object {
-                "marginTop": 3,
+                "marginTop": "3px",
               }
             }
           >

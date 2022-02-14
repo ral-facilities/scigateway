@@ -74,7 +74,7 @@ export const UnconnectedLogoutPage = (
           {getString(props.res, 'username-description')}
         </Typography>
         <Typography
-          sx={{ paddingTop: '3px', fontWeight: 'bold', fontSize: 17 }}
+          sx={{ paddingTop: '3px', fontWeight: 'bold', fontSize: '17px' }}
         >
           {props.user.username}
         </Typography>
@@ -88,7 +88,7 @@ export const UnconnectedLogoutPage = (
           onClick={logout}
           data-test-id="logout-page-button"
         >
-          <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+          <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
             {getString(props.res, 'logout-button')}
           </Typography>
         </Button>

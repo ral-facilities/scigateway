@@ -121,7 +121,7 @@ export const RedirectLoginScreen = (
           }
         }}
       >
-        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+        <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
           Login with Github
         </Typography>
       </Button>
@@ -208,7 +208,7 @@ export const CredentialsLoginScreen = (
         <Typography
           color="inherit"
           noWrap
-          style={{ marginTop: 3, fontWeight: 'bold' }}
+          sx={{ marginTop: 3, fontWeight: 'bold' }}
         >
           {t('login.login-button')}
         </Typography>
@@ -281,7 +281,7 @@ export const AnonLoginScreen = (
           );
         }}
       >
-        <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+        <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
           {t('login.login-button')}
         </Typography>
       </Button>
@@ -298,11 +298,11 @@ export const LoginSelector = (
 ): React.ReactElement => {
   return (
     <FormControl
-      style={{
-        minWidth: 120,
+      sx={{
+        minWidth: '120px',
         paddingTop: '8px',
         paddingBottom: '16px',
-        fontSize: 14,
+        fontSize: '14px',
       }}
     >
       <InputLabel htmlFor="mnemonic-select" color="secondary">
@@ -491,7 +491,7 @@ export const LoginPageComponent = (
         <Typography
           component="h1"
           variant="h5"
-          style={{
+          sx={{
             fontWeight: 'bold',
             paddingBottom: '16px',
           }}

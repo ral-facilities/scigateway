@@ -143,7 +143,7 @@ export const MainAppBar = (
       >
         <Toolbar
           disableGutters
-          style={{ marginLeft: '16px', marginRight: '16px' }}
+          sx={{ marginLeft: '16px', marginRight: '16px' }}
         >
           {props.loggedIn ? (
             props.drawerOpen === false ? (
@@ -198,7 +198,7 @@ export const MainAppBar = (
               <Typography
                 color="inherit"
                 noWrap
-                style={{ fontWeight: 500, marginTop: 3 }}
+                sx={{ fontWeight: 500, marginTop: '3px' }}
               >
                 {getString(props.res, 'help')}
               </Typography>
@@ -214,7 +214,7 @@ export const MainAppBar = (
               <Typography
                 color="inherit"
                 noWrap
-                style={{ fontWeight: 500, marginTop: 3 }}
+                sx={{ fontWeight: 500, marginTop: '3px' }}
               >
                 {getString(props.res, 'admin')}
               </Typography>

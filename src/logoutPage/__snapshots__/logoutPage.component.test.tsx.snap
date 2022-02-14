@@ -28,7 +28,7 @@ exports[`logout page component renders the logout page correctly with avatar usi
     <ForwardRef(Typography)
       sx={
         Object {
-          "fontSize": 17,
+          "fontSize": "17px",
           "fontWeight": "bold",
           "paddingTop": "3px",
         }
@@ -53,9 +53,9 @@ exports[`logout page component renders the logout page correctly with avatar usi
       <ForwardRef(Typography)
         color="inherit"
         noWrap={true}
-        style={
+        sx={
           Object {
-            "marginTop": 3,
+            "marginTop": "3px",
           }
         }
       >
@@ -96,7 +96,7 @@ exports[`logout page component renders the logout page correctly with default av
     <ForwardRef(Typography)
       sx={
         Object {
-          "fontSize": 17,
+          "fontSize": "17px",
           "fontWeight": "bold",
           "paddingTop": "3px",
         }
@@ -121,9 +121,9 @@ exports[`logout page component renders the logout page correctly with default av
       <ForwardRef(Typography)
         color="inherit"
         noWrap={true}
-        style={
+        sx={
           Object {
-            "marginTop": 3,
+            "marginTop": "3px",
           }
         }
       >
