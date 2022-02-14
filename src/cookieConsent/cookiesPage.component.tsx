@@ -61,19 +61,13 @@ const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
     Cookies.remove('_gid');
   }
 
-  Cookies.set(
-    'cookie-consent',
-    { analytics },
-    {
-      expires: 365,
-    }
-  );
+  Cookies.set('cookie-consent', JSON.stringify({ analytics }), {
+    expires: 365,
+  });
 };
 
-export const CookiesPage = (
-  props: CombinedCookiesPageProps
-): React.ReactElement => {
-  const cookieConsent = Cookies.getJSON('cookie-consent');
+const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
+  const cookieConsent = JSON.parse(Cookies.get('cookie-consent') ?? 'null');
   const [analytics, setAnalytics] = React.useState(
     cookieConsent ? cookieConsent.analytics : false
   );
