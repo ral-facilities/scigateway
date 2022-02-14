@@ -22,6 +22,7 @@ import ReduxToastr from 'react-redux-toastr';
 import PageContainer from './pageContainer.component';
 import StylesProvider from '@mui/styles/StylesProvider';
 import createGenerateClassName from '@mui/styles/createGenerateClassName';
+import { Preloader as UnconnectedPreloader } from './preloader/preloader.component';
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'sgw',
@@ -101,8 +102,14 @@ class App extends React.Component {
           <ConnectedRouter history={history}>
             <StylesProvider generateClassName={generateClassName}>
               <ConnectedThemeProvider>
-                {toastrConfig()}
-                <PageContainer />
+                <React.Suspense
+                  fallback={
+                    <UnconnectedPreloader fullScreen={true} loading={true} />
+                  }
+                >
+                  {toastrConfig()}
+                  <PageContainer />
+                </React.Suspense>
               </ConnectedThemeProvider>
             </StylesProvider>
           </ConnectedRouter>
