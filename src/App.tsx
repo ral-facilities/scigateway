@@ -20,14 +20,7 @@ import './index.css';
 import { ConnectedThemeProvider } from './theming';
 import ReduxToastr from 'react-redux-toastr';
 import PageContainer from './pageContainer.component';
-import StylesProvider from '@mui/styles/StylesProvider';
-import createGenerateClassName from '@mui/styles/createGenerateClassName';
 import { Preloader as UnconnectedPreloader } from './preloader/preloader.component';
-
-const generateClassName = createGenerateClassName({
-  productionPrefix: 'sgw',
-  disableGlobal: true,
-});
 
 const history = createBrowserHistory();
 
@@ -100,18 +93,16 @@ class App extends React.Component {
       <div className="App">
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <StylesProvider generateClassName={generateClassName}>
-              <ConnectedThemeProvider>
-                <React.Suspense
-                  fallback={
-                    <UnconnectedPreloader fullScreen={true} loading={true} />
-                  }
-                >
-                  {toastrConfig()}
-                  <PageContainer />
-                </React.Suspense>
-              </ConnectedThemeProvider>
-            </StylesProvider>
+            <ConnectedThemeProvider>
+              <React.Suspense
+                fallback={
+                  <UnconnectedPreloader fullScreen={true} loading={true} />
+                }
+              >
+                {toastrConfig()}
+                <PageContainer />
+              </React.Suspense>
+            </ConnectedThemeProvider>
           </ConnectedRouter>
         </Provider>
       </div>
