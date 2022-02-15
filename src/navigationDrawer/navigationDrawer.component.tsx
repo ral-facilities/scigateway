@@ -174,18 +174,24 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
       ? STFCLogoWhiteText
       : STFCLogoBlueText;
 
+    let altTxt = getString(this.props.res, 'alternative-text');
+
     if (this.props.navigationDrawerLogo) {
       if (this.props.darkMode) {
         if (this.props.navigationDrawerLogo.dark) {
           navDrawerLogo = this.props.navigationDrawerLogo.dark;
+          altTxt = this.props.navigationDrawerLogo.altTxt;
         } else {
           navDrawerLogo = STFCLogoWhiteText;
+          altTxt = getString(this.props.res, 'alternative-text');
         }
       } else {
         if (this.props.navigationDrawerLogo.light) {
           navDrawerLogo = this.props.navigationDrawerLogo.light;
+          altTxt = this.props.navigationDrawerLogo.altTxt;
         } else {
           navDrawerLogo = STFCLogoBlueText;
+          altTxt = getString(this.props.res, 'alternative-text');
         }
       }
     }
@@ -213,7 +219,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
             <Box marginTop="auto">
               <img
                 className={this.props.classes.menuLogo}
-                alt={getString(this.props.res, 'alternative-text')}
+                alt={altTxt}
                 src={navDrawerLogo}
               />
             </Box>

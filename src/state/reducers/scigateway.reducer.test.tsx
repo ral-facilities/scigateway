@@ -393,12 +393,17 @@ describe('scigateway reducer', () => {
 
     const updatedState = ScigatewayReducer(
       state,
-      customNavigationDrawerLogo({ light: '/test', dark: '/test' })
+      customNavigationDrawerLogo({
+        light: '/test',
+        dark: '/test',
+        altTxt: 'alt-txt',
+      })
     );
 
     expect(updatedState.navigationDrawerLogo).toEqual({
       light: '/test',
       dark: '/test',
+      altTxt: 'alt-txt',
     });
   });
 

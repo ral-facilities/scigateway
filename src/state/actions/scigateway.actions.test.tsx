@@ -293,7 +293,11 @@ describe('scigateway actions', () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
-          navigationDrawerLogo: { light: '/test', dark: '/test' },
+          navigationDrawerLogo: {
+            light: '/test',
+            dark: '/test',
+            altTxt: 'alt-txt',
+          },
         },
       })
     );
@@ -312,7 +316,11 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(
-      customNavigationDrawerLogo({ light: '/test', dark: '/test' })
+      customNavigationDrawerLogo({
+        light: '/test',
+        dark: '/test',
+        altTxt: 'alt-txt',
+      })
     );
   });
 

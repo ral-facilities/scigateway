@@ -30,7 +30,7 @@ exports[`Help page component should render correctly 1`] = `
         "blue": "#003088",
         "chip": "#E0E0E0",
         "contrastGrey": "#717171",
-        "darkGreen": "#3E863E",
+        "darkGreen": "#3A7F3A",
         "darkOrange": "#C34F00",
         "footerLink": Object {
           "active": "#E58885",

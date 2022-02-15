@@ -104,4 +104,5 @@ export interface AnalyticsState {
 export interface LogoState {
   light: string;
   dark: string;
+  altTxt: string;
 }
