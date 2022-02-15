@@ -21,6 +21,7 @@ import {
   loadMaintenanceState,
   loadHighContrastModePreference,
   customLogo,
+  customNavigationDrawerLogo,
   autoLoginAuthorised,
   resetAuthState,
 } from '../actions/scigateway.actions';
@@ -385,6 +386,20 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, customLogo('/test'));
 
     expect(updatedState.logo).toEqual('/test');
+  });
+
+  it('should show the custom navigation drawer logo when provided', () => {
+    expect(state.navigationDrawerLogo).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(
+      state,
+      customNavigationDrawerLogo({ light: '/test', dark: '/test' })
+    );
+
+    expect(updatedState.navigationDrawerLogo).toEqual({
+      light: '/test',
+      dark: '/test',
+    });
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {

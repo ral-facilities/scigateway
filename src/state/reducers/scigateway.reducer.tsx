@@ -42,6 +42,8 @@ import {
   LoadHighContrastModePreferencePayload,
   LoadHighContrastModePreferenceType,
   ResetAuthStateType,
+  CustomNavigationDrawerLogoPayload,
+  CustomNavigationDrawerLogoType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -299,6 +301,16 @@ export function handleCustomLogo(
   };
 }
 
+export function handleCustomNavigationDrawerLogo(
+  state: ScigatewayState,
+  payload: CustomNavigationDrawerLogoPayload
+): ScigatewayState {
+  return {
+    ...state,
+    navigationDrawerLogo: payload.navigationDrawerLogo,
+  };
+}
+
 export function handleDismissNotification(
   state: ScigatewayState,
   payload: { index: number }
@@ -477,6 +489,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [LoadHighContrastModePreferenceType]: handleLoadHighContrastModePreference,
   [RegisterHomepageUrlType]: handleRegisterHomepageUrl,
   [CustomLogoType]: handleCustomLogo,
+  [CustomNavigationDrawerLogoType]: handleCustomNavigationDrawerLogo,
 });
 
 export default ScigatewayReducer;

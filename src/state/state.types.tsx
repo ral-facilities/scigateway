@@ -39,6 +39,7 @@ export interface ScigatewayState {
   logo?: string;
   scheduledMaintenance: ScheduledMaintenanceState;
   maintenance: MaintenanceState;
+  navigationDrawerLogo?: LogoState;
 }
 
 export interface StateType {
@@ -98,4 +99,9 @@ export interface AuthState {
 export interface AnalyticsState {
   id: string;
   initialised: boolean;
+}
+
+export interface LogoState {
+  light: string;
+  dark: string;
 }

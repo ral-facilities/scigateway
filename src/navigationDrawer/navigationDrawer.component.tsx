@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
-import { StateType } from '../state/state.types';
+import { LogoState, StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import { UKRITheme } from '../theming';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
@@ -26,6 +26,7 @@ interface NavigationDrawerProps {
   darkMode: boolean;
   homepageUrl?: string;
   res: AppStrings | undefined;
+  navigationDrawerLogo?: LogoState;
 }
 
 const styles = (theme: Theme): StyleRules =>
@@ -158,7 +159,37 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   }
 
   public render(): React.ReactElement {
-    const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
+    // const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
+
+    // const imgSrc2 =
+    //   this.props.darkMode && this.props.navigationDrawerLogo
+    //     ? this.props.navigationDrawerLogo.light
+    //     : this.props.navigationDrawerLogo.dark;
+
+    // const img  = this.props.navigationDrawerLogo ? this.props.darkMode ?  this.props.navigationDrawerLogo.dark? this.props.navigationDrawerLogo.dark : STFCLogoWhiteText : this.props.navigationDrawerLogo.light : STFCLogoBlueText : ""
+
+    // const navDrawerLogo = this.props.navigationDrawerLogo ? imgSrc : imgSrc2;
+
+    let navDrawerLogo = this.props.darkMode
+      ? STFCLogoWhiteText
+      : STFCLogoBlueText;
+
+    if (this.props.navigationDrawerLogo) {
+      if (this.props.darkMode) {
+        if (this.props.navigationDrawerLogo.dark) {
+          navDrawerLogo = this.props.navigationDrawerLogo.dark;
+        } else {
+          navDrawerLogo = STFCLogoWhiteText;
+        }
+      } else {
+        if (this.props.navigationDrawerLogo.light) {
+          navDrawerLogo = this.props.navigationDrawerLogo.light;
+        } else {
+          navDrawerLogo = STFCLogoBlueText;
+        }
+      }
+    }
+
     return (
       <Drawer
         className={this.props.classes.drawer}
@@ -178,12 +209,12 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         >
           {this.renderRoutes()}
 
-          {imgSrc && (
+          {navDrawerLogo && (
             <Box marginTop="auto">
               <img
                 className={this.props.classes.menuLogo}
                 alt={getString(this.props.res, 'alternative-text')}
-                src={imgSrc}
+                src={navDrawerLogo}
               />
             </Box>
           )}
@@ -199,6 +230,7 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   darkMode: state.scigateway.darkMode,
   homepageUrl: state.scigateway.homepageUrl,
   res: getAppStrings(state, 'navigation-drawer'),
+  navigationDrawerLogo: state.scigateway.navigationDrawerLogo,
 });
 
 export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);

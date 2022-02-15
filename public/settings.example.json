@@ -1,6 +1,7 @@
 {
   "title": "a cool title",
   "logo": "",
+  "navigationDrawerLogo": { "light": "", "dark": "" },
   "features": {
     "showHelpPageButton": true,
     "singlePluginLogo": true
