@@ -159,17 +159,6 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
   }
 
   public render(): React.ReactElement {
-    // const imgSrc = this.props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
-
-    // const imgSrc2 =
-    //   this.props.darkMode && this.props.navigationDrawerLogo
-    //     ? this.props.navigationDrawerLogo.light
-    //     : this.props.navigationDrawerLogo.dark;
-
-    // const img  = this.props.navigationDrawerLogo ? this.props.darkMode ?  this.props.navigationDrawerLogo.dark? this.props.navigationDrawerLogo.dark : STFCLogoWhiteText : this.props.navigationDrawerLogo.light : STFCLogoBlueText : ""
-
-    // const navDrawerLogo = this.props.navigationDrawerLogo ? imgSrc : imgSrc2;
-
     let navDrawerLogo = this.props.darkMode
       ? STFCLogoWhiteText
       : STFCLogoBlueText;
