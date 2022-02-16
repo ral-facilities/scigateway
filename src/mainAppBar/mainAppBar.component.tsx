@@ -80,6 +80,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     titleButton: {
       padding: 4,
+      display: 'contents',
       margin: theme.spacing(1),
       '& img': {
         height: 24,
@@ -90,17 +91,17 @@ const styles = (theme: Theme): StyleRules =>
       color: theme.palette.primary.contrastText,
     },
     menuButton: {
-      marginLeft: 0,
+      marginLeft: -12,
       marginRight: 0,
       color: theme.palette.primary.contrastText,
     },
     menuButtonPlaceholder: {
-      marginLeft: 0,
+      marginLeft: -12,
       marginRight: 0,
       width: 48,
     },
     menuButtonOpen: {
-      marginLeft: 0,
+      marginLeft: -12,
       marginRight: 0,
       color: theme.palette.primary.contrastText,
     },
@@ -204,13 +205,12 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
             className={classNames(props.classes.titleButton, 'tour-title')}
             onClick={props.navigateToHome}
             aria-label={getString(props.res, 'home-page')}
-            startIcon={
-              <img
-                src={props.logo ? props.logo : defaultLogo}
-                alt={getString(props.res, 'title')}
-              />
-            }
-          />
+          >
+            <img
+              src={props.logo ? props.logo : defaultLogo}
+              alt={getString(props.res, 'title')}
+            />
+          </Button>
 
           {props.showHelpPageButton ? (
             <Button
