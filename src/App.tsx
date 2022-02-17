@@ -24,6 +24,7 @@ import {
   StylesProvider,
   createGenerateClassName,
 } from '@material-ui/core/styles';
+import { Preloader as UnconnectedPreloader } from './preloader/preloader.component';
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'sgw',
@@ -39,8 +40,7 @@ const middleware = [
   autoLoginMiddleware,
 ];
 if (process.env.NODE_ENV === `development`) {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const logger = (createLogger as any)({ collapsed: true });
+  const logger = createLogger({ collapsed: true });
   middleware.push(logger);
   // const {whyDidYouUpdate} = require('why-did-you-update');
   // whyDidYouUpdate(React);
@@ -104,8 +104,14 @@ class App extends React.Component {
           <ConnectedRouter history={history}>
             <StylesProvider generateClassName={generateClassName}>
               <ConnectedThemeProvider>
-                {toastrConfig()}
-                <PageContainer />
+                <React.Suspense
+                  fallback={
+                    <UnconnectedPreloader fullScreen={true} loading={true} />
+                  }
+                >
+                  {toastrConfig()}
+                  <PageContainer />
+                </React.Suspense>
               </ConnectedThemeProvider>
             </StylesProvider>
           </ConnectedRouter>

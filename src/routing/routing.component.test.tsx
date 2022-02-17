@@ -16,8 +16,9 @@ jest.mock('@material-ui/core/styles', () => ({
   makeStyles: (styles) => (component) => component,
 }));
 jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
-jest.mock('../maintenancePage/maintenancePage.component', () => () =>
-  'Mocked MaintenancePage'
+jest.mock(
+  '../maintenancePage/maintenancePage.component',
+  () => () => 'Mocked MaintenancePage'
 );
 jest.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
