@@ -82,6 +82,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     spinner: {
       marginBottom: '24px',
+      color: (theme as UKRITheme).colours.blue,
     },
     forgotPasswordText: {
       fontSize: 14,
