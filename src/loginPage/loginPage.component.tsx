@@ -417,7 +417,6 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
-
   const [t] = useTranslation();
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
