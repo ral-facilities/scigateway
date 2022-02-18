@@ -9,6 +9,7 @@ import React from 'react';
 import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
 import { checkboxClasses } from '@mui/material/Checkbox';
+import { formLabelClasses } from '@mui/material';
 
 /* UKRI colours */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -323,7 +324,7 @@ export const buildTheme = (
           '&$error': {
             color: colours.red,
           },
-          '&$focused': {
+          [`&.${formLabelClasses.focused}`]: {
             color: colours.blue,
           },
         },

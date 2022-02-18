@@ -208,7 +208,7 @@ export const CredentialsLoginScreen = (
         <Typography
           color="inherit"
           noWrap
-          sx={{ marginTop: 3, fontWeight: 'bold' }}
+          sx={{ marginTop: '3px', fontWeight: 'bold' }}
         >
           {t('login.login-button')}
         </Typography>
@@ -475,7 +475,7 @@ export const LoginPageComponent = (
           flexDirection: 'column',
           alignItems: 'center',
           paddingTop: '24px',
-          width: 400,
+          width: '400px',
         }}
       >
         <Avatar
