@@ -42,7 +42,6 @@ jest.mock('react-router-dom', () => ({
 describe('Login selector component', () => {
   let shallow;
   let props: CombinedLoginProps;
-  const setComponentVisible = jest.fn();
 
   const dummyClasses = {
     root: 'root-1',
@@ -66,9 +65,6 @@ describe('Login selector component', () => {
       classes: dummyClasses,
     };
   });
-  afterEach(() => {
-    setComponentVisible.mockClear();
-  });
 
   it('sets a new mnemonic in local state on mnemonic change', () => {
     const mnemonics: ICATAuthenticator[] = [
@@ -90,13 +86,11 @@ describe('Login selector component', () => {
         mnemonics={mnemonics}
         mnemonic="user/pass"
         setMnemonic={testSetMnemonic}
-        setComponentVisible={setComponentVisible}
       />
     );
 
     wrapper.find('#select-mnemonic').simulate('change', event);
     expect(testSetMnemonic).toBeCalledWith('anon');
-    expect(setComponentVisible).toBeCalledWith(true);
   });
 });
 
@@ -106,8 +100,6 @@ describe('Login page component', () => {
   let props: CombinedLoginProps;
   let mockStore;
   let state: StateType;
-
-  const setComponentVisible = jest.fn();
 
   const dummyClasses = {
     root: 'root-1',
@@ -144,22 +136,15 @@ describe('Login page component', () => {
     singleSpa.start();
   });
 
-  afterEach(() => {
-    setComponentVisible.mockClear();
-  });
-
   const theme = buildTheme(false);
 
   it('credential component renders correctly', () => {
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen
-          {...props}
-          setComponentVisible={setComponentVisible}
-        />
+        <CredentialsLoginScreen {...props} />
       </MuiThemeProvider>
     );
-    expect(setComponentVisible).toBeCalledWith(true);
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -167,10 +152,7 @@ describe('Login page component', () => {
     props.auth.failedToLogin = true;
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen
-          {...props}
-          setComponentVisible={setComponentVisible}
-        />
+        <CredentialsLoginScreen {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper).toMatchSnapshot();
@@ -180,10 +162,7 @@ describe('Login page component', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen
-          {...props}
-          setComponentVisible={setComponentVisible}
-        />
+        <CredentialsLoginScreen {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper).toMatchSnapshot();
@@ -192,13 +171,10 @@ describe('Login page component', () => {
   it('redirect component renders correctly', () => {
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen
-          {...props}
-          setComponentVisible={setComponentVisible}
-        />
+        <RedirectLoginScreen {...props} />
       </MuiThemeProvider>
     );
-    expect(setComponentVisible).toBeCalledWith(true);
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -206,23 +182,20 @@ describe('Login page component', () => {
     props.auth.failedToLogin = true;
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen
-          {...props}
-          setComponentVisible={setComponentVisible}
-        />
+        <RedirectLoginScreen {...props} />
       </MuiThemeProvider>
     );
-    expect(setComponentVisible).toBeCalledWith(true);
+
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders correctly', () => {
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} setComponentVisible={setComponentVisible} />
+        <AnonLoginScreen {...props} />
       </MuiThemeProvider>
     );
-    expect(setComponentVisible).toBeCalledWith(true);
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -230,7 +203,7 @@ describe('Login page component', () => {
     props.auth.failedToLogin = true;
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} setComponentVisible={setComponentVisible} />
+        <AnonLoginScreen {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper).toMatchSnapshot();
@@ -240,7 +213,7 @@ describe('Login page component', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
     const wrapper = shallow(
       <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} setComponentVisible={setComponentVisible} />
+        <AnonLoginScreen {...props} />
       </MuiThemeProvider>
     );
     expect(wrapper).toMatchSnapshot();
@@ -536,7 +509,7 @@ describe('Login page component', () => {
       </MuiThemeProvider>
     );
 
-    expect(mockLoginfn.mock.calls.length).toEqual(2);
+    expect(mockLoginfn.mock.calls.length).toEqual(1);
     expect(mockLoginfn.mock.calls[0]).toEqual([
       '',
       '?token=test_token',
