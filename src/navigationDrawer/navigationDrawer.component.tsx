@@ -170,17 +170,11 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         if (this.props.navigationDrawerLogo.dark) {
           navDrawerLogo = this.props.navigationDrawerLogo.dark;
           altTxt = this.props.navigationDrawerLogo.altTxt;
-        } else {
-          navDrawerLogo = STFCLogoWhiteText;
-          altTxt = getString(this.props.res, 'alternative-text');
         }
       } else {
         if (this.props.navigationDrawerLogo.light) {
           navDrawerLogo = this.props.navigationDrawerLogo.light;
           altTxt = this.props.navigationDrawerLogo.altTxt;
-        } else {
-          navDrawerLogo = STFCLogoBlueText;
-          altTxt = getString(this.props.res, 'alternative-text');
         }
       }
     }
