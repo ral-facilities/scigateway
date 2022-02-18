@@ -301,47 +301,5 @@ describe('Navigation drawer component', () => {
 
     expect(wrapper.find('img').props().src).toEqual('/test/lightmode');
     expect(wrapper.find('img').props().alt).toEqual('alt txt test');
-
-    // Defaults to stfc logo when there is a value for lightmode but
-    // no value for dark mode
-
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      darkMode: true,
-      navigationDrawerLogo: {
-        light: '/test/lightmode',
-        dark: '',
-        altTxt: 'alt txt test',
-      },
-    };
-
-    wrapper = createWrapper(props);
-
-    expect(wrapper.find('img').props().src).toEqual('stfc-logo-white-text.png');
-    expect(wrapper.find('img').props().alt).toEqual('alternative-text');
-
-    // Defaults to stfc logo when there is a value for lightmode but
-    // no value for dark mode
-
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      darkMode: false,
-      navigationDrawerLogo: {
-        light: '',
-        dark: '/test/darkmode',
-        altTxt: 'alt txt test',
-      },
-    };
-
-    wrapper = createWrapper(props);
-
-    expect(wrapper.find('img').props().src).toEqual('stfc-logo-blue-text.png');
-    expect(wrapper.find('img').props().alt).toEqual('alternative-text');
   });
 });

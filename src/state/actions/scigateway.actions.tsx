@@ -289,7 +289,11 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(customLogo(settings['logo']));
         }
 
-        if (settings['navigationDrawerLogo']) {
+        if (
+          settings['navigationDrawerLogo'] &&
+          Object.keys(settings['navigationDrawerLogo']).length === 3 &&
+          !Object.values(settings['navigationDrawerLogo']).includes('')
+        ) {
           dispatch(
             customNavigationDrawerLogo(settings['navigationDrawerLogo'])
           );
