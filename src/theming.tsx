@@ -8,6 +8,7 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import React from 'react';
 import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
+import { checkboxClasses } from '@mui/material/Checkbox';
 
 /* UKRI colours */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -301,6 +302,18 @@ export const buildTheme = (
         indicator: {
           color: STATIC_COLOURS.darkBlue,
           textDecoration: 'underline',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        colorPrimary: {
+          [`&.${checkboxClasses.checked}`]: {
+            color: colours.blue,
+          },
+          [`&.${checkboxClasses.indeterminate}`]: {
+            color: colours.blue,
+          },
         },
       },
     },
