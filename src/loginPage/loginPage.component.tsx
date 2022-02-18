@@ -550,11 +550,8 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           />
         )}
         {LoginScreen}
-        {props.auth.loading ? (
-          <CircularProgress className={props.classes.spinner} />
-        ) : null}
-
-        {typeof mnemonic !== 'undefined' && !fetchedMnemonics ? (
+        {props.auth.loading ||
+        (typeof mnemonic !== 'undefined' && !fetchedMnemonics) ? (
           <CircularProgress className={props.classes.spinner} />
         ) : null}
       </Paper>
