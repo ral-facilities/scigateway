@@ -53,8 +53,10 @@ import {
   LoadHighContrastModePreferenceType,
   LoadHighContrastModePreferencePayload,
   ResetAuthStateType,
+  CustomNavigationDrawerLogoPayload,
+  CustomNavigationDrawerLogoType,
 } from '../scigateway.types';
-import { ActionType, StateType, ThunkResult } from '../state.types';
+import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import * as singleSpa from 'single-spa';
 
@@ -102,6 +104,15 @@ export const customLogo = (logo: string): ActionType<CustomLogoPayload> => ({
   type: CustomLogoType,
   payload: {
     logo: logo,
+  },
+});
+
+export const customNavigationDrawerLogo = (
+  navigationDrawerLogo: LogoState
+): ActionType<CustomNavigationDrawerLogoPayload> => ({
+  type: CustomNavigationDrawerLogoType,
+  payload: {
+    navigationDrawerLogo: navigationDrawerLogo,
   },
 });
 
@@ -276,6 +287,16 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         if (settings['logo']) {
           dispatch(customLogo(settings['logo']));
+        }
+
+        if (
+          settings['navigationDrawerLogo'] &&
+          Object.keys(settings['navigationDrawerLogo']).length === 3 &&
+          !Object.values(settings['navigationDrawerLogo']).includes('')
+        ) {
+          dispatch(
+            customNavigationDrawerLogo(settings['navigationDrawerLogo'])
+          );
         }
 
         if (settings['ui-strings']) {

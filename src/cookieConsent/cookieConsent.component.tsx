@@ -24,11 +24,15 @@ import { Location } from 'history';
 const styles = (theme: Theme): StyleRules =>
   createStyles({
     root: {
-      color: theme.palette.primary.contrastText,
+      color: '#FFFFFF',
       backgroundColor: (theme as UKRITheme).colours.darkGreen,
     },
-    button: {
+    acceptButton: {
       color: theme.palette.primary.contrastText,
+      margin: theme.spacing(1),
+    },
+    managePreferencesButton: {
+      color: '#FFFFFF',
       margin: theme.spacing(1),
     },
   });
@@ -111,7 +115,7 @@ const CookieConsent = (
         <Button
           key="decline"
           variant="outlined"
-          className={props.classes.button}
+          className={props.classes.managePreferencesButton}
           size="small"
           onClick={props.navigateToCookies}
         >
@@ -121,7 +125,7 @@ const CookieConsent = (
           key="accept"
           variant="contained"
           color="primary"
-          className={props.classes.button}
+          className={props.classes.acceptButton}
           size="small"
           onClick={handleAccept}
         >

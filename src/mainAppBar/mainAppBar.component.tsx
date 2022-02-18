@@ -80,6 +80,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     titleButton: {
       padding: 4,
+      display: 'contents',
       margin: theme.spacing(1),
       '& img': {
         height: 24,
@@ -210,6 +211,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               alt={getString(props.res, 'title')}
             />
           </Button>
+
           {props.showHelpPageButton ? (
             <Button
               className={classNames(props.classes.button, 'tour-help')}

@@ -10,7 +10,6 @@ exports[`Cookie consent component should render correctly 1`] = `
   action={
     Array [
       <WithStyles(ForwardRef(Button))
-        className="button-class"
         onClick={[MockFunction]}
         size="small"
         variant="outlined"
@@ -18,7 +17,6 @@ exports[`Cookie consent component should render correctly 1`] = `
         manage-preferences-button
       </WithStyles(ForwardRef(Button))>,
       <WithStyles(ForwardRef(Button))
-        className="button-class"
         color="primary"
         onClick={[Function]}
         size="small"
