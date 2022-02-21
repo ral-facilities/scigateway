@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, MountWrapper, shallow, ShallowWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 import {
   UnconnectedNavigationDrawer,
   NavigationDrawerProps,
@@ -25,7 +25,7 @@ describe('Navigation drawer component', () => {
     history.replace('/help');
   });
 
-  const createShallowWrapper = (): ShallowWrapper =>
+  const createShallowWrapper = (): ReactWrapper =>
     shallow(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
@@ -34,7 +34,7 @@ describe('Navigation drawer component', () => {
       </StyledEngineProvider>
     );
 
-  const createWrapper = (): MountWrapper =>
+  const createWrapper = (): ReactWrapper =>
     mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
@@ -236,5 +236,52 @@ describe('Navigation drawer component', () => {
 
     expect(wrapper.find('img')).toHaveLength(1);
     expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-white-text.png');
+  });
+  it('should be able to use logo set in the settings file', () => {
+    const dummyPlugins: PluginConfig[] = [
+      {
+        order: 0,
+        plugin: 'data-plugin',
+        link: 'plugin_link',
+        section: 'DATA',
+        displayName: '\xa0display name',
+      },
+    ];
+
+    // darkmode
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      darkMode: true,
+      navigationDrawerLogo: {
+        light: '/test/lightmode',
+        dark: '/test/darkmode',
+        altTxt: 'alt txt test',
+      },
+    };
+
+    let wrapper = createWrapper();
+
+    expect(wrapper.find('img').props().src).toEqual('/test/darkmode');
+    expect(wrapper.find('img').props().alt).toEqual('alt txt test');
+
+    // lightmode
+    props = {
+      open: true,
+      plugins: dummyPlugins,
+      res: undefined,
+      darkMode: false,
+      navigationDrawerLogo: {
+        light: '/test/lightmode',
+        dark: '/test/darkmode',
+        altTxt: 'alt txt test',
+      },
+    };
+
+    wrapper = createWrapper();
+
+    expect(wrapper.find('img').props().src).toEqual('/test/lightmode');
+    expect(wrapper.find('img').props().alt).toEqual('alt txt test');
   });
 });

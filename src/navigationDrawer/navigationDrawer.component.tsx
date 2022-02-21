@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
-import { StateType } from '../state/state.types';
+import { LogoState, StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
@@ -19,6 +19,7 @@ export interface NavigationDrawerProps {
   darkMode: boolean;
   homepageUrl?: string;
   res: AppStrings | undefined;
+  navigationDrawerLogo?: LogoState;
 }
 
 const LogoImage = styled('img')(({ theme }) => ({
@@ -131,7 +132,17 @@ export const NavigationDrawer = (
     );
   };
 
-  const imgSrc = props.darkMode ? STFCLogoWhiteText : STFCLogoBlueText;
+  const altTxt = props.navigationDrawerLogo
+    ? props.navigationDrawerLogo.altTxt
+    : getString(props.res, 'alternative-text');
+
+  const navDrawerLogo = props.navigationDrawerLogo
+    ? props.darkMode
+      ? props.navigationDrawerLogo.dark
+      : props.navigationDrawerLogo.light
+    : props.darkMode
+    ? STFCLogoWhiteText
+    : STFCLogoBlueText;
   return (
     <Drawer
       sx={{
@@ -160,12 +171,9 @@ export const NavigationDrawer = (
       >
         {renderRoutes()}
 
-        {imgSrc && (
+        {navDrawerLogo && (
           <Box marginTop="auto">
-            <LogoImage
-              alt={getString(props.res, 'alternative-text')}
-              src={imgSrc}
-            />
+            <LogoImage alt={altTxt} src={navDrawerLogo} />
           </Box>
         )}
       </Box>
@@ -179,6 +187,7 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   darkMode: state.scigateway.darkMode,
   homepageUrl: state.scigateway.homepageUrl,
   res: getAppStrings(state, 'navigation-drawer'),
+  navigationDrawerLogo: state.scigateway.navigationDrawerLogo,
 });
 
 export const UnconnectedNavigationDrawer = NavigationDrawer;

@@ -1,5 +1,6 @@
+import { Theme } from '@mui/material';
 import { Step } from 'react-joyride';
-import { Theme } from '@mui/material/styles';
+import { LogoState } from './state.types';
 
 export const AuthSuccessType = 'scigateway:auth_success';
 export const AuthFailureType = 'scigateway:auth_failure';
@@ -35,6 +36,8 @@ export const ToggleHelpType = 'scigateway:toggle_help';
 export const AddHelpTourStepsType = 'scigateway:add_help_tour_steps';
 export const RegisterHomepageUrlType = 'scigateway:register_homepage_url';
 export const CustomLogoType = 'scigateway:custom_logo';
+export const CustomNavigationDrawerLogoType =
+  'scigateway:custom_navigation_drawer_logo';
 
 export const scigatewayRoutes = {
   home: '/',
@@ -82,6 +85,10 @@ export interface HomepageUrlPayload {
 
 export interface CustomLogoPayload {
   logo: string;
+}
+
+export interface CustomNavigationDrawerLogoPayload {
+  navigationDrawerLogo: LogoState;
 }
 
 export interface RegisterRoutePayload {

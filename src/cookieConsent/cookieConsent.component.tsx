@@ -14,7 +14,12 @@ import { AppStrings } from '../state/scigateway.types';
 import { push } from 'connected-react-router';
 import { Location } from 'history';
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const ManageButton = styled(Button)(({ theme }) => ({
+  color: '#FFFFFF',
+  margin: theme.spacing(1),
+}));
+
+const AcceptButton = styled(Button)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
   margin: theme.spacing(1),
 }));
@@ -99,15 +104,15 @@ export const CookieConsent = (
       open={open}
       message={<div>{getString(props.res, 'text')}</div>}
       action={[
-        <StyledButton
+        <ManageButton
           key="decline"
           variant="outlined"
           size="small"
           onClick={props.navigateToCookies}
         >
           {getString(props.res, 'manage-preferences-button')}
-        </StyledButton>,
-        <StyledButton
+        </ManageButton>,
+        <AcceptButton
           key="accept"
           variant="contained"
           color="primary"
@@ -115,7 +120,7 @@ export const CookieConsent = (
           onClick={handleAccept}
         >
           {getString(props.res, 'accept-button')}
-        </StyledButton>,
+        </AcceptButton>,
       ]}
     />
   );

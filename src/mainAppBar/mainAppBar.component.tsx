@@ -12,7 +12,13 @@ import BrightnessIcon from '@mui/icons-material/Brightness4';
 import InvertColorsIcon from '@mui/icons-material/InvertColors';
 import TuneIcon from '@mui/icons-material/Tune';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import {
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  styled,
+} from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { Theme } from '@mui/material/styles';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
@@ -73,6 +79,15 @@ const menuButtonPlaceholderStyles = {
   marginRight: 0,
   width: '48px',
 };
+
+const TitleButton = styled(Button)(({ theme }) => ({
+  display: 'contents',
+  padding: '4px',
+  margin: 1,
+  '& img': {
+    height: '24px',
+  },
+}));
 
 type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 
@@ -171,15 +186,8 @@ export const MainAppBar = (
           ) : (
             <div style={menuButtonPlaceholderStyles} />
           )}
-          <Button
+          <TitleButton
             className="tour-title"
-            sx={{
-              padding: '4px',
-              margin: 1,
-              '& img': {
-                height: '24px',
-              },
-            }}
             onClick={props.navigateToHome}
             aria-label={getString(props.res, 'home-page')}
           >
@@ -187,7 +195,7 @@ export const MainAppBar = (
               src={props.logo ? props.logo : defaultLogo}
               alt={getString(props.res, 'title')}
             />
-          </Button>
+          </TitleButton>
           {props.showHelpPageButton ? (
             <Button
               className={'tour-help'}
