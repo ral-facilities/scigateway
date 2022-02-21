@@ -19,16 +19,10 @@ exports[`Help page component should render correctly 1`] = `
     >
       logging-in-title
     </ForwardRef(Typography)>
-    <ForwardRef(Typography)
+    <Styled(ForwardRef(Typography))
       dangerouslySetInnerHTML={
         Object {
           "__html": "logging-in-description",
-        }
-      }
-      sx={
-        Object {
-          "marginBotton": 2,
-          "marginTop": 2,
         }
       }
       variant="body1"
@@ -40,16 +34,10 @@ exports[`Help page component should render correctly 1`] = `
     >
       my-data-title
     </ForwardRef(Typography)>
-    <ForwardRef(Typography)
+    <Styled(ForwardRef(Typography))
       dangerouslySetInnerHTML={
         Object {
           "__html": "my-data-description",
-        }
-      }
-      sx={
-        Object {
-          "marginBotton": 2,
-          "marginTop": 2,
         }
       }
       variant="body1"
@@ -61,16 +49,10 @@ exports[`Help page component should render correctly 1`] = `
     >
       browse-title
     </ForwardRef(Typography)>
-    <ForwardRef(Typography)
+    <Styled(ForwardRef(Typography))
       dangerouslySetInnerHTML={
         Object {
           "__html": "browse-description",
-        }
-      }
-      sx={
-        Object {
-          "marginBotton": 2,
-          "marginTop": 2,
         }
       }
       variant="body1"
@@ -82,16 +64,10 @@ exports[`Help page component should render correctly 1`] = `
     >
       search-title
     </ForwardRef(Typography)>
-    <ForwardRef(Typography)
+    <Styled(ForwardRef(Typography))
       dangerouslySetInnerHTML={
         Object {
           "__html": "search-description",
-        }
-      }
-      sx={
-        Object {
-          "marginBotton": 2,
-          "marginTop": 2,
         }
       }
       variant="body1"
@@ -103,16 +79,10 @@ exports[`Help page component should render correctly 1`] = `
     >
       cart-title
     </ForwardRef(Typography)>
-    <ForwardRef(Typography)
+    <Styled(ForwardRef(Typography))
       dangerouslySetInnerHTML={
         Object {
           "__html": "cart-description",
-        }
-      }
-      sx={
-        Object {
-          "marginBotton": 2,
-          "marginTop": 2,
         }
       }
       variant="body1"
@@ -124,16 +94,10 @@ exports[`Help page component should render correctly 1`] = `
     >
       download-title
     </ForwardRef(Typography)>
-    <ForwardRef(Typography)
+    <Styled(ForwardRef(Typography))
       dangerouslySetInnerHTML={
         Object {
           "__html": "download-description",
-        }
-      }
-      sx={
-        Object {
-          "marginBotton": 2,
-          "marginTop": 2,
         }
       }
       variant="body1"

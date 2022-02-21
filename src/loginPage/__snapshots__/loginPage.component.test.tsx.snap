@@ -170,7 +170,7 @@ exports[`Login page component credential component renders correctly 1`] = `
       sx={
         Object {
           "fontWeight": "bold",
-          "marginTop": 3,
+          "marginTop": "3px",
         }
       }
     >
@@ -305,7 +305,7 @@ exports[`Login page component credential component renders failedToLogin error c
       sx={
         Object {
           "fontWeight": "bold",
-          "marginTop": 3,
+          "marginTop": "3px",
         }
       }
     >
@@ -440,7 +440,7 @@ exports[`Login page component credential component renders signedOutDueToTokenIn
       sx={
         Object {
           "fontWeight": "bold",
-          "marginTop": 3,
+          "marginTop": "3px",
         }
       }
     >
@@ -505,7 +505,7 @@ exports[`Login page component login page doesn't render dropdown if anon is the 
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >
@@ -574,7 +574,7 @@ exports[`Login page component login page renders anonymous login if mnemonic pre
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >
@@ -643,7 +643,7 @@ exports[`Login page component login page renders credential component if no redi
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >
@@ -711,7 +711,7 @@ exports[`Login page component login page renders credentials login if mnemonic p
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >
@@ -780,7 +780,7 @@ exports[`Login page component login page renders dropdown if mnemonic present + 
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >
@@ -876,7 +876,7 @@ exports[`Login page component login page renders redirect component if redirect 
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >
@@ -944,7 +944,7 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
         "flexDirection": "column",
         "marginTop": 8,
         "paddingTop": "24px",
-        "width": 400,
+        "width": "400px",
       }
     }
   >

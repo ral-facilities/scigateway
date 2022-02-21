@@ -47,7 +47,7 @@ exports[`Cookies page component should render correctly 1`] = `
       sx={
         Object {
           "marginBottom": 2,
-          "marginTop": 2,
+          "marginTop": 1,
         }
       }
     >
@@ -64,7 +64,7 @@ exports[`Cookies page component should render correctly 1`] = `
         >
           <ForwardRef(Switch)
             checked={true}
-            color="primary"
+            color="secondary"
             disabled={true}
             inputProps={
               Object {
@@ -136,7 +136,7 @@ exports[`Cookies page component should render correctly 1`] = `
         >
           <ForwardRef(Switch)
             checked={false}
-            color="primary"
+            color="secondary"
             inputProps={
               Object {
                 "aria-describedby": "analytics-cookies-description",

@@ -30,10 +30,10 @@ const ContainerDiv = styled('div')(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-const descriptionStyles = {
-  marginTop: 2,
-  marginBotton: 2,
-};
+const DescriptionTypography = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+}));
 
 interface HelpPageProps {
   res: AppStrings | undefined;
@@ -54,9 +54,8 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         <Typography variant="h4">
           {getString(props.res, 'logging-in-title')}
         </Typography>
-        <Typography
+        <DescriptionTypography
           variant="body1"
-          sx={descriptionStyles}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'logging-in-description'),
           }}
@@ -66,9 +65,8 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         <Typography variant="h4">
           {getString(props.res, 'my-data-title')}
         </Typography>
-        <Typography
+        <DescriptionTypography
           variant="body1"
-          sx={descriptionStyles}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'my-data-description'),
           }}
@@ -78,9 +76,8 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         <Typography variant="h4">
           {getString(props.res, 'browse-title')}
         </Typography>
-        <Typography
+        <DescriptionTypography
           variant="body1"
-          sx={descriptionStyles}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'browse-description'),
           }}
@@ -90,9 +87,8 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         <Typography variant="h4">
           {getString(props.res, 'search-title')}
         </Typography>
-        <Typography
+        <DescriptionTypography
           variant="body1"
-          sx={descriptionStyles}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'search-description'),
           }}
@@ -102,9 +98,8 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         <Typography variant="h4">
           {getString(props.res, 'cart-title')}
         </Typography>
-        <Typography
+        <DescriptionTypography
           variant="body1"
-          sx={descriptionStyles}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'cart-description'),
           }}
@@ -114,9 +109,8 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         <Typography variant="h4">
           {getString(props.res, 'download-title')}
         </Typography>
-        <Typography
+        <DescriptionTypography
           variant="body1"
-          sx={descriptionStyles}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'download-description'),
           }}

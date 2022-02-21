@@ -100,13 +100,13 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
           container
           spacing={4}
           direction="column"
-          sx={{ marginTop: 2, marginBottom: 2 }}
+          sx={{ marginTop: 1, marginBottom: 2 }}
         >
           <Grid container item alignItems="center" justifyContent="flex-start">
             <Grid item xs={2} sm={1}>
               <Switch
                 disabled
-                color="primary"
+                color="secondary"
                 checked={true}
                 inputProps={{
                   'aria-labelledby': 'essential-cookies-title',
@@ -145,7 +145,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
             <Grid item xs={2} sm={1}>
               <Switch
                 checked={analytics}
-                color="primary"
+                color="secondary"
                 onChange={(e) => setAnalytics(e.target.checked)}
                 inputProps={{
                   'aria-labelledby': 'analytics-cookies-title',

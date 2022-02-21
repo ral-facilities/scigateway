@@ -9,7 +9,7 @@ import React from 'react';
 import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
 import { checkboxClasses } from '@mui/material/Checkbox';
-import { formLabelClasses } from '@mui/material';
+import { formLabelClasses, tabClasses } from '@mui/material';
 
 /* UKRI colours */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -306,6 +306,15 @@ export const buildTheme = (
         },
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        textColorSecondary: {
+          [`&.${tabClasses.selected}`]: {
+            color: darkModePreference ? '#FFFFFF' : colours.blue,
+          },
+        },
+      },
+    },
     MuiCheckbox: {
       styleOverrides: {
         colorPrimary: {
@@ -313,7 +322,7 @@ export const buildTheme = (
             color: colours.blue,
           },
           [`&.${checkboxClasses.indeterminate}`]: {
-            color: colours.blue,
+            color: colours.grey,
           },
         },
       },
