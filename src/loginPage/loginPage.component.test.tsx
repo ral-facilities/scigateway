@@ -144,6 +144,7 @@ describe('Login page component', () => {
         <CredentialsLoginScreen {...props} />
       </MuiThemeProvider>
     );
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -173,6 +174,7 @@ describe('Login page component', () => {
         <RedirectLoginScreen {...props} />
       </MuiThemeProvider>
     );
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -183,6 +185,7 @@ describe('Login page component', () => {
         <RedirectLoginScreen {...props} />
       </MuiThemeProvider>
     );
+
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -192,6 +195,7 @@ describe('Login page component', () => {
         <AnonLoginScreen {...props} />
       </MuiThemeProvider>
     );
+
     expect(wrapper).toMatchSnapshot();
   });
 

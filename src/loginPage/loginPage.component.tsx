@@ -82,6 +82,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     spinner: {
       marginBottom: '24px',
+      color: (theme as UKRITheme).colours.blue,
     },
     forgotPasswordText: {
       fontSize: 14,
@@ -478,6 +479,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
         authUrl={authUrl}
       />
     );
+
     if (props.auth.provider.redirectUrl) {
       LoginScreen = <RedirectLoginScreen {...props} />;
     }
@@ -548,7 +550,8 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
           />
         )}
         {LoginScreen}
-        {props.auth.loading ? (
+        {props.auth.loading ||
+        (typeof mnemonic !== 'undefined' && !fetchedMnemonics) ? (
           <CircularProgress className={props.classes.spinner} />
         ) : null}
       </Paper>
