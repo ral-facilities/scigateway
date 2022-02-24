@@ -61,7 +61,7 @@ const styles = (theme: Theme): StyleRules =>
     menuLogo: {
       paddingRight: theme.spacing(2),
       paddingLeft: theme.spacing(2),
-      height: 40,
+      width: '188px',
       paddingBottom: 24,
       color: theme.palette.text.secondary,
     },
