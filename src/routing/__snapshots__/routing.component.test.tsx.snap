@@ -149,7 +149,58 @@ exports[`Routing component renders a route for a plugin when site is under maint
           <Styled(div)
             drawerOpen={false}
           >
-            <Noop />
+            <Insertion
+              cache={
+                Object {
+                  "insert": [Function],
+                  "inserted": Object {
+                    "jlgjno": true,
+                  },
+                  "key": "css",
+                  "nonce": undefined,
+                  "registered": Object {},
+                  "sheet": StyleSheet {
+                    "_alreadyInsertedOrderInsensitiveRule": true,
+                    "_insertTag": [Function],
+                    "before": null,
+                    "container": <head>
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>
+                    </head>,
+                    "ctr": 1,
+                    "insertionPoint": undefined,
+                    "isSpeedy": false,
+                    "key": "css",
+                    "nonce": undefined,
+                    "prepend": undefined,
+                    "tags": Array [
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>,
+                    ],
+                  },
+                }
+              }
+              isStringTag={true}
+              serialized={
+                Object {
+                  "map": undefined,
+                  "name": "jlgjno",
+                  "next": undefined,
+                  "styles": "padding-bottom:36px;width:100%;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;",
+                  "toString": [Function],
+                }
+              }
+            />
             <div
               className="css-jlgjno"
             >
@@ -303,7 +354,58 @@ exports[`Routing component renders a route for admin page 1`] = `
           <Styled(div)
             drawerOpen={false}
           >
-            <Noop />
+            <Insertion
+              cache={
+                Object {
+                  "insert": [Function],
+                  "inserted": Object {
+                    "jlgjno": true,
+                  },
+                  "key": "css",
+                  "nonce": undefined,
+                  "registered": Object {},
+                  "sheet": StyleSheet {
+                    "_alreadyInsertedOrderInsensitiveRule": true,
+                    "_insertTag": [Function],
+                    "before": null,
+                    "container": <head>
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>
+                    </head>,
+                    "ctr": 1,
+                    "insertionPoint": undefined,
+                    "isSpeedy": false,
+                    "key": "css",
+                    "nonce": undefined,
+                    "prepend": undefined,
+                    "tags": Array [
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>,
+                    ],
+                  },
+                }
+              }
+              isStringTag={true}
+              serialized={
+                Object {
+                  "map": undefined,
+                  "name": "jlgjno",
+                  "next": undefined,
+                  "styles": "padding-bottom:36px;width:100%;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;",
+                  "toString": [Function],
+                }
+              }
+            />
             <div
               className="css-jlgjno"
             >
@@ -450,7 +552,58 @@ exports[`Routing component renders a route for maintenance page when site is und
           <Styled(div)
             drawerOpen={false}
           >
-            <Noop />
+            <Insertion
+              cache={
+                Object {
+                  "insert": [Function],
+                  "inserted": Object {
+                    "jlgjno": true,
+                  },
+                  "key": "css",
+                  "nonce": undefined,
+                  "registered": Object {},
+                  "sheet": StyleSheet {
+                    "_alreadyInsertedOrderInsensitiveRule": true,
+                    "_insertTag": [Function],
+                    "before": null,
+                    "container": <head>
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>
+                    </head>,
+                    "ctr": 1,
+                    "insertionPoint": undefined,
+                    "isSpeedy": false,
+                    "key": "css",
+                    "nonce": undefined,
+                    "prepend": undefined,
+                    "tags": Array [
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>,
+                    ],
+                  },
+                }
+              }
+              isStringTag={true}
+              serialized={
+                Object {
+                  "map": undefined,
+                  "name": "jlgjno",
+                  "next": undefined,
+                  "styles": "padding-bottom:36px;width:100%;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;",
+                  "toString": [Function],
+                }
+              }
+            />
             <div
               className="css-jlgjno"
             >
