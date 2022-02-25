@@ -998,13 +998,7 @@ exports[`Login page component login page renders spinner if auth is loading 1`] 
       }
       verifyUsernameAndPassword={[Function]}
     />
-    <ForwardRef(CircularProgress)
-      sx={
-        Object {
-          "marginBottom": 3,
-        }
-      }
-    />
+    <Styled(ForwardRef(CircularProgress)) />
   </ForwardRef(Paper)>
 </Styled(div)>
 `;

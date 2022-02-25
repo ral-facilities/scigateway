@@ -50,6 +50,11 @@ const InfoTypography = styled(Typography)(({ theme }) => ({
   color: theme.colours.blue,
 }));
 
+const StyledCircularProgress = styled(CircularProgress)(({ theme }) => ({
+  marginBottom: theme.spacing(3),
+  color: theme.colours.blue,
+}));
+
 const textFieldStyles = { marginTop: 1, width: '352px' };
 const buttonStyles = { width: '352px' };
 const textStyles = { fontSize: 14, paddingBottom: '24px', paddingTop: '12px' };
@@ -422,6 +427,7 @@ export const LoginPageComponent = (
         authUrl={authUrl}
       />
     );
+
     if (props.auth.provider.redirectUrl) {
       LoginScreen = <RedirectLoginScreen {...props} />;
     }
@@ -508,8 +514,9 @@ export const LoginPageComponent = (
           />
         )}
         {LoginScreen}
-        {props.auth.loading ? (
-          <CircularProgress sx={{ marginBottom: 3 }} />
+        {props.auth.loading ||
+        (typeof mnemonic !== 'undefined' && !fetchedMnemonics) ? (
+          <StyledCircularProgress />
         ) : null}
       </Paper>
     </RootDiv>
