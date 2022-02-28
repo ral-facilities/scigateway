@@ -106,6 +106,8 @@ export const AdminPage = (
         {getString(props.res, 'title')}
       </Typography>
       <Tabs
+        textColor="secondary"
+        indicatorColor="secondary"
         value={tabValue}
         onChange={(event, newValue) => setTabValue(newValue)}
       >
