@@ -22,7 +22,9 @@ exports[`Admin page component should render correctly 1`] = `
     title
   </ForwardRef(Typography)>
   <ForwardRef(Tabs)
+    indicatorColor="secondary"
     onChange={[Function]}
+    textColor="secondary"
     value="maintenance"
   >
     <ForwardRef(Tab)
