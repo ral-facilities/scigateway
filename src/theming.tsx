@@ -292,10 +292,6 @@ export const buildTheme = (
         root: {
           color: colours.blue,
         },
-        button: {
-          fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-          verticalAlign: 'none',
-        },
       },
     },
     MuiTabs: {
