@@ -177,12 +177,21 @@ app.post(`/api/github/checkToken`, function (req, res) {
     });
 });
 
-const settings = JSON.parse(fs.readFileSync('./public/settings.json'));
-if (settings['auth-provider'] !== 'jwt') {
-  console.log(
-    `Using non-JWT authenticator so not starting example auth server`
-  );
-  process.exit(0);
+const e2e = process.argv[2] === 'e2e';
+
+if (!e2e) {
+  try {
+    const settings = JSON.parse(fs.readFileSync('./public/settings.json'));
+    if (settings['auth-provider'] !== 'jwt') {
+      console.log(
+        `Using non-JWT authenticator so not starting example auth server`
+      );
+      process.exit(0);
+    }
+  } catch (e) {
+    console.log('No settings file found so not starting example auth server');
+    process.exit(0);
+  }
 }
 
 if (process.env.HTTPS) {
