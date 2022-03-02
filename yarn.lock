@@ -3103,7 +3103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.4.2":
+"@mui/icons-material@npm:^5.4.4":
   version: 5.4.4
   resolution: "@mui/icons-material@npm:5.4.4"
   dependencies:
@@ -3119,7 +3119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.4.3":
+"@mui/material@npm:^5.4.4":
   version: 5.4.4
   resolution: "@mui/material@npm:5.4.4"
   dependencies:
@@ -14647,8 +14647,8 @@ __metadata:
   dependencies:
     "@emotion/react": ^11.8.1
     "@emotion/styled": ^11.8.1
-    "@mui/icons-material": ^5.4.2
-    "@mui/material": ^5.4.3
+    "@mui/icons-material": ^5.4.4
+    "@mui/material": ^5.4.4
     "@types/history": ^4.7.2
     "@types/jest": ^27.4.0
     "@types/js-cookie": ^3.0.1
