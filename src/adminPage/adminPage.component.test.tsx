@@ -111,7 +111,7 @@ describe('Admin page component', () => {
     expect(history.location.pathname).toEqual('/admin/maintenance');
   });
 
-  it('redirects to the tab when tab is clicked', () => {
+  it('sets the correct tab value with the url does not match the default tab (download)', () => {
     state.scigateway.plugins = [
       {
         order: 1,
@@ -147,7 +147,7 @@ describe('Admin page component', () => {
     expect(setStateMock).toHaveBeenCalledWith(currentTab);
   });
 
-  it('redirects to the tab when tab is clicked', () => {
+  it('sets the correct tab value with the url does not match the default tab (maintenance)', () => {
     state.scigateway.plugins = [
       {
         order: 1,
