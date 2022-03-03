@@ -325,7 +325,7 @@ describe('scigateway actions', () => {
     );
   });
 
-  it('given a custom default tab is supplied', async () => {
+  it('given a custom default tab is supplied (maintenance)', async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
@@ -348,6 +348,31 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(customAdminPageDefaultTab('maintenance'));
+  });
+
+  it('given a custom default tab is supplied (download)', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          adminPageDefaultTab: 'download',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(customAdminPageDefaultTab('download'));
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {
