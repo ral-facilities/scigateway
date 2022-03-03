@@ -1,68 +1,137 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Routing component redirects to a homepage URL if specified 1`] = `
-<ContextProvider
-  value={null}
+<Styled(div)
+  drawerOpen={false}
 >
-  <Routing
-    dispatch={[Function]}
-    drawerOpen={false}
-    homepageUrl="/homepage"
-    loading={true}
-    location="/"
-    maintenance={
-      Object {
-        "message": "",
-        "show": false,
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <Redirect
+        to="/homepage"
+      />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    plugins={Array []}
-    store={
-      Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
+      exact={true}
+      path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/login"
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(UnconnectedLogoutPage) />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    userIsAdmin={false}
-    userIsloggedIn={false}
-  />
-</ContextProvider>
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</Styled(div)>
 `;
 
 exports[`Routing component redirects to the homepage if navigating to login page while logged in 1`] = `
-<ContextProvider
-  value={null}
+<Styled(div)
+  drawerOpen={false}
 >
-  <Routing
-    dispatch={[Function]}
-    drawerOpen={false}
-    loading={true}
-    location="/"
-    maintenance={
-      Object {
-        "message": "",
-        "show": false,
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <HomePage />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    plugins={Array []}
-    store={
-      Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
+      exact={true}
+      path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/login"
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(UnconnectedLogoutPage) />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    userIsAdmin={false}
-    userIsloggedIn={true}
-  />
-</ContextProvider>
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</Styled(div)>
 `;
 
 exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
@@ -689,107 +758,173 @@ exports[`Routing component renders a route for maintenance page when site is und
 `;
 
 exports[`Routing component renders component with no plugin routes 1`] = `
-<ContextProvider
-  value={null}
+<Styled(div)
+  drawerOpen={false}
 >
-  <Routing
-    dispatch={[Function]}
-    drawerOpen={false}
-    loading={true}
-    location="/"
-    maintenance={
-      Object {
-        "message": "",
-        "show": false,
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <HomePage />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    plugins={Array []}
-    store={
-      Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
+      exact={true}
+      path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/login"
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(UnconnectedLogoutPage) />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    userIsAdmin={false}
-    userIsloggedIn={false}
-  />
-</ContextProvider>
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</Styled(div)>
 `;
 
 exports[`Routing component renders component with plugins 1`] = `
-<ContextProvider
-  value={null}
+<Styled(div)
+  drawerOpen={false}
 >
-  <Routing
-    dispatch={[Function]}
-    drawerOpen={false}
-    loading={true}
-    location="/"
-    maintenance={
-      Object {
-        "message": "",
-        "show": false,
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+    >
+      <HomePage />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    plugins={
-      Array [
+      exact={true}
+      path="/help"
+    />
+    <Route
+      exact={true}
+      path="/admin"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/login"
+    >
+      <Connect(LoginPageComponent) />
+    </Route>
+    <Route
+      exact={true}
+      path="/logout"
+    >
+      <Connect(UnconnectedLogoutPage) />
+    </Route>
+    <Route
+      component={
         Object {
-          "displayName": "Test Plugin",
-          "link": "test link",
-          "order": 1,
-          "plugin": "test_plugin_name",
-          "section": "test section",
-        },
-        Object {
-          "displayName": "Test Plugin Alt link",
-          "link": "test link alt",
-          "order": 2,
-          "plugin": "test_plugin_name",
-          "section": "test section",
-        },
-        Object {
-          "displayName": "Test Plugin 2",
-          "link": "test link 2",
-          "order": 3,
-          "plugin": "test_plugin_name_2",
-          "section": "test section 2",
-        },
-        Object {
-          "admin": true,
-          "displayName": "Test Plugin Admin",
-          "link": "test link admin",
-          "order": 4,
-          "plugin": "test_plugin_name",
-          "section": "test section",
-        },
-        Object {
-          "admin": true,
-          "displayName": "Test Plugin Admin Alt link",
-          "link": "test link admin alt",
-          "order": 5,
-          "plugin": "test_plugin_name",
-          "section": "test section",
-        },
-      ]
-    }
-    store={
-      Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
       }
-    }
-    userIsAdmin={false}
-    userIsloggedIn={false}
-  />
-</ContextProvider>
+      exact={true}
+      path="/cookies"
+    />
+    <Route
+      key="test_plugin_name"
+      path={
+        Array [
+          "test link",
+          "test link alt",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name"
+      />
+    </Route>
+    <Route
+      key="test_plugin_name_2"
+      path={
+        Array [
+          "test link 2",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name_2"
+      />
+    </Route>
+    <Route
+      key="test_plugin_name_admin"
+      path={
+        Array [
+          "test link admin",
+          "test link admin alt",
+        ]
+      }
+    >
+      <Connect(WithAuthComponent)
+        id="test_plugin_name"
+      />
+    </Route>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+    />
+  </Switch>
+</Styled(div)>
 `;
 
 exports[`Routing component renders placeholder for a plugin 1`] = `

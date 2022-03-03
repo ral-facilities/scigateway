@@ -44,7 +44,9 @@ describe('Routing component', () => {
 
   it('renders component with no plugin routes', () => {
     state.scigateway.plugins = [];
-    const wrapper = shallow(<Routing store={mockStore(state)} />);
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -89,7 +91,9 @@ describe('Routing component', () => {
         order: 5,
       },
     ];
-    const wrapper = shallow(<Routing store={mockStore(state)} />);
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -170,7 +174,9 @@ describe('Routing component', () => {
   it('redirects to a homepage URL if specified', () => {
     state.scigateway.homepageUrl = '/homepage';
 
-    const wrapper = shallow(<Routing store={mockStore(state)} />);
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -190,7 +196,9 @@ describe('Routing component', () => {
         name === 'autoLogin' ? 'false' : null
       );
 
-    const wrapper = shallow(<Routing store={mockStore(state)} />);
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });

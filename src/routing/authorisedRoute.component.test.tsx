@@ -41,7 +41,9 @@ describe('AuthorisedRoute component', () => {
     );
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -54,7 +56,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -67,7 +71,9 @@ describe('AuthorisedRoute component', () => {
     );
 
     const AuthorisedComponent = withAuth(true)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -80,7 +86,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
 
     const AuthorisedComponent = withAuth(true)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -94,7 +102,9 @@ describe('AuthorisedRoute component', () => {
     state.router.location.state = { scigateway: { homepageUrl: '/test' } };
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -105,7 +115,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -116,7 +128,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.provider = new LoadingAuthProvider();
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -126,7 +140,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = true;
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -135,7 +151,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.siteLoading = true;
 
     const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
