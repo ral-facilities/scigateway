@@ -37,6 +37,7 @@ describe('Admin page component', () => {
         link: '/admin/download',
         section: 'Admin',
         displayName: 'Admin Download',
+        admin: true,
       },
     ];
 
@@ -84,6 +85,7 @@ describe('Admin page component', () => {
         link: '/admin/download',
         section: 'Admin',
         displayName: 'Admin Download',
+        admin: true,
       },
     ];
     const testStore = mockStore(state);
