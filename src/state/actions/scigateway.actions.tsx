@@ -55,6 +55,8 @@ import {
   ResetAuthStateType,
   CustomNavigationDrawerLogoPayload,
   CustomNavigationDrawerLogoType,
+  CustomAdminPageDefaultTabPayload,
+  CustomAdminPageDefaultTabType,
 } from '../scigateway.types';
 import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -113,6 +115,15 @@ export const customNavigationDrawerLogo = (
   type: CustomNavigationDrawerLogoType,
   payload: {
     navigationDrawerLogo: navigationDrawerLogo,
+  },
+});
+
+export const customAdminPageDefaultTab = (
+  adminPageDefaultTab: 'maintenance' | 'download'
+): ActionType<CustomAdminPageDefaultTabPayload> => ({
+  type: CustomAdminPageDefaultTabType,
+  payload: {
+    adminPageDefaultTab: adminPageDefaultTab,
   },
 });
 
@@ -297,6 +308,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(
             customNavigationDrawerLogo(settings['navigationDrawerLogo'])
           );
+        }
+
+        if (
+          settings['adminPageDefaultTab'] &&
+          (settings['adminPageDefaultTab'].includes('maintenance') ||
+            settings['adminPageDefaultTab'].includes('download'))
+        ) {
+          dispatch(customAdminPageDefaultTab(settings['adminPageDefaultTab']));
         }
 
         if (settings['ui-strings']) {

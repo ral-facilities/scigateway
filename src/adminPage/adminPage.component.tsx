@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import {
   Theme,
@@ -7,28 +7,23 @@ import {
   WithStyles,
   withStyles,
   Paper,
-  TextareaAutosize,
-  FormControlLabel,
-  Checkbox,
-  Button,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
-import {
-  AppStrings,
-  MaintenanceState,
-  ScheduledMaintenanceState,
-} from '../state/scigateway.types';
-import { getString, getAppStrings } from '../state/strings';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import {
-  setMaintenanceState,
-  setScheduledMaintenanceState,
-} from '../state/actions/scigateway.actions';
+import { adminRoutes, PluginConfig } from '../state/scigateway.types';
+
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Link } from 'react-router-dom';
+import { ReactElement } from 'react';
+import { Route, Switch, useLocation } from 'react-router';
+import PageNotFound from '../pageNotFound/pageNotFound.component';
+import {
+  getPluginRoutes,
+  PluginPlaceHolder,
+} from '../routing/routing.component';
+import MaintenancePage from './maintenancePage.component';
+import { useTranslation } from 'react-i18next';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -37,6 +32,7 @@ const styles = (theme: Theme): StyleRules =>
       flexGrow: 1,
       backgroundColor: theme.palette.background.default,
     },
+    // tab: { color: (theme as UKRITheme).colours.textSecondary },
     titleText: {
       color: theme.palette.secondary.main,
       fontWeight: 'bold',
@@ -67,214 +63,114 @@ const styles = (theme: Theme): StyleRules =>
     },
   });
 
-interface AdminPageProps {
-  scheduledMaintenance: ScheduledMaintenanceState;
-  maintenance: MaintenanceState;
-  res: AppStrings | undefined;
+export interface AdminPageProps {
+  plugins: PluginConfig[];
+  adminPageDefaultTab?: 'maintenance' | 'download';
 }
 
-interface AdminPageDispatchProps {
-  setScheduledMaintenanceState: (
-    scheduledMaintenanceState: ScheduledMaintenanceState
-  ) => Promise<void>;
-  setMaintenanceState: (maintenanceState: MaintenanceState) => Promise<void>;
-}
+export type CombinedAdminPageProps = AdminPageProps & WithStyles<typeof styles>;
 
-export type CombinedAdminPageProps = AdminPageProps &
-  AdminPageDispatchProps &
-  WithStyles<typeof styles>;
+export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
+  const pluginRoutes = getPluginRoutes(props.plugins, true);
 
-const AdminPage = (props: CombinedAdminPageProps): React.ReactElement => {
-  const {
-    scheduledMaintenance,
-    setScheduledMaintenanceState,
-    maintenance,
-    setMaintenanceState,
-  } = props;
-
-  const [tempScheduledMaintenance, setTempScheduledMaintenance] =
-    useState<ScheduledMaintenanceState>(scheduledMaintenance);
-  const [tempMaintenance, setTempMaintenance] =
-    useState<MaintenanceState>(maintenance);
   const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
-    'maintenance'
+    props.adminPageDefaultTab ?? 'maintenance'
   );
 
-  // Catch changes to maintenance objects and update local state
-  React.useEffect(() => {
-    setTempScheduledMaintenance(scheduledMaintenance);
-  }, [scheduledMaintenance]);
+  const location = useLocation();
 
   React.useEffect(() => {
-    setTempMaintenance(maintenance);
-  }, [maintenance]);
+    // Allows direct access to the download page when maintenance page is default
+    if (
+      location.pathname === adminRoutes['download'] &&
+      tabValue !== 'download'
+    ) {
+      setTabValue('download');
+    }
+    // Allows direct access to the maintenance page when download page is default
+    if (
+      location.pathname === adminRoutes['maintenance'] &&
+      tabValue !== 'maintenance'
+    ) {
+      setTabValue('maintenance');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  const [t] = useTranslation();
 
   return (
-    <Paper className={props.classes.root}>
+    <Paper id="admin-page" className={props.classes.root}>
       <Typography variant="h3" className={props.classes.titleText}>
-        {getString(props.res, 'title')}
+        {t('admin.title')}
       </Typography>
       <Tabs
         value={tabValue}
-        onChange={(event, newValue) => setTabValue(newValue)}
+        onChange={(event, newValue) => {
+          setTabValue(newValue);
+        }}
+        textColor="secondary"
       >
         <Tab
           id="maintenance-tab"
           aria-controls="maintenance-panel"
           label="Maintenance"
           value="maintenance"
+          component={Link}
+          to={adminRoutes.maintenance}
+          className={props.classes.tab}
+          // textColor="secondary"
         />
         <Tab
           id="download-tab"
           label="Admin Download"
           value="download"
+          aria-controls="download-panel"
           component={Link}
-          to="/admin-download"
+          to={adminRoutes.download}
+          className={props.classes.tab}
+          // textColor="secondary"
         />
       </Tabs>
-      <div
-        id="maintenance-panel"
-        aria-labelledby="maintenance-tab"
-        role="tabpanel"
-        hidden={tabValue !== 'maintenance'}
-      >
-        <Paper className={props.classes.paper}>
-          <Typography variant="h4">
-            {getString(props.res, 'scheduled-maintenance-title')}
-          </Typography>
-          <TextareaAutosize
-            className={props.classes.textArea}
-            aria-label={getString(
-              props.res,
-              'scheduled-maintenance-message-arialabel'
-            )}
-            rows={7}
-            placeholder={getString(props.res, 'message-placeholder')}
-            value={tempScheduledMaintenance.message}
-            onChange={(e) =>
-              setTempScheduledMaintenance({
-                ...tempScheduledMaintenance,
-                message: e.currentTarget.value,
-              })
-            }
-          />
-          <div style={{ display: 'row' }}>
-            <FormControlLabel
-              style={{ float: 'left' }}
-              value={tempScheduledMaintenance.show}
-              control={
-                <Checkbox
-                  checked={tempScheduledMaintenance.show}
-                  onChange={(e) =>
-                    setTempScheduledMaintenance({
-                      ...tempScheduledMaintenance,
-                      show: e.target.checked,
-                    })
-                  }
-                  inputProps={{
-                    'aria-label': getString(
-                      props.res,
-                      'scheduled-maintenance-checkbox-arialabel'
-                    ),
-                  }}
-                  color="secondary"
-                />
-              }
-              label={getString(props.res, 'display-checkbox')}
-              labelPlacement="end"
-            />
-            <Button
-              style={{ float: 'right' }}
-              variant="contained"
-              color="primary"
-              onClick={() =>
-                setScheduledMaintenanceState(tempScheduledMaintenance)
-              }
-            >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-                {getString(props.res, 'save-button')}
-              </Typography>
-            </Button>
+      <Switch>
+        <Route exact path={adminRoutes.maintenance}>
+          <div
+            id="maintenance-panel"
+            aria-labelledby="maintenance-tab"
+            role="tabpanel"
+            hidden={tabValue !== 'maintenance'}
+          >
+            <MaintenancePage />
           </div>
-        </Paper>
-        <Paper className={props.classes.paper}>
-          <Typography variant="h4">
-            {getString(props.res, 'maintenance-title')}
-          </Typography>
-          <TextareaAutosize
-            className={props.classes.textArea}
-            aria-label={getString(props.res, 'maintenance-message-arialabel')}
-            rows={7}
-            placeholder={getString(props.res, 'message-placeholder')}
-            value={tempMaintenance.message}
-            onChange={(e) =>
-              setTempMaintenance({
-                ...tempMaintenance,
-                message: e.currentTarget.value,
-              })
-            }
-          />
-          <div style={{ display: 'row' }}>
-            <FormControlLabel
-              style={{ float: 'left' }}
-              value={tempMaintenance.show}
-              control={
-                <Checkbox
-                  checked={tempMaintenance.show}
-                  onChange={(e) =>
-                    setTempMaintenance({
-                      ...tempMaintenance,
-                      show: e.target.checked,
-                    })
-                  }
-                  inputProps={{
-                    'aria-label': getString(
-                      props.res,
-                      'maintenance-checkbox-arialabel'
-                    ),
-                  }}
-                  color="secondary"
-                />
-              }
-              label={getString(props.res, 'display-checkbox')}
-              labelPlacement="end"
-            />
-            <Button
-              style={{ float: 'right' }}
-              variant="contained"
-              color="primary"
-              onClick={() => setMaintenanceState(tempMaintenance)}
-            >
-              <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
-                {getString(props.res, 'save-button')}
-              </Typography>
-            </Button>
-          </div>
-        </Paper>
-      </div>
+        </Route>
+
+        {Object.entries(pluginRoutes).map(([key, value]) => {
+          const pluginId = key.endsWith('_admin') ? key.slice(0, -6) : key;
+          return (
+            <Route key={key} path={value}>
+              <div
+                id="download-panel"
+                aria-labelledby="download-tab"
+                role="tabpanel"
+                hidden={tabValue !== 'download'}
+              >
+                <PluginPlaceHolder id={pluginId} />
+              </div>
+            </Route>
+          );
+        })}
+        <Route component={PageNotFound} />
+      </Switch>
     </Paper>
   );
 };
 
 const mapStateToProps = (state: StateType): AdminPageProps => ({
-  scheduledMaintenance: state.scigateway.scheduledMaintenance,
-  maintenance: state.scigateway.maintenance,
-  res: getAppStrings(state, 'admin'),
+  plugins: state.scigateway.plugins,
+  adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
 });
 
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<StateType, null, AnyAction>
-): AdminPageDispatchProps => ({
-  setScheduledMaintenanceState: (scheduledMaintenanceState) =>
-    dispatch(setScheduledMaintenanceState(scheduledMaintenanceState)),
-  setMaintenanceState: (maintenanceState) =>
-    dispatch(setMaintenanceState(maintenanceState)),
-});
-
-export const AdminPageWithoutStyles = AdminPage;
 export const AdminPageWithStyles = withStyles(styles)(AdminPage);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AdminPageWithStyles);
+export default connect(mapStateToProps)(AdminPageWithStyles);

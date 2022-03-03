@@ -2,6 +2,7 @@
 
 exports[`Main app bar component app bar indented when drawer is open 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "classes": Object {
     "appBar": "MainAppBar-appBar-50",
     "button": "MainAppBar-button-53",
@@ -37,6 +38,7 @@ Object {
 
 exports[`Main app bar component app bar renders correctly 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "classes": Object {
     "appBar": "MainAppBar-appBar-2",
     "button": "MainAppBar-button-5",
@@ -72,6 +74,7 @@ Object {
 
 exports[`Main app bar component does not render Help button when feature is false 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "classes": Object {
     "appBar": "MainAppBar-appBar-18",
     "button": "MainAppBar-button-21",
@@ -107,6 +110,7 @@ Object {
 
 exports[`Main app bar component uses single plugin logo when feature is true 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "classes": Object {
     "appBar": "MainAppBar-appBar-34",
     "button": "MainAppBar-button-37",

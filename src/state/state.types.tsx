@@ -40,6 +40,7 @@ export interface ScigatewayState {
   scheduledMaintenance: ScheduledMaintenanceState;
   maintenance: MaintenanceState;
   navigationDrawerLogo?: LogoState;
+  adminPageDefaultTab?: 'maintenance' | 'download';
 }
 
 export interface StateType {

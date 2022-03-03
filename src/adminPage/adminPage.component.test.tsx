@@ -1,31 +1,49 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import { createLocation, createMemoryHistory } from 'history';
+import { createLocation, createMemoryHistory, History } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import AdminPage from './adminPage.component';
+import AdminPage, {
+  AdminPageProps,
+  AdminPageWithStyles,
+} from './adminPage.component';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
-import { act } from 'react-dom/test-utils';
-import { flushPromises } from '../setupTests';
-import {
-  loadMaintenanceState,
-  loadScheduledMaintenanceState,
-} from '../state/actions/scigateway.actions';
 import { MemoryRouter, Router } from 'react-router';
+
+import { PluginConfig } from '../state/scigateway.types';
 
 describe('Admin page component', () => {
   let mount;
   let mockStore;
   let state: StateType;
+  let props: AdminPageProps;
+  let history: History;
+  let dummyPlugins: PluginConfig[];
 
   beforeEach(() => {
     mount = createMount();
     mockStore = configureStore([thunk]);
+    history = createMemoryHistory();
+
+    dummyPlugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+      },
+    ];
+
+    props = {
+      plugins: dummyPlugins,
+      adminPageDefaultTab: 'maintenance',
+    };
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -36,6 +54,8 @@ describe('Admin page component', () => {
 
   afterEach(() => {
     mount.cleanUp();
+    jest.restoreAllMocks();
+    jest.resetModules();
   });
 
   const theme = buildTheme(false);
@@ -45,96 +65,104 @@ describe('Admin page component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-          <AdminPage />
-        </MemoryRouter>
+        <MuiThemeProvider theme={theme}>
+          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <AdminPage />
+          </MemoryRouter>
+        </MuiThemeProvider>
       </Provider>
     );
 
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('setScheduledMaintenanceState action should be sent when the setScheduledMaintenanceState function is called', async () => {
+  it('should render admin plugins correctly', () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+      },
+    ];
     const testStore = mockStore(state);
+
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <MemoryRouter
+            initialEntries={[{ key: 'testKey', pathname: '/admin/download' }]}
+          >
             <AdminPage />
           </MemoryRouter>
         </MuiThemeProvider>
       </Provider>
     );
 
-    const scheduledMaintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="scheduled-maintenance-message-arialabel"]'
-    );
-    scheduledMaintenanceMessageInput.instance().value = 'test';
-    scheduledMaintenanceMessageInput.simulate('change');
-    wrapper
-      .find('[aria-label="scheduled-maintenance-checkbox-arialabel"]')
-      .simulate('change', { target: { checked: true } });
-    wrapper.find('button').at(1).simulate('click');
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadScheduledMaintenanceState({ show: true, message: 'test' })
-    );
+    expect(wrapper).toMatchSnapshot();
   });
 
-  it('setMaintenanceState action should be sent when the setMaintenanceState function is called', async () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-            <AdminPage />
-          </MemoryRouter>
-        </MuiThemeProvider>
-      </Provider>
-    );
-
-    const maintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="maintenance-message-arialabel"]'
-    );
-    maintenanceMessageInput.instance().value = 'test';
-    maintenanceMessageInput.simulate('change');
-    wrapper
-      .find('[aria-label="maintenance-checkbox-arialabel"]')
-      .simulate('change', { target: { checked: true } });
-    wrapper.find('button').last().simulate('click');
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadMaintenanceState({ show: true, message: 'test' })
-    );
-  });
-
-  it('redirects to Admin Download table when Admin Download tab is clicked', () => {
+  it('redirects to the tab when tab is clicked', () => {
     const testStore = mockStore(state);
     const history = createMemoryHistory();
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
           <Router history={history}>
-            <AdminPage />
+            <AdminPageWithStyles {...props} />
           </Router>
         </MuiThemeProvider>
       </Provider>
     );
 
-    wrapper.find('#download-tab').first().simulate('click', { button: 0 });
+    wrapper.find('#download-tab').last().simulate('click', { button: 0 });
 
-    expect(history.location.pathname).toEqual('/admin-download');
+    expect(history.location.pathname).toEqual('/admin/download');
+
+    wrapper.find('#maintenance-tab').last().simulate('click', { button: 0 });
+
+    expect(history.location.pathname).toEqual('/admin/maintenance');
+  });
+
+  it('redirects to the tab when tab is clicked', () => {
+    const testStore = mockStore(state);
+
+    mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <Router history={history}>
+            <AdminPageWithStyles {...props} />
+          </Router>
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    history.push('/admin/download');
+
+    expect(history.location.pathname).toEqual('/admin/download');
+  });
+
+  it('redirects to the tab when tab is clicked', () => {
+    const testStore = mockStore(state);
+
+    props = {
+      plugins: dummyPlugins,
+      adminPageDefaultTab: 'download',
+    };
+
+    mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <Router history={history}>
+            <AdminPageWithStyles {...props} />
+          </Router>
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    history.push('/admin/maintenance');
+
+    expect(history.location.pathname).toEqual('/admin/maintenance');
   });
 });
