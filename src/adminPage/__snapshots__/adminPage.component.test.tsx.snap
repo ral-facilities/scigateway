@@ -646,7 +646,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                     <WithStyles(ForwardRef(Tabs))
                       onChange={[Function]}
                       textColor="secondary"
-                      value="download"
+                      value="maintenance"
                     >
                       <ForwardRef(Tabs)
                         classes={
@@ -666,7 +666,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                         }
                         onChange={[Function]}
                         textColor="secondary"
-                        value="download"
+                        value="maintenance"
                       >
                         <div
                           className="MuiTabs-root"
@@ -708,7 +708,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                 key=".0"
                                 label="Maintenance"
                                 onChange={[Function]}
-                                selected={false}
+                                selected={true}
                                 textColor="secondary"
                                 to="/admin/maintenance"
                                 value="maintenance"
@@ -748,15 +748,15 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                   indicator={false}
                                   label="Maintenance"
                                   onChange={[Function]}
-                                  selected={false}
+                                  selected={true}
                                   textColor="secondary"
                                   to="/admin/maintenance"
                                   value="maintenance"
                                 >
                                   <WithStyles(ForwardRef(ButtonBase))
                                     aria-controls="maintenance-panel"
-                                    aria-selected={false}
-                                    className="MuiTab-root MuiTab-textColorSecondary"
+                                    aria-selected={true}
+                                    className="MuiTab-root MuiTab-textColorSecondary Mui-selected"
                                     component={
                                       Object {
                                         "$$typeof": Symbol(react.forward_ref),
@@ -777,13 +777,13 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                     onClick={[Function]}
                                     onFocus={[Function]}
                                     role="tab"
-                                    tabIndex={-1}
+                                    tabIndex={0}
                                     to="/admin/maintenance"
                                   >
                                     <ForwardRef(ButtonBase)
                                       aria-controls="maintenance-panel"
-                                      aria-selected={false}
-                                      className="MuiTab-root MuiTab-textColorSecondary"
+                                      aria-selected={true}
+                                      className="MuiTab-root MuiTab-textColorSecondary Mui-selected"
                                       classes={
                                         Object {
                                           "disabled": "Mui-disabled",
@@ -811,14 +811,14 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                       onClick={[Function]}
                                       onFocus={[Function]}
                                       role="tab"
-                                      tabIndex={-1}
+                                      tabIndex={0}
                                       to="/admin/maintenance"
                                     >
                                       <Link
                                         aria-controls="maintenance-panel"
                                         aria-disabled={false}
-                                        aria-selected={false}
-                                        className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary"
+                                        aria-selected={true}
+                                        className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary Mui-selected"
                                         id="maintenance-tab"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -833,14 +833,14 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                         onTouchMove={[Function]}
                                         onTouchStart={[Function]}
                                         role="tab"
-                                        tabIndex={-1}
+                                        tabIndex={0}
                                         to="/admin/maintenance"
                                       >
                                         <LinkAnchor
                                           aria-controls="maintenance-panel"
                                           aria-disabled={false}
-                                          aria-selected={false}
-                                          className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary"
+                                          aria-selected={true}
+                                          className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary Mui-selected"
                                           href="/admin/maintenance"
                                           id="maintenance-tab"
                                           navigate={[Function]}
@@ -857,13 +857,13 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                           onTouchMove={[Function]}
                                           onTouchStart={[Function]}
                                           role="tab"
-                                          tabIndex={-1}
+                                          tabIndex={0}
                                         >
                                           <a
                                             aria-controls="maintenance-panel"
                                             aria-disabled={false}
-                                            aria-selected={false}
-                                            className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary"
+                                            aria-selected={true}
+                                            className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary Mui-selected"
                                             href="/admin/maintenance"
                                             id="maintenance-tab"
                                             onBlur={[Function]}
@@ -879,7 +879,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                             onTouchMove={[Function]}
                                             onTouchStart={[Function]}
                                             role="tab"
-                                            tabIndex={-1}
+                                            tabIndex={0}
                                           >
                                             <span
                                               className="MuiTab-wrapper"
@@ -943,7 +943,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                 key=".1"
                                 label="Admin Download"
                                 onChange={[Function]}
-                                selected={true}
+                                selected={false}
                                 textColor="secondary"
                                 to="/admin/download"
                                 value="download"
@@ -983,15 +983,15 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                   indicator={false}
                                   label="Admin Download"
                                   onChange={[Function]}
-                                  selected={true}
+                                  selected={false}
                                   textColor="secondary"
                                   to="/admin/download"
                                   value="download"
                                 >
                                   <WithStyles(ForwardRef(ButtonBase))
                                     aria-controls="download-panel"
-                                    aria-selected={true}
-                                    className="MuiTab-root MuiTab-textColorSecondary Mui-selected"
+                                    aria-selected={false}
+                                    className="MuiTab-root MuiTab-textColorSecondary"
                                     component={
                                       Object {
                                         "$$typeof": Symbol(react.forward_ref),
@@ -1012,13 +1012,13 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                     onClick={[Function]}
                                     onFocus={[Function]}
                                     role="tab"
-                                    tabIndex={0}
+                                    tabIndex={-1}
                                     to="/admin/download"
                                   >
                                     <ForwardRef(ButtonBase)
                                       aria-controls="download-panel"
-                                      aria-selected={true}
-                                      className="MuiTab-root MuiTab-textColorSecondary Mui-selected"
+                                      aria-selected={false}
+                                      className="MuiTab-root MuiTab-textColorSecondary"
                                       classes={
                                         Object {
                                           "disabled": "Mui-disabled",
@@ -1046,14 +1046,14 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                       onClick={[Function]}
                                       onFocus={[Function]}
                                       role="tab"
-                                      tabIndex={0}
+                                      tabIndex={-1}
                                       to="/admin/download"
                                     >
                                       <Link
                                         aria-controls="download-panel"
                                         aria-disabled={false}
-                                        aria-selected={true}
-                                        className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary Mui-selected"
+                                        aria-selected={false}
+                                        className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary"
                                         id="download-tab"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -1068,14 +1068,14 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                         onTouchMove={[Function]}
                                         onTouchStart={[Function]}
                                         role="tab"
-                                        tabIndex={0}
+                                        tabIndex={-1}
                                         to="/admin/download"
                                       >
                                         <LinkAnchor
                                           aria-controls="download-panel"
                                           aria-disabled={false}
-                                          aria-selected={true}
-                                          className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary Mui-selected"
+                                          aria-selected={false}
+                                          className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary"
                                           href="/admin/download"
                                           id="download-tab"
                                           navigate={[Function]}
@@ -1092,13 +1092,13 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                           onTouchMove={[Function]}
                                           onTouchStart={[Function]}
                                           role="tab"
-                                          tabIndex={0}
+                                          tabIndex={-1}
                                         >
                                           <a
                                             aria-controls="download-panel"
                                             aria-disabled={false}
-                                            aria-selected={true}
-                                            className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary Mui-selected"
+                                            aria-selected={false}
+                                            className="MuiButtonBase-root MuiTab-root MuiTab-textColorSecondary"
                                             href="/admin/download"
                                             id="download-tab"
                                             onBlur={[Function]}
@@ -1114,7 +1114,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                                             onTouchMove={[Function]}
                                             onTouchStart={[Function]}
                                             role="tab"
-                                            tabIndex={0}
+                                            tabIndex={-1}
                                           >
                                             <span
                                               className="MuiTab-wrapper"
@@ -1229,7 +1229,7 @@ exports[`Admin page component should render admin plugins correctly 1`] = `
                       >
                         <div
                           aria-labelledby="download-tab"
-                          hidden={false}
+                          hidden={true}
                           id="download-panel"
                           role="tabpanel"
                         >

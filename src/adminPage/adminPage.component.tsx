@@ -86,6 +86,7 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
       tabValue !== 'download'
     ) {
       setTabValue('download');
+      console.log('download');
     }
     // Allows direct access to the maintenance page when download page is default
     if (
@@ -93,6 +94,7 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
       tabValue !== 'maintenance'
     ) {
       setTabValue('maintenance');
+      console.log('maintenance');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,7 +122,6 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
           component={Link}
           to={adminRoutes.maintenance}
           className={props.classes.tab}
-          // textColor="secondary"
         />
         <Tab
           id="download-tab"
@@ -130,7 +131,6 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
           component={Link}
           to={adminRoutes.download}
           className={props.classes.tab}
-          // textColor="secondary"
         />
       </Tabs>
       <Switch>
