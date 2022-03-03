@@ -20,7 +20,7 @@ import './index.css';
 import { ConnectedThemeProvider } from './theming';
 import ReduxToastr from 'react-redux-toastr';
 import PageContainer from './pageContainer.component';
-import { Preloader as UnconnectedPreloader } from './preloader/preloader.component';
+import { Preloader } from './preloader/preloader.component';
 
 const history = createBrowserHistory();
 
@@ -95,9 +95,7 @@ class App extends React.Component {
           <ConnectedRouter history={history}>
             <ConnectedThemeProvider>
               <React.Suspense
-                fallback={
-                  <UnconnectedPreloader fullScreen={true} loading={true} />
-                }
+                fallback={<Preloader fullScreen={true} loading={true} />}
               >
                 {toastrConfig()}
                 <PageContainer />
