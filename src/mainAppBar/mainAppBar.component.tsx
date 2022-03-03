@@ -80,7 +80,6 @@ const styles = (theme: Theme): StyleRules =>
     },
     titleButton: {
       padding: 4,
-      display: 'contents',
       margin: theme.spacing(1),
       '& img': {
         height: 24,
