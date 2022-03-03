@@ -36,12 +36,7 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
       const { status, action, index, type } = data;
       const { toggleDrawer, drawerOpen, dismissHelp } = props;
 
-      if (
-        action === ACTIONS.START &&
-        type === EVENTS.STEP_BEFORE &&
-        drawerOpen
-      ) {
-        toggleDrawer();
+      if (action === ACTIONS.START && type === EVENTS.STEP_BEFORE) {
         setStepIndex(0);
       } else if (
         index === indexMenuOpen - 1 &&
@@ -52,16 +47,6 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
         toggleDrawer();
         setTimeout(() => {
           setStepIndex(index + 1);
-        }, waitTime);
-      } else if (
-        index === indexMenuOpen &&
-        action === ACTIONS.PREV &&
-        type === EVENTS.STEP_AFTER &&
-        drawerOpen
-      ) {
-        toggleDrawer();
-        setTimeout(() => {
-          setStepIndex(index - 1);
         }, waitTime);
       } else if (
         status === STATUS.FINISHED ||
@@ -87,7 +72,8 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
     .filter(
       (step) =>
         !step.target.toString().startsWith('.tour-') ||
-        document.getElementsByClassName(step.target.toString().substr(1)).length
+        document.getElementsByClassName(step.target.toString().substring(1))
+          .length
     );
 
   const indexPluginLinks = steps.findIndex((step) =>
@@ -100,6 +86,8 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
       stepIndex={stepIndex}
       run={showHelp}
       continuous={true}
+      // until we can disable scrolling on specific steps, disable scrolling globally
+      disableScrolling={true}
       callback={(data: CallBackProps) =>
         handleJoyrideCallback(
           data,
@@ -113,11 +101,11 @@ const Tour = (props: CombinedTourProps): React.ReactElement => {
             //For WCAG 2.1 contrast, need dark mode colour be slighly lighter as
             //same colour breaks contrast for next button
             theme.palette.mode === 'dark'
-              ? lighten(theme.colours.orange, 0.15)
-              : theme.colours.orange,
+              ? lighten(theme.colours?.orange, 0.15)
+              : theme.colours?.orange,
         },
         options: {
-          primaryColor: theme.colours.darkOrange,
+          primaryColor: theme.colours?.darkOrange,
           backgroundColor: theme.palette.background.default,
           arrowColor: theme.palette.background.default,
           textColor: theme.palette.text.primary,

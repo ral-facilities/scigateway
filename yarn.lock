@@ -13761,7 +13761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-joyride@npm:^2.3.0":
+"react-joyride@npm:^2.3.2":
   version: 2.3.2
   resolution: "react-joyride@npm:2.3.2"
   dependencies:
@@ -14698,7 +14698,7 @@ __metadata:
     react-dom: 17.0.2
     react-ga: ^3.3.0
     react-i18next: ^11.15.3
-    react-joyride: ^2.3.0
+    react-joyride: ^2.3.2
     react-redux: ^7.2.5
     react-redux-toastr: ^7.6.7
     react-router-dom: ^5.2.0

@@ -92,7 +92,7 @@ describe('Tour component', () => {
     )
       .dive()
       .dive();
-    expect(wrapper.find(UnconnectedTour)).toMatchSnapshot();
+    expect(wrapper.find(UnconnectedTour).dive()).toMatchSnapshot();
   });
 
   it('renders correctly in dark mode', () => {
@@ -107,7 +107,7 @@ describe('Tour component', () => {
     )
       .dive()
       .dive();
-    expect(wrapper.find(UnconnectedTour)).toMatchSnapshot();
+    expect(wrapper.find(UnconnectedTour).dive()).toMatchSnapshot();
   });
 
   it('shows next tooltip when next is clicked', () => {
@@ -251,62 +251,6 @@ describe('Tour component', () => {
     });
 
     expect(joyride.state.index).toEqual(1);
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
-  });
-
-  it('sends toggleDrawer message when tour moves out of plugin link tour steps', () => {
-    state.scigateway.drawerOpen = true;
-    state.scigateway.showHelp = true;
-    state.scigateway.authorisation.provider = new TestAuthProvider(
-      'test-token'
-    );
-    state.scigateway.helpSteps = [
-      {
-        target: '.test-1',
-        content: 'Test 1',
-      },
-      {
-        target: '#plugin-link-test',
-        content: 'Plugin link test',
-      },
-    ];
-    jest.useFakeTimers();
-
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <div>
-              <Tour />
-              <div className="test-1" />
-              <div id="plugin-link-test" />
-            </div>
-          </Provider>
-        </ThemeProvider>
-      </StyledEngineProvider>,
-      { attachTo: holder }
-    );
-
-    const joyride: Joyride = wrapper.find('Joyride').instance();
-    joyride.setState({ index: 1 });
-    wrapper.update();
-    expect(joyride.state.index).toEqual(1);
-
-    wrapper
-      .find('JoyrideTooltip')
-      .find('button[aria-label="Back"]')
-      .first()
-      .simulate('click');
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(joyride.state.index).toEqual(0);
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
