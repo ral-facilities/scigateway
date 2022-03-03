@@ -144,7 +144,7 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/admin/maintenance'));
   });
 
-  it('redirects to Admin page when Admin button clicked ( is default)', () => {
+  it('redirects to Admin page when Admin button clicked (download is default)', () => {
     state.scigateway.adminPageDefaultTab = 'download';
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);

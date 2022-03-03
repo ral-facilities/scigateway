@@ -32,7 +32,6 @@ const styles = (theme: Theme): StyleRules =>
       flexGrow: 1,
       backgroundColor: theme.palette.background.default,
     },
-    // tab: { color: (theme as UKRITheme).colours.textSecondary },
     titleText: {
       color: theme.palette.secondary.main,
       fontWeight: 'bold',
