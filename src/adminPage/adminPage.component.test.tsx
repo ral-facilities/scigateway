@@ -13,30 +13,23 @@ import thunk from 'redux-thunk';
 import { MemoryRouter, Router } from 'react-router';
 
 import { adminRoutes } from '../state/scigateway.types';
+import { act } from 'react-dom/test-utils';
 
 describe('Admin page component', () => {
   let mount;
   let mockStore;
   let state: StateType;
-  // let props: AdminPageProps;
   let history: History;
-  // let dummyPlugins: PluginConfig[];
+  const setStateMock = jest.fn();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const useStateMock: any = (useState: any) => [useState, setStateMock];
 
   beforeEach(() => {
     mount = createMount();
     mockStore = configureStore([thunk]);
     history = createMemoryHistory();
 
-    // dummyPlugins = [
-    //   {
-    //     order: 1,
-    //     plugin: 'datagateway-download',
-    //     link: '/admin/download',
-    //     section: 'Admin',
-    //     displayName: 'Admin Download',
-    //     admin: true,
-    //   },
-    // ];
+    jest.spyOn(React, 'useState').mockImplementation(useStateMock);
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -47,6 +40,7 @@ describe('Admin page component', () => {
 
   afterEach(() => {
     mount.cleanUp();
+    setStateMock.mockClear();
   });
 
   const theme = buildTheme(false);
@@ -117,31 +111,7 @@ describe('Admin page component', () => {
     expect(history.location.pathname).toEqual('/admin/maintenance');
   });
 
-  // it('redirects to the tab when tab is clicked', () => {
-  //   const testStore = mockStore(state);
-  //   props = {
-  //     plugins: dummyPlugins,
-  //     adminPageDefaultTab: 'maintenance',
-  //   };
-
-  //   mount(
-  //     <Provider store={testStore}>
-  //       <MuiThemeProvider theme={theme}>
-  //         <Router history={history}>
-  //           <AdminPageWithStyles {...props} />
-  //         </Router>
-  //       </MuiThemeProvider>
-  //     </Provider>
-  //   );
-
-  //   history.push('/admin/download');
-
-  //   expect(history.location.pathname).toEqual('/admin/download');
-
-  //   expect(setStateMock).toBeCalledWith('download');
-  // });
-
-  it.only('redirects to the tab when tab is clicked', () => {
+  it('redirects to the tab when tab is clicked', () => {
     state.scigateway.plugins = [
       {
         order: 1,
@@ -152,14 +122,9 @@ describe('Admin page component', () => {
         admin: true,
       },
     ];
-    // state.scigateway.adminPageDefaultTab = 'maintenance';
+    state.scigateway.adminPageDefaultTab = 'maintenance';
 
     const testStore = mockStore(state);
-
-    const setStateMock = jest.fn();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const useStateMock: any = (useState: any) => [useState, setStateMock];
-    jest.spyOn(React, 'useState').mockImplementation(useStateMock);
 
     mount(
       <Provider store={testStore}>
@@ -173,7 +138,45 @@ describe('Admin page component', () => {
 
     const currentTab = 'download';
 
-    history.push(adminRoutes[currentTab]);
+    act(() => {
+      history.push(adminRoutes[currentTab]);
+    });
+
+    expect(history.location.pathname).toEqual(adminRoutes[currentTab]);
+
+    expect(setStateMock).toHaveBeenCalledWith(currentTab);
+  });
+
+  it('redirects to the tab when tab is clicked', () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+    state.scigateway.adminPageDefaultTab = 'download';
+
+    const testStore = mockStore(state);
+
+    mount(
+      <Provider store={testStore}>
+        <MuiThemeProvider theme={theme}>
+          <Router history={history}>
+            <AdminPage />
+          </Router>
+        </MuiThemeProvider>
+      </Provider>
+    );
+
+    const currentTab = 'maintenance';
+
+    act(() => {
+      history.push(adminRoutes[currentTab]);
+    });
 
     expect(history.location.pathname).toEqual(adminRoutes[currentTab]);
 

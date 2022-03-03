@@ -86,10 +86,9 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
       tabValue !== 'download'
     ) {
       setTabValue('download');
-      console.log('download');
     }
     // Allows direct access to the maintenance page when download page is default
-    if (
+    else if (
       location.pathname === adminRoutes['maintenance'] &&
       tabValue !== 'maintenance'
     ) {
