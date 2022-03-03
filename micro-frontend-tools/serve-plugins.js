@@ -1,4 +1,4 @@
-var fs = require("fs");
+var fs = require('fs');
 const path = require('path');
 var exec = require('child_process').exec;
 
@@ -34,14 +34,14 @@ function servePluginWithOutput(plugin, index) {
     return;
   }
   console.log(`Serving plugin ${plugin.location} on port ${plugin.port}`);
-  const child = exec(`serve -l ${plugin.port} ${plugin.location}`);
-  child.stdout.on('data', function(data) {
+  const child = exec(`serve -C -l ${plugin.port} ${plugin.location}`);
+  child.stdout.on('data', function (data) {
     process.stdout.write(`stdout (${index}): ` + data);
   });
-  child.stderr.on('data', function(data) {
+  child.stderr.on('data', function (data) {
     process.stdout.write(`stderr (${index}): ` + data);
   });
-  child.on('close', function(code) {
+  child.on('close', function (code) {
     process.stdout.write('closing code: ' + code);
   });
 }

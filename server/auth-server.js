@@ -15,7 +15,7 @@ app.use(cookieParser());
 // this would normally be an environment variable
 const jwtSecret = 'abc123456789';
 
-const withAuth = function(req, res, next) {
+const withAuth = function (req, res, next) {
   const token =
     req.body.token ||
     req.query.token ||
@@ -24,7 +24,7 @@ const withAuth = function(req, res, next) {
   if (!token) {
     res.status(401).send('Unauthorized: No token provided');
   } else {
-    jwt.verify(token, jwtSecret, function(err, decoded) {
+    jwt.verify(token, jwtSecret, function (err, decoded) {
       if (err) {
         res.status(401).send('Unauthorized: Invalid token');
       } else {
@@ -40,7 +40,7 @@ function isValidLogin(username, password) {
   return username === 'username' && password === 'password';
 }
 
-app.post(`/api/jwt/authenticate`, function(req, res) {
+app.post(`/api/jwt/authenticate`, function (req, res) {
   const { username, password } = req.body;
 
   if (username === 'error') {
@@ -79,7 +79,7 @@ app.post(`/api/jwt/authenticate`, function(req, res) {
   }
 });
 
-app.post(`/api/jwt/checkToken`, withAuth, function(req, res) {
+app.post(`/api/jwt/checkToken`, withAuth, function (req, res) {
   const { token } = req.body;
   if (jwt.verify(token, jwtSecret)) {
     res.sendStatus(200);
@@ -90,7 +90,7 @@ app.post(`/api/jwt/checkToken`, withAuth, function(req, res) {
   }
 });
 
-app.post(`/api/jwt/refresh`, function(req, res) {
+app.post(`/api/jwt/refresh`, function (req, res) {
   const refreshToken = req.cookies['scigateway:refresh_token'];
   const accessToken = req.body.token;
 
@@ -121,7 +121,7 @@ app.post(`/api/jwt/refresh`, function(req, res) {
   }
 });
 
-app.post(`/api/github/authenticate`, function(req, res) {
+app.post(`/api/github/authenticate`, function (req, res) {
   const { code } = req.body;
 
   const headers = {
@@ -138,44 +138,61 @@ app.post(`/api/github/authenticate`, function(req, res) {
         `code=${code}`,
       headers
     )
-    .then(githubResponse => {
+    .then((githubResponse) => {
       token = qs.parse(githubResponse.data).access_token;
       return axios.get('https://api.github.com/user', {
         headers: { Authorization: `token ${token}` },
       });
     })
-    .then(userResponse => {
+    .then((userResponse) => {
       res.status(200).json({
         token,
         username: userResponse.data.login,
         avatar: userResponse.data.avatar_url,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(401).json({
         error: 'Invalid token',
       });
     });
 });
 
-app.post(`/api/github/checkToken`, function(req, res) {
+app.post(`/api/github/checkToken`, function (req, res) {
   const { token } = req.body;
   axios
     .get('https://api.github.com/user', {
       headers: { Authorization: `token ${token}` },
     })
-    .then(userResponse => {
+    .then((userResponse) => {
       res.status(200).json({
         username: userResponse.data.login,
         avatar: userResponse.data.avatar_url,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(401).json({
         error: 'Invalid token',
       });
     });
 });
+
+const e2e = process.argv[2] === 'e2e';
+
+if (!e2e) {
+  try {
+    const settings = JSON.parse(fs.readFileSync('./public/settings.json'));
+    if (settings['auth-provider'] !== 'jwt') {
+      console.log(
+        `Using non-JWT authenticator so not starting example auth server`
+      );
+      process.exit(0);
+    }
+  } catch (e) {
+    console.log('No settings file found so not starting example auth server');
+    process.exit(0);
+  }
+}
 
 if (process.env.HTTPS) {
   waitOn({

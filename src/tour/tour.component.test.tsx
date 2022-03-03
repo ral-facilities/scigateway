@@ -224,59 +224,6 @@ describe('Tour component', () => {
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('sends toggleDrawer message when tour moves out of plugin link tour steps', () => {
-    state.scigateway.drawerOpen = true;
-    state.scigateway.showHelp = true;
-    state.scigateway.authorisation.provider = new TestAuthProvider(
-      'test-token'
-    );
-    state.scigateway.helpSteps = [
-      {
-        target: '.test-1',
-        content: 'Test 1',
-      },
-      {
-        target: '#plugin-link-test',
-        content: 'Plugin link test',
-      },
-    ];
-    jest.useFakeTimers();
-
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div id="plugin-link-test" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
-    );
-
-    const joyride: Joyride = wrapper.find('Joyride').instance();
-    joyride.setState({ index: 1 });
-    wrapper.update();
-    expect(joyride.state.index).toEqual(1);
-
-    wrapper
-      .find('JoyrideTooltip')
-      .find('button[aria-label="Back"]')
-      .first()
-      .simulate('click');
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(joyride.state.index).toEqual(0);
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
-  });
-
   it('does not show plugin links when user is not logged in', () => {
     state.scigateway.showHelp = true;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
