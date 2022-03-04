@@ -35,7 +35,7 @@
     "redux-thunk": "^2.4.1",
     "single-spa": "^5.9.1",
     "typeface-roboto": "1.1.13",
-    "typescript": "4.6.2"
+    "typescript": "4.5.5"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
@@ -100,8 +100,8 @@
     "@types/react-router-dom": "^5.1.8",
     "@types/redux-logger": "^3.0.8",
     "@types/redux-mock-store": "^1.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "axios-mock-adapter": "^1.19.0",
     "babel-eslint": "10.1.0",
