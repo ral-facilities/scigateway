@@ -81,7 +81,6 @@ const menuButtonPlaceholderStyles = {
 };
 
 const TitleButton = styled(Button)(({ theme }) => ({
-  display: 'contents',
   padding: '4px',
   margin: 1,
   '& img': {
