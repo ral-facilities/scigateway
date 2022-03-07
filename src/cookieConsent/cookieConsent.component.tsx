@@ -70,6 +70,7 @@ const CookieConsent = (
         titleCase: false,
         gaOptions: {
           cookieExpires: 60 * 60 * 24 * 365, // one year
+          cookieFlags: 'Samesite=None;Secure',
         },
       });
       const page = `${props.location.pathname}${props.location.search}`;
