@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Help page component should render correctly 1`] = `
+exports[`Accessibility page component should render correctly 1`] = `
 <ThemeProvider
   theme={
     Object {
