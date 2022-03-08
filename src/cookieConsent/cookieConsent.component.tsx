@@ -70,6 +70,7 @@ const CookieConsent = (
         titleCase: false,
         gaOptions: {
           cookieExpires: 60 * 60 * 24 * 365, // one year
+          cookieFlags: 'Samesite=None;Secure',
         },
       });
       const page = `${props.location.pathname}${props.location.search}`;
@@ -98,6 +99,8 @@ const CookieConsent = (
   ): void => {
     Cookies.set('cookie-consent', JSON.stringify({ analytics: true }), {
       expires: 365,
+      sameSite: 'None',
+      secure: true,
     });
     setOpen(false);
   };
