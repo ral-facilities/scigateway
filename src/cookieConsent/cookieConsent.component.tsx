@@ -99,6 +99,8 @@ const CookieConsent = (
   ): void => {
     Cookies.set('cookie-consent', JSON.stringify({ analytics: true }), {
       expires: 365,
+      sameSite: 'None',
+      secure: true,
     });
     setOpen(false);
   };

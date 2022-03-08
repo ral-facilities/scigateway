@@ -86,6 +86,8 @@ const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
 
   Cookies.set('cookie-consent', JSON.stringify({ analytics }), {
     expires: 365,
+    sameSite: 'None',
+    secure: true,
   });
 };
 
