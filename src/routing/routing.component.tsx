@@ -22,7 +22,7 @@ import CookiesPage from '../cookieConsent/cookiesPage.component';
 import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
-import AccessibilityPage from '../accessibiltyPage/accessibilityPage.component';
+import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import classNames from 'classnames';
 import { UKRITheme } from '../theming';
 import withAuth from './authorisedRoute.component';
