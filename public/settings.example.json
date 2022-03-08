@@ -18,19 +18,19 @@
   "help-tour-steps": [
     {
       "target": ".tour-title",
-      "content": "Hello, and welcome to the SciGateway! This tour will show you the important features of the app!"
+      "content": "Hello, and welcome to SciGateway! This tour will show you the important features of this application"
     },
     {
       "target": ".tour-user-profile",
-      "content": "Click here to sign in if you're not logged in, or sign out or manage your account if you are logged in"
+      "content": "Click here to sign in or sign out"
     },
     {
       "target": ".tour-notifications",
-      "content": "Click here to see any notifications you have"
+      "content": "Click here to see any notifications you may have"
     },
     {
       "target": ".tour-settings",
-      "content": "Click here to change settings for cookies and darkmode"
+      "content": "Click here to change the settings for cookies, dark/light mode and high-contrast mode"
     },
     {
       "target": ".tour-contact",
@@ -46,7 +46,7 @@
     },
     {
       "target": ".tour-nav-menu",
-      "content": "Click here to open the navigation menu"
+      "content": "Click here to open or close the navigation menu"
     }
   ],
   "ui-strings": "res/default.json",

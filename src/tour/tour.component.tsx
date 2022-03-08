@@ -51,8 +51,7 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
     const { status, action, index, type } = data;
     const { toggleDrawer, drawerOpen, dismissHelp } = this.props;
 
-    if (action === ACTIONS.START && type === EVENTS.STEP_BEFORE && drawerOpen) {
-      toggleDrawer();
+    if (action === ACTIONS.START && type === EVENTS.STEP_BEFORE) {
       this.setState({ stepIndex: 0 });
     } else if (
       index === indexMenuOpen - 1 &&
@@ -63,16 +62,6 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
       toggleDrawer();
       setTimeout(() => {
         this.setState({ stepIndex: index + 1 });
-      }, waitTime);
-    } else if (
-      index === indexMenuOpen &&
-      action === ACTIONS.PREV &&
-      type === EVENTS.STEP_AFTER &&
-      drawerOpen
-    ) {
-      toggleDrawer();
-      setTimeout(() => {
-        this.setState({ stepIndex: index - 1 });
       }, waitTime);
     } else if (
       status === STATUS.FINISHED ||
@@ -96,7 +85,7 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
       .filter(
         (step) =>
           !step.target.toString().startsWith('.tour-') ||
-          document.getElementsByClassName(step.target.toString().substr(1))
+          document.getElementsByClassName(step.target.toString().substring(1))
             .length
       );
 
@@ -110,6 +99,8 @@ class Tour extends React.Component<CombinedTourProps, TourState> {
         stepIndex={this.state.stepIndex}
         run={showHelp}
         continuous={true}
+        // until we can disable scrolling on specific steps, disable scrolling globally
+        disableScrolling={true}
         callback={(data: CallBackProps) =>
           this.handleJoyrideCallback(
             data,
