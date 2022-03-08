@@ -2539,18 +2539,18 @@ exports[`Help page component should render correctly 1`] = `
                   <strong
                     key="5"
                   >
-                    DATE
+                    8th of March 2022
                   </strong>
                   . 
                   <br />
-                   This website was last tested on
-                   
+                   This website was last tested on 
                   <strong
-                    key="10"
+                    key="9"
                   >
                      30th of November 2021 
                   </strong>
-                  . The test was carried out by the 
+                  . The test was carried out by the
+                   
                   <strong
                     key="12"
                   >
