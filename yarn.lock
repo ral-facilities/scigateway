@@ -13790,18 +13790,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux-toastr@npm:^7.6.7":
-  version: 7.6.7
-  resolution: "react-redux-toastr@npm:7.6.7"
+"react-redux-toastr@npm:^7.6.8":
+  version: 7.6.8
+  resolution: "react-redux-toastr@npm:7.6.8"
   dependencies:
     classnames: ^2.2.3
     eventemitter3: ^3.1.0
   peerDependencies:
     prop-types: ^15.5.7
-    react: ^0.14 || ^15.0.1 || ^16.0.0
+    react: ^0.14 || ^15.0.1 || ^16.0.0 || ^17.0.0
     react-redux: ^4.0.1 || ^5.0.1 || ^6.0.0 || ^7.0.0
     redux: ^3.0.5 || ^4.0.0
-  checksum: c0de4785af9f01c3e49d2b0d1b5f1ff8de7a39a91ae626d26829ea5b7ea31c5d1bac8dc12558e24d0539a954f54d52ab94793fba9110b921e9a9f7a67c9667f6
+  checksum: 5548b9966977638ab2a846d49d9a16843f1aa5b7a4695553ca60484655984076186de31f12eb19562ec48adb634df8815a48f9ce48a59776d06ac2584b36f7eb
   languageName: node
   linkType: hard
 
@@ -14700,7 +14700,7 @@ __metadata:
     react-i18next: ^11.15.3
     react-joyride: ^2.3.2
     react-redux: ^7.2.5
-    react-redux-toastr: ^7.6.7
+    react-redux-toastr: ^7.6.8
     react-router-dom: ^5.3.0
     react-scripts: 5.0.0
     redux: ^4.1.2
