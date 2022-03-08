@@ -14,7 +14,7 @@ const dummyClasses = {
   description: 'description-class',
 };
 
-describe('Help page component', () => {
+describe('Accessibility page component', () => {
   let mount;
   let props: CombinedAccessibiiltyPageProps;
 
