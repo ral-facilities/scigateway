@@ -31,6 +31,26 @@ exports[`Footer component footer renders correctly 1`] = `
       >
         Contact
       </WithStyles(ForwardRef(Link))>
+       | 
+      <WithStyles(ForwardRef(Link))
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "Link",
+            "propTypes": Object {
+              "innerRef": [Function],
+              "onClick": [Function],
+              "replace": [Function],
+              "target": [Function],
+              "to": [Function],
+            },
+            "render": [Function],
+          }
+        }
+        to="/accessibility"
+      >
+        Accessibilty statement
+      </WithStyles(ForwardRef(Link))>
     </Trans>
   </div>
   <div>
