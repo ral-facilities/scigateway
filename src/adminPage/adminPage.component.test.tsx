@@ -83,8 +83,7 @@ describe('Admin page component', () => {
         </MuiThemeProvider>
       </Provider>
     );
-
-    expect(wrapper.find('#download-panel')).toBeTruthy();
+    expect(wrapper.find('#datagateway-download')).toBeTruthy();
   });
 
   it('redirects to the tab when tab is clicked', () => {
