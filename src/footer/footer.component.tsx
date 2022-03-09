@@ -9,10 +9,11 @@ import {
 import { getAppStrings } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
-import { AppStrings } from '../state/scigateway.types';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
 import { UKRITheme } from '../theming';
 import { Trans, useTranslation } from 'react-i18next';
 import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -90,6 +91,14 @@ const Footer = (props: CombinedFooterProps): React.ReactElement => {
             href={t('footer.links.data-policy')}
           >
             Data policy
+          </Link>
+          {' | '}
+          <Link
+            className={props.classes.bold}
+            component={RouterLink}
+            to={scigatewayRoutes.accessibility}
+          >
+            Accessibilty statement
           </Link>
           {' | '}
           <Link className={props.classes.bold} href={t('footer.links.contact')}>

@@ -123,7 +123,7 @@
   },
   "footer": {
     "links": {
-      "text": "<0>ISIS Home</0> | <2>Privacy statement</2> | <4>Data policy</4> | <6>Contact</6>",
+      "text": "<0>ISIS Home</0> | <2>Privacy statement</2> | <4>Data policy</4> | <6>Accessibilty statement</6> | <8>Contact</8>",
       "facility": "#",
       "privacy-statement": "#",
       "data-policy": "#",
@@ -133,5 +133,65 @@
   },
   "navigation-drawer": {
     "alternative-text": "Science and Technology Facilities Council"
+  },
+  "accessibility-page": {
+    "title": "Accessibility statement for DataGateway",
+    "domains-list-text": "This accessibility statement applies to all facilities using DataGateway. This includes:",
+    "domains-list": ["https://data.isis.stfc.ac.uk "],
+    "website-developed-by": "These sites are maintained by the Data Software and Engineering Group, in the Scientific Computing Department. ",
+    "how-accessible-this-website-is": "How Accessible This Website Is ",
+    "how-accessible-this-website-is-text": "We want as many people as possible to be able to use this website. For example, that means you should be able to: ",
+    "accessibile-parts-of-datagateway-list": [
+      "listen to most of the website using a screen reader",
+      "clearly see all components and text as the contrast has been checked against different types of colour-blindness in normal or high contrast modes (which includes protanopia, protanomaly, deuteranopia, deuteranomaly, tritanopia, tritanomaly, achromatopsia and achromatomaly) ",
+      "navigate most of the website using just a keyboard  ",
+      "zoom in up to 300% without the text spilling off the screen "
+    ],
+    "advice-on-how-to-make-device-more-accessible": "<0>AbilityNet</0> has advice on making your device easier to use if you have a disability.",
+    "advice-on-how-to-make-device-more-accessible-link": "https://mcmw.abilitynet.org.uk/",
+    "non-accessibile-parts-of-datagateway-text": "We know some parts of this website are not fully accessible:",
+    "non-accessibile-parts-of-datagateway-list": [
+      "the columns on table view cannot be resized using the keyboard",
+      "pages sometimes have unreadable ARIA labels",
+      "table view has aria hidden elements that contain focusable elements and elements in the table with an ARIA role that required a parent are not contained by them ",
+      "nested interactive controls are not announced by screen reader in the sorting in card view ",
+      "advanced filters, filters automatically without requiring user input"
+    ],
+    "contact-us-about-accessibility": "Contact Us About Accessibility",
+    "contact-us-about-accessibility-text": "We are always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we are not meeting accessibility requirements, please let us know. You can send us a message to request a more accessible format for content or documents on the site. ",
+    "contact-info": "FacilitiesBusinessSystem@stfc.ac.uk",
+    "enforcement-procedure": "Enforcement procedure",
+    "enforcement-procedure-text": "The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, <1>contact the Equality Advisory and Support Service (EASS)</1>.",
+    "enforcement-procedure-link": "https://www.equalityadvisoryservice.com/",
+    "technical-information-about-this-website-accessibility": "Technical information about this website's accessibility",
+    "technical-information-about-this-website-accessibility-text": "STFC is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.",
+    "compliance-status": "Compliance Status",
+    "compliance-status-text": "This website is partially compliant with the <2>Web Content Accessibility Guidelines version 2.1</2> AA standard, due to the non-compliances and exemptions listed below.",
+    "compliance-status-link": "https://www.w3.org/TR/WCAG21/",
+    "non-accessible-content": "Non-Accessible Content",
+    "non-accessible-content-text": "The content listed below is non-accessible for the following reasons.",
+    "non-compliance-with-the-accessibility-regulations": "Non-compliance with the accessibility regulations ",
+    "non-compliance-with-the-accessibility-regulations-list": [
+      "Some of the pages have unreadable ARIA labels. This fails WCAG 2.1 success criterion 4.1.2 (A): Name, Role, and Value",
+      "The advanced filters, filters automatically without requiring user input. This fails WCAG 2.1 success criterion 3.2.2 On Input"
+    ],
+    "non-compliance-with-the-accessibility-regulations-text": "We will make sure that all the non-compliances above are addressed in September 2022.",
+    "disproportionate-burden": {
+      "title": "Disproportionate burden",
+      "table-view": "Table view",
+      "table-view-list": [
+        "There is no way to have ARIA hidden elements that do not contain focusable elements in the text field of the filters",
+        "It is not possible for elements in the table with an ARIA role that requires a parent to be contained by them ",
+        "There is no way the columns on table view cannot be resized using the keyboard"
+      ],
+      "card-view": "Card view",
+      "card-view-list": [
+        "It is not possible to announce the nested interactive controls using a screen reader for the sorting "
+      ],
+      "text": "We have assessed the time it would take to resolve these issues with table view, and card view. We believe that doing so now would be a <2>disproportionate burden</2> within the meaning of the accessibility regulations. We will make another assessment before the next release, likely to be in September 2022.",
+      "link": "https://www.legislation.gov.uk/uksi/2018/952/regulation/7/made"
+    },
+    "preparation-of-this-accessibility-statement": "Preparation of this accessibility statement ",
+    "preparation-of-this-accessibility-statement-text": "This statement was prepared on the <2>14th of February 2022</2>. It was last reviewed on the <5>8th of March 2022</5>. This website was last tested on <9>30th of November 2021</9>. The test was carried out by the <12>Data & Software Engineering Group</12>."
   }
 }
