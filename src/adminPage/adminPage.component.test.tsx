@@ -33,7 +33,7 @@ describe('Admin page component', () => {
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/admin') },
+      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
@@ -58,6 +58,7 @@ describe('Admin page component', () => {
       </Provider>
     );
 
+    console.log(wrapper.find('#maintenance-page').debug());
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -85,7 +86,7 @@ describe('Admin page component', () => {
         </MuiThemeProvider>
       </Provider>
     );
-
+    console.log(wrapper.find('#maintenance-page').debug());
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -111,7 +112,7 @@ describe('Admin page component', () => {
     expect(history.location.pathname).toEqual('/admin/maintenance');
   });
 
-  it('sets the correct tab value with the url does not match the default tab (download)', () => {
+  it.only('sets the correct tab value with the url does not match the default tab (download)', () => {
     state.scigateway.plugins = [
       {
         order: 1,
@@ -126,7 +127,7 @@ describe('Admin page component', () => {
 
     const testStore = mockStore(state);
 
-    mount(
+    const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
           <Router history={history}>
@@ -140,11 +141,14 @@ describe('Admin page component', () => {
 
     act(() => {
       history.push(adminRoutes[currentTab]);
+      wrapper.update();
     });
 
     expect(history.location.pathname).toEqual(adminRoutes[currentTab]);
 
     expect(setStateMock).toHaveBeenCalledWith(currentTab);
+
+    console.log(wrapper.find('#download-panel').debug());
   });
 
   it('sets the correct tab value with the url does not match the default tab (maintenance)', () => {
@@ -154,15 +158,16 @@ describe('Admin page component', () => {
         plugin: 'datagateway-download',
         link: '/admin/download',
         section: 'Admin',
-        displayName: 'Admin Download',
+        displayName: 'Admin Downloasd',
         admin: true,
       },
     ];
+
     state.scigateway.adminPageDefaultTab = 'download';
 
     const testStore = mockStore(state);
 
-    mount(
+    const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
           <Router history={history}>
@@ -174,12 +179,17 @@ describe('Admin page component', () => {
 
     const currentTab = 'maintenance';
 
+    const scheduledMaintenanceMessageInput = wrapper.find(
+      '[aria-label="admin.scheduled-maintenance-message-arialabel"]'
+    );
+
     act(() => {
       history.push(adminRoutes[currentTab]);
+      wrapper.update();
     });
 
     expect(history.location.pathname).toEqual(adminRoutes[currentTab]);
 
-    expect(setStateMock).toHaveBeenCalledWith(currentTab);
+    expect(scheduledMaintenanceMessageInput).toBeTruthy();
   });
 });

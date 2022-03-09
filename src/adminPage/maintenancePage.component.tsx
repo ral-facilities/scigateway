@@ -94,7 +94,7 @@ export const MaintenancePage = (
   const [t] = useTranslation();
 
   return (
-    <div>
+    <div id="maintenance-page">
       <Paper className={props.classes.paper}>
         <Typography variant="h4">
           {t('admin.scheduled-maintenance-title')}

@@ -85,12 +85,13 @@ export const getPluginRoutes = (
 ): {
   [plugin: string]: string[];
 } => {
-  // console.log('POP RENDERS PAGE');
   const pluginRoutes: {
     [plugin: string]: string[];
   } = {};
+
   plugins.forEach((p) => {
-    if (p.admin === admin) {
+    const isAdmin = admin ? p.admin : !p.admin;
+    if (isAdmin) {
       if (pluginRoutes[p.plugin]) {
         pluginRoutes[p.plugin].push(p.link);
       } else {
@@ -105,11 +106,11 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
   props: RoutingProps & WithStyles<typeof styles>
 ) => {
   const [pluginRoutes, setPluginRoutes] = React.useState(
-    getPluginRoutes(props.plugins)
+    getPluginRoutes(props.plugins, undefined || false)
   );
-
+  console.log(pluginRoutes);
   React.useEffect(() => {
-    setPluginRoutes(getPluginRoutes(props.plugins));
+    setPluginRoutes(getPluginRoutes(props.plugins, undefined || false));
 
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount

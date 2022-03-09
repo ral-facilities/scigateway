@@ -92,7 +92,6 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
       tabValue !== 'maintenance'
     ) {
       setTabValue('maintenance');
-      console.log('maintenance');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,16 +143,15 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
         </Route>
 
         {Object.entries(pluginRoutes).map(([key, value]) => {
-          const pluginId = key.endsWith('_admin') ? key.slice(0, -6) : key;
           return (
-            <Route key={key} path={value}>
+            <Route exact key={key} path={value}>
               <div
                 id="download-panel"
                 aria-labelledby="download-tab"
                 role="tabpanel"
                 hidden={tabValue !== 'download'}
               >
-                <PluginPlaceHolder id={pluginId} />
+                <PluginPlaceHolder id={key} />
               </div>
             </Route>
           );
