@@ -9,7 +9,13 @@ import React from 'react';
 import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
 import { checkboxClasses } from '@mui/material/Checkbox';
-import { formLabelClasses, tabClasses } from '@mui/material';
+import {
+  formHelperTextClasses,
+  formLabelClasses,
+  inputClasses,
+  outlinedInputClasses,
+  tabClasses,
+} from '@mui/material';
 
 /* UKRI colours */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -326,7 +332,7 @@ export const buildTheme = (
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          '&$error': {
+          [`&.${formLabelClasses.error}`]: {
             color: colours.red,
           },
           [`&.${formLabelClasses.focused}`]: {
@@ -334,7 +340,7 @@ export const buildTheme = (
           },
         },
         asterisk: {
-          '&$error': {
+          [`&.${formLabelClasses.error}`]: {
             color: colours.red,
           },
         },
@@ -351,10 +357,10 @@ export const buildTheme = (
     MuiInput: {
       styleOverrides: {
         underline: {
-          '&$error:after': {
+          [`&.${inputClasses.error}`]: {
             borderBottomColor: colours.red,
           },
-          '&:after': {
+          [`&.${inputClasses.error}:after`]: {
             borderBottomColor: colours.blue,
           },
         },
@@ -363,9 +369,10 @@ export const buildTheme = (
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          '&$error $notchedOutline': {
-            borderColor: colours.red,
-          },
+          [`&.${outlinedInputClasses.error} .${outlinedInputClasses.notchedOutline}`]:
+            {
+              borderColor: colours.red,
+            },
         },
         //Override opacity of placeholder text
         input: {
@@ -380,7 +387,7 @@ export const buildTheme = (
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          '&$error': {
+          [`&.${formHelperTextClasses.error}`]: {
             color: colours.red,
           },
         },
