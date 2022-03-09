@@ -108,7 +108,7 @@ const AccessibiiltyPage = (
     datagatewayDisproportionateBurdenCard = listPlaceholder;
 
   return (
-    <div className={props.classes.root}>
+    <div className={props.classes.root} id="accessibility-page">
       <Typography variant="h3" className={props.classes.titleText}>
         {t('accessibility-page.title')}
       </Typography>

@@ -34,6 +34,7 @@ describe('Accessibility page component', () => {
         <AccessibiiltyPageWithStyles {...props} />
       </MuiThemeProvider>
     );
-    expect(wrapper).toMatchSnapshot();
+
+    expect(wrapper.find('#accessibility-page')).toBeTruthy();
   });
 });
