@@ -47,6 +47,7 @@ export const scigatewayRoutes = {
   login: '/login',
   logout: '/logout',
   cookies: '/cookies',
+  accessibility: '/accessibility',
 };
 
 export interface NotificationPayload {

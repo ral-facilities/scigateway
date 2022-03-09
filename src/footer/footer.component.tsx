@@ -3,9 +3,10 @@ import { styled } from '@mui/material/styles';
 import { getAppStrings } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
-import { AppStrings } from '../state/scigateway.types';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
 import { Trans, useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -30,9 +31,11 @@ const RootDiv = styled('div')(({ theme }) => ({
   },
 }));
 
-const StyledLink = styled(Link)({
-  fontWeight: 'bold',
-});
+const StyledLink = styled(Link)<{ component?: React.ElementType; to?: string }>(
+  {
+    fontWeight: 'bold',
+  }
+);
 
 export interface FooterProps {
   res: AppStrings | undefined;
@@ -69,6 +72,14 @@ const Footer = (props: FooterProps): React.ReactElement => {
             Data policy
           </StyledLink>
           {' | '}
+          <StyledLink
+            component={RouterLink}
+            to={scigatewayRoutes.accessibility}
+            underline="hover"
+          >
+            Accessibilty statement
+          </StyledLink>
+          {' | '}
           <StyledLink href={t('footer.links.contact')} underline="hover">
             Contact
           </StyledLink>
@@ -77,7 +88,7 @@ const Footer = (props: FooterProps): React.ReactElement => {
       <div
         style={{
           textAlign: 'right',
-          fontSize: 14,
+          fontSize: '14px',
           right: 0,
           paddingRight: '16px',
           marginLeft: 'auto',
