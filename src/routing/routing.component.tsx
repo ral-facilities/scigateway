@@ -22,6 +22,7 @@ import CookiesPage from '../cookieConsent/cookiesPage.component';
 import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
+import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import classNames from 'classnames';
 import { UKRITheme } from '../theming';
 import withAuth from './authorisedRoute.component';
@@ -108,7 +109,7 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
   const [pluginRoutes, setPluginRoutes] = React.useState(
     getPluginRoutes(props.plugins, undefined || false)
   );
-  console.log(pluginRoutes);
+
   React.useEffect(() => {
     setPluginRoutes(getPluginRoutes(props.plugins, undefined || false));
 
@@ -170,6 +171,12 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
         </Route>
         <Route exact path={scigatewayRoutes.help} component={HelpPage} />
         <Route
+          exact
+          path={scigatewayRoutes.accessibility}
+          component={AccessibilityPage}
+        />
+        <Route
+          exact
           path={scigatewayRoutes.admin}
           render={() => <AuthorisedAdminPage />}
         />

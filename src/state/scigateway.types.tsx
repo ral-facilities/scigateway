@@ -49,6 +49,7 @@ export const scigatewayRoutes = {
   login: '/login',
   logout: '/logout',
   cookies: '/cookies',
+  accessibility: '/accessibility',
 };
 export const adminRoutes = {
   maintenance: '/admin/maintenance',

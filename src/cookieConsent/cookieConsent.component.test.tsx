@@ -128,6 +128,7 @@ describe('Cookie consent component', () => {
       titleCase: false,
       gaOptions: {
         cookieExpires: 60 * 60 * 24 * 365,
+        cookieFlags: 'Samesite=None;Secure',
       },
     });
 

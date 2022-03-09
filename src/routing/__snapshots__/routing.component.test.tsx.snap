@@ -27,6 +27,12 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       path="/help"
     />
     <Route
+      component={[Function]}
+      exact={true}
+      path="/accessibility"
+    />
+    <Route
+      exact={true}
       path="/admin"
       render={[Function]}
     />
@@ -95,6 +101,12 @@ exports[`Routing component redirects to the homepage if navigating to login page
       path="/help"
     />
     <Route
+      component={[Function]}
+      exact={true}
+      path="/accessibility"
+    />
+    <Route
+      exact={true}
       path="/admin"
       render={[Function]}
     />
@@ -407,6 +419,7 @@ exports[`Routing component renders a route for admin page 1`] = `
                     "url": "/admin",
                   }
                 }
+                exact={true}
                 location={
                   Object {
                     "hash": "",
@@ -656,6 +669,12 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       path="/help"
     />
     <Route
+      component={[Function]}
+      exact={true}
+      path="/accessibility"
+    />
+    <Route
+      exact={true}
       path="/admin"
       render={[Function]}
     />
@@ -724,6 +743,12 @@ exports[`Routing component renders component with plugins 1`] = `
       path="/help"
     />
     <Route
+      component={[Function]}
+      exact={true}
+      path="/accessibility"
+    />
+    <Route
+      exact={true}
       path="/admin"
       render={[Function]}
     />
