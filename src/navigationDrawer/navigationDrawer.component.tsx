@@ -111,7 +111,7 @@ export const NavigationDrawer = (
   );
 
   const renderRoutes = useCallback((): React.ReactFragment => {
-    let { plugins } = props;
+    let plugins = props.plugins;
 
     if (props.homepageUrl) {
       // don't include link to homepage in nav bar
@@ -135,7 +135,7 @@ export const NavigationDrawer = (
           )}
       </Fragment>
     );
-  }, [buildMenuSection, props]);
+  }, [buildMenuSection, props.plugins, props.homepageUrl]);
 
   const altTxt = props.navigationDrawerLogo
     ? props.navigationDrawerLogo.altTxt
