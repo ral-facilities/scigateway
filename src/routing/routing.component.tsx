@@ -16,6 +16,7 @@ import CookiesPage from '../cookieConsent/cookiesPage.component';
 import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
+import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
@@ -167,6 +168,11 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           )}
         </Route>
         <Route exact path={scigatewayRoutes.help} component={HelpPage} />
+        <Route
+          exact
+          path={scigatewayRoutes.accessibility}
+          component={AccessibilityPage}
+        />
         <Route
           exact
           path={scigatewayRoutes.admin}

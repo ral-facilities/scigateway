@@ -38,6 +38,26 @@ exports[`Footer component footer renders correctly 1`] = `
       </Styled(ForwardRef(Link))>
        | 
       <Styled(ForwardRef(Link))
+        component={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "propTypes": Object {
+              "innerRef": [Function],
+              "onClick": [Function],
+              "replace": [Function],
+              "target": [Function],
+              "to": [Function],
+            },
+            "render": [Function],
+          }
+        }
+        to="/accessibility"
+        underline="hover"
+      >
+        Accessibilty statement
+      </Styled(ForwardRef(Link))>
+       | 
+      <Styled(ForwardRef(Link))
         href="footer.links.contact"
         underline="hover"
       >
@@ -48,7 +68,7 @@ exports[`Footer component footer renders correctly 1`] = `
   <div
     style={
       Object {
-        "fontSize": 14,
+        "fontSize": "14px",
         "marginLeft": "auto",
         "paddingRight": "16px",
         "right": 0,
