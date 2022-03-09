@@ -12,24 +12,16 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
 import { MemoryRouter, Router } from 'react-router';
 
-import { adminRoutes } from '../state/scigateway.types';
-import { act } from 'react-dom/test-utils';
-
 describe('Admin page component', () => {
   let mount;
   let mockStore;
   let state: StateType;
   let history: History;
-  const setStateMock = jest.fn();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const useStateMock: any = (useState: any) => [useState, setStateMock];
 
   beforeEach(() => {
     mount = createMount();
     mockStore = configureStore([thunk]);
     history = createMemoryHistory();
-
-    jest.spyOn(React, 'useState').mockImplementation(useStateMock);
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -40,25 +32,28 @@ describe('Admin page component', () => {
 
   afterEach(() => {
     mount.cleanUp();
-    setStateMock.mockClear();
   });
 
   const theme = buildTheme(false);
 
-  it('should render correctly', () => {
+  it('should render maintenance page correctly', () => {
+    state.scigateway.adminPageDefaultTab = 'download';
     const testStore = mockStore(state);
 
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <MemoryRouter
+            initialEntries={[
+              { key: 'testKey', pathname: '/admin/maintenance' },
+            ]}
+          >
             <AdminPage />
           </MemoryRouter>
         </MuiThemeProvider>
       </Provider>
     );
 
-    console.log(wrapper.find('#maintenance-page').debug());
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -73,6 +68,8 @@ describe('Admin page component', () => {
         admin: true,
       },
     ];
+
+    state.scigateway.adminPageDefaultTab = 'maintenance';
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -86,13 +83,12 @@ describe('Admin page component', () => {
         </MuiThemeProvider>
       </Provider>
     );
-    console.log(wrapper.find('#maintenance-page').debug());
+
     expect(wrapper).toMatchSnapshot();
   });
 
   it('redirects to the tab when tab is clicked', () => {
     const testStore = mockStore(state);
-    const history = createMemoryHistory();
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
@@ -110,86 +106,5 @@ describe('Admin page component', () => {
     wrapper.find('#maintenance-tab').last().simulate('click', { button: 0 });
 
     expect(history.location.pathname).toEqual('/admin/maintenance');
-  });
-
-  it.only('sets the correct tab value with the url does not match the default tab (download)', () => {
-    state.scigateway.plugins = [
-      {
-        order: 1,
-        plugin: 'datagateway-download',
-        link: '/admin/download',
-        section: 'Admin',
-        displayName: 'Admin Download',
-        admin: true,
-      },
-    ];
-    state.scigateway.adminPageDefaultTab = 'maintenance';
-
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <Router history={history}>
-            <AdminPage />
-          </Router>
-        </MuiThemeProvider>
-      </Provider>
-    );
-
-    const currentTab = 'download';
-
-    act(() => {
-      history.push(adminRoutes[currentTab]);
-      wrapper.update();
-    });
-
-    expect(history.location.pathname).toEqual(adminRoutes[currentTab]);
-
-    expect(setStateMock).toHaveBeenCalledWith(currentTab);
-
-    console.log(wrapper.find('#download-panel').debug());
-  });
-
-  it('sets the correct tab value with the url does not match the default tab (maintenance)', () => {
-    state.scigateway.plugins = [
-      {
-        order: 1,
-        plugin: 'datagateway-download',
-        link: '/admin/download',
-        section: 'Admin',
-        displayName: 'Admin Downloasd',
-        admin: true,
-      },
-    ];
-
-    state.scigateway.adminPageDefaultTab = 'download';
-
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <Router history={history}>
-            <AdminPage />
-          </Router>
-        </MuiThemeProvider>
-      </Provider>
-    );
-
-    const currentTab = 'maintenance';
-
-    const scheduledMaintenanceMessageInput = wrapper.find(
-      '[aria-label="admin.scheduled-maintenance-message-arialabel"]'
-    );
-
-    act(() => {
-      history.push(adminRoutes[currentTab]);
-      wrapper.update();
-    });
-
-    expect(history.location.pathname).toEqual(adminRoutes[currentTab]);
-
-    expect(scheduledMaintenanceMessageInput).toBeTruthy();
   });
 });
