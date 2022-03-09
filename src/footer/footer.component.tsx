@@ -93,16 +93,16 @@ const Footer = (props: CombinedFooterProps): React.ReactElement => {
             Data policy
           </Link>
           {' | '}
-          <Link className={props.classes.bold} href={t('footer.links.contact')}>
-            Contact
-          </Link>
-          {' | '}
           <Link
             className={props.classes.bold}
             component={RouterLink}
             to={scigatewayRoutes.accessibility}
           >
             Accessibilty statement
+          </Link>
+          {' | '}
+          <Link className={props.classes.bold} href={t('footer.links.contact')}>
+            Contact
           </Link>
         </Trans>
       </div>
