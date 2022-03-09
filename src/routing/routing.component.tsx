@@ -76,7 +76,6 @@ export class PluginPlaceHolder extends React.PureComponent<{
 }
 
 export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
-export const AuthorisedAdminPlugin = withAuth(true)(PluginPlaceHolder);
 // Prevents the component from updating when the draw is opened/ closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
@@ -107,11 +106,11 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
   props: RoutingProps & WithStyles<typeof styles>
 ) => {
   const [pluginRoutes, setPluginRoutes] = React.useState(
-    getPluginRoutes(props.plugins, undefined || false)
+    getPluginRoutes(props.plugins)
   );
 
   React.useEffect(() => {
-    setPluginRoutes(getPluginRoutes(props.plugins, undefined || false));
+    setPluginRoutes(getPluginRoutes(props.plugins));
 
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount
@@ -176,7 +175,6 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
           component={AccessibilityPage}
         />
         <Route
-          exact
           path={scigatewayRoutes.admin}
           render={() => <AuthorisedAdminPage />}
         />

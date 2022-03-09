@@ -88,7 +88,7 @@
   "admin": {
     "title": "Admin",
     "scheduled-maintenance-title": "Scheduled Maintenance",
-    "shceduled-maintenance-message-arialabel": "Scheduled maintenance message input",
+    "scheduled-maintenance-message-arialabel": "Scheduled maintenance message input",
     "scheduled-maintenance-checkbox-arialabel": "Display scheduled maintenance checkbox",
     "maintenance-title": "Maintenance",
     "maintenance-message-arialabel": "Maintenance message input",
