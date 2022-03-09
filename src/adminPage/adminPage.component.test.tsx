@@ -54,7 +54,7 @@ describe('Admin page component', () => {
       </Provider>
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find('#maintenance-panel')).toBeTruthy();
   });
 
   it('should render admin plugins correctly', () => {
@@ -84,7 +84,7 @@ describe('Admin page component', () => {
       </Provider>
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find('#download-panel')).toBeTruthy();
   });
 
   it('redirects to the tab when tab is clicked', () => {
