@@ -36,9 +36,16 @@ exports[`logout page component renders the logout page correctly with avatar usi
     >
       simple/root
     </ForwardRef(Typography)>
-    <Styled(ForwardRef(Typography))>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "color": "secondary.main",
+          "marginTop": 1,
+        }
+      }
+    >
       logout-message
-    </Styled(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <ForwardRef(Button)
       color="primary"
       data-test-id="logout-page-button"
@@ -104,9 +111,16 @@ exports[`logout page component renders the logout page correctly with default av
     >
       simple/root
     </ForwardRef(Typography)>
-    <Styled(ForwardRef(Typography))>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "color": "secondary.main",
+          "marginTop": 1,
+        }
+      }
+    >
       logout-message
-    </Styled(ForwardRef(Typography))>
+    </ForwardRef(Typography)>
     <ForwardRef(Button)
       color="primary"
       data-test-id="logout-page-button"

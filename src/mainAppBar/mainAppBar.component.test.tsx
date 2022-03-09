@@ -111,8 +111,6 @@ describe('Main app bar component', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
-    // console.log(wrapper.find('button').debug());
-
     wrapper.find('button[aria-label="home-page"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
@@ -249,7 +247,8 @@ describe('Main app bar component', () => {
     state.scigateway.siteLoading = false;
 
     const testStore = mockStore(state);
-    // Need to use attachTo something to ensure document.getElementById works as expected
+    // Need to attachTo something to ensure document.getElementById works as expected
+    // https://stackoverflow.com/questions/43694975/jest-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
     const holder = document.createElement('div');
     document.body.appendChild(holder);
     const wrapper = mount(

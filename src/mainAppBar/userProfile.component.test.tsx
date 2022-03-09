@@ -5,12 +5,11 @@ import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material';
+import { ThemeProvider, StyledEngineProvider, Avatar } from '@mui/material';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
 import { mount, shallow, ShallowWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 
 describe('User profile component', () => {
   let mockStore;
@@ -102,15 +101,7 @@ describe('User profile component', () => {
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
 
-    act(() => {
-      wrapper.find('[aria-label="Open user menu"]').first().prop('onClick')({
-        currentTarget: wrapper
-          .find('[aria-label="Open user menu"]')
-          .first()
-          .getDOMNode(),
-      });
-    });
-    wrapper.update();
+    wrapper.find(Avatar).find('button').simulate('click');
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeTruthy();
   });

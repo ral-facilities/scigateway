@@ -12,12 +12,7 @@ import { AppStrings } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import UserInfo from '../authentication/user';
-import { Avatar, Paper, styled } from '@mui/material';
-
-const InfoTypography = styled(Typography)(({ theme }) => ({
-  marginTop: theme.spacing(1),
-  color: theme.palette.secondary.main,
-}));
+import { Avatar, Paper } from '@mui/material';
 
 interface LogoutPageProps {
   user: User;
@@ -42,11 +37,11 @@ export const UnconnectedLogoutPage = (
     <div className="logout-page">
       <Paper
         sx={(theme: Theme) => ({
-          marginTop: theme.spacing(8),
+          marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: theme.spacing(3),
+          padding: 3,
           [theme.breakpoints.up(
             400 + parseInt(theme.spacing(6).replace('px', ''))
           )]: {
@@ -78,9 +73,9 @@ export const UnconnectedLogoutPage = (
         >
           {props.user.username}
         </Typography>
-        <InfoTypography>
+        <Typography sx={{ marginTop: 1, color: 'secondary.main' }}>
           {getString(props.res, 'logout-message')}
-        </InfoTypography>
+        </Typography>
         <Button
           variant="contained"
           color="primary"

@@ -100,7 +100,6 @@ export const CookieConsent = (
       ContentProps={{
         sx: {
           color: 'primary.contrastText',
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           backgroundColor: (theme) => theme.colours.darkGreen,
         },
       }}
