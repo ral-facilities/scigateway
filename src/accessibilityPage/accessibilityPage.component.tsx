@@ -42,6 +42,7 @@ const styles = (theme: Theme): StyleRules =>
     description: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
+      color: theme.palette.text.primary,
     },
   });
 
