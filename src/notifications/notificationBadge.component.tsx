@@ -74,22 +74,16 @@ NoNotificationsMessage.displayName = 'NoNotificationsMessage';
 const NotificationBadge = (
   props: CombinedNotificationBadgeProps
 ): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(
-    null
-  );
+  const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const [displayNoNotifications, setDisplayNoNotifications] = useState(false);
   const closeMenu = (): void => {
     setMenuAnchor(null);
     setDisplayNoNotifications(false);
   };
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const open = Boolean(menuAnchor);
 
   // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
-  if (
-    !displayNoNotifications &&
-    getMenuAnchor !== null &&
-    props.notifications.length === 0
-  ) {
+  if (!displayNoNotifications && open && props.notifications.length === 0) {
     closeMenu();
   }
   //Ensure 'no notifications' message does not display when there are notifications
@@ -106,13 +100,15 @@ const NotificationBadge = (
       <IconButton
         sx={{ margin: 1, color: 'primary.contrastText' }}
         onClick={(e) => {
+          setMenuAnchor(e.currentTarget);
           if (!props.notifications || props.notifications.length === 0)
             setDisplayNoNotifications(true);
-          setMenuAnchor(buttonRef.current ? buttonRef.current : null);
         }}
         aria-label="Open notification menu"
+        aria-controls={open ? 'notifications-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
         size="large"
-        ref={buttonRef}
       >
         <Badge
           badgeContent={
@@ -128,8 +124,8 @@ const NotificationBadge = (
       (props.notifications && props.notifications.length) ? (
         <Menu
           id="notifications-menu"
-          anchorEl={getMenuAnchor}
-          open={getMenuAnchor !== null}
+          anchorEl={menuAnchor}
+          open={open}
           onClose={closeMenu}
         >
           {displayNoNotifications ? (
