@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { ThemeProvider, StyledEngineProvider, Avatar } from '@mui/material';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
@@ -87,10 +87,6 @@ describe('User profile component', () => {
   });
 
   it('opens menu when button clicked', () => {
-    state.scigateway.authorisation.provider.user = {
-      username: 'test',
-      avatarUrl: 'test_url',
-    };
     const wrapper = mount(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
@@ -101,7 +97,7 @@ describe('User profile component', () => {
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
 
-    wrapper.find(Avatar).find('button').simulate('click');
+    wrapper.find('button').simulate('click');
 
     expect(wrapper.find('#simple-menu').first().prop('open')).toBeTruthy();
   });

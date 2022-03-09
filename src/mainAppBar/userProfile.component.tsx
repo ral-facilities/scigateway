@@ -41,49 +41,38 @@ type CombinedUserProfileProps = UserProfileProps & UserProfileDispatchProps;
 export const UserProfileComponent = (
   props: CombinedUserProfileProps
 ): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(
-    null
-  );
+  const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const closeMenu = (): void => setMenuAnchor(null);
   const logout = (): void => {
     closeMenu();
     props.signOut();
   };
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const open = Boolean(menuAnchor);
 
   return (
     <div className="tour-user-profile">
       {props.loggedIn ? (
         <div>
-          {props.user.avatarUrl !== '' ? (
-            <Avatar
-              sx={{ margin: '1px', cursor: 'pointer' }}
-              alt="user"
-              src={props.user.avatarUrl}
-              onClick={() =>
-                setMenuAnchor(buttonRef.current ? buttonRef.current : null)
-              }
-              aria-label="Open user menu"
-              component={IconButton}
-              ref={buttonRef}
-            />
-          ) : (
-            <IconButton
-              sx={{ margin: 1, color: '#FFF' }}
-              onClick={(e) =>
-                setMenuAnchor(buttonRef.current ? buttonRef.current : null)
-              }
-              aria-label="Open user menu"
-              size="large"
-              ref={buttonRef}
-            >
+          <IconButton
+            sx={{ margin: 1, color: '#FFF' }}
+            onClick={(e) => setMenuAnchor(e.currentTarget)}
+            aria-label="Open user menu"
+            aria-controls={open ? 'simple-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            size={props.user.avatarUrl ? 'small' : 'large'}
+          >
+            {props.user.avatarUrl !== '' ? (
+              <Avatar alt="user" src={props.user.avatarUrl} />
+            ) : (
               <AccountCircleIcon />
-            </IconButton>
-          )}
+            )}
+          </IconButton>
+
           <Menu
             id="simple-menu"
-            anchorEl={getMenuAnchor}
-            open={getMenuAnchor !== null}
+            anchorEl={menuAnchor}
+            open={open}
             onClose={closeMenu}
           >
             <div

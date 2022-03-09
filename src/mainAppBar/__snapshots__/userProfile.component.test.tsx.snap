@@ -6,6 +6,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
 >
   <div>
     <ForwardRef(IconButton)
+      aria-haspopup="true"
       aria-label="Open user menu"
       onClick={[Function]}
       size="large"
@@ -123,36 +124,23 @@ exports[`User profile component renders user avatar if signed in with avatar url
   className="tour-user-profile"
 >
   <div>
-    <ForwardRef(Avatar)
-      alt="user"
+    <ForwardRef(IconButton)
+      aria-haspopup="true"
       aria-label="Open user menu"
-      component={
-        Object {
-          "$$typeof": Symbol(react.forward_ref),
-          "propTypes": Object {
-            "children": [Function],
-            "className": [Function],
-            "classes": [Function],
-            "color": [Function],
-            "disableFocusRipple": [Function],
-            "disableRipple": [Function],
-            "disabled": [Function],
-            "edge": [Function],
-            "size": [Function],
-            "sx": [Function],
-          },
-          "render": [Function],
-        }
-      }
       onClick={[Function]}
-      src="test_url"
+      size="small"
       sx={
         Object {
-          "cursor": "pointer",
-          "margin": "1px",
+          "color": "#FFF",
+          "margin": 1,
         }
       }
-    />
+    >
+      <ForwardRef(Avatar)
+        alt="user"
+        src="test_url"
+      />
+    </ForwardRef(IconButton)>
     <ForwardRef(Menu)
       anchorEl={null}
       id="simple-menu"
