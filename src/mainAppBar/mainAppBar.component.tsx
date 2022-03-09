@@ -93,9 +93,10 @@ type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 export const MainAppBar = (
   props: CombinedMainAppBarProps
 ): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [defaultLogo, setLogo] = useState<string>(ScigatewayLogo);
   const closeMenu = (): void => setMenuAnchor(null);
+  const settingsMenuOpen = Boolean(menuAnchor);
   const manageCookies = (): void => {
     closeMenu();
     props.manageCookies();
@@ -241,14 +242,17 @@ export const MainAppBar = (
             sx={buttonStyles}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
             aria-label={getString(props.res, 'open-browser-settings')}
+            aria-controls={settingsMenuOpen ? 'settings' : undefined}
+            aria-haspopup="true"
+            aria-expanded={settingsMenuOpen ? 'true' : undefined}
             size="large"
           >
             <SettingsIcon />
           </IconButton>
           <Menu
             id="settings"
-            anchorEl={getMenuAnchor}
-            open={getMenuAnchor !== null}
+            anchorEl={menuAnchor}
+            open={settingsMenuOpen}
             onClose={closeMenu}
           >
             <MenuItem id="item-manage-cookies" onClick={manageCookies}>

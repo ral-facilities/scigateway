@@ -5,6 +5,7 @@ exports[`Notification Badge component Notification badge renders correctly 1`] =
   className="tour-notifications"
 >
   <ForwardRef(IconButton)
+    aria-haspopup="true"
     aria-label="Open notification menu"
     onClick={[Function]}
     size="large"

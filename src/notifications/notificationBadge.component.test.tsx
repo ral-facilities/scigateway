@@ -1,5 +1,4 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 import NotificationBadge, {
   UnconnectedNotificationBadge,
   CombinedNotificationBadgeProps,
@@ -107,17 +106,10 @@ describe('Notification Badge component', () => {
       </Provider>
     );
 
-    act(() => {
-      wrapper
-        .find('[aria-label="Open notification menu"]')
-        .first()
-        .prop('onClick')({
-        currentTarget: wrapper
-          .find('[aria-label="Open notification menu"]')
-          .first()
-          .getDOMNode(),
-      });
-    });
+    wrapper
+      .find('[aria-label="Open notification menu"]')
+      .last()
+      .simulate('click');
 
     expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
 
