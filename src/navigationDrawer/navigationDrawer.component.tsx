@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { Box, styled, Theme, Typography } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -40,72 +40,77 @@ ForwardRefLink.displayName = 'ForwardRefLink';
 export const NavigationDrawer = (
   props: NavigationDrawerProps
 ): React.ReactElement => {
-  const createLink = (
-    plugin: PluginConfig,
-    index: number
-  ): React.ReactElement => {
-    const imgSrc = props.darkMode ? plugin.logoDarkMode : plugin.logoLightMode;
+  const createLink = useCallback(
+    (plugin: PluginConfig, index: number): React.ReactElement => {
+      const imgSrc = props.darkMode
+        ? plugin.logoDarkMode
+        : plugin.logoLightMode;
 
-    const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
+      const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
 
-    const displayText = plugin.displayName
-      ? prefix + plugin.displayName
-      : plugin.plugin;
+      const displayText = plugin.displayName
+        ? prefix + plugin.displayName
+        : plugin.plugin;
 
-    return (
-      <ListItem
-        key={index}
-        component={ForwardRefLink}
-        to={plugin.link}
-        id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
-        button
-        dense
-      >
-        <ListItemText
-          inset={!imgSrc}
-          primary={displayText}
-          primaryTypographyProps={{
-            variant: 'subtitle1',
-            sx: {
-              textAlign: 'left',
-              fontWeight: 'bold',
-              color: (theme: Theme) => theme.colours.blue,
-            },
-          }}
-        />
-      </ListItem>
-    );
-  };
-
-  const buildMenuSection = (
-    sectionName: string,
-    plugins: PluginConfig[],
-    index: number
-  ): React.ReactElement => {
-    return (
-      <Fragment key={index}>
-        <Typography
-          variant="h6"
-          sx={{
-            textAlign: 'left',
-            paddingTop: 2,
-            paddingBottom: 0,
-            color: (theme: Theme) => theme.colours.contrastGrey,
-            paddingLeft: 2,
-          }}
+      return (
+        <ListItem
+          key={index}
+          component={ForwardRefLink}
+          to={plugin.link}
+          id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
+          button
+          dense
         >
-          {sectionName}
-        </Typography>
-        <List component="nav">
-          {plugins.map((p, i) => {
-            return p.link ? createLink(p, i) : null;
-          })}
-        </List>
-      </Fragment>
-    );
-  };
+          <ListItemText
+            inset={!imgSrc}
+            primary={displayText}
+            primaryTypographyProps={{
+              variant: 'subtitle1',
+              sx: {
+                textAlign: 'left',
+                fontWeight: 'bold',
+                color: (theme: Theme) => theme.colours.blue,
+              },
+            }}
+          />
+        </ListItem>
+      );
+    },
+    [props.darkMode]
+  );
 
-  const renderRoutes = (): React.ReactFragment => {
+  const buildMenuSection = useCallback(
+    (
+      sectionName: string,
+      plugins: PluginConfig[],
+      index: number
+    ): React.ReactElement => {
+      return (
+        <Fragment key={index}>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: 'left',
+              paddingTop: 2,
+              paddingBottom: 0,
+              color: (theme: Theme) => theme.colours.contrastGrey,
+              paddingLeft: 2,
+            }}
+          >
+            {sectionName}
+          </Typography>
+          <List component="nav">
+            {plugins.map((p, i) => {
+              return p.link ? createLink(p, i) : null;
+            })}
+          </List>
+        </Fragment>
+      );
+    },
+    [createLink]
+  );
+
+  const renderRoutes = useCallback((): React.ReactFragment => {
     let { plugins } = props;
 
     if (props.homepageUrl) {
@@ -130,7 +135,7 @@ export const NavigationDrawer = (
           )}
       </Fragment>
     );
-  };
+  }, [buildMenuSection, props]);
 
   const altTxt = props.navigationDrawerLogo
     ? props.navigationDrawerLogo.altTxt
