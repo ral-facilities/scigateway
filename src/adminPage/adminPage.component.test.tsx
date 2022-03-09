@@ -54,7 +54,7 @@ describe('Admin page component', () => {
       </Provider>
     );
 
-    expect(wrapper.find('#maintenance-panel')).toBeTruthy();
+    expect(wrapper.find('#maintenance-page')).toBeTruthy();
   });
 
   it('should render admin plugins correctly', () => {
