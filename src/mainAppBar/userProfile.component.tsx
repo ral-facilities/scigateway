@@ -52,7 +52,7 @@ const styles = (theme: Theme): StyleRules =>
     },
     userButton: {
       margin: theme.spacing(1),
-      color: '#FFF',
+      color: theme.palette.primary.contrastText,
     },
     usernameContainer: {
       paddingTop: 8,
