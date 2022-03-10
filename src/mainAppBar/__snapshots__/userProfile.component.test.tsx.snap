@@ -12,7 +12,7 @@ exports[`User profile component renders default avatar if signed in 1`] = `
       size="large"
       sx={
         Object {
-          "color": "#FFF",
+          "color": "primary.contrastText",
           "margin": 1,
         }
       }
@@ -131,7 +131,7 @@ exports[`User profile component renders user avatar if signed in with avatar url
       size="small"
       sx={
         Object {
-          "color": "#FFF",
+          "color": "primary.contrastText",
           "margin": 1,
         }
       }

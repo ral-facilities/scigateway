@@ -54,7 +54,7 @@ export const UserProfileComponent = (
       {props.loggedIn ? (
         <div>
           <IconButton
-            sx={{ margin: 1, color: '#FFF' }}
+            sx={{ margin: 1, color: 'primary.contrastText' }}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
             aria-label="Open user menu"
             aria-controls={open ? 'simple-menu' : undefined}
