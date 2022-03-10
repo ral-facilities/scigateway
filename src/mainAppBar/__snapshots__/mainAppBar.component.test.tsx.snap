@@ -2,6 +2,7 @@
 
 exports[`Main app bar component app bar indented when drawer is open 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "darkMode": false,
   "drawerOpen": true,
   "highContrastMode": false,
@@ -27,6 +28,7 @@ Object {
 
 exports[`Main app bar component app bar renders correctly 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "darkMode": false,
   "drawerOpen": false,
   "highContrastMode": false,
@@ -52,6 +54,7 @@ Object {
 
 exports[`Main app bar component does not render Help button when feature is false 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "darkMode": false,
   "drawerOpen": false,
   "highContrastMode": false,
@@ -77,6 +80,7 @@ Object {
 
 exports[`Main app bar component uses single plugin logo when feature is true 1`] = `
 Object {
+  "adminPageDefaultTab": undefined,
   "darkMode": false,
   "drawerOpen": false,
   "highContrastMode": false,

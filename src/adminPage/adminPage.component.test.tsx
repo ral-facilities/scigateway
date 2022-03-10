@@ -1,68 +1,48 @@
 import React from 'react';
-import { createLocation, createMemoryHistory } from 'history';
+import { mount } from 'enzyme';
+import { createLocation, createMemoryHistory, History } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
-import AdminPage, { UnconnectedAdminPage } from './adminPage.component';
+import AdminPage from './adminPage.component';
 import { Provider } from 'react-redux';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
-import { act } from 'react-dom/test-utils';
-import { flushPromises } from '../setupTests';
-import {
-  loadMaintenanceState,
-  loadScheduledMaintenanceState,
-} from '../state/actions/scigateway.actions';
-import { MemoryRouter, Router } from 'react-router-dom';
-import { mount, shallow } from 'enzyme';
-import { ScheduledMaintenanceState } from '../state/scigateway.types';
+import { MemoryRouter, Router } from 'react-router';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 
 describe('Admin page component', () => {
   let mockStore;
   let state: StateType;
+  let history: History;
 
   beforeEach(() => {
     mockStore = configureStore([thunk]);
+    history = createMemoryHistory();
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/admin') },
+      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
 
   const theme = buildTheme(false);
 
-  it('should render correctly', () => {
-    const scheduledMaintenanceState: ScheduledMaintenanceState = {
-      show: false,
-      message: 'Test scheduled message',
-    };
-    const maintenenceState: ScheduledMaintenanceState = {
-      show: false,
-      message: 'Test message',
-    };
-
-    const wrapper = shallow(
-      <UnconnectedAdminPage
-        res={undefined}
-        scheduledMaintenance={scheduledMaintenanceState}
-        maintenance={maintenenceState}
-      />
-    );
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('setScheduledMaintenanceState action should be sent when the setScheduledMaintenanceState function is called', async () => {
+  it('should render maintenance page correctly', () => {
+    state.scigateway.adminPageDefaultTab = 'download';
     const testStore = mockStore(state);
+
     const wrapper = mount(
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <MemoryRouter
+              initialEntries={[
+                { key: 'testKey', pathname: '/admin/maintenance' },
+              ]}
+            >
               <AdminPage />
             </MemoryRouter>
           </ThemeProvider>
@@ -70,67 +50,42 @@ describe('Admin page component', () => {
       </Provider>
     );
 
-    const scheduledMaintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="scheduled-maintenance-message-arialabel"]'
-    );
-    scheduledMaintenanceMessageInput.instance().value = 'test';
-    scheduledMaintenanceMessageInput.simulate('change');
-    wrapper
-      .find('[aria-label="scheduled-maintenance-checkbox-arialabel"]')
-      .last()
-      .simulate('change', { target: { checked: true } });
-    wrapper.find('button').at(1).simulate('click');
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadScheduledMaintenanceState({ show: true, message: 'test' })
-    );
+    expect(wrapper.find('#maintenance-page')).toBeTruthy();
   });
 
-  it('setMaintenanceState action should be sent when the setMaintenanceState function is called', async () => {
+  it('should render admin plugins correctly', () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+
+    state.scigateway.adminPageDefaultTab = 'maintenance';
     const testStore = mockStore(state);
+
     const wrapper = mount(
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <MemoryRouter
+              initialEntries={[{ key: 'testKey', pathname: '/admin/download' }]}
+            >
               <AdminPage />
             </MemoryRouter>
           </ThemeProvider>
         </StyledEngineProvider>
       </Provider>
     );
-
-    const maintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="maintenance-message-arialabel"]'
-    );
-    maintenanceMessageInput.instance().value = 'test';
-    maintenanceMessageInput.simulate('change');
-    wrapper
-      .find('[aria-label="maintenance-checkbox-arialabel"]')
-      .last()
-      .simulate('change', { target: { checked: true } });
-    wrapper.find('button').last().simulate('click');
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadMaintenanceState({ show: true, message: 'test' })
-    );
+    expect(wrapper.find('#datagateway-download')).toBeTruthy();
   });
 
-  it('redirects to Admin Download table when Admin Download tab is clicked', () => {
+  it('redirects to the tab when tab is clicked', () => {
     const testStore = mockStore(state);
-    const history = createMemoryHistory();
     const wrapper = mount(
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
@@ -145,6 +100,10 @@ describe('Admin page component', () => {
 
     wrapper.find('#download-tab').last().simulate('click', { button: 0 });
 
-    expect(history.location.pathname).toEqual('/admin-download');
+    expect(history.location.pathname).toEqual('/admin/download');
+
+    wrapper.find('#maintenance-tab').last().simulate('click', { button: 0 });
+
+    expect(history.location.pathname).toEqual('/admin/maintenance');
   });
 });

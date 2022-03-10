@@ -77,30 +77,26 @@ export class PluginPlaceHolder extends React.PureComponent<{
 }
 
 export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
-export const AuthorisedAdminPlugin = withAuth(true)(PluginPlaceHolder);
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
-const getPluginRoutes = (
-  plugins: PluginConfig[]
+export const getPluginRoutes = (
+  plugins: PluginConfig[],
+  admin?: boolean
 ): {
   [plugin: string]: string[];
 } => {
   const pluginRoutes: {
     [plugin: string]: string[];
   } = {};
+
   plugins.forEach((p) => {
-    if (!p.admin) {
+    const isAdmin = admin ? p.admin : !p.admin;
+    if (isAdmin) {
       if (pluginRoutes[p.plugin]) {
         pluginRoutes[p.plugin].push(p.link);
       } else {
         pluginRoutes[p.plugin] = [p.link];
-      }
-    } else {
-      if (pluginRoutes[`${p.plugin}_admin`]) {
-        pluginRoutes[`${p.plugin}_admin`].push(p.link);
-      } else {
-        pluginRoutes[`${p.plugin}_admin`] = [p.link];
       }
     }
   });
@@ -174,7 +170,6 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           component={AccessibilityPage}
         />
         <Route
-          exact
           path={scigatewayRoutes.admin}
           render={() => <AuthorisedAdminPage />}
         />
@@ -202,14 +197,9 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           <Route component={MaintenancePage} />
         ) : (
           Object.entries(pluginRoutes).map(([key, value]) => {
-            const pluginId = key.endsWith('_admin') ? key.slice(0, -6) : key;
             return (
               <Route key={key} path={value}>
-                {key.endsWith('_admin') ? (
-                  <AuthorisedAdminPlugin id={pluginId} />
-                ) : (
-                  <AuthorisedPlugin id={pluginId} />
-                )}
+                <AuthorisedPlugin id={key} />
               </Route>
             );
           })

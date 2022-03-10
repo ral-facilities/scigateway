@@ -44,6 +44,8 @@ import {
   ResetAuthStateType,
   CustomNavigationDrawerLogoPayload,
   CustomNavigationDrawerLogoType,
+  CustomAdminPageDefaultTabPayload,
+  CustomAdminPageDefaultTabType,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -311,6 +313,16 @@ export function handleCustomNavigationDrawerLogo(
   };
 }
 
+export function handleCustomAdminPageDefaultTab(
+  state: ScigatewayState,
+  payload: CustomAdminPageDefaultTabPayload
+): ScigatewayState {
+  return {
+    ...state,
+    adminPageDefaultTab: payload.adminPageDefaultTab,
+  };
+}
+
 export function handleDismissNotification(
   state: ScigatewayState,
   payload: { index: number }
@@ -490,6 +502,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [RegisterHomepageUrlType]: handleRegisterHomepageUrl,
   [CustomLogoType]: handleCustomLogo,
   [CustomNavigationDrawerLogoType]: handleCustomNavigationDrawerLogo,
+  [CustomAdminPageDefaultTabType]: handleCustomAdminPageDefaultTab,
 });
 
 export default ScigatewayReducer;

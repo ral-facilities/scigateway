@@ -28,7 +28,7 @@ import {
   loadDarkModePreference,
   loadHighContrastModePreference,
 } from '../state/actions/scigateway.actions';
-import { AppStrings } from '../state/scigateway.types';
+import { adminRoutes, AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
@@ -50,13 +50,14 @@ interface MainAppProps {
   loading: boolean;
   logo?: string;
   homepageUrl?: string;
+  adminPageDefaultTab?: 'maintenance' | 'download';
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
   navigateToHome: () => Action;
   navigateToHelpPage: () => Action;
-  navigateToAdminPage: () => Action;
+  navigateToAdminPage: (defaultTab: string) => Action;
   toggleHelp: () => Action;
   manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
@@ -114,6 +115,12 @@ export const MainAppBar = (
   };
 
   const location = useLocation();
+
+  const navigateToAdminPage = (): void => {
+    props.navigateToAdminPage(
+      adminRoutes[props.adminPageDefaultTab ?? 'maintenance']
+    );
+  };
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -216,7 +223,7 @@ export const MainAppBar = (
             <Button
               className={'tour-admin'}
               sx={buttonStyles}
-              onClick={props.navigateToAdminPage}
+              onClick={navigateToAdminPage}
               aria-label={getString(props.res, 'admin-page')}
             >
               <Typography
@@ -314,13 +321,14 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   loading: state.scigateway.siteLoading,
   logo: state.scigateway.logo,
   homepageUrl: state.scigateway.homepageUrl,
+  adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
   navigateToHome: () => dispatch(push('/')),
   navigateToHelpPage: () => dispatch(push('/help')),
-  navigateToAdminPage: () => dispatch(push('/admin')),
+  navigateToAdminPage: (defaultTab: string) => dispatch(push(defaultTab)),
   toggleHelp: () => dispatch(toggleHelp()),
   manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>
