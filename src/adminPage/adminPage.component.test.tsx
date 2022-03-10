@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import { createLocation, createMemoryHistory } from 'history';
+import { createLocation, createMemoryHistory, History } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
@@ -10,26 +10,22 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
-import { act } from 'react-dom/test-utils';
-import { flushPromises } from '../setupTests';
-import {
-  loadMaintenanceState,
-  loadScheduledMaintenanceState,
-} from '../state/actions/scigateway.actions';
 import { MemoryRouter, Router } from 'react-router';
 
 describe('Admin page component', () => {
   let mount;
   let mockStore;
   let state: StateType;
+  let history: History;
 
   beforeEach(() => {
     mount = createMount();
     mockStore = configureStore([thunk]);
+    history = createMemoryHistory();
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/admin') },
+      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
@@ -40,89 +36,58 @@ describe('Admin page component', () => {
 
   const theme = buildTheme(false);
 
-  it('should render correctly', () => {
+  it('should render maintenance page correctly', () => {
+    state.scigateway.adminPageDefaultTab = 'download';
     const testStore = mockStore(state);
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-          <AdminPage />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('setScheduledMaintenanceState action should be sent when the setScheduledMaintenanceState function is called', async () => {
-    const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <MemoryRouter
+            initialEntries={[
+              { key: 'testKey', pathname: '/admin/maintenance' },
+            ]}
+          >
             <AdminPage />
           </MemoryRouter>
         </MuiThemeProvider>
       </Provider>
     );
 
-    const scheduledMaintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="scheduled-maintenance-message-arialabel"]'
-    );
-    scheduledMaintenanceMessageInput.instance().value = 'test';
-    scheduledMaintenanceMessageInput.simulate('change');
-    wrapper
-      .find('[aria-label="scheduled-maintenance-checkbox-arialabel"]')
-      .simulate('change', { target: { checked: true } });
-    wrapper.find('button').at(1).simulate('click');
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadScheduledMaintenanceState({ show: true, message: 'test' })
-    );
+    expect(wrapper.find('#maintenance-page')).toBeTruthy();
   });
 
-  it('setMaintenanceState action should be sent when the setMaintenanceState function is called', async () => {
+  it('should render admin plugins correctly', () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+
+    state.scigateway.adminPageDefaultTab = 'maintenance';
     const testStore = mockStore(state);
+
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <MemoryRouter
+            initialEntries={[{ key: 'testKey', pathname: '/admin/download' }]}
+          >
             <AdminPage />
           </MemoryRouter>
         </MuiThemeProvider>
       </Provider>
     );
-
-    const maintenanceMessageInput = wrapper.find(
-      'textarea[aria-label="maintenance-message-arialabel"]'
-    );
-    maintenanceMessageInput.instance().value = 'test';
-    maintenanceMessageInput.simulate('change');
-    wrapper
-      .find('[aria-label="maintenance-checkbox-arialabel"]')
-      .simulate('change', { target: { checked: true } });
-    wrapper.find('button').last().simulate('click');
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(
-      loadMaintenanceState({ show: true, message: 'test' })
-    );
+    expect(wrapper.find('#datagateway-download')).toBeTruthy();
   });
 
-  it('redirects to Admin Download table when Admin Download tab is clicked', () => {
+  it('redirects to the tab when tab is clicked', () => {
     const testStore = mockStore(state);
-    const history = createMemoryHistory();
     const wrapper = mount(
       <Provider store={testStore}>
         <MuiThemeProvider theme={theme}>
@@ -133,8 +98,12 @@ describe('Admin page component', () => {
       </Provider>
     );
 
-    wrapper.find('#download-tab').first().simulate('click', { button: 0 });
+    wrapper.find('#download-tab').last().simulate('click', { button: 0 });
 
-    expect(history.location.pathname).toEqual('/admin-download');
+    expect(history.location.pathname).toEqual('/admin/download');
+
+    wrapper.find('#maintenance-tab').last().simulate('click', { button: 0 });
+
+    expect(history.location.pathname).toEqual('/admin/maintenance');
   });
 });

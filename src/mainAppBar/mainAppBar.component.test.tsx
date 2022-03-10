@@ -134,14 +134,25 @@ describe('Main app bar component', () => {
     expect(testStore.getActions()[0]).toEqual(push('/help'));
   });
 
-  it('redirects to Admin page when Admin button clicked', () => {
+  it('redirects to Admin page when Admin button clicked (maintenance is default)', () => {
     const testStore = mockStore(state);
     const wrapper = createWrapper(testStore);
 
     wrapper.find('button[aria-label="admin-page"]').first().simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/admin'));
+    expect(testStore.getActions()[0]).toEqual(push('/admin/maintenance'));
+  });
+
+  it('redirects to Admin page when Admin button clicked (download is default)', () => {
+    state.scigateway.adminPageDefaultTab = 'download';
+    const testStore = mockStore(state);
+    const wrapper = createWrapper(testStore);
+
+    wrapper.find('button[aria-label="admin-page"]').first().simulate('click');
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(push('/admin/download'));
   });
 
   it('sends toggleHelp action when help button is clicked', () => {

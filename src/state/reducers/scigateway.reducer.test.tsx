@@ -22,6 +22,7 @@ import {
   loadHighContrastModePreference,
   customLogo,
   customNavigationDrawerLogo,
+  customAdminPageDefaultTab,
   autoLoginAuthorised,
   resetAuthState,
 } from '../actions/scigateway.actions';
@@ -405,6 +406,17 @@ describe('scigateway reducer', () => {
       dark: '/test',
       altTxt: 'alt-txt',
     });
+  });
+
+  it('should default to the admin tab when provided', () => {
+    expect(state.adminPageDefaultTab).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(
+      state,
+      customAdminPageDefaultTab('maintenance')
+    );
+
+    expect(updatedState.adminPageDefaultTab).toEqual('maintenance');
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {

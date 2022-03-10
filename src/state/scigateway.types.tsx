@@ -38,6 +38,8 @@ export const RegisterHomepageUrlType = 'scigateway:register_homepage_url';
 export const CustomLogoType = 'scigateway:custom_logo';
 export const CustomNavigationDrawerLogoType =
   'scigateway:custom_navigation_drawer_logo';
+export const CustomAdminPageDefaultTabType =
+  'scigateway:custom_admin_default_tab';
 
 export const scigatewayRoutes = {
   home: '/',
@@ -48,6 +50,10 @@ export const scigatewayRoutes = {
   logout: '/logout',
   cookies: '/cookies',
   accessibility: '/accessibility',
+};
+export const adminRoutes = {
+  maintenance: '/admin/maintenance',
+  download: '/admin/download',
 };
 
 export interface NotificationPayload {
@@ -90,6 +96,10 @@ export interface CustomLogoPayload {
 
 export interface CustomNavigationDrawerLogoPayload {
   navigationDrawerLogo: LogoState;
+}
+
+export interface CustomAdminPageDefaultTabPayload {
+  adminPageDefaultTab: 'maintenance' | 'download';
 }
 
 export interface RegisterRoutePayload {
