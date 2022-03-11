@@ -333,11 +333,16 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         }
 
         return Promise.all(loadingPromises).then(() => {
-          // if we're on a non-scigateway url, attempt to wait for matching register route event
+          // if we're on a non-scigateway url that isn't in plugins yet, attempt to wait for matching register route event
           // to help prevent showing a 404 page before the right route has been registered
           return new Promise<void>((resolve) => {
             const currUrl = getState().router.location.pathname;
-            if (!Object.values(scigatewayRoutes).includes(currUrl)) {
+            if (
+              !Object.values(scigatewayRoutes).includes(currUrl) &&
+              !getState().scigateway.plugins.find((p) =>
+                currUrl.startsWith(p.link)
+              )
+            ) {
               let eventFired = false;
               const handler = (event: Event): void => {
                 const pluginMessage = event as CustomEvent<AnyAction>;
