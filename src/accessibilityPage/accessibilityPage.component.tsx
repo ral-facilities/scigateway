@@ -249,7 +249,9 @@ const AccessibiiltyPage = (
       </div>
 
       <Typography variant="h5" className={props.classes.titleText}>
-        {t('accessibility-page.non-accessible-content')}
+        {t(
+          'accessibility-page.non-compliance-with-the-accessibility-regulations'
+        )}
       </Typography>
 
       <div className={props.classes.container}>
