@@ -348,8 +348,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                   dispatch(siteLoadingUpdate(false));
                   eventFired = true;
                   document.removeEventListener('scigateway', handler);
+                  singleSpa.start();
                   resolve();
-                  singleSpa.triggerAppChange();
                 }
               };
 
@@ -358,13 +358,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                   dispatch(siteLoadingUpdate(false));
                 }
                 document.removeEventListener('scigateway', handler);
+                singleSpa.start();
                 resolve();
-                singleSpa.triggerAppChange();
               }, 3000);
 
               document.addEventListener('scigateway', handler);
             } else {
               dispatch(siteLoadingUpdate(false));
+              singleSpa.start();
               resolve();
             }
           });

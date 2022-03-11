@@ -25,6 +25,7 @@ import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
 import { push } from 'connected-react-router';
 import { ThunkDispatch } from 'redux-thunk';
+import * as singleSpa from 'single-spa';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -122,6 +123,16 @@ export const listenToPlugins = (
                 scigateway: { homepageUrl: pluginMessage.detail.payload.link },
               })
             );
+          }
+
+          // this helps prevent problems if the plugin settings files and thus routes are loaded particularly slowly
+          if (
+            getState().router.location.pathname ===
+              pluginMessage.detail.payload.link &&
+            singleSpa.getAppStatus(pluginMessage.detail.payload.plugin) ===
+              'NOT_LOADED'
+          ) {
+            singleSpa.triggerAppChange();
           }
 
           let darkModePreference: boolean;

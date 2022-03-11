@@ -83,8 +83,6 @@ async function init(plugins: Plugin[]): Promise<void> {
 
   // wait until all stores are loaded and all apps are registered with singleSpa
   await Promise.all(loadingPromises);
-
-  singleSpa.start();
 }
 
 const exports = { init };
