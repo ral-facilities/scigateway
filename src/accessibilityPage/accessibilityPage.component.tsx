@@ -121,7 +121,9 @@ const AccessibiiltyPage = (
 
         <Typography component="ul" className={props.classes.description}>
           {datagatewayDomains.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <Link href={item}>{item}</Link>
+            </li>
           ))}
         </Typography>
 
@@ -182,10 +184,13 @@ const AccessibiiltyPage = (
         <Typography className={props.classes.description}>
           {t('accessibility-page.contact-us-about-accessibility-text')}
         </Typography>
+
         {/* Here will be Comments box */}
 
         <Typography className={props.classes.description}>
-          {t('accessibility-page.contact-info')}
+          <Link href={`mailto:${t('accessibility-page.contact-info')}`}>
+            {t('accessibility-page.contact-info')}
+          </Link>
         </Typography>
       </div>
 
@@ -246,7 +251,9 @@ const AccessibiiltyPage = (
       </div>
 
       <Typography variant="h5" className={props.classes.titleText}>
-        {t('accessibility-page.non-accessible-content')}
+        {t(
+          'accessibility-page.non-compliance-with-the-accessibility-regulations'
+        )}
       </Typography>
 
       <div className={props.classes.container}>
@@ -320,7 +327,7 @@ const AccessibiiltyPage = (
           >
             This statement was prepared on the{' '}
             <strong>14th of February 2022</strong> It was last reviewed on the{' '}
-            <strong>8th of March 2022</strong>. <br /> This website was last
+            <strong>11th of March 2022</strong>. <br /> This website was last
             tested on <strong> 30th of November 2021 </strong>. The test was
             carried out by the{' '}
             <strong> Data &#38; Software Engineering Group. </strong>
