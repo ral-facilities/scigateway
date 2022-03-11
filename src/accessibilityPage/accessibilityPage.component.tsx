@@ -111,7 +111,9 @@ const AccessibiiltyPage = (): React.ReactElement => {
 
         <DescriptionTypography component="ul">
           {datagatewayDomains.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <Link href={item}>{item}</Link>
+            </li>
           ))}
         </DescriptionTypography>
 
@@ -175,7 +177,9 @@ const AccessibiiltyPage = (): React.ReactElement => {
         {/* Here will be Comments box */}
 
         <DescriptionTypography>
-          {t('accessibility-page.contact-info')}
+          <Link href={`mailto:${t('accessibility-page.contact-info')}`}>
+            {t('accessibility-page.contact-info')}
+          </Link>
         </DescriptionTypography>
       </ContainerDiv>
 
@@ -236,7 +240,9 @@ const AccessibiiltyPage = (): React.ReactElement => {
       </ContainerDiv>
 
       <TitleTypography variant="h5">
-        {t('accessibility-page.non-accessible-content')}
+        {t(
+          'accessibility-page.non-compliance-with-the-accessibility-regulations'
+        )}
       </TitleTypography>
 
       <ContainerDiv>
@@ -306,7 +312,7 @@ const AccessibiiltyPage = (): React.ReactElement => {
           >
             This statement was prepared on the{' '}
             <strong>14th of February 2022</strong> It was last reviewed on the{' '}
-            <strong>8th of March 2022</strong>. <br /> This website was last
+            <strong>11th of March 2022</strong>. <br /> This website was last
             tested on <strong> 30th of November 2021 </strong>. The test was
             carried out by the{' '}
             <strong> Data &#38; Software Engineering Group. </strong>
