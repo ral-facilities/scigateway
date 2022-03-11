@@ -175,7 +175,7 @@
       "Some of the pages have unreadable ARIA labels. This fails WCAG 2.1 success criterion 4.1.2 (A): Name, Role, and Value",
       "The advanced filters, filters automatically without requiring user input. This fails WCAG 2.1 success criterion 3.2.2 On Input"
     ],
-    "non-compliance-with-the-accessibility-regulations-text": "We will make sure that all the non-compliances above are addressed in September 2022.",
+    "non-compliance-with-the-accessibility-regulations-text": "We will make sure that all the non-compliances above are addressed before the next release, likely to be in September 2022.",
     "disproportionate-burden": {
       "title": "Disproportionate burden",
       "table-view": "Table view",
@@ -192,6 +192,6 @@
       "link": "https://www.legislation.gov.uk/uksi/2018/952/regulation/7/made"
     },
     "preparation-of-this-accessibility-statement": "Preparation of this accessibility statement ",
-    "preparation-of-this-accessibility-statement-text": "This statement was prepared on the <2>14th of February 2022</2>. It was last reviewed on the <5>8th of March 2022</5>. This website was last tested on <9>30th of November 2021</9>. The test was carried out by the <12>Data & Software Engineering Group</12>."
+    "preparation-of-this-accessibility-statement-text": "This statement was prepared on the <2>14th of February 2022</2>. It was last reviewed on the <5>11th of March 2022</5>. This website was last tested on <9>30th of November 2021</9>. The test was carried out by the <12>Data & Software Engineering Group</12>."
   }
 }
