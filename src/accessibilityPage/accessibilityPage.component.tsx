@@ -121,7 +121,9 @@ const AccessibiiltyPage = (
 
         <Typography component="ul" className={props.classes.description}>
           {datagatewayDomains.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <Link href={item}>{item}</Link>
+            </li>
           ))}
         </Typography>
 
