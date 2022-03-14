@@ -12,7 +12,7 @@
     "express": "^4.17.1",
     "i18next": "^21.6.11",
     "i18next-browser-languagedetector": "^6.0.0",
-    "i18next-http-backend": "^1.1.1",
+    "i18next-http-backend": "^1.4.0",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.8.0",
