@@ -49,6 +49,7 @@ interface PreloaderStateProps {
 
 interface PreloaderProps {
   fullScreen: boolean;
+  id?: string;
 }
 
 type PreloaderCombinedProps = PreloaderStateProps & PreloaderProps;
@@ -89,7 +90,7 @@ export const Preloader = (
 ): React.ReactElement => {
   const classes = useStyles(props);
   return (
-    <div id="preloader">
+    <div id={props.id}>
       {props.loading ? (
         <div className={classes.container}>
           <div className={classes.wrapper}>

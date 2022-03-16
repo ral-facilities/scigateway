@@ -301,6 +301,7 @@ exports[`Routing component renders a route for a plugin when site is under maint
                         >
                           <Preloader
                             fullScreen={false}
+                            id="plugin-preloader"
                             loading={true}
                           >
                             Mocked Preloader
@@ -818,6 +819,7 @@ exports[`Routing component renders placeholder for a plugin 1`] = `
 >
   <Preloader
     fullScreen={false}
+    id="plugin-preloader"
     loading={true}
   />
 </div>

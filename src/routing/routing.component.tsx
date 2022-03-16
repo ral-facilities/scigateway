@@ -70,7 +70,7 @@ export class PluginPlaceHolder extends React.PureComponent<{
       <div id={id}>
         {/* display a loading indicator whilst the plugin is mounting
             the loading indicator is replaced when the plugin itself mounts */}
-        <Preloader loading={true} fullScreen={false} />
+        <Preloader id="plugin-preloader" loading={true} fullScreen={false} />
       </div>
     );
   }
@@ -129,7 +129,7 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
         // & that the site has loaded, so the plugin should have been loaded already
         // and if it hasn't we need to manually load it
         if (pluginConf && document.getElementById(pluginConf.plugin)) {
-          if (document.getElementById('preloader')) {
+          if (document.getElementById('plugin-preloader')) {
             singleSpa.unloadApplication(pluginConf.plugin);
           }
           manuallyLoadedPluginRef.current = true;
