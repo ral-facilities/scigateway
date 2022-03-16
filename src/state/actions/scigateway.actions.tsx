@@ -57,6 +57,7 @@ import {
   CustomNavigationDrawerLogoType,
   CustomAdminPageDefaultTabPayload,
   CustomAdminPageDefaultTabType,
+  adminRoutes,
 } from '../scigateway.types';
 import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -339,6 +340,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
             const currUrl = getState().router.location.pathname;
             if (
               !Object.values(scigatewayRoutes).includes(currUrl) &&
+              currUrl !== adminRoutes.maintenance &&
               !getState().scigateway.plugins.find((p) =>
                 currUrl.startsWith(p.link)
               )

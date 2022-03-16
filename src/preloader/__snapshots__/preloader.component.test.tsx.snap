@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Preloader component does not render when on the login page 1`] = `
-<div>
+<div
+  id="preloader"
+>
   <div
     className="makeStyles-container-3 makeStyles-container-10"
   >
@@ -147,10 +149,16 @@ exports[`Preloader component does not render when on the login page 1`] = `
 </div>
 `;
 
-exports[`Preloader component does not render when the site stops loading 1`] = `<div />`;
+exports[`Preloader component does not render when the site stops loading 1`] = `
+<div
+  id="preloader"
+/>
+`;
 
 exports[`Preloader component renders fullscreen correctly 1`] = `
-<div>
+<div
+  id="preloader"
+>
   <div
     className="makeStyles-container-3 makeStyles-container-6"
   >
@@ -297,7 +305,9 @@ exports[`Preloader component renders fullscreen correctly 1`] = `
 `;
 
 exports[`Preloader component renders not fullscreen correctly 1`] = `
-<div>
+<div
+  id="preloader"
+>
   <div
     className="makeStyles-container-3 makeStyles-container-8"
   >

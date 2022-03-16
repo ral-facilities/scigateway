@@ -9,6 +9,7 @@ import {
 import { Route, Switch, Redirect } from 'react-router';
 import { StateType } from '../state/state.types';
 import {
+  adminRoutes,
   MaintenanceState,
   PluginConfig,
   scigatewayRoutes,
@@ -108,6 +109,40 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
   const [pluginRoutes, setPluginRoutes] = React.useState(
     getPluginRoutes(props.plugins)
   );
+
+  // only set to false if we're on a plugin route i.e. not a scigateway route
+  const manuallyLoadedPluginRef = React.useRef(
+    Object.values(scigatewayRoutes).includes(props.location) ||
+      props.location === adminRoutes.maintenance
+  );
+
+  React.useEffect(() => {
+    let intervalId: number | undefined;
+    // only try and manually load the first plugin on initial page load after site loaded using setInterval
+    if (!props.loading && !manuallyLoadedPluginRef.current) {
+      intervalId = window.setInterval(() => {
+        const pluginConf = props.plugins.find((p) =>
+          props.location.startsWith(p.link)
+        );
+
+        // finding pluginConf after loading implies that the route has loaded
+        // & that the site has loaded, so the plugin should have been loaded already
+        // and if it hasn't we need to manually load it
+        if (pluginConf && document.getElementById(pluginConf.plugin)) {
+          if (document.getElementById('preloader')) {
+            singleSpa.unloadApplication(pluginConf.plugin);
+          }
+          manuallyLoadedPluginRef.current = true;
+          window.clearInterval(intervalId);
+        }
+      }, 500);
+    }
+
+    return () => {
+      // you can call clearInterval with an undefined ID fine
+      window.clearInterval(intervalId);
+    };
+  }, [props.loading, props.plugins, props.location]);
 
   React.useEffect(() => {
     setPluginRoutes(getPluginRoutes(props.plugins));

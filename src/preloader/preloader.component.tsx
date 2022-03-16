@@ -89,7 +89,7 @@ export const Preloader = (
 ): React.ReactElement => {
   const classes = useStyles(props);
   return (
-    <div>
+    <div id="preloader">
       {props.loading ? (
         <div className={classes.container}>
           <div className={classes.wrapper}>

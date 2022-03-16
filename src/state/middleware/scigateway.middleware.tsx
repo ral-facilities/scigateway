@@ -130,7 +130,7 @@ export const listenToPlugins = (
             getState().router.location.pathname ===
               pluginMessage.detail.payload.link &&
             singleSpa.getAppStatus(pluginMessage.detail.payload.plugin) ===
-              'NOT_LOADED'
+              singleSpa.NOT_LOADED
           ) {
             singleSpa.triggerAppChange();
           }
