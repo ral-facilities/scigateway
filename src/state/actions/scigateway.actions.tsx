@@ -57,6 +57,8 @@ import {
   CustomNavigationDrawerLogoType,
   CustomAdminPageDefaultTabPayload,
   CustomAdminPageDefaultTabType,
+  RegisterContactUsAccessibilityFormUrlType,
+  ContactUsAccessibilityFormUrlPayload,
 } from '../scigateway.types';
 import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -294,6 +296,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
         if (settings['homepageUrl']) {
           dispatch(registerHomepageUrl(settings['homepageUrl']));
+        }
+
+        if (settings['contactUsAccessibilityFormUrl']) {
+          dispatch(
+            registerContactUsAccessibilityFormUrl(
+              settings['contactUsAccessibilityFormUrl']
+            )
+          );
         }
 
         if (settings['logo']) {
@@ -589,3 +599,12 @@ export const dismissMenuItem = (
     },
   };
 };
+
+export const registerContactUsAccessibilityFormUrl = (
+  contactUsAccessibilityFormUrl: string
+): ActionType<ContactUsAccessibilityFormUrlPayload> => ({
+  type: RegisterContactUsAccessibilityFormUrlType,
+  payload: {
+    contactUsAccessibilityFormUrl: contactUsAccessibilityFormUrl,
+  },
+});

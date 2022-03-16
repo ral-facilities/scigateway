@@ -26,6 +26,7 @@ import {
   resetAuthState,
   customNavigationDrawerLogo,
   customAdminPageDefaultTab,
+  registerContactUsAccessibilityFormUrl,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -949,5 +950,32 @@ describe('scigateway actions', () => {
         instant: false,
       },
     });
+  });
+
+  it('given a contactUsAccessibilityFormUrl, registration is run', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          contactUsAccessibilityFormUrl: '/test',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(
+      registerContactUsAccessibilityFormUrl('/test')
+    );
   });
 });

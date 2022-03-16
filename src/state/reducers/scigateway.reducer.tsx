@@ -46,6 +46,8 @@ import {
   CustomNavigationDrawerLogoType,
   CustomAdminPageDefaultTabPayload,
   CustomAdminPageDefaultTabType,
+  RegisterContactUsAccessibilityFormUrlType,
+  ContactUsAccessibilityFormUrlPayload,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -474,6 +476,16 @@ export function handleLoadHighContrastModePreference(
   };
 }
 
+export function handleRegisterContactUsAccessibilityFormUrl(
+  state: ScigatewayState,
+  payload: ContactUsAccessibilityFormUrlPayload
+): ScigatewayState {
+  return {
+    ...state,
+    contactUsAccessibilityFormUrl: payload.contactUsAccessibilityFormUrl,
+  };
+}
+
 const ScigatewayReducer = createReducer(initialState, {
   [NotificationType]: handleNotification,
   [ToggleDrawerType]: handleDrawerToggle,
@@ -503,6 +515,8 @@ const ScigatewayReducer = createReducer(initialState, {
   [CustomLogoType]: handleCustomLogo,
   [CustomNavigationDrawerLogoType]: handleCustomNavigationDrawerLogo,
   [CustomAdminPageDefaultTabType]: handleCustomAdminPageDefaultTab,
+  [RegisterContactUsAccessibilityFormUrlType]:
+    handleRegisterContactUsAccessibilityFormUrl,
 });
 
 export default ScigatewayReducer;

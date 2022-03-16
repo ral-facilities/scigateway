@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { UKRITheme } from '../theming';
 import { Trans, useTranslation } from 'react-i18next';
+import ContactUs from './contactUs.component';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -185,13 +186,7 @@ const AccessibiiltyPage = (
           {t('accessibility-page.contact-us-about-accessibility-text')}
         </Typography>
 
-        {/* Here will be Comments box */}
-
-        <Typography className={props.classes.description}>
-          <Link href={`mailto:${t('accessibility-page.contact-info')}`}>
-            {t('accessibility-page.contact-info')}
-          </Link>
-        </Typography>
+        <ContactUs />
       </div>
 
       <Typography variant="h4" className={props.classes.titleText}>
