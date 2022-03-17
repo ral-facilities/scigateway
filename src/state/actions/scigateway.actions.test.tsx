@@ -580,9 +580,9 @@ describe('scigateway actions', () => {
       },
     });
 
-    await asyncAction(dispatch, getState);
-
     const eventListenerSpy = jest.spyOn(document, 'addEventListener');
+
+    await asyncAction(dispatch, getState);
 
     expect(eventListenerSpy).not.toHaveBeenCalled();
     expect(actions).toContainEqual(siteLoadingUpdate(false));
