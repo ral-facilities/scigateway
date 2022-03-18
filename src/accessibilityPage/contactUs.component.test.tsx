@@ -30,7 +30,7 @@ describe('Contact us component', () => {
 
   it('renders mailto link correctly if form url not set', () => {
     props = {
-      contactUsAccessibilityFormUrl: '',
+      contactUsAccessibilityFormUrl: undefined,
       classes: dummyClasses,
     };
 

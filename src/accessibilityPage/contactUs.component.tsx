@@ -22,7 +22,7 @@ const styles = (theme: Theme): StyleRules =>
   });
 
 interface ContactUsProps {
-  contactUsAccessibilityFormUrl: string;
+  contactUsAccessibilityFormUrl: string | undefined;
 }
 
 export type CombinedContactUsProps = WithStyles<typeof styles> & ContactUsProps;
@@ -32,8 +32,9 @@ const ContactUs = (props: CombinedContactUsProps): React.ReactElement => {
 
   return (
     <div id="contact-us">
-      {/* If we have a contact us form link properly defined in the settings */}
-      {props.contactUsAccessibilityFormUrl !== '' ? (
+      {/* If we have a contact us form link defined in the settings, display the form */}
+      {props.contactUsAccessibilityFormUrl &&
+      props.contactUsAccessibilityFormUrl !== '' ? (
         <div id="contact-us-form">
           <iframe
             title="Contact Us"

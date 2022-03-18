@@ -87,7 +87,6 @@ export const initialState: ScigatewayState = {
     show: false,
     message: '',
   },
-  contactUsAccessibilityFormUrl: '',
 };
 
 export function handleNotification(
