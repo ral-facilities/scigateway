@@ -22,7 +22,7 @@ const styles = (theme: Theme): StyleRules =>
   });
 
 interface ContactUsProps {
-  contactUsAccessibilityFormUrl: string | undefined;
+  contactUsAccessibilityFormUrl: string;
 }
 
 export type CombinedContactUsProps = WithStyles<typeof styles> & ContactUsProps;
@@ -32,7 +32,8 @@ const ContactUs = (props: CombinedContactUsProps): React.ReactElement => {
 
   return (
     <div id="contact-us">
-      {props.contactUsAccessibilityFormUrl ? (
+      {/* If we have a contact us form link properly defined in the settings */}
+      {props.contactUsAccessibilityFormUrl !== '' ? (
         <div id="contact-us-form">
           <iframe
             title="Contact Us"
@@ -44,6 +45,8 @@ const ContactUs = (props: CombinedContactUsProps): React.ReactElement => {
         </div>
       ) : (
         <div id="contact-info">
+          {/* Otherwise, we have no contact us form to link to. Display an email
+          address for the user to email support themselves */}
           <Typography className={props.classes.description}>
             <Link href={`mailto:${t('accessibility-page.contact-info')}`}>
               {t('accessibility-page.contact-info')}

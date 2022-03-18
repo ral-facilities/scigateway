@@ -41,7 +41,7 @@ describe('Accessibility page component', () => {
 
   const theme = buildTheme(false);
 
-  it('should render correctly', () => {
+  it('should render correctly and display contact us component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
@@ -53,19 +53,6 @@ describe('Accessibility page component', () => {
     );
 
     expect(wrapper.find('#accessibility-page')).toBeTruthy();
-  });
-
-  it('should render contact us component correctly', () => {
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <AccessibiiltyPageWithStyles {...props} />
-        </MuiThemeProvider>
-      </Provider>
-    );
-
     expect(wrapper.find('#contact-us')).toBeTruthy();
   });
 });
