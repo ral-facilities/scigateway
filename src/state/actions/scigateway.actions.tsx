@@ -59,6 +59,7 @@ import {
   CustomAdminPageDefaultTabType,
   RegisterContactUsAccessibilityFormUrlType,
   ContactUsAccessibilityFormUrlPayload,
+  adminRoutes,
 } from '../scigateway.types';
 import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -343,11 +344,17 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         }
 
         return Promise.all(loadingPromises).then(() => {
-          // if we're on a non-scigateway url, attempt to wait for matching register route event
+          // if we're on a non-scigateway url that isn't in plugins yet, attempt to wait for matching register route event
           // to help prevent showing a 404 page before the right route has been registered
           return new Promise<void>((resolve) => {
             const currUrl = getState().router.location.pathname;
-            if (!Object.values(scigatewayRoutes).includes(currUrl)) {
+            if (
+              !Object.values(scigatewayRoutes).includes(currUrl) &&
+              currUrl !== adminRoutes.maintenance &&
+              !getState().scigateway.plugins.find((p) =>
+                currUrl.startsWith(p.link)
+              )
+            ) {
               let eventFired = false;
               const handler = (event: Event): void => {
                 const pluginMessage = event as CustomEvent<AnyAction>;
@@ -358,8 +365,8 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                   dispatch(siteLoadingUpdate(false));
                   eventFired = true;
                   document.removeEventListener('scigateway', handler);
+                  singleSpa.start();
                   resolve();
-                  singleSpa.triggerAppChange();
                 }
               };
 
@@ -368,13 +375,14 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                   dispatch(siteLoadingUpdate(false));
                 }
                 document.removeEventListener('scigateway', handler);
+                singleSpa.start();
                 resolve();
-                singleSpa.triggerAppChange();
               }, 3000);
 
               document.addEventListener('scigateway', handler);
             } else {
               dispatch(siteLoadingUpdate(false));
+              singleSpa.start();
               resolve();
             }
           });

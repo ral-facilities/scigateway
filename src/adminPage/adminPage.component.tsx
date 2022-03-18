@@ -72,30 +72,16 @@ export type CombinedAdminPageProps = AdminPageProps & WithStyles<typeof styles>;
 export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
   const pluginRoutes = getPluginRoutes(props.plugins, true);
 
-  const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
-    props.adminPageDefaultTab ?? 'maintenance'
-  );
-
   const location = useLocation();
 
-  React.useEffect(() => {
-    // Allows direct access to the download page when maintenance page is default
-    if (
-      location.pathname === adminRoutes['download'] &&
-      tabValue !== 'download'
-    ) {
-      setTabValue('download');
-    }
-    // Allows direct access to the maintenance page when download page is default
-    else if (
-      location.pathname === adminRoutes['maintenance'] &&
-      tabValue !== 'maintenance'
-    ) {
-      setTabValue('maintenance');
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
+    // allows direct access to a tab when another tab is the default
+    (Object.keys(adminRoutes) as Array<keyof typeof adminRoutes>).find(
+      (key) => adminRoutes[key] === location.pathname
+    ) ??
+      props.adminPageDefaultTab ??
+      'maintenance'
+  );
 
   const [t] = useTranslation();
 
