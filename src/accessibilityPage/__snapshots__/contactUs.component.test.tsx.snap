@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contact us component renders iframe correctly if form url set 1`] = `
+<div
+  id="contact-us"
+>
+  <div
+    id="contact-us-form"
+  >
+    <iframe
+      allowFullScreen={true}
+      height="840px"
+      src="test-url"
+      title="Contact Us"
+      width="740px"
+    />
+  </div>
+</div>
+`;
+
+exports[`Contact us component renders mailto link correctly if form url not set 1`] = `
+<div
+  id="contact-us"
+>
+  <div
+    id="contact-info"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="mailto:accessibility-page.contact-info"
+      >
+        accessibility-page.contact-info
+      </WithStyles(ForwardRef(Link))>
+    </WithStyles(ForwardRef(Typography))>
+  </div>
+</div>
+`;

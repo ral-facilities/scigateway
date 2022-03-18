@@ -40,6 +40,8 @@ export const CustomNavigationDrawerLogoType =
   'scigateway:custom_navigation_drawer_logo';
 export const CustomAdminPageDefaultTabType =
   'scigateway:custom_admin_default_tab';
+export const RegisterContactUsAccessibilityFormUrlType =
+  'scigateway:contact_us_accessibility_form_url';
 
 export const scigatewayRoutes = {
   home: '/',
@@ -199,4 +201,8 @@ export interface ConfigureAnalyticsPayload {
 
 export interface AddHelpTourStepsPayload {
   steps: Step[];
+}
+
+export interface ContactUsAccessibilityFormUrlPayload {
+  contactUsAccessibilityFormUrl: string;
 }
