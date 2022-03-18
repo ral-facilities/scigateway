@@ -591,7 +591,7 @@ describe('scigateway reducer', () => {
   });
 
   it('should register the contactUsAccessibilityFormUrl when provided', () => {
-    expect(state.contactUsAccessibilityFormUrl).toBeFalsy();
+    expect(state.contactUsAccessibilityFormUrl).toEqual('');
 
     const updatedState = ScigatewayReducer(
       state,
