@@ -542,6 +542,52 @@ describe('scigateway actions', () => {
     expect(actions).toContainEqual(siteLoadingUpdate(false));
   });
 
+  it("dispatches a site loading update but doesn't wait for register route event if it's already been recieved", async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          'ui-strings': 'res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): void | Promise<void> => {
+      if (typeof action === 'function') {
+        action(dispatch);
+        return Promise.resolve();
+      } else {
+        actions.push(action);
+      }
+    };
+
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new TestAuthProvider('token');
+    state.plugins = [
+      {
+        section: 'Analysis',
+        link: '/test',
+        plugin: 'demo_plugin',
+        displayName: 'Demo Plugin Analysis',
+      },
+    ];
+    const getState = (): Partial<StateType> => ({
+      scigateway: state,
+      router: {
+        location: { ...createLocation('/test'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    const eventListenerSpy = jest.spyOn(document, 'addEventListener');
+
+    await asyncAction(dispatch, getState);
+
+    expect(eventListenerSpy).not.toHaveBeenCalled();
+    expect(actions).toContainEqual(siteLoadingUpdate(false));
+  });
+
   it("given an authenticator that supports autologin, autologin is attempted when user isn't logged in", async () => {
     (mockAxios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
