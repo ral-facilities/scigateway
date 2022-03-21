@@ -69,4 +69,6 @@ const mapStateToProps = (state: StateType): ContactUsProps => ({
   contactUsAccessibilityFormUrl: state.scigateway.contactUsAccessibilityFormUrl,
 });
 
+export const UnconnectedContactUs = ContactUs;
+
 export default connect(mapStateToProps)(ContactUs);
