@@ -41,6 +41,7 @@ export interface ScigatewayState {
   maintenance: MaintenanceState;
   navigationDrawerLogo?: LogoState;
   adminPageDefaultTab?: 'maintenance' | 'download';
+  contactUsAccessibilityFormUrl?: string;
 }
 
 export interface StateType {

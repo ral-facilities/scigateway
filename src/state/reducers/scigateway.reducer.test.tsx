@@ -25,6 +25,7 @@ import {
   customAdminPageDefaultTab,
   autoLoginAuthorised,
   resetAuthState,
+  registerContactUsAccessibilityFormUrl,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -587,5 +588,16 @@ describe('scigateway reducer', () => {
     expect(call)
       .toEqual(`Attempted to initialise analytics without analytics configuration -
       configureAnalytics needs to be performed before initialising`);
+  });
+
+  it('should register the contactUsAccessibilityFormUrl when provided', () => {
+    expect(state.contactUsAccessibilityFormUrl).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(
+      state,
+      registerContactUsAccessibilityFormUrl('/test')
+    );
+
+    expect(updatedState.contactUsAccessibilityFormUrl).toEqual('/test');
   });
 });

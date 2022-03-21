@@ -40,6 +40,7 @@ describe('Routing component', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   it('renders component with no plugin routes', () => {
@@ -256,5 +257,42 @@ describe('Routing component', () => {
     expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
       'test_plugin_name'
     );
+  });
+
+  it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
+    jest.useFakeTimers();
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: '/test_link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        order: 1,
+      },
+    ];
+    state.router.location = createLocation('/test_link');
+
+    jest.spyOn(document, 'getElementById').mockImplementation(() => {
+      return document.createElement('div');
+    });
+
+    const clearIntervalSpy = jest.spyOn(window, 'clearInterval');
+
+    mount(
+      <Provider store={mockStore(state)}>
+        <MemoryRouter initialEntries={['/test_link']}>
+          <Routing />
+        </MemoryRouter>
+      </Provider>
+    );
+    jest.runAllTimers();
+
+    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
+      'test_plugin_name'
+    );
+
+    expect(clearIntervalSpy).toHaveBeenCalledWith(expect.any(Number));
   });
 });

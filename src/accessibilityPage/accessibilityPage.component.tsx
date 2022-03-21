@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { Link, styled } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
+import ContactUs from './contactUs.component';
 
 const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
@@ -174,13 +175,8 @@ const AccessibiiltyPage = (): React.ReactElement => {
         <DescriptionTypography>
           {t('accessibility-page.contact-us-about-accessibility-text')}
         </DescriptionTypography>
-        {/* Here will be Comments box */}
 
-        <DescriptionTypography>
-          <Link href={`mailto:${t('accessibility-page.contact-info')}`}>
-            {t('accessibility-page.contact-info')}
-          </Link>
-        </DescriptionTypography>
+        <ContactUs />
       </ContainerDiv>
 
       <TitleTypography variant="h4">

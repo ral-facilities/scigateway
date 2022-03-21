@@ -14,6 +14,7 @@ interface PreloaderStateProps {
 
 interface PreloaderProps {
   fullScreen: boolean;
+  id?: string;
 }
 
 type PreloaderCombinedProps = PreloaderStateProps & PreloaderProps;
@@ -53,7 +54,7 @@ export const Preloader = (
   props: PreloaderCombinedProps
 ): React.ReactElement => {
   return (
-    <div>
+    <div id={props.id}>
       {props.loading ? (
         <Box
           sx={{

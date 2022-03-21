@@ -29,6 +29,9 @@ import { authState, initialState } from '../reducers/scigateway.reducer';
 import { buildTheme } from '../../theming';
 import thunk from 'redux-thunk';
 import { autoLoginAuthorised } from '../actions/scigateway.actions';
+import * as singleSpa from 'single-spa';
+
+jest.mock('single-spa');
 
 describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
@@ -560,6 +563,28 @@ describe('scigateway middleware', () => {
     expect(JSON.stringify(store.getActions()[2])).toEqual(
       JSON.stringify(sendThemeOptionsAction)
     );
+  });
+
+  it("should listen for events and fire registerroute action and call singleSpa.triggerAppChange if url matches plugin route and it's not loaded", () => {
+    const getState: () => StateType = () => ({
+      scigateway: { ...initialState },
+      router: {
+        action: 'POP',
+        location: createLocation('/plugin1/analysis2'),
+      },
+    });
+
+    (singleSpa.getAppStatus as jest.Mock).mockReturnValue('NOT_LOADED');
+
+    listenToPlugins(store.dispatch, getState);
+
+    handler(
+      new CustomEvent('test', {
+        detail: registerRouteAction,
+      })
+    );
+
+    expect(singleSpa.triggerAppChange).toHaveBeenCalled();
   });
 
   describe('notifications', () => {
