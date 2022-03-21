@@ -32,10 +32,12 @@ describe('Contact us component', () => {
   });
 
   it('renders mailto link correctly if form url not set', () => {
+    state.scigateway.contactUsAccessibilityFormUrl = '';
+    let wrapper = createShallowWrapper();
+    expect(wrapper.find('#contact-info')).toBeTruthy();
+
     state.scigateway.contactUsAccessibilityFormUrl = undefined;
-
-    const wrapper = createShallowWrapper();
-
+    wrapper = createShallowWrapper();
     expect(wrapper.find('#contact-info')).toBeTruthy();
   });
 });
