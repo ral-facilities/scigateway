@@ -6,7 +6,6 @@ import {
   createStyles,
   WithStyles,
   withStyles,
-  Link,
 } from '@material-ui/core';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
@@ -32,10 +31,6 @@ const styles = (theme: Theme): StyleRules =>
       },
     },
     container: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
       color: theme.palette.text.primary,
     },
     titleText: {
@@ -51,9 +46,7 @@ const styles = (theme: Theme): StyleRules =>
       border: 'solid 1px gainsboro',
       display: 'table',
       padding: '10px',
-    },
-    tocItem: {
-      listStyle: 'none',
+      marginTop: '10px',
     },
   });
 
@@ -67,137 +60,46 @@ export const TableOfContents = (
   props: CombinedHelpPageProps
 ): React.ReactElement => {
   const parser = new DOMParser();
-  const loggingInHelp = parser.parseFromString(
-    getString(props.res, 'logging-in-description'),
+  const help = parser.parseFromString(
+    getString(props.res, 'contents'),
     'text/html'
   );
-  const myDataHelp = parser.parseFromString(
-    getString(props.res, 'my-data-description'),
-    'text/html'
-  );
-  const browseHelp = parser.parseFromString(
-    getString(props.res, 'browse-description'),
-    'text/html'
-  );
-  const searchHelp = parser.parseFromString(
-    getString(props.res, 'search-description'),
-    'text/html'
-  );
-  const cartHelp = parser.parseFromString(
-    getString(props.res, 'cart-description'),
-    'text/html'
-  );
-  const downloadHelp = parser.parseFromString(
-    getString(props.res, 'download-description'),
-    'text/html'
-  );
-  const loggingInHelpLinks = loggingInHelp.querySelectorAll(
+  const helpLinks = help.querySelectorAll(
     'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
   );
-  const myDataHelpLinks = myDataHelp.querySelectorAll(
-    'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
-  );
-  const browseHelpLinks = browseHelp.querySelectorAll(
-    'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
-  );
-  const searchHelpLinks = searchHelp.querySelectorAll(
-    'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
-  );
-  const cartHelpLinks = cartHelp.querySelectorAll(
-    'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
-  );
-  const downloadHelpLinks = downloadHelp.querySelectorAll(
-    'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
-  );
+
+  // highest level of h that's valid is 2 (as there should only be 1 h1 per page)
+  let currLevel = 2;
+  let tocHtml = '';
+  for (let i = 0; i < helpLinks.length; i++) {
+    const h = helpLinks[i];
+    // the "h level" is the second character of the header tag i.e. h1 is hLevel 1
+    const hLevel = parseInt(h.nodeName[1]);
+    // lower hLevel = reduce nesting, so add closing ul tags
+    if (currLevel > hLevel) {
+      tocHtml += '</ul>'.repeat(currLevel - hLevel);
+    }
+    // higher hLevel = increase nesting, so add opening ul tags
+    else if (currLevel < hLevel) {
+      tocHtml += '<ul>'.repeat(hLevel - currLevel);
+    }
+    // we are at the same level, so just add ourselves
+    tocHtml += `<li style='list-style: none'><a href='#${h.id}'>${h.textContent}</a></li>`;
+    currLevel = hLevel;
+  }
+  // close off any remaining uls
+  tocHtml += '</ul>'.repeat(currLevel - 2);
+  console.log(tocHtml);
+
   return (
     <nav className={props.classes.toc}>
       <Typography component="h2" variant="h5">
         {getString(props.res, 'table-of-contents')}
       </Typography>
-      <ul style={{ padding: '0px', margin: '0px' }}>
-        <li className={props.classes.tocItem}>
-          <Link href="#logging-in-help">
-            {getString(props.res, 'logging-in-title')}
-          </Link>
-          {loggingInHelpLinks.length !== 0 ? (
-            <ul>
-              {Array.from(loggingInHelpLinks, (item, index) => (
-                <li className={props.classes.tocItem} key={index}>
-                  <Link href={`#${item.id}`}>{item.textContent}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </li>
-        <li className={props.classes.tocItem}>
-          <Link href="#my-data-help">
-            {getString(props.res, 'my-data-title')}
-          </Link>
-          {myDataHelpLinks.length !== 0 ? (
-            <ul>
-              {Array.from(myDataHelpLinks, (item, index) => (
-                <li className={props.classes.tocItem} key={index}>
-                  <Link href={`#${item.id}`}>{item.textContent}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </li>
-        <li className={props.classes.tocItem}>
-          <Link href="#browse-help">
-            {getString(props.res, 'browse-title')}
-          </Link>
-          {browseHelpLinks.length !== 0 ? (
-            <ul>
-              {Array.from(browseHelpLinks, (item, index) => (
-                <li className={props.classes.tocItem} key={index}>
-                  <Link href={`#${item.id}`}>{item.textContent}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </li>
-        <li className={props.classes.tocItem}>
-          <Link href="#search-help">
-            {getString(props.res, 'search-title')}
-          </Link>
-          {searchHelpLinks.length !== 0 ? (
-            <ul>
-              {Array.from(searchHelpLinks, (item, index) => (
-                <li className={props.classes.tocItem} key={index}>
-                  <Link href={`#${item.id}`}>{item.textContent}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </li>
-        <li className={props.classes.tocItem}>
-          <Link href="#cart-help">{getString(props.res, 'cart-title')}</Link>
-          {cartHelpLinks.length !== 0 ? (
-            <ul>
-              {Array.from(cartHelpLinks, (item, index) => (
-                <li className={props.classes.tocItem} key={index}>
-                  <Link href={`#${item.id}`}>{item.textContent}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </li>
-        <li className={props.classes.tocItem}>
-          <Link href="#download-help">
-            {getString(props.res, 'download-title')}
-          </Link>
-          {downloadHelpLinks.length !== 0 ? (
-            <ul>
-              {Array.from(downloadHelpLinks, (item, index) => (
-                <li className={props.classes.tocItem} key={index}>
-                  <Link href={`#${item.id}`}>{item.textContent}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </li>
-      </ul>
+      <ul
+        style={{ padding: '0px', margin: '0px' }}
+        dangerouslySetInnerHTML={{ __html: tocHtml }}
+      />
     </nav>
   );
 };
@@ -214,74 +116,11 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
       </Typography>
       <TableOfContents {...props} />
       <div className={props.classes.container}>
-        <Typography id="logging-in-help" component="h2" variant="h3">
-          {getString(props.res, 'logging-in-title')}
-        </Typography>
         <Typography
           variant="body1"
           className={props.classes.description}
           dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'logging-in-description'),
-          }}
-        />
-      </div>
-      <div className={props.classes.container}>
-        <Typography id="my-data-help" component="h2" variant="h3">
-          {getString(props.res, 'my-data-title')}
-        </Typography>
-        <Typography
-          variant="body1"
-          className={props.classes.description}
-          dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'my-data-description'),
-          }}
-        />
-      </div>
-      <div className={props.classes.container}>
-        <Typography id="browse-help" component="h2" variant="h3">
-          {getString(props.res, 'browse-title')}
-        </Typography>
-        <Typography
-          variant="body1"
-          className={props.classes.description}
-          dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'browse-description'),
-          }}
-        />
-      </div>
-      <div className={props.classes.container}>
-        <Typography id="search-help" component="h2" variant="h3">
-          {getString(props.res, 'search-title')}
-        </Typography>
-        <Typography
-          variant="body1"
-          className={props.classes.description}
-          dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'search-description'),
-          }}
-        />
-      </div>
-      <div className={props.classes.container}>
-        <Typography id="cart-help" component="h2" variant="h3">
-          {getString(props.res, 'cart-title')}
-        </Typography>
-        <Typography
-          variant="body1"
-          className={props.classes.description}
-          dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'cart-description'),
-          }}
-        />
-      </div>
-      <div className={props.classes.container}>
-        <Typography id="download-help" component="h2" variant="h3">
-          {getString(props.res, 'download-title')}
-        </Typography>
-        <Typography
-          variant="body1"
-          className={props.classes.description}
-          dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'download-description'),
+            __html: getString(props.res, 'contents'),
           }}
         />
       </div>
