@@ -1,5 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Help page component should render TOC correctly with nested headers 1`] = `
+<nav
+  className="toc-class"
+>
+  <WithStyles(ForwardRef(Typography))
+    component="h2"
+    variant="h5"
+  >
+    table-of-contents
+  </WithStyles(ForwardRef(Typography))>
+  <ul
+    style={
+      Object {
+        "margin": "0px",
+        "padding": "0px",
+      }
+    }
+  >
+    <li
+      className="tocItem-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="#logging-in-help"
+      >
+        logging-in-title
+      </WithStyles(ForwardRef(Link))>
+      <ul>
+        <li
+          className="tocItem-class"
+          key="0"
+        >
+          <WithStyles(ForwardRef(Link))
+            href="#test nested toc item 1"
+          >
+            Nested TOC item
+          </WithStyles(ForwardRef(Link))>
+        </li>
+      </ul>
+    </li>
+    <li
+      className="tocItem-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="#my-data-help"
+      >
+        my-data-title
+      </WithStyles(ForwardRef(Link))>
+      <ul>
+        <li
+          className="tocItem-class"
+          key="0"
+        >
+          <WithStyles(ForwardRef(Link))
+            href="#test nested toc item 2"
+          >
+            Nested TOC item
+          </WithStyles(ForwardRef(Link))>
+        </li>
+      </ul>
+    </li>
+    <li
+      className="tocItem-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="#browse-help"
+      >
+        browse-title
+      </WithStyles(ForwardRef(Link))>
+      <ul>
+        <li
+          className="tocItem-class"
+          key="0"
+        >
+          <WithStyles(ForwardRef(Link))
+            href="#test nested toc item 3"
+          >
+            Nested TOC item
+          </WithStyles(ForwardRef(Link))>
+        </li>
+      </ul>
+    </li>
+    <li
+      className="tocItem-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="#search-help"
+      >
+        search-title
+      </WithStyles(ForwardRef(Link))>
+      <ul>
+        <li
+          className="tocItem-class"
+          key="0"
+        >
+          <WithStyles(ForwardRef(Link))
+            href="#test nested toc item 4"
+          >
+            Nested TOC item
+          </WithStyles(ForwardRef(Link))>
+        </li>
+      </ul>
+    </li>
+    <li
+      className="tocItem-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="#cart-help"
+      >
+        cart-title
+      </WithStyles(ForwardRef(Link))>
+      <ul>
+        <li
+          className="tocItem-class"
+          key="0"
+        >
+          <WithStyles(ForwardRef(Link))
+            href="#test nested toc item 5"
+          >
+            Nested TOC item
+          </WithStyles(ForwardRef(Link))>
+        </li>
+      </ul>
+    </li>
+    <li
+      className="tocItem-class"
+    >
+      <WithStyles(ForwardRef(Link))
+        href="#download-help"
+      >
+        download-title
+      </WithStyles(ForwardRef(Link))>
+      <ul>
+        <li
+          className="tocItem-class"
+          key="0"
+        >
+          <WithStyles(ForwardRef(Link))
+            href="#test nested toc item 6"
+          >
+            Nested TOC item
+          </WithStyles(ForwardRef(Link))>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+`;
+
 exports[`Help page component should render correctly 1`] = `
 <ThemeProvider
   theme={
@@ -463,6 +611,8 @@ exports[`Help page component should render correctly 1`] = `
         "description": "description-class",
         "root": "root-class",
         "titleText": "titleText-class",
+        "toc": "toc-class",
+        "tocItem": "tocItem-class",
       }
     }
   >
@@ -473,6 +623,8 @@ exports[`Help page component should render correctly 1`] = `
           "description": "HelpPage-description-4 description-class",
           "root": "HelpPage-root-1 root-class",
           "titleText": "HelpPage-titleText-3 titleText-class",
+          "toc": "HelpPage-toc-5 toc-class",
+          "tocItem": "HelpPage-tocItem-6 tocItem-class",
         }
       }
     >
@@ -481,7 +633,8 @@ exports[`Help page component should render correctly 1`] = `
       >
         <WithStyles(ForwardRef(Typography))
           className="HelpPage-titleText-3 titleText-class"
-          variant="h3"
+          component="h1"
+          variant="h2"
         >
           <ForwardRef(Typography)
             className="HelpPage-titleText-3 titleText-class"
@@ -519,20 +672,602 @@ exports[`Help page component should render correctly 1`] = `
                 "subtitle2": "MuiTypography-subtitle2",
               }
             }
-            variant="h3"
+            component="h1"
+            variant="h2"
           >
-            <h3
-              className="MuiTypography-root HelpPage-titleText-3 titleText-class MuiTypography-h3"
+            <h1
+              className="MuiTypography-root HelpPage-titleText-3 titleText-class MuiTypography-h2"
             >
               title
-            </h3>
+            </h1>
           </ForwardRef(Typography)>
         </WithStyles(ForwardRef(Typography))>
+        <TableOfContents
+          classes={
+            Object {
+              "container": "HelpPage-container-2 container-class",
+              "description": "HelpPage-description-4 description-class",
+              "root": "HelpPage-root-1 root-class",
+              "titleText": "HelpPage-titleText-3 titleText-class",
+              "toc": "HelpPage-toc-5 toc-class",
+              "tocItem": "HelpPage-tocItem-6 tocItem-class",
+            }
+          }
+        >
+          <nav
+            className="HelpPage-toc-5 toc-class"
+          >
+            <WithStyles(ForwardRef(Typography))
+              component="h2"
+              variant="h5"
+            >
+              <ForwardRef(Typography)
+                classes={
+                  Object {
+                    "alignCenter": "MuiTypography-alignCenter",
+                    "alignJustify": "MuiTypography-alignJustify",
+                    "alignLeft": "MuiTypography-alignLeft",
+                    "alignRight": "MuiTypography-alignRight",
+                    "body1": "MuiTypography-body1",
+                    "body2": "MuiTypography-body2",
+                    "button": "MuiTypography-button",
+                    "caption": "MuiTypography-caption",
+                    "colorError": "MuiTypography-colorError",
+                    "colorInherit": "MuiTypography-colorInherit",
+                    "colorPrimary": "MuiTypography-colorPrimary",
+                    "colorSecondary": "MuiTypography-colorSecondary",
+                    "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                    "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                    "displayBlock": "MuiTypography-displayBlock",
+                    "displayInline": "MuiTypography-displayInline",
+                    "gutterBottom": "MuiTypography-gutterBottom",
+                    "h1": "MuiTypography-h1",
+                    "h2": "MuiTypography-h2",
+                    "h3": "MuiTypography-h3",
+                    "h4": "MuiTypography-h4",
+                    "h5": "MuiTypography-h5",
+                    "h6": "MuiTypography-h6",
+                    "noWrap": "MuiTypography-noWrap",
+                    "overline": "MuiTypography-overline",
+                    "paragraph": "MuiTypography-paragraph",
+                    "root": "MuiTypography-root",
+                    "srOnly": "MuiTypography-srOnly",
+                    "subtitle1": "MuiTypography-subtitle1",
+                    "subtitle2": "MuiTypography-subtitle2",
+                  }
+                }
+                component="h2"
+                variant="h5"
+              >
+                <h2
+                  className="MuiTypography-root MuiTypography-h5"
+                >
+                  table-of-contents
+                </h2>
+              </ForwardRef(Typography)>
+            </WithStyles(ForwardRef(Typography))>
+            <ul
+              style={
+                Object {
+                  "margin": "0px",
+                  "padding": "0px",
+                }
+              }
+            >
+              <li
+                className="HelpPage-tocItem-6 tocItem-class"
+              >
+                <WithStyles(ForwardRef(Link))
+                  href="#logging-in-help"
+                >
+                  <ForwardRef(Link)
+                    classes={
+                      Object {
+                        "button": "MuiLink-button",
+                        "focusVisible": "Mui-focusVisible",
+                        "root": "MuiLink-root",
+                        "underlineAlways": "MuiLink-underlineAlways",
+                        "underlineHover": "MuiLink-underlineHover",
+                        "underlineNone": "MuiLink-underlineNone",
+                      }
+                    }
+                    href="#logging-in-help"
+                  >
+                    <WithStyles(ForwardRef(Typography))
+                      className="MuiLink-root MuiLink-underlineHover"
+                      color="primary"
+                      component="a"
+                      href="#logging-in-help"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      variant="inherit"
+                    >
+                      <ForwardRef(Typography)
+                        className="MuiLink-root MuiLink-underlineHover"
+                        classes={
+                          Object {
+                            "alignCenter": "MuiTypography-alignCenter",
+                            "alignJustify": "MuiTypography-alignJustify",
+                            "alignLeft": "MuiTypography-alignLeft",
+                            "alignRight": "MuiTypography-alignRight",
+                            "body1": "MuiTypography-body1",
+                            "body2": "MuiTypography-body2",
+                            "button": "MuiTypography-button",
+                            "caption": "MuiTypography-caption",
+                            "colorError": "MuiTypography-colorError",
+                            "colorInherit": "MuiTypography-colorInherit",
+                            "colorPrimary": "MuiTypography-colorPrimary",
+                            "colorSecondary": "MuiTypography-colorSecondary",
+                            "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                            "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                            "displayBlock": "MuiTypography-displayBlock",
+                            "displayInline": "MuiTypography-displayInline",
+                            "gutterBottom": "MuiTypography-gutterBottom",
+                            "h1": "MuiTypography-h1",
+                            "h2": "MuiTypography-h2",
+                            "h3": "MuiTypography-h3",
+                            "h4": "MuiTypography-h4",
+                            "h5": "MuiTypography-h5",
+                            "h6": "MuiTypography-h6",
+                            "noWrap": "MuiTypography-noWrap",
+                            "overline": "MuiTypography-overline",
+                            "paragraph": "MuiTypography-paragraph",
+                            "root": "MuiTypography-root",
+                            "srOnly": "MuiTypography-srOnly",
+                            "subtitle1": "MuiTypography-subtitle1",
+                            "subtitle2": "MuiTypography-subtitle2",
+                          }
+                        }
+                        color="primary"
+                        component="a"
+                        href="#logging-in-help"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        variant="inherit"
+                      >
+                        <a
+                          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#logging-in-help"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          logging-in-title
+                        </a>
+                      </ForwardRef(Typography)>
+                    </WithStyles(ForwardRef(Typography))>
+                  </ForwardRef(Link)>
+                </WithStyles(ForwardRef(Link))>
+              </li>
+              <li
+                className="HelpPage-tocItem-6 tocItem-class"
+              >
+                <WithStyles(ForwardRef(Link))
+                  href="#my-data-help"
+                >
+                  <ForwardRef(Link)
+                    classes={
+                      Object {
+                        "button": "MuiLink-button",
+                        "focusVisible": "Mui-focusVisible",
+                        "root": "MuiLink-root",
+                        "underlineAlways": "MuiLink-underlineAlways",
+                        "underlineHover": "MuiLink-underlineHover",
+                        "underlineNone": "MuiLink-underlineNone",
+                      }
+                    }
+                    href="#my-data-help"
+                  >
+                    <WithStyles(ForwardRef(Typography))
+                      className="MuiLink-root MuiLink-underlineHover"
+                      color="primary"
+                      component="a"
+                      href="#my-data-help"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      variant="inherit"
+                    >
+                      <ForwardRef(Typography)
+                        className="MuiLink-root MuiLink-underlineHover"
+                        classes={
+                          Object {
+                            "alignCenter": "MuiTypography-alignCenter",
+                            "alignJustify": "MuiTypography-alignJustify",
+                            "alignLeft": "MuiTypography-alignLeft",
+                            "alignRight": "MuiTypography-alignRight",
+                            "body1": "MuiTypography-body1",
+                            "body2": "MuiTypography-body2",
+                            "button": "MuiTypography-button",
+                            "caption": "MuiTypography-caption",
+                            "colorError": "MuiTypography-colorError",
+                            "colorInherit": "MuiTypography-colorInherit",
+                            "colorPrimary": "MuiTypography-colorPrimary",
+                            "colorSecondary": "MuiTypography-colorSecondary",
+                            "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                            "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                            "displayBlock": "MuiTypography-displayBlock",
+                            "displayInline": "MuiTypography-displayInline",
+                            "gutterBottom": "MuiTypography-gutterBottom",
+                            "h1": "MuiTypography-h1",
+                            "h2": "MuiTypography-h2",
+                            "h3": "MuiTypography-h3",
+                            "h4": "MuiTypography-h4",
+                            "h5": "MuiTypography-h5",
+                            "h6": "MuiTypography-h6",
+                            "noWrap": "MuiTypography-noWrap",
+                            "overline": "MuiTypography-overline",
+                            "paragraph": "MuiTypography-paragraph",
+                            "root": "MuiTypography-root",
+                            "srOnly": "MuiTypography-srOnly",
+                            "subtitle1": "MuiTypography-subtitle1",
+                            "subtitle2": "MuiTypography-subtitle2",
+                          }
+                        }
+                        color="primary"
+                        component="a"
+                        href="#my-data-help"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        variant="inherit"
+                      >
+                        <a
+                          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#my-data-help"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          my-data-title
+                        </a>
+                      </ForwardRef(Typography)>
+                    </WithStyles(ForwardRef(Typography))>
+                  </ForwardRef(Link)>
+                </WithStyles(ForwardRef(Link))>
+              </li>
+              <li
+                className="HelpPage-tocItem-6 tocItem-class"
+              >
+                <WithStyles(ForwardRef(Link))
+                  href="#browse-help"
+                >
+                  <ForwardRef(Link)
+                    classes={
+                      Object {
+                        "button": "MuiLink-button",
+                        "focusVisible": "Mui-focusVisible",
+                        "root": "MuiLink-root",
+                        "underlineAlways": "MuiLink-underlineAlways",
+                        "underlineHover": "MuiLink-underlineHover",
+                        "underlineNone": "MuiLink-underlineNone",
+                      }
+                    }
+                    href="#browse-help"
+                  >
+                    <WithStyles(ForwardRef(Typography))
+                      className="MuiLink-root MuiLink-underlineHover"
+                      color="primary"
+                      component="a"
+                      href="#browse-help"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      variant="inherit"
+                    >
+                      <ForwardRef(Typography)
+                        className="MuiLink-root MuiLink-underlineHover"
+                        classes={
+                          Object {
+                            "alignCenter": "MuiTypography-alignCenter",
+                            "alignJustify": "MuiTypography-alignJustify",
+                            "alignLeft": "MuiTypography-alignLeft",
+                            "alignRight": "MuiTypography-alignRight",
+                            "body1": "MuiTypography-body1",
+                            "body2": "MuiTypography-body2",
+                            "button": "MuiTypography-button",
+                            "caption": "MuiTypography-caption",
+                            "colorError": "MuiTypography-colorError",
+                            "colorInherit": "MuiTypography-colorInherit",
+                            "colorPrimary": "MuiTypography-colorPrimary",
+                            "colorSecondary": "MuiTypography-colorSecondary",
+                            "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                            "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                            "displayBlock": "MuiTypography-displayBlock",
+                            "displayInline": "MuiTypography-displayInline",
+                            "gutterBottom": "MuiTypography-gutterBottom",
+                            "h1": "MuiTypography-h1",
+                            "h2": "MuiTypography-h2",
+                            "h3": "MuiTypography-h3",
+                            "h4": "MuiTypography-h4",
+                            "h5": "MuiTypography-h5",
+                            "h6": "MuiTypography-h6",
+                            "noWrap": "MuiTypography-noWrap",
+                            "overline": "MuiTypography-overline",
+                            "paragraph": "MuiTypography-paragraph",
+                            "root": "MuiTypography-root",
+                            "srOnly": "MuiTypography-srOnly",
+                            "subtitle1": "MuiTypography-subtitle1",
+                            "subtitle2": "MuiTypography-subtitle2",
+                          }
+                        }
+                        color="primary"
+                        component="a"
+                        href="#browse-help"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        variant="inherit"
+                      >
+                        <a
+                          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#browse-help"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          browse-title
+                        </a>
+                      </ForwardRef(Typography)>
+                    </WithStyles(ForwardRef(Typography))>
+                  </ForwardRef(Link)>
+                </WithStyles(ForwardRef(Link))>
+              </li>
+              <li
+                className="HelpPage-tocItem-6 tocItem-class"
+              >
+                <WithStyles(ForwardRef(Link))
+                  href="#search-help"
+                >
+                  <ForwardRef(Link)
+                    classes={
+                      Object {
+                        "button": "MuiLink-button",
+                        "focusVisible": "Mui-focusVisible",
+                        "root": "MuiLink-root",
+                        "underlineAlways": "MuiLink-underlineAlways",
+                        "underlineHover": "MuiLink-underlineHover",
+                        "underlineNone": "MuiLink-underlineNone",
+                      }
+                    }
+                    href="#search-help"
+                  >
+                    <WithStyles(ForwardRef(Typography))
+                      className="MuiLink-root MuiLink-underlineHover"
+                      color="primary"
+                      component="a"
+                      href="#search-help"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      variant="inherit"
+                    >
+                      <ForwardRef(Typography)
+                        className="MuiLink-root MuiLink-underlineHover"
+                        classes={
+                          Object {
+                            "alignCenter": "MuiTypography-alignCenter",
+                            "alignJustify": "MuiTypography-alignJustify",
+                            "alignLeft": "MuiTypography-alignLeft",
+                            "alignRight": "MuiTypography-alignRight",
+                            "body1": "MuiTypography-body1",
+                            "body2": "MuiTypography-body2",
+                            "button": "MuiTypography-button",
+                            "caption": "MuiTypography-caption",
+                            "colorError": "MuiTypography-colorError",
+                            "colorInherit": "MuiTypography-colorInherit",
+                            "colorPrimary": "MuiTypography-colorPrimary",
+                            "colorSecondary": "MuiTypography-colorSecondary",
+                            "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                            "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                            "displayBlock": "MuiTypography-displayBlock",
+                            "displayInline": "MuiTypography-displayInline",
+                            "gutterBottom": "MuiTypography-gutterBottom",
+                            "h1": "MuiTypography-h1",
+                            "h2": "MuiTypography-h2",
+                            "h3": "MuiTypography-h3",
+                            "h4": "MuiTypography-h4",
+                            "h5": "MuiTypography-h5",
+                            "h6": "MuiTypography-h6",
+                            "noWrap": "MuiTypography-noWrap",
+                            "overline": "MuiTypography-overline",
+                            "paragraph": "MuiTypography-paragraph",
+                            "root": "MuiTypography-root",
+                            "srOnly": "MuiTypography-srOnly",
+                            "subtitle1": "MuiTypography-subtitle1",
+                            "subtitle2": "MuiTypography-subtitle2",
+                          }
+                        }
+                        color="primary"
+                        component="a"
+                        href="#search-help"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        variant="inherit"
+                      >
+                        <a
+                          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#search-help"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          search-title
+                        </a>
+                      </ForwardRef(Typography)>
+                    </WithStyles(ForwardRef(Typography))>
+                  </ForwardRef(Link)>
+                </WithStyles(ForwardRef(Link))>
+              </li>
+              <li
+                className="HelpPage-tocItem-6 tocItem-class"
+              >
+                <WithStyles(ForwardRef(Link))
+                  href="#cart-help"
+                >
+                  <ForwardRef(Link)
+                    classes={
+                      Object {
+                        "button": "MuiLink-button",
+                        "focusVisible": "Mui-focusVisible",
+                        "root": "MuiLink-root",
+                        "underlineAlways": "MuiLink-underlineAlways",
+                        "underlineHover": "MuiLink-underlineHover",
+                        "underlineNone": "MuiLink-underlineNone",
+                      }
+                    }
+                    href="#cart-help"
+                  >
+                    <WithStyles(ForwardRef(Typography))
+                      className="MuiLink-root MuiLink-underlineHover"
+                      color="primary"
+                      component="a"
+                      href="#cart-help"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      variant="inherit"
+                    >
+                      <ForwardRef(Typography)
+                        className="MuiLink-root MuiLink-underlineHover"
+                        classes={
+                          Object {
+                            "alignCenter": "MuiTypography-alignCenter",
+                            "alignJustify": "MuiTypography-alignJustify",
+                            "alignLeft": "MuiTypography-alignLeft",
+                            "alignRight": "MuiTypography-alignRight",
+                            "body1": "MuiTypography-body1",
+                            "body2": "MuiTypography-body2",
+                            "button": "MuiTypography-button",
+                            "caption": "MuiTypography-caption",
+                            "colorError": "MuiTypography-colorError",
+                            "colorInherit": "MuiTypography-colorInherit",
+                            "colorPrimary": "MuiTypography-colorPrimary",
+                            "colorSecondary": "MuiTypography-colorSecondary",
+                            "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                            "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                            "displayBlock": "MuiTypography-displayBlock",
+                            "displayInline": "MuiTypography-displayInline",
+                            "gutterBottom": "MuiTypography-gutterBottom",
+                            "h1": "MuiTypography-h1",
+                            "h2": "MuiTypography-h2",
+                            "h3": "MuiTypography-h3",
+                            "h4": "MuiTypography-h4",
+                            "h5": "MuiTypography-h5",
+                            "h6": "MuiTypography-h6",
+                            "noWrap": "MuiTypography-noWrap",
+                            "overline": "MuiTypography-overline",
+                            "paragraph": "MuiTypography-paragraph",
+                            "root": "MuiTypography-root",
+                            "srOnly": "MuiTypography-srOnly",
+                            "subtitle1": "MuiTypography-subtitle1",
+                            "subtitle2": "MuiTypography-subtitle2",
+                          }
+                        }
+                        color="primary"
+                        component="a"
+                        href="#cart-help"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        variant="inherit"
+                      >
+                        <a
+                          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#cart-help"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          cart-title
+                        </a>
+                      </ForwardRef(Typography)>
+                    </WithStyles(ForwardRef(Typography))>
+                  </ForwardRef(Link)>
+                </WithStyles(ForwardRef(Link))>
+              </li>
+              <li
+                className="HelpPage-tocItem-6 tocItem-class"
+              >
+                <WithStyles(ForwardRef(Link))
+                  href="#download-help"
+                >
+                  <ForwardRef(Link)
+                    classes={
+                      Object {
+                        "button": "MuiLink-button",
+                        "focusVisible": "Mui-focusVisible",
+                        "root": "MuiLink-root",
+                        "underlineAlways": "MuiLink-underlineAlways",
+                        "underlineHover": "MuiLink-underlineHover",
+                        "underlineNone": "MuiLink-underlineNone",
+                      }
+                    }
+                    href="#download-help"
+                  >
+                    <WithStyles(ForwardRef(Typography))
+                      className="MuiLink-root MuiLink-underlineHover"
+                      color="primary"
+                      component="a"
+                      href="#download-help"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      variant="inherit"
+                    >
+                      <ForwardRef(Typography)
+                        className="MuiLink-root MuiLink-underlineHover"
+                        classes={
+                          Object {
+                            "alignCenter": "MuiTypography-alignCenter",
+                            "alignJustify": "MuiTypography-alignJustify",
+                            "alignLeft": "MuiTypography-alignLeft",
+                            "alignRight": "MuiTypography-alignRight",
+                            "body1": "MuiTypography-body1",
+                            "body2": "MuiTypography-body2",
+                            "button": "MuiTypography-button",
+                            "caption": "MuiTypography-caption",
+                            "colorError": "MuiTypography-colorError",
+                            "colorInherit": "MuiTypography-colorInherit",
+                            "colorPrimary": "MuiTypography-colorPrimary",
+                            "colorSecondary": "MuiTypography-colorSecondary",
+                            "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                            "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                            "displayBlock": "MuiTypography-displayBlock",
+                            "displayInline": "MuiTypography-displayInline",
+                            "gutterBottom": "MuiTypography-gutterBottom",
+                            "h1": "MuiTypography-h1",
+                            "h2": "MuiTypography-h2",
+                            "h3": "MuiTypography-h3",
+                            "h4": "MuiTypography-h4",
+                            "h5": "MuiTypography-h5",
+                            "h6": "MuiTypography-h6",
+                            "noWrap": "MuiTypography-noWrap",
+                            "overline": "MuiTypography-overline",
+                            "paragraph": "MuiTypography-paragraph",
+                            "root": "MuiTypography-root",
+                            "srOnly": "MuiTypography-srOnly",
+                            "subtitle1": "MuiTypography-subtitle1",
+                            "subtitle2": "MuiTypography-subtitle2",
+                          }
+                        }
+                        color="primary"
+                        component="a"
+                        href="#download-help"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        variant="inherit"
+                      >
+                        <a
+                          className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                          href="#download-help"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          download-title
+                        </a>
+                      </ForwardRef(Typography)>
+                    </WithStyles(ForwardRef(Typography))>
+                  </ForwardRef(Link)>
+                </WithStyles(ForwardRef(Link))>
+              </li>
+            </ul>
+          </nav>
+        </TableOfContents>
         <div
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
+            component="h2"
+            id="logging-in-help"
+            variant="h3"
           >
             <ForwardRef(Typography)
               classes={
@@ -569,13 +1304,16 @@ exports[`Help page component should render correctly 1`] = `
                   "subtitle2": "MuiTypography-subtitle2",
                 }
               }
-              variant="h4"
+              component="h2"
+              id="logging-in-help"
+              variant="h3"
             >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
+              <h2
+                className="MuiTypography-root MuiTypography-h3"
+                id="logging-in-help"
               >
                 logging-in-title
-              </h4>
+              </h2>
             </ForwardRef(Typography)>
           </WithStyles(ForwardRef(Typography))>
           <WithStyles(ForwardRef(Typography))
@@ -645,7 +1383,9 @@ exports[`Help page component should render correctly 1`] = `
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
+            component="h2"
+            id="my-data-help"
+            variant="h3"
           >
             <ForwardRef(Typography)
               classes={
@@ -682,13 +1422,16 @@ exports[`Help page component should render correctly 1`] = `
                   "subtitle2": "MuiTypography-subtitle2",
                 }
               }
-              variant="h4"
+              component="h2"
+              id="my-data-help"
+              variant="h3"
             >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
+              <h2
+                className="MuiTypography-root MuiTypography-h3"
+                id="my-data-help"
               >
                 my-data-title
-              </h4>
+              </h2>
             </ForwardRef(Typography)>
           </WithStyles(ForwardRef(Typography))>
           <WithStyles(ForwardRef(Typography))
@@ -758,7 +1501,9 @@ exports[`Help page component should render correctly 1`] = `
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
+            component="h2"
+            id="browse-help"
+            variant="h3"
           >
             <ForwardRef(Typography)
               classes={
@@ -795,13 +1540,16 @@ exports[`Help page component should render correctly 1`] = `
                   "subtitle2": "MuiTypography-subtitle2",
                 }
               }
-              variant="h4"
+              component="h2"
+              id="browse-help"
+              variant="h3"
             >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
+              <h2
+                className="MuiTypography-root MuiTypography-h3"
+                id="browse-help"
               >
                 browse-title
-              </h4>
+              </h2>
             </ForwardRef(Typography)>
           </WithStyles(ForwardRef(Typography))>
           <WithStyles(ForwardRef(Typography))
@@ -871,7 +1619,9 @@ exports[`Help page component should render correctly 1`] = `
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
+            component="h2"
+            id="search-help"
+            variant="h3"
           >
             <ForwardRef(Typography)
               classes={
@@ -908,13 +1658,16 @@ exports[`Help page component should render correctly 1`] = `
                   "subtitle2": "MuiTypography-subtitle2",
                 }
               }
-              variant="h4"
+              component="h2"
+              id="search-help"
+              variant="h3"
             >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
+              <h2
+                className="MuiTypography-root MuiTypography-h3"
+                id="search-help"
               >
                 search-title
-              </h4>
+              </h2>
             </ForwardRef(Typography)>
           </WithStyles(ForwardRef(Typography))>
           <WithStyles(ForwardRef(Typography))
@@ -984,7 +1737,9 @@ exports[`Help page component should render correctly 1`] = `
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
+            component="h2"
+            id="cart-help"
+            variant="h3"
           >
             <ForwardRef(Typography)
               classes={
@@ -1021,13 +1776,16 @@ exports[`Help page component should render correctly 1`] = `
                   "subtitle2": "MuiTypography-subtitle2",
                 }
               }
-              variant="h4"
+              component="h2"
+              id="cart-help"
+              variant="h3"
             >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
+              <h2
+                className="MuiTypography-root MuiTypography-h3"
+                id="cart-help"
               >
                 cart-title
-              </h4>
+              </h2>
             </ForwardRef(Typography)>
           </WithStyles(ForwardRef(Typography))>
           <WithStyles(ForwardRef(Typography))
@@ -1097,7 +1855,9 @@ exports[`Help page component should render correctly 1`] = `
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
+            component="h2"
+            id="download-help"
+            variant="h3"
           >
             <ForwardRef(Typography)
               classes={
@@ -1134,13 +1894,16 @@ exports[`Help page component should render correctly 1`] = `
                   "subtitle2": "MuiTypography-subtitle2",
                 }
               }
-              variant="h4"
+              component="h2"
+              id="download-help"
+              variant="h3"
             >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
+              <h2
+                className="MuiTypography-root MuiTypography-h3"
+                id="download-help"
               >
                 download-title
-              </h4>
+              </h2>
             </ForwardRef(Typography)>
           </WithStyles(ForwardRef(Typography))>
           <WithStyles(ForwardRef(Typography))

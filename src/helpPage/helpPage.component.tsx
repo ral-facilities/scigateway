@@ -46,6 +46,15 @@ const styles = (theme: Theme): StyleRules =>
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
+    toc: {
+      background: 'whitesmoke',
+      border: 'solid 1px gainsboro',
+      display: 'table',
+      padding: '10px',
+    },
+    tocItem: {
+      listStyle: 'none',
+    },
   });
 
 interface HelpPageProps {
@@ -54,7 +63,9 @@ interface HelpPageProps {
 
 export type CombinedHelpPageProps = HelpPageProps & WithStyles<typeof styles>;
 
-const TableOfContents = (props: HelpPageProps): React.ReactElement => {
+export const TableOfContents = (
+  props: CombinedHelpPageProps
+): React.ReactElement => {
   const parser = new DOMParser();
   const loggingInHelp = parser.parseFromString(
     getString(props.res, 'logging-in-description'),
@@ -99,84 +110,87 @@ const TableOfContents = (props: HelpPageProps): React.ReactElement => {
     'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
   );
   return (
-    <nav>
-      <ul>
-        <li>
+    <nav className={props.classes.toc}>
+      <Typography component="h2" variant="h5">
+        {getString(props.res, 'table-of-contents')}
+      </Typography>
+      <ul style={{ padding: '0px', margin: '0px' }}>
+        <li className={props.classes.tocItem}>
           <Link href="#logging-in-help">
             {getString(props.res, 'logging-in-title')}
           </Link>
           {loggingInHelpLinks.length !== 0 ? (
             <ul>
               {Array.from(loggingInHelpLinks, (item, index) => (
-                <li key={index}>
+                <li className={props.classes.tocItem} key={index}>
                   <Link href={`#${item.id}`}>{item.textContent}</Link>
                 </li>
               ))}
             </ul>
           ) : null}
         </li>
-        <li>
+        <li className={props.classes.tocItem}>
           <Link href="#my-data-help">
             {getString(props.res, 'my-data-title')}
           </Link>
           {myDataHelpLinks.length !== 0 ? (
             <ul>
               {Array.from(myDataHelpLinks, (item, index) => (
-                <li key={index}>
+                <li className={props.classes.tocItem} key={index}>
                   <Link href={`#${item.id}`}>{item.textContent}</Link>
                 </li>
               ))}
             </ul>
           ) : null}
         </li>
-        <li>
+        <li className={props.classes.tocItem}>
           <Link href="#browse-help">
             {getString(props.res, 'browse-title')}
           </Link>
           {browseHelpLinks.length !== 0 ? (
             <ul>
               {Array.from(browseHelpLinks, (item, index) => (
-                <li key={index}>
+                <li className={props.classes.tocItem} key={index}>
                   <Link href={`#${item.id}`}>{item.textContent}</Link>
                 </li>
               ))}
             </ul>
           ) : null}
         </li>
-        <li>
+        <li className={props.classes.tocItem}>
           <Link href="#search-help">
             {getString(props.res, 'search-title')}
           </Link>
           {searchHelpLinks.length !== 0 ? (
             <ul>
               {Array.from(searchHelpLinks, (item, index) => (
-                <li key={index}>
+                <li className={props.classes.tocItem} key={index}>
                   <Link href={`#${item.id}`}>{item.textContent}</Link>
                 </li>
               ))}
             </ul>
           ) : null}
         </li>
-        <li>
+        <li className={props.classes.tocItem}>
           <Link href="#cart-help">{getString(props.res, 'cart-title')}</Link>
           {cartHelpLinks.length !== 0 ? (
             <ul>
               {Array.from(cartHelpLinks, (item, index) => (
-                <li key={index}>
+                <li className={props.classes.tocItem} key={index}>
                   <Link href={`#${item.id}`}>{item.textContent}</Link>
                 </li>
               ))}
             </ul>
           ) : null}
         </li>
-        <li>
+        <li className={props.classes.tocItem}>
           <Link href="#download-help">
             {getString(props.res, 'download-title')}
           </Link>
           {downloadHelpLinks.length !== 0 ? (
             <ul>
               {Array.from(downloadHelpLinks, (item, index) => (
-                <li key={index}>
+                <li className={props.classes.tocItem} key={index}>
                   <Link href={`#${item.id}`}>{item.textContent}</Link>
                 </li>
               ))}
@@ -191,12 +205,16 @@ const TableOfContents = (props: HelpPageProps): React.ReactElement => {
 const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
   return (
     <div className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+      <Typography
+        component="h1"
+        variant="h2"
+        className={props.classes.titleText}
+      >
         {getString(props.res, 'title')}
       </Typography>
-      <TableOfContents res={props.res} />
+      <TableOfContents {...props} />
       <div className={props.classes.container}>
-        <Typography id="logging-in-help" variant="h4">
+        <Typography id="logging-in-help" component="h2" variant="h3">
           {getString(props.res, 'logging-in-title')}
         </Typography>
         <Typography
@@ -208,7 +226,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         />
       </div>
       <div className={props.classes.container}>
-        <Typography id="my-data-help" variant="h4">
+        <Typography id="my-data-help" component="h2" variant="h3">
           {getString(props.res, 'my-data-title')}
         </Typography>
         <Typography
@@ -220,7 +238,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         />
       </div>
       <div className={props.classes.container}>
-        <Typography id="browse-help" variant="h4">
+        <Typography id="browse-help" component="h2" variant="h3">
           {getString(props.res, 'browse-title')}
         </Typography>
         <Typography
@@ -232,7 +250,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         />
       </div>
       <div className={props.classes.container}>
-        <Typography id="search-help" variant="h4">
+        <Typography id="search-help" component="h2" variant="h3">
           {getString(props.res, 'search-title')}
         </Typography>
         <Typography
@@ -244,7 +262,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         />
       </div>
       <div className={props.classes.container}>
-        <Typography id="cart-help" variant="h4">
+        <Typography id="cart-help" component="h2" variant="h3">
           {getString(props.res, 'cart-title')}
         </Typography>
         <Typography
@@ -256,7 +274,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
         />
       </div>
       <div className={props.classes.container}>
-        <Typography id="download-help" variant="h4">
+        <Typography id="download-help" component="h2" variant="h3">
           {getString(props.res, 'download-title')}
         </Typography>
         <Typography
