@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Help page component should render TOC correctly with nested headers 1`] = `
+<nav
+  className="toc-class"
+>
+  <WithStyles(ForwardRef(Typography))
+    component="h2"
+    variant="h5"
+  >
+    table-of-contents
+  </WithStyles(ForwardRef(Typography))>
+  <ul
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<li style='list-style: none'><a href='#test nested toc item 1'>Nested TOC item</a></li><ul><li style='list-style: none'><a href='#test nested toc item 2'>Nested TOC item 2</a></li></ul><li style='list-style: none'><a href='#test nested toc item 3'>Nested TOC item 3</a></li>",
+      }
+    }
+    style={
+      Object {
+        "margin": "0px",
+        "padding": "0px",
+      }
+    }
+  />
+</nav>
+`;
+
 exports[`Help page component should render correctly 1`] = `
 <ThemeProvider
   theme={
@@ -463,6 +489,7 @@ exports[`Help page component should render correctly 1`] = `
         "description": "description-class",
         "root": "root-class",
         "titleText": "titleText-class",
+        "toc": "toc-class",
       }
     }
   >
@@ -473,6 +500,7 @@ exports[`Help page component should render correctly 1`] = `
           "description": "HelpPage-description-4 description-class",
           "root": "HelpPage-root-1 root-class",
           "titleText": "HelpPage-titleText-3 titleText-class",
+          "toc": "HelpPage-toc-5 toc-class",
         }
       }
     >
@@ -481,7 +509,8 @@ exports[`Help page component should render correctly 1`] = `
       >
         <WithStyles(ForwardRef(Typography))
           className="HelpPage-titleText-3 titleText-class"
-          variant="h3"
+          component="h1"
+          variant="h2"
         >
           <ForwardRef(Typography)
             className="HelpPage-titleText-3 titleText-class"
@@ -519,183 +548,102 @@ exports[`Help page component should render correctly 1`] = `
                 "subtitle2": "MuiTypography-subtitle2",
               }
             }
-            variant="h3"
+            component="h1"
+            variant="h2"
           >
-            <h3
-              className="MuiTypography-root HelpPage-titleText-3 titleText-class MuiTypography-h3"
+            <h1
+              className="MuiTypography-root HelpPage-titleText-3 titleText-class MuiTypography-h2"
             >
               title
-            </h3>
+            </h1>
           </ForwardRef(Typography)>
         </WithStyles(ForwardRef(Typography))>
-        <div
-          className="HelpPage-container-2 container-class"
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="h4"
-          >
-            <ForwardRef(Typography)
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              variant="h4"
-            >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
-              >
-                logging-in-title
-              </h4>
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-          <WithStyles(ForwardRef(Typography))
-            className="HelpPage-description-4 description-class"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "logging-in-description",
-              }
+        <TableOfContents
+          classes={
+            Object {
+              "container": "HelpPage-container-2 container-class",
+              "description": "HelpPage-description-4 description-class",
+              "root": "HelpPage-root-1 root-class",
+              "titleText": "HelpPage-titleText-3 titleText-class",
+              "toc": "HelpPage-toc-5 toc-class",
             }
-            variant="body1"
+          }
+        >
+          <nav
+            className="HelpPage-toc-5 toc-class"
           >
-            <ForwardRef(Typography)
-              className="HelpPage-description-4 description-class"
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "logging-in-description",
-                }
-              }
-              variant="body1"
+            <WithStyles(ForwardRef(Typography))
+              component="h2"
+              variant="h5"
             >
-              <p
-                className="MuiTypography-root HelpPage-description-4 description-class MuiTypography-body1"
-                dangerouslySetInnerHTML={
+              <ForwardRef(Typography)
+                classes={
                   Object {
-                    "__html": "logging-in-description",
+                    "alignCenter": "MuiTypography-alignCenter",
+                    "alignJustify": "MuiTypography-alignJustify",
+                    "alignLeft": "MuiTypography-alignLeft",
+                    "alignRight": "MuiTypography-alignRight",
+                    "body1": "MuiTypography-body1",
+                    "body2": "MuiTypography-body2",
+                    "button": "MuiTypography-button",
+                    "caption": "MuiTypography-caption",
+                    "colorError": "MuiTypography-colorError",
+                    "colorInherit": "MuiTypography-colorInherit",
+                    "colorPrimary": "MuiTypography-colorPrimary",
+                    "colorSecondary": "MuiTypography-colorSecondary",
+                    "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                    "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                    "displayBlock": "MuiTypography-displayBlock",
+                    "displayInline": "MuiTypography-displayInline",
+                    "gutterBottom": "MuiTypography-gutterBottom",
+                    "h1": "MuiTypography-h1",
+                    "h2": "MuiTypography-h2",
+                    "h3": "MuiTypography-h3",
+                    "h4": "MuiTypography-h4",
+                    "h5": "MuiTypography-h5",
+                    "h6": "MuiTypography-h6",
+                    "noWrap": "MuiTypography-noWrap",
+                    "overline": "MuiTypography-overline",
+                    "paragraph": "MuiTypography-paragraph",
+                    "root": "MuiTypography-root",
+                    "srOnly": "MuiTypography-srOnly",
+                    "subtitle1": "MuiTypography-subtitle1",
+                    "subtitle2": "MuiTypography-subtitle2",
                   }
                 }
-              />
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-        </div>
+                component="h2"
+                variant="h5"
+              >
+                <h2
+                  className="MuiTypography-root MuiTypography-h5"
+                >
+                  table-of-contents
+                </h2>
+              </ForwardRef(Typography)>
+            </WithStyles(ForwardRef(Typography))>
+            <ul
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
+                }
+              }
+              style={
+                Object {
+                  "margin": "0px",
+                  "padding": "0px",
+                }
+              }
+            />
+          </nav>
+        </TableOfContents>
         <div
           className="HelpPage-container-2 container-class"
         >
           <WithStyles(ForwardRef(Typography))
-            variant="h4"
-          >
-            <ForwardRef(Typography)
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              variant="h4"
-            >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
-              >
-                my-data-title
-              </h4>
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-          <WithStyles(ForwardRef(Typography))
             className="HelpPage-description-4 description-class"
             dangerouslySetInnerHTML={
               Object {
-                "__html": "my-data-description",
+                "__html": "contents",
               }
             }
             variant="body1"
@@ -738,7 +686,7 @@ exports[`Help page component should render correctly 1`] = `
               }
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "my-data-description",
+                  "__html": "contents",
                 }
               }
               variant="body1"
@@ -747,459 +695,7 @@ exports[`Help page component should render correctly 1`] = `
                 className="MuiTypography-root HelpPage-description-4 description-class MuiTypography-body1"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "my-data-description",
-                  }
-                }
-              />
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-        </div>
-        <div
-          className="HelpPage-container-2 container-class"
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="h4"
-          >
-            <ForwardRef(Typography)
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              variant="h4"
-            >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
-              >
-                browse-title
-              </h4>
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-          <WithStyles(ForwardRef(Typography))
-            className="HelpPage-description-4 description-class"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "browse-description",
-              }
-            }
-            variant="body1"
-          >
-            <ForwardRef(Typography)
-              className="HelpPage-description-4 description-class"
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "browse-description",
-                }
-              }
-              variant="body1"
-            >
-              <p
-                className="MuiTypography-root HelpPage-description-4 description-class MuiTypography-body1"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "browse-description",
-                  }
-                }
-              />
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-        </div>
-        <div
-          className="HelpPage-container-2 container-class"
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="h4"
-          >
-            <ForwardRef(Typography)
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              variant="h4"
-            >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
-              >
-                search-title
-              </h4>
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-          <WithStyles(ForwardRef(Typography))
-            className="HelpPage-description-4 description-class"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "search-description",
-              }
-            }
-            variant="body1"
-          >
-            <ForwardRef(Typography)
-              className="HelpPage-description-4 description-class"
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "search-description",
-                }
-              }
-              variant="body1"
-            >
-              <p
-                className="MuiTypography-root HelpPage-description-4 description-class MuiTypography-body1"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "search-description",
-                  }
-                }
-              />
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-        </div>
-        <div
-          className="HelpPage-container-2 container-class"
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="h4"
-          >
-            <ForwardRef(Typography)
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              variant="h4"
-            >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
-              >
-                cart-title
-              </h4>
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-          <WithStyles(ForwardRef(Typography))
-            className="HelpPage-description-4 description-class"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "cart-description",
-              }
-            }
-            variant="body1"
-          >
-            <ForwardRef(Typography)
-              className="HelpPage-description-4 description-class"
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "cart-description",
-                }
-              }
-              variant="body1"
-            >
-              <p
-                className="MuiTypography-root HelpPage-description-4 description-class MuiTypography-body1"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "cart-description",
-                  }
-                }
-              />
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-        </div>
-        <div
-          className="HelpPage-container-2 container-class"
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="h4"
-          >
-            <ForwardRef(Typography)
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              variant="h4"
-            >
-              <h4
-                className="MuiTypography-root MuiTypography-h4"
-              >
-                download-title
-              </h4>
-            </ForwardRef(Typography)>
-          </WithStyles(ForwardRef(Typography))>
-          <WithStyles(ForwardRef(Typography))
-            className="HelpPage-description-4 description-class"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "download-description",
-              }
-            }
-            variant="body1"
-          >
-            <ForwardRef(Typography)
-              className="HelpPage-description-4 description-class"
-              classes={
-                Object {
-                  "alignCenter": "MuiTypography-alignCenter",
-                  "alignJustify": "MuiTypography-alignJustify",
-                  "alignLeft": "MuiTypography-alignLeft",
-                  "alignRight": "MuiTypography-alignRight",
-                  "body1": "MuiTypography-body1",
-                  "body2": "MuiTypography-body2",
-                  "button": "MuiTypography-button",
-                  "caption": "MuiTypography-caption",
-                  "colorError": "MuiTypography-colorError",
-                  "colorInherit": "MuiTypography-colorInherit",
-                  "colorPrimary": "MuiTypography-colorPrimary",
-                  "colorSecondary": "MuiTypography-colorSecondary",
-                  "colorTextPrimary": "MuiTypography-colorTextPrimary",
-                  "colorTextSecondary": "MuiTypography-colorTextSecondary",
-                  "displayBlock": "MuiTypography-displayBlock",
-                  "displayInline": "MuiTypography-displayInline",
-                  "gutterBottom": "MuiTypography-gutterBottom",
-                  "h1": "MuiTypography-h1",
-                  "h2": "MuiTypography-h2",
-                  "h3": "MuiTypography-h3",
-                  "h4": "MuiTypography-h4",
-                  "h5": "MuiTypography-h5",
-                  "h6": "MuiTypography-h6",
-                  "noWrap": "MuiTypography-noWrap",
-                  "overline": "MuiTypography-overline",
-                  "paragraph": "MuiTypography-paragraph",
-                  "root": "MuiTypography-root",
-                  "srOnly": "MuiTypography-srOnly",
-                  "subtitle1": "MuiTypography-subtitle1",
-                  "subtitle2": "MuiTypography-subtitle2",
-                }
-              }
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "download-description",
-                }
-              }
-              variant="body1"
-            >
-              <p
-                className="MuiTypography-root HelpPage-description-4 description-class MuiTypography-body1"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "download-description",
+                    "__html": "contents",
                   }
                 }
               />
