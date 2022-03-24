@@ -89,7 +89,6 @@ export const TableOfContents = (
   }
   // close off any remaining uls
   tocHtml += '</ul>'.repeat(currLevel - 2);
-  console.log(tocHtml);
 
   return (
     <nav className={props.classes.toc}>
