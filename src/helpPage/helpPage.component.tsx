@@ -42,8 +42,9 @@ const styles = (theme: Theme): StyleRules =>
       marginBottom: theme.spacing(2),
     },
     toc: {
-      background: 'whitesmoke',
-      border: 'solid 1px gainsboro',
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.background.paper,
+      border: `solid 1px ${theme.palette.divider}`,
       display: 'table',
       padding: '10px',
       marginTop: '10px',
