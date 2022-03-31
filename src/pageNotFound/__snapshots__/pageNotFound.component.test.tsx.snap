@@ -33,23 +33,35 @@ exports[`Page Not found component renders pageNotFound page correctly 1`] = `
       >
         We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the
          
-        <Link
-          className="bold-class"
+        <WithStyles(ForwardRef(Link))
+          component={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "displayName": "Link",
+              "propTypes": Object {
+                "innerRef": [Function],
+                "onClick": [Function],
+                "replace": [Function],
+                "target": [Function],
+                "to": [Function],
+              },
+              "render": [Function],
+            }
+          }
           data-test-id="page-not-found-homepage-link"
           to="/"
         >
           homepage
-        </Link>
+        </WithStyles(ForwardRef(Link))>
          
         or
          
-        <Link
-          className="bold-class"
+        <WithStyles(ForwardRef(Link))
           data-test-id="page-not-found-contact-support-link"
-          to="/contact"
+          href="footer.links.contact"
         >
           contact support
-        </Link>
+        </WithStyles(ForwardRef(Link))>
         .
       </Trans>
     </WithStyles(ForwardRef(Typography))>
