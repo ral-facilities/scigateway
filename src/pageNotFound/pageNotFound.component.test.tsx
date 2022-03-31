@@ -79,7 +79,7 @@ describe('Page Not found component', () => {
       wrapper
         .find('[data-test-id="page-not-found-contact-support-link"]')
         .first()
-        .prop('to')
-    ).toEqual('/contact');
+        .prop('href')
+    ).toEqual('footer.links.contact');
   });
 });

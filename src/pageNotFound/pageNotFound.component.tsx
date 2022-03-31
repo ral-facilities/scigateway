@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, WithStyles, Theme } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
@@ -64,16 +65,15 @@ export const PageNotFoundComponent = (
             again. Otherwise, return to the{' '}
             <Link
               data-test-id="page-not-found-homepage-link"
-              className={props.classes.bold}
+              component={RouterLink}
               to="/"
             >
               homepage
             </Link>{' '}
             or{' '}
             <Link
-              className={props.classes.bold}
               data-test-id="page-not-found-contact-support-link"
-              to="/contact"
+              href={t('footer.links.contact')}
             >
               contact support
             </Link>
