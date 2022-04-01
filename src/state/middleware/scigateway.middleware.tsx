@@ -102,10 +102,9 @@ export const listenToPlugins = (
             dispatch(
               addHelpTourSteps([
                 {
-                  target: `#plugin-link-${pluginMessage.detail.payload.link.replace(
-                    /\//g,
-                    '-'
-                  )}`,
+                  target: `#plugin-link-${pluginMessage.detail.payload.link
+                    .split('?')[0]
+                    .replace(/\//g, '-')}`,
                   content: pluginMessage.detail.payload.helpText,
                 },
               ])
@@ -127,8 +126,9 @@ export const listenToPlugins = (
 
           // this helps prevent problems if the plugin settings files and thus routes are loaded particularly slowly
           if (
-            getState().router.location.pathname ===
-              pluginMessage.detail.payload.link &&
+            getState().router.location.pathname.startsWith(
+              pluginMessage.detail.payload.link.split('?')[0]
+            ) &&
             singleSpa.getAppStatus(pluginMessage.detail.payload.plugin) ===
               singleSpa.NOT_LOADED
           ) {

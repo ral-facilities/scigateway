@@ -352,7 +352,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
               !Object.values(scigatewayRoutes).includes(currUrl) &&
               currUrl !== adminRoutes.maintenance &&
               !getState().scigateway.plugins.find((p) =>
-                currUrl.startsWith(p.link)
+                currUrl.startsWith(p.link.split('?')[0])
               )
             ) {
               let eventFired = false;
@@ -360,7 +360,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                 const pluginMessage = event as CustomEvent<AnyAction>;
                 if (
                   pluginMessage?.detail?.type === RegisterRouteType &&
-                  currUrl.startsWith(pluginMessage.detail.payload.link)
+                  currUrl.startsWith(
+                    pluginMessage.detail.payload.link.split('?')[0]
+                  )
                 ) {
                   dispatch(siteLoadingUpdate(false));
                   eventFired = true;
