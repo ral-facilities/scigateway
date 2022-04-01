@@ -138,9 +138,9 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         (plugin) => plugin.link !== this.props.homepageUrl
       );
     }
-    // Do not include non admin plugins in the drawer list
+    // Do not include admin plugins or plugins that explicitly ask to hide in the drawer list
     const sectionPlugins = structureMenuData(
-      plugins.filter((plugin) => !plugin.admin)
+      plugins.filter((plugin) => !plugin.admin && !plugin.hideFromMenu)
     );
 
     return (
