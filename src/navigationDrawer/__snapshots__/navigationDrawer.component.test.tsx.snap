@@ -165,7 +165,7 @@ exports[`Navigation drawer component does not display link to homepage if a home
 </div>
 `;
 
-exports[`Navigation drawer component does not render admin plugins in list 1`] = `
+exports[`Navigation drawer component does not render admin plugins or plugins that ask to hide in list 1`] = `
 <div
   className="MuiDrawer-root MuiDrawer-docked drawer-1"
 >
