@@ -94,7 +94,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         key={index}
         component={ForwardRefLink}
         to={plugin.link}
-        id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
+        id={`plugin-link-${plugin.link.split('?')[0].replace(/\//g, '-')}`}
         button
         dense
       >

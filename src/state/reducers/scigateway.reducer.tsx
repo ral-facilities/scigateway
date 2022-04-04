@@ -129,19 +129,20 @@ const updatePlugins = (
   existingPlugins: PluginConfig[],
   payload: RegisterRoutePayload
 ): PluginConfig[] => {
+  const basePluginLink = payload.link.split('?')[0];
   if (singleSpaPluginRoutes[payload.plugin]) {
-    if (!singleSpaPluginRoutes[payload.plugin].includes(payload.link))
-      singleSpaPluginRoutes[payload.plugin].push(payload.link);
+    if (!singleSpaPluginRoutes[payload.plugin].includes(basePluginLink))
+      singleSpaPluginRoutes[payload.plugin].push(basePluginLink);
   } else {
-    singleSpaPluginRoutes[payload.plugin] = [payload.link];
+    singleSpaPluginRoutes[payload.plugin] = [basePluginLink];
   }
 
-  if (!existingPlugins.some((p) => p.link === payload.link)) {
+  if (!existingPlugins.some((p) => p.link === basePluginLink)) {
     return [...existingPlugins, buildPluginConfig(payload)];
   }
 
   log.error(
-    `Duplicate plugin route identified: ${payload.link}.
+    `Duplicate plugin route identified: ${basePluginLink}.
      ${payload.plugin}:'${payload.displayName}' not registered`
   );
   return existingPlugins;
