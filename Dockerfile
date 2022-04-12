@@ -5,6 +5,7 @@ WORKDIR /scigateway
 ENV PATH /scigateway/node_modules/.bin:$PATH
 
 # Set Yarn version
+# TODO - Use Yarn 2 when project is upgraded
 RUN yarn set version 1.22
 
 COPY . .
