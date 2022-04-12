@@ -7,3 +7,4 @@ RUN yarn set version 1.22
 
 COPY . .
 RUN yarn install
+RUN yarn build
