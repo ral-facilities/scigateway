@@ -8,6 +8,9 @@ ENV PATH /scigateway/node_modules/.bin:$PATH
 # TODO - Use Yarn 2 when project is upgraded
 RUN yarn set version 1.22
 
+# Install dependancies
+# TODO: use yarn install --production:
+# https://github.com/ral-facilities/scigateway/issues/1025
 COPY . .
 RUN yarn install
 RUN yarn build
