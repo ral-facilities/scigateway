@@ -1,3 +1,8 @@
+# This workflow file builds and pushes the Dockerfile
+# located in this repo, to the SCD harbor Docker registry.
+# It uses a harbor robot account, who's credentials are 
+# stored as secrets in this repo.
+
 name: Build & Push Docker Image
 
 on:
@@ -24,3 +29,10 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: harbor.stfc.ac.uk/datagateway/scigateway
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
