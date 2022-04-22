@@ -1,6 +1,6 @@
 # This workflow file builds and pushes the Dockerfile
 # located in this repo, to the SCD harbor Docker registry.
-# It uses a harbor robot account, who's credentials are 
+# It uses a harbor robot account, whose credentials are 
 # stored as secrets in this repo.
 
 name: Build & Push Docker Image
