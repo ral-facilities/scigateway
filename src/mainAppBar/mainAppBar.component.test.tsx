@@ -52,7 +52,6 @@ describe('Main app bar component', () => {
       },
       router: { location: createLocation('/') },
     };
-    // state = JSON.parse(JSON.stringify({ scigateway: initialState }));
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
   });
 
