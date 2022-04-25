@@ -54,6 +54,7 @@ interface MainAppProps {
   logo?: string;
   homepageUrl?: string;
   adminPageDefaultTab?: 'maintenance' | 'download';
+  pathname: string;
 }
 
 interface MainAppDispatchProps {
@@ -165,7 +166,12 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
   React.useEffect(() => {
-    if (!props.loading && props.loggedIn && !props.drawerOpen)
+    if (
+      !props.loading &&
+      props.loggedIn &&
+      !props.drawerOpen &&
+      props.pathname !== '/login'
+    )
       props.toggleDrawer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.loading, props.loggedIn]);
@@ -329,6 +335,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   logo: state.scigateway.logo,
   homepageUrl: state.scigateway.homepageUrl,
   adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
+  pathname: state.router.location.pathname,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({

@@ -217,7 +217,6 @@ export function handleUnsuccessfulLogin(
   state.authorisation.provider.logOut();
   return {
     ...state,
-    drawerOpen: false,
     authorisation: {
       ...resetAuth(state.authorisation),
       failedToLogin: true,
@@ -230,7 +229,6 @@ export function handleSignOut(state: ScigatewayState): ScigatewayState {
   state.authorisation.provider.logOut();
   return {
     ...state,
-    drawerOpen: false,
     authorisation: resetAuth(state.authorisation),
   };
 }
