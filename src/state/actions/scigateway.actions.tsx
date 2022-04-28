@@ -490,15 +490,10 @@ export const verifyUsernameAndPassword = (
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to
-        // the referrer is added by the redirect in routing.component.tsx
-        const previousRouteState = getState().router.location.state;
-        dispatch(
-          push(
-            previousRouteState && previousRouteState.referrer
-              ? previousRouteState.referrer
-              : '/'
-          )
-        );
+        // the referrer is set in localStorage in authorisedRoute.component.tsx
+        const referrer = localStorage.getItem('referrer');
+        localStorage.removeItem('referrer');
+        dispatch(push(referrer ?? '/'));
       })
       .catch(() => {
         // probably want to do something smarter with

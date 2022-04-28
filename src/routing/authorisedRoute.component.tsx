@@ -59,6 +59,18 @@ const withAuth =
         }
       }
 
+      private setReferrer(): void {
+        if (
+          !this.props.loggedIn &&
+          this.props.location !== '/' &&
+          !(
+            this.props.homepageUrl &&
+            this.props.location === this.props.homepageUrl
+          )
+        )
+          localStorage.setItem('referrer', this.props.location);
+      }
+
       public render(): React.ReactElement {
         const {
           loading,
@@ -72,6 +84,8 @@ const withAuth =
           ...componentProps
         } = this.props;
 
+        this.setReferrer();
+
         return (
           <div>
             {!loading &&
@@ -79,15 +93,11 @@ const withAuth =
                 homepageUrl && location === homepageUrl ? (
                   <ComponentToProtect {...(componentProps as T)} />
                 ) : (
-                  <div>
-                    <Redirect
-                      push
-                      to={{
-                        pathname: '/login',
-                        state: { referrer: location },
-                      }}
-                    />
-                  </div>
+                  <Redirect
+                    to={{
+                      pathname: '/login',
+                    }}
+                  />
                 )
               ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
               !adminSection || (adminSection && userIsAdmin) ? (
