@@ -87,7 +87,6 @@ const withAuth =
                         state: { referrer: location },
                       }}
                     />
-                    <ComponentToProtect {...(componentProps as T)} />
                   </div>
                 )
               ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
