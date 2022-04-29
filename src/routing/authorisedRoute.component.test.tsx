@@ -87,13 +87,11 @@ describe('AuthorisedRoute component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders homepage component when homepageUrl is configured and logged in', () => {
+  it('renders homepage component when homepageUrl is configured', () => {
     state.scigateway.siteLoading = false;
-    state.scigateway.authorisation.loading = false;
-    state.scigateway.authorisation.provider = new TestAuthProvider(
-      'test-token'
-    );
-    state.router.location.state = { scigateway: { homepageUrl: '/test' } };
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.homepageUrl = '/homepage';
+    state.router.location.pathname = '/homepage';
 
     const HomepageComponent = (): React.ReactElement => (
       <div>homepage component</div>
@@ -184,5 +182,45 @@ describe('AuthorisedRoute component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(invalidToken());
+  });
+
+  it('sets referrer in localStorage if not logged in', () => {
+    window.localStorage.__proto__.setItem = jest.fn();
+    state.scigateway.siteLoading = false;
+    state.scigateway.authorisation.loading = false;
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.router.location.pathname = '/destination/after/login';
+
+    const testStore = mockStore(state);
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    shallow(<AuthorisedComponent store={testStore} />);
+
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'referrer',
+      '/destination/after/login'
+    );
+  });
+
+  it('does not set referrer in localStorage if logged in or if referrer is homepage', () => {
+    window.localStorage.__proto__.setItem = jest.fn();
+    state.scigateway.authorisation.provider = new TestAuthProvider(
+      'test-token'
+    );
+    state.router.location.pathname = '/destination/after/login';
+
+    let testStore = mockStore(state);
+    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    shallow(<AuthorisedComponent store={testStore} />);
+
+    expect(localStorage.setItem).not.toHaveBeenCalled();
+
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.homepageUrl = '/homepage';
+    state.router.location.pathname = '/homepage';
+
+    testStore = mockStore(state);
+    shallow(<AuthorisedComponent store={testStore} />);
+
+    expect(localStorage.setItem).not.toHaveBeenCalled();
   });
 });

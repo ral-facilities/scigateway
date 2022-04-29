@@ -41,7 +41,7 @@ exports[`AuthorisedRoute component renders admin component when admin user acces
 </div>
 `;
 
-exports[`AuthorisedRoute component renders homepage component when homepageUrl is configured and logged in 1`] = `
+exports[`AuthorisedRoute component renders homepage component when homepageUrl is configured 1`] = `
 <div>
   <HomepageComponent
     store={
