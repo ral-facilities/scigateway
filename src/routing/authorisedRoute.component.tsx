@@ -88,8 +88,8 @@ const withAuth =
 
         return (
           <div>
-            {!loading &&
-              (!loggedIn ? (
+            {!loading ? (
+              !loggedIn ? (
                 homepageUrl && location === homepageUrl ? (
                   <ComponentToProtect {...(componentProps as T)} />
                 ) : (
@@ -104,7 +104,10 @@ const withAuth =
                 <ComponentToProtect {...(componentProps as T)} />
               ) : (
                 <PageNotFound />
-              ))}
+              )
+            ) : (
+              <PageNotFound />
+            )}
           </div>
         );
       }

@@ -91,6 +91,15 @@ describe('scigateway actions', () => {
       'this will be replaced by an API call to get access token'
     );
 
+    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = jest
+      .fn()
+      .mockImplementation((name) =>
+        name === 'referrer' ? '/destination/after/login' : null
+      );
+    window.localStorage.__proto__.removeItem = jest.fn();
+    window.localStorage.__proto__.setItem = jest.fn();
+
     const mnemonic = 'anon';
     const authUrl = 'http://example.com';
 
@@ -108,13 +117,6 @@ describe('scigateway actions', () => {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const getState = (): any => ({
       scigateway: state,
-      router: {
-        location: {
-          state: {
-            referrer: '/destination/after/login',
-          },
-        },
-      },
     });
 
     const action = asyncAction(dispatch, getState);
