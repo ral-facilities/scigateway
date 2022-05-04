@@ -109,7 +109,6 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should login given username with leading or trailing whitespace', () => {
@@ -132,7 +131,6 @@ describe('Login', () => {
       (window) =>
         expect(window.localStorage.getItem('scigateway:token')).not.be.null
     );
-    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
   });
 
   it('should remain logged in following page refresh or redirect', () => {
@@ -157,7 +155,6 @@ describe('Login', () => {
       expect(window.localStorage.getItem('scigateway:token')).not.be.null;
       storedToken = window.localStorage.getItem('scigateway:token');
     });
-    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
 
     cy.reload();
     cy.window().then((window) => {
@@ -166,7 +163,6 @@ describe('Login', () => {
         window.localStorage.getItem('scigateway:token')
       );
     });
-    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
 
     cy.visit('/help');
@@ -176,7 +172,6 @@ describe('Login', () => {
         window.localStorage.getItem('scigateway:token')
       );
     });
-    cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
     cy.contains('Sign in').should('not.exist');
   });
 
@@ -388,7 +383,6 @@ describe('Login', () => {
 
       cy.get('[alt="SciGateway"]').click();
 
-      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
@@ -407,7 +401,6 @@ describe('Login', () => {
         .contains('button', 'Sign in')
         .click();
 
-      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
     });
