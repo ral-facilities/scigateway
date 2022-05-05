@@ -59,18 +59,6 @@ const withAuth =
         }
       }
 
-      private setReferrer(): void {
-        if (
-          !this.props.loggedIn &&
-          this.props.location !== '/' &&
-          !(
-            this.props.homepageUrl &&
-            this.props.location === this.props.homepageUrl
-          )
-        )
-          localStorage.setItem('referrer', this.props.location);
-      }
-
       public render(): React.ReactElement {
         const {
           loading,
@@ -84,8 +72,6 @@ const withAuth =
           ...componentProps
         } = this.props;
 
-        this.setReferrer();
-
         return (
           <div>
             {!loading ? (
@@ -96,6 +82,7 @@ const withAuth =
                   <Redirect
                     to={{
                       pathname: '/login',
+                      state: { referrer: location },
                     }}
                   />
                 )

@@ -485,14 +485,14 @@ export const verifyUsernameAndPassword = (
     await authProvider
       .logIn(username, password)
       .then(() => {
+        const referrer = getState().router.location.state?.referrer;
+
         if (newMnemonic)
           dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to
-        // the referrer is set in localStorage in authorisedRoute.component.tsx
-        const referrer = localStorage.getItem('referrer');
-        localStorage.removeItem('referrer');
+        // the referrer is added by the redirect in authorisedRoute.component.tsx
         dispatch(push(referrer ?? '/'));
       })
       .catch(() => {

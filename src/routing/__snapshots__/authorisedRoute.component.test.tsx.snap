@@ -92,12 +92,15 @@ exports[`AuthorisedRoute component renders non admin component when non admin us
 </div>
 `;
 
-exports[`AuthorisedRoute component renders redirect when user not logged in 1`] = `
+exports[`AuthorisedRoute component renders redirect when user not logged in and stores referrer in router state 1`] = `
 <div>
   <Redirect
     to={
       Object {
         "pathname": "/login",
+        "state": Object {
+          "referrer": "/",
+        },
       }
     }
   />
