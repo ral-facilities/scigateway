@@ -87,21 +87,23 @@ describe('AuthorisedRoute component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders redirect when homepageUrl is configured and logged in', () => {
+  it('renders homepage component when homepageUrl is configured', () => {
     state.scigateway.siteLoading = false;
-    state.scigateway.authorisation.loading = false;
-    state.scigateway.authorisation.provider = new TestAuthProvider(
-      'test-token'
-    );
-    state.router.location.state = { scigateway: { homepageUrl: '/test' } };
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.homepageUrl = '/homepage';
+    state.router.location.pathname = '/homepage';
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
+    const HomepageComponent = (): React.ReactElement => (
+      <div>homepage component</div>
+    );
+
+    const AuthorisedComponent = withAuth(false)(HomepageComponent);
     const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
 
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders redirect when user not logged in', () => {
+  it('renders redirect when user not logged in and stores referrer in router state', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);

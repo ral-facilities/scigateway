@@ -92,7 +92,7 @@ describe('Login', () => {
   it('should login given correct credentials', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
+    cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
     cy.contains('Username*').parent().find('input').type('username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -114,7 +114,7 @@ describe('Login', () => {
   it('should login given username with leading or trailing whitespace', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
+    cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
     cy.contains('Username*').parent().find('input').type(' username ');
     cy.contains('Password*').parent().find('input').type('password');
@@ -136,7 +136,7 @@ describe('Login', () => {
   it('should remain logged in following page refresh or redirect', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
+    cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
     cy.contains('Username*').parent().find('input').type(' username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -352,7 +352,7 @@ describe('Login', () => {
       verifyResponse = verifySuccess;
 
       cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
+      cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
       // test that autologin fails after token validation + refresh fail
       verifyResponse = failure;
@@ -362,7 +362,7 @@ describe('Login', () => {
       );
       cy.reload();
       cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should('not.exist');
+      cy.get('button[aria-label="Open navigation menu"]').should('exist');
     });
 
     it('should be able to directly view a plugin route without signing in', () => {

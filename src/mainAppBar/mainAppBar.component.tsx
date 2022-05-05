@@ -183,35 +183,31 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           disableGutters
           style={{ marginLeft: '16px', marginRight: '16px' }}
         >
-          {props.loggedIn ? (
-            props.drawerOpen === false ? (
-              <IconButton
-                className={classNames(
-                  props.classes.menuButton,
-                  props.drawerOpen && props.classes.menuButtonOpen
-                )}
-                color="inherit"
-                onClick={props.toggleDrawer}
-                aria-label={getString(props.res, 'open-navigation-menu')}
-              >
-                <MenuIcon />
-              </IconButton>
-            ) : (
-              <IconButton
-                className={classNames(
-                  props.classes.menuButtonOpen,
-                  props.drawerOpen && props.classes.menuButton,
-                  'tour-nav-menu'
-                )}
-                color="inherit"
-                onClick={props.toggleDrawer}
-                aria-label={getString(props.res, 'close-navigation-menu')}
-              >
-                <MenuOpenIcon />
-              </IconButton>
-            )
+          {!props.drawerOpen ? (
+            <IconButton
+              className={classNames(
+                props.classes.menuButton,
+                props.drawerOpen && props.classes.menuButtonOpen
+              )}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label={getString(props.res, 'open-navigation-menu')}
+            >
+              <MenuIcon />
+            </IconButton>
           ) : (
-            <div className={props.classes.menuButtonPlaceholder} />
+            <IconButton
+              className={classNames(
+                props.classes.menuButtonOpen,
+                props.drawerOpen && props.classes.menuButton,
+                'tour-nav-menu'
+              )}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label={getString(props.res, 'close-navigation-menu')}
+            >
+              <MenuOpenIcon />
+            </IconButton>
           )}
           <Button
             className={classNames(props.classes.titleButton, 'tour-title')}
