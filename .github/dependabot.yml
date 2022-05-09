@@ -141,3 +141,11 @@ updates:
           - 4.19.0
           - 4.20.0
           - 4.21.0
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+      timezone: Europe/London
