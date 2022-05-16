@@ -35,13 +35,69 @@ const DescriptionTypography = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
+const TableOfContentsNav = styled('nav')(({ theme }) => ({
+  color: theme.palette.text.primary,
+  backgroundColor: theme.palette.background.paper,
+  border: `solid 1px ${theme.palette.divider}`,
+  display: 'table',
+  padding: '10px',
+  marginTop: '10px',
+}));
+
 interface HelpPageProps {
   res: AppStrings | undefined;
 }
 
 export type CombinedHelpPageProps = HelpPageProps;
 
-export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
+export const TableOfContents = (
+  props: CombinedHelpPageProps
+): React.ReactElement => {
+  const parser = new DOMParser();
+  const help = parser.parseFromString(
+    getString(props.res, 'contents'),
+    'text/html'
+  );
+  const helpLinks = help.querySelectorAll(
+    'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
+  );
+
+  // highest level of h that's valid is 2 (as there should only be 1 h1 per page)
+  let currLevel = 2;
+  let tocHtml = '';
+  for (let i = 0; i < helpLinks.length; i++) {
+    const h = helpLinks[i];
+    // the "h level" is the second character of the header tag i.e. h1 is hLevel 1
+    const hLevel = parseInt(h.nodeName[1]);
+    // lower hLevel = reduce nesting, so add closing ul tags
+    if (currLevel > hLevel) {
+      tocHtml += '</ul>'.repeat(currLevel - hLevel);
+    }
+    // higher hLevel = increase nesting, so add opening ul tags
+    else if (currLevel < hLevel) {
+      tocHtml += '<ul>'.repeat(hLevel - currLevel);
+    }
+    // we are at the same level, so just add ourselves
+    tocHtml += `<li style='list-style: none'><a href='#${h.id}'>${h.textContent}</a></li>`;
+    currLevel = hLevel;
+  }
+  // close off any remaining uls
+  tocHtml += '</ul>'.repeat(currLevel - 2);
+
+  return (
+    <TableOfContentsNav>
+      <Typography variant="h5">
+        {getString(props.res, 'table-of-contents')}
+      </Typography>
+      <ul
+        style={{ padding: '0px', margin: '0px' }}
+        dangerouslySetInnerHTML={{ __html: tocHtml }}
+      />
+    </TableOfContentsNav>
+  );
+};
+
+const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
   return (
     <RootDiv>
       <Typography
@@ -50,6 +106,7 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
       >
         {getString(props.res, 'title')}
       </Typography>
+      <TableOfContents {...props} />
       <ContainerDiv>
         <Typography variant="h4">
           {getString(props.res, 'logging-in-title')}
@@ -113,6 +170,14 @@ export const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
           variant="body1"
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'download-description'),
+          }}
+        />
+      </ContainerDiv>
+      <ContainerDiv>
+        <DescriptionTypography
+          variant="body1"
+          dangerouslySetInnerHTML={{
+            __html: getString(props.res, 'contents'),
           }}
         />
       </ContainerDiv>

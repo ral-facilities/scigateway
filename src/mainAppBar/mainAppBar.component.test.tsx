@@ -1,5 +1,6 @@
 import React from 'react';
 import MainAppBarComponent from './mainAppBar.component';
+import { createLocation } from 'history';
 import { StateType } from '../state/state.types';
 import { PluginConfig } from '../state/scigateway.types';
 import configureStore from 'redux-mock-store';
@@ -43,7 +44,13 @@ describe('Main app bar component', () => {
     history = createMemoryHistory();
 
     mockStore = configureStore();
-    state = JSON.parse(JSON.stringify({ scigateway: initialState }));
+    state = {
+      scigateway: {
+        ...initialState,
+        features: { ...initialState.features, showHelpPageButton: true },
+      },
+      router: { location: createLocation('/') },
+    };
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
   });
 

@@ -41,6 +41,23 @@ exports[`AuthorisedRoute component renders admin component when admin user acces
 </div>
 `;
 
+exports[`AuthorisedRoute component renders homepage component when homepageUrl is configured 1`] = `
+<div>
+  <HomepageComponent
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  />
+</div>
+`;
+
 exports[`AuthorisedRoute component renders non admin component when admin user accesses it 1`] = `
 <div>
   <ComponentToProtect
@@ -75,23 +92,9 @@ exports[`AuthorisedRoute component renders non admin component when non admin us
 </div>
 `;
 
-exports[`AuthorisedRoute component renders redirect when homepageUrl is configured and logged in 1`] = `
+exports[`AuthorisedRoute component renders redirect when user not logged in and stores referrer in router state 1`] = `
 <div>
   <Redirect
-    push={true}
-    to={
-      Object {
-        "pathname": "/test",
-      }
-    }
-  />
-</div>
-`;
-
-exports[`AuthorisedRoute component renders redirect when user not logged in 1`] = `
-<div>
-  <Redirect
-    push={true}
     to={
       Object {
         "pathname": "/login",
@@ -101,6 +104,5 @@ exports[`AuthorisedRoute component renders redirect when user not logged in 1`] 
       }
     }
   />
-  <PageNotFoundComponent />
 </div>
 `;

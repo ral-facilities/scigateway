@@ -352,7 +352,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
               !Object.values(scigatewayRoutes).includes(currUrl) &&
               currUrl !== adminRoutes.maintenance &&
               !getState().scigateway.plugins.find((p) =>
-                currUrl.startsWith(p.link)
+                currUrl.startsWith(p.link.split('?')[0])
               )
             ) {
               let eventFired = false;
@@ -360,7 +360,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
                 const pluginMessage = event as CustomEvent<AnyAction>;
                 if (
                   pluginMessage?.detail?.type === RegisterRouteType &&
-                  currUrl.startsWith(pluginMessage.detail.payload.link)
+                  currUrl.startsWith(
+                    pluginMessage.detail.payload.link.split('?')[0]
+                  )
                 ) {
                   dispatch(siteLoadingUpdate(false));
                   eventFired = true;
@@ -483,20 +485,15 @@ export const verifyUsernameAndPassword = (
     await authProvider
       .logIn(username, password)
       .then(() => {
+        const referrer = getState().router.location.state?.referrer;
+
         if (newMnemonic)
           dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to
-        // the referrer is added by the redirect in routing.component.tsx
-        const previousRouteState = getState().router.location.state;
-        dispatch(
-          push(
-            previousRouteState && previousRouteState.referrer
-              ? previousRouteState.referrer
-              : '/'
-          )
-        );
+        // the referrer is added by the redirect in authorisedRoute.component.tsx
+        dispatch(push(referrer ?? '/'));
       })
       .catch(() => {
         // probably want to do something smarter with

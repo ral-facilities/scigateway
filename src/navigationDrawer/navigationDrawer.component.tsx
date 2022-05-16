@@ -117,9 +117,9 @@ export const NavigationDrawer = (
       // don't include link to homepage in nav bar
       plugins = plugins.filter((plugin) => plugin.link !== props.homepageUrl);
     }
-    // Do not include non admin plugins in the drawer list
+    // Do not include admin plugins or plugins that explicitly ask to hide in the drawer list
     const sectionPlugins = structureMenuData(
-      plugins.filter((plugin) => !plugin.admin)
+      plugins.filter((plugin) => !plugin.admin && !plugin.hideFromMenu)
     );
 
     return (

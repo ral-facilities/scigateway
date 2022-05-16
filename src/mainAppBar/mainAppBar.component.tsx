@@ -51,6 +51,7 @@ interface MainAppProps {
   logo?: string;
   homepageUrl?: string;
   adminPageDefaultTab?: 'maintenance' | 'download';
+  pathname: string;
 }
 
 interface MainAppDispatchProps {
@@ -73,12 +74,6 @@ const menuButtonStyles = {
   marginLeft: '-12px',
   marginRight: 0,
   color: 'primary.contrastText',
-};
-
-const menuButtonPlaceholderStyles = {
-  marginLeft: '-12px',
-  marginRight: 0,
-  width: '48px',
 };
 
 const TitleButton = styled(Button)(({ theme }) => ({
@@ -148,7 +143,12 @@ export const MainAppBar = (
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
   React.useEffect(() => {
-    if (!props.loading && props.loggedIn && !props.drawerOpen)
+    if (
+      !props.loading &&
+      props.loggedIn &&
+      !props.drawerOpen &&
+      props.pathname !== '/login'
+    )
       props.toggleDrawer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.loading, props.loggedIn]);
@@ -167,31 +167,26 @@ export const MainAppBar = (
           disableGutters
           sx={{ marginLeft: '16px', marginRight: '16px' }}
         >
-          {props.loggedIn ? (
-            props.drawerOpen === false ? (
-              <IconButton
-                sx={menuButtonStyles}
-                color="inherit"
-                onClick={props.toggleDrawer}
-                aria-label={getString(props.res, 'open-navigation-menu')}
-                size="large"
-              >
-                <MenuIcon />
-              </IconButton>
-            ) : (
-              <IconButton
-                className={'tour-nav-menu'}
-                sx={menuButtonStyles}
-                color="inherit"
-                onClick={props.toggleDrawer}
-                aria-label={getString(props.res, 'close-navigation-menu')}
-                size="large"
-              >
-                <MenuOpenIcon />
-              </IconButton>
-            )
+          {!props.drawerOpen ? (
+            <IconButton
+              sx={menuButtonStyles}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label={getString(props.res, 'open-navigation-menu')}
+              size="large"
+            >
+              <MenuIcon />
+            </IconButton>
           ) : (
-            <div style={menuButtonPlaceholderStyles} />
+            <IconButton
+              sx={menuButtonStyles}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label={getString(props.res, 'close-navigation-menu')}
+              size="large"
+            >
+              <MenuOpenIcon />
+            </IconButton>
           )}
           <TitleButton
             className="tour-title"
@@ -298,7 +293,7 @@ export const MainAppBar = (
               />
             </MenuItem>
           </Menu>
-          {props.loggedIn ? <NotificationBadgeComponent /> : null}
+          {props.loggedIn && <NotificationBadgeComponent />}
           <UserProfileComponent />
         </Toolbar>
       </AppBar>
@@ -322,6 +317,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   logo: state.scigateway.logo,
   homepageUrl: state.scigateway.homepageUrl,
   adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
+  pathname: state.router.location.pathname,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({

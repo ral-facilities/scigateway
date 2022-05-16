@@ -93,11 +93,12 @@ export const getPluginRoutes = (
 
   plugins.forEach((p) => {
     const isAdmin = admin ? p.admin : !p.admin;
+    const basePluginLink = p.link.split('?')[0];
     if (isAdmin) {
       if (pluginRoutes[p.plugin]) {
-        pluginRoutes[p.plugin].push(p.link);
+        pluginRoutes[p.plugin].push(basePluginLink);
       } else {
-        pluginRoutes[p.plugin] = [p.link];
+        pluginRoutes[p.plugin] = [basePluginLink];
       }
     }
   });
@@ -121,7 +122,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     if (!props.loading && !manuallyLoadedPluginRef.current) {
       intervalId = window.setInterval(() => {
         const pluginConf = props.plugins.find((p) =>
-          props.location.startsWith(p.link)
+          props.location.startsWith(p.link.split('?')[0])
         );
 
         // finding pluginConf after loading implies that the route has loaded
@@ -156,10 +157,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       }>
     ): void => {
       const oldPlugin = props.plugins.find((p) =>
-        new URL(event.detail.oldUrl).pathname.startsWith(p.link)
+        new URL(event.detail.oldUrl).pathname.startsWith(p.link.split('?')[0])
       );
       const newPlugin = props.plugins.find((p) =>
-        new URL(event.detail.newUrl).pathname.startsWith(p.link)
+        new URL(event.detail.newUrl).pathname.startsWith(p.link.split('?')[0])
       );
 
       if (

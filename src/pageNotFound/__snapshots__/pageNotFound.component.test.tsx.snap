@@ -82,7 +82,7 @@ exports[`Page Not found component renders pageNotFound page correctly 1`] = `
          
         <Styled(Link)
           data-test-id="page-not-found-contact-support-link"
-          to="/contact"
+          to="footer.links.contact"
         >
           contact support
         </Styled(Link)>

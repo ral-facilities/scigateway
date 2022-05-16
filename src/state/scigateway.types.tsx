@@ -109,6 +109,7 @@ export interface RegisterRoutePayload {
   link: string;
   plugin: string;
   displayName: string;
+  hideFromMenu?: boolean;
   admin?: boolean;
   order: number;
   helpText?: string;
@@ -123,6 +124,7 @@ export interface PluginConfig {
   link: string;
   plugin: string;
   displayName: string;
+  hideFromMenu?: boolean;
   admin?: boolean;
   order: number;
   helpText?: string;

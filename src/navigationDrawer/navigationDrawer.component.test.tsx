@@ -110,7 +110,7 @@ describe('Navigation drawer component', () => {
     expect(drawerWrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
   });
 
-  it('does not render admin plugins in list', () => {
+  it('does not render admin plugins or plugins that ask to hide in list', () => {
     const dummyPlugins: PluginConfig[] = [
       {
         order: 0,
@@ -119,6 +119,14 @@ describe('Navigation drawer component', () => {
         section: 'DATA',
         displayName: 'display name',
         admin: true,
+      },
+      {
+        order: 1,
+        plugin: 'data-plugin-2',
+        link: 'plugin_link_2',
+        section: 'DATA',
+        displayName: 'display name 2',
+        hideFromMenu: true,
       },
     ];
 
