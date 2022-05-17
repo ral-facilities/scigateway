@@ -246,7 +246,6 @@ export function handleTokenExpiration(state: ScigatewayState): ScigatewayState {
   state.authorisation.provider.logOut();
   return {
     ...state,
-    drawerOpen: false,
     authorisation: {
       ...resetAuth(state.authorisation),
       signedOutDueToTokenInvalidation: true,
