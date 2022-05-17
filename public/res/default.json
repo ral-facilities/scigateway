@@ -145,9 +145,9 @@
     "non-accessibile-parts-of-datagateway-list": [
       "the columns on table view cannot be resized using the keyboard",
       "pages sometimes have unreadable ARIA labels",
-      "table view has aria hidden elements that contain focusable elements and elements in the table with an ARIA role that required a parent are not contained by them ",
+      "table view has aria-hidden elements that contain focusable elements and elements in the table with an ARIA role that require a parent are not contained by them ",
       "nested interactive controls are not announced by screen reader in the sorting in card view ",
-      "advanced filters, filters automatically without requiring user input"
+      "advanced filters activate automatically without requiring user input"
     ],
     "contact-us-about-accessibility": "Contact Us About Accessibility",
     "contact-us-about-accessibility-text": "We are always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we are not meeting accessibility requirements, please let us know. You can send us a message to request a more accessible format for content or documents on the site. ",
@@ -165,16 +165,16 @@
     "non-compliance-with-the-accessibility-regulations": "Non-compliance with the accessibility regulations ",
     "non-compliance-with-the-accessibility-regulations-list": [
       "Some of the pages have unreadable ARIA labels. This fails WCAG 2.1 success criterion 4.1.2 (A): Name, Role, and Value",
-      "The advanced filters, filters automatically without requiring user input. This fails WCAG 2.1 success criterion 3.2.2 On Input"
+      "The advanced filters activate automatically without requiring user input. This fails WCAG 2.1 success criterion 3.2.2 On Input"
     ],
     "non-compliance-with-the-accessibility-regulations-text": "We will make sure that all the non-compliances above are addressed before the next release, likely to be in September 2022.",
     "disproportionate-burden": {
       "title": "Disproportionate burden",
       "table-view": "Table view",
       "table-view-list": [
-        "There is no way to have ARIA hidden elements that do not contain focusable elements in the text field of the filters",
+        "There is no way to have aria-hidden elements that do not contain focusable elements in the text field of the filters",
         "It is not possible for elements in the table with an ARIA role that requires a parent to be contained by them ",
-        "There is no way the columns on table view cannot be resized using the keyboard"
+        "There is no way the columns on table view can be resized using the keyboard"
       ],
       "card-view": "Card view",
       "card-view-list": [
