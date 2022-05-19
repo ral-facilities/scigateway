@@ -181,7 +181,20 @@ export const listenToPlugins = (
         case InvalidateTokenType:
           getState()
             .scigateway.authorisation.provider.refresh()
-            .catch(() => dispatch(pluginMessage.detail));
+            .catch(() => {
+              dispatch(pluginMessage.detail);
+              // if there's an error message in the token invalidation event then broadcast it
+              if (pluginMessage.detail.payload) {
+                document.dispatchEvent(
+                  new CustomEvent(microFrontendMessageId, {
+                    detail: {
+                      type: NotificationType,
+                      payload: pluginMessage.detail.payload,
+                    },
+                  })
+                );
+              }
+            });
           break;
         default:
           // log and ignore
