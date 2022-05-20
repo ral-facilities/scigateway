@@ -165,16 +165,13 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     }
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
+  // have menu open by default after page loads
   React.useEffect(() => {
-    if (
-      !props.loading &&
-      props.loggedIn &&
-      !props.drawerOpen &&
-      props.pathname !== '/login'
-    )
+    if (!props.loading && !props.drawerOpen) {
       props.toggleDrawer();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.loading, props.loggedIn]);
+  }, [props.loading]);
 
   return (
     <div className={props.classes.root}>
