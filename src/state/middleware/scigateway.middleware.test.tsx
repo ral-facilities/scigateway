@@ -177,6 +177,43 @@ describe('scigateway middleware', () => {
       expect(store.getActions()[1]).toEqual(autoLoginAuthorised());
     });
 
+    it('sends an error notification if autoLogin fails', async () => {
+      log.error = jest.fn();
+
+      autoLogin = jest.fn(() => Promise.reject());
+      store = mockStore({
+        ...getState(),
+        scigateway: {
+          ...getState().scigateway,
+          authorisation: {
+            ...getState().scigateway.authorisation,
+            provider: {
+              ...getState().scigateway.authorisation.provider,
+              autoLogin,
+            },
+          },
+        },
+      });
+
+      autoLoginMiddleware(store)(store.dispatch)({ type: SignOutType });
+
+      expect(autoLogin).toHaveBeenCalled();
+
+      await flushPromises();
+
+      expect(store.getActions().length).toEqual(1);
+
+      expect(log.error).toHaveBeenCalled();
+      const mockLog = (log.error as jest.Mock).mock;
+      expect(mockLog.calls[0][0]).toEqual('Auto Login via middleware failed');
+
+      expect(events.length).toEqual(1);
+      expect(events[0].detail).toEqual({
+        type: NotificationType,
+        payload: { severity: 'error', message: 'auto-login-error-msg' },
+      });
+    });
+
     it('does nothing when random action sent', () => {
       autoLoginMiddleware(store)(store.dispatch)({ type: 'test' });
 
