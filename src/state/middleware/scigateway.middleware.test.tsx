@@ -19,6 +19,7 @@ import {
   LoadHighContrastModePreferenceType,
   SignOutType,
   AuthFailureType,
+  NotificationType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
@@ -174,6 +175,43 @@ describe('scigateway middleware', () => {
       await flushPromises();
       expect(store.getActions().length).toEqual(2);
       expect(store.getActions()[1]).toEqual(autoLoginAuthorised());
+    });
+
+    it('sends an error notification if autoLogin fails', async () => {
+      log.error = jest.fn();
+
+      autoLogin = jest.fn(() => Promise.reject());
+      store = mockStore({
+        ...getState(),
+        scigateway: {
+          ...getState().scigateway,
+          authorisation: {
+            ...getState().scigateway.authorisation,
+            provider: {
+              ...getState().scigateway.authorisation.provider,
+              autoLogin,
+            },
+          },
+        },
+      });
+
+      autoLoginMiddleware(store)(store.dispatch)({ type: SignOutType });
+
+      expect(autoLogin).toHaveBeenCalled();
+
+      await flushPromises();
+
+      expect(store.getActions().length).toEqual(1);
+
+      expect(log.error).toHaveBeenCalled();
+      const mockLog = (log.error as jest.Mock).mock;
+      expect(mockLog.calls[0][0]).toEqual('Auto Login via middleware failed');
+
+      expect(events.length).toEqual(1);
+      expect(events[0].detail).toEqual({
+        type: NotificationType,
+        payload: { severity: 'error', message: 'auto-login-error-msg' },
+      });
     });
 
     it('does nothing when random action sent', () => {
@@ -445,16 +483,33 @@ describe('scigateway middleware', () => {
     expect(refreshSpy).toHaveBeenCalled();
   });
 
-  it('should listen for events and fire invalidateToken action on invalidateToken message', async () => {
+  it('should listen for events and fires invalidateToken action & notification event on invalidateToken message & failed refresh', async () => {
     listenToPlugins(store.dispatch, getState);
 
-    handler(new CustomEvent('test', { detail: { type: InvalidateTokenType } }));
+    const notificationPayload = { severity: 'error', message: 'Token error' };
+
+    handler(
+      new CustomEvent('test', {
+        detail: {
+          type: InvalidateTokenType,
+          payload: notificationPayload,
+        },
+      })
+    );
 
     await flushPromises();
 
     expect(document.addEventListener).toHaveBeenCalled();
     expect(store.getActions().length).toEqual(1);
-    expect(store.getActions()[0]).toEqual({ type: InvalidateTokenType });
+    expect(store.getActions()[0]).toEqual({
+      type: InvalidateTokenType,
+      payload: notificationPayload,
+    });
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual({
+      type: NotificationType,
+      payload: notificationPayload,
+    });
   });
 
   it('should listen for events and fire registerroute action and addHelpTourStep action when helpText present', () => {
@@ -592,7 +647,7 @@ describe('scigateway middleware', () => {
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
-        type: 'scigateway:api:notification',
+        type: NotificationType,
         payload: {
           message: 'test notification',
         },
@@ -609,7 +664,7 @@ describe('scigateway middleware', () => {
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
-        type: 'scigateway:api:notification',
+        type: NotificationType,
         payload: {
           message: 'test notification',
           severity: 'success',
@@ -628,7 +683,7 @@ describe('scigateway middleware', () => {
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
-        type: 'scigateway:api:notification',
+        type: NotificationType,
         payload: {
           message: 'test notification',
           severity: 'error',
@@ -648,7 +703,7 @@ describe('scigateway middleware', () => {
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
-        type: 'scigateway:api:notification',
+        type: NotificationType,
         payload: {
           message: 'test notification',
           severity: 'warning',
