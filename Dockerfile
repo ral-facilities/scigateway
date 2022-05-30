@@ -20,3 +20,6 @@ RUN yarn build
 FROM httpd:2.4-alpine3.15
 WORKDIR /usr/local/apache2/htdocs
 COPY --from=build /scigateway/build/. .
+
+# Switch to non-root user defined in httpd image
+USER www-data
