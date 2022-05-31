@@ -21,5 +21,10 @@ FROM httpd:2.4-alpine3.15
 WORKDIR /usr/local/apache2/htdocs
 COPY --from=build /scigateway/build/. .
 
+RUN apk --no-cache add libcap \
+  # Privileged ports are permitted to root only by default.
+  # setcap to bind to privileged ports (80) as non-root.
+  && setcap 'cap_net_bind_service=+ep' /usr/local/apache2/bin/httpd
+
 # Switch to non-root user defined in httpd image
 USER www-data
