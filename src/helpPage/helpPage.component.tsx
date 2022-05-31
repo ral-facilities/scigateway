@@ -57,13 +57,24 @@ interface HelpPageProps {
 
 export type CombinedHelpPageProps = HelpPageProps & WithStyles<typeof styles>;
 
+// Modern string.prototype.replaceAll function may not be supported in older browsers
+// So we need a more complex yet rigorous solution
+// https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+function replaceAll(str: string, find: string, replace: string): string {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 export const TableOfContents = (
   props: CombinedHelpPageProps
 ): React.ReactElement => {
   const topOfPageIcon = getString(props.res, 'top-of-page-icon');
   let contentsString = getString(props.res, 'contents');
   // Remove Unicode-style links to top of page from headers
-  contentsString = contentsString.replaceAll(topOfPageIcon, '');
+  contentsString = replaceAll(contentsString, topOfPageIcon, '');
 
   const parser = new DOMParser();
   const help = parser.parseFromString(contentsString, 'text/html');
