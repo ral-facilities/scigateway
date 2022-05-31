@@ -60,11 +60,13 @@ export type CombinedHelpPageProps = HelpPageProps & WithStyles<typeof styles>;
 export const TableOfContents = (
   props: CombinedHelpPageProps
 ): React.ReactElement => {
+  const topOfPageIcon = getString(props.res, 'top-of-page-icon');
+  let contentsString = getString(props.res, 'contents');
+  // Remove Unicode-style links to top of page from headers
+  contentsString = contentsString.replaceAll(topOfPageIcon, '');
+
   const parser = new DOMParser();
-  const help = parser.parseFromString(
-    getString(props.res, 'contents'),
-    'text/html'
-  );
+  const help = parser.parseFromString(contentsString, 'text/html');
   const helpLinks = help.querySelectorAll(
     'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
   );
