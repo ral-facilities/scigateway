@@ -57,27 +57,14 @@ interface HelpPageProps {
 
 export type CombinedHelpPageProps = HelpPageProps & WithStyles<typeof styles>;
 
-// Modern string.prototype.replaceAll function may not be supported in older browsers
-// So we need a more complex yet rigorous solution
-// https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
-function escapeRegExp(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-function replaceAll(str: string, find: string, replace: string): string {
-  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
 export const TableOfContents = (
   props: CombinedHelpPageProps
 ): React.ReactElement => {
-  const topOfPageIcon = getString(props.res, 'top-of-page-icon');
-  let contentsString = getString(props.res, 'contents');
-  // Remove Unicode-style links to top of page from headers
-  contentsString = replaceAll(contentsString, topOfPageIcon, '');
-
   const parser = new DOMParser();
-  const help = parser.parseFromString(contentsString, 'text/html');
+  const help = parser.parseFromString(
+    getString(props.res, 'contents'),
+    'text/html'
+  );
   const helpLinks = help.querySelectorAll(
     'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]'
   );
@@ -118,6 +105,18 @@ export const TableOfContents = (
 };
 
 const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
+  const topOfPageIcon = getString(props.res, 'top-of-page-icon');
+  const parser = new DOMParser();
+  const helpTextHtml = parser.parseFromString(
+    getString(props.res, 'contents'),
+    'text/html'
+  );
+  helpTextHtml
+    .querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]')
+    .forEach((el) => {
+      el.insertAdjacentHTML('afterbegin', topOfPageIcon);
+    });
+
   return (
     <div className={props.classes.root}>
       <Typography
@@ -133,7 +132,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
           variant="body1"
           className={props.classes.description}
           dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'contents'),
+            __html: helpTextHtml.body.innerHTML,
           }}
         />
       </div>
