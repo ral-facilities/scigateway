@@ -1,5 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Help page component should back to top elements next to each header 1`] = `
+<div
+  className="root-class"
+>
+  <WithStyles(ForwardRef(Typography))
+    className="titleText-class"
+    component="h1"
+    variant="h2"
+  >
+    title
+  </WithStyles(ForwardRef(Typography))>
+  <TableOfContents
+    classes={
+      Object {
+        "container": "container-class",
+        "description": "description-class",
+        "root": "root-class",
+        "titleText": "titleText-class",
+        "toc": "toc-class",
+      }
+    }
+    res={
+      Object {
+        "contents": "<h2 id='test nested toc item 1'>Nested TOC item</h2>Lorem ipsum dolor sit amet<h3 id='test nested toc item 2'>Nested TOC item 2</h3>consectetur adipiscing elit<br><h2 id='test nested toc item 3'>Nested TOC item 3</h2>Proin suscipit sed nisi ac consectetur",
+      }
+    }
+  />
+  <div
+    className="container-class"
+  >
+    <WithStyles(ForwardRef(Typography))
+      className="description-class"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<h2 id=\\"test nested toc item 1\\">top-of-page-iconNested TOC item</h2>Lorem ipsum dolor sit amet<h3 id=\\"test nested toc item 2\\">top-of-page-iconNested TOC item 2</h3>consectetur adipiscing elit<br><h2 id=\\"test nested toc item 3\\">top-of-page-iconNested TOC item 3</h2>Proin suscipit sed nisi ac consectetur",
+        }
+      }
+      variant="body1"
+    />
+  </div>
+</div>
+`;
+
 exports[`Help page component should render TOC correctly with nested headers 1`] = `
 <nav
   className="toc-class"

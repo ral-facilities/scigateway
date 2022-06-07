@@ -105,6 +105,18 @@ export const TableOfContents = (
 };
 
 const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
+  const topOfPageIcon = getString(props.res, 'top-of-page-icon');
+  const parser = new DOMParser();
+  const helpTextHtml = parser.parseFromString(
+    getString(props.res, 'contents'),
+    'text/html'
+  );
+  helpTextHtml
+    .querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]')
+    .forEach((el) => {
+      el.insertAdjacentHTML('afterbegin', topOfPageIcon);
+    });
+
   return (
     <div className={props.classes.root}>
       <Typography
@@ -120,7 +132,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
           variant="body1"
           className={props.classes.description}
           dangerouslySetInnerHTML={{
-            __html: getString(props.res, 'contents'),
+            __html: helpTextHtml.body.innerHTML,
           }}
         />
       </div>
