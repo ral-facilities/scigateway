@@ -172,7 +172,8 @@ export interface DismissNotificationPayload {
 
 export interface AuthProviderPayload {
   authProvider: string;
-  authUrl: string | undefined;
+  authUrl?: string;
+  autoLogin?: boolean;
 }
 
 export interface ScheduledMaintenanceStatePayLoad {

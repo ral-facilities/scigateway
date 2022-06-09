@@ -141,12 +141,14 @@ export const addHelpTourSteps = (
 
 export const loadAuthProvider = (
   authProvider: string,
-  authUrl?: string
+  authUrl?: string,
+  autoLogin?: boolean
 ): ActionType<AuthProviderPayload> => ({
   type: LoadAuthProviderType,
   payload: {
     authProvider,
     authUrl,
+    autoLogin,
   },
 });
 
@@ -231,7 +233,11 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         }
 
         dispatch(
-          loadAuthProvider(settings['auth-provider'], settings['authUrl'])
+          loadAuthProvider(
+            settings['auth-provider'],
+            settings['authUrl'],
+            settings['autoLogin']
+          )
         );
 
         const loadingPromises = [];
@@ -473,22 +479,26 @@ export const resetAuthState = (): Action => ({
 export const verifyUsernameAndPassword = (
   username: string,
   password: string,
-  newMnemonic: string | undefined,
-  authUrl: string
+  newMnemonic: string | undefined
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
     const authProvider = getState().scigateway.authorisation.provider;
     authProvider.mnemonic = newMnemonic;
-    authProvider.authUrl = authUrl;
     await authProvider
       .logIn(username, password)
       .then(() => {
         const referrer = getState().router.location.state?.referrer;
 
         if (newMnemonic)
-          dispatch(loadAuthProvider(`icat.${newMnemonic}`, `${authUrl}`));
+          dispatch(
+            loadAuthProvider(
+              `icat.${newMnemonic}`,
+              `${authProvider.authUrl}`,
+              authProvider.autoLogin ? true : false
+            )
+          );
         dispatch(authorised());
 
         // redirect the user to the original page they were trying to get to

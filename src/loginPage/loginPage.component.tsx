@@ -149,8 +149,7 @@ interface LoginPageDispatchProps {
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic?: string,
-    authUrl?: string
+    mnemonic?: string
   ) => Promise<void>;
   resetAuthState: () => Action;
 }
@@ -192,7 +191,6 @@ export const RedirectLoginScreen = (
 export const CredentialsLoginScreen = (
   props: CombinedLoginProps & {
     mnemonic?: string;
-    authUrl?: string;
   }
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
@@ -211,12 +209,7 @@ export const CredentialsLoginScreen = (
           e.key === 'Enter' &&
           isInputValid()
         ) {
-          props.verifyUsernameAndPassword(
-            username,
-            password,
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword(username, password, props.mnemonic);
         }
       }}
     >
@@ -260,12 +253,7 @@ export const CredentialsLoginScreen = (
         className={props.classes.button}
         disabled={!isInputValid() || props.auth.loading}
         onClick={() => {
-          props.verifyUsernameAndPassword(
-            username,
-            password,
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword(username, password, props.mnemonic);
         }}
       >
         <Typography
@@ -299,7 +287,6 @@ export const CredentialsLoginScreen = (
 export const AnonLoginScreen = (
   props: CombinedLoginProps & {
     mnemonic?: string;
-    authUrl?: string;
   }
 ): React.ReactElement => {
   const [t] = useTranslation();
@@ -308,12 +295,7 @@ export const AnonLoginScreen = (
       className={props.classes.root}
       onKeyPress={(e) => {
         if (e.key === 'Enter') {
-          props.verifyUsernameAndPassword(
-            '',
-            '',
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword('', '', props.mnemonic);
         }
       }}
     >
@@ -332,12 +314,7 @@ export const AnonLoginScreen = (
         color="primary"
         className={props.classes.button}
         onClick={() => {
-          props.verifyUsernameAndPassword(
-            '',
-            '',
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword('', '', props.mnemonic);
         }}
       >
         <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
@@ -452,12 +429,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       !props.auth.failedToLogin
     ) {
       if (props.location.search) {
-        props.verifyUsernameAndPassword(
-          '',
-          props.location.search,
-          mnemonic,
-          authUrl
-        );
+        props.verifyUsernameAndPassword('', props.location.search, mnemonic);
       }
     }
   });
@@ -472,13 +444,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
   let LoginScreen: React.ReactElement | null = null;
 
   if (typeof mnemonic === 'undefined') {
-    LoginScreen = (
-      <CredentialsLoginScreen
-        {...props}
-        mnemonic={mnemonic}
-        authUrl={authUrl}
-      />
-    );
+    LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
 
     if (props.auth.provider.redirectUrl) {
       LoginScreen = <RedirectLoginScreen {...props} />;
@@ -491,9 +457,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       )
     ) {
       // anon
-      LoginScreen = (
-        <AnonLoginScreen {...props} mnemonic={mnemonic} authUrl={authUrl} />
-      );
+      LoginScreen = <AnonLoginScreen {...props} mnemonic={mnemonic} />;
     } else if (
       mnemonics.find(
         (authenticator) =>
@@ -503,13 +467,7 @@ const LoginPageComponent = (props: CombinedLoginProps): React.ReactElement => {
       )
     ) {
       // user/pass
-      LoginScreen = (
-        <CredentialsLoginScreen
-          {...props}
-          mnemonic={mnemonic}
-          authUrl={authUrl}
-        />
-      );
+      LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
     } else if (
       mnemonics.find(
         (authenticator) =>
@@ -570,17 +528,8 @@ const mapDispatchToProps = (
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic: string | undefined,
-    authUrl?: string
-  ) =>
-    dispatch(
-      verifyUsernameAndPassword(
-        username.trim(),
-        password,
-        mnemonic,
-        authUrl ?? ''
-      )
-    ),
+    mnemonic: string | undefined
+  ) => dispatch(verifyUsernameAndPassword(username.trim(), password, mnemonic)),
   resetAuthState: () => dispatch(resetAuthState()),
 });
 
