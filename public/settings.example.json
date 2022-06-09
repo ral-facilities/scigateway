@@ -1,7 +1,11 @@
 {
   "title": "a cool title",
   "logo": "",
-  "navigationDrawerLogo": { "light": "", "dark": "", "altTxt": "" },
+  "navigationDrawerLogo": {
+    "light": "",
+    "dark": "",
+    "altTxt": ""
+  },
   "adminPageDefaultTab": "maintenance",
   "features": {
     "showHelpPageButton": true,
@@ -52,6 +56,7 @@
   "ui-strings": "res/default.json",
   "auth-provider": "jwt",
   "authUrl": "http://localhost:3000",
+  "autoLogin": true,
   "ga-tracking-id": "UA-XXXX-Y",
   "contactUsAccessibilityFormUrl": ""
 }

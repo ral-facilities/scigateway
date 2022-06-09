@@ -7,16 +7,13 @@ import { MaintenanceState } from '../state/scigateway.types';
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
 
-  public constructor(
-    mnemonic: string | undefined,
-    authUrl: string | undefined
-  ) {
+  public constructor(mnemonic?: string, authUrl?: string, autoLogin?: boolean) {
     super(authUrl);
     this.mnemonic = mnemonic || '';
-    this.autoLogin = this.autoLogin.bind(this);
+    this.autoLogin = autoLogin ? this.autoLoginFunc.bind(this) : undefined;
   }
 
-  public autoLogin(): Promise<void> {
+  private autoLoginFunc = (): Promise<void> => {
     const prevMnemonic = this.mnemonic;
     this.mnemonic = 'anon';
     return this.logIn('', '')
@@ -28,7 +25,10 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       .finally(() => {
         this.mnemonic = prevMnemonic;
       });
-  }
+  };
+
+  // this has to be defined in the constructor to know whether it should exist or not
+  public autoLogin;
 
   public logIn(username: string, password: string): Promise<void> {
     if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {

@@ -97,23 +97,25 @@ describe('scigateway actions', () => {
     const asyncAction = verifyUsernameAndPassword(
       'username',
       'password',
-      mnemonic,
-      authUrl
+      mnemonic
     );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider(null);
+    state.authorisation.provider.authUrl = authUrl;
+    state.authorisation.provider.autoLogin = () => Promise.resolve();
 
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    const getState = (): any => ({
+    const getState = (): Partial<StateType> => ({
       scigateway: state,
       router: {
         location: {
-          state: {
+          ...createLocation('/', {
             referrer: '/destination/after/login',
-          },
+          }),
+          query: {},
         },
+        action: 'PUSH',
       },
     });
 
@@ -123,9 +125,9 @@ describe('scigateway actions', () => {
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, true)
     );
-    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[2]).toEqual(authorised());
     expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
@@ -146,22 +148,19 @@ describe('scigateway actions', () => {
     const asyncAction = verifyUsernameAndPassword(
       'username',
       'password',
-      mnemonic,
-      authUrl
+      mnemonic
     );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider(null);
+    state.authorisation.provider.authUrl = authUrl;
 
-    // const getState = (): Partial<StateType> => ({ scigateway: state });
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    const getState = (): any => ({
+    const getState = (): Partial<StateType> => ({
       scigateway: state,
       router: {
-        location: {
-          state: {},
-        },
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
       },
     });
 
@@ -171,9 +170,9 @@ describe('scigateway actions', () => {
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, false)
     );
-    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[2]).toEqual(authorised());
     expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
