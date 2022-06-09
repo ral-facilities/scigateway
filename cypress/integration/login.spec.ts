@@ -303,6 +303,7 @@ describe('Login', () => {
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
         authUrl: 'http://localhost:8000',
+        autoLogin: true,
         'help-tour-steps': [],
       });
       cy.intercept('/authenticators', [
@@ -423,6 +424,33 @@ describe('Login', () => {
 
       cy.url().should('contain', '/plugin1');
       cy.contains('div', 'Demo Plugin').should('be.visible');
+    });
+  });
+
+  describe('autoLogin off', () => {
+    beforeEach(() => {
+      cy.intercept('/settings.json', {
+        plugins: [
+          {
+            name: 'demo_plugin',
+            src: '/plugins/e2e-plugin/main.js',
+            enable: true,
+            location: 'main',
+          },
+        ],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'icat',
+        authUrl: 'http://localhost:8000',
+        autoLogin: false,
+        'help-tour-steps': [],
+      });
+    });
+
+    it('should attempt to auto login in if autoLogin setting is set to false', () => {
+      cy.visit('/plugin1');
+      cy.get('#demo_plugin').should('not.exist');
+      cy.contains('h1', 'Sign in').should('be.visible');
+      cy.contains('Unable to create anonymous session').should('not.exist');
     });
   });
 });
