@@ -479,7 +479,7 @@ export const resetAuthState = (): Action => ({
 export const verifyUsernameAndPassword = (
   username: string,
   password: string,
-  newMnemonic: string | undefined
+  newMnemonic?: string
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
     // will be replaced with call to login API for authentification
