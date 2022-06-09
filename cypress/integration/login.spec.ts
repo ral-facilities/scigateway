@@ -279,7 +279,7 @@ describe('Login', () => {
     });
   });
 
-  describe('autoLogin', () => {
+  describe('autoLogin on', () => {
     // Define responses for login attempts
     let verifyResponse: { statusCode: Number; body: string };
     let loginResponse: { statusCode: Number; body: string };
@@ -446,7 +446,7 @@ describe('Login', () => {
       });
     });
 
-    it('should attempt to auto login in if autoLogin setting is set to false', () => {
+    it('should not attempt to auto login in if autoLogin setting is set to false', () => {
       cy.visit('/plugin1');
       cy.get('#demo_plugin').should('not.exist');
       cy.contains('h1', 'Sign in').should('be.visible');
