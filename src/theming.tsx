@@ -261,8 +261,14 @@ export interface UKRITheme extends Theme {
 
 export const buildTheme = (
   darkModePreference: boolean,
-  highContrastModePreference?: boolean
+  highContrastModePreference?: boolean,
+  primaryColour?: string
 ): Theme => {
+  if (primaryColour) {
+    DARK_MODE_COLOURS.primary = primaryColour;
+    LIGHT_MODE_COLOURS.primary = primaryColour;
+    LIGHT_MODE_HIGH_CONTRAST_COLOURS.primary = primaryColour;
+  }
   const colours = darkModePreference
     ? highContrastModePreference
       ? DARK_MODE_HIGH_CONTRAST_COLOURS
@@ -444,15 +450,22 @@ const SciGatewayThemeProvider = (props: {
 }): React.ReactElement<{
   children: React.ReactNode;
 }> => {
-  const darkModePreference: boolean = useSelector(
+  const darkModePreference = useSelector(
     (state: StateType) => state.scigateway.darkMode
   );
-  const highContrastModePreference: boolean = useSelector(
+  const highContrastModePreference = useSelector(
     (state: StateType) => state.scigateway.highContrastMode
+  );
+  const primaryColour = useSelector(
+    (state: StateType) => state.scigateway.primaryColour
   );
   return (
     <MuiThemeProvider
-      theme={buildTheme(darkModePreference, highContrastModePreference)}
+      theme={buildTheme(
+        darkModePreference,
+        highContrastModePreference,
+        primaryColour
+      )}
     >
       {props.children}
     </MuiThemeProvider>

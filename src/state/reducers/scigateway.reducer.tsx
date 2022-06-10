@@ -48,6 +48,8 @@ import {
   CustomAdminPageDefaultTabType,
   RegisterContactUsAccessibilityFormUrlType,
   ContactUsAccessibilityFormUrlPayload,
+  CustomPrimaryColourType,
+  CustomPrimaryColourPayload,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -323,6 +325,16 @@ export function handleCustomAdminPageDefaultTab(
   };
 }
 
+export function handleCustomPrimaryColour(
+  state: ScigatewayState,
+  payload: CustomPrimaryColourPayload
+): ScigatewayState {
+  return {
+    ...state,
+    primaryColour: payload.primaryColour,
+  };
+}
+
 export function handleDismissNotification(
   state: ScigatewayState,
   payload: { index: number }
@@ -516,6 +528,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [CustomAdminPageDefaultTabType]: handleCustomAdminPageDefaultTab,
   [RegisterContactUsAccessibilityFormUrlType]:
     handleRegisterContactUsAccessibilityFormUrl,
+  [CustomPrimaryColourType]: handleCustomPrimaryColour,
 });
 
 export default ScigatewayReducer;
