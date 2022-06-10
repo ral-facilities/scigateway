@@ -264,11 +264,6 @@ export const buildTheme = (
   highContrastModePreference?: boolean,
   primaryColour?: string
 ): Theme => {
-  if (primaryColour) {
-    DARK_MODE_COLOURS.primary = primaryColour;
-    LIGHT_MODE_COLOURS.primary = primaryColour;
-    LIGHT_MODE_HIGH_CONTRAST_COLOURS.primary = primaryColour;
-  }
   const colours = darkModePreference
     ? highContrastModePreference
       ? DARK_MODE_HIGH_CONTRAST_COLOURS
@@ -276,6 +271,10 @@ export const buildTheme = (
     : highContrastModePreference
     ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
     : LIGHT_MODE_COLOURS;
+
+  if (primaryColour && !(darkModePreference && highContrastModePreference)) {
+    colours.primary = primaryColour;
+  }
 
   const overrides = {
     MuiLink: {

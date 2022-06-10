@@ -390,10 +390,6 @@ describe('scigateway middleware', () => {
   });
 
   it('should send high contrast theme options when LoadHighContrastModePreferenceType action is sent and high contrast mode preference is true', () => {
-    store = mockStore({
-      scigateway: initialState,
-    });
-
     const loadHighContrastModePreferenceAction = {
       type: LoadHighContrastModePreferenceType,
       payload: {
@@ -420,10 +416,21 @@ describe('scigateway middleware', () => {
     );
   });
 
-  it('should extract dark mode value from user preferences', () => {
+  it('should extract dark mode value from user preferences & custom primary colour from store', () => {
+    const getState: () => StateType = () => ({
+      scigateway: {
+        ...initialState,
+        authorisation: { ...authState },
+        primaryColour: '#654321',
+      },
+      router: {
+        action: 'POP',
+        location: createLocation('/'),
+      },
+    });
     Storage.prototype.getItem = jest.fn().mockReturnValueOnce(undefined);
     window.matchMedia = jest.fn().mockReturnValueOnce({ matches: true });
-    const theme = buildTheme(true);
+    const theme = buildTheme(true, false, '#654321');
     const sendThemeOptionsAction = {
       type: SendThemeOptionsType,
       payload: {

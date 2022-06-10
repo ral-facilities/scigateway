@@ -149,7 +149,8 @@ export const listenToPlugins = (
 
           const theme = buildTheme(
             darkModePreference,
-            highContrastModePreference
+            highContrastModePreference,
+            getState().scigateway.primaryColour
           );
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
@@ -248,7 +249,8 @@ const ScigatewayMiddleware: Middleware = ((
       next(action);
       const theme = buildTheme(
         action.payload.darkMode,
-        state.scigateway.highContrastMode
+        state.scigateway.highContrastMode,
+        state.scigateway.primaryColour
       );
       store.dispatch(sendThemeOptions(theme));
       return store.dispatch(requestPluginRerender());
@@ -258,7 +260,8 @@ const ScigatewayMiddleware: Middleware = ((
       next(action);
       const theme = buildTheme(
         state.scigateway.darkMode,
-        action.payload.highContrastMode
+        action.payload.highContrastMode,
+        state.scigateway.primaryColour
       );
       store.dispatch(sendThemeOptions(theme));
       return store.dispatch(requestPluginRerender());

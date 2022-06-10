@@ -26,6 +26,7 @@ import {
   autoLoginAuthorised,
   resetAuthState,
   registerContactUsAccessibilityFormUrl,
+  customPrimaryColour,
 } from '../actions/scigateway.actions';
 import ScigatewayReducer, {
   initialState,
@@ -418,6 +419,17 @@ describe('scigateway reducer', () => {
     );
 
     expect(updatedState.adminPageDefaultTab).toEqual('maintenance');
+  });
+
+  it('should update the primaryColour property when customPrimaryColour action is sent', () => {
+    expect(state.primaryColour).toBeFalsy();
+
+    const updatedState = ScigatewayReducer(
+      state,
+      customPrimaryColour('#AB3210')
+    );
+
+    expect(updatedState.primaryColour).toEqual('#AB3210');
   });
 
   it('dismissNotification should remove the referenced notification from the notifications list in State', () => {
