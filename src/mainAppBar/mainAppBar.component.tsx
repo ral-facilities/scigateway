@@ -84,6 +84,7 @@ const styles = (theme: Theme): StyleRules =>
       padding: 4,
       margin: theme.spacing(1),
       '& img': {
+        // logo maxHeight = mainAppBar height - 2 * padding - 2 * margin
         maxHeight: `calc(${
           (theme as UKRITheme).mainAppBarHeight
         } - 2 * 4px - 2 * ${theme.spacing(1)}px)`,
