@@ -6,6 +6,7 @@
     "dark": "",
     "altTxt": ""
   },
+  "primaryColour": "",
   "adminPageDefaultTab": "maintenance",
   "features": {
     "showHelpPageButton": true,

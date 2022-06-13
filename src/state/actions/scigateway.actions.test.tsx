@@ -27,6 +27,7 @@ import {
   customNavigationDrawerLogo,
   customAdminPageDefaultTab,
   registerContactUsAccessibilityFormUrl,
+  customPrimaryColour,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -399,6 +400,32 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(configureAnalytics('test-tracking-id'));
+  });
+
+  it('given a custom primary colour it is loading from the settings', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          primaryColour: '#ABCDEF',
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(customPrimaryColour('#ABCDEF'));
   });
 
   it('dispatches a site loading update after settings are loaded', async () => {

@@ -60,6 +60,8 @@ import {
   RegisterContactUsAccessibilityFormUrlType,
   ContactUsAccessibilityFormUrlPayload,
   adminRoutes,
+  CustomPrimaryColourType,
+  CustomPrimaryColourPayload,
 } from '../scigateway.types';
 import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
@@ -127,6 +129,15 @@ export const customAdminPageDefaultTab = (
   type: CustomAdminPageDefaultTabType,
   payload: {
     adminPageDefaultTab: adminPageDefaultTab,
+  },
+});
+
+export const customPrimaryColour = (
+  primaryColour: string
+): ActionType<CustomPrimaryColourPayload> => ({
+  type: CustomPrimaryColourType,
+  payload: {
+    primaryColour: primaryColour,
   },
 });
 
@@ -325,6 +336,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(
             customNavigationDrawerLogo(settings['navigationDrawerLogo'])
           );
+        }
+
+        if (settings['primaryColour']) {
+          dispatch(customPrimaryColour(settings['primaryColour']));
         }
 
         if (
