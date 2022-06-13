@@ -84,7 +84,9 @@ const styles = (theme: Theme): StyleRules =>
       padding: 4,
       margin: theme.spacing(1),
       '& img': {
-        height: 24,
+        maxHeight: `calc(${
+          (theme as UKRITheme).mainAppBarHeight
+        } - 2 * 4px - 2 * ${theme.spacing(1)}px)`,
       },
     },
     button: {
@@ -213,6 +215,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           >
             <img
               src={props.logo ? props.logo : defaultLogo}
+              // if using default logo use 24px, if using custom logo then don't set height
+              // custom logos must be sized to fit or will default to the max-height set in the top styling
+              style={props.logo ? {} : { height: '24px' }}
               alt={getString(props.res, 'title')}
             />
           </Button>
