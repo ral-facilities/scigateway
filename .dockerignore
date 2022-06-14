@@ -2,7 +2,6 @@
 /.husky
 /cypress
 /demos
-.eslintrc.js
 .gitignore
 .prettierrc
 codecov.yml
