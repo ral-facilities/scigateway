@@ -18,6 +18,7 @@ import Cookies from 'js-cookie';
 import { Dispatch, Action } from 'redux';
 import { push } from 'connected-react-router';
 import { UKRITheme } from '../theming';
+import { useTranslation } from 'react-i18next';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -96,6 +97,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
   const [analytics, setAnalytics] = React.useState(
     cookieConsent ? cookieConsent.analytics : false
   );
+  const { t } = useTranslation();
 
   return (
     <div className={props.classes.root}>
@@ -146,20 +148,18 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
                 {getString(props.res, 'essential-cookies-description')}
               </Typography>
               <ul className={props.classes.cookieList}>
-                <Typography
-                  variant="body1"
-                  component="li"
-                  className={props.classes.cookieListItem}
-                >
-                  {getString(props.res, 'cookie-consent-description')}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  component="li"
-                  className={props.classes.cookieListItem}
-                >
-                  {getString(props.res, 'scigateway-token-description')}
-                </Typography>
+                {t<string, string[]>('cookies-page.essential-cookies-list', {
+                  returnObjects: true,
+                }).map((s) => (
+                  <Typography
+                    variant="body1"
+                    component="li"
+                    className={props.classes.cookieListItem}
+                    key={s}
+                  >
+                    {s}
+                  </Typography>
+                ))}
               </ul>
             </Grid>
           </Grid>

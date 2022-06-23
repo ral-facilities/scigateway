@@ -28,7 +28,8 @@ describe('ICAT auth provider', () => {
 
     icatAuthProvider = new ICATAuthProvider(
       'mnemonic',
-      'http://localhost:8000'
+      'http://localhost:8000',
+      true
     );
     ReactGA.initialize('test id', { testMode: true, titleCase: false });
     (parseJwt as jest.Mock).mockImplementation(
@@ -44,7 +45,11 @@ describe('ICAT auth provider', () => {
   });
 
   it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
-    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
     await icatAuthProvider.autoLogin();
     expect(icatAuthProvider.mnemonic).toBe('');
   });
@@ -177,7 +182,11 @@ describe('ICAT auth provider', () => {
     // ensure token is null
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
-    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin();
@@ -216,7 +225,11 @@ describe('ICAT auth provider', () => {
     // ensure token is null
     window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
 
-    icatAuthProvider = new ICATAuthProvider(undefined, 'http://localhost:8000');
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
     await icatAuthProvider.autoLogin().catch(() => {
@@ -244,10 +257,20 @@ describe('ICAT auth provider', () => {
   it('should set autologin to resolved promise if mnemonic is set', async () => {
     icatAuthProvider = new ICATAuthProvider(
       'mnemonic',
-      'http://localhost:8000'
+      'http://localhost:8000',
+      true
     );
     expect(icatAuthProvider.autoLogin()).toBeDefined();
     return expect(icatAuthProvider.autoLogin()).resolves;
+  });
+
+  it('should not define autoLogin function if autoLogin arg is false', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      false
+    );
+    expect(icatAuthProvider.autoLogin).toBeUndefined();
   });
 
   it('should call api to verify token', async () => {
