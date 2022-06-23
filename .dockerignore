@@ -1,0 +1,12 @@
+/.github
+/.husky
+/cypress
+/demos
+.gitignore
+.prettierrc
+codecov.yml
+CODEOWNERS
+cypress.json
+Jenkinsfile
+LICENSE.md
+README.md
