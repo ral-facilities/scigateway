@@ -46,8 +46,8 @@ jobs:
       - name: Run e2e tests
         run: yarn e2e
 
-  push_to_registry:
-    name: Push Docker image to Harbor
+  docker:
+    name: Docker
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
