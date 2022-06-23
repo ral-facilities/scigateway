@@ -3,9 +3,9 @@ on:
   pull_request:
   # By default, the pull_request event type is not triggered when a PR is merged into main
   push:
+    # TODO - Change this to main before merging k8s-deployment into main
     branches:
-      - main
-      - develop
+      - k8s-deployment
 
 jobs:
   test:
@@ -45,3 +45,28 @@ jobs:
         uses: codecov/codecov-action@v1
       - name: Run e2e tests
         run: yarn e2e
+
+  push_to_registry:
+    name: Push Docker image to Harbor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Log in to Harbor
+        uses: docker/login-action@v1
+        with:
+          registry: harbor.stfc.ac.uk/datagateway
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: harbor.stfc.ac.uk/datagateway/scigateway
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
