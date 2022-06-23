@@ -47,6 +47,7 @@ jobs:
         run: yarn e2e
 
   docker:
+    needs: [test]
     name: Docker
     runs-on: ubuntu-latest
     steps:
