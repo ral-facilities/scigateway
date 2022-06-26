@@ -23,7 +23,7 @@
     "react-app-polyfill": "^3.0.0",
     "react-dom": "^16.14.0",
     "react-ga": "^3.3.0",
-    "react-i18next": "^11.15.3",
+    "react-i18next": "^11.17.3",
     "react-joyride": "^2.3.2",
     "react-redux": "^7.2.0",
     "react-redux-toastr": "^7.6.5",
