@@ -276,7 +276,8 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
 
 export const buildTheme = (
   darkModePreference: boolean,
-  highContrastModePreference?: boolean
+  highContrastModePreference?: boolean,
+  primaryColour?: string
 ): Theme => {
   const colours = darkModePreference
     ? highContrastModePreference
@@ -285,6 +286,10 @@ export const buildTheme = (
     : highContrastModePreference
     ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
     : LIGHT_MODE_COLOURS;
+
+  if (primaryColour && !(darkModePreference && highContrastModePreference)) {
+    colours.primary = primaryColour;
+  }
 
   const componentOverrides = {
     MuiPaper: {
@@ -508,16 +513,23 @@ const SciGatewayThemeProvider = (props: {
 }): React.ReactElement<{
   children: React.ReactNode;
 }> => {
-  const darkModePreference: boolean = useSelector(
+  const darkModePreference = useSelector(
     (state: StateType) => state.scigateway.darkMode
   );
-  const highContrastModePreference: boolean = useSelector(
+  const highContrastModePreference = useSelector(
     (state: StateType) => state.scigateway.highContrastMode
+  );
+  const primaryColour = useSelector(
+    (state: StateType) => state.scigateway.primaryColour
   );
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider
-        theme={buildTheme(darkModePreference, highContrastModePreference)}
+        theme={buildTheme(
+          darkModePreference,
+          highContrastModePreference,
+          primaryColour
+        )}
       >
         {props.children}
       </ThemeProvider>

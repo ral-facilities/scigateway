@@ -97,8 +97,7 @@ interface LoginPageDispatchProps {
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic?: string,
-    authUrl?: string
+    mnemonic?: string
   ) => Promise<void>;
   resetAuthState: () => Action;
 }
@@ -137,7 +136,6 @@ export const RedirectLoginScreen = (
 export const CredentialsLoginScreen = (
   props: CombinedLoginProps & {
     mnemonic?: string;
-    authUrl?: string;
   }
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
@@ -155,12 +153,7 @@ export const CredentialsLoginScreen = (
           e.key === 'Enter' &&
           isInputValid()
         ) {
-          props.verifyUsernameAndPassword(
-            username,
-            password,
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword(username, password, props.mnemonic);
         }
       }}
     >
@@ -202,12 +195,7 @@ export const CredentialsLoginScreen = (
         sx={buttonStyles}
         disabled={!isInputValid() || props.auth.loading}
         onClick={() => {
-          props.verifyUsernameAndPassword(
-            username,
-            password,
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword(username, password, props.mnemonic);
         }}
       >
         <Typography
@@ -249,7 +237,6 @@ export const CredentialsLoginScreen = (
 export const AnonLoginScreen = (
   props: CombinedLoginProps & {
     mnemonic?: string;
-    authUrl?: string;
   }
 ): React.ReactElement => {
   const [t] = useTranslation();
@@ -258,12 +245,7 @@ export const AnonLoginScreen = (
     <RootDiv
       onKeyPress={(e) => {
         if (e.key === 'Enter') {
-          props.verifyUsernameAndPassword(
-            '',
-            '',
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword('', '', props.mnemonic);
         }
       }}
     >
@@ -278,12 +260,7 @@ export const AnonLoginScreen = (
         color="primary"
         sx={buttonStyles}
         onClick={() => {
-          props.verifyUsernameAndPassword(
-            '',
-            '',
-            props.mnemonic,
-            props.authUrl
-          );
+          props.verifyUsernameAndPassword('', '', props.mnemonic);
         }}
       >
         <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
@@ -400,12 +377,7 @@ export const LoginPageComponent = (
       !props.auth.failedToLogin
     ) {
       if (props.location.search) {
-        props.verifyUsernameAndPassword(
-          '',
-          props.location.search,
-          mnemonic,
-          authUrl
-        );
+        props.verifyUsernameAndPassword('', props.location.search, mnemonic);
       }
     }
   });
@@ -420,13 +392,7 @@ export const LoginPageComponent = (
   let LoginScreen: React.ReactElement | null = null;
 
   if (typeof mnemonic === 'undefined') {
-    LoginScreen = (
-      <CredentialsLoginScreen
-        {...props}
-        mnemonic={mnemonic}
-        authUrl={authUrl}
-      />
-    );
+    LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
 
     if (props.auth.provider.redirectUrl) {
       LoginScreen = <RedirectLoginScreen {...props} />;
@@ -439,9 +405,7 @@ export const LoginPageComponent = (
       )
     ) {
       // anon
-      LoginScreen = (
-        <AnonLoginScreen {...props} mnemonic={mnemonic} authUrl={authUrl} />
-      );
+      LoginScreen = <AnonLoginScreen {...props} mnemonic={mnemonic} />;
     } else if (
       mnemonics.find(
         (authenticator) =>
@@ -451,13 +415,7 @@ export const LoginPageComponent = (
       )
     ) {
       // user/pass
-      LoginScreen = (
-        <CredentialsLoginScreen
-          {...props}
-          mnemonic={mnemonic}
-          authUrl={authUrl}
-        />
-      );
+      LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
     } else if (
       mnemonics.find(
         (authenticator) =>
@@ -534,17 +492,8 @@ const mapDispatchToProps = (
   verifyUsernameAndPassword: (
     username: string,
     password: string,
-    mnemonic: string | undefined,
-    authUrl?: string
-  ) =>
-    dispatch(
-      verifyUsernameAndPassword(
-        username.trim(),
-        password,
-        mnemonic,
-        authUrl ?? ''
-      )
-    ),
+    mnemonic: string | undefined
+  ) => dispatch(verifyUsernameAndPassword(username.trim(), password, mnemonic)),
   resetAuthState: () => dispatch(resetAuthState()),
 });
 

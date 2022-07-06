@@ -370,7 +370,6 @@ describe('Login page component', () => {
       'new username',
       'new password',
       undefined,
-      undefined,
     ]);
 
     simulateUsernameInput.instance().value = 'new username 2';
@@ -390,7 +389,6 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[1]).toEqual([
       'new username 2',
       'new password 2',
-      undefined,
       undefined,
     ]);
   });
@@ -438,7 +436,6 @@ describe('Login page component', () => {
       '',
       '?token=test_token',
       undefined,
-      undefined,
     ]);
   });
 
@@ -446,7 +443,6 @@ describe('Login page component', () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';
-    props.auth.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -476,12 +472,7 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
-    expect(mockLoginfn.mock.calls[0]).toEqual([
-      '',
-      '',
-      'nokeys',
-      'http://example.com',
-    ]);
+    expect(mockLoginfn.mock.calls[0]).toEqual(['', '', 'nokeys']);
 
     wrapper
       .find(AnonLoginScreen)
@@ -491,19 +482,13 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(2);
 
-    expect(mockLoginfn.mock.calls[1]).toEqual([
-      '',
-      '',
-      'nokeys',
-      'http://example.com',
-    ]);
+    expect(mockLoginfn.mock.calls[1]).toEqual(['', '', 'nokeys']);
   });
 
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
     state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
     state.router.location.search = '?token=test_token';
     state.scigateway.authorisation.provider.mnemonic = 'nokeys';
-    state.scigateway.authorisation.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({

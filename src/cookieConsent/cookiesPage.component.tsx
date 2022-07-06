@@ -11,6 +11,7 @@ import { AppStrings } from '../state/scigateway.types';
 import Cookies from 'js-cookie';
 import { Dispatch, Action } from 'redux';
 import { push } from 'connected-react-router';
+import { useTranslation } from 'react-i18next';
 
 const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
@@ -73,6 +74,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
   const [analytics, setAnalytics] = React.useState(
     cookieConsent ? cookieConsent.analytics : false
   );
+  const { t } = useTranslation();
 
   return (
     <RootDiv>
@@ -126,20 +128,18 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
                 {getString(props.res, 'essential-cookies-description')}
               </Typography>
               <CookieList>
-                <Typography
-                  variant="body1"
-                  component="li"
-                  sx={cookieListItemStyles}
-                >
-                  {getString(props.res, 'cookie-consent-description')}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  component="li"
-                  sx={cookieListItemStyles}
-                >
-                  {getString(props.res, 'scigateway-token-description')}
-                </Typography>
+                {t<string, string[]>('cookies-page.essential-cookies-list', {
+                  returnObjects: true,
+                }).map((s) => (
+                  <Typography
+                    variant="body1"
+                    component="li"
+                    sx={cookieListItemStyles}
+                    key={s}
+                  >
+                    {s}
+                  </Typography>
+                ))}
               </CookieList>
             </Grid>
           </Grid>

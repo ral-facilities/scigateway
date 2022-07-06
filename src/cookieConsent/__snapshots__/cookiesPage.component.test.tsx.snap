@@ -100,6 +100,7 @@ exports[`Cookies page component should render correctly 1`] = `
           <Styled(ul)>
             <ForwardRef(Typography)
               component="li"
+              key="cookies-page.essential-cookies-list 1"
               sx={
                 Object {
                   "display": "list-item",
@@ -107,10 +108,11 @@ exports[`Cookies page component should render correctly 1`] = `
               }
               variant="body1"
             >
-              cookie-consent-description
+              cookies-page.essential-cookies-list 1
             </ForwardRef(Typography)>
             <ForwardRef(Typography)
               component="li"
+              key="cookies-page.essential-cookies-list 2"
               sx={
                 Object {
                   "display": "list-item",
@@ -118,7 +120,19 @@ exports[`Cookies page component should render correctly 1`] = `
               }
               variant="body1"
             >
-              scigateway-token-description
+              cookies-page.essential-cookies-list 2
+            </ForwardRef(Typography)>
+            <ForwardRef(Typography)
+              component="li"
+              key="cookies-page.essential-cookies-list 3"
+              sx={
+                Object {
+                  "display": "list-item",
+                }
+              }
+              variant="body1"
+            >
+              cookies-page.essential-cookies-list 3
             </ForwardRef(Typography)>
           </Styled(ul)>
         </ForwardRef(Grid)>

@@ -12,6 +12,16 @@ import Cookies from 'js-cookie';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
 import { shallow, mount } from 'enzyme';
+import { TOptionsBase } from 'i18next';
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (key: string, options: TOptionsBase) =>
+        options?.returnObjects ? [1, 2, 3].map((x) => `${key} ${x}`) : key,
+    };
+  },
+}));
 
 describe('Cookies page component', () => {
   let mockStore;

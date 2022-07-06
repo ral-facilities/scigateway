@@ -80,7 +80,10 @@ const TitleButton = styled(Button)(({ theme }) => ({
   padding: '4px',
   margin: 1,
   '& img': {
-    height: '24px',
+    // logo maxHeight = mainAppBar height - 2 * padding - 2 * margin
+    maxHeight: `calc(${theme.mainAppBarHeight} - 2 * 4px - 2 * ${theme.spacing(
+      1
+    )}px)`,
   },
 }));
 
@@ -142,16 +145,13 @@ export const MainAppBar = (
     }
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
+  // have menu open by default after page loads
   React.useEffect(() => {
-    if (
-      !props.loading &&
-      props.loggedIn &&
-      !props.drawerOpen &&
-      props.pathname !== '/login'
-    )
+    if (!props.loading && !props.drawerOpen) {
       props.toggleDrawer();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.loading, props.loggedIn]);
+  }, [props.loading]);
 
   return (
     <div style={{ width: '100%' }}>
@@ -195,6 +195,9 @@ export const MainAppBar = (
           >
             <img
               src={props.logo ? props.logo : defaultLogo}
+              // if using default logo use 24px, if using custom logo then don't set height
+              // custom logos must be sized to fit or will default to the max-height set in the top styling
+              style={props.logo ? {} : { height: '24px' }}
               alt={getString(props.res, 'title')}
             />
           </TitleButton>
