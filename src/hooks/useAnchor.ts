@@ -23,24 +23,24 @@ function useAnchor(): void {
     // once the website is done loading, the page should be fully rendered, and the target element should be available.
     if (hash && !isSiteLoading) {
       const elemId = hash.replace('#', '');
-      console.log(
-        'document.getElementById(elemId)',
-        document.getElementById(elemId)
-      );
       // find the element with the ID specified by the fragment
       // scroll to the element if found
       const elem = document.getElementById(elemId);
       if (elem) {
-        // note: there is a problem where when this hook is run
-        // even though the element that should be scrolled to is found
-        // it is not actually mounted to the actual DOM yet
-        // (I suspect it is a synchronization issue between the vDOM and the browser DOM,
-        //  where the element is in the vDOM but not in the browser DOM)
-        // setTimeout is a hacky solution to it. we wait for a tiny amount of time (100ms)
-        // to wait for the element to be properly mounted, then we call scrollIntoView.
-        // I tried to find better solutions online, but a lot of people point to setTimeout as the solution.
+        // TODO: Remove usage of setTimeout after upgrade to React 18.
+        //
+        // useEffect does not work well with Suspense in React <18.
+        // When any child of Suspense are suspended, React will add 'display: none' to hide all the children of Suspense
+        // and show the fallback component. This means unsuspended children are still mounted despite being hidden
+        // which also means useEffect is still called on them. at that point, the tree/DOM is "suspended" and unstable
+        // so accessing the DOM will result in unexpected results.
+        //
+        // unfortunately, there is no good way to tell when the tree is no longer suspended and when the DOM is stable,
+        // so the only hacky way is to set a short delay before accessing the DOM,
+        // hoping that the tree will finish suspending and the DOM will be stable after the delay.
+        //
+        // related issue: https://github.com/facebook/react/issues/14536
         setTimeout(() => {
-          console.log('scrolled into view');
           elem.scrollIntoView(true);
         }, 100);
       }
