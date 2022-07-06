@@ -2,10 +2,10 @@ import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import { shallow } from 'enzyme';
 import {
-  HelpPageWithStyles,
   CombinedHelpPageProps,
-  TableOfContents,
   HelpPageWithoutStyles,
+  HelpPageWithStyles,
+  TableOfContents,
 } from './helpPage.component';
 import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
@@ -17,6 +17,11 @@ const dummyClasses = {
   description: 'description-class',
   toc: 'toc-class',
 };
+
+jest.mock('../hooks/useAnchor', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 describe('Help page component', () => {
   let mount;

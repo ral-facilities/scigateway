@@ -118,8 +118,6 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
       el.insertAdjacentHTML('afterbegin', topOfPageIcon);
     });
 
-  console.log('render');
-
   useAnchor();
 
   return (
