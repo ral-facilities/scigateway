@@ -1,9 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import {
-  Theme,
-  StyleRules,
   createStyles,
+  StyleRules,
+  Theme,
   WithStyles,
   withStyles,
 } from '@material-ui/core';
@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { UKRITheme } from '../theming';
+import useAnchor from '../hooks/useAnchor';
 
 const styles = (theme: Theme): StyleRules =>
   createStyles({
@@ -116,6 +117,10 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
     .forEach((el) => {
       el.insertAdjacentHTML('afterbegin', topOfPageIcon);
     });
+
+  console.log('render');
+
+  useAnchor();
 
   return (
     <div className={props.classes.root}>
