@@ -17,6 +17,12 @@ const styles = (theme: Theme): StyleRules =>
     root: {
       padding: theme.spacing(2),
       backgroundColor: theme.palette.background.default,
+      maxHeight: `calc(100vh - ${(theme as UKRITheme).mainAppBarHeight} - ${
+        (theme as UKRITheme).footerHeight
+      } - ${(theme as UKRITheme).footerPaddingTop} - ${
+        (theme as UKRITheme).footerPaddingBottom
+      } - ${theme.spacing(2) * 2}px)`,
+      overflow: 'auto',
       '& a': {
         '&:link': {
           color: (theme as UKRITheme).colours.link.default,
