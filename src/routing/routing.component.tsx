@@ -35,6 +35,12 @@ const styles = (theme: Theme): StyleRules =>
     container: {
       paddingBottom: '36px',
       width: '100%',
+      maxHeight: `calc(100vh - ${(theme as UKRITheme).mainAppBarHeight} - ${
+        (theme as UKRITheme).footerHeight
+      } - ${(theme as UKRITheme).footerPaddingTop} - ${
+        (theme as UKRITheme).footerPaddingBottom
+      } - ${theme.spacing(2) * 2}px)`,
+      overflow: 'auto',
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeIn,
         duration: theme.transitions.duration.leavingScreen,
