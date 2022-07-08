@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { StateType } from '../state/state.types';
 import {
   adminRoutes,
@@ -33,6 +33,12 @@ const ContainerDiv = styled('div', {
     return {
       paddingBottom: '36px',
       width: `calc(100% - ${theme.drawerWidth})`,
+      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${
+        theme.footerHeight
+      } - ${theme.footerPaddingTop} - ${
+        theme.footerPaddingBottom
+      } - ${theme.spacing(4)})`,
+      overflow: 'auto',
       marginLeft: theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
@@ -43,11 +49,11 @@ const ContainerDiv = styled('div', {
     return {
       paddingBottom: '36px',
       width: '100%',
-      maxHeight: `calc(100vh - ${(theme as UKRITheme).mainAppBarHeight} - ${
-        (theme as UKRITheme).footerHeight
-      } - ${(theme as UKRITheme).footerPaddingTop} - ${
-        (theme as UKRITheme).footerPaddingBottom
-      } - ${theme.spacing(2) * 2}px)`,
+      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${
+        theme.footerHeight
+      } - ${theme.footerPaddingTop} - ${
+        theme.footerPaddingBottom
+      } - ${theme.spacing(4)})`,
       overflow: 'auto',
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeIn,
