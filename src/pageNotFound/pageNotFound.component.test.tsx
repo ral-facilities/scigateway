@@ -1,58 +1,34 @@
 import React from 'react';
-import PageNotFoundWithStyles, {
-  PageNotFoundComponent,
-  PageNotFoundProps,
-} from './pageNotFound.component';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
+import PageNotFoundComponent from './pageNotFound.component';
 import thunk from 'redux-thunk';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createMemoryHistory, History } from 'history';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { Provider } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { Router } from 'react-router';
+import { mount, shallow } from 'enzyme';
 
 describe('Page Not found component', () => {
-  let shallow;
-  let props: PageNotFoundProps;
   let mockStore;
   let state: StateType;
-  let mount;
   let history: History;
 
-  const dummyClasses = {
-    titleContainer: 'titleContainer-class',
-    bugIcon: 'paper-class',
-    codeText: 'bugIcon-class',
-    container: 'container-class',
-    bold: 'bold-class',
-    message: 'message-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
     mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
 
     history = createMemoryHistory();
-
-    props = { classes: dummyClasses };
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   const theme = buildTheme(false);
 
   it('renders pageNotFound page correctly', () => {
-    const wrapper = shallow(<PageNotFoundComponent {...props} />);
+    const wrapper = shallow(<PageNotFoundComponent />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -61,9 +37,11 @@ describe('Page Not found component', () => {
     const wrapper = mount(
       <Provider store={testStore}>
         <Router history={history}>
-          <MuiThemeProvider theme={theme}>
-            <PageNotFoundWithStyles />
-          </MuiThemeProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <PageNotFoundComponent />
+            </ThemeProvider>
+          </StyledEngineProvider>
         </Router>
       </Provider>
     );
@@ -79,7 +57,7 @@ describe('Page Not found component', () => {
       wrapper
         .find('[data-test-id="page-not-found-contact-support-link"]')
         .first()
-        .prop('href')
+        .prop('to')
     ).toEqual('footer.links.contact');
   });
 });

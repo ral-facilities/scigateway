@@ -1,56 +1,25 @@
 import React from 'react';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
-import {
-  NotificationWithoutStyles,
-  NotificationWithStyles,
-} from './scigatewayNotification.component';
+import Notification from './scigatewayNotification.component';
 import { Action } from 'redux';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { mount, shallow } from 'enzyme';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-
-const theme = buildTheme(false);
 
 function createScigatewayNotification(
   severity: string,
   message: string
 ): React.ReactElement {
-  const props = {
-    classes: {
-      root: 'root-class',
-      successIcon: 'successIcon-class',
-      warningIcon: 'warningIcon-class',
-      errorIcon: 'errorIcon-class',
-      button: 'button-class',
-      deleteIcon: 'deleteIcon-class',
-    },
-  };
-
   return (
-    <MuiThemeProvider theme={theme}>
-      <NotificationWithoutStyles
-        message={message}
-        severity={severity}
-        index={0}
-        dismissNotification={(): Action => ({ type: 'test' })}
-        {...props}
-      />
-    </MuiThemeProvider>
+    <Notification
+      message={message}
+      severity={severity}
+      index={0}
+      dismissNotification={(): Action => ({ type: 'test' })}
+    />
   );
 }
 
 describe('Scigateway Notification component', () => {
-  let shallow;
-  let mount;
-
-  beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   it('Scigateway Notification success message renders correctly', () => {
     const wrapper = shallow(
       createScigatewayNotification('success', 'success message')
@@ -75,15 +44,19 @@ describe('Scigateway Notification component', () => {
   it('an action is fired when Scigateway Notification button is clicked', () => {
     const mockDismissFn = jest.fn();
 
+    const theme = buildTheme(false);
+
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <NotificationWithStyles
-          message={'warning message'}
-          severity={'warning'}
-          index={0}
-          dismissNotification={mockDismissFn}
-        />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Notification
+            message={'warning message'}
+            severity={'warning'}
+            index={0}
+            dismissNotification={mockDismissFn}
+          />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').simulate('click');

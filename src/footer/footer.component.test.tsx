@@ -1,30 +1,18 @@
 import React from 'react';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
-import { FooterWithoutStyles, CombinedFooterProps } from './footer.component';
+import { UnconnectedFooter, FooterProps } from './footer.component';
+import { shallow } from 'enzyme';
 
 describe('Footer component', () => {
-  let shallow;
-  let mount;
-  let props: CombinedFooterProps;
+  let props: FooterProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
     props = {
       res: undefined,
-      classes: {
-        root: 'root-class',
-      },
     };
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   it('footer renders correctly', () => {
-    const wrapper = shallow(<FooterWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedFooter {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

@@ -1,12 +1,11 @@
 import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
+import { mount } from 'enzyme';
 import { createLocation } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 
 import { Provider } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
@@ -18,14 +17,13 @@ import {
 } from '../state/actions/scigateway.actions';
 import { MemoryRouter } from 'react-router';
 import MaintenancePage from './maintenancePage.component';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 
 describe('maintenance page component', () => {
-  let mount;
   let mockStore;
   let state: StateType;
 
   beforeEach(() => {
-    mount = createMount();
     mockStore = configureStore([thunk]);
 
     state = {
@@ -35,21 +33,19 @@ describe('maintenance page component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   const theme = buildTheme(false);
 
   it('setScheduledMaintenanceState action should be sent when the setScheduledMaintenanceState function is called', async () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-            <MaintenancePage />
-          </MemoryRouter>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+              <MaintenancePage />
+            </MemoryRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -62,6 +58,7 @@ describe('maintenance page component', () => {
 
     wrapper
       .find('[aria-label="admin.scheduled-maintenance-checkbox-arialabel"]')
+      .last()
       .simulate('change', { target: { checked: true } });
     wrapper.find('button').first().simulate('click');
 
@@ -80,11 +77,13 @@ describe('maintenance page component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-            <MaintenancePage />
-          </MemoryRouter>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+              <MaintenancePage />
+            </MemoryRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -95,6 +94,7 @@ describe('maintenance page component', () => {
     maintenanceMessageInput.simulate('change');
     wrapper
       .find('[aria-label="admin.maintenance-checkbox-arialabel"]')
+      .last()
       .simulate('change', { target: { checked: true } });
     wrapper.find('button').last().simulate('click');
 

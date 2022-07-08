@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Tour, { TourWithoutStyles, CombinedTourProps } from './tour.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import Tour, { UnconnectedTour, CombinedTourProps } from './tour.component';
+import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/scigateway.reducer';
@@ -10,7 +10,7 @@ import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import Joyride from 'react-joyride';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 
 jest.mock('popper.js', () => {
@@ -35,16 +35,12 @@ jest.mock('popper.js', () => {
 describe('Tour component', () => {
   const theme = buildTheme(false);
 
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedTourProps;
+  let holder;
 
   beforeEach(() => {
-    shallow = createShallow({});
-    mount = createMount();
-
     state = {
       scigateway: {
         ...initialState,
@@ -78,16 +74,40 @@ describe('Tour component', () => {
 
       dismissHelp: jest.fn(),
       toggleDrawer: jest.fn(),
-
-      theme: theme,
     };
+
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
   });
 
   it('renders correctly', () => {
     props.showHelp = true;
 
-    const wrapper = shallow(<TourWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const wrapper = shallow(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedTour {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    )
+      .dive()
+      .dive();
+    expect(wrapper.find(UnconnectedTour).dive()).toMatchSnapshot();
+  });
+
+  it('renders correctly in dark mode', () => {
+    const darkTheme = buildTheme(true);
+
+    const wrapper = shallow(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={darkTheme}>
+          <UnconnectedTour {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    )
+      .dive()
+      .dive();
+    expect(wrapper.find(UnconnectedTour).dive()).toMatchSnapshot();
   });
 
   it('shows next tooltip when next is clicked', () => {
@@ -95,15 +115,18 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div className="test-2" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <div>
+              <Tour />
+              <div className="test-1" />
+              <div className="test-2" />
+            </div>
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -123,15 +146,18 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div className="test-2" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <div>
+              <Tour />
+              <div className="test-1" />
+              <div className="test-2" />
+            </div>
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -153,14 +179,17 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <div>
+              <Tour />
+              <div className="test-1" />
+            </div>
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     wrapper
@@ -194,15 +223,18 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div id="plugin-link-test" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <div>
+              <Tour />
+              <div className="test-1" />
+              <div id="plugin-link-test" />
+            </div>
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const joyride: Joyride = wrapper.find('Joyride').instance();
@@ -232,16 +264,19 @@ describe('Tour component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div className="test-2" />
-            <div id="plugin-link-test" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <div>
+              <Tour />
+              <div className="test-1" />
+              <div className="test-2" />
+              <div id="plugin-link-test" />
+            </div>
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>,
+      { attachTo: holder }
     );
 
     const steps = wrapper.find('Joyride').prop('steps');
@@ -251,12 +286,5 @@ describe('Tour component', () => {
       content: 'Plugin link test',
       disableBeacon: true,
     });
-  });
-
-  it('renders correctly in dark mode', () => {
-    props.theme = buildTheme(true);
-
-    const wrapper = shallow(<TourWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
   });
 });
