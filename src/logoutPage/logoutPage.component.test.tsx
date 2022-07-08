@@ -1,9 +1,8 @@
 import React from 'react';
 import LogoutPage, {
-  LogoutPageComponent,
+  UnconnectedLogoutPage,
   CombinedLogoutPageProps,
 } from './logoutPage.component';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -12,26 +11,16 @@ import { push } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { createLocation } from 'history';
+import { mount, shallow } from 'enzyme';
 
 describe('logout page component', () => {
-  let shallow;
-  let mount;
   let props: CombinedLogoutPageProps;
   let mockStore;
   let state: StateType;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
     mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -41,10 +30,6 @@ describe('logout page component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   const theme = buildTheme(false);
@@ -57,9 +42,8 @@ describe('logout page component', () => {
         avatarUrl: '',
       },
       res: undefined,
-      classes: dummyClasses,
     };
-    const wrapper = shallow(<LogoutPageComponent {...props} />);
+    const wrapper = shallow(<UnconnectedLogoutPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -71,10 +55,9 @@ describe('logout page component', () => {
         avatarUrl: 'test_url',
       },
       res: undefined,
-      classes: dummyClasses,
     };
 
-    const wrapper = shallow(<LogoutPageComponent {...props} />);
+    const wrapper = shallow(<UnconnectedLogoutPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -82,15 +65,17 @@ describe('logout page component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LogoutPage />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LogoutPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
     wrapper
       .find('[data-test-id="logout-page-button"]')
-      .first()
+      .last()
       .simulate('click');
 
     expect(testStore.getActions().length).toEqual(2);

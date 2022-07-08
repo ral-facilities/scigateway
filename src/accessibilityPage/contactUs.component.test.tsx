@@ -1,41 +1,31 @@
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
-import {
-  ContactUsWithoutStyles,
-  CombinedContactUsProps,
-} from './contactUs.component';
+import { shallow } from 'enzyme';
+import { UnconnectedContactUs, ContactUsProps } from './contactUs.component';
 
 describe('Contact us component', () => {
-  let shallow;
-  let props: CombinedContactUsProps;
-
-  const dummyClasses = {
-    description: 'description-class',
-  };
-
-  beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'ContactUs' });
-  });
+  let props: ContactUsProps;
 
   it('renders iframe correctly if form url set', () => {
     props = {
       contactUsAccessibilityFormUrl: 'test-url',
-      classes: dummyClasses,
     };
 
-    const wrapper = shallow(<ContactUsWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const wrapper = shallow(<UnconnectedContactUs {...props} />);
+
     expect(wrapper.find('#contact-us-form')).toBeTruthy();
   });
 
   it('renders mailto link correctly if form url not set', () => {
     props = {
-      contactUsAccessibilityFormUrl: undefined,
-      classes: dummyClasses,
+      contactUsAccessibilityFormUrl: '',
     };
+    let wrapper = shallow(<UnconnectedContactUs {...props} />);
+    expect(wrapper.find('#contact-info')).toBeTruthy();
 
-    const wrapper = shallow(<ContactUsWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    props = {
+      contactUsAccessibilityFormUrl: undefined,
+    };
+    wrapper = shallow(<UnconnectedContactUs {...props} />);
     expect(wrapper.find('#contact-info')).toBeTruthy();
   });
 });

@@ -1,22 +1,13 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
-  Paper,
-} from '@material-ui/core';
+import React, { ReactElement } from 'react';
+import Typography from '@mui/material/Typography';
+import { Paper } from '@mui/material';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
 import { adminRoutes, PluginConfig } from '../state/scigateway.types';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import { Link } from 'react-router-dom';
-import { ReactElement } from 'react';
-import { Route, Switch, useLocation } from 'react-router';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { Link, Route, Switch, useLocation } from 'react-router-dom';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import {
   getPluginRoutes,
@@ -25,51 +16,12 @@ import {
 import MaintenancePage from './maintenancePage.component';
 import { useTranslation } from 'react-i18next';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
-    },
-    titleText: {
-      color: theme.palette.secondary.main,
-      fontWeight: 'bold',
-    },
-    paper: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      padding: theme.spacing(2),
-      [theme.breakpoints.up(800 + theme.spacing(8))]: {
-        width: 800,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
-    },
-    form: {
-      flexDirection: 'column',
-    },
-    textArea: {
-      backgroundColor: 'inherit',
-      color: theme.palette.text.primary,
-      font: 'inherit',
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      minWidth: '40%',
-      maxWidth: '100%',
-    },
-  });
-
 export interface AdminPageProps {
   plugins: PluginConfig[];
   adminPageDefaultTab?: 'maintenance' | 'download';
 }
 
-export type CombinedAdminPageProps = AdminPageProps & WithStyles<typeof styles>;
-
-export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
+const AdminPage = (props: AdminPageProps): ReactElement => {
   const pluginRoutes = getPluginRoutes(props.plugins, true);
 
   const location = useLocation();
@@ -86,16 +38,26 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
   const [t] = useTranslation();
 
   return (
-    <Paper id="admin-page" className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+    <Paper
+      sx={{
+        padding: 2,
+        flexGrow: 1,
+        backgroundColor: 'background.default',
+      }}
+    >
+      <Typography
+        variant="h3"
+        sx={{ color: 'secondary.main', fontWeight: 'bold' }}
+      >
         {t('admin.title')}
       </Typography>
       <Tabs
+        textColor="secondary"
+        indicatorColor="secondary"
         value={tabValue}
         onChange={(event, newValue) => {
           setTabValue(newValue);
         }}
-        textColor="secondary"
       >
         <Tab
           id="maintenance-tab"
@@ -104,7 +66,6 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
           value="maintenance"
           component={Link}
           to={adminRoutes.maintenance}
-          className={props.classes.tab}
         />
         <Tab
           id="download-tab"
@@ -113,7 +74,6 @@ export const AdminPage = (props: CombinedAdminPageProps): ReactElement => {
           aria-controls="download-panel"
           component={Link}
           to={adminRoutes.download}
-          className={props.classes.tab}
         />
       </Tabs>
       <Switch>
@@ -153,6 +113,6 @@ const mapStateToProps = (state: StateType): AdminPageProps => ({
   adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
 });
 
-export const AdminPageWithStyles = withStyles(styles)(AdminPage);
+export const UnconnectedAdminPage = AdminPage;
 
-export default connect(mapStateToProps)(AdminPageWithStyles);
+export default connect(mapStateToProps)(AdminPage);

@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 import { Dispatch, Action, AnyAction } from 'redux';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import LogoutIcon from '@material-ui/icons/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/ExitToApp';
 import {
   IconButton,
-  withStyles,
   Theme,
-  createStyles,
   Menu,
   MenuItem,
-  WithStyles,
   Button,
   Typography,
   Divider,
   ListItemIcon,
   ListItemText,
   Avatar,
-} from '@material-ui/core';
-import { StyleRules, fade } from '@material-ui/core/styles';
+} from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { signOut } from '../state/actions/scigateway.actions';
@@ -27,7 +24,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 import log from 'loglevel';
 import UserInfo from '../authentication/user';
-import { UKRITheme } from '../theming';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -40,80 +36,57 @@ interface UserProfileDispatchProps {
   signOut: () => void;
 }
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    signInButton: {
-      margin: theme.spacing(1),
-      color: '#FFF',
-      backgroundColor: (theme as UKRITheme).colours.lightBlue,
-      '&:hover': {
-        backgroundColor: fade((theme as UKRITheme).colours.lightBlue, 0.8),
-      },
-    },
-    userButton: {
-      margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
-    },
-    usernameContainer: {
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 15,
-      paddingRight: 15,
-    },
-    username: {
-      paddingTop: 3,
-      fontWeight: 'bold',
-      fontSize: 17,
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      cursor: 'pointer',
-    },
-  });
+type CombinedUserProfileProps = UserProfileProps & UserProfileDispatchProps;
 
-type CombinedUserProfileProps = UserProfileProps &
-  UserProfileDispatchProps &
-  WithStyles<typeof styles>;
-
-const UserProfileComponent = (
+export const UserProfileComponent = (
   props: CombinedUserProfileProps
 ): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const closeMenu = (): void => setMenuAnchor(null);
   const logout = (): void => {
     closeMenu();
     props.signOut();
   };
+  const open = Boolean(menuAnchor);
+
   return (
     <div className="tour-user-profile">
       {props.loggedIn ? (
         <div>
-          {props.user.avatarUrl !== '' ? (
-            <Avatar
-              className={props.classes.avatar}
-              alt="user"
-              src={props.user.avatarUrl}
-              onClick={(e) => setMenuAnchor(e.currentTarget)}
-              aria-label="Open user menu"
-            />
-          ) : (
-            <IconButton
-              className={props.classes.userButton}
-              onClick={(e) => setMenuAnchor(e.currentTarget)}
-              aria-label="Open user menu"
-            >
+          <IconButton
+            sx={{ margin: 1, color: 'primary.contrastText' }}
+            onClick={(e) => setMenuAnchor(e.currentTarget)}
+            aria-label="Open user menu"
+            aria-controls={open ? 'simple-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            size={props.user.avatarUrl ? 'small' : 'large'}
+          >
+            {props.user.avatarUrl !== '' ? (
+              <Avatar alt="user" src={props.user.avatarUrl} />
+            ) : (
               <AccountCircleIcon />
-            </IconButton>
-          )}
+            )}
+          </IconButton>
+
           <Menu
             id="simple-menu"
-            anchorEl={getMenuAnchor}
-            open={getMenuAnchor !== null}
+            anchorEl={menuAnchor}
+            open={open}
             onClose={closeMenu}
           >
-            <div className={props.classes.usernameContainer}>
+            <div
+              style={{
+                paddingTop: '8px',
+                paddingBottom: '8px',
+                paddingLeft: '15px',
+                paddingRight: '15px',
+              }}
+            >
               <Typography>Signed in as:</Typography>
-              <Typography className={props.classes.username}>
+              <Typography
+                sx={{ paddingTop: '3px', fontWeight: 'bold', fontSize: '17px' }}
+              >
                 {props.user.username}
               </Typography>
             </div>
@@ -130,7 +103,14 @@ const UserProfileComponent = (
         <Button
           color="primary"
           variant="contained"
-          className={props.classes.signInButton}
+          sx={(theme: Theme) => ({
+            margin: 1,
+            color: '#FFF',
+            backgroundColor: theme.colours.lightBlue,
+            '&:hover': {
+              backgroundColor: alpha(theme.colours.lightBlue, 0.8),
+            },
+          })}
           onClick={() => {
             props.signIn();
             log.debug('signing in');
@@ -139,7 +119,7 @@ const UserProfileComponent = (
           <Typography
             color="inherit"
             noWrap
-            style={{ fontWeight: 500, marginTop: 3 }}
+            sx={{ fontWeight: 500, marginTop: '3px' }}
           >
             {getString(props.res, 'login-button')}
           </Typography>
@@ -148,9 +128,6 @@ const UserProfileComponent = (
     </div>
   );
 };
-
-export const UserProfileComponentWithStyles =
-  withStyles(styles)(UserProfileComponent);
 
 const mapStateToProps = (state: StateType): UserProfileProps => ({
   loggedIn:
@@ -173,11 +150,6 @@ const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserProfileComponentWithStyles);
-
-export const UserProfileWithoutStyles = connect(
   mapStateToProps,
   mapDispatchToProps
 )(UserProfileComponent);
