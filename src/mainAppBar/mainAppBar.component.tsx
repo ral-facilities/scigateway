@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/HelpOutline';
-import MenuIcon from '@material-ui/icons/Menu';
-import BrightnessIcon from '@material-ui/icons/Brightness4';
-import InvertColorsIcon from '@material-ui/icons/InvertColors';
-import TuneIcon from '@material-ui/icons/Tune';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import HelpIcon from '@mui/icons-material/HelpOutline';
+import MenuIcon from '@mui/icons-material/Menu';
+import BrightnessIcon from '@mui/icons-material/Brightness4';
+import InvertColorsIcon from '@mui/icons-material/InvertColors';
+import TuneIcon from '@mui/icons-material/Tune';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  withStyles,
-  createStyles,
-  Theme,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
-import classNames from 'classnames';
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  styled,
+} from '@mui/material';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { Theme } from '@mui/material/styles';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
   toggleDrawer,
@@ -33,12 +32,10 @@ import { adminRoutes, AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
-//import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import { PluginConfig } from '../state/scigateway.types';
 import { useLocation } from 'react-router-dom';
-import { UKRITheme } from '../theming';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -68,54 +65,37 @@ interface MainAppDispatchProps {
   toggleHighContrastMode: (preference: boolean) => Action;
 }
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      width: '100%',
-    },
-    appBar: {
-      backgroundColor: theme.palette.primary.main,
-      height: (theme as UKRITheme).mainAppBarHeight,
-    },
-    grow: {
-      flexGrow: 1,
-    },
-    titleButton: {
-      padding: 4,
-      margin: theme.spacing(1),
-      '& img': {
-        height: 24,
-      },
-    },
-    button: {
-      margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 0,
-      color: theme.palette.primary.contrastText,
-    },
-    menuButtonPlaceholder: {
-      marginLeft: -12,
-      marginRight: 0,
-      width: 48,
-    },
-    menuButtonOpen: {
-      marginLeft: -12,
-      marginRight: 0,
-      color: theme.palette.primary.contrastText,
-    },
-  });
+const buttonStyles = {
+  margin: 1,
+  color: 'primary.contrastText',
+};
 
-type CombinedMainAppBarProps = MainAppProps &
-  MainAppDispatchProps &
-  WithStyles<typeof styles>;
+const menuButtonStyles = {
+  marginLeft: '-12px',
+  marginRight: 0,
+  color: 'primary.contrastText',
+};
 
-const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+const TitleButton = styled(Button)(({ theme }) => ({
+  padding: '4px',
+  margin: 1,
+  '& img': {
+    // logo maxHeight = mainAppBar height - 2 * padding - 2 * margin
+    maxHeight: `calc(${theme.mainAppBarHeight} - 2 * 4px - 2 * ${theme.spacing(
+      1
+    )}px)`,
+  },
+}));
+
+type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
+
+export const MainAppBar = (
+  props: CombinedMainAppBarProps
+): React.ReactElement => {
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [defaultLogo, setLogo] = useState<string>(ScigatewayLogo);
   const closeMenu = (): void => setMenuAnchor(null);
+  const settingsMenuOpen = Boolean(menuAnchor);
   const manageCookies = (): void => {
     closeMenu();
     props.manageCookies();
@@ -165,71 +145,73 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     }
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
+  // have menu open by default after page loads
   React.useEffect(() => {
-    if (
-      !props.loading &&
-      props.loggedIn &&
-      !props.drawerOpen &&
-      props.pathname !== '/login'
-    )
+    if (!props.loading && !props.drawerOpen) {
       props.toggleDrawer();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.loading, props.loggedIn]);
+  }, [props.loading]);
 
   return (
-    <div className={props.classes.root}>
-      <AppBar position="static" className={props.classes.appBar}>
+    <div style={{ width: '100%' }}>
+      <AppBar
+        position="static"
+        color="transparent"
+        sx={(theme: Theme) => ({
+          backgroundColor: theme.palette.primary.main,
+          height: theme.mainAppBarHeight,
+        })}
+      >
         <Toolbar
           disableGutters
-          style={{ marginLeft: '16px', marginRight: '16px' }}
+          sx={{ marginLeft: '16px', marginRight: '16px' }}
         >
           {!props.drawerOpen ? (
             <IconButton
-              className={classNames(
-                props.classes.menuButton,
-                props.drawerOpen && props.classes.menuButtonOpen
-              )}
+              sx={menuButtonStyles}
               color="inherit"
               onClick={props.toggleDrawer}
               aria-label={getString(props.res, 'open-navigation-menu')}
+              size="large"
             >
               <MenuIcon />
             </IconButton>
           ) : (
             <IconButton
-              className={classNames(
-                props.classes.menuButtonOpen,
-                props.drawerOpen && props.classes.menuButton,
-                'tour-nav-menu'
-              )}
+              sx={menuButtonStyles}
               color="inherit"
               onClick={props.toggleDrawer}
               aria-label={getString(props.res, 'close-navigation-menu')}
+              size="large"
             >
               <MenuOpenIcon />
             </IconButton>
           )}
-          <Button
-            className={classNames(props.classes.titleButton, 'tour-title')}
+          <TitleButton
+            className="tour-title"
             onClick={props.navigateToHome}
             aria-label={getString(props.res, 'home-page')}
           >
             <img
               src={props.logo ? props.logo : defaultLogo}
+              // if using default logo use 24px, if using custom logo then don't set height
+              // custom logos must be sized to fit or will default to the max-height set in the top styling
+              style={props.logo ? {} : { height: '24px' }}
               alt={getString(props.res, 'title')}
             />
-          </Button>
-
+          </TitleButton>
           {props.showHelpPageButton ? (
             <Button
-              className={classNames(props.classes.button, 'tour-help')}
+              className={'tour-help'}
+              sx={buttonStyles}
               onClick={props.navigateToHelpPage}
               aria-label={getString(props.res, 'help-page')}
             >
               <Typography
                 color="inherit"
                 noWrap
-                style={{ fontWeight: 500, marginTop: 3 }}
+                sx={{ fontWeight: 500, marginTop: '3px' }}
               >
                 {getString(props.res, 'help')}
               </Typography>
@@ -237,38 +219,45 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           ) : null}
           {props.showAdminPageButton ? (
             <Button
-              className={classNames(props.classes.button, 'tour-admin')}
+              className={'tour-admin'}
+              sx={buttonStyles}
               onClick={navigateToAdminPage}
               aria-label={getString(props.res, 'admin-page')}
             >
               <Typography
                 color="inherit"
                 noWrap
-                style={{ fontWeight: 500, marginTop: 3 }}
+                sx={{ fontWeight: 500, marginTop: '3px' }}
               >
                 {getString(props.res, 'admin')}
               </Typography>
             </Button>
           ) : null}
-          <div className={props.classes.grow} />
+          <div style={{ flexGrow: 1 }} />
           <IconButton
-            className={props.classes.button}
+            sx={buttonStyles}
             onClick={props.toggleHelp}
             aria-label={getString(props.res, 'help')}
+            size="large"
           >
             <HelpIcon />
           </IconButton>
           <IconButton
-            className={classNames(props.classes.button, 'tour-settings')}
+            className={'tour-settings'}
+            sx={buttonStyles}
             onClick={(e) => setMenuAnchor(e.currentTarget)}
             aria-label={getString(props.res, 'open-browser-settings')}
+            aria-controls={settingsMenuOpen ? 'settings' : undefined}
+            aria-haspopup="true"
+            aria-expanded={settingsMenuOpen ? 'true' : undefined}
+            size="large"
           >
             <SettingsIcon />
           </IconButton>
           <Menu
             id="settings"
-            anchorEl={getMenuAnchor}
-            open={getMenuAnchor !== null}
+            anchorEl={menuAnchor}
+            open={settingsMenuOpen}
             onClose={closeMenu}
           >
             <MenuItem id="item-manage-cookies" onClick={manageCookies}>
@@ -307,7 +296,7 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               />
             </MenuItem>
           </Menu>
-          {props.loggedIn ? <NotificationBadgeComponent /> : null}
+          {props.loggedIn && <NotificationBadgeComponent />}
           <UserProfileComponent />
         </Toolbar>
       </AppBar>
@@ -347,9 +336,4 @@ const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
     dispatch(loadHighContrastModePreference(preference)),
 });
 
-export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainAppBarWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(MainAppBar);

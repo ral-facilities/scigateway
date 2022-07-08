@@ -1,20 +1,15 @@
 import React from 'react';
 import Routing, { PluginPlaceHolder } from './routing.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import * as singleSpa from 'single-spa';
 
-// this removes a lot of unnecessary styling information in the snapshots
-jest.mock('@material-ui/core/styles', () => ({
-  withStyles: (styles) => (component) => component,
-  makeStyles: (styles) => (component) => component,
-}));
 jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
 jest.mock(
   '../maintenancePage/maintenancePage.component',
@@ -28,19 +23,10 @@ jest.mock('single-spa', () => ({
 }));
 
 describe('Routing component', () => {
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
-  const classes = {
-    container: 'container-class',
-    containerShift: 'containerShift-class',
-  };
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
@@ -59,9 +45,9 @@ describe('Routing component', () => {
 
   it('renders component with no plugin routes', () => {
     state.scigateway.plugins = [];
-    const wrapper = shallow(
-      <Routing store={mockStore(state)} classes={classes} />
-    );
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -106,9 +92,9 @@ describe('Routing component', () => {
         order: 5,
       },
     ];
-    const wrapper = shallow(
-      <Routing store={mockStore(state)} classes={classes} />
-    );
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -131,7 +117,7 @@ describe('Routing component', () => {
         <MemoryRouter
           initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
         >
-          <Routing classes={classes} />
+          <Routing />
         </MemoryRouter>
       </Provider>
     );
@@ -159,7 +145,7 @@ describe('Routing component', () => {
         <MemoryRouter
           initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
         >
-          <Routing classes={classes} />
+          <Routing />
         </MemoryRouter>
       </Provider>
     );
@@ -178,7 +164,7 @@ describe('Routing component', () => {
     const wrapper = mount(
       <Provider store={mockStore(state)}>
         <MemoryRouter initialEntries={[{ key: 'testKey', pathname: '/admin' }]}>
-          <Routing classes={classes} />
+          <Routing />
         </MemoryRouter>
       </Provider>
     );
@@ -189,9 +175,9 @@ describe('Routing component', () => {
   it('redirects to a homepage URL if specified', () => {
     state.scigateway.homepageUrl = '/homepage';
 
-    const wrapper = shallow(
-      <Routing store={mockStore(state)} classes={classes} />
-    );
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -211,9 +197,9 @@ describe('Routing component', () => {
         name === 'autoLogin' ? 'false' : null
       );
 
-    const wrapper = shallow(
-      <Routing store={mockStore(state)} classes={classes} />
-    );
+    const wrapper = shallow(<Routing store={mockStore(state)} />)
+      .dive()
+      .dive();
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -241,7 +227,7 @@ describe('Routing component', () => {
     mount(
       <Provider store={mockStore(state)}>
         <MemoryRouter initialEntries={['/test_link']}>
-          <Routing classes={classes} />
+          <Routing />
         </MemoryRouter>
       </Provider>
     );
@@ -297,7 +283,7 @@ describe('Routing component', () => {
     mount(
       <Provider store={mockStore(state)}>
         <MemoryRouter initialEntries={['/test_link']}>
-          <Routing classes={classes} />
+          <Routing />
         </MemoryRouter>
       </Provider>
     );

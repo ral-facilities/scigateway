@@ -1,29 +1,34 @@
 import React from 'react';
 import CookiesPage, {
-  CookiesPageWithoutStyles,
+  UnconnectedCookiesPage,
   CombinedCookiesPageProps,
 } from './cookiesPage.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
+import { shallow, mount } from 'enzyme';
+import { TOptionsBase } from 'i18next';
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (key: string, options: TOptionsBase) =>
+        options?.returnObjects ? [1, 2, 3].map((x) => `${key} ${x}`) : key,
+    };
+  },
+}));
 
 describe('Cookies page component', () => {
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedCookiesPageProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'CookiesPage' });
-    mount = createMount();
-
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -33,30 +38,16 @@ describe('Cookies page component', () => {
     props = {
       res: undefined,
       navigateToHome: jest.fn(),
-      classes: {
-        root: 'root-class',
-        container: 'container-class',
-        titleText: 'titleText-class',
-        cookiePolicy: 'cookiePolicy-class',
-        cookieTypes: 'cookieTypes-class',
-        button: 'button-class',
-        cookieList: 'cookieList-class',
-        cookieListItem: 'cookieListItem-class',
-      },
     };
 
     Cookies.set = jest.fn();
     Cookies.remove = jest.fn();
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(<CookiesPageWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedCookiesPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -64,9 +55,11 @@ describe('Cookies page component', () => {
     const testStore = mockStore(state);
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <CookiesPage store={testStore} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CookiesPage store={testStore} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper
@@ -95,9 +88,11 @@ describe('Cookies page component', () => {
       );
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <CookiesPage store={testStore} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CookiesPage store={testStore} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(

@@ -1,5 +1,5 @@
+import { Theme } from '@mui/material';
 import { Step } from 'react-joyride';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { LogoState } from './state.types';
 
 export const AuthSuccessType = 'scigateway:auth_success';
@@ -42,6 +42,7 @@ export const CustomAdminPageDefaultTabType =
   'scigateway:custom_admin_default_tab';
 export const RegisterContactUsAccessibilityFormUrlType =
   'scigateway:contact_us_accessibility_form_url';
+export const CustomPrimaryColourType = 'scigateway:custom_primary_colour';
 
 export const scigatewayRoutes = {
   home: '/',
@@ -102,6 +103,10 @@ export interface CustomNavigationDrawerLogoPayload {
 
 export interface CustomAdminPageDefaultTabPayload {
   adminPageDefaultTab: 'maintenance' | 'download';
+}
+
+export interface CustomPrimaryColourPayload {
+  primaryColour: string;
 }
 
 export interface RegisterRoutePayload {
@@ -172,7 +177,8 @@ export interface DismissNotificationPayload {
 
 export interface AuthProviderPayload {
   authProvider: string;
-  authUrl: string | undefined;
+  authUrl?: string;
+  autoLogin?: boolean;
 }
 
 export interface ScheduledMaintenanceStatePayLoad {

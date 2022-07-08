@@ -54,12 +54,12 @@ describe('Scigateway', () => {
 
     cy.url().should('eq', 'http://127.0.0.1:3000/');
 
-    cy.get('button[aria-label="Open navigation menu"]').should('exist');
+    cy.get('button[aria-label="Close navigation menu"]').should('exist');
     cy.get('button[aria-label="Help page"]').click();
+    cy.get('button[aria-label="Close navigation menu"]').should('exist');
+    cy.get('button[aria-label="Close navigation menu"]').click();
     cy.get('button[aria-label="Open navigation menu"]').should('exist');
-    cy.get('button[aria-label="Open navigation menu"]').click();
-    cy.get('button[aria-label="Close navigation menu"]').should('exist');
     cy.get('button[aria-label="Home page"]').click();
-    cy.get('button[aria-label="Close navigation menu"]').should('exist');
+    cy.get('button[aria-label="Open navigation menu"]').should('exist');
   });
 });

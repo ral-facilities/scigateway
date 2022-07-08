@@ -27,6 +27,7 @@ import {
   customNavigationDrawerLogo,
   customAdminPageDefaultTab,
   registerContactUsAccessibilityFormUrl,
+  customPrimaryColour,
 } from './scigateway.actions';
 import {
   ToggleDrawerType,
@@ -97,23 +98,25 @@ describe('scigateway actions', () => {
     const asyncAction = verifyUsernameAndPassword(
       'username',
       'password',
-      mnemonic,
-      authUrl
+      mnemonic
     );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider(null);
+    state.authorisation.provider.authUrl = authUrl;
+    state.authorisation.provider.autoLogin = () => Promise.resolve();
 
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    const getState = (): any => ({
+    const getState = (): Partial<StateType> => ({
       scigateway: state,
       router: {
         location: {
-          state: {
+          ...createLocation('/', {
             referrer: '/destination/after/login',
-          },
+          }),
+          query: {},
         },
+        action: 'PUSH',
       },
     });
 
@@ -123,9 +126,9 @@ describe('scigateway actions', () => {
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, true)
     );
-    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[2]).toEqual(authorised());
     expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
@@ -146,22 +149,19 @@ describe('scigateway actions', () => {
     const asyncAction = verifyUsernameAndPassword(
       'username',
       'password',
-      mnemonic,
-      authUrl
+      mnemonic
     );
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
     state.authorisation.provider = new TestAuthProvider(null);
+    state.authorisation.provider.authUrl = authUrl;
 
-    // const getState = (): Partial<StateType> => ({ scigateway: state });
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    const getState = (): any => ({
+    const getState = (): Partial<StateType> => ({
       scigateway: state,
       router: {
-        location: {
-          state: {},
-        },
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
       },
     });
 
@@ -171,9 +171,9 @@ describe('scigateway actions', () => {
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`)
+      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, false)
     );
-    expect(actions[2]).toEqual(authorised('validLoginToken'));
+    expect(actions[2]).toEqual(authorised());
     expect(actions[3]).toEqual({
       type: '@@router/CALL_HISTORY_METHOD',
       payload: {
@@ -400,6 +400,32 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(configureAnalytics('test-tracking-id'));
+  });
+
+  it('given a custom primary colour it is loading from the settings', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          primaryColour: '#ABCDEF',
+          'ui-strings': '/res/default.json',
+        },
+      })
+    );
+
+    const asyncAction = configureSite();
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+    const getState = (): Partial<StateType> => ({
+      scigateway: initialState,
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'PUSH',
+      },
+    });
+
+    await asyncAction(dispatch, getState);
+
+    expect(actions).toContainEqual(customPrimaryColour('#ABCDEF'));
   });
 
   it('dispatches a site loading update after settings are loaded', async () => {
