@@ -1,26 +1,19 @@
-import React, { Component, Fragment } from 'react';
-import { Box, Theme, Typography } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import {
-  withStyles,
-  createStyles,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
+import React, { Fragment, useCallback } from 'react';
+import { Box, styled, Theme, Typography } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { LogoState, StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
-import { UKRITheme } from '../theming';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import { getAppStrings, getString } from '../state/strings';
 
-interface NavigationDrawerProps {
+export interface NavigationDrawerProps {
   open: boolean;
   plugins: PluginConfig[];
   darkMode: boolean;
@@ -29,46 +22,13 @@ interface NavigationDrawerProps {
   navigationDrawerLogo?: LogoState;
 }
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    drawer: {
-      width: (theme as UKRITheme).drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: (theme as UKRITheme).drawerWidth,
-      background: theme.palette.background.default,
-      top: (theme as UKRITheme).mainAppBarHeight,
-      height: `calc(100% - ${(theme as UKRITheme).footerPaddingBottom} - ${
-        (theme as UKRITheme).footerPaddingTop
-      } - ${(theme as UKRITheme).footerHeight} - ${
-        (theme as UKRITheme).mainAppBarHeight
-      } )`,
-      position: 'absolute',
-    },
-    sectionTitle: {
-      textAlign: 'left',
-      paddingTop: theme.spacing(2),
-      paddingBottom: 0,
-      color: (theme as UKRITheme).colours.contrastGrey,
-      paddingLeft: theme.spacing(2),
-    },
-    menuItem: {
-      textAlign: 'left',
-      fontWeight: 'bold',
-      color: (theme as UKRITheme).colours.blue,
-    },
-    menuLogo: {
-      paddingRight: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      width: '188px',
-      paddingBottom: 24,
-      color: theme.palette.text.secondary,
-    },
-  });
-
-export type CombinedNavigationProps = NavigationDrawerProps &
-  WithStyles<typeof styles>;
+const LogoImage = styled('img')(({ theme }) => ({
+  paddingRight: theme.spacing(2),
+  paddingLeft: theme.spacing(2),
+  width: '188px',
+  paddingBottom: 24,
+  color: theme.palette.text.secondary,
+}));
 
 // This has been adapted from the MaterialUI composition guide
 // (https://material-ui.com/guides/composition/)
@@ -77,66 +37,85 @@ const ForwardRefLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
 );
 ForwardRefLink.displayName = 'ForwardRefLink';
 
-class NavigationDrawer extends Component<CombinedNavigationProps> {
-  private createLink(plugin: PluginConfig, index: number): React.ReactElement {
-    const imgSrc = this.props.darkMode
-      ? plugin.logoDarkMode
-      : plugin.logoLightMode;
+export const NavigationDrawer = (
+  props: NavigationDrawerProps
+): React.ReactElement => {
+  const createLink = useCallback(
+    (plugin: PluginConfig, index: number): React.ReactElement => {
+      const imgSrc = props.darkMode
+        ? plugin.logoDarkMode
+        : plugin.logoLightMode;
 
-    const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
+      const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
 
-    const displayText = plugin.displayName
-      ? prefix + plugin.displayName
-      : plugin.plugin;
+      const displayText = plugin.displayName
+        ? prefix + plugin.displayName
+        : plugin.plugin;
 
-    return (
-      <ListItem
-        key={index}
-        component={ForwardRefLink}
-        to={plugin.link}
-        id={`plugin-link-${plugin.link.split('?')[0].replace(/\//g, '-')}`}
-        button
-        dense
-      >
-        <ListItemText
-          inset={!imgSrc}
-          primary={displayText}
-          primaryTypographyProps={{ variant: 'subtitle1' }}
-          classes={{
-            primary: this.props.classes.menuItem,
-          }}
-        />
-      </ListItem>
-    );
-  }
-
-  private buildMenuSection(
-    sectionName: string,
-    plugins: PluginConfig[],
-    index: number
-  ): React.ReactElement {
-    return (
-      <Fragment key={index}>
-        <Typography variant="h6" className={this.props.classes.sectionTitle}>
-          {sectionName}
-        </Typography>
-        <List component="nav">
-          {plugins.map((p, i) => {
-            return p.link ? this.createLink(p, i) : null;
-          })}
-        </List>
-      </Fragment>
-    );
-  }
-
-  private renderRoutes(): React.ReactFragment {
-    let { plugins } = this.props;
-
-    if (this.props.homepageUrl) {
-      // don't include link to homepage in nav bar
-      plugins = plugins.filter(
-        (plugin) => plugin.link !== this.props.homepageUrl
+      return (
+        <ListItem
+          key={index}
+          component={ForwardRefLink}
+          to={plugin.link}
+          id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
+          button
+          dense
+        >
+          <ListItemText
+            inset={!imgSrc}
+            primary={displayText}
+            primaryTypographyProps={{
+              variant: 'subtitle1',
+              sx: {
+                textAlign: 'left',
+                fontWeight: 'bold',
+                color: (theme: Theme) => theme.colours.blue,
+              },
+            }}
+          />
+        </ListItem>
       );
+    },
+    [props.darkMode]
+  );
+
+  const buildMenuSection = useCallback(
+    (
+      sectionName: string,
+      plugins: PluginConfig[],
+      index: number
+    ): React.ReactElement => {
+      return (
+        <Fragment key={index}>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: 'left',
+              paddingTop: 2,
+              paddingBottom: 0,
+              color: (theme: Theme) => theme.colours.contrastGrey,
+              paddingLeft: 2,
+            }}
+          >
+            {sectionName}
+          </Typography>
+          <List component="nav">
+            {plugins.map((p, i) => {
+              return p.link ? createLink(p, i) : null;
+            })}
+          </List>
+        </Fragment>
+      );
+    },
+    [createLink]
+  );
+
+  const renderRoutes = useCallback((): React.ReactFragment => {
+    let plugins = props.plugins;
+
+    if (props.homepageUrl) {
+      // don't include link to homepage in nav bar
+      plugins = plugins.filter((plugin) => plugin.link !== props.homepageUrl);
     }
     // Do not include admin plugins or plugins that explicitly ask to hide in the drawer list
     const sectionPlugins = structureMenuData(
@@ -148,7 +127,7 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
         {Object.keys(sectionPlugins)
           .sort()
           .map((section, i) =>
-            this.buildMenuSection(
+            buildMenuSection(
               section,
               sectionPlugins[section] as PluginConfig[],
               i
@@ -156,54 +135,56 @@ class NavigationDrawer extends Component<CombinedNavigationProps> {
           )}
       </Fragment>
     );
-  }
+  }, [buildMenuSection, props.plugins, props.homepageUrl]);
 
-  public render(): React.ReactElement {
-    const altTxt = this.props.navigationDrawerLogo
-      ? this.props.navigationDrawerLogo.altTxt
-      : getString(this.props.res, 'alternative-text');
+  const altTxt = props.navigationDrawerLogo
+    ? props.navigationDrawerLogo.altTxt
+    : getString(props.res, 'alternative-text');
 
-    const navDrawerLogo = this.props.navigationDrawerLogo
-      ? this.props.darkMode
-        ? this.props.navigationDrawerLogo.dark
-        : this.props.navigationDrawerLogo.light
-      : this.props.darkMode
-      ? STFCLogoWhiteText
-      : STFCLogoBlueText;
-
-    return (
-      <Drawer
-        className={this.props.classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={this.props.open}
-        classes={{
-          paper: this.props.classes.drawerPaper,
-        }}
+  const navDrawerLogo = props.navigationDrawerLogo
+    ? props.darkMode
+      ? props.navigationDrawerLogo.dark
+      : props.navigationDrawerLogo.light
+    : props.darkMode
+    ? STFCLogoWhiteText
+    : STFCLogoBlueText;
+  return (
+    <Drawer
+      sx={{
+        width: (theme: Theme) => theme.drawerWidth,
+        flexShrink: 0,
+      }}
+      variant="persistent"
+      anchor="left"
+      open={props.open}
+      PaperProps={{
+        sx: (theme: Theme) => ({
+          width: theme.drawerWidth,
+          background: theme.palette.background.default,
+          top: theme.mainAppBarHeight,
+          height: `calc(100% - ${theme.footerPaddingBottom} - ${theme.footerPaddingTop} - ${theme.footerHeight} - ${theme.mainAppBarHeight})`,
+          position: 'absolute',
+        }),
+      }}
+    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-start"
+        height="100%"
+        boxSizing="border-box"
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="flex-start"
-          height="100%"
-          boxSizing="border-box"
-        >
-          {this.renderRoutes()}
+        {renderRoutes()}
 
-          {navDrawerLogo && (
-            <Box marginTop="auto">
-              <img
-                className={this.props.classes.menuLogo}
-                alt={altTxt}
-                src={navDrawerLogo}
-              />
-            </Box>
-          )}
-        </Box>
-      </Drawer>
-    );
-  }
-}
+        {navDrawerLogo && (
+          <Box marginTop="auto">
+            <LogoImage alt={altTxt} src={navDrawerLogo} />
+          </Box>
+        )}
+      </Box>
+    </Drawer>
+  );
+};
 
 const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   open: state.scigateway.drawerOpen,
@@ -214,7 +195,6 @@ const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
   navigationDrawerLogo: state.scigateway.navigationDrawerLogo,
 });
 
-export const NavigationDrawerWithStyles = withStyles(styles)(NavigationDrawer);
-export const NavigationDrawerWithoutStyles = NavigationDrawer;
+export const UnconnectedNavigationDrawer = NavigationDrawer;
 
-export default connect(mapStateToProps)(NavigationDrawerWithStyles);
+export default connect(mapStateToProps)(NavigationDrawer);

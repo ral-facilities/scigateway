@@ -1,4 +1,4 @@
-import { createMount } from '@material-ui/core/test-utils';
+import { mount } from 'enzyme';
 import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,18 +10,13 @@ import { flushPromises } from './setupTests';
 import { loadAuthProvider } from './state/actions/scigateway.actions';
 
 describe('App', () => {
-  let mount;
-
   beforeEach(() => {
-    mount = createMount();
     singleSpa.start();
   });
 
   afterEach(() => {
-    mount.cleanUp();
     jest.useRealTimers();
   });
-
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);

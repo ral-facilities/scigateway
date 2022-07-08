@@ -38,12 +38,12 @@ exports[`Tour component renders correctly 1`] = `
   styles={
     Object {
       "buttonBack": Object {
-        "color": "#C34F00",
+        "color": undefined,
       },
       "options": Object {
-        "arrowColor": "#FAFAFA",
-        "backgroundColor": "#FAFAFA",
-        "primaryColor": "#C34F00",
+        "arrowColor": "#fff",
+        "backgroundColor": "#fff",
+        "primaryColor": undefined,
         "textColor": "rgba(0, 0, 0, 0.87)",
         "zIndex": 1500,
       },
@@ -90,13 +90,13 @@ exports[`Tour component renders correctly in dark mode 1`] = `
   styles={
     Object {
       "buttonBack": Object {
-        "color": "rgb(243, 122, 38)",
+        "color": undefined,
       },
       "options": Object {
-        "arrowColor": "#1B1B1B",
-        "backgroundColor": "#1B1B1B",
-        "primaryColor": "#C34F00",
-        "textColor": "#fff",
+        "arrowColor": "#fff",
+        "backgroundColor": "#fff",
+        "primaryColor": undefined,
+        "textColor": "rgba(0, 0, 0, 0.87)",
         "zIndex": 1500,
       },
     }

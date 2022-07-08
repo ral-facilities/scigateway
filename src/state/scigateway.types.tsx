@@ -1,5 +1,5 @@
+import { Theme } from '@mui/material';
 import { Step } from 'react-joyride';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { LogoState } from './state.types';
 
 export const AuthSuccessType = 'scigateway:auth_success';

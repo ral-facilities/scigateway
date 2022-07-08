@@ -1,29 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Cookie consent component should render correctly 1`] = `
-<WithStyles(ForwardRef(Snackbar))
+<ForwardRef(Snackbar)
   ContentProps={
     Object {
-      "className": "root-class",
+      "sx": Object {
+        "backgroundColor": [Function],
+        "color": "primary.contrastText",
+      },
     }
   }
   action={
     Array [
-      <WithStyles(ForwardRef(Button))
+      <Styled(ForwardRef(Button))
         onClick={[MockFunction]}
         size="small"
         variant="outlined"
       >
         manage-preferences-button
-      </WithStyles(ForwardRef(Button))>,
-      <WithStyles(ForwardRef(Button))
+      </Styled(ForwardRef(Button))>,
+      <Styled(ForwardRef(Button))
         color="primary"
         onClick={[Function]}
         size="small"
         variant="contained"
       >
         accept-button
-      </WithStyles(ForwardRef(Button))>,
+      </Styled(ForwardRef(Button))>,
     ]
   }
   anchorOrigin={

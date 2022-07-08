@@ -1,21 +1,19 @@
 import React from 'react';
-import { ReactWrapper } from 'enzyme';
+import { ReactWrapper, shallow } from 'enzyme';
 
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import { createShallow } from '@material-ui/core/test-utils';
 // history package is part of react-router, which we depend on
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createLocation } from 'history';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 import PageContainer from './pageContainer.component';
 import { StateType } from './state/state.types';
 import { authState, initialState } from './state/reducers/scigateway.reducer';
 
 describe('PageContainer - Tests', () => {
-  let shallow;
   let state: StateType;
 
   const createWrapper = (state: StateType): ReactWrapper => {
@@ -28,8 +26,6 @@ describe('PageContainer - Tests', () => {
   };
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'Grid' });
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: { location: createLocation('/') },
@@ -37,7 +33,7 @@ describe('PageContainer - Tests', () => {
   });
 
   it('renders correctly', () => {
-    const wrapper = createWrapper(state);
+    const wrapper = createWrapper(state).find(PageContainer).dive();
 
     expect(wrapper).toMatchSnapshot();
   });

@@ -2,72 +2,159 @@
 
 exports[`Scigateway Notification component Scigateway Notification error message renders correctly 1`] = `
 <div
-  className="root-class"
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+    }
+  }
 >
   <Memo(ForwardRef(HighlightOffIcon))
-    className="errorIcon-class"
+    sx={
+      Object {
+        "color": "red",
+        "height": "20px",
+        "marginLeft": "5px",
+        "marginRight": "5px",
+        "width": "20px",
+      }
+    }
   />
-  <WithStyles(ForwardRef(Typography))
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "marginTop": 0.5,
+      }
+    }
     variant="body2"
   >
     error message
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(IconButton))
+  </ForwardRef(Typography)>
+  <ForwardRef(IconButton)
     aria-label="Dismiss notification"
-    className="button-class"
     onClick={[Function]}
+    size="large"
+    sx={
+      Object {
+        "marginLeft": "5px",
+        "marginTop": "2px",
+      }
+    }
   >
     <Memo(ForwardRef(ClearIcon))
-      className="deleteIcon-class"
+      sx={
+        Object {
+          "height": "15px",
+          "width": "15px",
+        }
+      }
     />
-  </WithStyles(ForwardRef(IconButton))>
+  </ForwardRef(IconButton)>
 </div>
 `;
 
 exports[`Scigateway Notification component Scigateway Notification success message renders correctly 1`] = `
 <div
-  className="root-class"
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+    }
+  }
 >
   <Memo(ForwardRef(CheckCircleIcon))
-    className="successIcon-class"
+    sx={
+      Object {
+        "color": "green",
+        "height": "20px",
+        "marginLeft": "5px",
+        "marginRight": "5px",
+        "width": "20px",
+      }
+    }
   />
-  <WithStyles(ForwardRef(Typography))
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "marginTop": 0.5,
+      }
+    }
     variant="body2"
   >
     success message
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(IconButton))
+  </ForwardRef(Typography)>
+  <ForwardRef(IconButton)
     aria-label="Dismiss notification"
-    className="button-class"
     onClick={[Function]}
+    size="large"
+    sx={
+      Object {
+        "marginLeft": "5px",
+        "marginTop": "2px",
+      }
+    }
   >
     <Memo(ForwardRef(ClearIcon))
-      className="deleteIcon-class"
+      sx={
+        Object {
+          "height": "15px",
+          "width": "15px",
+        }
+      }
     />
-  </WithStyles(ForwardRef(IconButton))>
+  </ForwardRef(IconButton)>
 </div>
 `;
 
 exports[`Scigateway Notification component Scigateway Notification warning message renders correctly 1`] = `
 <div
-  className="root-class"
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+    }
+  }
 >
   <Memo(ForwardRef(ErrorOutlineIcon))
-    className="warningIcon-class"
+    sx={
+      Object {
+        "color": [Function],
+        "height": "20px",
+        "marginLeft": "5px",
+        "marginRight": "5px",
+        "width": "20px",
+      }
+    }
   />
-  <WithStyles(ForwardRef(Typography))
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "marginTop": 0.5,
+      }
+    }
     variant="body2"
   >
     warning message
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(IconButton))
+  </ForwardRef(Typography)>
+  <ForwardRef(IconButton)
     aria-label="Dismiss notification"
-    className="button-class"
     onClick={[Function]}
+    size="large"
+    sx={
+      Object {
+        "marginLeft": "5px",
+        "marginTop": "2px",
+      }
+    }
   >
     <Memo(ForwardRef(ClearIcon))
-      className="deleteIcon-class"
+      sx={
+        Object {
+          "height": "15px",
+          "width": "15px",
+        }
+      }
     />
-  </WithStyles(ForwardRef(IconButton))>
+  </ForwardRef(IconButton)>
 </div>
 `;
