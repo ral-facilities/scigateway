@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Routing component redirects to a homepage URL if specified 1`] = `
-<div
-  className="container-class"
+<Styled(div)
+  drawerOpen={false}
 >
   <Switch>
     <Route
@@ -19,7 +19,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -45,7 +44,7 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       exact={true}
       path="/logout"
     >
-      <Connect(LogoutPageComponent) />
+      <Connect(UnconnectedLogoutPage) />
     </Route>
     <Route
       component={
@@ -53,7 +52,6 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -66,18 +64,17 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
     />
   </Switch>
-</div>
+</Styled(div)>
 `;
 
 exports[`Routing component redirects to the homepage if navigating to login page while logged in 1`] = `
-<div
-  className="container-class"
+<Styled(div)
+  drawerOpen={false}
 >
   <Switch>
     <Route
@@ -92,7 +89,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -118,7 +114,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
       exact={true}
       path="/logout"
     >
-      <Connect(LogoutPageComponent) />
+      <Connect(UnconnectedLogoutPage) />
     </Route>
     <Route
       component={
@@ -126,7 +122,6 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -139,13 +134,12 @@ exports[`Routing component redirects to the homepage if navigating to login page
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
     />
   </Switch>
-</div>
+</Styled(div)>
 `;
 
 exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
@@ -203,21 +197,8 @@ exports[`Routing component renders a route for a plugin when site is under maint
         }
       }
     >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
-      >
+      <Connect(Routing)>
         <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
           dispatch={[Function]}
           drawerOpen={false}
           loading={false}
@@ -242,78 +223,134 @@ exports[`Routing component renders a route for a plugin when site is under maint
           userIsAdmin={true}
           userIsloggedIn={true}
         >
-          <div
-            className="container-class"
+          <Styled(div)
+            drawerOpen={false}
           >
-            <Switch>
-              <Route
-                computedMatch={
-                  Object {
-                    "isExact": true,
-                    "params": Object {},
-                    "path": "/test_link",
-                    "url": "/test_link",
-                  }
-                }
-                key="test_plugin_name"
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/test_link",
-                    "search": "",
-                  }
-                }
-                path={
-                  Array [
-                    "/test_link",
-                  ]
-                }
-              >
-                <Connect(WithAuthComponent)
-                  id="test_plugin_name"
-                >
-                  <WithAuthComponent
-                    id="test_plugin_name"
-                    invalidToken={[Function]}
-                    loading={false}
-                    location="/"
-                    loggedIn={true}
-                    provider={
-                      TestAuthProvider {
-                        "authUrl": undefined,
-                        "autoLogin": undefined,
-                        "mnemonic": undefined,
-                        "redirectUrl": null,
-                        "token": "logged in",
-                        "user": null,
-                      }
-                    }
-                    requestPluginRerender={[Function]}
-                    userIsAdmin={true}
-                  >
-                    <div>
-                      <PluginPlaceHolder
-                        id="test_plugin_name"
+            <Insertion
+              cache={
+                Object {
+                  "insert": [Function],
+                  "inserted": Object {
+                    "jlgjno": true,
+                  },
+                  "key": "css",
+                  "nonce": undefined,
+                  "registered": Object {},
+                  "sheet": StyleSheet {
+                    "_alreadyInsertedOrderInsensitiveRule": true,
+                    "_insertTag": [Function],
+                    "before": null,
+                    "container": <head>
+                      <style
+                        data-emotion="css"
+                        data-s=""
                       >
-                        <div
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>
+                    </head>,
+                    "ctr": 1,
+                    "insertionPoint": undefined,
+                    "isSpeedy": false,
+                    "key": "css",
+                    "nonce": undefined,
+                    "prepend": undefined,
+                    "tags": Array [
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>,
+                    ],
+                  },
+                }
+              }
+              isStringTag={true}
+              serialized={
+                Object {
+                  "map": undefined,
+                  "name": "jlgjno",
+                  "next": undefined,
+                  "styles": "padding-bottom:36px;width:100%;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;",
+                  "toString": [Function],
+                }
+              }
+            />
+            <div
+              className="css-jlgjno"
+            >
+              <Switch>
+                <Route
+                  computedMatch={
+                    Object {
+                      "isExact": true,
+                      "params": Object {},
+                      "path": "/test_link",
+                      "url": "/test_link",
+                    }
+                  }
+                  key="test_plugin_name"
+                  location={
+                    Object {
+                      "hash": "",
+                      "key": "testKey",
+                      "pathname": "/test_link",
+                      "search": "",
+                    }
+                  }
+                  path={
+                    Array [
+                      "/test_link",
+                    ]
+                  }
+                >
+                  <Connect(WithAuthComponent)
+                    id="test_plugin_name"
+                  >
+                    <WithAuthComponent
+                      id="test_plugin_name"
+                      invalidToken={[Function]}
+                      loading={false}
+                      location="/"
+                      loggedIn={true}
+                      provider={
+                        TestAuthProvider {
+                          "authUrl": undefined,
+                          "autoLogin": undefined,
+                          "mnemonic": undefined,
+                          "redirectUrl": null,
+                          "token": "logged in",
+                          "user": null,
+                        }
+                      }
+                      requestPluginRerender={[Function]}
+                      userIsAdmin={true}
+                    >
+                      <div>
+                        <PluginPlaceHolder
                           id="test_plugin_name"
                         >
-                          <Preloader
-                            fullScreen={false}
-                            id="plugin-preloader"
-                            loading={true}
+                          <div
+                            id="test_plugin_name"
                           >
-                            Mocked Preloader
-                          </Preloader>
-                        </div>
-                      </PluginPlaceHolder>
-                    </div>
-                  </WithAuthComponent>
-                </Connect(WithAuthComponent)>
-              </Route>
-            </Switch>
-          </div>
+                            <Preloader
+                              fullScreen={false}
+                              id="plugin-preloader"
+                              loading={true}
+                            >
+                              Mocked Preloader
+                            </Preloader>
+                          </div>
+                        </PluginPlaceHolder>
+                      </div>
+                    </WithAuthComponent>
+                  </Connect(WithAuthComponent)>
+                </Route>
+              </Switch>
+            </div>
+          </Styled(div)>
         </Routing>
       </Connect(Routing)>
     </Router>
@@ -376,21 +413,8 @@ exports[`Routing component renders a route for admin page 1`] = `
         }
       }
     >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
-      >
+      <Connect(Routing)>
         <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
           dispatch={[Function]}
           drawerOpen={false}
           loading={false}
@@ -405,59 +429,115 @@ exports[`Routing component renders a route for admin page 1`] = `
           userIsAdmin={true}
           userIsloggedIn={true}
         >
-          <div
-            className="container-class"
+          <Styled(div)
+            drawerOpen={false}
           >
-            <Switch>
-              <Route
-                computedMatch={
-                  Object {
-                    "isExact": true,
-                    "params": Object {},
-                    "path": "/admin",
-                    "url": "/admin",
-                  }
+            <Insertion
+              cache={
+                Object {
+                  "insert": [Function],
+                  "inserted": Object {
+                    "jlgjno": true,
+                  },
+                  "key": "css",
+                  "nonce": undefined,
+                  "registered": Object {},
+                  "sheet": StyleSheet {
+                    "_alreadyInsertedOrderInsensitiveRule": true,
+                    "_insertTag": [Function],
+                    "before": null,
+                    "container": <head>
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>
+                    </head>,
+                    "ctr": 1,
+                    "insertionPoint": undefined,
+                    "isSpeedy": false,
+                    "key": "css",
+                    "nonce": undefined,
+                    "prepend": undefined,
+                    "tags": Array [
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>,
+                    ],
+                  },
                 }
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/admin",
-                    "search": "",
-                  }
+              }
+              isStringTag={true}
+              serialized={
+                Object {
+                  "map": undefined,
+                  "name": "jlgjno",
+                  "next": undefined,
+                  "styles": "padding-bottom:36px;width:100%;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;",
+                  "toString": [Function],
                 }
-                path="/admin"
-                render={[Function]}
-              >
-                <Connect(WithAuthComponent)>
-                  <WithAuthComponent
-                    invalidToken={[Function]}
-                    loading={false}
-                    location="/"
-                    loggedIn={true}
-                    provider={
-                      TestAuthProvider {
-                        "authUrl": undefined,
-                        "autoLogin": undefined,
-                        "mnemonic": undefined,
-                        "redirectUrl": null,
-                        "token": "logged in",
-                        "user": null,
-                      }
+              }
+            />
+            <div
+              className="css-jlgjno"
+            >
+              <Switch>
+                <Route
+                  computedMatch={
+                    Object {
+                      "isExact": true,
+                      "params": Object {},
+                      "path": "/admin",
+                      "url": "/admin",
                     }
-                    requestPluginRerender={[Function]}
-                    userIsAdmin={true}
-                  >
-                    <div>
-                      <Component>
-                        Mocked AdminPage
-                      </Component>
-                    </div>
-                  </WithAuthComponent>
-                </Connect(WithAuthComponent)>
-              </Route>
-            </Switch>
-          </div>
+                  }
+                  location={
+                    Object {
+                      "hash": "",
+                      "key": "testKey",
+                      "pathname": "/admin",
+                      "search": "",
+                    }
+                  }
+                  path="/admin"
+                  render={[Function]}
+                >
+                  <Connect(WithAuthComponent)>
+                    <WithAuthComponent
+                      invalidToken={[Function]}
+                      loading={false}
+                      location="/"
+                      loggedIn={true}
+                      provider={
+                        TestAuthProvider {
+                          "authUrl": undefined,
+                          "autoLogin": undefined,
+                          "mnemonic": undefined,
+                          "redirectUrl": null,
+                          "token": "logged in",
+                          "user": null,
+                        }
+                      }
+                      requestPluginRerender={[Function]}
+                      userIsAdmin={true}
+                    >
+                      <div>
+                        <Component>
+                          Mocked AdminPage
+                        </Component>
+                      </div>
+                    </WithAuthComponent>
+                  </Connect(WithAuthComponent)>
+                </Route>
+              </Switch>
+            </div>
+          </Styled(div)>
         </Routing>
       </Connect(Routing)>
     </Router>
@@ -520,21 +600,8 @@ exports[`Routing component renders a route for maintenance page when site is und
         }
       }
     >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
-      >
+      <Connect(Routing)>
         <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
           dispatch={[Function]}
           drawerOpen={false}
           loading={false}
@@ -559,58 +626,73 @@ exports[`Routing component renders a route for maintenance page when site is und
           userIsAdmin={false}
           userIsloggedIn={true}
         >
-          <div
-            className="container-class"
+          <Styled(div)
+            drawerOpen={false}
           >
-            <Switch>
-              <Route
-                component={[Function]}
-                computedMatch={
-                  Object {
-                    "isExact": false,
-                    "params": Object {},
-                    "path": "/",
-                    "url": "/",
-                  }
+            <Insertion
+              cache={
+                Object {
+                  "insert": [Function],
+                  "inserted": Object {
+                    "jlgjno": true,
+                  },
+                  "key": "css",
+                  "nonce": undefined,
+                  "registered": Object {},
+                  "sheet": StyleSheet {
+                    "_alreadyInsertedOrderInsensitiveRule": true,
+                    "_insertTag": [Function],
+                    "before": null,
+                    "container": <head>
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>
+                    </head>,
+                    "ctr": 1,
+                    "insertionPoint": undefined,
+                    "isSpeedy": false,
+                    "key": "css",
+                    "nonce": undefined,
+                    "prepend": undefined,
+                    "tags": Array [
+                      <style
+                        data-emotion="css"
+                        data-s=""
+                      >
+                        
+                        .css-jlgjno{padding-bottom:36px;width:100%;-webkit-transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;}
+                      </style>,
+                    ],
+                  },
                 }
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/test_link",
-                    "search": "",
-                  }
+              }
+              isStringTag={true}
+              serialized={
+                Object {
+                  "map": undefined,
+                  "name": "jlgjno",
+                  "next": undefined,
+                  "styles": "padding-bottom:36px;width:100%;transition:margin 195ms cubic-bezier(0.4, 0, 1, 1) 0ms,width 195ms cubic-bezier(0.4, 0, 1, 1) 0ms;",
+                  "toString": [Function],
                 }
-              >
-                <Component
-                  history={
+              }
+            />
+            <div
+              className="css-jlgjno"
+            >
+              <Switch>
+                <Route
+                  component={[Function]}
+                  computedMatch={
                     Object {
-                      "action": "POP",
-                      "block": [Function],
-                      "canGo": [Function],
-                      "createHref": [Function],
-                      "entries": Array [
-                        Object {
-                          "hash": "",
-                          "key": "testKey",
-                          "pathname": "/test_link",
-                          "search": "",
-                        },
-                      ],
-                      "go": [Function],
-                      "goBack": [Function],
-                      "goForward": [Function],
-                      "index": 0,
-                      "length": 1,
-                      "listen": [Function],
-                      "location": Object {
-                        "hash": "",
-                        "key": "testKey",
-                        "pathname": "/test_link",
-                        "search": "",
-                      },
-                      "push": [Function],
-                      "replace": [Function],
+                      "isExact": false,
+                      "params": Object {},
+                      "path": "/",
+                      "url": "/",
                     }
                   }
                   location={
@@ -621,20 +703,61 @@ exports[`Routing component renders a route for maintenance page when site is und
                       "search": "",
                     }
                   }
-                  match={
-                    Object {
-                      "isExact": false,
-                      "params": Object {},
-                      "path": "/",
-                      "url": "/",
-                    }
-                  }
                 >
-                  Mocked MaintenancePage
-                </Component>
-              </Route>
-            </Switch>
-          </div>
+                  <Component
+                    history={
+                      Object {
+                        "action": "POP",
+                        "block": [Function],
+                        "canGo": [Function],
+                        "createHref": [Function],
+                        "entries": Array [
+                          Object {
+                            "hash": "",
+                            "key": "testKey",
+                            "pathname": "/test_link",
+                            "search": "",
+                          },
+                        ],
+                        "go": [Function],
+                        "goBack": [Function],
+                        "goForward": [Function],
+                        "index": 0,
+                        "length": 1,
+                        "listen": [Function],
+                        "location": Object {
+                          "hash": "",
+                          "key": "testKey",
+                          "pathname": "/test_link",
+                          "search": "",
+                        },
+                        "push": [Function],
+                        "replace": [Function],
+                      }
+                    }
+                    location={
+                      Object {
+                        "hash": "",
+                        "key": "testKey",
+                        "pathname": "/test_link",
+                        "search": "",
+                      }
+                    }
+                    match={
+                      Object {
+                        "isExact": false,
+                        "params": Object {},
+                        "path": "/",
+                        "url": "/",
+                      }
+                    }
+                  >
+                    Mocked MaintenancePage
+                  </Component>
+                </Route>
+              </Switch>
+            </div>
+          </Styled(div)>
         </Routing>
       </Connect(Routing)>
     </Router>
@@ -643,8 +766,8 @@ exports[`Routing component renders a route for maintenance page when site is und
 `;
 
 exports[`Routing component renders component with no plugin routes 1`] = `
-<div
-  className="container-class"
+<Styled(div)
+  drawerOpen={false}
 >
   <Switch>
     <Route
@@ -659,7 +782,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -685,7 +807,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       exact={true}
       path="/logout"
     >
-      <Connect(LogoutPageComponent) />
+      <Connect(UnconnectedLogoutPage) />
     </Route>
     <Route
       component={
@@ -693,7 +815,6 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -706,18 +827,17 @@ exports[`Routing component renders component with no plugin routes 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
     />
   </Switch>
-</div>
+</Styled(div)>
 `;
 
 exports[`Routing component renders component with plugins 1`] = `
-<div
-  className="container-class"
+<Styled(div)
+  drawerOpen={false}
 >
   <Switch>
     <Route
@@ -732,7 +852,6 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(HelpPage)",
           "type": [Function],
         }
       }
@@ -758,7 +877,7 @@ exports[`Routing component renders component with plugins 1`] = `
       exact={true}
       path="/logout"
     >
-      <Connect(LogoutPageComponent) />
+      <Connect(UnconnectedLogoutPage) />
     </Route>
     <Route
       component={
@@ -766,7 +885,6 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(CookiesPage)",
           "type": [Function],
         }
       }
@@ -804,13 +922,12 @@ exports[`Routing component renders component with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
           "type": [Function],
         }
       }
     />
   </Switch>
-</div>
+</Styled(div)>
 `;
 
 exports[`Routing component renders placeholder for a plugin 1`] = `

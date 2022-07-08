@@ -71,7 +71,6 @@ const withAuth =
           invalidToken,
           ...componentProps
         } = this.props;
-
         return (
           <div>
             {!loading ? (
@@ -106,7 +105,6 @@ const withAuth =
             props.invalidToken();
           });
         }
-
         if (
           (props.loggedIn && prevProps.loading && !props.loading) ||
           (!props.loading && !prevProps.loggedIn && props.loggedIn)

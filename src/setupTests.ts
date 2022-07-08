@@ -1,6 +1,6 @@
 import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-// React 16 Enzyme adapter
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+// Unofficial React 17 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
 
 function noOp(): void {

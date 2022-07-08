@@ -2,29 +2,67 @@
 
 exports[`Page Not found component renders pageNotFound page correctly 1`] = `
 <div>
-  <div
-    className="titleContainer-class"
+  <ForwardRef(Box)
+    sx={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "background.default",
+        "display": "flex",
+        "justifyContent": "center",
+      }
+    }
   >
     <Memo(ForwardRef(BugReportIcon))
-      className="paper-class"
+      sx={
+        Object {
+          "color": [Function],
+          "height": "10vw",
+          "width": "10vw",
+        }
+      }
     />
-    <WithStyles(ForwardRef(Typography))
-      className="bugIcon-class"
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "color": [Function],
+          "fontSize": "10vw",
+          "fontWeight": "bold",
+        }
+      }
     >
       404
-    </WithStyles(ForwardRef(Typography))>
-  </div>
-  <div
-    className="container-class"
+    </ForwardRef(Typography)>
+  </ForwardRef(Box)>
+  <ForwardRef(Box)
+    sx={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "background.default",
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+      }
+    }
   >
-    <WithStyles(ForwardRef(Typography))
-      className="bold-class"
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "color": "text.primary",
+        }
+      }
       variant="h2"
     >
       page-not-found.title
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))
-      className="message-class"
+    </ForwardRef(Typography)>
+    <ForwardRef(Typography)
+      sx={
+        Object {
+          "color": "text.secondary",
+          "maxWidth": "600px",
+          "padding": "15px",
+          "textAlign": "center",
+        }
+      }
       variant="body1"
     >
       <Trans
@@ -33,38 +71,24 @@ exports[`Page Not found component renders pageNotFound page correctly 1`] = `
       >
         We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the
          
-        <WithStyles(ForwardRef(Link))
-          component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "displayName": "Link",
-              "propTypes": Object {
-                "innerRef": [Function],
-                "onClick": [Function],
-                "replace": [Function],
-                "target": [Function],
-                "to": [Function],
-              },
-              "render": [Function],
-            }
-          }
+        <Styled(Link)
           data-test-id="page-not-found-homepage-link"
           to="/"
         >
           homepage
-        </WithStyles(ForwardRef(Link))>
+        </Styled(Link)>
          
         or
          
-        <WithStyles(ForwardRef(Link))
+        <Styled(Link)
           data-test-id="page-not-found-contact-support-link"
-          href="footer.links.contact"
+          to="footer.links.contact"
         >
           contact support
-        </WithStyles(ForwardRef(Link))>
+        </Styled(Link)>
         .
       </Trans>
-    </WithStyles(ForwardRef(Typography))>
-  </div>
+    </ForwardRef(Typography)>
+  </ForwardRef(Box)>
 </div>
 `;
