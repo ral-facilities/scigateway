@@ -1,22 +1,25 @@
-/**
- * A mock location that useLocation will return
- */
 import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
 import type { DeepPartial } from 'redux';
-import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
-import { StateType } from '../state/state.types';
-import useAnchor from './useAnchor';
+import * as React from 'react';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router';
 import { createLocation } from 'history';
+import useAnchor from './useAnchor';
+import { StateType } from '../state/state.types';
 
+/**
+ * A simple React component that uses useAnchor for testing purposes.
+ */
 function TestComponent(): JSX.Element {
   useAnchor();
   return <></>;
 }
 
+/**
+ * A mock value for what useLocation from react-router would return
+ */
 const MOCK_REACT_ROUTER_LOCATION: Partial<Location> = {
   hash: '#fragment',
 };
@@ -29,22 +32,16 @@ jest.mock('react-router', () => ({
 }));
 
 describe('useAnchor', () => {
-  let mount: ReturnType<typeof createMount>;
   let createMockStore: MockStoreCreator<DeepPartial<StateType>>;
 
   beforeEach(() => {
     // use fake timers bc useAnchor uses setTimeout under the hood
     jest.useFakeTimers();
-    // for some reason scrollIntoView is undefined in JSDOM
-    // we need to create a stub for it
-    Element.prototype.scrollIntoView = jest.fn();
     (useLocation as jest.Mock).mockReturnValue(MOCK_REACT_ROUTER_LOCATION);
-    mount = createMount();
     createMockStore = configureStore();
   });
 
   afterEach(() => {
-    mount.cleanUp();
     jest.clearAllMocks();
     jest.useRealTimers();
   });
@@ -56,22 +53,26 @@ describe('useAnchor', () => {
       },
       router: { location: createLocation('/') },
     });
+
+    const mockScrollIntoView = jest.fn();
+    // pretend an element is found that matches the fragment
+    // the weird type cast is to get around TypeScript error saying
+    // the object is missing a bunch of other properties
+    // we obviously don't care about them so there's no point in stubbing them.
+    jest.spyOn(document, 'getElementById').mockReturnValueOnce({
+      scrollIntoView: mockScrollIntoView,
+    } as unknown as HTMLDivElement);
+
     mount(
       <Provider store={mockStore}>
         <TestComponent />
-        <div id="fragment" />
       </Provider>
     );
-    const element = document.getElementById('fragment');
-    if (!element) {
-      throw new Error('Unexpected condition occurred.');
-    }
 
     jest.runAllTimers();
 
-    const spy = jest.spyOn(element, 'scrollIntoView');
     // fragment matches an element, should be scrolled into view
-    expect(spy).toBeCalledTimes(1);
+    expect(mockScrollIntoView).toBeCalledTimes(1);
   });
 
   it('should do nothing if the fragment in URL does not match any element', () => {
@@ -81,23 +82,31 @@ describe('useAnchor', () => {
       },
       router: { location: createLocation('/') },
     });
+
+    const mockScrollIntoView = jest.fn();
+    // pretend no element with #fragment is found
+    // and pretend there is other elements with IDs != fragment
+    jest.spyOn(document, 'getElementById').mockImplementation((id) =>
+      id === 'fragment'
+        ? null
+        : ({
+            scrollIntoView: mockScrollIntoView,
+          } as unknown as HTMLDivElement)
+    );
+    // another element with ID "other", which is obv != fragment
+    const otherElem = document.getElementById('other');
+
     mount(
       <Provider store={mockStore}>
         <TestComponent />
-        <div id="abc" />
       </Provider>
     );
-    const element = document.getElementById('abc');
-    if (!element) {
-      throw new Error('Unexpected condition occurred.');
-    }
 
     jest.runAllTimers();
 
-    const spy = jest.spyOn(element, 'scrollIntoView');
-    // fragment is #fragment but div id is abc
-    // should NOT be scrolled into view
-    expect(spy).not.toBeCalled();
+    // fragment doesn't match any element, useAnchor should not randomly
+    // jump to other elements
+    expect(otherElem.scrollIntoView).not.toBeCalled();
   });
 
   it('should do nothing even when fragment matches an element when website is loading', function () {
@@ -107,21 +116,25 @@ describe('useAnchor', () => {
       },
       router: { location: createLocation('/') },
     });
+
+    const mockScrollIntoView = jest.fn();
+    // pretend an element is found that matches the fragment
+    // the weird type cast is to get around TypeScript error saying
+    // the object is missing a bunch of other properties
+    // we obviously don't care about them so there's no point in stubbing them.
+    jest.spyOn(document, 'getElementById').mockReturnValueOnce({
+      scrollIntoView: mockScrollIntoView,
+    } as unknown as HTMLDivElement);
+
     mount(
       <Provider store={mockStore}>
         <TestComponent />
-        <div id="fragment" />
       </Provider>
     );
-    const element = document.getElementById('fragment');
-    if (!element) {
-      throw new Error('Unexpected condition occurred.');
-    }
 
     jest.runAllTimers();
 
-    const spy = jest.spyOn(element, 'scrollIntoView');
     // fragment matches an element but website still loading
-    expect(spy).not.toBeCalled();
+    expect(mockScrollIntoView).not.toBeCalled();
   });
 });
