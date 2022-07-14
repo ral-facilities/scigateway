@@ -6319,14 +6319,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:8.3.0":
-  version: 8.3.0
-  resolution: "eslint-config-prettier@npm:8.3.0"
+"eslint-config-prettier@npm:8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
   languageName: node
   linkType: hard
 
@@ -8775,7 +8775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-matcher-utils@npm:^27.0.0":
+"jest-matcher-utils@npm:^27.0.0, jest-matcher-utils@npm:^27.4.6":
   version: 27.5.1
   resolution: "jest-matcher-utils@npm:27.5.1"
   dependencies:
@@ -8784,18 +8784,6 @@ __metadata:
     jest-get-type: ^27.5.1
     pretty-format: ^27.5.1
   checksum: bb2135fc48889ff3fe73888f6cc7168ddab9de28b51b3148f820c89fdfd2effdcad005f18be67d0b9be80eda208ad47290f62f03d0a33f848db2dd0273c8217a
-  languageName: node
-  linkType: hard
-
-"jest-matcher-utils@npm:^27.4.6":
-  version: 27.4.6
-  resolution: "jest-matcher-utils@npm:27.4.6"
-  dependencies:
-    chalk: ^4.0.0
-    jest-diff: ^27.4.6
-    jest-get-type: ^27.4.0
-    pretty-format: ^27.4.6
-  checksum: 445a8cc9eaa7cb08653a10cfc4f109eca76a97d1b1d3a01067bd77efa9cb3a554b74c7402a4c9d5083b21e11218e1515ef538faa47fa47c282072b4825f6b307
   languageName: node
   linkType: hard
 
@@ -12755,21 +12743,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.0.0":
+"rxjs@npm:^7.0.0, rxjs@npm:^7.1.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.2, rxjs@npm:^7.5.4":
   version: 7.5.6
   resolution: "rxjs@npm:7.5.6"
   dependencies:
     tslib: ^2.1.0
   checksum: fc05f01364a74dac57490fb3e07ea63b422af04017fae1db641a009073f902ef69f285c5daac31359620dc8d9aee7d81e42b370ca2a8573d1feae0b04329383b
-  languageName: node
-  linkType: hard
-
-"rxjs@npm:^7.1.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.2, rxjs@npm:^7.5.4":
-  version: 7.5.4
-  resolution: "rxjs@npm:7.5.4"
-  dependencies:
-    tslib: ^2.1.0
-  checksum: 6f55f835f2543bc8214900f9e28b6320e6adc95875011fbca63e80a66eb18c9ff7cfdccb23b2180cbb6412762b98ed158c89fd51cb020799d127c66ea38c3c0e
   languageName: node
   linkType: hard
 
@@ -12920,7 +12899,7 @@ __metadata:
     enzyme: 3.11.0
     enzyme-to-json: 3.6.2
     eslint: 8.19.0
-    eslint-config-prettier: 8.3.0
+    eslint-config-prettier: 8.5.0
     eslint-config-react-app: 7.0.0
     eslint-plugin-cypress: 2.12.1
     eslint-plugin-prettier: 4.0.0
