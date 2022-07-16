@@ -116,7 +116,7 @@
     "cypress": "9.7.0",
     "enzyme": "3.11.0",
     "enzyme-to-json": "3.6.2",
-    "eslint": "8.19.0",
+    "eslint": "8.20.0",
     "eslint-config-react-app": "7.0.0",
     "lint-staged": "12.5.0",
     "redux-mock-store": "1.5.4",
