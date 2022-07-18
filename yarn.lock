@@ -5497,13 +5497,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress-failed-log@npm:2.9.5":
-  version: 2.9.5
-  resolution: "cypress-failed-log@npm:2.9.5"
+"cypress-failed-log@npm:2.10.0":
+  version: 2.10.0
+  resolution: "cypress-failed-log@npm:2.10.0"
   dependencies:
     debug: 4.3.4
     logdown: 3.3.1
-  checksum: 70fc6947a53e7345a914ca336b0265340e3032097494f0d29a8a6edfe12dcb21fcf9480a60cede57db0572cdd4f546dbc00f3699cdc29306d10342166348e62c
+  checksum: 05fb09ac19c5f3ee8b1883102efea3fa3f73e2710fe6254fb2a2cba9cd33d45bb9ee454ded31d18d008c84bd1cf00a1b65a0b581a408e1d2d2a311a62817f8ff
   languageName: node
   linkType: hard
 
@@ -12887,7 +12887,7 @@ __metadata:
     cross-env: 7.0.3
     custom-event-polyfill: 1.0.7
     cypress: 9.7.0
-    cypress-failed-log: 2.9.5
+    cypress-failed-log: 2.10.0
     enzyme: 3.11.0
     enzyme-to-json: 3.6.2
     eslint: 8.19.0

@@ -17,7 +17,7 @@
     "connected-react-router": "6.9.1",
     "cookie-parser": "1.4.5",
     "custom-event-polyfill": "1.0.7",
-    "cypress-failed-log": "2.9.5",
+    "cypress-failed-log": "2.10.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-prettier": "4.2.1",
