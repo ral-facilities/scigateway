@@ -11,8 +11,8 @@ import {
   loadMaintenanceState,
 } from './state/actions/scigateway.actions';
 import ScigatewayMiddleware, {
-  listenToPlugins,
   autoLoginMiddleware,
+  listenToPlugins,
 } from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
@@ -21,6 +21,7 @@ import { ConnectedThemeProvider } from './theming';
 import ReduxToastr from 'react-redux-toastr';
 import PageContainer from './pageContainer.component';
 import { Preloader } from './preloader/preloader.component';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 const history = createBrowserHistory();
 
@@ -68,7 +69,7 @@ const toastrConfig = (): React.ReactElement => (
   />
 );
 
-class App extends React.Component {
+class App extends React.Component<WithTranslation> {
   public componentDidMount(): void {
     // Check for changes in maintenance state. Ensures that state changes are
     // loaded when a user does not reload the site for longer than an hour.
@@ -94,12 +95,14 @@ class App extends React.Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <ConnectedThemeProvider>
-              <React.Suspense
-                fallback={<Preloader fullScreen={true} loading={true} />}
-              >
-                {toastrConfig()}
-                <PageContainer />
-              </React.Suspense>
+              {this.props.tReady ? (
+                <>
+                  {toastrConfig()}
+                  <PageContainer />
+                </>
+              ) : (
+                <Preloader fullScreen loading />
+              )}
             </ConnectedThemeProvider>
           </ConnectedRouter>
         </Provider>
@@ -108,4 +111,7 @@ class App extends React.Component {
   }
 }
 
-export default App;
+// export app with no hoc for testing
+export { App as AppSansHoc };
+
+export default withTranslation()(App);

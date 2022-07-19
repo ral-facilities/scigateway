@@ -25,25 +25,9 @@ function useAnchor(): void {
       const elemId = hash.replace('#', '');
       // find the element with the ID specified by the fragment
       // scroll to the element if found
-      const elem = document.getElementById(elemId);
-      if (elem) {
-        // TODO: Remove usage of setTimeout after upgrade to React 18.
-        //
-        // useEffect does not work well with Suspense in React <18.
-        // When any child of Suspense are suspended, React will add 'display: none' to hide all the children of Suspense
-        // and show the fallback component. This means unsuspended children are still mounted despite being hidden
-        // which also means useEffect is still called on them. at that point, the tree/DOM is "suspended" and unstable
-        // so accessing the DOM will result in unexpected results.
-        //
-        // unfortunately, there is no good way to tell when the tree is no longer suspended and when the DOM is stable,
-        // so the only hacky way is to set a short delay before accessing the DOM,
-        // hoping that the tree will finish suspending and the DOM will be stable after the delay.
-        //
-        // related issue: https://github.com/facebook/react/issues/14536
-        setTimeout(() => {
-          elem.scrollIntoView(true);
-        }, 100);
-      }
+      setTimeout(() => {
+        document.getElementById(elemId)?.scrollIntoView(true);
+      }, 0);
     }
   }, [hash, isSiteLoading]);
 }
