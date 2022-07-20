@@ -111,6 +111,12 @@ const Footer = (props: CombinedFooterProps): React.ReactElement => {
           Built by the{' '}
           <Link
             className={props.classes.bold}
+            href="https://www.scd.stfc.ac.uk/Pages/home.aspx"
+          >
+            Scientific Computing
+          </Link>
+          <Link
+            className={props.classes.bold}
             href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
           >
             Data and Software Engineering Group
