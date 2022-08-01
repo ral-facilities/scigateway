@@ -31,13 +31,8 @@ const ContainerDiv = styled('div', {
 })<ContainerDivProps>(({ theme, drawerOpen }) => {
   if (drawerOpen) {
     return {
-      paddingBottom: '36px',
       width: `calc(100% - ${theme.drawerWidth})`,
-      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${
-        theme.footerHeight
-      } - ${theme.footerPaddingTop} - ${
-        theme.footerPaddingBottom
-      } - ${theme.spacing(4)})`,
+      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
       overflow: 'auto',
       marginLeft: theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
@@ -45,22 +40,17 @@ const ContainerDiv = styled('div', {
         duration: theme.transitions.duration.enteringScreen,
       }),
     };
-  } else {
-    return {
-      paddingBottom: '36px',
-      width: '100%',
-      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${
-        theme.footerHeight
-      } - ${theme.footerPaddingTop} - ${
-        theme.footerPaddingBottom
-      } - ${theme.spacing(4)})`,
-      overflow: 'auto',
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    };
   }
+
+  return {
+    width: '100%',
+    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+    overflow: 'auto',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeIn,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  };
 });
 
 interface RoutingProps {
