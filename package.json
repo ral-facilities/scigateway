@@ -99,6 +99,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.3.0",
     "@types/history": "4.7.3",
     "@types/jsonwebtoken": "8.5.0",
     "@types/node": "17.0.17",
