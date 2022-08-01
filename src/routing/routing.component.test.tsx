@@ -1,15 +1,15 @@
 import React from 'react';
-import Routing, { PluginPlaceHolder } from './routing.component';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import TestAuthProvider from '../authentication/testAuthProvider';
 import * as singleSpa from 'single-spa';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
+import Routing, { PluginPlaceHolder } from './routing.component';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { StateType } from '../state/state.types';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
 
 jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
