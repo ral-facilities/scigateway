@@ -5,6 +5,7 @@ import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
+import useAnchor from '../hooks/useAnchor';
 
 const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
@@ -109,6 +110,8 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
     .forEach((el) => {
       el.insertAdjacentHTML('afterbegin', topOfPageIcon);
     });
+
+  useAnchor();
 
   return (
     <RootDiv>

@@ -6,6 +6,11 @@ import {
 } from './helpPage.component';
 import { shallow } from 'enzyme';
 
+jest.mock('../hooks/useAnchor', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 describe('Help page component', () => {
   let props: CombinedHelpPageProps;
 

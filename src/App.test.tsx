@@ -1,13 +1,14 @@
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import * as singleSpa from 'single-spa';
-import App from './App';
+import App, { AppSansHoc } from './App';
 import { flushPromises } from './setupTests';
 import { loadAuthProvider } from './state/actions/scigateway.actions';
+import { Preloader } from './preloader/preloader.component';
 
 describe('App', () => {
   beforeEach(() => {
@@ -17,10 +18,18 @@ describe('App', () => {
   afterEach(() => {
     jest.useRealTimers();
   });
+
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<App />, div);
+    ReactDOM.render(<App useSuspense={false} />, div);
     ReactDOM.unmountComponentAtNode(div);
+  });
+
+  it('should show preloader when react-i18next is not ready', () => {
+    const wrapper = shallow(
+      <AppSansHoc t={jest.fn()} i18n={{}} tReady={false} />
+    );
+    expect(wrapper.find(Preloader).exists()).toBe(true);
   });
 
   it('loadMaintenanceState dispatched when maintenance changes', async () => {
@@ -36,7 +45,7 @@ describe('App', () => {
       })
     );
 
-    const wrapper = mount(<App />);
+    const wrapper = mount(<App useSuspense={false} />);
     const realStore = wrapper.find(Provider).prop('store');
     // Set provider to icat as that supports maintenance states
     realStore.dispatch(
