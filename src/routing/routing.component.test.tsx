@@ -1,14 +1,16 @@
 import React from 'react';
-import Routing, { PluginPlaceHolder } from './routing.component';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import TestAuthProvider from '../authentication/testAuthProvider';
 import * as singleSpa from 'single-spa';
+import { ThemeProvider } from '@mui/material';
+import Routing, { PluginPlaceHolder } from './routing.component';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { StateType } from '../state/state.types';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { buildTheme } from '../theming';
 
 jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
 jest.mock(
@@ -25,6 +27,7 @@ jest.mock('single-spa', () => ({
 describe('Routing component', () => {
   let mockStore;
   let state: StateType;
+  const theme = buildTheme(false);
 
   beforeEach(() => {
     state = {
@@ -117,7 +120,9 @@ describe('Routing component', () => {
         <MemoryRouter
           initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
         >
-          <Routing />
+          <ThemeProvider theme={theme}>
+            <Routing />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );
@@ -145,7 +150,9 @@ describe('Routing component', () => {
         <MemoryRouter
           initialEntries={[{ key: 'testKey', pathname: '/test_link' }]}
         >
-          <Routing />
+          <ThemeProvider theme={theme}>
+            <Routing />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );
@@ -164,7 +171,9 @@ describe('Routing component', () => {
     const wrapper = mount(
       <Provider store={mockStore(state)}>
         <MemoryRouter initialEntries={[{ key: 'testKey', pathname: '/admin' }]}>
-          <Routing />
+          <ThemeProvider theme={theme}>
+            <Routing />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );
