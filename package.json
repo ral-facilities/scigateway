@@ -2,6 +2,10 @@
   "name": "scigateway",
   "version": "1.1.0",
   "private": true,
+  "resolutions": {
+    "@types/react": "17.0.38",
+    "@types/react-dom": "17.0.11"
+  },
   "dependencies": {
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
