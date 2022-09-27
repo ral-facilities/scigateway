@@ -44,7 +44,7 @@
     "react-joyride": "2.5.0",
     "react-redux": "7.2.5",
     "react-redux-toastr": "7.6.8",
-    "react-router-dom": "5.3.0",
+    "react-router-dom": "6.4.1",
     "react-scripts": "5.0.0",
     "redux": "4.2.0",
     "redux-logger": "3.0.6",
