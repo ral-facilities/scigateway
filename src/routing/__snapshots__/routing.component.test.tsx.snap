@@ -59,14 +59,7 @@ exports[`Routing component redirects to a homepage URL if specified 1`] = `
       path="/cookies"
     />
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "type": [Function],
-        }
-      }
+      component={[Function]}
     />
   </Switch>
 </Styled(div)>
@@ -129,14 +122,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
       path="/cookies"
     />
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "type": [Function],
-        }
-      }
+      component={[Function]}
     />
   </Switch>
 </Styled(div)>
@@ -1331,47 +1317,27 @@ exports[`Routing component renders a route for a plugin when site is under maint
                           ]
                         }
                       >
-                        <Connect(WithAuthComponent)
+                        <WithAuthComponent
                           id="test_plugin_name"
                         >
-                          <WithAuthComponent
-                            id="test_plugin_name"
-                            invalidToken={[Function]}
-                            loading={false}
-                            location="/"
-                            loggedIn={true}
-                            provider={
-                              TestAuthProvider {
-                                "authUrl": undefined,
-                                "autoLogin": undefined,
-                                "mnemonic": undefined,
-                                "redirectUrl": null,
-                                "token": "logged in",
-                                "user": null,
-                              }
-                            }
-                            requestPluginRerender={[Function]}
-                            userIsAdmin={true}
-                          >
-                            <div>
-                              <PluginPlaceHolder
+                          <div>
+                            <PluginPlaceHolder
+                              id="test_plugin_name"
+                            >
+                              <div
                                 id="test_plugin_name"
                               >
-                                <div
-                                  id="test_plugin_name"
+                                <Preloader
+                                  fullScreen={false}
+                                  id="plugin-preloader"
+                                  loading={true}
                                 >
-                                  <Preloader
-                                    fullScreen={false}
-                                    id="plugin-preloader"
-                                    loading={true}
-                                  >
-                                    Mocked Preloader
-                                  </Preloader>
-                                </div>
-                              </PluginPlaceHolder>
-                            </div>
-                          </WithAuthComponent>
-                        </Connect(WithAuthComponent)>
+                                  Mocked Preloader
+                                </Preloader>
+                              </div>
+                            </PluginPlaceHolder>
+                          </div>
+                        </WithAuthComponent>
                       </Route>
                     </Switch>
                   </div>
@@ -2561,32 +2527,13 @@ exports[`Routing component renders a route for admin page 1`] = `
                         path="/admin"
                         render={[Function]}
                       >
-                        <Connect(WithAuthComponent)>
-                          <WithAuthComponent
-                            invalidToken={[Function]}
-                            loading={false}
-                            location="/"
-                            loggedIn={true}
-                            provider={
-                              TestAuthProvider {
-                                "authUrl": undefined,
-                                "autoLogin": undefined,
-                                "mnemonic": undefined,
-                                "redirectUrl": null,
-                                "token": "logged in",
-                                "user": null,
-                              }
-                            }
-                            requestPluginRerender={[Function]}
-                            userIsAdmin={true}
-                          >
-                            <div>
-                              <Component>
-                                Mocked AdminPage
-                              </Component>
-                            </div>
-                          </WithAuthComponent>
-                        </Connect(WithAuthComponent)>
+                        <WithAuthComponent>
+                          <div>
+                            <Component>
+                              Mocked AdminPage
+                            </Component>
+                          </div>
+                        </WithAuthComponent>
                       </Route>
                     </Switch>
                   </div>
@@ -3906,14 +3853,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       path="/cookies"
     />
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "type": [Function],
-        }
-      }
+      component={[Function]}
     />
   </Switch>
 </Styled(div)>
@@ -3984,7 +3924,7 @@ exports[`Routing component renders component with plugins 1`] = `
         ]
       }
     >
-      <Connect(WithAuthComponent)
+      <WithAuthComponent
         id="test_plugin_name"
       />
     </Route>
@@ -3996,19 +3936,12 @@ exports[`Routing component renders component with plugins 1`] = `
         ]
       }
     >
-      <Connect(WithAuthComponent)
+      <WithAuthComponent
         id="test_plugin_name_2"
       />
     </Route>
     <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "type": [Function],
-        }
-      }
+      component={[Function]}
     />
   </Switch>
 </Styled(div)>
