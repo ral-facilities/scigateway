@@ -92,7 +92,6 @@ describe('Login', () => {
   it('should login given correct credentials', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
     cy.contains('Username*').parent().find('input').type('username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -114,7 +113,6 @@ describe('Login', () => {
   it('should login given username with leading or trailing whitespace', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
     cy.contains('Username*').parent().find('input').type(' username ');
     cy.contains('Password*').parent().find('input').type('password');
@@ -136,7 +134,6 @@ describe('Login', () => {
   it('should remain logged in following page refresh or redirect', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('be.visible');
-    cy.get('button[aria-label="Open navigation menu"]').should('exist');
 
     cy.contains('Username*').parent().find('input').type(' username');
     cy.contains('Password*').parent().find('input').type('password');
@@ -282,7 +279,7 @@ describe('Login', () => {
     });
   });
 
-  describe('autoLogin', () => {
+  describe('autoLogin on', () => {
     // Define responses for login attempts
     let verifyResponse: { statusCode: Number; body: string };
     let loginResponse: { statusCode: Number; body: string };
@@ -306,6 +303,7 @@ describe('Login', () => {
         'ui-strings': 'res/default.json',
         'auth-provider': 'icat',
         authUrl: 'http://localhost:8000',
+        autoLogin: true,
         'help-tour-steps': [],
       });
       cy.intercept('/authenticators', [
@@ -326,33 +324,34 @@ describe('Login', () => {
       });
     });
 
-    it('should show the sidebar and yet still show the Sign in button', () => {
+    it('should allow access to plugins and yet still show the Sign in button', () => {
       verifyResponse = verifySuccess;
       loginResponse = loginSuccess;
-      cy.visit('/');
+      cy.visit('/plugin1');
 
-      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
+      cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
       // test that token verification also works with autologin
       cy.reload();
-      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
+      cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
       cy.contains('Sign in').should('be.visible');
 
       // test that autologin works after token validation + refresh fail
       verifyResponse = failure;
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
-      cy.get('button[aria-label="Close navigation menu"]').should('be.visible');
+      cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
 
-    it('should not display as logged in if autologin requests fail', () => {
+    it('should not be logged in if autologin requests fail', () => {
       loginResponse = failure;
       verifyResponse = verifySuccess;
 
-      cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should('exist');
+      cy.visit('/plugin1');
+      cy.get('#demo_plugin').should('not.exist');
+      cy.contains('h1', 'Sign in').should('be.visible');
 
       // test that autologin fails after token validation + refresh fail
       verifyResponse = failure;
@@ -361,8 +360,8 @@ describe('Login', () => {
         $window.localStorage.setItem('scigateway:token', 'invalidtoken')
       );
       cy.reload();
-      cy.contains('Sign in').should('be.visible');
-      cy.get('button[aria-label="Open navigation menu"]').should('exist');
+      cy.get('#demo_plugin').should('not.exist');
+      cy.contains('h1', 'Sign in').should('be.visible');
     });
 
     it('should be able to directly view a plugin route without signing in', () => {
@@ -425,6 +424,33 @@ describe('Login', () => {
 
       cy.url().should('contain', '/plugin1');
       cy.contains('div', 'Demo Plugin').should('be.visible');
+    });
+  });
+
+  describe('autoLogin off', () => {
+    beforeEach(() => {
+      cy.intercept('/settings.json', {
+        plugins: [
+          {
+            name: 'demo_plugin',
+            src: '/plugins/e2e-plugin/main.js',
+            enable: true,
+            location: 'main',
+          },
+        ],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'icat',
+        authUrl: 'http://localhost:8000',
+        autoLogin: false,
+        'help-tour-steps': [],
+      });
+    });
+
+    it('should not attempt to auto login in if autoLogin setting is set to false', () => {
+      cy.visit('/plugin1');
+      cy.get('#demo_plugin').should('not.exist');
+      cy.contains('h1', 'Sign in').should('be.visible');
+      cy.contains('Unable to create anonymous session').should('not.exist');
     });
   });
 });

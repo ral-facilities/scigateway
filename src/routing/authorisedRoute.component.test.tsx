@@ -1,29 +1,45 @@
 import React from 'react';
 import withAuth from './authorisedRoute.component';
-import { createShallow } from '@material-ui/core/test-utils';
-import configureStore from 'redux-mock-store';
+import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { createLocation } from 'history';
+import scigatewayReducer, {
+  authState,
+  initialState,
+} from '../state/reducers/scigateway.reducer';
+import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 import {
   invalidToken,
   requestPluginRerender,
+  siteLoadingUpdate,
+  verifyUsernameAndPassword,
 } from '../state/actions/scigateway.actions';
 import { flushPromises } from '../setupTests';
+import { Provider } from 'react-redux';
+import { render, waitFor, screen, RenderResult } from '@testing-library/react';
+import {
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  AnyAction,
+} from 'redux';
+import { Router } from 'react-router-dom';
+import { SignOutType } from '../state/scigateway.types';
+import thunk from 'redux-thunk';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { buildTheme } from '../theming';
+import { connectRouter } from 'connected-react-router';
+import * as singleSpa from 'single-spa';
 
 describe('AuthorisedRoute component', () => {
-  let shallow;
-  let mockStore;
   let state: StateType;
   const ComponentToProtect = (): React.ReactElement => (
     <div>protected component</div>
   );
+  const theme = buildTheme(false);
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
@@ -32,8 +48,108 @@ describe('AuthorisedRoute component', () => {
       },
     };
 
-    mockStore = configureStore();
+    singleSpa.start();
   });
+
+  const renderComponent = ({
+    admin,
+    componentToProtect,
+    history = createMemoryHistory(),
+  }: {
+    admin: boolean;
+    componentToProtect: React.ComponentType;
+    history?: MemoryHistory;
+  }): RenderResult & {
+    history: MemoryHistory;
+    testStore: MockStoreEnhanced<StateType>;
+  } => {
+    const mockStore = configureStore<StateType, AnyAction>();
+    const testStore = mockStore(state);
+
+    const AuthorisedComponent = withAuth(admin)(componentToProtect);
+    const result = render(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Router history={history}>
+            <Provider store={testStore}>
+              <AuthorisedComponent />
+            </Provider>
+          </Router>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    );
+
+    return {
+      history,
+      testStore: testStore,
+      ...result,
+    };
+  };
+
+  const renderComponentWithRealStore = ({
+    admin,
+    componentToProtect,
+    history = createMemoryHistory(),
+  }: {
+    admin: boolean;
+    componentToProtect: React.ComponentType;
+    history?: MemoryHistory;
+  }): RenderResult & {
+    history: MemoryHistory;
+    dispatch: (action: unknown) => void;
+    getDispatchedActions: () => unknown[];
+    getState: () => StateType;
+    clearDispatchedActions: () => void;
+  } => {
+    let actions = [];
+    const observerMiddleware = () => (next) => (action) => {
+      actions.push(action);
+      return next(action);
+    };
+
+    const store = createStore(
+      combineReducers<StateType>({
+        scigateway: scigatewayReducer,
+        router: connectRouter(history),
+      }),
+      state,
+      applyMiddleware(thunk, observerMiddleware)
+    );
+
+    const utils = {
+      dispatch(action) {
+        return store.dispatch(action);
+      },
+      getDispatchedActions() {
+        return actions;
+      },
+      getState() {
+        return store.getState();
+      },
+      clearDispatchedActions() {
+        actions = [];
+      },
+    };
+
+    const AuthorisedComponent = withAuth(admin)(componentToProtect);
+    const result = render(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Router history={history}>
+            <Provider store={store}>
+              <AuthorisedComponent />
+            </Provider>
+          </Router>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    );
+
+    return {
+      history,
+      ...result,
+      ...utils,
+    };
+  };
 
   it('renders non admin component when admin user accesses it', () => {
     state.scigateway.siteLoading = false;
@@ -42,10 +158,9 @@ describe('AuthorisedRoute component', () => {
       'test-token'
     );
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: false, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('protected component')).toBeInTheDocument();
   });
 
   it('renders non admin component when non admin user accesses it', () => {
@@ -55,10 +170,9 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: false, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('protected component')).toBeInTheDocument();
   });
 
   it('renders admin component when admin user accesses it', () => {
@@ -68,10 +182,9 @@ describe('AuthorisedRoute component', () => {
       'test-token'
     );
 
-    const AuthorisedComponent = withAuth(true)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: true, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('protected component')).toBeInTheDocument();
   });
 
   it('renders PageNotFound component when non admin user accesses admin component', () => {
@@ -81,26 +194,29 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
 
-    const AuthorisedComponent = withAuth(true)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: true, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('404')).toBeInTheDocument();
   });
 
   it('renders homepage component when homepageUrl is configured', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.homepageUrl = '/homepage';
-    state.router.location.pathname = '/homepage';
 
     const HomepageComponent = (): React.ReactElement => (
       <div>homepage component</div>
     );
 
-    const AuthorisedComponent = withAuth(false)(HomepageComponent);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const history = createMemoryHistory({ initialEntries: ['/homepage'] });
 
-    expect(wrapper).toMatchSnapshot();
+    renderComponent({
+      admin: false,
+      componentToProtect: HomepageComponent,
+      history: history,
+    });
+
+    expect(screen.getByText('homepage component')).toBeInTheDocument();
   });
 
   it('renders redirect when user not logged in and stores referrer in router state', () => {
@@ -108,10 +224,14 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    const { history } = renderComponent({
+      admin: false,
+      componentToProtect: ComponentToProtect,
+    });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(history.location.pathname === '/login');
+    expect(history.location.state.referrer === '/');
+    expect(screen.queryByText('protected component')).not.toBeInTheDocument();
   });
 
   it('renders PageNotFound component when site is loading due to LoadingAuthProvider', () => {
@@ -119,52 +239,56 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new LoadingAuthProvider();
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: false, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('404')).toBeInTheDocument();
   });
 
   it('renders PageNotFound component when site is loading due to loading prop', () => {
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = true;
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: false, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('404')).toBeInTheDocument();
   });
 
   it('renders PageNotFound component when site is loading due to siteLoading prop', () => {
     state.scigateway.siteLoading = true;
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={mockStore(state)} />);
+    renderComponent({ admin: false, componentToProtect: ComponentToProtect });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('404')).toBeInTheDocument();
   });
 
-  it('dispatches requestPluginRerender action when loading or logged in state changes', () => {
+  it('dispatches requestPluginRerender action when loading or logged in state changes', async () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
+    state.scigateway.authorisation.provider.verifyLogIn = jest
+      .fn()
+      .mockResolvedValue(undefined);
 
-    const testStore = mockStore(state);
+    const { dispatch, clearDispatchedActions, getDispatchedActions } =
+      renderComponentWithRealStore({
+        admin: false,
+        componentToProtect: ComponentToProtect,
+      });
 
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    const wrapper = shallow(<AuthorisedComponent store={testStore} />);
+    dispatch(siteLoadingUpdate(false));
 
-    wrapper.setProps({ loading: false });
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(requestPluginRerender());
+    await waitFor(() =>
+      expect(getDispatchedActions()).toContainEqual(requestPluginRerender())
+    );
+    clearDispatchedActions();
 
-    testStore.clearActions();
-    wrapper.setProps({ loggedIn: false });
-    wrapper.setProps({ loggedIn: true });
+    dispatch({ type: SignOutType });
+    dispatch(verifyUsernameAndPassword('username', 'password'));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(requestPluginRerender());
+    await waitFor(() =>
+      expect(getDispatchedActions()).toContainEqual(requestPluginRerender())
+    );
   });
 
   it('dispatches invalidToken when token fails verification', async () => {
@@ -174,9 +298,10 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = testAuthProvider;
 
-    const testStore = mockStore(state);
-    const AuthorisedComponent = withAuth(false)(ComponentToProtect);
-    shallow(<AuthorisedComponent store={testStore} />);
+    const { testStore } = renderComponent({
+      admin: false,
+      componentToProtect: ComponentToProtect,
+    });
 
     await flushPromises();
 

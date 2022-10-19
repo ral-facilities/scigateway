@@ -13,7 +13,7 @@ function checkForSettingsFile() {
       '======================================\n' +
       'There must be a settings file with the location of plugins to \n' +
       'load into the app (which may simply be an empty array).\n\n' +
-      'dev-plugin-settings.example.json next to this script can be used as a template\n' +
+      'dev-plugin-settings.json next to this script can be used as a template\n' +
       'and renamed as dev-plugin-settings.json in the same folder.\n\n';
     console.log(noSettingsFileMessage);
     process.exit(1);

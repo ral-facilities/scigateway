@@ -1,17 +1,15 @@
 import React from 'react';
 import * as singleSpa from 'single-spa';
 import LoginPage, {
-  LoginPageWithoutStyles,
-  LoginPageWithStyles,
+  UnconnectedLoginPage,
   CredentialsLoginScreen,
   RedirectLoginScreen,
   CombinedLoginProps,
   AnonLoginScreen,
   LoginSelector,
 } from './loginPage.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { createLocation } from 'history';
 import axios from 'axios';
@@ -29,6 +27,7 @@ import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
+import { mount, shallow } from 'enzyme';
 
 jest.mock('loglevel');
 
@@ -40,19 +39,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Login selector component', () => {
-  let shallow;
   let props: CombinedLoginProps;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-    spinner: 'spinner-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-
     props = {
       auth: {
         failedToLogin: false,
@@ -62,7 +51,6 @@ describe('Login selector component', () => {
       },
       location: createLocation('/'),
       res: undefined,
-      classes: dummyClasses,
     };
   });
 
@@ -95,22 +83,11 @@ describe('Login selector component', () => {
 });
 
 describe('Login page component', () => {
-  let shallow;
-  let mount;
   let props: CombinedLoginProps;
   let mockStore;
   let state: StateType;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-    spinner: 'spinner-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
     mockStore = configureStore([thunk]);
 
     state = {
@@ -128,7 +105,6 @@ describe('Login page component', () => {
       location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      classes: dummyClasses,
     };
 
     state.scigateway.authorisation = props.auth;
@@ -139,94 +115,58 @@ describe('Login page component', () => {
   const theme = buildTheme(false);
 
   it('credential component renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
+    const wrapper = shallow(<CredentialsLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('credential component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CredentialsLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('credential component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<CredentialsLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('redirect component renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
+    const wrapper = shallow(<RedirectLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('redirect component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
+    const wrapper = shallow(<RedirectLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
+    const wrapper = shallow(<AnonLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<AnonLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('anonymous component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<AnonLoginScreen {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders credential component if no redirect url', () => {
-    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('login page renders redirect component if redirect url present', () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -255,11 +195,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -291,11 +227,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -323,11 +255,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -355,11 +283,7 @@ describe('Login page component', () => {
       .spyOn(React, 'useEffect')
       .mockImplementationOnce((f) => f());
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
 
     await act(async () => {
       await flushPromises();
@@ -372,11 +296,7 @@ describe('Login page component', () => {
 
   it('login page renders spinner if auth is loading', () => {
     props.auth.loading = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
+    const wrapper = shallow(<UnconnectedLoginPage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -385,9 +305,6 @@ describe('Login page component', () => {
     (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
     const dispatchEventSpy = jest
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
@@ -395,10 +312,12 @@ describe('Login page component', () => {
         return true;
       });
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+    const wrapper = mount(
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedLoginPage {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -421,7 +340,6 @@ describe('Login page component', () => {
     expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
       'It is not possible to authenticate you at the moment. Please, try again later'
     );
-    spy.mockRestore();
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
@@ -429,9 +347,11 @@ describe('Login page component', () => {
     props.verifyUsernameAndPassword = mockLoginfn;
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedLoginPage {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     const simulateUsernameInput = wrapper.find('input').at(0);
@@ -449,7 +369,6 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[0]).toEqual([
       'new username',
       'new password',
-      undefined,
       undefined,
     ]);
 
@@ -471,7 +390,6 @@ describe('Login page component', () => {
       'new username 2',
       'new password 2',
       undefined,
-      undefined,
     ]);
   });
 
@@ -485,9 +403,11 @@ describe('Login page component', () => {
     });
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedLoginPage {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').simulate('click');
@@ -504,16 +424,17 @@ describe('Login page component', () => {
 
     // TODO: switch to shallow when enzyme supports hooks/useEffect
     mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedLoginPage {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
     expect(mockLoginfn.mock.calls[0]).toEqual([
       '',
       '?token=test_token',
-      undefined,
       undefined,
     ]);
   });
@@ -522,7 +443,6 @@ describe('Login page component', () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';
-    props.auth.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -536,9 +456,11 @@ describe('Login page component', () => {
     );
 
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <UnconnectedLoginPage {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     await act(async () => {
@@ -550,12 +472,7 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
 
-    expect(mockLoginfn.mock.calls[0]).toEqual([
-      '',
-      '',
-      'nokeys',
-      'http://example.com',
-    ]);
+    expect(mockLoginfn.mock.calls[0]).toEqual(['', '', 'nokeys']);
 
     wrapper
       .find(AnonLoginScreen)
@@ -565,19 +482,13 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(2);
 
-    expect(mockLoginfn.mock.calls[1]).toEqual([
-      '',
-      '',
-      'nokeys',
-      'http://example.com',
-    ]);
+    expect(mockLoginfn.mock.calls[1]).toEqual(['', '', 'nokeys']);
   });
 
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
     state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
     state.router.location.search = '?token=test_token';
     state.scigateway.authorisation.provider.mnemonic = 'nokeys';
-    state.scigateway.authorisation.provider.authUrl = 'http://example.com';
 
     (axios.get as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -594,9 +505,11 @@ describe('Login page component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LoginPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -616,9 +529,11 @@ describe('Login page component', () => {
 
     mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LoginPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

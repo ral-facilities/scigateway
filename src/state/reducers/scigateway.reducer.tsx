@@ -48,6 +48,8 @@ import {
   CustomAdminPageDefaultTabType,
   RegisterContactUsAccessibilityFormUrlType,
   ContactUsAccessibilityFormUrlPayload,
+  CustomPrimaryColourType,
+  CustomPrimaryColourPayload,
 } from '../scigateway.types';
 import { ScigatewayState, AuthState } from '../state.types';
 import { buildPluginConfig } from '../pluginhelper';
@@ -246,7 +248,6 @@ export function handleTokenExpiration(state: ScigatewayState): ScigatewayState {
   state.authorisation.provider.logOut();
   return {
     ...state,
-    drawerOpen: false,
     authorisation: {
       ...resetAuth(state.authorisation),
       signedOutDueToTokenInvalidation: true,
@@ -324,6 +325,16 @@ export function handleCustomAdminPageDefaultTab(
   };
 }
 
+export function handleCustomPrimaryColour(
+  state: ScigatewayState,
+  payload: CustomPrimaryColourPayload
+): ScigatewayState {
+  return {
+    ...state,
+    primaryColour: payload.primaryColour,
+  };
+}
+
 export function handleDismissNotification(
   state: ScigatewayState,
   payload: { index: number }
@@ -355,7 +366,8 @@ export function handleAuthProviderUpdate(
     case 'icat':
       provider = new ICATAuthProvider(
         payload.authProvider.split('.')[1],
-        payload.authUrl
+        payload.authUrl,
+        payload.autoLogin
       );
       break;
 
@@ -516,6 +528,7 @@ const ScigatewayReducer = createReducer(initialState, {
   [CustomAdminPageDefaultTabType]: handleCustomAdminPageDefaultTab,
   [RegisterContactUsAccessibilityFormUrlType]:
     handleRegisterContactUsAccessibilityFormUrl,
+  [CustomPrimaryColourType]: handleCustomPrimaryColour,
 });
 
 export default ScigatewayReducer;
