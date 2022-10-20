@@ -80,7 +80,12 @@ exports[`Footer component footer renders correctly 1`] = `
       i18nKey="footer.website-development-provider"
     >
       Built by the
-       
+      <Styled(ForwardRef(Link))
+        href="https://www.scd.stfc.ac.uk/Pages/home.aspx"
+        underline="hover"
+      >
+        Scientific Computing
+      </Styled(ForwardRef(Link))>
       <Styled(ForwardRef(Link))
         href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
         underline="hover"
