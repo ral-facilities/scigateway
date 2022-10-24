@@ -95,7 +95,13 @@ const Footer = (props: FooterProps): React.ReactElement => {
         }}
       >
         <Trans i18nKey="footer.website-development-provider">
-          Built by the{' '}
+          Built by the
+          <StyledLink
+            href="https://www.scd.stfc.ac.uk/Pages/home.aspx"
+            underline="hover"
+          >
+            Scientific Computing
+          </StyledLink>
           <StyledLink
             href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
             underline="hover"
