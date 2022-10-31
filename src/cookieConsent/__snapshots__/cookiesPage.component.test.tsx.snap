@@ -100,7 +100,7 @@ exports[`Cookies page component should render correctly 1`] = `
           <Styled(ul)>
             <ForwardRef(Typography)
               component="li"
-              key="cookies-page.essential-cookies-list 1"
+              key="0"
               sx={
                 Object {
                   "display": "list-item",
@@ -112,7 +112,7 @@ exports[`Cookies page component should render correctly 1`] = `
             </ForwardRef(Typography)>
             <ForwardRef(Typography)
               component="li"
-              key="cookies-page.essential-cookies-list 2"
+              key="1"
               sx={
                 Object {
                   "display": "list-item",
@@ -124,7 +124,7 @@ exports[`Cookies page component should render correctly 1`] = `
             </ForwardRef(Typography)>
             <ForwardRef(Typography)
               component="li"
-              key="cookies-page.essential-cookies-list 3"
+              key="2"
               sx={
                 Object {
                   "display": "list-item",
