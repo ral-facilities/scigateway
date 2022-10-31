@@ -69,7 +69,7 @@ export const PageNotFoundComponent = (): React.ReactElement => {
             or{' '}
             <StyledLink
               data-test-id="page-not-found-contact-support-link"
-              to={t('footer.links.contact')}
+              to={t('footer.links.contact') as string}
             >
               contact support
             </StyledLink>

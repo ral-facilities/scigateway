@@ -130,12 +130,12 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <CookieList>
                 {t<string, string[]>('cookies-page.essential-cookies-list', {
                   returnObjects: true,
-                }).map((s) => (
+                }).map((s: string, i: number) => (
                   <Typography
                     variant="body1"
                     component="li"
                     sx={cookieListItemStyles}
-                    key={s}
+                    key={i}
                   >
                     {s}
                   </Typography>
