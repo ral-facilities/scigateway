@@ -8640,12 +8640,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-backend@npm:1.4.0":
-  version: 1.4.0
-  resolution: "i18next-http-backend@npm:1.4.0"
+"i18next-http-backend@npm:2.0.0":
+  version: 2.0.0
+  resolution: "i18next-http-backend@npm:2.0.0"
   dependencies:
     cross-fetch: 3.1.5
-  checksum: bc10dca0fd1d566a5a4a4eab96ce76226f69c5b716951262e994bf069c0c5d18ea346dacd17d35aa6c5bee74221641f64839c84c1e01da9d75718ae34ce149a0
+  checksum: 2e2c8f427880540ce82a37367f095a9e4b2c816602443d1729a64062b6cedbaeb503a013e3fe5df0aa077ed0c252eb490d3c87245ef2945dbf2a11abad9872fe
   languageName: node
   linkType: hard
 
@@ -13940,7 +13940,7 @@ __metadata:
     husky: 8.0.1
     i18next: 21.10.0
     i18next-browser-languagedetector: 7.0.0
-    i18next-http-backend: 1.4.0
+    i18next-http-backend: 2.0.0
     js-cookie: 3.0.1
     jsonwebtoken: 8.5.1
     lint-staged: 13.0.3
