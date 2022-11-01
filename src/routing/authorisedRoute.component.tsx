@@ -76,7 +76,9 @@ const withAuth =
           {!loading ? (
             !loggedIn ? (
               homepageUrl && location === homepageUrl ? (
-                <ComponentToProtect {...props} />
+                <ComponentToProtect
+                  {...(props as T & { children?: React.ReactNode })}
+                />
               ) : (
                 <Redirect
                   to={{
@@ -87,7 +89,9 @@ const withAuth =
               )
             ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
             !adminSection || (adminSection && userIsAdmin) ? (
-              <ComponentToProtect {...props} />
+              <ComponentToProtect
+                {...(props as T & { children?: React.ReactNode })}
+              />
             ) : (
               <PageNotFound />
             )
