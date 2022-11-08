@@ -9,7 +9,9 @@ export default defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config)
+      on('task', {
+        failed: require('cypress-failed-log/src/failed')(),
+      })
     },
     baseUrl: 'http://127.0.0.1:3000',
   },
