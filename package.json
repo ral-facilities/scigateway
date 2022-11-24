@@ -68,7 +68,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "eject": "react-scripts eject",
-    "postinstall": "husky install; cp node_modules/react/umd/react.production.min.js public && cp node_modules/react-dom/umd/react-dom.production.min.js public"
+    "postinstall": "husky install; yarn copy-cdn-fallbacks",
+    "copy-cdn-fallbacks": "node -e \"const fs = require('fs'); fs.copyFile('node_modules/react/umd/react.production.min.js', 'public/react.production.min.js', (err) => { if (err) throw err;}); fs.copyFile('node_modules/react-dom/umd/react-dom.production.min.js', 'public/react-dom.production.min.js', (err) => { if (err) throw err;});\""
   },
   "lint-staged": {
     "src/**/*.{tsx,js,jsx,json}": [
