@@ -6012,9 +6012,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:11.2.0":
-  version: 11.2.0
-  resolution: "cypress@npm:11.2.0"
+"cypress@npm:12.0.1":
+  version: 12.0.1
+  resolution: "cypress@npm:12.0.1"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -6060,7 +6060,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: e13649fb4b62a3c9dff7cc571f4e01dba009d8179b05c4f885c5ceb4ed76b78a7323fec491d992da35527708b54e596bfc9edb1d702f788317889f794d8c1e76
+  checksum: 07f7d61b6fc1fc5ef9e2672b36da3e3b0fcf5996a5e0786b548f370ec23ce908b5a6de4132db73110f48c32132db3e7ff31d176d0ed83c63fd09709ff3c982e2
   languageName: node
   linkType: hard
 
@@ -13964,7 +13964,7 @@ __metadata:
     cookie-parser: 1.4.5
     cross-env: 7.0.3
     custom-event-polyfill: 1.0.7
-    cypress: 11.2.0
+    cypress: 12.0.1
     cypress-failed-log: 2.10.0
     enzyme: 3.11.0
     enzyme-to-json: 3.6.2
