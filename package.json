@@ -126,7 +126,7 @@
     "enzyme-to-json": "3.6.2",
     "eslint": "8.29.0",
     "eslint-config-react-app": "7.0.0",
-    "lint-staged": "13.0.3",
+    "lint-staged": "13.1.0",
     "redux-mock-store": "1.5.4",
     "serve": "14.1.1",
     "start-server-and-test": "1.14.0",
