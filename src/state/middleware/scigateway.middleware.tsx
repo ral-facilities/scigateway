@@ -26,6 +26,7 @@ import { buildTheme } from '../../theming';
 import { push } from 'connected-react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
+import { getAppStrings, getString } from '../strings';
 
 const trackPage = (page: string): void => {
   ReactGA.set({
@@ -148,7 +149,8 @@ export const listenToPlugins = (
 
           const theme = buildTheme(
             darkModePreference,
-            highContrastModePreference
+            highContrastModePreference,
+            getState().scigateway.primaryColour
           );
           // Send theme options once registered.
           dispatch(sendThemeOptions(theme));
@@ -181,7 +183,20 @@ export const listenToPlugins = (
         case InvalidateTokenType:
           getState()
             .scigateway.authorisation.provider.refresh()
-            .catch(() => dispatch(pluginMessage.detail));
+            .catch(() => {
+              dispatch(pluginMessage.detail);
+              // if there's an error message in the token invalidation event then broadcast it
+              if (pluginMessage.detail.payload) {
+                document.dispatchEvent(
+                  new CustomEvent(microFrontendMessageId, {
+                    detail: {
+                      type: NotificationType,
+                      payload: pluginMessage.detail.payload,
+                    },
+                  })
+                );
+              }
+            });
           break;
         default:
           // log and ignore
@@ -234,7 +249,8 @@ const ScigatewayMiddleware: Middleware = ((
       next(action);
       const theme = buildTheme(
         action.payload.darkMode,
-        state.scigateway.highContrastMode
+        state.scigateway.highContrastMode,
+        state.scigateway.primaryColour
       );
       store.dispatch(sendThemeOptions(theme));
       return store.dispatch(requestPluginRerender());
@@ -244,7 +260,8 @@ const ScigatewayMiddleware: Middleware = ((
       next(action);
       const theme = buildTheme(
         state.scigateway.darkMode,
-        action.payload.highContrastMode
+        action.payload.highContrastMode,
+        state.scigateway.primaryColour
       );
       store.dispatch(sendThemeOptions(theme));
       return store.dispatch(requestPluginRerender());
@@ -261,7 +278,9 @@ export const autoLoginMiddleware: Middleware<
   ({ dispatch, getState }) =>
   (next) =>
   async (action) => {
-    const autoLogin = getState().scigateway.authorisation.provider.autoLogin;
+    const state = getState();
+    const autoLogin = state.scigateway.authorisation.provider.autoLogin;
+    const res = getAppStrings(state, 'login');
     if (
       autoLogin &&
       // these are the three actions that can cause a user sign out
@@ -270,9 +289,25 @@ export const autoLoginMiddleware: Middleware<
         action.type === InvalidateTokenType)
     ) {
       next(action);
-      return await autoLogin().then(() => {
-        dispatch(autoLoginAuthorised());
-      });
+      return await autoLogin()
+        .then(() => {
+          dispatch(autoLoginAuthorised());
+        })
+        .catch(() => {
+          log.error('Auto Login via middleware failed');
+          // we can't recover from here - tell user they'll need to refresh the page or login again
+          document.dispatchEvent(
+            new CustomEvent(microFrontendMessageId, {
+              detail: {
+                type: NotificationType,
+                payload: {
+                  severity: 'error',
+                  message: getString(res, 'auto-login-error-msg'),
+                },
+              },
+            })
+          );
+        });
     }
 
     return next(action);

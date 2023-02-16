@@ -94,16 +94,26 @@ exports[`Cookies page component should render correctly 1`] = `
             <WithStyles(ForwardRef(Typography))
               className="cookieListItem-class"
               component="li"
+              key="cookies-page.essential-cookies-list 1"
               variant="body1"
             >
-              cookie-consent-description
+              cookies-page.essential-cookies-list 1
             </WithStyles(ForwardRef(Typography))>
             <WithStyles(ForwardRef(Typography))
               className="cookieListItem-class"
               component="li"
+              key="cookies-page.essential-cookies-list 2"
               variant="body1"
             >
-              scigateway-token-description
+              cookies-page.essential-cookies-list 2
+            </WithStyles(ForwardRef(Typography))>
+            <WithStyles(ForwardRef(Typography))
+              className="cookieListItem-class"
+              component="li"
+              key="cookies-page.essential-cookies-list 3"
+              variant="body1"
+            >
+              cookies-page.essential-cookies-list 3
             </WithStyles(ForwardRef(Typography))>
           </ul>
         </WithStyles(ForwardRef(Grid))>

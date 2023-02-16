@@ -1,10 +1,11 @@
 name: CI Build
-on: 
+on:
   pull_request:
-  # By default, the pull_request event type is not triggered when a PR is merged into master
+  # By default, the pull_request event type is not triggered when a PR is merged into main
   push:
+    # TODO - Change this to main before merging k8s-deployment into main
     branches:
-      - master
+      - k8s-deployment
 
 jobs:
   test:
@@ -44,3 +45,37 @@ jobs:
         uses: codecov/codecov-action@v1
       - name: Run e2e tests
         run: yarn e2e
+
+  docker:
+    # This job triggers only if all the other jobs succeed and does different things depending on the context.
+    # The job builds the Docker image in all cases and also pushes the image to Harbor only if something is
+    # pushed to the k8s-deployment branch.
+    needs: [test]
+    name: Docker
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Login to Harbor
+        uses: docker/login-action@v1
+        with:
+          registry: harbor.stfc.ac.uk/datagateway
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: harbor.stfc.ac.uk/datagateway/scigateway
+
+      # TODO - Change github.ref to refs/heads/main before merging k8s-deployment into main
+      - name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/k8s-deployment' && 'Build and push Docker image to Harbor' || 'Build Docker image' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          # TODO - Change github.ref to refs/heads/main before merging k8s-deployment into main
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/k8s-deployment' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

@@ -16,7 +16,7 @@ interface WithAuthStateProps {
   userIsAdmin: boolean;
   provider: AuthProvider;
   location: string;
-  homepageUrlState?: StateType;
+  homepageUrl?: string;
 }
 
 interface WithAuthDispatchProps {
@@ -37,7 +37,7 @@ const mapStateToProps = (state: StateType): WithAuthStateProps => ({
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   provider: state.scigateway.authorisation.provider,
   location: state.router.location.pathname,
-  homepageUrlState: state.router.location.state,
+  homepageUrl: state.scigateway.homepageUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): WithAuthDispatchProps => ({
@@ -66,7 +66,7 @@ const withAuth =
           userIsAdmin,
           location,
           provider,
-          homepageUrlState,
+          homepageUrl,
           requestPluginRerender,
           invalidToken,
           ...componentProps
@@ -74,26 +74,23 @@ const withAuth =
 
         return (
           <div>
-            {!loading && !loggedIn ? (
-              <Redirect
-                push
-                to={{
-                  pathname: '/login',
-                  state: { referrer: location },
-                }}
-              />
-            ) : null}
-            {/* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */}
-            {!loading &&
-            loggedIn &&
-            (!adminSection || (adminSection && userIsAdmin)) ? (
-              homepageUrlState && homepageUrlState.scigateway.homepageUrl ? (
-                <Redirect
-                  push
-                  to={{ pathname: homepageUrlState.scigateway.homepageUrl }}
-                />
-              ) : (
+            {!loading ? (
+              !loggedIn ? (
+                homepageUrl && location === homepageUrl ? (
+                  <ComponentToProtect {...(componentProps as T)} />
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: '/login',
+                      state: { referrer: location },
+                    }}
+                  />
+                )
+              ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
+              !adminSection || (adminSection && userIsAdmin) ? (
                 <ComponentToProtect {...(componentProps as T)} />
+              ) : (
+                <PageNotFound />
               )
             ) : (
               <PageNotFound />

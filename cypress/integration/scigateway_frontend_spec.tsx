@@ -30,4 +30,36 @@ describe('Scigateway', () => {
 
     cy.contains('404').should('be.visible');
   });
+
+  it('page refresh should open the navigation drawer', () => {
+    cy.visit('/');
+    cy.clearLocalStorage();
+    cy.login('username', 'password');
+    cy.reload();
+    cy.get('button[aria-label="Close navigation menu"]').should('exist');
+  });
+
+  it('should keep drawer in same state when redirecting', () => {
+    cy.visit('/login');
+    cy.contains('Sign in').should('be.visible');
+
+    cy.contains('Username*').parent().find('input').type('username');
+    cy.contains('Password*').parent().find('input').type('password');
+
+    cy.contains('Username*')
+      .parent()
+      .parent()
+      .contains('button', 'Sign in')
+      .click();
+
+    cy.url().should('eq', 'http://127.0.0.1:3000/');
+
+    cy.get('button[aria-label="Close navigation menu"]').should('exist');
+    cy.get('button[aria-label="Help page"]').click();
+    cy.get('button[aria-label="Close navigation menu"]').should('exist');
+    cy.get('button[aria-label="Close navigation menu"]').click();
+    cy.get('button[aria-label="Open navigation menu"]').should('exist');
+    cy.get('button[aria-label="Home page"]').click();
+    cy.get('button[aria-label="Open navigation menu"]').should('exist');
+  });
 });

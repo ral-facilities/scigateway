@@ -54,6 +54,7 @@ interface MainAppProps {
   logo?: string;
   homepageUrl?: string;
   adminPageDefaultTab?: 'maintenance' | 'download';
+  pathname: string;
 }
 
 interface MainAppDispatchProps {
@@ -83,7 +84,10 @@ const styles = (theme: Theme): StyleRules =>
       padding: 4,
       margin: theme.spacing(1),
       '& img': {
-        height: 24,
+        // logo maxHeight = mainAppBar height - 2 * padding - 2 * margin
+        maxHeight: `calc(${
+          (theme as UKRITheme).mainAppBarHeight
+        } - 2 * 4px - 2 * ${theme.spacing(1)}px)`,
       },
     },
     button: {
@@ -164,11 +168,13 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
     }
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
+  // have menu open by default after page loads
   React.useEffect(() => {
-    if (!props.loading && props.loggedIn && !props.drawerOpen)
+    if (!props.loading && !props.drawerOpen) {
       props.toggleDrawer();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.loading, props.loggedIn]);
+  }, [props.loading]);
 
   return (
     <div className={props.classes.root}>
@@ -177,35 +183,31 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           disableGutters
           style={{ marginLeft: '16px', marginRight: '16px' }}
         >
-          {props.loggedIn ? (
-            props.drawerOpen === false ? (
-              <IconButton
-                className={classNames(
-                  props.classes.menuButton,
-                  props.drawerOpen && props.classes.menuButtonOpen
-                )}
-                color="inherit"
-                onClick={props.toggleDrawer}
-                aria-label={getString(props.res, 'open-navigation-menu')}
-              >
-                <MenuIcon />
-              </IconButton>
-            ) : (
-              <IconButton
-                className={classNames(
-                  props.classes.menuButtonOpen,
-                  props.drawerOpen && props.classes.menuButton,
-                  'tour-nav-menu'
-                )}
-                color="inherit"
-                onClick={props.toggleDrawer}
-                aria-label={getString(props.res, 'close-navigation-menu')}
-              >
-                <MenuOpenIcon />
-              </IconButton>
-            )
+          {!props.drawerOpen ? (
+            <IconButton
+              className={classNames(
+                props.classes.menuButton,
+                props.drawerOpen && props.classes.menuButtonOpen
+              )}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label={getString(props.res, 'open-navigation-menu')}
+            >
+              <MenuIcon />
+            </IconButton>
           ) : (
-            <div className={props.classes.menuButtonPlaceholder} />
+            <IconButton
+              className={classNames(
+                props.classes.menuButtonOpen,
+                props.drawerOpen && props.classes.menuButton,
+                'tour-nav-menu'
+              )}
+              color="inherit"
+              onClick={props.toggleDrawer}
+              aria-label={getString(props.res, 'close-navigation-menu')}
+            >
+              <MenuOpenIcon />
+            </IconButton>
           )}
           <Button
             className={classNames(props.classes.titleButton, 'tour-title')}
@@ -214,6 +216,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           >
             <img
               src={props.logo ? props.logo : defaultLogo}
+              // if using default logo use 24px, if using custom logo then don't set height
+              // custom logos must be sized to fit or will default to the max-height set in the top styling
+              style={props.logo ? {} : { height: '24px' }}
               alt={getString(props.res, 'title')}
             />
           </Button>
@@ -329,6 +334,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   logo: state.scigateway.logo,
   homepageUrl: state.scigateway.homepageUrl,
   adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
+  pathname: state.router.location.pathname,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
