@@ -1,6 +1,9 @@
 import React from 'react';
-import { UnconnectedFooter, FooterProps } from './footer.component';
-import { shallow } from 'enzyme';
+import { FooterProps, UnconnectedFooter } from './footer.component';
+import { render } from '@testing-library/react';
+import { ThemeProvider } from '@mui/material';
+import { buildTheme } from '../theming';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Footer component', () => {
   let props: FooterProps;
@@ -12,7 +15,13 @@ describe('Footer component', () => {
   });
 
   it('footer renders correctly', () => {
-    const wrapper = shallow(<UnconnectedFooter {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <MemoryRouter>
+        <ThemeProvider theme={buildTheme(false)}>
+          <UnconnectedFooter {...props} />
+        </ThemeProvider>
+      </MemoryRouter>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

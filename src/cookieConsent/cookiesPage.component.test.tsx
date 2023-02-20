@@ -34,11 +34,6 @@ describe('Cookies page component', () => {
     };
     store = mockStore(state);
 
-    props = {
-      res: undefined,
-      navigateToHome: jest.fn(),
-    };
-
     Cookies.set = jest.fn();
     Cookies.remove = jest.fn();
   });
