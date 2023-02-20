@@ -1,5 +1,4 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import AccessibilityPage from './accessibilityPage.component';
 import { buildTheme } from '../theming';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
@@ -9,14 +8,13 @@ import { createLocation } from 'history';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 
 describe('Accessibility page component', () => {
   const theme = buildTheme(false);
   let state: StateType;
-  let mockStore;
 
   beforeEach(() => {
-    mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: { location: createLocation('/') },
@@ -24,9 +22,8 @@ describe('Accessibility page component', () => {
   });
 
   it('should render correctly and display contact us component', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
+    const { asFragment } = render(
+      <Provider store={configureStore([thunk])(state)}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <AccessibilityPage />
@@ -35,7 +32,6 @@ describe('Accessibility page component', () => {
       </Provider>
     );
 
-    expect(wrapper.find('#accessibility-page')).toBeTruthy();
-    expect(wrapper.find('#contact-us')).toBeTruthy();
+    expect(asFragment()).toMatchSnapshot();
   });
 });
