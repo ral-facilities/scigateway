@@ -1,25 +1,23 @@
 import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
+import { mount } from 'enzyme';
 import { createLocation, createMemoryHistory, History } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import AdminPage from './adminPage.component';
 import { Provider } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
 import { MemoryRouter, Router } from 'react-router';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 
 describe('Admin page component', () => {
-  let mount;
   let mockStore;
   let state: StateType;
   let history: History;
 
   beforeEach(() => {
-    mount = createMount();
     mockStore = configureStore([thunk]);
     history = createMemoryHistory();
 
@@ -30,10 +28,6 @@ describe('Admin page component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   const theme = buildTheme(false);
 
   it('should render maintenance page correctly', () => {
@@ -42,15 +36,17 @@ describe('Admin page component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter
-            initialEntries={[
-              { key: 'testKey', pathname: '/admin/maintenance' },
-            ]}
-          >
-            <AdminPage />
-          </MemoryRouter>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter
+              initialEntries={[
+                { key: 'testKey', pathname: '/admin/maintenance' },
+              ]}
+            >
+              <AdminPage />
+            </MemoryRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
@@ -74,13 +70,15 @@ describe('Admin page component', () => {
 
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <MemoryRouter
-            initialEntries={[{ key: 'testKey', pathname: '/admin/download' }]}
-          >
-            <AdminPage />
-          </MemoryRouter>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter
+              initialEntries={[{ key: 'testKey', pathname: '/admin/download' }]}
+            >
+              <AdminPage />
+            </MemoryRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
     expect(wrapper.find('#datagateway-download')).toBeTruthy();
@@ -90,11 +88,13 @@ describe('Admin page component', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <Router history={history}>
-            <AdminPage />
-          </Router>
-        </MuiThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <Router history={history}>
+              <AdminPage />
+            </Router>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 

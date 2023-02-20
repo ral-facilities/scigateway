@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  withStyles,
-  createStyles,
-  Theme,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
-import { Route, Switch, Redirect } from 'react-router';
+import { styled } from '@mui/material/styles';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { StateType } from '../state/state.types';
 import {
   adminRoutes,
@@ -24,31 +18,40 @@ import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
-import classNames from 'classnames';
-import { UKRITheme } from '../theming';
 import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    container: {
-      paddingBottom: '36px',
-      width: '100%',
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    containerShift: {
-      width: `calc(100% - ${(theme as UKRITheme).drawerWidth}px)`,
-      marginLeft: (theme as UKRITheme).drawerWidth,
+interface ContainerDivProps {
+  drawerOpen: boolean;
+}
+
+const ContainerDiv = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'drawerOpen',
+})<ContainerDivProps>(({ theme, drawerOpen }) => {
+  if (drawerOpen) {
+    return {
+      width: `calc(100% - ${theme.drawerWidth})`,
+      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+      overflow: 'auto',
+      marginLeft: theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-    },
-  });
+    };
+  }
+
+  return {
+    width: '100%',
+    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+    overflow: 'auto',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeIn,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  };
+});
 
 interface RoutingProps {
   plugins: PluginConfig[];
@@ -77,7 +80,7 @@ export class PluginPlaceHolder extends React.PureComponent<{
 }
 
 export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
-// Prevents the component from updating when the draw is opened/ closed
+// Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
 export const getPluginRoutes = (
@@ -104,9 +107,7 @@ export const getPluginRoutes = (
   return pluginRoutes;
 };
 
-const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
-  props: RoutingProps & WithStyles<typeof styles>
-) => {
+const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   const [pluginRoutes, setPluginRoutes] = React.useState(
     getPluginRoutes(props.plugins)
   );
@@ -190,11 +191,7 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
     // Otherwise render the login component. Successful logins will continue to the requested
     // route, otherwise they will continue to be prompted to log in.
     // "/" is always accessible
-    <div
-      className={classNames(props.classes.container, {
-        [props.classes.containerShift]: props.drawerOpen,
-      })}
-    >
+    <ContainerDiv drawerOpen={props.drawerOpen}>
       {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
       <Switch>
         <Route exact path={scigatewayRoutes.home}>
@@ -247,11 +244,9 @@ const Routing: React.FC<RoutingProps & WithStyles<typeof styles>> = (
         )}
         <Route component={withAuth(false)(PageNotFound)} />
       </Switch>
-    </div>
+    </ContainerDiv>
   );
 };
-
-export const RoutingWithStyles = withStyles(styles)(Routing);
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
@@ -269,4 +264,4 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   loading: state.scigateway.siteLoading,
 });
 
-export default connect(mapStateToProps)(RoutingWithStyles);
+export default connect(mapStateToProps)(Routing);

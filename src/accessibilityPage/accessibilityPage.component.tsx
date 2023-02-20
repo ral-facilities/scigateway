@@ -1,57 +1,47 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
-  Link,
-} from '@material-ui/core';
-import { UKRITheme } from '../theming';
+import Typography from '@mui/material/Typography';
+import { Link, styled } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import ContactUs from './contactUs.component';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      backgroundColor: theme.palette.background.default,
-      '& a': {
-        '&:link': {
-          color: (theme as UKRITheme).colours.link.default,
-        },
-        '&:visited': {
-          color: (theme as UKRITheme).colours.link.visited,
-        },
-        '&:active': {
-          color: (theme as UKRITheme).colours.link.active,
-        },
-      },
+const RootDiv = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.default,
+  '& a': {
+    '&:link': {
+      color: theme.colours.link.default,
     },
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      color: theme.palette.text.primary,
+    '&:visited': {
+      color: theme.colours.link.visited,
     },
-    titleText: {
-      fontWeight: 'bold',
-      color: theme.palette.secondary.main,
+    '&:active': {
+      color: theme.colours.link.active,
     },
-    description: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      color: theme.palette.text.primary,
-    },
-  });
+  },
+}));
 
-export type CombinedAccessibiiltyPageProps = WithStyles<typeof styles>;
+const ContainerDiv = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.primary,
+}));
 
-const AccessibiiltyPage = (
-  props: CombinedAccessibiiltyPageProps
-): React.ReactElement => {
+const TitleTypography = styled(Typography)(({ theme }) => ({
+  fontWeight: 'bold',
+  color: theme.palette.secondary.main,
+}));
+
+const DescriptionTypography = styled(Typography)<{
+  component?: React.ElementType;
+}>(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.primary,
+}));
+
+const AccessibiiltyPage = (): React.ReactElement => {
   const [t] = useTranslation();
 
   let datagatewayDomains: string[] = t('accessibility-page.domains-list', {
@@ -110,45 +100,45 @@ const AccessibiiltyPage = (
     datagatewayDisproportionateBurdenCard = listPlaceholder;
 
   return (
-    <div className={props.classes.root} id="accessibility-page">
-      <Typography variant="h3" className={props.classes.titleText}>
+    <RootDiv id="accessibility-page">
+      <TitleTypography variant="h3">
         {t('accessibility-page.title')}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           {t('accessibility-page.domains-list-text')}
-        </Typography>
+        </DescriptionTypography>
 
-        <Typography component="ul" className={props.classes.description}>
+        <DescriptionTypography component="ul">
           {datagatewayDomains.map((item) => (
             <li key={item}>
               <Link href={item}>{item}</Link>
             </li>
           ))}
-        </Typography>
+        </DescriptionTypography>
 
-        <Typography className={props.classes.description}>
+        <DescriptionTypography>
           {t('accessibility-page.website-developed-by')}
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography variant="h4" className={props.classes.titleText}>
+      <TitleTypography variant="h4">
         {t('accessibility-page.how-accessible-this-website-is')}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           {t('accessibility-page.how-accessible-this-website-is-text')}
-        </Typography>
-        <Typography component="ul" className={props.classes.description}>
+        </DescriptionTypography>
+        <DescriptionTypography component="ul">
           {datagatewayAccessibileParts.map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography className={props.classes.description}>
+      <DescriptionTypography>
         <Trans
           t={t}
           i18nKey="accessibility-page.advice-on-how-to-make-device-more-accessible"
@@ -163,38 +153,38 @@ const AccessibiiltyPage = (
           has advice on making your device easier to use if you have a
           disability.
         </Trans>
-      </Typography>
+      </DescriptionTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           {t('accessibility-page.non-accessibile-parts-of-datagateway-text')}
-        </Typography>
+        </DescriptionTypography>
 
-        <Typography component="ul" className={props.classes.description}>
+        <DescriptionTypography component="ul">
           {datagatewayNonAccessibileParts.map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography variant="h4" className={props.classes.titleText}>
+      <TitleTypography variant="h4">
         {t('accessibility-page.contact-us-about-accessibility')}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           {t('accessibility-page.contact-us-about-accessibility-text')}
-        </Typography>
+        </DescriptionTypography>
 
         <ContactUs />
-      </div>
+      </ContainerDiv>
 
-      <Typography variant="h4" className={props.classes.titleText}>
+      <TitleTypography variant="h4">
         {t('accessibility-page.enforcement-procedure')}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           <Trans t={t} i18nKey="accessibility-page.enforcement-procedure-text">
             The Equality and Human Rights Commission (EHRC) is responsible for
             enforcing the Public Sector Bodies (Websites and Mobile
@@ -205,27 +195,27 @@ const AccessibiiltyPage = (
               contact the Equality Advisory and Support Service (EASS)
             </Link>
           </Trans>
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography variant="h4" className={props.classes.titleText}>
+      <TitleTypography variant="h4">
         {t(
           'accessibility-page.technical-information-about-this-website-accessibility'
         )}
-      </Typography>
+      </TitleTypography>
 
-      <Typography className={props.classes.description}>
+      <DescriptionTypography>
         {t(
           'accessibility-page.technical-information-about-this-website-accessibility-text'
         )}
-      </Typography>
+      </DescriptionTypography>
 
-      <Typography variant="h4" className={props.classes.titleText}>
+      <TitleTypography variant="h4">
         {t('accessibility-page.compliance-status')}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           <Trans t={t} i18nKey="accessibility-page.compliance-status-text">
             This website is partially compliant with the{' '}
             <Link href={t('accessibility-page.compliance-status-link')}>
@@ -233,68 +223,64 @@ const AccessibiiltyPage = (
             </Link>{' '}
             AA standard, due to the non-compliances and exemptions listed below.
           </Trans>
-        </Typography>
-      </div>
-      <Typography variant="h4" className={props.classes.titleText}>
+        </DescriptionTypography>
+      </ContainerDiv>
+      <TitleTypography variant="h4">
         {t('accessibility-page.non-accessible-content')}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography>
           <em> {t('accessibility-page.non-accessible-content-text')}</em>
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography variant="h5" className={props.classes.titleText}>
+      <TitleTypography variant="h5">
         {t(
           'accessibility-page.non-compliance-with-the-accessibility-regulations'
         )}
-      </Typography>
+      </TitleTypography>
 
-      <div className={props.classes.container}>
-        <Typography component="ul" className={props.classes.description}>
+      <ContainerDiv>
+        <DescriptionTypography component="ul">
           {datagatewayNonCompliance.map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </Typography>
+        </DescriptionTypography>
 
-        <Typography style={{ paddingTop: 16 }}>
+        <Typography sx={{ paddingTop: '16px' }}>
           {t(
             'accessibility-page.non-compliance-with-the-accessibility-regulations-text'
           )}
         </Typography>
-      </div>
+      </ContainerDiv>
 
-      <Typography variant="h5" className={props.classes.titleText}>
+      <TitleTypography variant="h5">
         {t('accessibility-page.disproportionate-burden.title')}
-      </Typography>
+      </TitleTypography>
 
-      <Typography
-        variant="h6"
-        className={props.classes.titleText}
-        style={{ paddingTop: 16 }}
-      >
+      <TitleTypography variant="h6" sx={{ paddingTop: '16px' }}>
         {t('accessibility-page.disproportionate-burden.table-view')}
-      </Typography>
-      <div className={props.classes.container}>
-        <Typography component="ul" className={props.classes.description}>
+      </TitleTypography>
+      <ContainerDiv>
+        <DescriptionTypography component="ul">
           {datagatewayDisproportionateBurdenTable.map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography variant="h6" className={props.classes.titleText}>
+      <TitleTypography variant="h6">
         {t('accessibility-page.disproportionate-burden.card-view')}
-      </Typography>
-      <div className={props.classes.container}>
-        <Typography component="ul" className={props.classes.description}>
+      </TitleTypography>
+      <ContainerDiv>
+        <DescriptionTypography component="ul">
           {datagatewayDisproportionateBurdenCard.map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </Typography>
+        </DescriptionTypography>
 
-        <Typography className={props.classes.description}>
+        <DescriptionTypography>
           <Trans
             t={t}
             i18nKey="accessibility-page.disproportionate-burden.text"
@@ -308,14 +294,14 @@ const AccessibiiltyPage = (
             another assessment before the next release, likely to be in
             September 2022.
           </Trans>
-        </Typography>
-      </div>
+        </DescriptionTypography>
+      </ContainerDiv>
 
-      <Typography variant="h5" className={props.classes.titleText}>
+      <TitleTypography variant="h5">
         {t('accessibility-page.preparation-of-this-accessibility-statement')}
-      </Typography>
-      <div className={props.classes.container}>
-        <Typography className={props.classes.description}>
+      </TitleTypography>
+      <ContainerDiv>
+        <DescriptionTypography>
           <Trans
             t={t}
             i18nKey="accessibility-page.preparation-of-this-accessibility-statement-text"
@@ -327,14 +313,10 @@ const AccessibiiltyPage = (
             carried out by the{' '}
             <strong> Data &#38; Software Engineering Group. </strong>
           </Trans>
-        </Typography>{' '}
-      </div>
-    </div>
+        </DescriptionTypography>
+      </ContainerDiv>
+    </RootDiv>
   );
 };
 
-export const AccessibiiltyPageWithoutStyles = AccessibiiltyPage;
-export const AccessibiiltyPageWithStyles =
-  withStyles(styles)(AccessibiiltyPage);
-
-export default AccessibiiltyPageWithStyles;
+export default AccessibiiltyPage;

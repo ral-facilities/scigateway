@@ -1,61 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Cookies page component should render correctly 1`] = `
-<div
-  className="root-class"
->
-  <WithStyles(ForwardRef(Typography))
-    className="titleText-class"
+<Styled(div)>
+  <ForwardRef(Typography)
+    sx={
+      Object {
+        "color": "secondary.main",
+        "fontWeight": "bold",
+      }
+    }
     variant="h3"
   >
     title
-  </WithStyles(ForwardRef(Typography))>
-  <div
-    className="container-class"
-  >
-    <WithStyles(ForwardRef(Typography))
+  </ForwardRef(Typography)>
+  <Styled(div)>
+    <ForwardRef(Typography)
       variant="h4"
     >
       cookie-policy-title
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))
-      className="cookiePolicy-class"
+    </ForwardRef(Typography)>
+    <ForwardRef(Typography)
       dangerouslySetInnerHTML={
         Object {
           "__html": "cookie-policy",
         }
       }
+      sx={
+        Object {
+          "marginBottom": 2,
+          "marginTop": 2,
+        }
+      }
       variant="body1"
     />
-  </div>
-  <div
-    className="container-class"
-  >
-    <WithStyles(ForwardRef(Typography))
+  </Styled(div)>
+  <Styled(div)>
+    <ForwardRef(Typography)
       variant="h4"
     >
       cookie-management-title
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Grid))
-      className="cookieTypes-class"
+    </ForwardRef(Typography)>
+    <ForwardRef(Grid)
       container={true}
       direction="column"
       spacing={4}
+      sx={
+        Object {
+          "marginBottom": 2,
+          "marginTop": 1,
+        }
+      }
     >
-      <WithStyles(ForwardRef(Grid))
+      <ForwardRef(Grid)
         alignItems="center"
         container={true}
         item={true}
-        justify="flex-start"
+        justifyContent="flex-start"
       >
-        <WithStyles(ForwardRef(Grid))
+        <ForwardRef(Grid)
           item={true}
           sm={1}
           xs={2}
         >
-          <WithStyles(ForwardRef(Switch))
+          <ForwardRef(Switch)
             checked={true}
-            color="primary"
+            color="secondary"
             disabled={true}
             inputProps={
               Object {
@@ -64,74 +73,84 @@ exports[`Cookies page component should render correctly 1`] = `
               }
             }
           />
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
+        </ForwardRef(Grid)>
+        <ForwardRef(Grid)
           item={true}
           sm={2}
           xs={4}
         >
-          <WithStyles(ForwardRef(Typography))
+          <ForwardRef(Typography)
             id="essential-cookies-title"
             variant="body1"
           >
             essential-cookies-title
-          </WithStyles(ForwardRef(Typography))>
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
+          </ForwardRef(Typography)>
+        </ForwardRef(Grid)>
+        <ForwardRef(Grid)
           id="essential-cookies-description"
           item={true}
           sm={9}
           xs={12}
         >
-          <WithStyles(ForwardRef(Typography))
+          <ForwardRef(Typography)
             variant="body1"
           >
             essential-cookies-description
-          </WithStyles(ForwardRef(Typography))>
-          <ul
-            className="cookieList-class"
-          >
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
+          </ForwardRef(Typography)>
+          <Styled(ul)>
+            <ForwardRef(Typography)
               component="li"
-              key="cookies-page.essential-cookies-list 1"
+              key="0"
+              sx={
+                Object {
+                  "display": "list-item",
+                }
+              }
               variant="body1"
             >
               cookies-page.essential-cookies-list 1
-            </WithStyles(ForwardRef(Typography))>
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
+            </ForwardRef(Typography)>
+            <ForwardRef(Typography)
               component="li"
-              key="cookies-page.essential-cookies-list 2"
+              key="1"
+              sx={
+                Object {
+                  "display": "list-item",
+                }
+              }
               variant="body1"
             >
               cookies-page.essential-cookies-list 2
-            </WithStyles(ForwardRef(Typography))>
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
+            </ForwardRef(Typography)>
+            <ForwardRef(Typography)
               component="li"
-              key="cookies-page.essential-cookies-list 3"
+              key="2"
+              sx={
+                Object {
+                  "display": "list-item",
+                }
+              }
               variant="body1"
             >
               cookies-page.essential-cookies-list 3
-            </WithStyles(ForwardRef(Typography))>
-          </ul>
-        </WithStyles(ForwardRef(Grid))>
-      </WithStyles(ForwardRef(Grid))>
-      <WithStyles(ForwardRef(Grid))
+            </ForwardRef(Typography)>
+          </Styled(ul)>
+        </ForwardRef(Grid)>
+      </ForwardRef(Grid)>
+      <ForwardRef(Grid)
         alignItems="center"
         container={true}
         item={true}
-        justify="flex-start"
+        justifyContent="flex-start"
       >
-        <WithStyles(ForwardRef(Grid))
+        <ForwardRef(Grid)
           item={true}
           sm={1}
           xs={2}
         >
-          <WithStyles(ForwardRef(Switch))
+          <ForwardRef(Switch)
             checked={false}
-            color="primary"
+            color="secondary"
             inputProps={
               Object {
                 "aria-describedby": "analytics-cookies-description",
@@ -140,53 +159,59 @@ exports[`Cookies page component should render correctly 1`] = `
             }
             onChange={[Function]}
           />
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
+        </ForwardRef(Grid)>
+        <ForwardRef(Grid)
           item={true}
           sm={2}
           xs={4}
         >
-          <WithStyles(ForwardRef(Typography))
+          <ForwardRef(Typography)
             id="analytics-cookies-title"
             variant="body1"
           >
             analytics-cookies-title
-          </WithStyles(ForwardRef(Typography))>
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
+          </ForwardRef(Typography)>
+        </ForwardRef(Grid)>
+        <ForwardRef(Grid)
           id="analytics-cookies-description"
           item={true}
           sm={9}
           xs={12}
         >
-          <WithStyles(ForwardRef(Typography))
+          <ForwardRef(Typography)
             variant="body1"
           >
             analytics-cookies-description
-          </WithStyles(ForwardRef(Typography))>
-          <ul
-            className="cookieList-class"
-          >
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
+          </ForwardRef(Typography)>
+          <Styled(ul)>
+            <ForwardRef(Typography)
               component="li"
+              sx={
+                Object {
+                  "display": "list-item",
+                }
+              }
               variant="body1"
             >
               google-analytics-description
-            </WithStyles(ForwardRef(Typography))>
-          </ul>
-        </WithStyles(ForwardRef(Grid))>
-      </WithStyles(ForwardRef(Grid))>
-    </WithStyles(ForwardRef(Grid))>
-  </div>
-  <WithStyles(ForwardRef(Button))
-    className="button-class"
+            </ForwardRef(Typography)>
+          </Styled(ul)>
+        </ForwardRef(Grid)>
+      </ForwardRef(Grid)>
+    </ForwardRef(Grid)>
+  </Styled(div)>
+  <ForwardRef(Button)
     color="primary"
     onClick={[Function]}
     size="medium"
+    sx={
+      Object {
+        "color": "primary.contrastText",
+      }
+    }
     variant="contained"
   >
     save-preferences-button
-  </WithStyles(ForwardRef(Button))>
-</div>
+  </ForwardRef(Button)>
+</Styled(div)>
 `;

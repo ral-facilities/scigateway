@@ -11,8 +11,8 @@ import {
   loadMaintenanceState,
 } from './state/actions/scigateway.actions';
 import ScigatewayMiddleware, {
-  listenToPlugins,
   autoLoginMiddleware,
+  listenToPlugins,
 } from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
@@ -20,16 +20,8 @@ import './index.css';
 import { ConnectedThemeProvider } from './theming';
 import ReduxToastr from 'react-redux-toastr';
 import PageContainer from './pageContainer.component';
-import {
-  StylesProvider,
-  createGenerateClassName,
-} from '@material-ui/core/styles';
-import { Preloader as UnconnectedPreloader } from './preloader/preloader.component';
-
-const generateClassName = createGenerateClassName({
-  productionPrefix: 'sgw',
-  disableGlobal: true,
-});
+import { Preloader } from './preloader/preloader.component';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 const history = createBrowserHistory();
 
@@ -77,7 +69,7 @@ const toastrConfig = (): React.ReactElement => (
   />
 );
 
-class App extends React.Component {
+class App extends React.Component<WithTranslation> {
   public componentDidMount(): void {
     // Check for changes in maintenance state. Ensures that state changes are
     // loaded when a user does not reload the site for longer than an hour.
@@ -102,18 +94,16 @@ class App extends React.Component {
       <div className="App">
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <StylesProvider generateClassName={generateClassName}>
-              <ConnectedThemeProvider>
-                <React.Suspense
-                  fallback={
-                    <UnconnectedPreloader fullScreen={true} loading={true} />
-                  }
-                >
+            <ConnectedThemeProvider>
+              {this.props.tReady ? (
+                <>
                   {toastrConfig()}
                   <PageContainer />
-                </React.Suspense>
-              </ConnectedThemeProvider>
-            </StylesProvider>
+                </>
+              ) : (
+                <Preloader fullScreen loading />
+              )}
+            </ConnectedThemeProvider>
           </ConnectedRouter>
         </Provider>
       </div>
@@ -121,4 +111,7 @@ class App extends React.Component {
   }
 }
 
-export default App;
+// export app with no hoc for testing
+export { App as AppSansHoc };
+
+export default withTranslation()(App);

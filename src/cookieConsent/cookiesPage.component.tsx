@@ -1,15 +1,9 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import {
-  StyleRules,
-  withStyles,
-  Theme,
-  WithStyles,
-  createStyles,
-} from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
@@ -17,55 +11,39 @@ import { AppStrings } from '../state/scigateway.types';
 import Cookies from 'js-cookie';
 import { Dispatch, Action } from 'redux';
 import { push } from 'connected-react-router';
-import { UKRITheme } from '../theming';
 import { useTranslation } from 'react-i18next';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      backgroundColor: theme.palette.background.default,
-      '& a': {
-        '&:link': {
-          color: (theme as UKRITheme).colours.link.default,
-        },
-        '&:visited': {
-          color: (theme as UKRITheme).colours.link.visited,
-        },
-        '&:active': {
-          color: (theme as UKRITheme).colours.link.active,
-        },
-      },
+const RootDiv = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.default,
+  '& a': {
+    '&:link': {
+      color: theme.colours.link.default,
     },
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      color: theme.palette.text.primary,
+    '&:visited': {
+      color: theme.colours.link.visited,
     },
-    titleText: {
-      fontWeight: 'bold',
-      color: theme.palette.secondary.main,
+    '&:active': {
+      color: theme.colours.link.active,
     },
-    cookiePolicy: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-    },
-    cookieTypes: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-    },
-    button: {
-      color: theme.palette.primary.contrastText,
-    },
-    cookieList: {
-      paddingLeft: theme.spacing(2),
-    },
-    cookieListItem: {
-      display: 'list-item',
-    },
-  });
+  },
+}));
+
+const ContainerDiv = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.primary,
+}));
+
+const CookieList = styled('ul')(({ theme }) => ({
+  paddingLeft: theme.spacing(2),
+}));
+
+const cookieListItemStyles = {
+  display: 'list-item',
+};
 
 interface CookiesPageProps {
   res: AppStrings | undefined;
@@ -76,8 +54,7 @@ interface CookiesPageDispatchProps {
 }
 
 export type CombinedCookiesPageProps = CookiesPageProps &
-  CookiesPageDispatchProps &
-  WithStyles<typeof styles>;
+  CookiesPageDispatchProps;
 
 const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
   if (!analytics) {
@@ -100,23 +77,26 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
   const { t } = useTranslation();
 
   return (
-    <div className={props.classes.root}>
-      <Typography variant="h3" className={props.classes.titleText}>
+    <RootDiv>
+      <Typography
+        variant="h3"
+        sx={{ fontWeight: 'bold', color: 'secondary.main' }}
+      >
         {getString(props.res, 'title')}
       </Typography>
-      <div className={props.classes.container}>
+      <ContainerDiv>
         <Typography variant="h4">
           {getString(props.res, 'cookie-policy-title')}
         </Typography>
         <Typography
           variant="body1"
-          className={props.classes.cookiePolicy}
+          sx={{ marginTop: 2, marginBottom: 2 }}
           dangerouslySetInnerHTML={{
             __html: getString(props.res, 'cookie-policy'),
           }}
         />
-      </div>
-      <div className={props.classes.container}>
+      </ContainerDiv>
+      <ContainerDiv>
         <Typography variant="h4">
           {getString(props.res, 'cookie-management-title')}
         </Typography>
@@ -124,13 +104,13 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
           container
           spacing={4}
           direction="column"
-          className={props.classes.cookieTypes}
+          sx={{ marginTop: 1, marginBottom: 2 }}
         >
-          <Grid container item alignItems="center" justify="flex-start">
+          <Grid container item alignItems="center" justifyContent="flex-start">
             <Grid item xs={2} sm={1}>
               <Switch
                 disabled
-                color="primary"
+                color="secondary"
                 checked={true}
                 inputProps={{
                   'aria-labelledby': 'essential-cookies-title',
@@ -147,27 +127,27 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <Typography variant="body1">
                 {getString(props.res, 'essential-cookies-description')}
               </Typography>
-              <ul className={props.classes.cookieList}>
+              <CookieList>
                 {t<string, string[]>('cookies-page.essential-cookies-list', {
                   returnObjects: true,
-                }).map((s) => (
+                }).map((s: string, i: number) => (
                   <Typography
                     variant="body1"
                     component="li"
-                    className={props.classes.cookieListItem}
-                    key={s}
+                    sx={cookieListItemStyles}
+                    key={i}
                   >
                     {s}
                   </Typography>
                 ))}
-              </ul>
+              </CookieList>
             </Grid>
           </Grid>
-          <Grid container item alignItems="center" justify="flex-start">
+          <Grid container item alignItems="center" justifyContent="flex-start">
             <Grid item xs={2} sm={1}>
               <Switch
                 checked={analytics}
-                color="primary"
+                color="secondary"
                 onChange={(e) => setAnalytics(e.target.checked)}
                 inputProps={{
                   'aria-labelledby': 'analytics-cookies-title',
@@ -184,24 +164,24 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
               <Typography variant="body1">
                 {getString(props.res, 'analytics-cookies-description')}
               </Typography>
-              <ul className={props.classes.cookieList}>
+              <CookieList>
                 <Typography
                   variant="body1"
                   component="li"
-                  className={props.classes.cookieListItem}
+                  sx={cookieListItemStyles}
                 >
                   {getString(props.res, 'google-analytics-description')}
                 </Typography>
-              </ul>
+              </CookieList>
             </Grid>
           </Grid>
         </Grid>
-      </div>
+      </ContainerDiv>
       <Button
         variant="contained"
         color="primary"
         size="medium"
-        className={props.classes.button}
+        sx={{ color: 'primary.contrastText' }}
         onClick={() => {
           handleSavePreferences({ analytics });
           props.navigateToHome();
@@ -209,7 +189,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
       >
         {getString(props.res, 'save-preferences-button')}
       </Button>
-    </div>
+    </RootDiv>
   );
 };
 
@@ -221,10 +201,6 @@ const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
   navigateToHome: () => dispatch(push('/')),
 });
 
-export const CookiesPageWithoutStyles = CookiesPage;
-export const CookiesPageWithStyles = withStyles(styles)(CookiesPage);
+export const UnconnectedCookiesPage = CookiesPage;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CookiesPageWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(CookiesPage);
