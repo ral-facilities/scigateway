@@ -1,26 +1,24 @@
 import React from 'react';
 
-import CookieConsent, {
-  UnconnectedCookieConsent,
-  CombinedCookieConsentProps,
-} from './cookieConsent.component';
+import CookieConsent from './cookieConsent.component';
 import { StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
+import configureStore, { MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
-import { shallow, mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Cookie consent component', () => {
   let mockStore;
   let state: StateType;
-  let props: CombinedCookieConsentProps;
+  let store: MockStore;
 
   beforeEach(() => {
     mockStore = configureStore();
@@ -34,6 +32,8 @@ describe('Cookie consent component', () => {
       initialised: false,
     };
 
+    store = mockStore(state);
+
     props = {
       analytics: state.scigateway.analytics,
       res: undefined,
@@ -46,43 +46,52 @@ describe('Cookie consent component', () => {
 
   const theme = buildTheme(false);
 
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>{children}</Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    );
+  }
+
   it('should render correctly', () => {
-    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    render(<CookieConsent />, { wrapper: Wrapper });
+
+    expect(
+      screen.getByRole('button', { name: 'manage-preferences-button' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'accept-button' })
+    ).toBeInTheDocument();
+    expect(screen.getByText('text')).toBeInTheDocument();
   });
 
-  it('should navigate to cookie page on user clicking manage preferences', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <CookieConsent />
-          </Provider>
-        </ThemeProvider>
-      </StyledEngineProvider>
+  it('should navigate to cookie page on user clicking manage preferences', async () => {
+    const user = userEvent.setup();
+
+    render(<CookieConsent />, { wrapper: Wrapper });
+
+    await user.click(
+      screen.getByRole('button', { name: 'manage-preferences-button' })
     );
 
-    wrapper.find('button').first().simulate('click');
-
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/cookies'));
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual(push('/cookies'));
   });
 
-  it('should set cookie to true upon user accept', () => {
+  it('should set cookie to true upon user accept', async () => {
     Cookies.set = jest.fn();
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <CookieConsent />
-          </Provider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    const user = userEvent.setup();
 
-    wrapper.find('button').last().simulate('click');
+    render(<CookieConsent />, { wrapper: Wrapper });
+
+    await user.click(screen.getByRole('button', { name: 'accept-button' }));
 
     expect(Cookies.set).toHaveBeenCalled();
     const mockCookies = (Cookies.set as jest.Mock).mock;
@@ -102,19 +111,10 @@ describe('Cookie consent component', () => {
     ReactGA.set = jest.fn();
     ReactGA.pageview = jest.fn();
 
-    const testStore = mockStore(state);
-    mount(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <Provider store={testStore}>
-            <CookieConsent />
-          </Provider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    render(<CookieConsent />, { wrapper: Wrapper });
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(initialiseAnalytics());
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual(initialiseAnalytics());
 
     expect(ReactGA.initialize).toHaveBeenCalled();
     expect(ReactGA.initialize).toHaveBeenCalledWith('test id', {
@@ -138,28 +138,34 @@ describe('Cookie consent component', () => {
   it('should set open to false if cookie-consent cookie is set', () => {
     Cookies.get = jest
       .fn()
-      .mockImplementationOnce((name) =>
+      .mockImplementation((name) =>
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null
       );
 
-    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
+    ReactGA.initialize = jest.fn();
+    ReactGA.set = jest.fn();
+    ReactGA.pageview = jest.fn();
 
-    expect(wrapper.prop('open')).toBeFalsy();
+    render(<CookieConsent />, { wrapper: Wrapper });
+
+    expect(screen.queryByText('text')).toBeNull();
   });
 
   it('should set open to false if site is loading', () => {
-    props.loading = false;
+    state.scigateway.siteLoading = true;
+    store = mockStore(state);
 
-    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
+    render(<CookieConsent />, { wrapper: Wrapper });
 
-    expect(wrapper.prop('open')).toBeFalsy();
+    expect(screen.queryByText('text')).toBeNull();
   });
 
   it('should set open to false if on /cookies page', () => {
-    props.location = createLocation('/cookies');
+    state.router = { location: createLocation('/cookies') };
+    store = mockStore(state);
 
-    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
+    render(<CookieConsent />, { wrapper: Wrapper });
 
-    expect(wrapper.prop('open')).toBeFalsy();
+    expect(screen.queryByText('text')).toBeNull();
   });
 });
