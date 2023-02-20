@@ -6,6 +6,7 @@ WORKDIR /scigateway
 
 COPY package.json tsconfig.json yarn.lock .yarnrc.yml ./
 COPY .yarn /scigateway/.yarn/
+COPY public /scigateway/public/
 
 # TODO - Use Yarn 2 when project is upgraded
 RUN yarn set version 1.22 \
