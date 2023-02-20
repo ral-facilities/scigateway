@@ -8,11 +8,7 @@ COPY package.json tsconfig.json yarn.lock .yarnrc.yml ./
 COPY .yarn /scigateway/.yarn/
 COPY public /scigateway/public/
 
-# TODO - Use Yarn 2 when project is upgraded
-RUN yarn set version 1.22 \
-  # TODO: use yarn install --production: 
-  # https://github.com/ral-facilities/scigateway/issues/1025
-  && yarn install
+RUN yarn workspaces focus --production
 
 COPY . .
 
