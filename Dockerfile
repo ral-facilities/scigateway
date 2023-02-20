@@ -4,7 +4,8 @@ FROM node:16.14-alpine3.15 as build
 
 WORKDIR /scigateway
 
-COPY package.json tsconfig.json yarn.lock ./
+COPY package.json tsconfig.json yarn.lock .yarnrc.yml ./
+COPY .yarn /scigateway/.yarn/
 
 # TODO - Use Yarn 2 when project is upgraded
 RUN yarn set version 1.22 \
