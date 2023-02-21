@@ -1,33 +1,28 @@
 import React from 'react';
 
 import CookieConsent, {
-  CookieConsentWithoutStyles,
+  UnconnectedCookieConsent,
   CombinedCookieConsentProps,
 } from './cookieConsent.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
+import { shallow, mount } from 'enzyme';
 
 describe('Cookie consent component', () => {
-  let shallow;
-  let mount;
   let mockStore;
   let state: StateType;
   let props: CombinedCookieConsentProps;
 
   beforeEach(() => {
-    shallow = createShallow({});
-    mount = createMount();
-
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -46,32 +41,26 @@ describe('Cookie consent component', () => {
       loading: state.scigateway.siteLoading,
       initialiseAnalytics: jest.fn(),
       navigateToCookies: jest.fn(),
-      classes: {
-        root: 'root-class',
-        button: 'button-class',
-      },
     };
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   const theme = buildTheme(false);
 
   it('should render correctly', () => {
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should navigate to cookie page on user clicking manage preferences', () => {
     const testStore = mockStore(state);
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <CookieConsent />
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <CookieConsent />
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').first().simulate('click');
@@ -84,11 +73,13 @@ describe('Cookie consent component', () => {
     Cookies.set = jest.fn();
     const testStore = mockStore(state);
     const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <CookieConsent />
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <CookieConsent />
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     wrapper.find('button').last().simulate('click');
@@ -113,11 +104,13 @@ describe('Cookie consent component', () => {
 
     const testStore = mockStore(state);
     mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <CookieConsent />
-        </Provider>
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>
+            <CookieConsent />
+          </Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
 
     expect(testStore.getActions().length).toEqual(1);
@@ -149,7 +142,7 @@ describe('Cookie consent component', () => {
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null
       );
 
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
@@ -157,7 +150,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if site is loading', () => {
     props.loading = false;
 
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });
@@ -165,7 +158,7 @@ describe('Cookie consent component', () => {
   it('should set open to false if on /cookies page', () => {
     props.location = createLocation('/cookies');
 
-    const wrapper = shallow(<CookieConsentWithoutStyles {...props} />);
+    const wrapper = shallow(<UnconnectedCookieConsent {...props} />);
 
     expect(wrapper.prop('open')).toBeFalsy();
   });

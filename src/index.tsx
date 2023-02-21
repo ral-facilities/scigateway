@@ -7,4 +7,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'typeface-roboto';
 
-ReactDOM.render(<App />, document.getElementById('scigateway'));
+ReactDOM.render(
+  <App useSuspense={false} />,
+  document.getElementById('scigateway')
+);

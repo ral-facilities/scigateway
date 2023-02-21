@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
   Paper,
   TextareaAutosize,
   FormControlLabel,
   Checkbox,
   Button,
-} from '@material-ui/core';
+  styled,
+} from '@mui/material';
 import {
   MaintenanceState,
   ScheduledMaintenanceState,
@@ -27,30 +23,28 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    paper: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      padding: theme.spacing(2),
-      [theme.breakpoints.up(800 + theme.spacing(8))]: {
-        width: 800,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
-    },
-    textArea: {
-      backgroundColor: 'inherit',
-      color: theme.palette.text.primary,
-      font: 'inherit',
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      minWidth: '40%',
-      maxWidth: '100%',
-    },
-  });
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  padding: theme.spacing(2),
+  [theme.breakpoints.up(800 + parseInt(theme.spacing(8).replace('px', '')))]: {
+    width: 800,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+}));
+
+const StyledTextArea = styled(TextareaAutosize)(({ theme }) => ({
+  backgroundColor: 'inherit',
+  color: theme.palette.text.primary,
+  font: 'inherit',
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+  minWidth: '40%',
+  maxWidth: '100%',
+}));
 
 export interface MaintenancePageProps {
   scheduledMaintenance: ScheduledMaintenanceState;
@@ -65,8 +59,7 @@ export interface MaintenancePageDispatchProps {
 }
 
 export type CombinedMaintenancePageProps = MaintenancePageProps &
-  MaintenancePageDispatchProps &
-  WithStyles<typeof styles>;
+  MaintenancePageDispatchProps;
 
 export const MaintenancePage = (
   props: CombinedMaintenancePageProps
@@ -91,18 +84,18 @@ export const MaintenancePage = (
   React.useEffect(() => {
     setTempMaintenance(maintenance);
   }, [maintenance]);
+
   const [t] = useTranslation();
 
   return (
     <div id="maintenance-page">
-      <Paper className={props.classes.paper}>
+      <StyledPaper>
         <Typography variant="h4">
           {t('admin.scheduled-maintenance-title')}
         </Typography>
-        <TextareaAutosize
-          className={props.classes.textArea}
+        <StyledTextArea
           aria-label={t('admin.scheduled-maintenance-message-arialabel')}
-          rows={7}
+          minRows={7}
           placeholder={t('admin.message-placeholder')}
           value={tempScheduledMaintenance.message}
           onChange={(e) =>
@@ -114,7 +107,7 @@ export const MaintenancePage = (
         />
         <div style={{ display: 'row' }}>
           <FormControlLabel
-            style={{ float: 'left' }}
+            sx={{ float: 'left' }}
             value={tempScheduledMaintenance.show}
             control={
               <Checkbox
@@ -133,29 +126,28 @@ export const MaintenancePage = (
                 color="secondary"
               />
             }
-            label={t('admin.display-checkbox')}
+            label={t('admin.display-checkbox') as string}
             labelPlacement="end"
           />
           <Button
-            style={{ float: 'right' }}
+            sx={{ float: 'right' }}
             variant="contained"
             color="primary"
             onClick={() =>
               setScheduledMaintenanceState(tempScheduledMaintenance)
             }
           >
-            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+            <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
               {t('admin.save-button')}
             </Typography>
           </Button>
         </div>
-      </Paper>
-      <Paper className={props.classes.paper}>
+      </StyledPaper>
+      <StyledPaper>
         <Typography variant="h4">{t('admin.maintenance-title')}</Typography>
-        <TextareaAutosize
-          className={props.classes.textArea}
+        <StyledTextArea
           aria-label={t('admin.maintenance-message-arialabel')}
-          rows={7}
+          minRows={7}
           placeholder={t('admin.message-placeholder')}
           value={tempMaintenance.message}
           onChange={(e) =>
@@ -167,7 +159,7 @@ export const MaintenancePage = (
         />
         <div style={{ display: 'row' }}>
           <FormControlLabel
-            style={{ float: 'left' }}
+            sx={{ float: 'left' }}
             value={tempMaintenance.show}
             control={
               <Checkbox
@@ -184,21 +176,21 @@ export const MaintenancePage = (
                 color="secondary"
               />
             }
-            label={t('admin.display-checkbox')}
+            label={t('admin.display-checkbox') as string}
             labelPlacement="end"
           />
           <Button
-            style={{ float: 'right' }}
+            sx={{ float: 'right' }}
             variant="contained"
             color="primary"
             onClick={() => setMaintenanceState(tempMaintenance)}
           >
-            <Typography color="inherit" noWrap style={{ marginTop: 3 }}>
+            <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
               {t('admin.save-button')}
             </Typography>
           </Button>
         </div>
-      </Paper>
+      </StyledPaper>
     </div>
   );
 };
@@ -216,9 +208,5 @@ const mapDispatchToProps = (
   setMaintenanceState: (maintenanceState) =>
     dispatch(setMaintenanceState(maintenanceState)),
 });
-export const MaintenancePageWithStyles = withStyles(styles)(MaintenancePage);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MaintenancePageWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(MaintenancePage);
