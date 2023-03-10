@@ -1,6 +1,6 @@
 import mockAxios from 'axios';
 import JWTAuthProvider from './jwtAuthProvider';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 describe('jwt auth provider', () => {
   let jwtAuthProvider: JWTAuthProvider;
