@@ -8,7 +8,7 @@ import configureStore, {
   MockStoreEnhanced,
 } from 'redux-mock-store';
 import log from 'loglevel';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { createLocation } from 'history';
 import {
   InvalidateTokenType,

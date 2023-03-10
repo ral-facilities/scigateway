@@ -20,7 +20,7 @@ import {
   sendThemeOptions,
   autoLoginAuthorised,
 } from '../actions/scigateway.actions';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
 import { push } from 'connected-react-router';
@@ -32,7 +32,10 @@ const trackPage = (page: string): void => {
   ReactGA.set({
     page,
   });
-  ReactGA.pageview(page);
+  ReactGA.send({
+    hitType: 'pageview',
+    page: page,
+  });
 };
 
 let currentPage = '';

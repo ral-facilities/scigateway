@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Cookies from 'js-cookie';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { Action } from 'redux';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { connect } from 'react-redux';
@@ -53,7 +53,6 @@ export const CookieConsent = (
       consentCookie.analytics
     ) {
       ReactGA.initialize(props.analytics.id, {
-        titleCase: false,
         gaOptions: {
           cookieExpires: 60 * 60 * 24 * 365, // one year
           cookieFlags: 'Samesite=None;Secure',
@@ -65,8 +64,10 @@ export const CookieConsent = (
         page,
       });
       // need to send initial pageview
-      ReactGA.pageview(page);
-      props.initialiseAnalytics();
+      ReactGA.send({
+        hitType: 'pageview',
+        page: page,
+      });
     }
 
     if (
