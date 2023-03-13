@@ -9,7 +9,7 @@ import LoginPage, {
   UnconnectedLoginPage,
 } from './loginPage.component';
 import { buildTheme } from '../theming';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { createLocation } from 'history';
 import axios from 'axios';
@@ -25,7 +25,6 @@ import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
-import { mount } from 'enzyme';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -126,8 +125,6 @@ describe('Login page component', () => {
   }): JSX.Element {
     return <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>;
   }
-
-  const theme = buildTheme(false);
 
   it('credential component renders correctly', () => {
     render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
@@ -443,14 +440,7 @@ describe('Login page component', () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
 
-    // TODO: switch to shallow when enzyme supports hooks/useEffect
-    mount(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <UnconnectedLoginPage {...props} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    );
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
     expect(mockLoginfn.mock.calls[0]).toEqual([
