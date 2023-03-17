@@ -4,11 +4,17 @@ FROM node:16.14-alpine3.15 as build
 
 WORKDIR /scigateway
 
+# Enable dependency caching and share the cache between projects
+ENV YARN_ENABLE_GLOBAL_CACHE=true
+ENV YARN_GLOBAL_FOLDER=/root/.cache/.yarn
+
 COPY package.json tsconfig.json yarn.lock .yarnrc.yml ./
 COPY .yarn /scigateway/.yarn/
 COPY public /scigateway/public/
 
-RUN yarn workspaces focus --production
+RUN --mount=type=cache,target=/root/.cache/.yarn/cache \
+    set -eux; \
+    yarn workspaces focus --production;
 
 COPY . .
 
