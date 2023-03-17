@@ -79,16 +79,6 @@ describe('Tour component', () => {
     };
     testStore = configureStore()(state);
 
-    props = {
-      showHelp: state.scigateway.showHelp,
-      helpSteps: state.scigateway.helpSteps,
-      drawerOpen: state.scigateway.drawerOpen,
-      loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
-
-      dismissHelp: jest.fn(),
-      toggleDrawer: jest.fn(),
-    };
-
     holder = document.createElement('div');
     document.body.appendChild(holder);
   });
