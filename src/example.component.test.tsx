@@ -1,9 +1,9 @@
 import React from 'react';
 import ExampleComponent from './example.component';
-import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from './state/reducers/scigateway.reducer';
 import { StateType } from './state/state.types';
+import { render } from '@testing-library/react';
 
 describe('Example component', () => {
   let mockStore;
@@ -20,9 +20,10 @@ describe('Example component', () => {
     // update the notification
     state.scigateway.notifications = ['test notification'];
 
-    const wrapper = shallow(<ExampleComponent store={mockStore(state)} />)
-      .dive()
-      .dive();
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <ExampleComponent store={mockStore(state)} />
+    );
+
+    expect(asFragment()).toMatchSnapshot();
   });
 });

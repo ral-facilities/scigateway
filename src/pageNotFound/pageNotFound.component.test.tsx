@@ -32,7 +32,6 @@ describe('Page Not found component', () => {
   }
 
   beforeEach(() => {
-    mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };

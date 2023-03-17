@@ -33,15 +33,6 @@ describe('Cookie consent component', () => {
     };
 
     store = mockStore(state);
-
-    props = {
-      analytics: state.scigateway.analytics,
-      res: undefined,
-      location: state.router.location,
-      loading: state.scigateway.siteLoading,
-      initialiseAnalytics: jest.fn(),
-      navigateToCookies: jest.fn(),
-    };
   });
 
   const theme = buildTheme(false);
