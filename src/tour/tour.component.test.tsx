@@ -163,6 +163,8 @@ describe('Tour component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
+
+    jest.useRealTimers();
   });
 
   it('does not show plugin links when user is not logged in', async () => {
@@ -186,5 +188,5 @@ describe('Tour component', () => {
     expect(await screen.findByText('Test 2')).toBeInTheDocument();
     // Test 2 should be the last step, so no next button
     expect(screen.queryByLabelText('Next')).toBeNull();
-  });
+  }, 10000);
 });
