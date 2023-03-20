@@ -17,6 +17,7 @@ RUN --mount=type=cache,target=/root/.cache/.yarn/cache \
     yarn workspaces focus --production;
 
 COPY . .
+COPY docker/settings.json public/settings.json
 
 RUN yarn build
 
@@ -32,7 +33,19 @@ RUN set -eux; \
     setcap 'cap_net_bind_service=+ep' /usr/local/apache2/bin/httpd; \
     \
     # Change ownership of logs directory \
-    chown www-data:www-data /usr/local/apache2/logs;
+    chown www-data:www-data /usr/local/apache2/logs; \
+    \
+    # Change ownership of settings file \
+    chown www-data:www-data /usr/local/apache2/htdocs/settings.json;
 
 # Switch to non-root user defined in httpd image
 USER www-data
+
+ENV AUTH_PROVIDER="icat"
+ENV AUTH_URL="/api"
+
+COPY docker/docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["httpd-foreground"]
+EXPOSE 80
