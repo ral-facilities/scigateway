@@ -1,19 +1,21 @@
-# Multipart build dockerfile to build and serve scigateway
+# Dockerfile to build and serve scigateway
 
-FROM node:16.14-alpine3.15 as build
+# Build stage
+FROM node:16.14-alpine3.15 as builder
 
-WORKDIR /scigateway
+WORKDIR /scigateway-build
 
 # Enable dependency caching and share the cache between projects
 ENV YARN_ENABLE_GLOBAL_CACHE=true
 ENV YARN_GLOBAL_FOLDER=/root/.cache/.yarn
 
 COPY package.json tsconfig.json yarn.lock .yarnrc.yml ./
-COPY .yarn /scigateway/.yarn/
-COPY public /scigateway/public/
+COPY .yarn .yarn
+COPY public public
 
 RUN --mount=type=cache,target=/root/.cache/.yarn/cache \
     set -eux; \
+    \
     yarn workspaces focus --production;
 
 COPY . .
@@ -21,12 +23,16 @@ COPY docker/settings.json public/settings.json
 
 RUN yarn build
 
-# Put the output of the build into an apache server
+# Run stage
 FROM httpd:2.4-alpine3.15
+
 WORKDIR /usr/local/apache2/htdocs
-COPY --from=build /scigateway/build/. .
+
+# Put the output of the build into an apache server
+COPY --from=builder /scigateway-build/build/. .
 
 RUN set -eux; \
+    \
     # Privileged ports are permitted to root only by default. \
     # setcap to bind to privileged ports (80) as non-root. \
     apk --no-cache add libcap; \
