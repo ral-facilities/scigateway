@@ -22,7 +22,8 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-export const flushPromises = (): Promise<void> => new Promise(process.nextTick);
+export const flushPromises = (): Promise<void> =>
+  new Promise(jest.requireActual('timers').setImmediate);
 
 // globally mock as we never want to actually call single-spa funcs in unit tests
 jest.mock('single-spa', () => ({
