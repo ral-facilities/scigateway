@@ -1,14 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as singleSpa from 'single-spa';
 import App, { AppSansHoc } from './App';
 import { render, screen } from '@testing-library/react';
 
 describe('App', () => {
-  beforeEach(() => {
-    singleSpa.start();
-  });
-
   afterEach(() => {
     jest.useRealTimers();
   });

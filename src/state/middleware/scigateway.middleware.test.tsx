@@ -636,7 +636,7 @@ describe('scigateway middleware', () => {
       },
     });
 
-    (singleSpa.getAppStatus as jest.Mock).mockReturnValue('NOT_LOADED');
+    (singleSpa.getAppStatus as jest.Mock).mockReturnValue(singleSpa.NOT_LOADED);
 
     listenToPlugins(store.dispatch, getState);
 

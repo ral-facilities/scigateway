@@ -1,5 +1,4 @@
 import React from 'react';
-import * as singleSpa from 'single-spa';
 import LoginPage, {
   AnonLoginScreen,
   CombinedLoginProps,
@@ -25,7 +24,12 @@ import thunk from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
-import { render, screen, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('loglevel');
@@ -114,8 +118,6 @@ describe('Login page component', () => {
     };
 
     state.scigateway.authorisation = props.auth;
-
-    singleSpa.start();
   });
 
   function Wrapper({
@@ -222,7 +224,7 @@ describe('Login page component', () => {
     );
   });
 
-  it('login page ren-ders redirect component if redirect url present', () => {
+  it('login page renders redirect component if redirect url present', () => {
     props.auth.provider.redirectUrl = 'test redirect';
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
     expect(
@@ -277,6 +279,7 @@ describe('Login page component', () => {
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
     expect(screen.queryByRole('button', { name: /authenticator/i })).toBeNull();
   });
 
@@ -501,6 +504,8 @@ describe('Login page component', () => {
       </Provider>,
       { wrapper: Wrapper }
     );
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
     expect(testStore.getActions()[0]).toEqual(loadingAuthentication());
   });
