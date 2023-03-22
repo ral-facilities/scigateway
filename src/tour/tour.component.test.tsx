@@ -83,6 +83,10 @@ describe('Tour component', () => {
     document.body.appendChild(holder);
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('can navigate between tutorial steps', async () => {
     state.scigateway.showHelp = true;
     const user = userEvent.setup();
@@ -163,8 +167,6 @@ describe('Tour component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
-
-    jest.useRealTimers();
   });
 
   it('does not show plugin links when user is not logged in', async () => {
