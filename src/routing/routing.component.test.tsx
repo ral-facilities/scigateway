@@ -20,9 +20,6 @@ jest.mock(
 jest.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
 }));
-jest.mock('single-spa', () => ({
-  unloadApplication: jest.fn(),
-}));
 
 describe('Routing component', () => {
   let mockStore: MockStoreCreator;
@@ -282,5 +279,8 @@ describe('Routing component', () => {
     );
 
     expect(clearIntervalSpy).toHaveBeenCalledWith(expect.any(Number));
+
+    // restore clearInterval to avoid errors with it not being a function on unmount
+    clearIntervalSpy.mockRestore();
   });
 });
