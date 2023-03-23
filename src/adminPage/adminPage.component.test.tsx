@@ -1,5 +1,4 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { createLocation, createMemoryHistory, History } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
@@ -9,8 +8,10 @@ import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import thunk from 'redux-thunk';
-import { MemoryRouter, Router } from 'react-router';
+import { Router } from 'react-router';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Admin page component', () => {
   let mockStore;
@@ -30,27 +31,42 @@ describe('Admin page component', () => {
 
   const theme = buildTheme(false);
 
-  it('should render maintenance page correctly', () => {
-    state.scigateway.adminPageDefaultTab = 'download';
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
     const testStore = mockStore(state);
-
-    const wrapper = mount(
+    return (
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <MemoryRouter
-              initialEntries={[
-                { key: 'testKey', pathname: '/admin/maintenance' },
-              ]}
-            >
-              <AdminPage />
-            </MemoryRouter>
+            <Router history={history}>{children}</Router>
           </ThemeProvider>
         </StyledEngineProvider>
       </Provider>
     );
+  }
 
-    expect(wrapper.find('#maintenance-page')).toBeTruthy();
+  it('should render maintenance page correctly', () => {
+    history.replace('/admin/maintenance');
+    state.scigateway.adminPageDefaultTab = 'download';
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    expect(
+      screen.getByRole('heading', { name: 'admin.title' })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('tablist'));
+    expect(
+      screen.getByRole('tab', { name: 'Maintenance' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('tab', { name: 'Admin Download' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('tabpanel', { name: 'Maintenance' })
+    ).toBeInTheDocument();
   });
 
   it('should render admin plugins correctly', () => {
@@ -64,46 +80,52 @@ describe('Admin page component', () => {
         admin: true,
       },
     ];
-
     state.scigateway.adminPageDefaultTab = 'maintenance';
-    const testStore = mockStore(state);
+    history.replace('/admin/download');
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <MemoryRouter
-              initialEntries={[{ key: 'testKey', pathname: '/admin/download' }]}
-            >
-              <AdminPage />
-            </MemoryRouter>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </Provider>
-    );
-    expect(wrapper.find('#datagateway-download')).toBeTruthy();
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    expect(
+      screen.getByRole('heading', { name: 'admin.title' })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('tablist'));
+    expect(
+      screen.getByRole('tab', { name: 'Maintenance' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('tab', { name: 'Admin Download' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('tabpanel', { name: 'Admin Download' })
+    ).toBeInTheDocument();
   });
 
-  it('redirects to the tab when tab is clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <Router history={history}>
-              <AdminPage />
-            </Router>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </Provider>
-    );
+  it('redirects to the tab when tab is clicked', async () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+    history.replace('/admin/maintenance');
+    const user = userEvent.setup();
 
-    wrapper.find('#download-tab').last().simulate('click', { button: 0 });
+    render(<AdminPage />, { wrapper: Wrapper });
 
+    await user.click(screen.getByRole('tab', { name: 'Admin Download' }));
     expect(history.location.pathname).toEqual('/admin/download');
+    expect(
+      screen.getByRole('tabpanel', { name: 'Admin Download' })
+    ).toBeInTheDocument();
 
-    wrapper.find('#maintenance-tab').last().simulate('click', { button: 0 });
-
+    await user.click(screen.getByRole('tab', { name: 'Maintenance' }));
     expect(history.location.pathname).toEqual('/admin/maintenance');
+    expect(
+      await screen.findByRole('tabpanel', { name: 'Maintenance' })
+    ).toBeInTheDocument();
   });
 });

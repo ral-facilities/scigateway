@@ -34,8 +34,6 @@ const middleware = [
 if (process.env.NODE_ENV === `development`) {
   const logger = createLogger({ collapsed: true });
   middleware.push(logger);
-  // const {whyDidYouUpdate} = require('why-did-you-update');
-  // whyDidYouUpdate(React);
   log.setDefaultLevel(log.levels.DEBUG);
 } else {
   log.setDefaultLevel(log.levels.ERROR);

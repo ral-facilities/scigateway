@@ -11,20 +11,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import {
-  verifyUsernameAndPassword,
   resetAuthState,
+  verifyUsernameAndPassword,
 } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
-import { StateType, AuthState, ICATAuthenticator } from '../state/state.types';
+import { AuthState, ICATAuthenticator, StateType } from '../state/state.types';
 import { Location } from 'history';
 import {
-  Select,
+  Box,
   FormControl,
   InputLabel,
-  MenuItem,
   Link,
+  MenuItem,
+  Select,
   styled,
-  Box,
 } from '@mui/material';
 import axios from 'axios';
 import log from 'loglevel';
@@ -243,6 +243,7 @@ export const AnonLoginScreen = (
 
   return (
     <RootDiv
+      data-testid="anon-login-screen"
       onKeyPress={(e) => {
         if (e.key === 'Enter') {
           props.verifyUsernameAndPassword('', '', props.mnemonic);
@@ -287,7 +288,11 @@ export const LoginSelector = (
         fontSize: '14px',
       }}
     >
-      <InputLabel htmlFor="mnemonic-select" color="secondary">
+      <InputLabel
+        id="mnemonic-select"
+        htmlFor="select-mnemonic"
+        color="secondary"
+      >
         Authenticator
       </InputLabel>
       <Select

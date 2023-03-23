@@ -1,31 +1,31 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { UnconnectedContactUs, ContactUsProps } from './contactUs.component';
+import { UnconnectedContactUs } from './contactUs.component';
+import { render, screen } from '@testing-library/react';
+import { ThemeProvider } from '@mui/material';
+import { buildTheme } from '../theming';
 
 describe('Contact us component', () => {
-  let props: ContactUsProps;
+  const testTheme = buildTheme(false);
 
   it('renders iframe correctly if form url set', () => {
-    props = {
-      contactUsAccessibilityFormUrl: 'test-url',
-    };
+    render(
+      <ThemeProvider theme={testTheme}>
+        <UnconnectedContactUs contactUsAccessibilityFormUrl="test-url" />
+      </ThemeProvider>
+    );
 
-    const wrapper = shallow(<UnconnectedContactUs {...props} />);
-
-    expect(wrapper.find('#contact-us-form')).toBeTruthy();
+    expect(screen.getByTestId('contact-us-form')).toBeInTheDocument();
   });
 
   it('renders mailto link correctly if form url not set', () => {
-    props = {
-      contactUsAccessibilityFormUrl: '',
-    };
-    let wrapper = shallow(<UnconnectedContactUs {...props} />);
-    expect(wrapper.find('#contact-info')).toBeTruthy();
+    render(
+      <ThemeProvider theme={testTheme}>
+        <UnconnectedContactUs contactUsAccessibilityFormUrl="" />
+      </ThemeProvider>
+    );
 
-    props = {
-      contactUsAccessibilityFormUrl: undefined,
-    };
-    wrapper = shallow(<UnconnectedContactUs {...props} />);
-    expect(wrapper.find('#contact-info')).toBeTruthy();
+    expect(
+      screen.getByRole('link', { name: 'accessibility-page.contact-info' })
+    ).toHaveAttribute('href', 'mailto:accessibility-page.contact-info');
   });
 });

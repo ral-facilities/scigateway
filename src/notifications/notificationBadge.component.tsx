@@ -111,6 +111,7 @@ const NotificationBadge = (
         size="large"
       >
         <Badge
+          aria-label="Notification count"
           badgeContent={
             props.notifications.length > 0 ? props.notifications.length : null
           }

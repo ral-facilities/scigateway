@@ -30,7 +30,6 @@ import thunk from 'redux-thunk';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { connectRouter } from 'connected-react-router';
-import * as singleSpa from 'single-spa';
 
 describe('AuthorisedRoute component', () => {
   let state: StateType;
@@ -47,8 +46,6 @@ describe('AuthorisedRoute component', () => {
         location: createLocation('/'),
       },
     };
-
-    singleSpa.start();
   });
 
   const renderComponent = ({
