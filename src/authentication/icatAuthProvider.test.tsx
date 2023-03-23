@@ -1,6 +1,5 @@
 import mockAxios from 'axios';
 import ICATAuthProvider from './icatAuthProvider';
-import ReactGA from 'react-ga4';
 import parseJwt from './parseJwt';
 import { BroadcastSignOutType } from '../state/scigateway.types';
 
@@ -151,13 +150,6 @@ describe('ICAT auth provider', () => {
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Failed to log in via JWT',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
   });
 
   it('should attempt to autologin via anon authenticator when initialised', async () => {

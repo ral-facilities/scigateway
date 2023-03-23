@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
-import ReactGA from 'react-ga4';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
 import { shallow, mount } from 'enzyme';
