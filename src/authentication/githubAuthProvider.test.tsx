@@ -15,6 +15,8 @@ describe('github auth provider', () => {
       );
     window.localStorage.__proto__.removeItem = jest.fn();
     window.localStorage.__proto__.setItem = jest.fn();
+
+    authProvider = new GithubAuthProvider('http://localhost:8000');
   });
 
   it('should load the token when built', () => {
