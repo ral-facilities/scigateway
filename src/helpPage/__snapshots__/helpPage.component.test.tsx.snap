@@ -1,84 +1,166 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Help page component should back to top elements next to each header 1`] = `
-<Styled(div)>
-  <ForwardRef(Typography)
-    sx={
-      Object {
-        "color": "secondary.main",
-        "fontWeight": "bold",
-      }
-    }
-    variant="h3"
+<DocumentFragment>
+  <div
+    class="css-18rbhl5"
   >
-    title
-  </ForwardRef(Typography)>
-  <TableOfContents
-    res={
-      Object {
-        "contents": "<h2 id='test nested toc item 1'>Nested TOC item</h2>Lorem ipsum dolor sit amet<h3 id='test nested toc item 2'>Nested TOC item 2</h3>consectetur adipiscing elit<br><h2 id='test nested toc item 3'>Nested TOC item 3</h2>Proin suscipit sed nisi ac consectetur",
-      }
-    }
-  />
-  <Styled(div)>
-    <Styled(ForwardRef(Typography))
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<h2 id=\\"test nested toc item 1\\">top-of-page-iconNested TOC item</h2>Lorem ipsum dolor sit amet<h3 id=\\"test nested toc item 2\\">top-of-page-iconNested TOC item 2</h3>consectetur adipiscing elit<br><h2 id=\\"test nested toc item 3\\">top-of-page-iconNested TOC item 3</h2>Proin suscipit sed nisi ac consectetur",
-        }
-      }
-      variant="body1"
-    />
-  </Styled(div)>
-</Styled(div)>
+    <h3
+      class="MuiTypography-root MuiTypography-h3 css-nxx1w0-MuiTypography-root"
+    >
+      title
+    </h3>
+    <nav
+      class="css-1w64egc"
+    >
+      <h5
+        class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+      >
+        table-of-contents
+      </h5>
+      <ul
+        style="padding: 0px; margin: 0px;"
+      >
+        <li
+          style="list-style: none"
+        >
+          <a
+            href="#test nested toc item 1"
+          >
+            Nested TOC item
+          </a>
+        </li>
+        <ul>
+          <li
+            style="list-style: none"
+          >
+            <a
+              href="#test nested toc item 2"
+            >
+              Nested TOC item 2
+            </a>
+          </li>
+        </ul>
+        <li
+          style="list-style: none"
+        >
+          <a
+            href="#test nested toc item 3"
+          >
+            Nested TOC item 3
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-q3kg2x-MuiTypography-root"
+      />
+      <h2
+        id="test nested toc item 1"
+      >
+        top-of-page-iconNested TOC item
+      </h2>
+      Lorem ipsum dolor sit amet
+      <h3
+        id="test nested toc item 2"
+      >
+        top-of-page-iconNested TOC item 2
+      </h3>
+      consectetur adipiscing elit
+      <br />
+      <h2
+        id="test nested toc item 3"
+      >
+        top-of-page-iconNested TOC item 3
+      </h2>
+      Proin suscipit sed nisi ac consectetur
+      <p />
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Help page component should render TOC correctly with nested headers 1`] = `
-<Styled(nav)>
-  <ForwardRef(Typography)
-    variant="h5"
+<DocumentFragment>
+  <nav
+    class="css-1krrpur"
   >
-    table-of-contents
-  </ForwardRef(Typography)>
-  <ul
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<li style='list-style: none'><a href='#test nested toc item 1'>Nested TOC item</a></li><ul><li style='list-style: none'><a href='#test nested toc item 2'>Nested TOC item 2</a></li></ul><li style='list-style: none'><a href='#test nested toc item 3'>Nested TOC item 3</a></li>",
-      }
-    }
-    style={
-      Object {
-        "margin": "0px",
-        "padding": "0px",
-      }
-    }
-  />
-</Styled(nav)>
+    <h5
+      class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+    >
+      table-of-contents
+    </h5>
+    <ul
+      style="padding: 0px; margin: 0px;"
+    >
+      <li
+        style="list-style: none"
+      >
+        <a
+          href="#test nested toc item 1"
+        >
+          Nested TOC item
+        </a>
+      </li>
+      <ul>
+        <li
+          style="list-style: none"
+        >
+          <a
+            href="#test nested toc item 2"
+          >
+            Nested TOC item 2
+          </a>
+        </li>
+      </ul>
+      <li
+        style="list-style: none"
+      >
+        <a
+          href="#test nested toc item 3"
+        >
+          Nested TOC item 3
+        </a>
+      </li>
+    </ul>
+  </nav>
+</DocumentFragment>
 `;
 
 exports[`Help page component should render correctly 1`] = `
-<Styled(div)>
-  <ForwardRef(Typography)
-    sx={
-      Object {
-        "color": "secondary.main",
-        "fontWeight": "bold",
-      }
-    }
-    variant="h3"
+<DocumentFragment>
+  <div
+    class="css-18rbhl5"
   >
-    title
-  </ForwardRef(Typography)>
-  <TableOfContents />
-  <Styled(div)>
-    <Styled(ForwardRef(Typography))
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "contents",
-        }
-      }
-      variant="body1"
-    />
-  </Styled(div)>
-</Styled(div)>
+    <h3
+      class="MuiTypography-root MuiTypography-h3 css-nxx1w0-MuiTypography-root"
+    >
+      title
+    </h3>
+    <nav
+      class="css-1w64egc"
+    >
+      <h5
+        class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+      >
+        table-of-contents
+      </h5>
+      <ul
+        style="padding: 0px; margin: 0px;"
+      />
+    </nav>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-q3kg2x-MuiTypography-root"
+      >
+        contents
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
 `;

@@ -2,12 +2,12 @@ import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
 import type { DeepPartial } from 'redux';
 import * as React from 'react';
-import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router';
 import { createLocation } from 'history';
 import useAnchor from './useAnchor';
 import { StateType } from '../state/state.types';
+import { render } from '@testing-library/react';
 
 /**
  * A simple React component that uses useAnchor for testing purposes.
@@ -63,7 +63,7 @@ describe('useAnchor', () => {
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLDivElement);
 
-    mount(
+    render(
       <Provider store={mockStore}>
         <TestComponent />
       </Provider>
@@ -96,7 +96,7 @@ describe('useAnchor', () => {
     // another element with ID "other", which is obv != fragment
     const otherElem = document.getElementById('other');
 
-    mount(
+    render(
       <Provider store={mockStore}>
         <TestComponent />
       </Provider>
@@ -126,7 +126,7 @@ describe('useAnchor', () => {
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLDivElement);
 
-    mount(
+    render(
       <Provider store={mockStore}>
         <TestComponent />
       </Provider>

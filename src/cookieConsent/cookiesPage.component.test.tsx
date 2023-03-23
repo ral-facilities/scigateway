@@ -1,18 +1,16 @@
 import React from 'react';
-import CookiesPage, {
-  UnconnectedCookiesPage,
-  CombinedCookiesPageProps,
-} from './cookiesPage.component';
+import CookiesPage from './cookiesPage.component';
 import { StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
+import configureStore, { MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { createLocation } from 'history';
 import { push } from 'connected-react-router';
-import { shallow, mount } from 'enzyme';
 import { TOptionsBase } from 'i18next';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -26,7 +24,7 @@ jest.mock('react-i18next', () => ({
 describe('Cookies page component', () => {
   let mockStore;
   let state: StateType;
-  let props: CombinedCookiesPageProps;
+  let store: MockStore;
 
   beforeEach(() => {
     mockStore = configureStore();
@@ -34,11 +32,7 @@ describe('Cookies page component', () => {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: { location: createLocation('/cookies') },
     };
-
-    props = {
-      res: undefined,
-      navigateToHome: jest.fn(),
-    };
+    store = mockStore(state);
 
     Cookies.set = jest.fn();
     Cookies.remove = jest.fn();
@@ -46,27 +40,38 @@ describe('Cookies page component', () => {
 
   const theme = buildTheme(false);
 
-  it('should render correctly', () => {
-    const wrapper = shallow(<UnconnectedCookiesPage {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should save preferences when save preferences button clicked', () => {
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CookiesPage store={testStore} />
-        </ThemeProvider>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </StyledEngineProvider>
     );
+  }
 
-    wrapper
-      .find('input[aria-labelledby="analytics-cookies-title"]')
-      .simulate('change', { target: { checked: true } });
+  it('should render correctly', () => {
+    const { asFragment } = render(<CookiesPage store={store} />, {
+      wrapper: Wrapper,
+    });
+    expect(asFragment()).toMatchSnapshot();
+  });
 
-    wrapper.find('button').simulate('click');
+  it('should save preferences when save preferences button clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<CookiesPage store={store} />, {
+      wrapper: Wrapper,
+    });
+
+    await user.click(
+      screen.getByRole('checkbox', { name: 'analytics-cookies-title' })
+    );
+    await user.click(
+      screen.getByRole('button', { name: 'save-preferences-button' })
+    );
 
     expect(Cookies.set).toHaveBeenCalled();
     const mockCookies = (Cookies.set as jest.Mock).mock;
@@ -74,37 +79,31 @@ describe('Cookies page component', () => {
     expect(callArguments[0]).toEqual('cookie-consent');
     expect(callArguments[1]).toEqual(JSON.stringify({ analytics: true }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/'));
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual(push('/'));
   });
 
-  it('should remove cookies when user revokes consent', () => {
-    const testStore = mockStore(state);
-
+  it('should remove cookies when user revokes consent', async () => {
+    const user = userEvent.setup();
     Cookies.get = jest
       .fn()
       .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null
       );
 
-    const wrapper = mount(
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CookiesPage store={testStore} />
-        </ThemeProvider>
-      </StyledEngineProvider>
+    render(<CookiesPage store={store} />, {
+      wrapper: Wrapper,
+    });
+
+    const analyticsSwitch = screen.getByRole('checkbox', {
+      name: 'analytics-cookies-title',
+    });
+    expect(analyticsSwitch).toBeChecked();
+
+    await user.click(analyticsSwitch);
+    await user.click(
+      screen.getByRole('button', { name: 'save-preferences-button' })
     );
-
-    expect(
-      wrapper
-        .find('input[aria-labelledby="analytics-cookies-title"]')
-        .prop('checked')
-    ).toBeTruthy();
-
-    wrapper
-      .find('input[aria-labelledby="analytics-cookies-title"]')
-      .simulate('change', { target: { checked: false } });
-    wrapper.find('button').simulate('click');
 
     expect(Cookies.set).toHaveBeenCalled();
     const mockCookiesSet = (Cookies.set as jest.Mock).mock;
@@ -117,7 +116,7 @@ describe('Cookies page component', () => {
     expect(mockCookiesRemove.calls[0][0]).toEqual('_ga');
     expect(mockCookiesRemove.calls[1][0]).toEqual('_gid');
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/'));
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual(push('/'));
   });
 });

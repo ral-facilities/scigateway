@@ -41,7 +41,7 @@ const ContactUs = (props: ContactUsProps): React.ReactElement => {
       {/* If we have a contact us form link defined in the settings, display the form */}
       {props.contactUsAccessibilityFormUrl &&
       props.contactUsAccessibilityFormUrl !== '' ? (
-        <div id="contact-us-form">
+        <div data-testid="contact-us-form">
           <iframe
             title="Contact Us"
             width="740px"

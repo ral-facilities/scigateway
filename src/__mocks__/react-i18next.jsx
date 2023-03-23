@@ -36,8 +36,9 @@ const renderNodes = (reactNodes) => {
   });
 };
 
-const useMock = [(k) => k, {}];
-useMock.t = (k) => k;
+const t = (k, opt) => (opt && 'returnObjects' in opt ? [`${k}0`, `${k}1`] : k);
+const useMock = [t, {}];
+useMock.t = t;
 useMock.i18n = {};
 
 const applyTranslation = (Component) => {

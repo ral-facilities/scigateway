@@ -1,12 +1,13 @@
 import React from 'react';
 import MainAppBarComponent from './mainAppBar.component';
-import { createLocation } from 'history';
+import { createLocation, createMemoryHistory, History } from 'history';
 import { StateType } from '../state/state.types';
 import { PluginConfig } from '../state/scigateway.types';
-import configureStore from 'redux-mock-store';
+import configureStore, { MockStore } from 'redux-mock-store';
 import { push } from 'connected-react-router';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import {
+  loadDarkModePreference,
   loadHighContrastModePreference,
   toggleDrawer,
   toggleHelp,
@@ -14,237 +15,320 @@ import {
 import { Provider } from 'react-redux';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import { loadDarkModePreference } from '../state/actions/scigateway.actions';
-import { createMemoryHistory, History } from 'history';
-import { ReactWrapper, mount } from 'enzyme';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { Router } from 'react-router-dom';
-import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Main app bar component', () => {
-  let mockStore;
+  let testStore: MockStore;
   let state: StateType;
   let history: History;
 
-  const createWrapper = (testStore): ReactWrapper => {
-    return mount(
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={testStore}>
-            <Router history={history}>
-              <MainAppBarComponent />
-            </Router>
+            <Router history={history}>{children}</Router>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
     );
-  };
+  }
 
   beforeEach(() => {
     history = createMemoryHistory();
 
-    mockStore = configureStore();
     state = {
       scigateway: {
         ...initialState,
+        logo: 'logo_url',
         features: { ...initialState.features, showHelpPageButton: true },
       },
       router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
+
+    testStore = configureStore()(state);
   });
 
   const theme = buildTheme(false);
 
   it('app bar renders correctly', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-    expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    expect(screen.getByRole('button', { name: 'open-navigation-menu' }));
+
+    const titleButton = screen.getByRole('button', { name: 'home-page' });
+    expect(titleButton).toBeInTheDocument();
+    expect(within(titleButton).getByRole('img')).toHaveAttribute(
+      'src',
+      'logo_url'
+    );
+    expect(
+      screen.getByRole('button', { name: 'help-page' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'admin-page' })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'help' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'open-browser-settings' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Open notification menu' })
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('NotificationsIcon')).toBeInTheDocument();
   });
 
   it('does not render Help button when feature is false', () => {
     state.scigateway.features.showHelpPageButton = false;
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-    expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    expect(screen.queryByRole('button', { name: 'help-page' })).toBeNull();
   });
 
-  it('uses single plugin logo when feature is true', () => {
+  it('uses single plugin logo when feature is true', async () => {
+    state.scigateway.logo = undefined;
+    state.scigateway.siteLoading = false;
     state.scigateway.features.singlePluginLogo = true;
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-    expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
+    state.scigateway.plugins = [
+      {
+        order: 0,
+        section: 'plugin',
+        plugin: 'plugin',
+        link: '/plugin',
+        displayName: 'Plugin',
+        logoDarkMode: 'plugin_logo_dark',
+      },
+    ];
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await waitFor(() => {
+      expect(
+        within(screen.getByRole('button', { name: 'home-page' })).getByRole(
+          'img'
+        )
+      ).toHaveAttribute('src', 'plugin_logo_dark');
+    });
   });
 
-  it('app bar indented when drawer is open', () => {
+  it('shows close drawer button when drawer is open', () => {
     state.scigateway.drawerOpen = true;
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-    expect(wrapper.find('MainAppBar').props()).toMatchSnapshot();
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    expect(screen.getByRole('button', { name: 'close-navigation-menu' }));
   });
 
   it('sends toggleDrawer action when site has loaded', () => {
     state.scigateway.drawerOpen = false;
     state.scigateway.siteLoading = false;
-    const testStore = mockStore(state);
-    createWrapper(testStore);
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('sends toggleDrawer action when menu clicked (open drawer)', () => {
+  it('sends toggleDrawer action when menu clicked (open drawer)', async () => {
+    const user = userEvent.setup();
     state.scigateway.drawerOpen = true;
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
 
-    wrapper.find('button').first().simulate('click');
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
-  });
-
-  it('sends toggleDrawer action when menu clicked (close drawer)', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
-
-    wrapper.find('button').first().simulate('click');
+    await user.click(
+      screen.getByRole('button', { name: 'close-navigation-menu' })
+    );
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('redirects to base url when title clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('sends toggleDrawer action when menu clicked (close drawer)', async () => {
+    const user = userEvent.setup();
 
-    wrapper.find('button[aria-label="home-page"]').first().simulate('click');
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await user.click(
+      screen.getByRole('button', { name: 'open-navigation-menu' })
+    );
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
+  });
+
+  it('redirects to base url when title clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await user.click(screen.getByRole('button', { name: 'home-page' }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/'));
   });
 
-  it('redirects to Help page when Help button clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('redirects to Help page when Help button clicked', async () => {
+    const user = userEvent.setup();
 
-    wrapper.find('button[aria-label="help-page"]').first().simulate('click');
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await user.click(screen.getByRole('button', { name: 'help-page' }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/help'));
   });
 
-  it('redirects to Admin page when Admin button clicked (maintenance is default)', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('redirects to Admin page when Admin button clicked (maintenance is default)', async () => {
+    const user = userEvent.setup();
 
-    wrapper.find('button[aria-label="admin-page"]').first().simulate('click');
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await user.click(screen.getByRole('button', { name: 'admin-page' }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/admin/maintenance'));
   });
 
-  it('redirects to Admin page when Admin button clicked (download is default)', () => {
+  it('redirects to Admin page when Admin button clicked (download is default)', async () => {
     state.scigateway.adminPageDefaultTab = 'download';
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+    const user = userEvent.setup();
 
-    wrapper.find('button[aria-label="admin-page"]').first().simulate('click');
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await user.click(screen.getByRole('button', { name: 'admin-page' }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/admin/download'));
   });
 
-  it('sends toggleHelp action when help button is clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('sends toggleHelp action when help button is clicked', async () => {
+    const user = userEvent.setup();
 
-    wrapper.find('button[aria-label="help"]').first().simulate('click');
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    await user.click(await screen.findByRole('button', { name: 'help' }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleHelp());
   });
 
-  it('opens settings when button clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('opens settings when button clicked', async () => {
+    const user = userEvent.setup();
 
-    expect(wrapper.find('#settings').first().prop('open')).toBeFalsy();
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
-    wrapper
-      .find('button[aria-label="open-browser-settings"]')
-      .simulate('click');
+    expect(screen.queryByRole('menu')).toBeNull();
 
-    expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
-
-    expect(wrapper.find('#item-dark-mode').first().text()).toEqual(
-      'switch-dark-mode'
+    await user.click(
+      screen.getByRole('button', { name: 'open-browser-settings' })
     );
-    expect(wrapper.find('#item-high-contrast-mode').first().text()).toEqual(
-      'switch-high-contrast-on'
-    );
+
+    const settingsMenu = await screen.findByRole('menu');
+
+    expect(settingsMenu).toBeInTheDocument();
+    expect(
+      within(settingsMenu).getByRole('menuitem', {
+        name: 'manage-cookies-button',
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(settingsMenu).getByRole('menuitem', {
+        name: 'switch-dark-mode',
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(settingsMenu).getByRole('menuitem', {
+        name: 'switch-high-contrast-on',
+      })
+    ).toBeInTheDocument();
   });
 
-  it('settings display correctly when dark and high contrast modes are enabled', () => {
+  it('settings display correctly when dark and high contrast modes are enabled', async () => {
     state.scigateway.darkMode = true;
     state.scigateway.highContrastMode = true;
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+    const user = userEvent.setup();
 
-    expect(wrapper.find('#settings').first().prop('open')).toBeFalsy();
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
-    wrapper
-      .find('button[aria-label="open-browser-settings"]')
-      .simulate('click');
-
-    expect(wrapper.find('#settings').first().prop('open')).toBeTruthy();
-
-    expect(wrapper.find('#item-dark-mode').first().text()).toEqual(
-      'switch-light-mode'
+    await user.click(
+      screen.getByRole('button', { name: 'open-browser-settings' })
     );
-    expect(wrapper.find('#item-high-contrast-mode').first().text()).toEqual(
-      'switch-high-contrast-off'
-    );
+
+    const settingsMenu = await screen.findByRole('menu');
+
+    expect(settingsMenu).toBeInTheDocument();
+    expect(
+      within(settingsMenu).getByRole('menuitem', {
+        name: 'manage-cookies-button',
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(settingsMenu).getByRole('menuitem', {
+        name: 'switch-light-mode',
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(settingsMenu).getByRole('menuitem', {
+        name: 'switch-high-contrast-off',
+      })
+    ).toBeInTheDocument();
   });
 
-  it('opens cookie policy/management page if manage cookies clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('opens cookie policy/management page if manage cookies clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
     // Click the user menu button and click on the manage cookies menu item.
-    wrapper
-      .find('button[aria-label="open-browser-settings"]')
-      .simulate('click');
-    wrapper.find('#item-manage-cookies').last().simulate('click');
+    await user.click(
+      screen.getByRole('button', { name: 'open-browser-settings' })
+    );
+    await user.click(
+      await screen.findByRole('menuitem', { name: 'manage-cookies-button' })
+    );
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/cookies'));
   });
 
-  it('sends load dark mode prefrence action if toggle dark mode is clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('sends load dark mode preference action if toggle dark mode is clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
     // Click the user menu button and click on the manage cookies menu item.
-    wrapper
-      .find('button[aria-label="open-browser-settings"]')
-      .simulate('click');
-    wrapper.find('#item-dark-mode').last().simulate('click');
+    await user.click(
+      screen.getByRole('button', { name: 'open-browser-settings' })
+    );
+    await user.click(
+      await screen.findByRole('menuitem', { name: 'switch-dark-mode' })
+    );
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(loadDarkModePreference(true));
   });
 
-  it('sends load high contrast mode prefrence action if toggle high contrast mode is clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('sends load high contrast mode preference action if toggle high contrast mode is clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
     // Click the user menu button and click on the manage cookies menu item.
-    wrapper
-      .find('button[aria-label="open-browser-settings"]')
-      .simulate('click');
-    wrapper.find('#item-high-contrast-mode').last().simulate('click');
-    wrapper.update();
+    await user.click(
+      screen.getByRole('button', { name: 'open-browser-settings' })
+    );
+    await user.click(
+      await screen.findByRole('menuitem', { name: 'switch-high-contrast-on' })
+    );
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(
@@ -252,7 +336,7 @@ describe('Main app bar component', () => {
     );
   });
 
-  it('sets plugin logo', () => {
+  it('sets plugin logo', async () => {
     const plugin: PluginConfig = {
       section: 'section',
       link: '/link',
@@ -261,38 +345,26 @@ describe('Main app bar component', () => {
       order: 1,
       logoDarkMode: 'pluginLogo',
     };
+    delete state.scigateway.logo;
     state.scigateway.plugins = [plugin];
     state.scigateway.siteLoading = false;
 
-    const testStore = mockStore(state);
     // Need to attachTo something to ensure document.getElementById works as expected
     // https://stackoverflow.com/questions/43694975/jest-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
     const holder = document.createElement('div');
     document.body.appendChild(holder);
-    const wrapper = mount(
+    render(
       <div id="plugin">
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <Provider store={testStore}>
-              <Router history={history}>
-                <MainAppBarComponent />
-              </Router>
-            </Provider>
-          </ThemeProvider>
-        </StyledEngineProvider>
+        <MainAppBarComponent />
       </div>,
-      { attachTo: holder }
+      { wrapper: Wrapper, container: holder }
     );
 
-    expect(wrapper.find('img').prop('src')).toEqual('pluginLogo');
+    expect(await screen.findByRole('img')).toHaveAttribute('src', 'pluginLogo');
   });
 
-  it('sets Scigateway logo if no plugins are loaded or no plugins match found plugin or if plugin does not provide logo', () => {
-    let testStore = mockStore(state);
-    let wrapper = createWrapper(testStore);
-    expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
-
-    let plugin: PluginConfig = {
+  it('sets scigateway logo if no plugin is matched', () => {
+    const plugin: PluginConfig = {
       section: 'section',
       link: '/link',
       plugin: 'plugin1',
@@ -302,24 +374,18 @@ describe('Main app bar component', () => {
     };
     state.scigateway.plugins = [plugin];
 
-    testStore = mockStore(state);
-    wrapper = mount(
+    render(
       <div id="plugin2">
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <Provider store={testStore}>
-              <Router history={history}>
-                <MainAppBarComponent />
-              </Router>
-            </Provider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </div>
+        <MainAppBarComponent />
+      </div>,
+      { wrapper: Wrapper }
     );
 
-    expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'logo_url');
+  });
 
-    plugin = {
+  it('sets scigateway logo if plugin does not provide a logo', () => {
+    const plugin = {
       section: 'section',
       link: '/link',
       plugin: 'plugin',
@@ -328,83 +394,29 @@ describe('Main app bar component', () => {
     };
     state.scigateway.plugins = [plugin];
 
-    testStore = mockStore(state);
-    wrapper = mount(
-      <div id="plugin">
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <Provider store={testStore}>
-              <Router history={history}>
-                <MainAppBarComponent />
-              </Router>
-            </Provider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </div>
-    );
-
-    expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
-  });
-
-  it('sets first plugin logo when the singlePluginLogo setting is true', () => {
-    let testStore = mockStore(state);
-    let wrapper = createWrapper(testStore);
-    expect(wrapper.find('img').prop('src')).toEqual(ScigatewayLogo);
-
-    state.scigateway.features.singlePluginLogo = true;
-    state.scigateway.plugins = [
-      {
-        section: 'section',
-        link: '/link',
-        plugin: 'plugin1',
-        displayName: 'pluginName',
-        order: 1,
-        logoDarkMode: 'pluginLogo',
-      },
-      {
-        section: 'section',
-        link: '/link',
-        plugin: 'plugin2',
-        displayName: 'pluginName',
-        order: 2,
-        logoDarkMode: 'pluginLogo2',
-      },
-    ];
-    state.scigateway.siteLoading = false;
-
-    testStore = mockStore(state);
-    wrapper = mount(
+    render(
       <div id="plugin2">
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <Provider store={testStore}>
-              <Router history={history}>
-                <MainAppBarComponent />
-              </Router>
-            </Provider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </div>
+        <MainAppBarComponent />
+      </div>,
+      { wrapper: Wrapper }
     );
 
-    expect(wrapper.find('img').prop('src')).toEqual('pluginLogo');
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'logo_url');
   });
 
-  it('opens no notifications message if alert icon clicked and there are no alerts', () => {
-    const testStore = mockStore(state);
-    const wrapper = createWrapper(testStore);
+  it('opens no notifications message if alert icon clicked and there are no alerts', async () => {
+    const user = userEvent.setup();
 
-    //Check notification only opens when clicked
-    expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeFalsy();
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
 
-    wrapper
-      .find('button[aria-label="Open notification menu"]')
-      .simulate('click');
+    expect(screen.queryByLabelText('No notifications message')).toBeNull();
+
+    await user.click(
+      screen.getByRole('button', { name: 'Open notification menu' })
+    );
 
     expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeTruthy();
+      await screen.findByLabelText('No notifications message')
+    ).toBeInTheDocument();
   });
 });

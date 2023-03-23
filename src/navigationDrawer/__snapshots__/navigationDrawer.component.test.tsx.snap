@@ -1,462 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navigation drawer component Navigation drawer renders correctly when closed 1`] = `
-<ForwardRef(Drawer)
-  PaperProps={
-    Object {
-      "sx": [Function],
-    }
-  }
-  anchor="left"
-  open={false}
-  sx={
-    Object {
-      "flexShrink": 0,
-      "width": [Function],
-    }
-  }
-  variant="persistent"
->
-  <ForwardRef(Box)
-    boxSizing="border-box"
-    display="flex"
-    flexDirection="column"
-    height="100%"
-    justifyContent="flex-start"
+<DocumentFragment>
+  <div
+    class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
   >
-    <ForwardRef(Box)
-      marginTop="auto"
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-8bwi45-MuiPaper-root-MuiDrawer-paper"
+      style="visibility: hidden; webkit-transform: translateX(-0px); transform: translateX(-0px);"
     >
-      <Styled(img)
-        alt="alternative-text"
-        src="stfc-logo-blue-text.png"
-      />
-    </ForwardRef(Box)>
-  </ForwardRef(Box)>
-</ForwardRef(Drawer)>
+      <div
+        class="MuiBox-root css-1pvs5pb"
+      >
+        <div
+          class="MuiBox-root css-8xl60i"
+        >
+          <img
+            alt="alternative-text"
+            class="css-1taxr2z"
+            src="stfc-logo-blue-text.png"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Navigation drawer component Navigation drawer renders correctly when open 1`] = `
-<ForwardRef(Drawer)
-  PaperProps={
-    Object {
-      "sx": [Function],
-    }
-  }
-  anchor="left"
-  open={true}
-  sx={
-    Object {
-      "flexShrink": 0,
-      "width": [Function],
-    }
-  }
-  variant="persistent"
->
-  <ForwardRef(Box)
-    boxSizing="border-box"
-    display="flex"
-    flexDirection="column"
-    height="100%"
-    justifyContent="flex-start"
+<DocumentFragment>
+  <div
+    class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
   >
-    <ForwardRef(Box)
-      marginTop="auto"
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-8bwi45-MuiPaper-root-MuiDrawer-paper"
     >
-      <Styled(img)
-        alt="alternative-text"
-        src="stfc-logo-blue-text.png"
-      />
-    </ForwardRef(Box)>
-  </ForwardRef(Box)>
-</ForwardRef(Drawer)>
-`;
-
-exports[`Navigation drawer component does not display link to homepage if a homepage link is set 1`] = `
-<ForwardRef(Drawer)
-  PaperProps={
-    Object {
-      "sx": [Function],
-    }
-  }
-  anchor="left"
-  open={true}
-  sx={
-    Object {
-      "flexShrink": 0,
-      "width": [Function],
-    }
-  }
-  variant="persistent"
->
-  <ForwardRef(Box)
-    boxSizing="border-box"
-    display="flex"
-    flexDirection="column"
-    height="100%"
-    justifyContent="flex-start"
-  >
-    <ForwardRef(Typography)
-      sx={
-        Object {
-          "color": [Function],
-          "paddingBottom": 0,
-          "paddingLeft": 2,
-          "paddingTop": 2,
-          "textAlign": "left",
-        }
-      }
-      variant="h6"
-    >
-      DATA
-    </ForwardRef(Typography)>
-    <ForwardRef(List)
-      component="nav"
-    >
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-plugin_link"
-        key="0"
-        to="plugin_link"
+      <div
+        class="MuiBox-root css-1pvs5pb"
       >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="display name"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-    </ForwardRef(List)>
-    <ForwardRef(Box)
-      marginTop="auto"
-    >
-      <Styled(img)
-        alt="alternative-text"
-        src="stfc-logo-blue-text.png"
-      />
-    </ForwardRef(Box)>
-  </ForwardRef(Box)>
-</ForwardRef(Drawer)>
-`;
-
-exports[`Navigation drawer component does not render admin plugins or plugins that ask to hide in list 1`] = `
-<ForwardRef(Drawer)
-  PaperProps={
-    Object {
-      "sx": [Function],
-    }
-  }
-  anchor="left"
-  open={true}
-  sx={
-    Object {
-      "flexShrink": 0,
-      "width": [Function],
-    }
-  }
-  variant="persistent"
->
-  <ForwardRef(Box)
-    boxSizing="border-box"
-    display="flex"
-    flexDirection="column"
-    height="100%"
-    justifyContent="flex-start"
-  >
-    <ForwardRef(Box)
-      marginTop="auto"
-    >
-      <Styled(img)
-        alt="alternative-text"
-        src="stfc-logo-blue-text.png"
-      />
-    </ForwardRef(Box)>
-  </ForwardRef(Box)>
-</ForwardRef(Drawer)>
-`;
-
-exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
-<ForwardRef(Drawer)
-  PaperProps={
-    Object {
-      "sx": [Function],
-    }
-  }
-  anchor="left"
-  open={true}
-  sx={
-    Object {
-      "flexShrink": 0,
-      "width": [Function],
-    }
-  }
-  variant="persistent"
->
-  <ForwardRef(Box)
-    boxSizing="border-box"
-    display="flex"
-    flexDirection="column"
-    height="100%"
-    justifyContent="flex-start"
-  >
-    <ForwardRef(Typography)
-      sx={
-        Object {
-          "color": [Function],
-          "paddingBottom": 0,
-          "paddingLeft": 2,
-          "paddingTop": 2,
-          "textAlign": "left",
-        }
-      }
-      variant="h6"
-    >
-      ANALYSIS
-    </ForwardRef(Typography)>
-    <ForwardRef(List)
-      component="nav"
-    >
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="0"
-        to="link"
-      >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="analysis-plugin"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="1"
-        to="link"
-      >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="analysis-plugin2"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-    </ForwardRef(List)>
-    <ForwardRef(Typography)
-      sx={
-        Object {
-          "color": [Function],
-          "paddingBottom": 0,
-          "paddingLeft": 2,
-          "paddingTop": 2,
-          "textAlign": "left",
-        }
-      }
-      variant="h6"
-    >
-      DATA
-    </ForwardRef(Typography)>
-    <ForwardRef(List)
-      component="nav"
-    >
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="0"
-        to="link"
-      >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="data-plugin"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="1"
-        to="link"
-      >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="data-plugin1"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-link"
-        key="2"
-        to="link"
-      >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="data-plugin2"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-      <ForwardRef(ListItem)
-        button={true}
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        dense={true}
-        id="plugin-link-plugin_link"
-        key="3"
-        to="plugin_link"
-      >
-        <ForwardRef(ListItemText)
-          inset={true}
-          primary="data-plugin-no-displayname"
-          primaryTypographyProps={
-            Object {
-              "sx": Object {
-                "color": [Function],
-                "fontWeight": "bold",
-                "textAlign": "left",
-              },
-              "variant": "subtitle1",
-            }
-          }
-        />
-      </ForwardRef(ListItem)>
-    </ForwardRef(List)>
-    <ForwardRef(Box)
-      marginTop="auto"
-    >
-      <Styled(img)
-        alt="alternative-text"
-        src="stfc-logo-blue-text.png"
-      />
-    </ForwardRef(Box)>
-  </ForwardRef(Box)>
-</ForwardRef(Drawer)>
-`;
-
-exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
-<ForwardRef(ListItem)
-  button={true}
-  component={
-    Object {
-      "$$typeof": Symbol(react.forward_ref),
-      "render": [Function],
-    }
-  }
-  dense={true}
-  id="plugin-link-plugin_link"
-  key="3"
-  to="plugin_link"
->
-  <ForwardRef(ListItemText)
-    inset={true}
-    primary="data-plugin-no-displayname"
-    primaryTypographyProps={
-      Object {
-        "sx": Object {
-          "color": [Function],
-          "fontWeight": "bold",
-          "textAlign": "left",
-        },
-        "variant": "subtitle1",
-      }
-    }
-  />
-</ForwardRef(ListItem)>
+        <div
+          class="MuiBox-root css-8xl60i"
+        >
+          <img
+            alt="alternative-text"
+            class="css-1taxr2z"
+            src="stfc-logo-blue-text.png"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
