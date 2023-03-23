@@ -91,15 +91,13 @@ describe('Cookie consent component', () => {
   });
 
   it("initalises analytics if cookie consent is true but analytics hasn't yet been initialised", () => {
+    jest.spyOn(document.head, 'appendChild');
+
     Cookies.get = jest
       .fn()
       .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : 'null'
       );
-
-    ReactGA.initialize = jest.fn();
-    ReactGA.set = jest.fn();
-    ReactGA.pageview = jest.fn();
 
     const testStore = mockStore(state);
     mount(
@@ -115,23 +113,26 @@ describe('Cookie consent component', () => {
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(initialiseAnalytics());
 
-    expect(ReactGA.initialize).toHaveBeenCalled();
-    expect(ReactGA.initialize).toHaveBeenCalledWith('test id', {
-      titleCase: false,
-      gaOptions: {
-        cookieExpires: 60 * 60 * 24 * 365,
-        cookieFlags: 'Samesite=None;Secure',
-      },
-    });
+    const expectedUrlScript = document.createElement('script');
+    expectedUrlScript.async = true;
+    expectedUrlScript.src =
+      'https://www.googletagmanager.com/gtag/js?id=G-BMV4M8LC8J';
 
-    expect(ReactGA.set).toHaveBeenCalled();
-    expect(ReactGA.set).toHaveBeenCalledWith({
-      anonymizeIp: true,
-      page: '/',
-    });
+    const expectedGtagScript = document.createElement('script');
+    expectedGtagScript.innerText =
+      'window.dataLayer = window.dataLayer || [];' +
+      'function gtag(){dataLayer.push(arguments);}' +
+      "gtag('js', new Date());" +
+      "gtag('config', 'G-BMV4M8LC8J');";
 
-    expect(ReactGA.pageview).toHaveBeenCalled();
-    expect(ReactGA.pageview).toHaveBeenCalledWith('/');
+    expect(document.head.appendChild).toHaveBeenNthCalledWith(
+      1,
+      expectedUrlScript
+    );
+    expect(document.head.appendChild).toHaveBeenNthCalledWith(
+      2,
+      expectedGtagScript
+    );
   });
 
   it('should set open to false if cookie-consent cookie is set', () => {

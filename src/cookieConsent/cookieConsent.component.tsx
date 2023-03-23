@@ -52,9 +52,9 @@ export const CookieConsent = (
       consentCookie.analytics
     ) {
       //Global Site Tag (gtag.js) - Google Analytics
-      const UrlScript = document.createElement('script');
-      UrlScript.async = true;
-      UrlScript.src =
+      const urlScript = document.createElement('script');
+      urlScript.async = true;
+      urlScript.src =
         'https://www.googletagmanager.com/gtag/js?id=G-BMV4M8LC8J';
 
       const gtagScript = document.createElement('script');
@@ -64,7 +64,7 @@ export const CookieConsent = (
         "gtag('js', new Date());" +
         "gtag('config', 'G-BMV4M8LC8J');";
 
-      document.head.appendChild(UrlScript);
+      document.head.appendChild(urlScript);
       document.head.appendChild(gtagScript);
     }
 
