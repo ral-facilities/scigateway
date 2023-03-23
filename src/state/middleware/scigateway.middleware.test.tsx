@@ -8,7 +8,6 @@ import configureStore, {
   MockStoreEnhanced,
 } from 'redux-mock-store';
 import log from 'loglevel';
-import ReactGA from 'react-ga4';
 import { createLocation } from 'history';
 import {
   InvalidateTokenType,
@@ -119,13 +118,8 @@ describe('scigateway middleware', () => {
     );
 
     store = mockStore(getState());
-    ReactGA.initialize('test id', { testMode: true, titleCase: false });
 
     Storage.prototype.getItem = jest.fn(() => 'false');
-  });
-
-  afterEach(() => {
-    ReactGA.testModeAPI.resetCalls();
   });
 
   describe('autoLoginMiddleware', () => {
@@ -268,58 +262,9 @@ describe('scigateway middleware', () => {
         action: 'POP',
       },
     });
-
-    expect(ReactGA.testModeAPI.calls.length).toEqual(1);
   });
 
-  it('should send page views on location change event', () => {
-    store = mockStore({
-      scigateway: { analytics: { id: 'test id', initialised: true } },
-    });
-
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/'),
-        action: 'POP',
-      },
-    });
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('set');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      page: '/',
-    });
-    expect(ReactGA.testModeAPI.calls[2][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[2][1]).toEqual({
-      hitType: 'pageview',
-      page: '/',
-    });
-  });
-
-  it("should not send page views on location change event when location hasn't changed", () => {
-    store = mockStore({
-      scigateway: { analytics: { id: 'test id', initialised: true } },
-    });
-
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/newlocation'),
-        action: 'POP',
-      },
-    });
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/newlocation'),
-        action: 'POP',
-      },
-    });
-
-    expect(ReactGA.testModeAPI.calls.length).toEqual(3);
-  });
-
-  it('should also send request plugin rerender action when ToggleDrawer action is sent', () => {
+  it('should send request plugin rerender action when ToggleDrawer action is sent', () => {
     const toggleDrawerAction = {
       type: ToggleDrawerType,
     };
