@@ -66,6 +66,8 @@ export const CookieConsent = (
 
       document.head.appendChild(urlScript);
       document.head.appendChild(gtagScript);
+
+      props.initialiseAnalytics();
     }
 
     if (
