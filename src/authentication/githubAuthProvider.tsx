@@ -1,7 +1,6 @@
 import qs from 'query-string';
 import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
-import ReactGA from 'react-ga';
 
 export default class GithubAuthProvider extends BaseAuthProvider {
   public constructor(authUrl: string | undefined) {
@@ -23,19 +22,11 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       code: params.code,
     })
       .then((res) => {
-        ReactGA.event({
-          category: 'Login',
-          action: 'Sucessfully logged in via Github',
-        });
         this.storeToken(res.data.token);
         this.storeUser(res.data.username, undefined, res.data.avatar);
         return;
       })
       .catch((err) => {
-        ReactGA.event({
-          category: 'Login',
-          action: 'Failed to log in via Github',
-        });
         this.handleAuthError(err);
       });
   }

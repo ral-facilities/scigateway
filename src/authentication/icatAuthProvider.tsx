@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
-import ReactGA from 'react-ga';
 import parseJwt from './parseJwt';
 import { ScheduledMaintenanceState } from '../state/scigateway.types';
 import { MaintenanceState } from '../state/scigateway.types';
@@ -43,10 +42,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
       },
     })
       .then((res) => {
-        ReactGA.event({
-          category: 'Login',
-          action: 'Successfully logged in via JWT',
-        });
         if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
           this.logOut();
         }
@@ -61,10 +56,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         return;
       })
       .catch((err) => {
-        ReactGA.event({
-          category: 'Login',
-          action: 'Failed to log in via JWT',
-        });
         this.handleAuthError(err);
       });
   }

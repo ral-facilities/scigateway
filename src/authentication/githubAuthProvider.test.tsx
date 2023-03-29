@@ -1,6 +1,5 @@
 import mockAxios from 'axios';
 import GithubAuthProvider from './githubAuthProvider';
-import ReactGA from 'react-ga';
 
 describe('github auth provider', () => {
   let authProvider: GithubAuthProvider;
@@ -18,11 +17,6 @@ describe('github auth provider', () => {
     window.localStorage.__proto__.setItem = jest.fn();
 
     authProvider = new GithubAuthProvider('http://localhost:8000');
-    ReactGA.initialize('test id', { testMode: true, titleCase: false });
-  });
-
-  afterEach(() => {
-    ReactGA.testModeAPI.resetCalls();
   });
 
   it('should load the token when built', () => {
@@ -59,13 +53,6 @@ describe('github auth provider', () => {
     expect(authProvider.user).not.toBeNull();
     expect(authProvider.user?.username).toBe('user');
     expect(authProvider.user?.avatarUrl).toBe('gravitar.com/fiowmefoimwe');
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Sucessfully logged in via Github',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
   });
 
   it('should log the user out if there is no verification code', async () => {
@@ -90,13 +77,6 @@ describe('github auth provider', () => {
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(authProvider.isLoggedIn()).toBeFalsy();
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Failed to log in via Github',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
   });
 
   it('should log the user out if the token has expired', async () => {
