@@ -106,8 +106,7 @@ describe('Cookie consent component', () => {
 
     const expectedUrlScript = document.createElement('script');
     expectedUrlScript.async = true;
-    expectedUrlScript.src =
-      'https://www.googletagmanager.com/gtag/js?id=G-BMV4M8LC8J';
+    expectedUrlScript.src = `https://www.googletagmanager.com/gtag/js?id=${state.scigateway.analytics?.id}`;
 
     const expectedGtagScript = document.createElement('script');
     expectedGtagScript.innerText =

@@ -54,8 +54,7 @@ export const CookieConsent = (
       //Global Site Tag (gtag.js) - Google Analytics
       const urlScript = document.createElement('script');
       urlScript.async = true;
-      urlScript.src =
-        'https://www.googletagmanager.com/gtag/js?id=G-BMV4M8LC8J';
+      urlScript.src = `https://www.googletagmanager.com/gtag/js?id=${props.analytics.id}`;
 
       const gtagScript = document.createElement('script');
       gtagScript.innerText =
