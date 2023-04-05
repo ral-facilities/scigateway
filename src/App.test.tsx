@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App, { AppSansHoc } from './App';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { flushPromises } from './setupTests';
@@ -26,8 +26,9 @@ describe('App', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<App useSuspense={false} />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const root = createRoot(div);
+    root.render(<App useSuspense={false} />);
+    root.unmount();
   });
 
   it('should show preloader when react-i18next is not ready', () => {

@@ -110,7 +110,7 @@ export const NavigationDrawer = (
     [createLink]
   );
 
-  const renderRoutes = useCallback((): React.ReactFragment => {
+  const renderRoutes = useCallback((): React.ReactElement => {
     let plugins = props.plugins;
 
     if (props.homepageUrl) {
@@ -123,7 +123,7 @@ export const NavigationDrawer = (
     );
 
     return (
-      <Fragment>
+      <>
         {Object.keys(sectionPlugins)
           .sort()
           .map((section, i) =>
@@ -133,7 +133,7 @@ export const NavigationDrawer = (
               i
             )
           )}
-      </Fragment>
+      </>
     );
   }, [buildMenuSection, props.plugins, props.homepageUrl]);
 

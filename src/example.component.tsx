@@ -7,7 +7,13 @@ interface ExampleComponentProps {
 }
 
 const ExampleComponent = (props: ExampleComponentProps): React.ReactElement => (
-  <div>{props.notifications}</div>
+  <div>
+    {props.notifications.map((notification, index) => (
+      <div key={index}>
+        {notification.severity} {notification.message}
+      </div>
+    ))}
+  </div>
 );
 
 const mapStateToProps = (state: StateType): ExampleComponentProps => {
