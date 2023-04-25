@@ -32,7 +32,7 @@ const ContainerDiv = styled('div', {
   if (drawerOpen) {
     return {
       width: `calc(100% - ${theme.drawerWidth})`,
-      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight})`,
       overflow: 'auto',
       marginLeft: theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
@@ -44,7 +44,7 @@ const ContainerDiv = styled('div', {
 
   return {
     width: '100%',
-    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight})`,
     overflow: 'auto',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeIn,

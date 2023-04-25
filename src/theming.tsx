@@ -10,6 +10,7 @@ import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
 import { checkboxClasses } from '@mui/material/Checkbox';
 import {
+  CssBaseline,
   formHelperTextClasses,
   formLabelClasses,
   inputClasses,
@@ -114,8 +115,6 @@ declare module '@mui/material/styles' {
   interface Theme {
     colours: ThemeColours;
     drawerWidth: string;
-    footerPaddingTop: string;
-    footerPaddingBottom: string;
     footerHeight: string;
     mainAppBarHeight: string;
   }
@@ -123,8 +122,6 @@ declare module '@mui/material/styles' {
   interface ThemeOptions {
     colours: ThemeColours;
     drawerWidth: string;
-    footerPaddingTop: string;
-    footerPaddingBottom: string;
     footerHeight: string;
     mainAppBarHeight: string;
   }
@@ -493,9 +490,7 @@ export const buildTheme = (
     components: componentOverrides,
     colours: colours,
     drawerWidth: '220px',
-    footerPaddingTop: '8px',
-    footerPaddingBottom: '8px',
-    footerHeight: '20px',
+    footerHeight: '32px',
     mainAppBarHeight: '64px',
   });
 };
@@ -531,6 +526,7 @@ const SciGatewayThemeProvider = (props: {
           primaryColour
         )}
       >
+        <CssBaseline enableColorScheme />
         {props.children}
       </ThemeProvider>
     </StyledEngineProvider>
