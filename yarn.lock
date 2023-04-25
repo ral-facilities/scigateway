@@ -5600,6 +5600,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cors@npm:2.8.5":
+  version: 2.8.5
+  resolution: "cors@npm:2.8.5"
+  dependencies:
+    object-assign: ^4
+    vary: ^1
+  checksum: ced838404ccd184f61ab4fdc5847035b681c90db7ac17e428f3d81d69e2989d2b680cc254da0e2554f5ed4f8a341820a1ce3d1c16b499f6e2f47a1b9b07b5006
+  languageName: node
+  linkType: hard
+
 "cosmiconfig@npm:^6.0.0":
   version: 6.0.0
   resolution: "cosmiconfig@npm:6.0.0"
@@ -10969,7 +10979,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-assign@npm:^4.1.1":
+"object-assign@npm:^4, object-assign@npm:^4.1.1":
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
   checksum: fcc6e4ea8c7fe48abfbb552578b1c53e0d194086e2e6bbbf59e0a536381a292f39943c6e9628af05b5528aa5e3318bb30d6b2e53cadaf5b8fe9e12c4b69af23f
@@ -12789,9 +12799,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:8.0.4":
-  version: 8.0.4
-  resolution: "react-redux@npm:8.0.4"
+"react-redux@npm:8.0.5":
+  version: 8.0.5
+  resolution: "react-redux@npm:8.0.5"
   dependencies:
     "@babel/runtime": ^7.12.1
     "@types/hoist-non-react-statics": ^3.3.1
@@ -12817,7 +12827,7 @@ __metadata:
       optional: true
     redux:
       optional: true
-  checksum: fd940de6a691c734ea975cb73a4413ee6beadb48434d6306fc2edbcf40c0c8c6432b0008663372d01b3578c9381b0acae7766d9f2f5f5f61a0cdaf7abc5eab7d
+  checksum: a108f4f7ead6ac005e656d46051474a2bbdb31ede481bbbb3d8d779c1a35e1940b8655577cc5021313411864d305f67fc719aa48d6e5ed8288cf9cbe8b7042e4
   languageName: node
   linkType: hard
 
@@ -13045,7 +13055,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:4.2.0, redux@npm:^3.6.0 || ^4.0.0, redux@npm:^4.0.0, redux@npm:^4.0.5":
+"redux@npm:4.2.1":
+  version: 4.2.1
+  resolution: "redux@npm:4.2.1"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+  checksum: f63b9060c3a1d930ae775252bb6e579b42415aee7a23c4114e21a0b4ba7ec12f0ec76936c00f546893f06e139819f0e2855e0d55ebfce34ca9c026241a6950dd
+  languageName: node
+  linkType: hard
+
+"redux@npm:^3.6.0 || ^4.0.0, redux@npm:^4.0.0, redux@npm:^4.0.5":
   version: 4.2.0
   resolution: "redux@npm:4.2.0"
   dependencies:
@@ -13583,6 +13602,7 @@ __metadata:
     concurrently: 7.6.0
     connected-react-router: 6.9.3
     cookie-parser: 1.4.5
+    cors: 2.8.5
     cross-env: 7.0.3
     custom-event-polyfill: 1.0.7
     cypress: 12.3.0
@@ -13609,16 +13629,16 @@ __metadata:
     react-dom: 18.2.0
     react-i18next: 12.1.1
     react-joyride: 2.5.0
-    react-redux: 8.0.4
+    react-redux: 8.0.5
     react-redux-toastr: 7.6.11
     react-router-dom: 5.3.4
     react-scripts: 5.0.0
-    redux: 4.2.0
+    redux: 4.2.1
     redux-logger: 3.0.6
     redux-mock-store: 1.5.4
     redux-thunk: 2.4.1
     serve: 14.2.0
-    single-spa: 5.9.1
+    single-spa: 5.9.4
     start-server-and-test: 1.15.0
     typeface-roboto: 1.1.13
     typescript: 4.9.3
@@ -13848,10 +13868,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"single-spa@npm:5.9.1":
-  version: 5.9.1
-  resolution: "single-spa@npm:5.9.1"
-  checksum: 027cd1a416082074ddfe533329c607d1961b834c3566781b846814f1c6831e92bfce9118a5b635bdc488f33a4ea871b7c369fb35b9d9166e67ff4df907e2e1e6
+"single-spa@npm:5.9.4":
+  version: 5.9.4
+  resolution: "single-spa@npm:5.9.4"
+  checksum: 8547b5db3d1c6788f44833b1bf7a89697a72a4ca4b801c3f9ddbf4e2949a40bc1d9e9a24650460c7a16f5a668d4e332fc237acacb84f329031815c19578a5907
   languageName: node
   linkType: hard
 
@@ -15183,7 +15203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vary@npm:~1.1.2":
+"vary@npm:^1, vary@npm:~1.1.2":
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: ae0123222c6df65b437669d63dfa8c36cee20a504101b2fcd97b8bf76f91259c17f9f2b4d70a1e3c6bbcee7f51b28392833adb6b2770b23b01abec84e369660b

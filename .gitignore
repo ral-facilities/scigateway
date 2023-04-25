@@ -31,5 +31,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-public/settings.json
+**/public/*settings*.json
+!**/public/*settings.example.json
 public/*.js
