@@ -504,8 +504,6 @@ export const verifyUsernameAndPassword = (
     await authProvider
       .logIn(username, password)
       .then(() => {
-        const referrer = getState().router.location.state?.referrer;
-
         if (newMnemonic)
           dispatch(
             loadAuthProvider(
@@ -515,15 +513,12 @@ export const verifyUsernameAndPassword = (
             )
           );
         dispatch(authorised());
-
-        // redirect the user to the original page they were trying to get to
-        // the referrer is added by the redirect in authorisedRoute.component.tsx
-        dispatch(push(referrer ?? '/'));
       })
-      .catch(() => {
+      .catch((e) => {
         // probably want to do something smarter with
         // err.response.status (e.g. 403 or 500)
         dispatch(unauthorised());
+        throw e;
       });
   };
 };

@@ -16,7 +16,6 @@ import {
 } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { AuthState, ICATAuthenticator, StateType } from '../state/state.types';
-import { Location } from 'history';
 import {
   Box,
   FormControl,
@@ -30,6 +29,7 @@ import axios from 'axios';
 import log from 'loglevel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 const RootDiv = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -90,7 +90,6 @@ const DividerWithText = (props: {
 interface LoginPageProps {
   auth: AuthState;
   res?: AppStrings;
-  location: Location;
 }
 
 interface LoginPageDispatchProps {
@@ -145,15 +144,40 @@ export const CredentialsLoginScreen = (
 
   const [t] = useTranslation();
 
+  const location = useLocation<{ referrer?: string } | undefined>();
+  const history = useHistory();
+
+  const { verifyUsernameAndPassword, mnemonic } = props;
+
+  const login = React.useCallback(async () => {
+    try {
+      await verifyUsernameAndPassword(username, password, mnemonic);
+
+      // if successful - redirect
+      const referrer = location.state?.referrer;
+
+      // redirect the user to the original page they were trying to get to
+      // the referrer is added by the redirect in authorisedRoute.component.tsx
+      history.push(referrer ?? '/');
+    } catch {}
+  }, [
+    history,
+    location.state?.referrer,
+    password,
+    verifyUsernameAndPassword,
+    mnemonic,
+    username,
+  ]);
+
   return (
     <RootDiv
-      onKeyPress={(e) => {
+      onKeyDown={(e) => {
         if (
           !props.auth.provider.redirectUrl &&
           e.key === 'Enter' &&
           isInputValid()
         ) {
-          props.verifyUsernameAndPassword(username, password, props.mnemonic);
+          login();
         }
       }}
     >
@@ -194,9 +218,7 @@ export const CredentialsLoginScreen = (
         color="primary"
         sx={buttonStyles}
         disabled={!isInputValid() || props.auth.loading}
-        onClick={() => {
-          props.verifyUsernameAndPassword(username, password, props.mnemonic);
-        }}
+        onClick={login}
       >
         <Typography
           color="inherit"
@@ -241,12 +263,30 @@ export const AnonLoginScreen = (
 ): React.ReactElement => {
   const [t] = useTranslation();
 
+  const location = useLocation<{ referrer?: string } | undefined>();
+  const history = useHistory();
+
+  const { verifyUsernameAndPassword, mnemonic } = props;
+
+  const login = React.useCallback(async () => {
+    try {
+      await verifyUsernameAndPassword('', '', mnemonic);
+
+      // if successful - redirect
+      const referrer = location.state?.referrer;
+
+      // redirect the user to the original page they were trying to get to
+      // the referrer is added by the redirect in authorisedRoute.component.tsx
+      history.push(referrer ?? '/');
+    } catch {}
+  }, [history, location.state?.referrer, verifyUsernameAndPassword, mnemonic]);
+
   return (
     <RootDiv
       data-testid="anon-login-screen"
-      onKeyPress={(e) => {
+      onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          props.verifyUsernameAndPassword('', '', props.mnemonic);
+          login();
         }
       }}
     >
@@ -260,9 +300,7 @@ export const AnonLoginScreen = (
         variant="contained"
         color="primary"
         sx={buttonStyles}
-        onClick={() => {
-          props.verifyUsernameAndPassword('', '', props.mnemonic);
-        }}
+        onClick={login}
       >
         <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
           {t('login.login-button')}
@@ -351,7 +389,33 @@ export const LoginPageComponent = (
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
   );
-  const location = useLocation();
+  const location = useLocation<{ referrer?: string } | undefined>();
+  const history = useHistory();
+
+  const { verifyUsernameAndPassword } = props;
+
+  const login = React.useCallback(async () => {
+    try {
+      await verifyUsernameAndPassword('', location.search, mnemonic);
+
+      console.log('success!');
+
+      // if successful - redirect
+      const referrer = location.state?.referrer;
+      console.log('referrer', referrer);
+
+      // redirect the user to the original page they were trying to get to
+      // the referrer is added by the redirect in authorisedRoute.component.tsx
+      history.push(referrer ?? '/');
+      console.log('pushed to history');
+    } catch {}
+  }, [
+    history,
+    location.search,
+    location.state?.referrer,
+    verifyUsernameAndPassword,
+    mnemonic,
+  ]);
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
@@ -377,12 +441,12 @@ export const LoginPageComponent = (
   React.useEffect(() => {
     if (
       props.auth.provider.redirectUrl &&
-      props.location.search &&
+      location.search &&
       !props.auth.loading &&
       !props.auth.failedToLogin
     ) {
-      if (props.location.search) {
-        props.verifyUsernameAndPassword('', props.location.search, mnemonic);
+      if (location.search) {
+        login();
       }
     }
   });
@@ -488,7 +552,6 @@ export const LoginPageComponent = (
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
   auth: state.scigateway.authorisation,
-  location: state.router.location,
 });
 
 const mapDispatchToProps = (

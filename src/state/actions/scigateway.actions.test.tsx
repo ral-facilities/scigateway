@@ -111,9 +111,7 @@ describe('scigateway actions', () => {
       scigateway: state,
       router: {
         location: {
-          ...createLocation('/', {
-            referrer: '/destination/after/login',
-          }),
+          ...createLocation('/', {}),
           query: {},
         },
         action: 'PUSH',
@@ -129,58 +127,6 @@ describe('scigateway actions', () => {
       loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, true)
     );
     expect(actions[2]).toEqual(authorised());
-    expect(actions[3]).toEqual({
-      type: '@@router/CALL_HISTORY_METHOD',
-      payload: {
-        args: ['/destination/after/login'],
-        method: 'push',
-      },
-    });
-  });
-
-  it('given no referrer but valid credentials verifyUsernameAndPassword should change auth provider and redirect back to /', async () => {
-    mockAxiosGetResponse(
-      'this will be replaced by an API call to get access token'
-    );
-
-    const mnemonic = 'anon';
-    const authUrl = 'http://example.com';
-
-    const asyncAction = verifyUsernameAndPassword(
-      'username',
-      'password',
-      mnemonic
-    );
-    const actions: Action[] = [];
-    const dispatch = (action: Action): number => actions.push(action);
-    const state = JSON.parse(JSON.stringify(initialState));
-    state.authorisation.provider = new TestAuthProvider(null);
-    state.authorisation.provider.authUrl = authUrl;
-
-    const getState = (): Partial<StateType> => ({
-      scigateway: state,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
-    });
-
-    const action = asyncAction(dispatch, getState);
-    jest.runAllTimers();
-    await action;
-
-    expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, false)
-    );
-    expect(actions[2]).toEqual(authorised());
-    expect(actions[3]).toEqual({
-      type: '@@router/CALL_HISTORY_METHOD',
-      payload: {
-        args: ['/'],
-        method: 'push',
-      },
-    });
   });
 
   it('given invalid credentials verifyUsernameAndPassword should return an authorisation failure', async () => {
@@ -198,7 +144,12 @@ describe('scigateway actions', () => {
 
     const action = asyncAction(dispatch, getState);
     jest.runAllTimers();
-    await action;
+
+    // don't care about what specifically we reject with just that we do reject
+    await expect(action).rejects.toBeTruthy();
+
+    // await expect(action).rejects.toThrow();
+
     const expectedResponse = { type: 'scigateway:auth_failure' };
 
     expect(actions[0]).toEqual(loadingAuthentication());

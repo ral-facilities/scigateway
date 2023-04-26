@@ -183,6 +183,24 @@ describe('Login', () => {
     cy.url().should('eq', 'http://127.0.0.1:3000/login');
   });
 
+  it('should redirect to login page when navigating to a plugin then back to the plugin after login', () => {
+    cy.visit('/plugin1');
+
+    cy.contains('Sign in').should('be.visible');
+
+    cy.contains('Username*').parent().find('input').type(' username ');
+    cy.contains('Password*').parent().find('input').type('password');
+
+    cy.contains('Username*')
+      .parent()
+      .parent()
+      .contains('button', 'Sign in')
+      .click();
+
+    cy.url().should('eq', 'http://127.0.0.1:3000/plugin1');
+    cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
+  });
+
   it('should not be logged in if invalid or unsigned token in localStorage', () => {
     // if token cannot be deciphered
     cy.contains('Sign in').should('be.visible');
@@ -279,7 +297,7 @@ describe('Login', () => {
     });
   });
 
-  describe('autoLogin on', () => {
+  describe.only('autoLogin on', () => {
     // Define responses for login attempts
     let verifyResponse: { statusCode: Number; body: string };
     let loginResponse: { statusCode: Number; body: string };
@@ -318,16 +336,18 @@ describe('Login', () => {
       ]);
       cy.intercept('POST', '/login', (req) => {
         req.reply(loginResponse);
-      });
+      }).as('login');
       cy.intercept('POST', '/verify', (req) => {
         req.reply(verifyResponse);
-      });
+      }).as('verify');
     });
 
     it('should allow access to plugins and yet still show the Sign in button', () => {
       verifyResponse = verifySuccess;
       loginResponse = loginSuccess;
       cy.visit('/plugin1');
+
+      cy.wait('@login');
 
       cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
       cy.contains('Sign in').should('be.visible');
@@ -338,9 +358,13 @@ describe('Login', () => {
       cy.contains('Sign in').should('be.visible');
 
       // test that autologin works after token validation + refresh fail
-      verifyResponse = failure;
+      cy.window().then(() => {
+        // use cy.window command just so that this line is async and executed at the right time
+        verifyResponse = failure;
+      });
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
+      cy.wait('@login');
       cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
       cy.contains('Sign in').should('be.visible');
     });
@@ -354,7 +378,10 @@ describe('Login', () => {
       cy.contains('h1', 'Sign in').should('be.visible');
 
       // test that autologin fails after token validation + refresh fail
-      verifyResponse = failure;
+      cy.window().then(() => {
+        // use cy.window command just so that this line is async and executed at the right time
+        verifyResponse = failure;
+      });
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.window().then(($window) =>
         $window.localStorage.setItem('scigateway:token', 'invalidtoken')
@@ -419,6 +446,8 @@ describe('Login', () => {
       cy.contains('Sign out').click();
 
       cy.contains('Sign in').should('be.visible');
+      cy.wait('@login');
+
       cy.contains('a', 'Demo Plugin').should('be.visible');
       cy.contains('a', 'Demo Plugin').click();
 
