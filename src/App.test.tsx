@@ -27,8 +27,12 @@ describe('App', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     const root = createRoot(div);
-    root.render(<App useSuspense={false} />);
-    root.unmount();
+    act(() => {
+      root.render(<App useSuspense={false} />);
+    });
+    act(() => {
+      root.unmount();
+    });
   });
 
   it('should show preloader when react-i18next is not ready', () => {
@@ -59,11 +63,14 @@ describe('App', () => {
         order: 0,
       },
     };
-    document.dispatchEvent(
-      new CustomEvent('scigateway', {
-        detail: registerRouteAction,
-      })
-    );
+
+    act(() => {
+      document.dispatchEvent(
+        new CustomEvent('scigateway', {
+          detail: registerRouteAction,
+        })
+      );
+    });
 
     // go to plugin page
     await fireEvent.click(screen.getByRole('link', { name: 'Test plugin' }));
@@ -81,7 +88,9 @@ describe('App', () => {
       })
     );
 
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
 
     await act(async () => {
       await flushPromises();

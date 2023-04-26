@@ -170,7 +170,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
       class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-8bwi45-MuiPaper-root-MuiDrawer-paper"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1b4jzf5-MuiPaper-root-MuiDrawer-paper"
         style="visibility: hidden; webkit-transform: translateX(-0px); transform: translateX(-0px);"
       >
         <div
@@ -192,7 +192,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
       class="react-joyride"
     />
     <div
-      class="css-9peh1a"
+      class="css-1sr0u83"
     >
       <div
         id="dg-homepage"
@@ -446,7 +446,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="css-1co1cbj"
+      class="css-1j8dxwd"
     >
       <div
         style="text-align: left; font-weight: bold; font-size: 14px; text-indent: 16px; display: inline-block;"

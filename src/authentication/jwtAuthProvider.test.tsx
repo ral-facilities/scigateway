@@ -56,9 +56,7 @@ describe('jwt auth provider', () => {
   it('should call the api to authenticate', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        data: {
-          token: testToken,
-        },
+        data: testToken,
       })
     );
 
@@ -99,12 +97,9 @@ describe('jwt auth provider', () => {
 
     await jwtAuthProvider.verifyLogIn();
 
-    expect(mockAxios.post).toBeCalledWith(
-      'http://localhost:8000/api/jwt/checkToken',
-      {
-        token: testToken,
-      }
-    );
+    expect(mockAxios.post).toBeCalledWith('http://localhost:8000/verify', {
+      token: testToken,
+    });
   });
 
   it('should call refresh if the access token has expired', async () => {
@@ -137,7 +132,7 @@ describe('jwt auth provider', () => {
     await jwtAuthProvider.refresh();
 
     expect(mockAxios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/api/jwt/refresh',
+      'http://localhost:8000/refresh',
       {
         token: testToken,
       }
