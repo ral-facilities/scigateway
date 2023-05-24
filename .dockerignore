@@ -10,3 +10,4 @@ cypress.json
 Jenkinsfile
 LICENSE.md
 README.md
+Dockerfile
