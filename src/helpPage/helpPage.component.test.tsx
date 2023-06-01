@@ -1,10 +1,12 @@
 import React from 'react';
 import {
-  UnconnectedHelpPage,
   CombinedHelpPageProps,
   TableOfContents,
+  UnconnectedHelpPage,
 } from './helpPage.component';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { ThemeProvider } from '@mui/material';
+import { buildTheme } from '../theming';
 
 jest.mock('../hooks/useAnchor', () => ({
   __esModule: true,
@@ -21,8 +23,12 @@ describe('Help page component', () => {
   });
 
   it('should render correctly', () => {
-    const wrapper = shallow(<UnconnectedHelpPage {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <ThemeProvider theme={buildTheme(false)}>
+        <UnconnectedHelpPage {...props} />
+      </ThemeProvider>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('should render TOC correctly with nested headers', () => {
@@ -30,8 +36,8 @@ describe('Help page component', () => {
       contents:
         "<h2 id='test nested toc item 1'>Nested TOC item</h2>Lorem ipsum dolor sit amet<h3 id='test nested toc item 2'>Nested TOC item 2</h3>consectetur adipiscing elit<br><h2 id='test nested toc item 3'>Nested TOC item 3</h2>Proin suscipit sed nisi ac consectetur",
     };
-    const wrapper = shallow(<TableOfContents {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(<TableOfContents {...props} />);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('should back to top elements next to each header', () => {
@@ -39,7 +45,11 @@ describe('Help page component', () => {
       contents:
         "<h2 id='test nested toc item 1'>Nested TOC item</h2>Lorem ipsum dolor sit amet<h3 id='test nested toc item 2'>Nested TOC item 2</h3>consectetur adipiscing elit<br><h2 id='test nested toc item 3'>Nested TOC item 3</h2>Proin suscipit sed nisi ac consectetur",
     };
-    const wrapper = shallow(<UnconnectedHelpPage {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <ThemeProvider theme={buildTheme(false)}>
+        <UnconnectedHelpPage {...props} />
+      </ThemeProvider>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

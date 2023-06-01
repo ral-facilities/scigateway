@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { default as MaintenancePage } from './maintenancePage.component';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { render } from '@testing-library/react';
 
 describe('Maintenance page component', () => {
   let mockStore;
@@ -19,9 +19,8 @@ describe('Maintenance page component', () => {
 
   it('should render correctly', () => {
     const testStore = mockStore(state);
-    const wrapper = shallow(<MaintenancePage store={testStore} />)
-      .dive()
-      .dive();
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(<MaintenancePage store={testStore} />);
+
+    expect(asFragment()).toMatchSnapshot();
   });
 });

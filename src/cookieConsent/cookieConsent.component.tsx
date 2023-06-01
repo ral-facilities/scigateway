@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Cookies from 'js-cookie';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
-import ReactGA from 'react-ga';
 import { Action } from 'redux';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { connect } from 'react-redux';
@@ -52,20 +51,21 @@ export const CookieConsent = (
       consentCookie &&
       consentCookie.analytics
     ) {
-      ReactGA.initialize(props.analytics.id, {
-        titleCase: false,
-        gaOptions: {
-          cookieExpires: 60 * 60 * 24 * 365, // one year
-          cookieFlags: 'Samesite=None;Secure',
-        },
-      });
-      const page = `${props.location.pathname}${props.location.search}`;
-      ReactGA.set({
-        anonymizeIp: true,
-        page,
-      });
-      // need to send initial pageview
-      ReactGA.pageview(page);
+      //Global Site Tag (gtag.js) - Google Analytics
+      const urlScript = document.createElement('script');
+      urlScript.async = true;
+      urlScript.src = `https://www.googletagmanager.com/gtag/js?id=${props.analytics.id}`;
+
+      const gtagScript = document.createElement('script');
+      gtagScript.innerText =
+        'window.dataLayer = window.dataLayer || [];' +
+        'function gtag(){dataLayer.push(arguments);}' +
+        "gtag('js', new Date());" +
+        `gtag('config', '${props.analytics.id}');`;
+
+      document.head.appendChild(urlScript);
+      document.head.appendChild(gtagScript);
+
       props.initialiseAnalytics();
     }
 

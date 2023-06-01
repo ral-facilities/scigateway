@@ -1,94 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Page Not found component renders pageNotFound page correctly 1`] = `
-<div>
-  <ForwardRef(Box)
-    sx={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "background.default",
-        "display": "flex",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Memo(ForwardRef(BugReportIcon))
-      sx={
-        Object {
-          "color": [Function],
-          "height": "10vw",
-          "width": "10vw",
-        }
-      }
-    />
-    <ForwardRef(Typography)
-      sx={
-        Object {
-          "color": [Function],
-          "fontSize": "10vw",
-          "fontWeight": "bold",
-        }
-      }
+<DocumentFragment>
+  <div>
+    <div
+      class="MuiBox-root css-9thxj7"
     >
-      404
-    </ForwardRef(Typography)>
-  </ForwardRef(Box)>
-  <ForwardRef(Box)
-    sx={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "background.default",
-        "display": "flex",
-        "flexDirection": "column",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <ForwardRef(Typography)
-      sx={
-        Object {
-          "color": "text.primary",
-        }
-      }
-      variant="h2"
-    >
-      page-not-found.title
-    </ForwardRef(Typography)>
-    <ForwardRef(Typography)
-      sx={
-        Object {
-          "color": "text.secondary",
-          "maxWidth": "600px",
-          "padding": "15px",
-          "textAlign": "center",
-        }
-      }
-      variant="body1"
-    >
-      <Trans
-        i18nKey="page-not-found.message"
-        t={[Function]}
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ze4q0y-MuiSvgIcon-root"
+        data-testid="BugReportIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
       >
-        We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the
-         
-        <Styled(Link)
+        <path
+          d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"
+        />
+      </svg>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1dathbx-MuiTypography-root"
+      >
+        404
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-3i5n1c"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-h2 css-18ft2kn-MuiTypography-root"
+      >
+        page-not-found.title
+      </h2>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-n19zd7-MuiTypography-root"
+      >
+        We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the 
+        <a
+          class="css-1jolfkj"
           data-test-id="page-not-found-homepage-link"
-          to="/"
+          href="/"
         >
           homepage
-        </Styled(Link)>
-         
-        or
-         
-        <Styled(Link)
+        </a>
+         or 
+        <a
+          class="css-1jolfkj"
           data-test-id="page-not-found-contact-support-link"
-          to="footer.links.contact"
+          href="/footer.links.contact"
         >
           contact support
-        </Styled(Link)>
+        </a>
         .
-      </Trans>
-    </ForwardRef(Typography)>
-  </ForwardRef(Box)>
-</div>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
 `;

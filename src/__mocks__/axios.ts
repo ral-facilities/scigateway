@@ -5,7 +5,10 @@ const requests = {
     if (path === '/settings.json') {
       return Promise.resolve({
         data: {
-          'auth-provider': 'jwt',
+          // Set provider to icat as that supports maintenance states needed for App.test.tsx
+          'auth-provider': expect.getState().testPath?.includes('App.test')
+            ? 'icat'
+            : 'jwt',
           'ui-strings': '/res/default.json',
           plugins: [],
           'help-tour-steps': [],

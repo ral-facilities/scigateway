@@ -1,7 +1,7 @@
 import React from 'react';
 import LogoutPage, {
-  UnconnectedLogoutPage,
   CombinedLogoutPageProps,
+  UnconnectedLogoutPage,
 } from './logoutPage.component';
 import { StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
@@ -11,14 +11,23 @@ import { push } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { createLocation } from 'history';
-import { mount, shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('logout page component', () => {
   let props: CombinedLogoutPageProps;
   let mockStore;
   let state: StateType;
+
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>;
+  }
 
   beforeEach(() => {
     mockStore = configureStore([thunk]);
@@ -32,8 +41,6 @@ describe('logout page component', () => {
     );
   });
 
-  const theme = buildTheme(false);
-
   it('renders the logout page correctly with default avatar ', () => {
     props = {
       user: {
@@ -43,8 +50,16 @@ describe('logout page component', () => {
       },
       res: undefined,
     };
-    const wrapper = shallow(<UnconnectedLogoutPage {...props} />);
-    expect(wrapper).toMatchSnapshot();
+
+    render(<UnconnectedLogoutPage {...props} />, { wrapper: Wrapper });
+
+    expect(screen.getByTestId('AccountCircleIcon')).toBeInTheDocument();
+    expect(screen.getByText('username-description')).toBeInTheDocument();
+    expect(screen.getByText('simple/root')).toBeInTheDocument();
+    expect(screen.getByText('logout-message')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'logout-button' })
+    ).toBeInTheDocument();
   });
 
   it('renders the logout page correctly with avatar using avatarurl) ', () => {
@@ -57,26 +72,29 @@ describe('logout page component', () => {
       res: undefined,
     };
 
-    const wrapper = shallow(<UnconnectedLogoutPage {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    render(<UnconnectedLogoutPage {...props} />, { wrapper: Wrapper });
+
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'test_url');
+    expect(screen.getByText('username-description')).toBeInTheDocument();
+    expect(screen.getByText('simple/root')).toBeInTheDocument();
+    expect(screen.getByText('logout-message')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'logout-button' })
+    ).toBeInTheDocument();
   });
 
-  it('signs out if sign out clicked', () => {
+  it('signs out if sign out clicked', async () => {
     const testStore = mockStore(state);
-    const wrapper = mount(
+    const user = userEvent.setup();
+
+    render(
       <Provider store={testStore}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <LogoutPage />
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </Provider>
+        <LogoutPage />
+      </Provider>,
+      { wrapper: Wrapper }
     );
 
-    wrapper
-      .find('[data-test-id="logout-page-button"]')
-      .last()
-      .simulate('click');
+    await user.click(screen.getByRole('button', { name: 'logout-button' }));
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
