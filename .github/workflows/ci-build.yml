@@ -1,7 +1,7 @@
 name: CI Build
 on:
   pull_request:
-  # By default, the pull_request event type is not triggered when a PR is merged into main
+  # By default, the pull_request event type is not triggered when a PR is merged into main or develop
   push:
     branches:
       - main
@@ -38,7 +38,7 @@ jobs:
   docker:
     # This job triggers only if all the other jobs succeed and does different things depending on the context.
     # The job builds the Docker image in all cases and also pushes the image to Harbor only if something is
-    # pushed to the develop branch.
+    # pushed to the main or develop branch.
     needs: [test]
     name: Docker
     runs-on: ubuntu-20.04
@@ -59,10 +59,10 @@ jobs:
         with:
           images: harbor.stfc.ac.uk/datagateway/scigateway
 
-      - name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' && 'Build and push Docker image to Harbor' || 'Build Docker image' }}
+      - name: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && 'Build and push Docker image to Harbor' || 'Build Docker image' }}
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+          push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
