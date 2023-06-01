@@ -4,6 +4,7 @@ on:
   # By default, the pull_request event type is not triggered when a PR is merged into main
   push:
     branches:
+      - main
       - develop
 
 jobs:
