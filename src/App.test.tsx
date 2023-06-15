@@ -5,10 +5,16 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { flushPromises } from './setupTests';
 import axios from 'axios';
 import { RegisterRouteType } from './state/scigateway.types';
+import { useMediaQuery } from '@mui/material';
 
 jest.mock('./state/actions/loadMicroFrontends', () => ({
   init: jest.fn(() => Promise.resolve()),
   singleSpaPluginRoutes: ['/plugin1'],
+}));
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
 }));
 
 const testToken =
@@ -20,6 +26,10 @@ window.localStorage.__proto__.getItem = jest.fn().mockImplementation((name) => {
 });
 
 describe('App', () => {
+  beforeEach(() => {
+    jest.mocked(useMediaQuery).mockReturnValue(true);
+  });
+
   afterEach(() => {
     jest.useRealTimers();
   });

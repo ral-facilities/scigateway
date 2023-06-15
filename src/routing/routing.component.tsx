@@ -35,7 +35,9 @@ const ContainerDiv = styled('div', {
   if (drawerOpen) {
     return {
       width: isMobileViewport ? '100%' : `calc(100% - ${theme.drawerWidth})`,
-      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+      maxHeight: isMobileViewport
+        ? `calc(100vh - ${theme.mainAppBarHeight})`
+        : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
       overflow: 'auto',
       marginLeft: isMobileViewport ? 0 : theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
@@ -47,7 +49,9 @@ const ContainerDiv = styled('div', {
 
   return {
     width: '100%',
-    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+    maxHeight: isMobileViewport
+      ? `calc(100vh - ${theme.mainAppBarHeight})`
+      : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
     overflow: 'auto',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeIn,
