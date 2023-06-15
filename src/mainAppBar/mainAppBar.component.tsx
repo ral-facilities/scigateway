@@ -18,9 +18,10 @@ import {
   ListItemIcon,
   ListItemText,
   styled,
+  useMediaQuery,
 } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import { Theme } from '@mui/material/styles';
+import { Theme, useTheme } from '@mui/material/styles';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
   toggleDrawer,
@@ -120,6 +121,9 @@ export const MainAppBar = (
     );
   };
 
+  const theme = useTheme();
+  const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+
   React.useEffect(() => {
     if (!props.loading) {
       let set = false;
@@ -147,11 +151,11 @@ export const MainAppBar = (
 
   // have menu open by default after page loads
   React.useEffect(() => {
-    if (!props.loading && !props.drawerOpen) {
+    if (!props.loading && !props.drawerOpen && isViewportMdOrLarger) {
       props.toggleDrawer();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.loading]);
+  }, [props.loading, isViewportMdOrLarger]);
 
   return (
     <div style={{ width: '100%' }}>
