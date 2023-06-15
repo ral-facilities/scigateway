@@ -15,7 +15,8 @@
     "admin-page": "Admin page",
     "help-page": "Help page",
     "open-browser-settings": "Open browser settings",
-    "home-page": "Home page"
+    "home-page": "Home page",
+    "tutorial": "Tutorial"
   },
   "login": {
     "title": "Sign in",
