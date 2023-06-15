@@ -213,6 +213,7 @@ export const MainAppBar = (
             <IconButton
               sx={appBarIconButtonStyle}
               onClick={(e) => setMenuAnchor(e.currentTarget)}
+              aria-label={getString(props.res, 'open-mobile-menu')}
               aria-controls={
                 settingsMenuOpen ? MobileOverflowMenu.ID : undefined
               }

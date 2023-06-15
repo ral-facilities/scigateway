@@ -19,6 +19,13 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { Router } from 'react-router-dom';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useMediaQuery } from '@mui/material';
+
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
+}));
 
 describe('Main app bar component', () => {
   let testStore: MockStore;
@@ -55,6 +62,11 @@ describe('Main app bar component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
 
     testStore = configureStore()(state);
+
+    // I don't think MediaQuery works properly in jest
+    // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
+    // here we assume it is always the case.
+    jest.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   const theme = buildTheme(false);
@@ -62,7 +74,9 @@ describe('Main app bar component', () => {
   it('app bar renders correctly', () => {
     render(<MainAppBarComponent />, { wrapper: Wrapper });
 
-    expect(screen.getByRole('button', { name: 'open-navigation-menu' }));
+    expect(
+      screen.getByRole('button', { name: 'open-navigation-menu' })
+    ).toBeInTheDocument();
 
     const titleButton = screen.getByRole('button', { name: 'home-page' });
     expect(titleButton).toBeInTheDocument();
@@ -84,6 +98,11 @@ describe('Main app bar component', () => {
       screen.getByRole('button', { name: 'Open notification menu' })
     ).toBeInTheDocument();
     expect(screen.getByTestId('NotificationsIcon')).toBeInTheDocument();
+
+    // mobile overflow menu item should be hidden
+    expect(
+      screen.queryByRole('button', { name: 'open-mobile-menu' })
+    ).not.toBeInTheDocument();
   });
 
   it('does not render Help button when feature is false', () => {
@@ -418,5 +437,85 @@ describe('Main app bar component', () => {
     expect(
       await screen.findByLabelText('No notifications message')
     ).toBeInTheDocument();
+  });
+
+  describe('mobile variant', () => {
+    beforeEach(() => {
+      jest.mocked(useMediaQuery).mockReturnValue(false);
+    });
+
+    it('shows drawer button, logo, user avatar, notification button, and an overflow menu button', () => {
+      render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+      expect(
+        screen.getByRole('button', { name: 'open-navigation-menu' })
+      ).toBeInTheDocument();
+
+      const titleButton = screen.getByRole('button', { name: 'home-page' });
+      expect(titleButton).toBeInTheDocument();
+      expect(within(titleButton).getByRole('img')).toHaveAttribute(
+        'src',
+        'logo_url'
+      );
+
+      expect(
+        screen.queryByRole('button', { name: 'help-page' })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'admin-page' })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'help' })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'open-browser-settings' })
+      ).not.toBeInTheDocument();
+
+      expect(
+        screen.getByRole('button', { name: 'Open notification menu' })
+      ).toBeInTheDocument();
+      expect(screen.queryByTestId('NotificationsIcon')).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: 'Open user menu' })
+      ).toBeInTheDocument();
+      // mobile overflow menu item should be visible
+      expect(
+        screen.getByRole('button', { name: 'open-mobile-menu' })
+      ).toBeInTheDocument();
+    });
+
+    it('opens mobile overflow menu when overflow menu button is clicked', async () => {
+      const user = userEvent.setup();
+
+      render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+      await user.click(
+        screen.getByRole('button', { name: 'open-mobile-menu' })
+      );
+
+      // TestAuthProvider provides an admin account, so admin page button should be visible
+      expect(
+        screen.getByRole('menuitem', { name: 'admin-page' })
+      ).toBeInTheDocument();
+      // help page is enabled by default
+      expect(
+        screen.getByRole('menuitem', { name: 'help-page' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('menuitem', { name: 'tutorial' })
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByRole('menuitem', { name: 'manage-cookies-button' })
+      ).toBeInTheDocument();
+      // dark mode is off by default
+      expect(
+        screen.getByRole('menuitem', { name: 'switch-dark-mode' })
+      ).toBeInTheDocument();
+      // high contrast mode is off by default
+      expect(
+        screen.getByRole('menuitem', { name: 'switch-high-contrast-on' })
+      ).toBeInTheDocument();
+    });
   });
 });
