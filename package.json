@@ -101,6 +101,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/eslint-parser": "7.11.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
     "@testing-library/user-event": "14.4.2",
@@ -113,8 +114,8 @@
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "5.49.0",
     "axios-mock-adapter": "1.21.1",
-    "@babel/eslint-parser": "7.11.0",
     "concurrently": "7.6.0",
+    "cors": "2.8.5",
     "cross-env": "7.0.3",
     "cypress": "12.3.0",
     "eslint": "8.33.0",
