@@ -3165,13 +3165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:29.4.0":
-  version: 29.4.0
-  resolution: "@types/jest@npm:29.4.0"
+"@types/jest@npm:*, @types/jest@npm:29.5.2":
+  version: 29.5.2
+  resolution: "@types/jest@npm:29.5.2"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 23760282362a252e6690314584d83a47512d4cd61663e957ed3398ecf98195fe931c45606ee2f9def12f8ed7d8aa102d492ec42d26facdaf8b78094a31e6568e
+  checksum: 7d205599ea3cccc262bad5cc173d3242d6bf8138c99458509230e4ecef07a52d6ddcde5a1dbd49ace655c0af51d2dbadef3748697292ea4d86da19d9e03e19c0
   languageName: node
   linkType: hard
 
@@ -13587,7 +13587,7 @@ __metadata:
     "@testing-library/react": 12.1.5
     "@testing-library/user-event": 14.4.2
     "@types/history": 4.7.3
-    "@types/jest": 29.4.0
+    "@types/jest": 29.5.2
     "@types/js-cookie": 3.0.1
     "@types/jsonwebtoken": 9.0.1
     "@types/node": 18.16.18
