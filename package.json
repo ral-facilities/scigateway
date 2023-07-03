@@ -123,7 +123,7 @@
     "lint-staged": "13.2.2",
     "redux-mock-store": "1.5.4",
     "serve": "14.2.0",
-    "start-server-and-test": "1.15.0",
+    "start-server-and-test": "2.0.0",
     "wait-on": "7.0.1"
   },
   "packageManager": "yarn@3.6.0"
