@@ -33,6 +33,17 @@ COPY --from=builder /scigateway-build/build/. .
 
 RUN set -eux; \
     \
+    # Enable the rewrtie_module \
+    sed -i -e 's/^#LoadModule rewrite_module/LoadModule rewrite_module/' /usr/local/apache2/conf/httpd.conf; \
+    echo '<Location / >' >> /usr/local/apache2/conf/httpd.conf; \
+    echo '    RewriteEngine on' >> /usr/local/apache2/conf/httpd.conf; \
+    # Don't rewrite files or directories \
+    echo '    RewriteCond %{REQUEST_FILENAME} -f [OR]' >> /usr/local/apache2/conf/httpd.conf; \
+    echo '    RewriteCond %{REQUEST_FILENAME} -d' >> /usr/local/apache2/conf/httpd.conf; \
+    echo '    RewriteRule ^ - [L]' >> /usr/local/apache2/conf/httpd.conf; \
+    # Rewrite everything else to index.html to allow html5 state links \
+    echo '    RewriteRule ^ index.html [QSA,L]' >> /usr/local/apache2/conf/httpd.conf; \
+    echo '</Location>' >> /usr/local/apache2/conf/httpd.conf; \
     # Compress all files except images \
     echo 'SetOutputFilter DEFLATE' >> /usr/local/apache2/conf/httpd.conf; \
     echo 'SetEnvIfNoCase Request_URI "\.(?:gif|jpe?g|png)$" no-gzip' >> /usr/local/apache2/conf/httpd.conf; \
