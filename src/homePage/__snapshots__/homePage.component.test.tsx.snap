@@ -41,7 +41,7 @@ exports[`Home page component homepage renders correctly 1`] = `
       class="MuiBox-root css-1qrn4l7"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-cswzw8-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
       >
         <div
           class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -94,10 +94,10 @@ exports[`Home page component homepage renders correctly 1`] = `
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-yaog9p-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-cswzw8-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
           >
             <div
               class="MuiBox-root css-1onku40"
@@ -146,10 +146,10 @@ exports[`Home page component homepage renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-yaog9p-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-cswzw8-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
           >
             <div
               class="MuiBox-root css-1onku40"
@@ -198,10 +198,10 @@ exports[`Home page component homepage renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-yaog9p-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-14j46dq-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
           >
             <div
               style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
