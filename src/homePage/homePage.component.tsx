@@ -55,6 +55,7 @@ const paperStyles = {
   borderRadius: '4px',
   marginBottom: 2,
   height: '100%',
+  width: '100%',
 };
 
 const avatarStyles = {
@@ -270,7 +271,7 @@ const HomePage = (): React.ReactElement => {
           </Grid>
         </Paper>
         <Grid container spacing={2}>
-          <Grid item sm={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Paper sx={paperStyles} elevation={1}>
               <Box sx={paperContentStyles}>
                 <Avatar sx={avatarStyles}>
@@ -296,7 +297,7 @@ const HomePage = (): React.ReactElement => {
               </Box>
             </Paper>
           </Grid>
-          <Grid item sm={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Paper sx={paperStyles} elevation={1}>
               <Box sx={paperContentStyles}>
                 <Avatar sx={avatarStyles}>
@@ -322,7 +323,7 @@ const HomePage = (): React.ReactElement => {
               </Box>
             </Paper>
           </Grid>
-          <Grid item sm={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Paper
               sx={{ ...paperStyles, backgroundColor: '#003088' }}
               elevation={1}
