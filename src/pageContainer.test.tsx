@@ -14,6 +14,12 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import { buildTheme } from './theming';
 
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(() => true),
+}));
+
 describe('PageContainer - Tests', () => {
   let state: StateType;
 

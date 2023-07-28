@@ -3,7 +3,7 @@ import configureStore, { MockStoreCreator } from 'redux-mock-store';
 import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import * as singleSpa from 'single-spa';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider, useMediaQuery } from '@mui/material';
 import Routing, { PluginPlaceHolder } from './routing.component';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { StateType } from '../state/state.types';
@@ -19,6 +19,11 @@ jest.mock(
 );
 jest.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
+}));
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
 }));
 
 describe('Routing component', () => {
@@ -51,6 +56,11 @@ describe('Routing component', () => {
 
     history = createMemoryHistory();
     mockStore = configureStore();
+
+    // I don't think MediaQuery works properly in jest
+    // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
+    // here we assume it is always the case.
+    jest.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   afterEach(() => {

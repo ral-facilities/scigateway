@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { StateType } from '../state/state.types';
 import {
@@ -21,20 +21,25 @@ import AccessibilityPage from '../accessibilityPage/accessibilityPage.component'
 import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
+import { useMediaQuery } from '@mui/material';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
+  isMobileViewport: boolean;
 }
 
 const ContainerDiv = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'drawerOpen',
-})<ContainerDivProps>(({ theme, drawerOpen }) => {
+  shouldForwardProp: (prop) =>
+    prop !== 'drawerOpen' && prop !== 'isMobileViewport',
+})<ContainerDivProps>(({ theme, drawerOpen, isMobileViewport }) => {
   if (drawerOpen) {
     return {
-      width: `calc(100% - ${theme.drawerWidth})`,
-      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+      width: isMobileViewport ? '100%' : `calc(100% - ${theme.drawerWidth})`,
+      maxHeight: isMobileViewport
+        ? `calc(100vh - ${theme.mainAppBarHeight})`
+        : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
       overflow: 'auto',
-      marginLeft: theme.drawerWidth,
+      marginLeft: isMobileViewport ? 0 : theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -44,7 +49,9 @@ const ContainerDiv = styled('div', {
 
   return {
     width: '100%',
-    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+    maxHeight: isMobileViewport
+      ? `calc(100vh - ${theme.mainAppBarHeight})`
+      : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
     overflow: 'auto',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeIn,
@@ -117,6 +124,9 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     Object.values(scigatewayRoutes).includes(props.location) ||
       props.location === adminRoutes.maintenance
   );
+
+  const theme = useTheme();
+  const isMobileViewport = useMediaQuery(theme.breakpoints.down('md'));
 
   React.useEffect(() => {
     let intervalId: number | undefined;
@@ -191,7 +201,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     // Otherwise render the login component. Successful logins will continue to the requested
     // route, otherwise they will continue to be prompted to log in.
     // "/" is always accessible
-    <ContainerDiv drawerOpen={props.drawerOpen}>
+    <ContainerDiv
+      drawerOpen={props.drawerOpen}
+      isMobileViewport={isMobileViewport}
+    >
       {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
       <Switch>
         <Route exact path={scigatewayRoutes.home}>

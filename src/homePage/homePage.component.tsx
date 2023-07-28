@@ -1,6 +1,15 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Grid, Box, Paper, Button, Avatar, alpha, styled } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Paper,
+  Button,
+  Avatar,
+  alpha,
+  styled,
+  useMediaQuery,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import DownloadIcon from '@mui/icons-material/GetApp';
 import { Trans, useTranslation } from 'react-i18next';
@@ -13,6 +22,7 @@ import Decal2DarkImage from '../images/decal2-dark.svg';
 import Decal2DarkHCImage from '../images/decal2-darkhc.svg';
 import FacilityImage from '../images/facility.jpg';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 export interface HomePageProps {
   logo: string;
@@ -34,10 +44,18 @@ const backgroundTitleStyles = {
   textAlign: 'center',
 };
 
+const backgroundTitleStylesMobile = {
+  ...backgroundTitleStyles,
+  fontSize: '32px',
+  marginLeft: '8px',
+  marginRight: '8px',
+};
+
 const paperStyles = {
   borderRadius: '4px',
   marginBottom: 2,
   height: '100%',
+  width: '100%',
 };
 
 const avatarStyles = {
@@ -127,6 +145,9 @@ const LightBlueButton = styled(Button)(({ theme }) => ({
 const HomePage = (): React.ReactElement => {
   const [t] = useTranslation();
 
+  const theme = useTheme();
+  const isViewportMdOrLager = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <div id="dg-homepage">
       <div
@@ -154,12 +175,26 @@ const HomePage = (): React.ReactElement => {
               transform: 'translate(-50%)',
             }}
           >
-            <Typography variant="h2" sx={backgroundTitleStyles}>
+            <Typography
+              variant="h2"
+              sx={
+                isViewportMdOrLager
+                  ? backgroundTitleStyles
+                  : backgroundTitleStylesMobile
+              }
+            >
               <Trans i18nKey="home-page.title_line1">
                 <strong>Data discovery</strong> and <strong>access</strong>
               </Trans>
             </Typography>
-            <Typography variant="h2" sx={backgroundTitleStyles}>
+            <Typography
+              variant="h2"
+              sx={
+                isViewportMdOrLager
+                  ? backgroundTitleStyles
+                  : backgroundTitleStylesMobile
+              }
+            >
               <Trans i18nKey="home-page.title_line2">
                 for <strong>large-scale</strong>
                 science facilities
@@ -171,13 +206,13 @@ const HomePage = (): React.ReactElement => {
       <Box
         sx={{
           transform: 'translate(0px, -20px)',
-          marginLeft: '8%',
-          marginRight: '8%',
+          marginLeft: isViewportMdOrLager ? '8%' : '8px',
+          marginRight: isViewportMdOrLager ? '8%' : '8px',
         }}
       >
         <Paper sx={paperStyles} elevation={1}>
           <Grid container style={{ height: '100%' }}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box sx={paperContentStyles}>
                 <Typography
                   variant="h3"
@@ -212,29 +247,31 @@ const HomePage = (): React.ReactElement => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={6}>
-              <div
-                style={{
-                  backgroundImage: `url(${FacilityImage})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'bottom right',
-                  backgroundSize: 'cover',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '4px',
-                }}
-              >
-                <BrowseDecal
-                  decal2Image={Decal2Image}
-                  decal2DarkImage={Decal2DarkImage}
-                  decal2DarkHCImage={Decal2DarkHCImage}
-                />
-              </div>
-            </Grid>
+            {isViewportMdOrLager && (
+              <Grid item md={6}>
+                <div
+                  style={{
+                    backgroundImage: `url(${FacilityImage})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'bottom right',
+                    backgroundSize: 'cover',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '4px',
+                  }}
+                >
+                  <BrowseDecal
+                    decal2Image={Decal2Image}
+                    decal2DarkImage={Decal2DarkImage}
+                    decal2DarkHCImage={Decal2DarkHCImage}
+                  />
+                </div>
+              </Grid>
+            )}
           </Grid>
         </Paper>
         <Grid container spacing={2}>
-          <Grid item sm={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Paper sx={paperStyles} elevation={1}>
               <Box sx={paperContentStyles}>
                 <Avatar sx={avatarStyles}>
@@ -260,7 +297,7 @@ const HomePage = (): React.ReactElement => {
               </Box>
             </Paper>
           </Grid>
-          <Grid item sm={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Paper sx={paperStyles} elevation={1}>
               <Box sx={paperContentStyles}>
                 <Avatar sx={avatarStyles}>
@@ -286,7 +323,7 @@ const HomePage = (): React.ReactElement => {
               </Box>
             </Paper>
           </Grid>
-          <Grid item sm={12} md={4}>
+          <Grid item xs={12} md={4}>
             <Paper
               sx={{ ...paperStyles, backgroundColor: '#003088' }}
               elevation={1}

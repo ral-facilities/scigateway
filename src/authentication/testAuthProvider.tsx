@@ -73,3 +73,9 @@ export default class TestAuthProvider implements AuthProvider {
     return Promise.resolve('test');
   }
 }
+
+export class NonAdminTestAuthProvider extends TestAuthProvider {
+  isAdmin(): boolean {
+    return false;
+  }
+}

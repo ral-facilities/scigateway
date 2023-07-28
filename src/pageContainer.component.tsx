@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Preloader from './preloader/preloader.component';
 import MainAppBar from './mainAppBar/mainAppBar.component';
 import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
@@ -7,6 +7,7 @@ import Routing from './routing/routing.component';
 import Tour from './tour/tour.component';
 import CookieConsent from './cookieConsent/cookieConsent.component';
 import Footer from './footer/footer.component';
+import { useMediaQuery } from '@mui/material';
 
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -15,6 +16,9 @@ const RootDiv = styled('div')(({ theme }) => ({
 }));
 
 const PageContainer = (): React.ReactElement => {
+  const theme = useTheme();
+  const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <RootDiv>
       <Preloader fullScreen={true} />
@@ -23,7 +27,7 @@ const PageContainer = (): React.ReactElement => {
       <Tour />
       <CookieConsent />
       <Routing />
-      <Footer />
+      {isViewportMdOrLarger && <Footer />}
     </RootDiv>
   );
 };
