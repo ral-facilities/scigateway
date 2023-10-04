@@ -446,7 +446,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           if (scheduledMaintenanceState['show']) {
             displayMaintenanceBanner(
               scheduledMaintenanceState['message'],
-              'warning'
+              scheduledMaintenanceState['severity']
             );
           }
         });
@@ -456,7 +456,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 const displayMaintenanceBanner = (
   message: string,
-  severity: 'success' | 'warning' | 'error',
+  severity: 'success' | 'warning' | 'error' | 'information',
   instant = false
 ): void => {
   document.dispatchEvent(

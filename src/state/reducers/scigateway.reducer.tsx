@@ -84,6 +84,7 @@ export const initialState: ScigatewayState = {
   scheduledMaintenance: {
     show: false,
     message: '',
+    severity: 'warning',
   },
   maintenance: {
     show: false,

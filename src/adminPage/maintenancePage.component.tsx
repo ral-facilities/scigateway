@@ -7,6 +7,8 @@ import {
   Checkbox,
   Button,
   styled,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {
   MaintenanceState,
@@ -129,6 +131,29 @@ export const MaintenancePage = (
             label={t('admin.display-checkbox') as string}
             labelPlacement="end"
           />
+          <Select
+            sx={{
+              float: 'left',
+              marginLeft: '10px',
+              paddingTop: '5px',
+              minWidth: '120px',
+            }}
+            value={tempScheduledMaintenance.severity ?? ''}
+            onChange={(e) =>
+              setTempScheduledMaintenance({
+                ...tempScheduledMaintenance,
+                severity: e.target.value as
+                  | 'success'
+                  | 'warning'
+                  | 'error'
+                  | 'information',
+              })
+            }
+            variant="standard"
+          >
+            <MenuItem value="warning">Warning</MenuItem>
+            <MenuItem value="information">Information</MenuItem>
+          </Select>
           <Button
             sx={{ float: 'right' }}
             variant="contained"

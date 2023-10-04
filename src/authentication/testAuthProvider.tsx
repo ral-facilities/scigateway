@@ -51,6 +51,7 @@ export default class TestAuthProvider implements AuthProvider {
     return Promise.resolve({
       show: false,
       message: 'test',
+      severity: 'warning',
     });
   }
 
