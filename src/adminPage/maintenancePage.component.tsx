@@ -149,6 +149,7 @@ export const MaintenancePage = (
                   | 'information',
               })
             }
+            inputProps={{ 'aria-label': t('admin.severity-select-arialabel') }}
             variant="standard"
           >
             <MenuItem value="warning">Warning</MenuItem>

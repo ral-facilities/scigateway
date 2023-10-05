@@ -355,7 +355,11 @@ describe('scigateway reducer', () => {
 
     const updatedState = ScigatewayReducer(
       state,
-      loadScheduledMaintenanceState({ show: true, message: 'test' })
+      loadScheduledMaintenanceState({
+        show: true,
+        message: 'test',
+        severity: 'warning',
+      })
     );
 
     expect(updatedState.scheduledMaintenance.show).toBeTruthy();

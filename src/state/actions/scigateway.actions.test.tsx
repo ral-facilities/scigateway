@@ -884,7 +884,11 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(actions).toContainEqual(
-      loadScheduledMaintenanceState({ show: false, message: 'test' })
+      loadScheduledMaintenanceState({
+        show: false,
+        message: 'test',
+        severity: 'warning',
+      })
     );
   });
 
@@ -939,6 +943,7 @@ describe('scigateway actions', () => {
       Promise.resolve({
         show: true,
         message: 'test',
+        severity: 'warning',
       });
     state.authorisation.provider = testAuthProvider;
 
