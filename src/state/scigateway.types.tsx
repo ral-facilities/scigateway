@@ -188,7 +188,7 @@ export interface ScheduledMaintenanceStatePayLoad {
 export interface ScheduledMaintenanceState {
   show: boolean;
   message: string;
-  severity: 'success' | 'warning' | 'error' | 'information';
+  severity?: 'success' | 'warning' | 'error' | 'information';
 }
 
 export interface MaintenanceStatePayLoad {

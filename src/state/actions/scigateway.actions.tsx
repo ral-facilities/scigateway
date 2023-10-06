@@ -439,6 +439,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       provider
         .fetchScheduledMaintenanceState()
         .then((scheduledMaintenanceState) => {
+          if (scheduledMaintenanceState['severity'] === undefined) {
+            scheduledMaintenanceState['severity'] = 'warning';
+          }
           dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
 
           // Checking the state in the GET response because it does not get
