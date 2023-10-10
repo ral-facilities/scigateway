@@ -57,6 +57,7 @@ import log from 'loglevel';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import LoadingAuthProvider from '../../authentication/loadingAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
+import NullAuthProvider from '../../authentication/nullAuthProvider';
 import { Step } from 'react-joyride';
 import ICATAuthProvider from '../../authentication/icatAuthProvider';
 
@@ -354,27 +355,32 @@ export function handleAuthProviderUpdate(
   payload: AuthProviderPayload
 ): ScigatewayState {
   let provider = state.authorisation.provider;
-  switch (payload.authProvider.split('.')[0]) {
-    case 'jwt':
-      provider = new JWTAuthProvider(payload.authUrl);
-      break;
 
-    case 'github':
-      provider = new GithubAuthProvider(payload.authUrl);
-      break;
+  if (payload.authProvider === null) {
+    provider = new NullAuthProvider();
+  } else {
+    switch (payload.authProvider.split('.')[0]) {
+      case 'jwt':
+        provider = new JWTAuthProvider(payload.authUrl);
+        break;
 
-    case 'icat':
-      provider = new ICATAuthProvider(
-        payload.authProvider.split('.')[1],
-        payload.authUrl,
-        payload.autoLogin
-      );
-      break;
+      case 'github':
+        provider = new GithubAuthProvider(payload.authUrl);
+        break;
 
-    default:
-      throw Error(
-        `Unrecognised auth provider: ${payload.authProvider}, this is a development issue as there is no implementation registered for this provider.`
-      );
+      case 'icat':
+        provider = new ICATAuthProvider(
+          payload.authProvider.split('.')[1],
+          payload.authUrl,
+          payload.autoLogin
+        );
+        break;
+
+      default:
+        throw Error(
+          `Unrecognised auth provider: ${payload.authProvider}, this is a development issue as there is no implementation registered for this provider.`
+        );
+    }
   }
 
   return {

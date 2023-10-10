@@ -176,7 +176,7 @@ export interface DismissNotificationPayload {
 }
 
 export interface AuthProviderPayload {
-  authProvider: string;
+  authProvider: string | null;
   authUrl?: string;
   autoLogin?: boolean;
 }

@@ -151,7 +151,7 @@ export const addHelpTourSteps = (
 });
 
 export const loadAuthProvider = (
-  authProvider: string,
+  authProvider: string | null,
   authUrl?: string,
   autoLogin?: boolean
 ): ActionType<AuthProviderPayload> => ({

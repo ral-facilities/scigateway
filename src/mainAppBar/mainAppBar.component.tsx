@@ -37,6 +37,7 @@ interface MainAppProps {
   res: AppStrings | undefined;
   showHelpPageButton: boolean;
   showAdminPageButton: boolean;
+  showUserComponent: boolean;
   singlePluginLogo: boolean;
   loggedIn: boolean;
   darkMode: boolean;
@@ -207,7 +208,7 @@ export const MainAppBar = (
           )}
 
           {props.loggedIn && <NotificationBadgeComponent />}
-          <UserProfileComponent />
+          {props.showUserComponent && <UserProfileComponent />}
 
           {!isViewportMdOrLarger && (
             <IconButton
@@ -252,6 +253,9 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   showAdminPageButton:
     state.scigateway.authorisation.provider.isLoggedIn() &&
     state.scigateway.authorisation.provider.isAdmin(),
+  showUserComponent:
+    state.scigateway.authorisation.provider.constructor.name !==
+    'NullAuthProvider',
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
   highContrastMode: state.scigateway.highContrastMode,

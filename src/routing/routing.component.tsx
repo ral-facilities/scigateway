@@ -67,6 +67,7 @@ interface RoutingProps {
   maintenance: MaintenanceState;
   userIsloggedIn: boolean;
   userIsAdmin: boolean;
+  nullAuthProvider: boolean;
   homepageUrl?: string;
   loading: boolean;
 }
@@ -229,14 +230,18 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
              As the intial state of userIsLoggedIn is false we have to wait
              until the page has fully loaded so it can receive the correct state
              for userIsLoggedIn */}
-          {!props.userIsloggedIn || props.loading ? (
+          {props.nullAuthProvider ? (
+            <Redirect to={scigatewayRoutes.home} />
+          ) : !props.userIsloggedIn || props.loading ? (
             <LoginPage />
           ) : (
             <Redirect to={scigatewayRoutes.logout} />
           )}
         </Route>
         <Route exact path={scigatewayRoutes.logout}>
-          {props.userIsloggedIn || props.loading ? (
+          {props.nullAuthProvider ? (
+            <Redirect to={scigatewayRoutes.home} />
+          ) : props.userIsloggedIn || props.loading ? (
             <LogoutPage />
           ) : (
             <Redirect to={scigatewayRoutes.login} />
@@ -272,6 +277,9 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
       state.scigateway.authorisation.provider.autoLogin &&
       localStorage.getItem('autoLogin') === 'true'
     ),
+  nullAuthProvider:
+    state.scigateway.authorisation.provider.constructor.name ===
+    'NullAuthProvider',
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   homepageUrl: state.scigateway.homepageUrl,
   loading: state.scigateway.siteLoading,
