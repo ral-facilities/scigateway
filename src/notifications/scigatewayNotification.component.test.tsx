@@ -56,6 +56,14 @@ describe('Scigateway Notification component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('Scigateway Notification information message renders correctly', () => {
+    const { asFragment } = render(
+      createScigatewayNotification('information', 'information message'),
+      { wrapper: Wrapper }
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
+
   it('an action is fired when Scigateway Notification button is clicked', async () => {
     const mockDismissFn = jest.fn();
     const user = userEvent.setup();

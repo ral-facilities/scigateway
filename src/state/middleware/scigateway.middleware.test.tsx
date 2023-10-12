@@ -668,6 +668,45 @@ describe('scigateway middleware', () => {
       expect(mockToastr.calls[0][0]).toContain('Warning');
       expect(mockToastr.calls[0][1]).toContain('test notification');
     });
+
+    it('should listen for notification events and create toast for information', () => {
+      toastr.info = jest.fn();
+      listenToPlugins(store.dispatch, getState);
+
+      const notificationAction = {
+        type: NotificationType,
+        payload: {
+          message: 'test notification',
+          severity: 'information',
+        },
+      };
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(toastr.info).toHaveBeenCalled();
+      const mockToastr = (toastr.info as jest.Mock).mock;
+      expect(mockToastr.calls[0][0]).toContain('Information');
+      expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
+
+    it('should listen for notification events and log error for invalid severity', () => {
+      log.error = jest.fn();
+      listenToPlugins(store.dispatch, getState);
+
+      const notificationAction = {
+        type: NotificationType,
+        payload: {
+          message: 'test notification',
+          severity: 'invalid',
+        },
+      };
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(log.error).toHaveBeenCalled();
+      const mockLog = (log.error as jest.Mock).mock;
+      expect(mockLog.calls[0][0]).toContain(
+        'Invalid severity provided: invalid'
+      );
+    });
   });
 
   it('should broadcast requestpluginrerender action but ignore it itself', () => {

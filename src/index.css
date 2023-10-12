@@ -18,11 +18,8 @@ code {
   top: 70px !important;
 }
 
-.redux-toastr .toastr.rrt-warning {
-  color: #000000;
-}
-
-.redux-toastr .toastr.rrt-error {
+/* Need to modify to black as the default white isn't good enough contrast */
+.redux-toastr :is(.toastr.rrt-warning, .toastr.rrt-error, .toastr.rrt-info, .toastr.rrt-success) {
   color: #000000;
 }
 

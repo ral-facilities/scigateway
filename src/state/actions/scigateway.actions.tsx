@@ -439,6 +439,9 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       provider
         .fetchScheduledMaintenanceState()
         .then((scheduledMaintenanceState) => {
+          if (scheduledMaintenanceState['severity'] === undefined) {
+            scheduledMaintenanceState['severity'] = 'warning';
+          }
           dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
 
           // Checking the state in the GET response because it does not get
@@ -446,7 +449,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           if (scheduledMaintenanceState['show']) {
             displayMaintenanceBanner(
               scheduledMaintenanceState['message'],
-              'warning'
+              scheduledMaintenanceState['severity']
             );
           }
         });
@@ -456,7 +459,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 const displayMaintenanceBanner = (
   message: string,
-  severity: 'success' | 'warning' | 'error',
+  severity: 'success' | 'warning' | 'error' | 'information',
   instant = false
 ): void => {
   document.dispatchEvent(
