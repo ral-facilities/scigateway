@@ -88,6 +88,7 @@ export class PluginPlaceHolder extends React.PureComponent<{
 }
 
 export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
+export const UnauthorisedPlugin = PluginPlaceHolder;
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
@@ -95,20 +96,27 @@ export const getPluginRoutes = (
   plugins: PluginConfig[],
   admin?: boolean
 ): {
-  [plugin: string]: string[];
+  [plugin: string]: { link: string; unauthorised?: boolean }[];
 } => {
   const pluginRoutes: {
-    [plugin: string]: string[];
+    [plugin: string]: { link: string; unauthorised?: boolean }[];
   } = {};
-
   plugins.forEach((p) => {
     const isAdmin = admin ? p.admin : !p.admin;
     const basePluginLink = p.link.split('?')[0];
     if (isAdmin) {
       if (pluginRoutes[p.plugin]) {
-        pluginRoutes[p.plugin].push(basePluginLink);
+        pluginRoutes[p.plugin].push({
+          link: basePluginLink,
+          unauthorised: p.unauthorised,
+        });
       } else {
-        pluginRoutes[p.plugin] = [basePluginLink];
+        pluginRoutes[p.plugin] = [
+          {
+            link: basePluginLink,
+            unauthorised: p.unauthorised,
+          },
+        ];
       }
     }
   });
@@ -252,10 +260,16 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         {props.maintenance.show && !props.userIsAdmin ? (
           <Route component={MaintenancePage} />
         ) : (
+          //TODO: wrong way of doing unauthorised
+          // I think whole plugin should be authorised or not ?
           Object.entries(pluginRoutes).map(([key, value]) => {
             return (
               <Route key={key} path={value}>
-                <AuthorisedPlugin id={key} />
+                {value ? (
+                  <UnauthorisedPlugin id={key} />
+                ) : (
+                  <AuthorisedPlugin id={key} />
+                )}
               </Route>
             );
           })

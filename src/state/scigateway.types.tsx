@@ -114,6 +114,7 @@ export interface RegisterRoutePayload {
   link: string;
   plugin: string;
   displayName: string;
+  unauthorised?: boolean;
   hideFromMenu?: boolean;
   admin?: boolean;
   order: number;
@@ -129,6 +130,7 @@ export interface PluginConfig {
   link: string;
   plugin: string;
   displayName: string;
+  unauthorised?: boolean;
   hideFromMenu?: boolean;
   admin?: boolean;
   order: number;
