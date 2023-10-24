@@ -92,42 +92,7 @@ export const UnauthorisedPlugin = PluginPlaceHolder;
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
-export const getPluginRoutes = (
-  plugins: PluginConfig[],
-  admin?: boolean
-): {
-  [plugin: string]: { link: string; unauthorised?: boolean }[];
-} => {
-  const pluginRoutes: {
-    [plugin: string]: { link: string; unauthorised?: boolean }[];
-  } = {};
-  plugins.forEach((p) => {
-    const isAdmin = admin ? p.admin : !p.admin;
-    const basePluginLink = p.link.split('?')[0];
-    if (isAdmin) {
-      if (pluginRoutes[p.plugin]) {
-        pluginRoutes[p.plugin].push({
-          link: basePluginLink,
-          unauthorised: p.unauthorised,
-        });
-      } else {
-        pluginRoutes[p.plugin] = [
-          {
-            link: basePluginLink,
-            unauthorised: p.unauthorised,
-          },
-        ];
-      }
-    }
-  });
-  return pluginRoutes;
-};
-
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
-  const [pluginRoutes, setPluginRoutes] = React.useState(
-    getPluginRoutes(props.plugins)
-  );
-
   // only set to false if we're on a plugin route i.e. not a scigateway route
   const manuallyLoadedPluginRef = React.useRef(
     Object.values(scigatewayRoutes).includes(props.location) ||
@@ -166,8 +131,6 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   }, [props.loading, props.plugins, props.location]);
 
   React.useEffect(() => {
-    setPluginRoutes(getPluginRoutes(props.plugins));
-
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount
     // so we need to explicitly tell single-spa to remount that specific plugin
@@ -189,7 +152,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         newPlugin &&
         oldPlugin.plugin === newPlugin.plugin &&
         ((oldPlugin.admin && !newPlugin.admin) ||
-          (newPlugin.admin && !oldPlugin.admin))
+          (newPlugin.admin && !oldPlugin.admin) ||
+          oldPlugin.unauthorised !== newPlugin.unauthorised)
       ) {
         singleSpa.unloadApplication(oldPlugin.plugin);
       }
@@ -260,15 +224,13 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         {props.maintenance.show && !props.userIsAdmin ? (
           <Route component={MaintenancePage} />
         ) : (
-          //TODO: wrong way of doing unauthorised
-          // I think whole plugin should be authorised or not ?
-          Object.entries(pluginRoutes).map(([key, value]) => {
+          props.plugins.map((plugin) => {
             return (
-              <Route key={key} path={value}>
-                {value ? (
-                  <UnauthorisedPlugin id={key} />
+              <Route key={plugin.plugin} path={plugin.link.split('?')[0]}>
+                {plugin.unauthorised ? (
+                  <UnauthorisedPlugin id={plugin.plugin} />
                 ) : (
-                  <AuthorisedPlugin id={key} />
+                  <AuthorisedPlugin id={plugin.plugin} />
                 )}
               </Route>
             );

@@ -1,13 +1,11 @@
 import { AuthProvider } from '../state/state.types';
 
 export default class NullAuthProvider implements AuthProvider {
-  private token: string | null;
   public redirectUrl: string | null;
   public user = null;
   public authUrl: string | undefined;
 
   public constructor() {
-    this.token = null;
     this.redirectUrl = null;
   }
 
@@ -20,7 +18,7 @@ export default class NullAuthProvider implements AuthProvider {
   }
 
   public logOut(): void {
-    this.token = null;
+    // Do nothing
   }
 
   public logIn(): Promise<void> {
