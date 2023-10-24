@@ -115,6 +115,32 @@ describe('Routing component', () => {
         admin: true,
         order: 5,
       },
+      {
+        section: 'test section',
+        link: 'test link not authorised',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin Not Authorised',
+        unauthorised: true,
+        order: 6,
+      },
+    ];
+
+    const { asFragment } = render(<Routing />, { wrapper: Wrapper });
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('renders an unauthorised route for a plugin', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: 'test link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        unauthorised: true,
+        order: 1,
+      },
     ];
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
