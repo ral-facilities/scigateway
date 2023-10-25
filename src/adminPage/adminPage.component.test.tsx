@@ -2,6 +2,7 @@ import React from 'react';
 import { createLocation, createMemoryHistory, History } from 'history';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
+import { PluginConfig } from '../state/scigateway.types';
 import configureStore from 'redux-mock-store';
 import AdminPage from './adminPage.component';
 import { Provider } from 'react-redux';
@@ -12,6 +13,7 @@ import { Router } from 'react-router';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { getPluginRoutes } from './adminPage.component';
 
 describe('Admin page component', () => {
   let mockStore;
@@ -127,5 +129,69 @@ describe('Admin page component', () => {
     expect(
       await screen.findByRole('tabpanel', { name: 'Maintenance' })
     ).toBeInTheDocument();
+  });
+
+  it('should return an empty object when given an empty plugins array', () => {
+    const plugins = [];
+    const result = getPluginRoutes(plugins);
+    expect(result).toEqual({});
+  });
+
+  it('should correctly filter and group plugin routes for admin users', () => {
+    const plugins: PluginConfig[] = [
+      {
+        plugin: 'PluginA',
+        admin: true,
+        link: '/admin/pluginA',
+        section: 'A',
+        displayName: 'A',
+        order: 1,
+      },
+      {
+        plugin: 'PluginA',
+        admin: true,
+        link: '/admin/pluginA2',
+        section: 'A',
+        displayName: 'A2',
+        order: 2,
+      },
+      {
+        plugin: 'PluginB',
+        admin: false,
+        link: '/public/pluginB',
+        section: 'B',
+        displayName: 'B',
+        order: 3,
+      },
+    ];
+    const result = getPluginRoutes(plugins, true); // Admin user
+    expect(result).toEqual({
+      PluginA: ['/admin/pluginA', '/admin/pluginA2'],
+    });
+  });
+
+  it('should correctly filter and group plugin routes for non-admin users', () => {
+    const plugins: PluginConfig[] = [
+      {
+        plugin: 'PluginA',
+        admin: true,
+        link: '/admin/pluginA',
+        section: 'A',
+        displayName: 'A',
+        order: 1,
+      },
+      {
+        plugin: 'PluginB',
+        admin: false,
+        link: '/public/pluginB',
+        section: 'B',
+        displayName: 'B',
+        order: 2,
+      },
+    ];
+    const result = getPluginRoutes(plugins, false); // Non-admin user
+    expect(result).toEqual({
+      PluginB: ['/public/pluginB'],
+    });
   });
 });

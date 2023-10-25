@@ -18,7 +18,7 @@ export interface AdminPageProps {
   adminPageDefaultTab?: 'maintenance' | 'download';
 }
 
-const getPluginRoutes = (
+export const getPluginRoutes = (
   plugins: PluginConfig[],
   admin?: boolean
 ): {
