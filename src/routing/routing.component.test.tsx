@@ -236,7 +236,7 @@ describe('Routing component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it.only('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {
+  it('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {
     state.scigateway.authorisation.provider = new NullAuthProvider();
     render(<Routing />, { wrapper: Wrapper });
     expect(history.location.pathname).toEqual('/');
