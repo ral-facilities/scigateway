@@ -132,7 +132,7 @@ describe('Routing component', () => {
   });
 
   it('renders an unauthorised route for a plugin', () => {
-    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.plugins = [
       {
         section: 'test section',

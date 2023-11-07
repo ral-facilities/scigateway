@@ -31,6 +31,7 @@ import SettingsMenu from './settingsMenu.component';
 import MobileOverflowMenu from './mobileOverflowMenu.component';
 import { appBarIconButtonStyle, appBarMenuItemIconStyle } from './styles';
 import PageLinks from './pageLinks.component';
+import NullAuthProvider from '../authentication/nullAuthProvider';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -253,9 +254,9 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   showAdminPageButton:
     state.scigateway.authorisation.provider.isLoggedIn() &&
     state.scigateway.authorisation.provider.isAdmin(),
-  showUserComponent:
-    state.scigateway.authorisation.provider.constructor.name !==
-    'NullAuthProvider',
+  showUserComponent: !(
+    state.scigateway.authorisation.provider instanceof NullAuthProvider
+  ),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
   highContrastMode: state.scigateway.highContrastMode,

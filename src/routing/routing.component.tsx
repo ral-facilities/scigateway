@@ -22,6 +22,7 @@ import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
 import { useMediaQuery } from '@mui/material';
+import NullAuthProvider from '../authentication/nullAuthProvider';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
@@ -254,8 +255,7 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
       localStorage.getItem('autoLogin') === 'true'
     ),
   nullAuthProvider:
-    state.scigateway.authorisation.provider.constructor.name ===
-    'NullAuthProvider',
+    state.scigateway.authorisation.provider instanceof NullAuthProvider,
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   homepageUrl: state.scigateway.homepageUrl,
   loading: state.scigateway.siteLoading,
