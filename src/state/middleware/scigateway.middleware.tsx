@@ -44,7 +44,7 @@ const toastrMessageOptions = {
 
 const toastrMessage = (
   message: string,
-  severity: 'success' | 'warning' | 'error'
+  severity: 'success' | 'warning' | 'error' | 'information'
 ): void => {
   switch (severity) {
     case 'success':
@@ -55,6 +55,9 @@ const toastrMessage = (
       break;
     case 'error':
       toastr.error('Error', message, toastrMessageOptions);
+      break;
+    case 'information':
+      toastr.info('Information', message, toastrMessageOptions);
       break;
     default:
       log.error(`Invalid severity provided: ${severity}`);

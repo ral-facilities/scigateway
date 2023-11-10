@@ -1,7 +1,9 @@
 describe('Login', () => {
   beforeEach(() => {
     // intercept these requests so they don't throw exceptions
-    cy.intercept('/scheduled_maintenance', {}).as('scheduled_maintenance');
+    cy.intercept('/scheduled_maintenance', { message: 'test' }).as(
+      'scheduled_maintenance'
+    );
     cy.intercept('/maintenance', {}).as('maintenance');
     // localStorage isn't always cleaned up properly between tests
     // see cypress issues #2573, #781, #5876

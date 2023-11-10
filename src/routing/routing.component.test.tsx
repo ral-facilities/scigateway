@@ -3,13 +3,14 @@ import configureStore, { MockStoreCreator } from 'redux-mock-store';
 import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import * as singleSpa from 'single-spa';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider, useMediaQuery } from '@mui/material';
 import Routing, { PluginPlaceHolder } from './routing.component';
 import TestAuthProvider from '../authentication/testAuthProvider';
+import NullAuthProvider from '../authentication/nullAuthProvider';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { buildTheme } from '../theming';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { Router } from 'react-router';
 
 jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
@@ -19,6 +20,11 @@ jest.mock(
 );
 jest.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
+}));
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
 }));
 
 describe('Routing component', () => {
@@ -51,6 +57,11 @@ describe('Routing component', () => {
 
     history = createMemoryHistory();
     mockStore = configureStore();
+
+    // I don't think MediaQuery works properly in jest
+    // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
+    // here we assume it is always the case.
+    jest.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   afterEach(() => {
@@ -104,6 +115,32 @@ describe('Routing component', () => {
         displayName: 'Test Plugin Admin Alt link',
         admin: true,
         order: 5,
+      },
+      {
+        section: 'test section',
+        link: 'test link not authorised',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin Not Authorised',
+        unauthorised: true,
+        order: 6,
+      },
+    ];
+
+    const { asFragment } = render(<Routing />, { wrapper: Wrapper });
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('renders an unauthorised route for a plugin', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: 'test link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        unauthorised: true,
+        order: 1,
       },
     ];
 
@@ -199,6 +236,22 @@ describe('Routing component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {
+    state.scigateway.authorisation.provider = new NullAuthProvider();
+    render(<Routing />, { wrapper: Wrapper });
+    expect(history.location.pathname).toEqual('/');
+
+    act(() => {
+      history.replace('/login');
+    });
+    expect(history.location.pathname).toEqual('/');
+
+    act(() => {
+      history.replace('/logout');
+    });
+    expect(history.location.pathname).toEqual('/');
+  });
+
   it('single-spa remounts a plugin when switching between admin and non-admin plugins via single-spa:before-no-app-change event', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
@@ -240,6 +293,56 @@ describe('Routing component', () => {
       new CustomEvent('single-spa:before-no-app-change', {
         detail: {
           oldUrl: 'http://localhost/admin_test_link',
+          newUrl: 'http://localhost/test_link',
+        },
+      })
+    );
+    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
+      'test_plugin_name'
+    );
+  });
+
+  it('single-spa remounts a plugin when switching between authorised and unauthorised plugins via single-spa:before-no-app-change event', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: '/test_link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        order: 1,
+      },
+      {
+        section: 'test section',
+        link: '/unauthorised_test_link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin Admin',
+        unauthorised: true,
+        order: 2,
+      },
+    ];
+
+    render(<Routing />, { wrapper: Wrapper });
+
+    window.dispatchEvent(
+      new CustomEvent('single-spa:before-no-app-change', {
+        detail: {
+          oldUrl: 'http://localhost/test_link',
+          newUrl: 'http://localhost/unauthorised_test_link',
+        },
+      })
+    );
+    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
+      'test_plugin_name'
+    );
+
+    (singleSpa.unloadApplication as jest.Mock).mockClear();
+
+    window.dispatchEvent(
+      new CustomEvent('single-spa:before-no-app-change', {
+        detail: {
+          oldUrl: 'http://localhost/unauthorised_test_link',
           newUrl: 'http://localhost/test_link',
         },
       })

@@ -9,10 +9,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Link, Route, Switch, useLocation } from 'react-router-dom';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
-import {
-  getPluginRoutes,
-  PluginPlaceHolder,
-} from '../routing/routing.component';
+import { PluginPlaceHolder } from '../routing/routing.component';
 import MaintenancePage from './maintenancePage.component';
 import { useTranslation } from 'react-i18next';
 
@@ -20,6 +17,30 @@ export interface AdminPageProps {
   plugins: PluginConfig[];
   adminPageDefaultTab?: 'maintenance' | 'download';
 }
+
+export const getPluginRoutes = (
+  plugins: PluginConfig[],
+  admin?: boolean
+): {
+  [plugin: string]: string[];
+} => {
+  const pluginRoutes: {
+    [plugin: string]: string[];
+  } = {};
+
+  plugins.forEach((p) => {
+    const isAdmin = admin ? p.admin : !p.admin;
+    const basePluginLink = p.link.split('?')[0];
+    if (isAdmin) {
+      if (pluginRoutes[p.plugin]) {
+        pluginRoutes[p.plugin].push(basePluginLink);
+      } else {
+        pluginRoutes[p.plugin] = [basePluginLink];
+      }
+    }
+  });
+  return pluginRoutes;
+};
 
 const AdminPage = (props: AdminPageProps): ReactElement => {
   const pluginRoutes = getPluginRoutes(props.plugins, true);

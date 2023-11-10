@@ -70,7 +70,7 @@ const toastrConfig = (): React.ReactElement => (
 class App extends React.Component<WithTranslation> {
   public componentDidMount(): void {
     // Check for changes in maintenance state. Ensures that state changes are
-    // loaded when a user does not reload the site for longer than an hour.
+    // loaded when a user does not reload the site for longer than 5 minutes.
     setInterval(() => {
       const provider = getState().scigateway.authorisation.provider;
       if (provider.fetchMaintenanceState) {
@@ -81,10 +81,14 @@ class App extends React.Component<WithTranslation> {
             storedMaintenanceState.message !== fetchedMaintenanceState.message
           ) {
             dispatch(loadMaintenanceState(fetchedMaintenanceState));
+
+            // Reload the page if maintenance state changes from true to false
+            if (storedMaintenanceState.show && !fetchedMaintenanceState.show)
+              window.location.reload();
           }
         });
       }
-    }, 1000 * 60 * 60);
+    }, 1000 * 60 * 5);
   }
 
   public render(): React.ReactElement {

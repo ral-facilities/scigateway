@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Clear';
 import TickIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/ErrorOutline';
 import ErrorIcon from '@mui/icons-material/HighlightOff';
+import InfoIcon from '@mui/icons-material/Info';
 import { Action } from 'redux';
 
 const severityIconStyle = {
@@ -40,6 +41,14 @@ const ScigatewayNotification = React.forwardRef(function ScigatewayNotification(
           sx={{
             ...severityIconStyle,
             color: (theme: Theme) => theme.colours.lightOrange,
+          }}
+        />
+      ) : null}
+      {props.severity === 'information' ? (
+        <InfoIcon
+          sx={{
+            ...severityIconStyle,
+            color: (theme: Theme) => theme.colours.lightBlue,
           }}
         />
       ) : null}

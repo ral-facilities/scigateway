@@ -6,6 +6,12 @@ import { ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { MemoryRouter } from 'react-router-dom';
 
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(() => true),
+}));
+
 describe('Home page component', () => {
   it('homepage renders correctly', () => {
     const { asFragment } = render(

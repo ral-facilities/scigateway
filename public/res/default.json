@@ -15,7 +15,9 @@
     "admin-page": "Admin page",
     "help-page": "Help page",
     "open-browser-settings": "Open browser settings",
-    "home-page": "Home page"
+    "home-page": "Home page",
+    "tutorial": "Tutorial",
+    "open-mobile-menu": "More options"
   },
   "login": {
     "title": "Sign in",
@@ -139,9 +141,7 @@
   "accessibility-page": {
     "title": "Accessibility statement for DataGateway",
     "domains-list-text": "This accessibility statement applies to all facilities using DataGateway. This includes:",
-    "domains-list": [
-      "https://data.isis.stfc.ac.uk "
-    ],
+    "domains-list": ["https://data.isis.stfc.ac.uk "],
     "website-developed-by": "These sites are maintained by the Data Software and Engineering Group, in the Scientific Computing Department. ",
     "how-accessible-this-website-is": "How Accessible This Website Is ",
     "how-accessible-this-website-is-text": "We want as many people as possible to be able to use this website. For example, that means you should be able to: ",

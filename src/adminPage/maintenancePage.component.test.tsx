@@ -71,13 +71,21 @@ describe('maintenance page component', () => {
       })
     );
     await user.click(
+      screen.getByRole('button', { name: 'admin.severity-select-arialabel' })
+    );
+    await user.click(screen.getByRole('option', { name: 'Information' }));
+    await user.click(
       screen.getAllByRole('button', { name: 'admin.save-button' })[0]
     );
 
     await waitFor(() => {
       expect(store.getActions().length).toEqual(1);
       expect(store.getActions()[0]).toEqual(
-        loadScheduledMaintenanceState({ show: true, message: 'test' })
+        loadScheduledMaintenanceState({
+          show: true,
+          message: 'test',
+          severity: 'information',
+        })
       );
     });
   });
