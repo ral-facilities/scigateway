@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { StateType } from '../state/state.types';
 import {
@@ -21,20 +21,26 @@ import AccessibilityPage from '../accessibilityPage/accessibilityPage.component'
 import withAuth from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
+import { useMediaQuery } from '@mui/material';
+import NullAuthProvider from '../authentication/nullAuthProvider';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
+  isMobileViewport: boolean;
 }
 
 const ContainerDiv = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'drawerOpen',
-})<ContainerDivProps>(({ theme, drawerOpen }) => {
+  shouldForwardProp: (prop) =>
+    prop !== 'drawerOpen' && prop !== 'isMobileViewport',
+})<ContainerDivProps>(({ theme, drawerOpen, isMobileViewport }) => {
   if (drawerOpen) {
     return {
-      width: `calc(100% - ${theme.drawerWidth})`,
-      maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+      width: isMobileViewport ? '100%' : `calc(100% - ${theme.drawerWidth})`,
+      maxHeight: isMobileViewport
+        ? `calc(100vh - ${theme.mainAppBarHeight})`
+        : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
       overflow: 'auto',
-      marginLeft: theme.drawerWidth,
+      marginLeft: isMobileViewport ? 0 : theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -44,7 +50,9 @@ const ContainerDiv = styled('div', {
 
   return {
     width: '100%',
-    maxHeight: `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+    maxHeight: isMobileViewport
+      ? `calc(100vh - ${theme.mainAppBarHeight})`
+      : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
     overflow: 'auto',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeIn,
@@ -60,6 +68,7 @@ interface RoutingProps {
   maintenance: MaintenanceState;
   userIsloggedIn: boolean;
   userIsAdmin: boolean;
+  nullAuthProvider: boolean;
   homepageUrl?: string;
   loading: boolean;
 }
@@ -80,43 +89,19 @@ export class PluginPlaceHolder extends React.PureComponent<{
 }
 
 export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
+export const UnauthorisedPlugin = PluginPlaceHolder;
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
-export const getPluginRoutes = (
-  plugins: PluginConfig[],
-  admin?: boolean
-): {
-  [plugin: string]: string[];
-} => {
-  const pluginRoutes: {
-    [plugin: string]: string[];
-  } = {};
-
-  plugins.forEach((p) => {
-    const isAdmin = admin ? p.admin : !p.admin;
-    const basePluginLink = p.link.split('?')[0];
-    if (isAdmin) {
-      if (pluginRoutes[p.plugin]) {
-        pluginRoutes[p.plugin].push(basePluginLink);
-      } else {
-        pluginRoutes[p.plugin] = [basePluginLink];
-      }
-    }
-  });
-  return pluginRoutes;
-};
-
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
-  const [pluginRoutes, setPluginRoutes] = React.useState(
-    getPluginRoutes(props.plugins)
-  );
-
   // only set to false if we're on a plugin route i.e. not a scigateway route
   const manuallyLoadedPluginRef = React.useRef(
     Object.values(scigatewayRoutes).includes(props.location) ||
       props.location === adminRoutes.maintenance
   );
+
+  const theme = useTheme();
+  const isMobileViewport = useMediaQuery(theme.breakpoints.down('md'));
 
   React.useEffect(() => {
     let intervalId: number | undefined;
@@ -147,8 +132,6 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   }, [props.loading, props.plugins, props.location]);
 
   React.useEffect(() => {
-    setPluginRoutes(getPluginRoutes(props.plugins));
-
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount
     // so we need to explicitly tell single-spa to remount that specific plugin
@@ -170,7 +153,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         newPlugin &&
         oldPlugin.plugin === newPlugin.plugin &&
         ((oldPlugin.admin && !newPlugin.admin) ||
-          (newPlugin.admin && !oldPlugin.admin))
+          (newPlugin.admin && !oldPlugin.admin) ||
+          oldPlugin.unauthorised !== newPlugin.unauthorised)
       ) {
         singleSpa.unloadApplication(oldPlugin.plugin);
       }
@@ -191,7 +175,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     // Otherwise render the login component. Successful logins will continue to the requested
     // route, otherwise they will continue to be prompted to log in.
     // "/" is always accessible
-    <ContainerDiv drawerOpen={props.drawerOpen}>
+    <ContainerDiv
+      drawerOpen={props.drawerOpen}
+      isMobileViewport={isMobileViewport}
+    >
       {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
       <Switch>
         <Route exact path={scigatewayRoutes.home}>
@@ -216,14 +203,18 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
              As the intial state of userIsLoggedIn is false we have to wait
              until the page has fully loaded so it can receive the correct state
              for userIsLoggedIn */}
-          {!props.userIsloggedIn || props.loading ? (
+          {props.nullAuthProvider ? (
+            <Redirect to={scigatewayRoutes.home} />
+          ) : !props.userIsloggedIn || props.loading ? (
             <LoginPage />
           ) : (
             <Redirect to={scigatewayRoutes.logout} />
           )}
         </Route>
         <Route exact path={scigatewayRoutes.logout}>
-          {props.userIsloggedIn || props.loading ? (
+          {props.nullAuthProvider ? (
+            <Redirect to={scigatewayRoutes.home} />
+          ) : props.userIsloggedIn || props.loading ? (
             <LogoutPage />
           ) : (
             <Redirect to={scigatewayRoutes.login} />
@@ -234,10 +225,14 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         {props.maintenance.show && !props.userIsAdmin ? (
           <Route component={MaintenancePage} />
         ) : (
-          Object.entries(pluginRoutes).map(([key, value]) => {
+          props.plugins.map((plugin) => {
             return (
-              <Route key={key} path={value}>
-                <AuthorisedPlugin id={key} />
+              <Route key={plugin.plugin} path={plugin.link.split('?')[0]}>
+                {plugin.unauthorised ? (
+                  <UnauthorisedPlugin id={plugin.plugin} />
+                ) : (
+                  <AuthorisedPlugin id={plugin.plugin} />
+                )}
               </Route>
             );
           })
@@ -259,6 +254,8 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
       state.scigateway.authorisation.provider.autoLogin &&
       localStorage.getItem('autoLogin') === 'true'
     ),
+  nullAuthProvider:
+    state.scigateway.authorisation.provider instanceof NullAuthProvider,
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),
   homepageUrl: state.scigateway.homepageUrl,
   loading: state.scigateway.siteLoading,

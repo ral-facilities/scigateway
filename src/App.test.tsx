@@ -5,10 +5,16 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { flushPromises } from './setupTests';
 import axios from 'axios';
 import { RegisterRouteType } from './state/scigateway.types';
+import { useMediaQuery } from '@mui/material';
 
 jest.mock('./state/actions/loadMicroFrontends', () => ({
   init: jest.fn(() => Promise.resolve()),
   singleSpaPluginRoutes: ['/plugin1'],
+}));
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
 }));
 
 const testToken =
@@ -20,6 +26,10 @@ window.localStorage.__proto__.getItem = jest.fn().mockImplementation((name) => {
 });
 
 describe('App', () => {
+  beforeEach(() => {
+    jest.mocked(useMediaQuery).mockReturnValue(true);
+  });
+
   afterEach(() => {
     jest.useRealTimers();
   });
@@ -35,7 +45,7 @@ describe('App', () => {
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-  it('loadMaintenanceState dispatched when maintenance changes', async () => {
+  it('should dispatch loadMaintenanceState and force refresh the page when maintenance changes', async () => {
     // mock so token verify succeeds
     (axios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
@@ -43,6 +53,11 @@ describe('App', () => {
       })
     );
     window.matchMedia = jest.fn().mockReturnValue({ matches: true });
+
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { reload: jest.fn() },
+    });
 
     jest.useFakeTimers();
 
@@ -88,5 +103,26 @@ describe('App', () => {
 
     expect(screen.getByText('Maintenance')).toBeInTheDocument();
     expect(screen.getByText('test message')).toBeInTheDocument();
+
+    // should not refresh page when maintenance state changes from false to true
+    expect(window.location.reload).not.toHaveBeenCalled();
+
+    (axios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          show: false,
+          message: 'test message',
+        },
+      })
+    );
+
+    jest.runOnlyPendingTimers();
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    // should refresh page when maintenance state changes from true to false
+    expect(window.location.reload).toHaveBeenCalled();
   });
 });

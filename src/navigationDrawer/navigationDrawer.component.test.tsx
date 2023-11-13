@@ -1,12 +1,28 @@
-import React from 'react';
-import { UnconnectedNavigationDrawer } from './navigationDrawer.component';
+import * as React from 'react';
+import { NavigationDrawer } from './navigationDrawer.component';
 
 import { PluginConfig } from '../state/scigateway.types';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import {
+  StyledEngineProvider,
+  ThemeProvider,
+  useMediaQuery,
+} from '@mui/material';
 import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory, History } from 'history';
 import { buildTheme } from '../theming';
 import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore, Store } from 'redux';
+import { ScigatewayState, StateType } from '../state/state.types';
+import ScigatewayReducer, {
+  initialState as scigatewayInitialState,
+} from '../state/reducers/scigateway.reducer';
+
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
+}));
 
 describe('Navigation drawer component', () => {
   let history: History;
@@ -15,6 +31,10 @@ describe('Navigation drawer component', () => {
   beforeEach(() => {
     history = createMemoryHistory();
     history.replace('/help');
+    // I don't think MediaQuery works properly in jest
+    // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
+    // here we assume it is always the case.
+    jest.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
@@ -27,14 +47,29 @@ describe('Navigation drawer component', () => {
     );
   }
 
+  function createMockStore(initialState: Partial<ScigatewayState>): Store {
+    return createStore(
+      combineReducers<Partial<StateType>>({
+        scigateway: (
+          state = { ...scigatewayInitialState, ...initialState },
+          action
+        ) => ScigatewayReducer(state, action),
+      })
+    );
+  }
+
   it('Navigation drawer renders correctly when open', () => {
     const { asFragment } = render(
-      <UnconnectedNavigationDrawer
-        open
-        plugins={[]}
-        darkMode={false}
-        res={undefined}
-      />,
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: [],
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -43,12 +78,16 @@ describe('Navigation drawer component', () => {
 
   it('Navigation drawer renders correctly when closed', () => {
     const { asFragment } = render(
-      <UnconnectedNavigationDrawer
-        open={false}
-        plugins={[]}
-        darkMode={false}
-        res={undefined}
-      />,
+      <Provider
+        store={createMockStore({
+          drawerOpen: false,
+          plugins: [],
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -85,12 +124,16 @@ describe('Navigation drawer component', () => {
     ];
 
     render(
-      <UnconnectedNavigationDrawer
-        open
-        plugins={dummyPlugins}
-        darkMode={false}
-        res={undefined}
-      />,
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -126,12 +169,16 @@ describe('Navigation drawer component', () => {
     ];
 
     render(
-      <UnconnectedNavigationDrawer
-        open
-        plugins={dummyPlugins}
-        darkMode={false}
-        res={undefined}
-      />,
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -158,13 +205,17 @@ describe('Navigation drawer component', () => {
     ];
 
     render(
-      <UnconnectedNavigationDrawer
-        open
-        plugins={dummyPlugins}
-        darkMode={false}
-        res={undefined}
-        homepageUrl={homepageLink}
-      />,
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+          homepageUrl: homepageLink,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -183,12 +234,16 @@ describe('Navigation drawer component', () => {
     ];
 
     render(
-      <UnconnectedNavigationDrawer
-        open
-        darkMode
-        plugins={dummyPlugins}
-        res={undefined}
-      />,
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: true,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -215,13 +270,17 @@ describe('Navigation drawer component', () => {
     };
 
     const { rerender } = render(
-      <UnconnectedNavigationDrawer
-        open
-        plugins={dummyPlugins}
-        darkMode={false}
-        res={undefined}
-        navigationDrawerLogo={navigationDrawerLogo}
-      />,
+      <Provider
+        store={createMockStore({
+          navigationDrawerLogo,
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
       { wrapper: Wrapper }
     );
 
@@ -231,13 +290,17 @@ describe('Navigation drawer component', () => {
     );
 
     rerender(
-      <UnconnectedNavigationDrawer
-        open
-        darkMode
-        plugins={dummyPlugins}
-        res={undefined}
-        navigationDrawerLogo={navigationDrawerLogo}
-      />
+      <Provider
+        store={createMockStore({
+          navigationDrawerLogo,
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: true,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>
     );
 
     expect(screen.getByAltText('alt txt test')).toHaveAttribute(

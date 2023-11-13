@@ -1,26 +1,19 @@
 import React, { Fragment, useCallback } from 'react';
-import { Box, styled, Theme, Typography } from '@mui/material';
+import { Box, styled, Theme, Typography, useMediaQuery } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
-import { AppStrings, PluginConfig } from '../state/scigateway.types';
-import { LogoState, StateType } from '../state/state.types';
+import { PluginConfig } from '../state/scigateway.types';
+import { StateType } from '../state/state.types';
 import { structureMenuData } from '../state/pluginhelper';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import { getAppStrings, getString } from '../state/strings';
-
-export interface NavigationDrawerProps {
-  open: boolean;
-  plugins: PluginConfig[];
-  darkMode: boolean;
-  homepageUrl?: string;
-  res: AppStrings | undefined;
-  navigationDrawerLogo?: LogoState;
-}
+import { useTheme } from '@mui/material/styles';
+import { toggleDrawer } from '../state/actions/scigateway.actions';
 
 const LogoImage = styled('img')(({ theme }) => ({
   paddingRight: theme.spacing(2),
@@ -37,14 +30,32 @@ const ForwardRefLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
 );
 ForwardRefLink.displayName = 'ForwardRefLink';
 
-export const NavigationDrawer = (
-  props: NavigationDrawerProps
-): React.ReactElement => {
+export const NavigationDrawer = (): React.ReactElement => {
+  const isDrawerOpen = useSelector(
+    (state: StateType) => state.scigateway.drawerOpen
+  );
+  const plugins = useSelector((state: StateType) => state.scigateway.plugins);
+  const isDarkMode = useSelector(
+    (state: StateType) => state.scigateway.darkMode
+  );
+  const homepageUrl = useSelector(
+    (state: StateType) => state.scigateway.homepageUrl
+  );
+  const res = useSelector((state: StateType) =>
+    getAppStrings(state, 'navigation-drawer')
+  );
+  const navigationDrawerLogo = useSelector(
+    (state: StateType) => state.scigateway.navigationDrawerLogo
+  );
+
+  const dispatch = useDispatch();
+
+  const theme = useTheme();
+  const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+
   const createLink = useCallback(
     (plugin: PluginConfig, index: number): React.ReactElement => {
-      const imgSrc = props.darkMode
-        ? plugin.logoDarkMode
-        : plugin.logoLightMode;
+      const imgSrc = isDarkMode ? plugin.logoDarkMode : plugin.logoLightMode;
 
       const prefix = !imgSrc && plugin.logoAltText ? plugin.logoAltText : '';
 
@@ -76,7 +87,7 @@ export const NavigationDrawer = (
         </ListItem>
       );
     },
-    [props.darkMode]
+    [isDarkMode]
   );
 
   const buildMenuSection = useCallback(
@@ -111,15 +122,14 @@ export const NavigationDrawer = (
   );
 
   const renderRoutes = useCallback((): React.ReactFragment => {
-    let plugins = props.plugins;
+    // don't include link to homepage in nav bar
+    const filteredPlugins = homepageUrl
+      ? plugins.filter((plugin) => plugin.link !== homepageUrl)
+      : plugins;
 
-    if (props.homepageUrl) {
-      // don't include link to homepage in nav bar
-      plugins = plugins.filter((plugin) => plugin.link !== props.homepageUrl);
-    }
     // Do not include admin plugins or plugins that explicitly ask to hide in the drawer list
     const sectionPlugins = structureMenuData(
-      plugins.filter((plugin) => !plugin.admin && !plugin.hideFromMenu)
+      filteredPlugins.filter((plugin) => !plugin.admin && !plugin.hideFromMenu)
     );
 
     return (
@@ -135,37 +145,45 @@ export const NavigationDrawer = (
           )}
       </Fragment>
     );
-  }, [buildMenuSection, props.plugins, props.homepageUrl]);
+  }, [buildMenuSection, plugins, homepageUrl]);
 
-  const altTxt = props.navigationDrawerLogo
-    ? props.navigationDrawerLogo.altTxt
-    : getString(props.res, 'alternative-text');
+  const altTxt =
+    navigationDrawerLogo?.altTxt ?? getString(res, 'alternative-text');
 
-  const navDrawerLogo = props.navigationDrawerLogo
-    ? props.darkMode
-      ? props.navigationDrawerLogo.dark
-      : props.navigationDrawerLogo.light
-    : props.darkMode
-    ? STFCLogoWhiteText
-    : STFCLogoBlueText;
+  // check if there is a custom logo supplied
+  // if not, fallback to the default STFC logo
+  let drawerLogoToUse;
+  if (navigationDrawerLogo) {
+    drawerLogoToUse = isDarkMode
+      ? navigationDrawerLogo.dark
+      : navigationDrawerLogo.light;
+  } else {
+    drawerLogoToUse = isDarkMode ? STFCLogoWhiteText : STFCLogoBlueText;
+  }
+
   return (
     <Drawer
       sx={{
         width: (theme: Theme) => theme.drawerWidth,
         flexShrink: 0,
       }}
-      variant="persistent"
+      variant={isViewportMdOrLarger ? 'persistent' : undefined}
       anchor="left"
-      open={props.open}
-      PaperProps={{
-        sx: (theme: Theme) => ({
-          width: theme.drawerWidth,
-          background: theme.palette.background.default,
-          top: theme.mainAppBarHeight,
-          height: `calc(100% - ${theme.footerPaddingBottom} - ${theme.footerPaddingTop} - ${theme.footerHeight} - ${theme.mainAppBarHeight})`,
-          position: 'absolute',
-        }),
-      }}
+      open={isDrawerOpen}
+      onClose={() => dispatch(toggleDrawer())}
+      PaperProps={
+        isViewportMdOrLarger
+          ? {
+              sx: (theme: Theme) => ({
+                width: theme.drawerWidth,
+                background: theme.palette.background.default,
+                top: theme.mainAppBarHeight,
+                height: `calc(100% - ${theme.footerPaddingBottom} - ${theme.footerPaddingTop} - ${theme.footerHeight} - ${theme.mainAppBarHeight})`,
+                position: 'absolute',
+              }),
+            }
+          : {}
+      }
     >
       <Box
         display="flex"
@@ -176,9 +194,9 @@ export const NavigationDrawer = (
       >
         {renderRoutes()}
 
-        {navDrawerLogo && (
+        {drawerLogoToUse && (
           <Box marginTop="auto">
-            <LogoImage alt={altTxt} src={navDrawerLogo} />
+            <LogoImage alt={altTxt} src={drawerLogoToUse} />
           </Box>
         )}
       </Box>
@@ -186,15 +204,4 @@ export const NavigationDrawer = (
   );
 };
 
-const mapStateToProps = (state: StateType): NavigationDrawerProps => ({
-  open: state.scigateway.drawerOpen,
-  plugins: state.scigateway.plugins,
-  darkMode: state.scigateway.darkMode,
-  homepageUrl: state.scigateway.homepageUrl,
-  res: getAppStrings(state, 'navigation-drawer'),
-  navigationDrawerLogo: state.scigateway.navigationDrawerLogo,
-});
-
-export const UnconnectedNavigationDrawer = NavigationDrawer;
-
-export default connect(mapStateToProps)(NavigationDrawer);
+export default NavigationDrawer;
