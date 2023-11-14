@@ -33,8 +33,10 @@ COPY --from=builder /scigateway-build/build/. .
 
 RUN set -eux; \
     \
-    # Enable the rewrtie_module \
+    # Enable mod_rewrite \
     sed -i -e 's/^#LoadModule rewrite_module/LoadModule rewrite_module/' /usr/local/apache2/conf/httpd.conf; \
+    # Enable mod_deflate \
+    sed -i -e 's/^#LoadModule deflate_module/LoadModule deflate_module/' /usr/local/apache2/conf/httpd.conf; \
     echo '<Location / >' >> /usr/local/apache2/conf/httpd.conf; \
     echo '    RewriteEngine on' >> /usr/local/apache2/conf/httpd.conf; \
     # Don't rewrite files or directories \
