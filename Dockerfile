@@ -49,7 +49,7 @@ RUN set -eux; \
     # Compress all files except images \
     echo 'SetOutputFilter DEFLATE' >> /usr/local/apache2/conf/httpd.conf; \
     echo 'SetEnvIfNoCase Request_URI "\.(?:gif|jpe?g|png)$" no-gzip' >> /usr/local/apache2/conf/httpd.conf; \
-    # Disable caching for .js, .json, and .html files \
+    # Disable caching for .json and .html files \
     echo '<FilesMatch ".(json|html)$">' >> /usr/local/apache2/conf/httpd.conf; \
     echo '    Header set Cache-Control "no-cache"' >> /usr/local/apache2/conf/httpd.conf; \
     echo '</FilesMatch>' >> /usr/local/apache2/conf/httpd.conf; \
