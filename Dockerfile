@@ -1,7 +1,7 @@
 # Dockerfile to build and serve scigateway
 
 # Build stage
-FROM node:16.14-alpine3.15 as builder
+FROM node:16.18-alpine3.15 as builder
 
 WORKDIR /scigateway-build
 
