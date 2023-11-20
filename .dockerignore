@@ -1,7 +1,10 @@
 /.github
 /.husky
+/build
+/coverage
 /cypress
 /demos
+**/node_modules
 .gitignore
 .prettierrc
 codecov.yml
