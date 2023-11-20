@@ -1,0 +1,75 @@
+{
+    "title": "a cool title",
+    "logo": "",
+    "navigationDrawerLogo": {
+      "light": "",
+      "dark": "",
+      "altTxt": ""
+    },
+    "primaryColour": "",
+    "adminPageDefaultTab": "maintenance",
+    "features": {
+      "showHelpPageButton": true,
+      "singlePluginLogo": true
+    },
+    "plugins": [
+        {
+            "name": "datagateway-dataview",
+            "src": "/datagateway-dataview/main.js",
+            "enable": true,
+            "location": "main"
+        },
+        {
+            "name": "datagateway-download",
+            "src": "/datagateway-download/main.js",
+            "enable": true,
+            "location": "main"
+        },
+        {
+            "name": "datagateway-search",
+            "src": "/datagateway-search/main.js",
+            "enable": true,
+            "location": "main"
+        }
+    ],
+    "help-tour-steps": [
+      {
+        "target": ".tour-title",
+        "content": "Hello, and welcome to SciGateway! This tour will show you the important features of this application"
+      },
+      {
+        "target": ".tour-user-profile",
+        "content": "Click here to sign in or sign out"
+      },
+      {
+        "target": ".tour-notifications",
+        "content": "Click here to see any notifications you may have"
+      },
+      {
+        "target": ".tour-settings",
+        "content": "Click here to change the settings for cookies, dark/light mode and high-contrast mode"
+      },
+      {
+        "target": ".tour-contact",
+        "content": "Click here to contact the support team with any issues or feedback"
+      },
+      {
+        "target": ".tour-help",
+        "content": "Click here to get help"
+      },
+      {
+        "target": ".tour-admin",
+        "content": "Click here to access the admin interface"
+      },
+      {
+        "target": ".tour-nav-menu",
+        "content": "Click here to open or close the navigation menu"
+      }
+    ],
+    "ui-strings": "res/default.json",
+    "auth-provider": "icat",
+    "authUrl": "/api",
+    "autoLogin": true,
+    "ga-tracking-id": "UA-XXXX-Y",
+    "contactUsAccessibilityFormUrl": ""
+  }
