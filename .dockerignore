@@ -1,0 +1,16 @@
+/.github
+/.husky
+/build
+/coverage
+/cypress
+/demos
+**/node_modules
+.gitignore
+.prettierrc
+codecov.yml
+CODEOWNERS
+cypress.json
+Jenkinsfile
+LICENSE.md
+README.md
+Dockerfile
