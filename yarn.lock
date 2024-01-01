@@ -2922,12 +2922,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:14.4.2":
-  version: 14.4.2
-  resolution: "@testing-library/user-event@npm:14.4.2"
+"@testing-library/user-event@npm:14.5.2":
+  version: 14.5.2
+  resolution: "@testing-library/user-event@npm:14.5.2"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 66364f2c503ddc01f5fdf98507aecf40b4edf0b9c140332aaf0161b1d7d52dea8a5d93baee927ae955bd7d6d58be0c12367a2cff924bdb4232746f0e614f9e03
+  checksum: d76937dffcf0082fbf3bb89eb2b81a31bf5448048dd61c33928c5f10e33a58e035321d39145cefd469bb5a499c68a5b4086b22f1a44e3e7c7e817dc5f6782867
   languageName: node
   linkType: hard
 
@@ -13588,7 +13588,7 @@ __metadata:
     "@mui/material": 5.10.0
     "@testing-library/jest-dom": 5.16.5
     "@testing-library/react": 12.1.5
-    "@testing-library/user-event": 14.4.2
+    "@testing-library/user-event": 14.5.2
     "@types/history": 4.7.3
     "@types/jest": 29.5.2
     "@types/js-cookie": 3.0.1
