@@ -51,7 +51,7 @@
     "redux-thunk": "2.4.1",
     "single-spa": "5.9.1",
     "typeface-roboto": "1.1.13",
-    "typescript": "5.1.6"
+    "typescript": "5.3.3"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
