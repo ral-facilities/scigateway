@@ -46,7 +46,7 @@
     "react-redux-toastr": "7.6.8",
     "react-router-dom": "5.3.0",
     "react-scripts": "5.0.0",
-    "redux": "4.2.0",
+    "redux": "5.0.1",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.4.1",
     "single-spa": "5.9.1",
