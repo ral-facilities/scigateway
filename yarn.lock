@@ -8610,12 +8610,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:8.0.1":
-  version: 8.0.1
-  resolution: "husky@npm:8.0.1"
+"husky@npm:9.0.6":
+  version: 9.0.6
+  resolution: "husky@npm:9.0.6"
   bin:
-    husky: lib/bin.js
-  checksum: 943a73a13d0201318fd30e83d299bb81d866bd245b69e6277804c3b462638dc1921694cb94c2b8c920a4a187060f7d6058d3365152865406352e934c5fff70dc
+    husky: bin.js
+  checksum: e198c90a59d460cf860c33e0a4c3927ecfb645d4fd4c2de3fbcd5fb56b858a923af452508d549f6ed020bb48de08290912cd77c006dd2a83e551c24c17340d5b
   languageName: node
   linkType: hard
 
@@ -13774,7 +13774,7 @@ __metadata:
     eslint-plugin-cypress: 2.15.1
     eslint-plugin-prettier: 4.2.1
     express: 4.18.1
-    husky: 8.0.1
+    husky: 9.0.6
     i18next: 23.7.16
     i18next-browser-languagedetector: 7.2.0
     i18next-http-backend: 2.4.2
