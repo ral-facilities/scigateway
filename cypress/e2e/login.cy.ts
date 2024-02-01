@@ -299,7 +299,7 @@ describe('Login', () => {
     });
   });
 
-  describe.only('autoLogin on', () => {
+  describe('autoLogin on', () => {
     // Define responses for login attempts
     let verifyResponse: { statusCode: Number; body: string };
     let loginResponse: { statusCode: Number; body: string };

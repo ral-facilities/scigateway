@@ -125,7 +125,7 @@ describe('jwt auth provider', () => {
   it('should update the token if the refresh method is successful', async () => {
     (mockAxios.post as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        data: { token: 'new-token' },
+        data: 'new-token',
       })
     );
 
