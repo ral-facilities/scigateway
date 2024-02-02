@@ -31,6 +31,9 @@ jobs:
       - name: Upload unit test coverage
         if: success()
         uses: codecov/codecov-action@e0b68c6749509c5f83f984dd99a76a1c1a231044 # v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
       - name: Run e2e tests
         run: yarn e2e
 
