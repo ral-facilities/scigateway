@@ -8637,12 +8637,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:23.7.16":
-  version: 23.7.16
-  resolution: "i18next@npm:23.7.16"
+"i18next@npm:23.8.2":
+  version: 23.8.2
+  resolution: "i18next@npm:23.8.2"
   dependencies:
     "@babel/runtime": ^7.23.2
-  checksum: 907eb4429598a53780152a54e8f8edadb224b506dc419b8cc3130e74ace7445dfbaa03af8a173d5145834fa8b45c39310673420f825ace2002dc56bb5879add0
+  checksum: c20e68c6c216bfcedc16d8d8b1ee545423e26e84ace36b699f936ec8cf1b4df8ee2ae093e7a3e444a9cb5931ca76698ae1a80d31691aa4153bcc804394e0019e
   languageName: node
   linkType: hard
 
@@ -13775,7 +13775,7 @@ __metadata:
     eslint-plugin-prettier: 4.2.1
     express: 4.18.1
     husky: 9.0.6
-    i18next: 23.7.16
+    i18next: 23.8.2
     i18next-browser-languagedetector: 7.2.0
     i18next-http-backend: 2.4.2
     js-cookie: 3.0.1
