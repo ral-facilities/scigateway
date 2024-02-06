@@ -48,7 +48,7 @@
     "react-scripts": "5.0.0",
     "redux": "4.2.0",
     "redux-logger": "3.0.6",
-    "redux-thunk": "2.4.1",
+    "redux-thunk": "3.1.0",
     "single-spa": "5.9.1",
     "typeface-roboto": "1.1.13",
     "typescript": "5.3.3"
