@@ -11,6 +11,7 @@ import {
   LoadHighContrastModePreferenceType,
   AuthFailureType,
   SignOutType,
+  TokenRefreshedType,
 } from '../scigateway.types';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
@@ -83,6 +84,9 @@ export const listenToPlugins = (
           break;
 
         case SendThemeOptionsType:
+          break;
+
+        case TokenRefreshedType:
           break;
 
         case BroadcastSignOutType:
@@ -176,6 +180,15 @@ export const listenToPlugins = (
         case InvalidateTokenType:
           getState()
             .scigateway.authorisation.provider.refresh()
+            .then(() => {
+              document.dispatchEvent(
+                new CustomEvent(microFrontendMessageId, {
+                  detail: {
+                    type: TokenRefreshedType,
+                  },
+                })
+              );
+            })
             .catch(() => {
               dispatch(pluginMessage.detail);
               // if there's an error message in the token invalidation event then broadcast it
