@@ -20,7 +20,7 @@ import {
   resetAuthState,
 } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';

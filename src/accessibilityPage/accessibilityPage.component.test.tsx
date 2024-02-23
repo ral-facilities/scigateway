@@ -6,7 +6,7 @@ import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 

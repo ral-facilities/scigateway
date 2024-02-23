@@ -7,7 +7,7 @@ import configureStore, { MockStore } from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import {
   loadMaintenanceState,
   loadScheduledMaintenanceState,

@@ -13265,12 +13265,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux-thunk@npm:2.4.1":
-  version: 2.4.1
-  resolution: "redux-thunk@npm:2.4.1"
+"redux-thunk@npm:3.1.0":
+  version: 3.1.0
+  resolution: "redux-thunk@npm:3.1.0"
   peerDependencies:
-    redux: ^4
-  checksum: 10/b81cdb5fa83dbfb49abc220242dfb9bc76143924d2bf4b62c0730d5dc7eed716b5800e4284e8fed8bd9fc9ea0d7757e5fe8e4a1380e63656782b9f474da25efa
+    redux: ^5.0.0
+  checksum: 10/38c563db5f0bbec90d2e65cc27f3c870c1b6102e0c071258734fac41cb0e51d31d894125815c2f4133b20aff231f51f028ad99bccc05a7e3249f1a5d5a959ed3
   languageName: node
   linkType: hard
 
@@ -13857,7 +13857,7 @@ __metadata:
     redux: "npm:4.2.0"
     redux-logger: "npm:3.0.6"
     redux-mock-store: "npm:1.5.4"
-    redux-thunk: "npm:2.4.1"
+    redux-thunk: "npm:3.1.0"
     serve: "npm:14.2.0"
     single-spa: "npm:5.9.1"
     start-server-and-test: "npm:2.0.0"

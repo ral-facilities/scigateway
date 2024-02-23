@@ -8,7 +8,7 @@ import AdminPage from './adminPage.component';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { Router } from 'react-router';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
