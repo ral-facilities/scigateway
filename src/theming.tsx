@@ -284,8 +284,8 @@ export const buildTheme = (
       ? DARK_MODE_HIGH_CONTRAST_COLOURS
       : DARK_MODE_COLOURS
     : highContrastModePreference
-    ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
-    : LIGHT_MODE_COLOURS;
+      ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
+      : LIGHT_MODE_COLOURS;
 
   if (primaryColour && !(darkModePreference && highContrastModePreference)) {
     colours.primary = primaryColour;
