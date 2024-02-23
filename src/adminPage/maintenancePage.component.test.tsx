@@ -71,7 +71,7 @@ describe('maintenance page component', () => {
       })
     );
     await user.click(
-      screen.getByRole('button', { name: 'admin.severity-select-arialabel' })
+      screen.getByRole('combobox', { name: 'admin.severity-select-arialabel' })
     );
     await user.click(screen.getByRole('option', { name: 'Information' }));
     await user.click(
