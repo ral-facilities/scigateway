@@ -122,8 +122,8 @@ const BrowseDecal = styled('div', {
       theme.palette.mode === 'light'
         ? `url(${decal2Image})`
         : theme.colours.type === 'default'
-        ? `url(${decal2DarkImage})`
-        : `url(${decal2DarkHCImage})`,
+          ? `url(${decal2DarkImage})`
+          : `url(${decal2DarkHCImage})`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'top left',
     backgroundSize: 'auto 100%',
