@@ -10,6 +10,7 @@ module.exports = {
     'react-app',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/stylistic',
     'prettier',
     'plugin:cypress/recommended',
   ],

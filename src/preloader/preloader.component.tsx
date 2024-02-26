@@ -19,9 +19,7 @@ interface PreloaderProps {
 
 type PreloaderCombinedProps = PreloaderStateProps & PreloaderProps;
 
-interface SpinnerStyle {
-  [id: string]: string | number;
-}
+type SpinnerStyle = Record<string, string | number>;
 const spinnerStyle = (index: number): SpinnerStyle => {
   const size = innerRadius + index * 2 * (border + spacing);
 
