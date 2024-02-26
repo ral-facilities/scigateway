@@ -66,9 +66,13 @@ export const TableOfContents = (
   // highest level of h that's valid is 2 (as there should only be 1 h1 per page)
   let currLevel = 2;
   let tocHtml = '';
-  for (const link of Array.from(helpLinks)) {
+
+  // ignore the for-of loop rule as NodeList is not iterable
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < helpLinks.length; i++) {
+    const h = helpLinks[i];
     // the "h level" is the second character of the header tag i.e. h1 is hLevel 1
-    const hLevel = parseInt(link.nodeName[1]);
+    const hLevel = parseInt(h.nodeName[1]);
     // lower hLevel = reduce nesting, so add closing ul tags
     if (currLevel > hLevel) {
       tocHtml += '</ul>'.repeat(currLevel - hLevel);
@@ -78,7 +82,7 @@ export const TableOfContents = (
       tocHtml += '<ul>'.repeat(hLevel - currLevel);
     }
     // we are at the same level, so just add ourselves
-    tocHtml += `<li style='list-style: none'><a href='#${link.id}'>${link.textContent}</a></li>`;
+    tocHtml += `<li style='list-style: none'><a href='#${h.id}'>${h.textContent}</a></li>`;
     currLevel = hLevel;
   }
   // close off any remaining uls
