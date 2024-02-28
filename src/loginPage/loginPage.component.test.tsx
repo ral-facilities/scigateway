@@ -20,7 +20,7 @@ import {
   resetAuthState,
 } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
@@ -75,7 +75,7 @@ describe('Login selector component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /authenticator/i }));
+    await user.click(screen.getByRole('combobox', { name: /authenticator/i }));
     await user.selectOptions(
       screen.getByRole('listbox', { name: /authenticator/i }),
       screen.getByRole('option', { name: 'anon' })
@@ -258,7 +258,7 @@ describe('Login page component', () => {
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     expect(
-      await screen.findByRole('button', { name: /authenticator/i })
+      await screen.findByRole('combobox', { name: /authenticator/i })
     ).toBeInTheDocument();
   });
 

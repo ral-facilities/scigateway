@@ -7,7 +7,7 @@ import configureStore, { MockStore } from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { buildTheme } from '../theming';
 import TestAuthProvider from '../authentication/testAuthProvider';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import {
   loadMaintenanceState,
   loadScheduledMaintenanceState,
@@ -71,7 +71,7 @@ describe('maintenance page component', () => {
       })
     );
     await user.click(
-      screen.getByRole('button', { name: 'admin.severity-select-arialabel' })
+      screen.getByRole('combobox', { name: 'admin.severity-select-arialabel' })
     );
     await user.click(screen.getByRole('option', { name: 'Information' }));
     await user.click(

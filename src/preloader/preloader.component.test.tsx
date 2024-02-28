@@ -5,7 +5,7 @@ import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render } from '@testing-library/react';
 import { createTheme } from '@mui/material/styles';
