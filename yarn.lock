@@ -3345,14 +3345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.5
-  resolution: "@types/prop-types@npm:15.7.5"
-  checksum: 10/5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
-  languageName: node
-  linkType: hard
-
-"@types/prop-types@npm:^15.7.11":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.11":
   version: 15.7.11
   resolution: "@types/prop-types@npm:15.7.11"
   checksum: 10/7519ff11d06fbf6b275029fe03fff9ec377b4cb6e864cac34d87d7146c7f5a7560fd164bdc1d2dbe00b60c43713631251af1fd3d34d46c69cd354602bc0c7c54
@@ -13859,7 +13852,7 @@ __metadata:
     redux-mock-store: "npm:1.5.4"
     redux-thunk: "npm:3.1.0"
     serve: "npm:14.2.0"
-    single-spa: "npm:5.9.1"
+    single-spa: "npm:6.0.1"
     start-server-and-test: "npm:2.0.0"
     typeface-roboto: "npm:1.1.13"
     typescript: "npm:5.3.3"
@@ -14096,10 +14089,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"single-spa@npm:5.9.1":
-  version: 5.9.1
-  resolution: "single-spa@npm:5.9.1"
-  checksum: 10/2eff32153677538551bc9f5d22d9fb8f69b0022367cf3fb78afe94ab7d1225afdf3d103452ed4902c215d7e437aa17e8677972a7933c492b40b1a0bd186b226c
+"single-spa@npm:6.0.1":
+  version: 6.0.1
+  resolution: "single-spa@npm:6.0.1"
+  checksum: 10/6c192226c0c6d94dbb0d2576c6552ebb9ec01ecad69d069cac47ddd5aa3c2c90e1370765e2d0e36203120a2c48bb7e967e2d6d8a6f9ede4315fd4b9e11cd9e85
   languageName: node
   linkType: hard
 
