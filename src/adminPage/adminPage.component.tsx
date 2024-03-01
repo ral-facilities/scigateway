@@ -21,12 +21,8 @@ export interface AdminPageProps {
 export const getPluginRoutes = (
   plugins: PluginConfig[],
   admin?: boolean
-): {
-  [plugin: string]: string[];
-} => {
-  const pluginRoutes: {
-    [plugin: string]: string[];
-  } = {};
+): Record<string, string[]> => {
+  const pluginRoutes: Record<string, string[]> = {};
 
   plugins.forEach((p) => {
     const isAdmin = admin ? p.admin : !p.admin;
@@ -49,7 +45,7 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
 
   const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
     // allows direct access to a tab when another tab is the default
-    (Object.keys(adminRoutes) as Array<keyof typeof adminRoutes>).find(
+    (Object.keys(adminRoutes) as (keyof typeof adminRoutes)[]).find(
       (key) => adminRoutes[key] === location.pathname
     ) ??
       props.adminPageDefaultTab ??
