@@ -173,7 +173,7 @@ export const listenToPlugins = (
 
               if (!show && severity !== 'success') {
                 toastrMessage(message, severity);
-              } else if (show) {
+              } else if (show === 'true') {
                 toastrMessage(message, severity);
               }
             }
