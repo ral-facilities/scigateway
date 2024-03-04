@@ -23,7 +23,7 @@ const loadReactApp = async (name: string) => {
   return (window as any)[name];
 };
 
-export const singleSpaPluginRoutes: { [name: string]: string[] } = {};
+export const singleSpaPluginRoutes: Record<string, string[]> = {};
 
 async function loadApp(name: string, appURL: string) {
   await runScript(appURL);

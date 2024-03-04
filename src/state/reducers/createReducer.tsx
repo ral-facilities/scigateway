@@ -5,10 +5,7 @@ interface Action {
   payload?: any;
 }
 
-function createReducer(
-  initialState: any,
-  handlers: { [id: string]: any }
-): any {
+function createReducer(initialState: any, handlers: Record<string, any>): any {
   return function reducer(state: any = initialState, action: Action) {
     if (action && Object.prototype.hasOwnProperty.call(handlers, action.type)) {
       return handlers[action.type](state, action.payload);
