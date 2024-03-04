@@ -51,7 +51,7 @@ describe('Routing component', () => {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: {
         action: 'POP',
-        location: createLocation('/'),
+        location: { ...createLocation('/'), query: {} },
       },
     };
 
@@ -250,6 +250,28 @@ describe('Routing component', () => {
       history.replace('/logout');
     });
     expect(history.location.pathname).toEqual('/');
+  });
+
+  it('redirects to referrer on /login route after login when referrer is provided', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    history.replace('/login');
+    state.router.location.state = { referrer: '/test' };
+
+    render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/test');
+  });
+
+  it('redirects to /logout on /login route after login when referrer is not provided', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    history.replace('/login');
+    render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/logout');
   });
 
   it('single-spa remounts a plugin when switching between admin and non-admin plugins via single-spa:before-no-app-change event', () => {

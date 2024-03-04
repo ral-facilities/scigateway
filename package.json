@@ -13,7 +13,7 @@
     "@emotion/styled": "11.11.0",
     "@mui/icons-material": "5.15.10",
     "@mui/material": "5.15.10",
-    "@types/history": "4.7.3",
+    "@types/history": "4.7.11",
     "@types/jest": "29.5.2",
     "@types/js-cookie": "3.0.1",
     "@types/react-dom": "18.0.11",

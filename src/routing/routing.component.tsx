@@ -23,6 +23,7 @@ import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
 import { useMediaQuery } from '@mui/material';
 import NullAuthProvider from '../authentication/nullAuthProvider';
+import { RouterLocation } from 'connected-react-router';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
@@ -63,7 +64,7 @@ const ContainerDiv = styled('div', {
 
 interface RoutingProps {
   plugins: PluginConfig[];
-  location: string;
+  location: RouterLocation<unknown>;
   drawerOpen: boolean;
   maintenance: MaintenanceState;
   userIsloggedIn: boolean;
@@ -96,8 +97,8 @@ export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   // only set to false if we're on a plugin route i.e. not a scigateway route
   const manuallyLoadedPluginRef = React.useRef(
-    Object.values(scigatewayRoutes).includes(props.location) ||
-      props.location === adminRoutes.maintenance
+    Object.values(scigatewayRoutes).includes(props.location.pathname) ||
+      props.location.pathname === adminRoutes.maintenance
   );
 
   const theme = useTheme();
@@ -109,7 +110,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     if (!props.loading && !manuallyLoadedPluginRef.current) {
       intervalId = window.setInterval(() => {
         const pluginConf = props.plugins.find((p) =>
-          props.location.startsWith(p.link.split('?')[0])
+          props.location.pathname.startsWith(p.link.split('?')[0])
         );
 
         // finding pluginConf after loading implies that the route has loaded
@@ -208,7 +209,12 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           ) : !props.userIsloggedIn || props.loading ? (
             <LoginPage />
           ) : (
-            <Redirect to={scigatewayRoutes.logout} />
+            <Redirect
+              to={
+                (props.location.state as { referrer?: string })?.referrer ??
+                scigatewayRoutes.logout
+              }
+            />
           )}
         </Route>
         <Route exact path={scigatewayRoutes.logout}>
@@ -245,7 +251,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
-  location: state.router.location.pathname,
+  location: state.router.location,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
   userIsloggedIn:
