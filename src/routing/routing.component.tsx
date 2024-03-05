@@ -18,7 +18,7 @@ import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
-import withAuth from './authorisedRoute.component';
+import withAuth, { usePrevious } from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
 import { useMediaQuery } from '@mui/material';
@@ -67,7 +67,7 @@ interface RoutingProps {
   location: RouterLocation<unknown>;
   drawerOpen: boolean;
   maintenance: MaintenanceState;
-  userIsloggedIn: boolean;
+  userIsLoggedIn: boolean;
   userIsAdmin: boolean;
   nullAuthProvider: boolean;
   homepageUrl?: string;
@@ -171,6 +171,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       );
   }, [props.plugins]);
 
+  const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
+
   return (
     // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
     // Otherwise render the login component. Successful logins will continue to the requested
@@ -206,13 +208,15 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
              for userIsLoggedIn */}
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : !props.userIsloggedIn || props.loading ? (
+          ) : !props.userIsLoggedIn || props.loading ? (
             <LoginPage />
           ) : (
             <Redirect
               to={
-                (props.location.state as { referrer?: string })?.referrer ??
-                scigatewayRoutes.logout
+                prevUserIsLoggedIn === false && props.userIsLoggedIn
+                  ? (props.location.state as { referrer?: string })?.referrer ??
+                    scigatewayRoutes.home
+                  : scigatewayRoutes.logout
               }
             />
           )}
@@ -220,7 +224,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         <Route exact path={scigatewayRoutes.logout}>
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : props.userIsloggedIn || props.loading ? (
+          ) : props.userIsLoggedIn || props.loading ? (
             <LogoutPage />
           ) : (
             <Redirect to={scigatewayRoutes.login} />
@@ -254,7 +258,7 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   location: state.router.location,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
-  userIsloggedIn:
+  userIsLoggedIn:
     state.scigateway.authorisation.provider.isLoggedIn() &&
     !(
       state.scigateway.authorisation.provider.autoLogin &&
