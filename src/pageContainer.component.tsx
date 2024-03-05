@@ -32,7 +32,6 @@ const PageContainer = (): React.ReactElement => {
     };
 
     // Add event listeners for  keydown events
-
     document.addEventListener('keydown', handleKeyPress);
 
     // Clean up the event listeners when component unmounts
