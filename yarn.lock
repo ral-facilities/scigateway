@@ -7925,8 +7925,8 @@ __metadata:
   linkType: hard
 
 "fork-ts-checker-webpack-plugin@npm:^6.5.0":
-  version: 6.5.2
-  resolution: "fork-ts-checker-webpack-plugin@npm:6.5.2"
+  version: 6.5.3
+  resolution: "fork-ts-checker-webpack-plugin@npm:6.5.3"
   dependencies:
     "@babel/code-frame": "npm:^7.8.3"
     "@types/json-schema": "npm:^7.0.5"
@@ -7951,7 +7951,7 @@ __metadata:
       optional: true
     vue-template-compiler:
       optional: true
-  checksum: 10/4a7037d654c07eb4e881d0626fdfdfac22fe90531e1e203846be89d68e863d3f9fcfc004b9037669455bf461081c83091eddf6485a7b131e7e6706c8939eeb67
+  checksum: 10/415263839afe11c291be60e3335ece3ccdc80c5e0d91eeecf0d3060cfb72c7b0cb33be326dd24b325939357d53215e10c41e8187edb5db8a08fe9aaa8aa6c510
   languageName: node
   linkType: hard
 
