@@ -169,11 +169,14 @@ export const listenToPlugins = (
 
             // If "instant" is not used, by default we only show "warning" and "error" messages.
             if (pluginMessage.detail.payload.severity !== undefined) {
-              const { severity, message, show } = pluginMessage.detail.payload;
+              const { severity, message, showAllToasts } =
+                pluginMessage.detail.payload;
 
-              if (!show && severity !== 'success') {
+              if (showAllToasts !== 'true' && severity !== 'success') {
+                // Shows all toasts messages expect for the success the toasts messages
                 toastrMessage(message, severity);
-              } else if (show === 'true') {
+              } else if (showAllToasts === 'true') {
+                // Shows all of the toasts messages
                 toastrMessage(message, severity);
               }
             }
