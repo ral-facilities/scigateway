@@ -401,6 +401,35 @@ describe('Login', () => {
       cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
     });
 
+    it('can remove toasts with esc keydown when a plugin error occurs', () => {
+      cy.intercept('/settings.json', {
+        plugins: [
+          {
+            name: 'demo_plugin',
+            src: '/plugins/main.js',
+            enable: true,
+            location: 'main',
+          },
+        ],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'icat',
+        authUrl: 'http://localhost:8000',
+        autoLogin: true,
+        'help-tour-steps': [],
+      });
+      verifyResponse = verifySuccess;
+      loginResponse = loginSuccess;
+      cy.visit('/plugin1');
+
+      cy.contains('Failed to load plugin demo_plugin from /plugins/main.js.');
+
+      cy.get('body').type('{esc}');
+
+      cy.contains(
+        'Failed to load plugin demo_plugin from /plugins/main.js.'
+      ).should('not.exist');
+    });
+
     it('should be able to switch authenticators and still be "auto logged in"', () => {
       verifyResponse = verifySuccess;
       loginResponse = loginSuccess;
