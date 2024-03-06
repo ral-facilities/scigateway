@@ -32,7 +32,7 @@ import {
 } from 'redux';
 import { Router } from 'react-router-dom';
 import { SignOutType } from '../state/scigateway.types';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { connectRouter } from 'connected-react-router';

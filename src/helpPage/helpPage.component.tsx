@@ -66,6 +66,9 @@ export const TableOfContents = (
   // highest level of h that's valid is 2 (as there should only be 1 h1 per page)
   let currLevel = 2;
   let tocHtml = '';
+
+  // ignore the for-of loop rule as NodeList is not iterable
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < helpLinks.length; i++) {
     const h = helpLinks[i];
     // the "h level" is the second character of the header tag i.e. h1 is hLevel 1

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-import thunk, { ThunkDispatch } from 'redux-thunk';
+import { thunk, ThunkDispatch } from 'redux-thunk';
 import {
   configureSite,
   loadMaintenanceState,
@@ -71,24 +71,27 @@ class App extends React.Component<WithTranslation> {
   public componentDidMount(): void {
     // Check for changes in maintenance state. Ensures that state changes are
     // loaded when a user does not reload the site for longer than 5 minutes.
-    setInterval(() => {
-      const provider = getState().scigateway.authorisation.provider;
-      if (provider.fetchMaintenanceState) {
-        const storedMaintenanceState = getState().scigateway.maintenance;
-        provider.fetchMaintenanceState().then((fetchedMaintenanceState) => {
-          if (
-            storedMaintenanceState.show !== fetchedMaintenanceState.show ||
-            storedMaintenanceState.message !== fetchedMaintenanceState.message
-          ) {
-            dispatch(loadMaintenanceState(fetchedMaintenanceState));
+    setInterval(
+      () => {
+        const provider = getState().scigateway.authorisation.provider;
+        if (provider.fetchMaintenanceState) {
+          const storedMaintenanceState = getState().scigateway.maintenance;
+          provider.fetchMaintenanceState().then((fetchedMaintenanceState) => {
+            if (
+              storedMaintenanceState.show !== fetchedMaintenanceState.show ||
+              storedMaintenanceState.message !== fetchedMaintenanceState.message
+            ) {
+              dispatch(loadMaintenanceState(fetchedMaintenanceState));
 
-            // Reload the page if maintenance state changes from true to false
-            if (storedMaintenanceState.show && !fetchedMaintenanceState.show)
-              window.location.reload();
-          }
-        });
-      }
-    }, 1000 * 60 * 5);
+              // Reload the page if maintenance state changes from true to false
+              if (storedMaintenanceState.show && !fetchedMaintenanceState.show)
+                window.location.reload();
+            }
+          });
+        }
+      },
+      1000 * 60 * 5
+    );
   }
 
   public render(): React.ReactElement {

@@ -28,7 +28,7 @@ import TestAuthProvider from '../../authentication/testAuthProvider';
 import { flushPromises } from '../../setupTests';
 import { authState, initialState } from '../reducers/scigateway.reducer';
 import { buildTheme } from '../../theming';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { autoLoginAuthorised } from '../actions/scigateway.actions';
 import * as singleSpa from 'single-spa';
 

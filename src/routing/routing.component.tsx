@@ -18,11 +18,12 @@ import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import AdminPage from '../adminPage/adminPage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
-import withAuth from './authorisedRoute.component';
+import withAuth, { usePrevious } from './authorisedRoute.component';
 import { Preloader } from '../preloader/preloader.component';
 import * as singleSpa from 'single-spa';
 import { useMediaQuery } from '@mui/material';
 import NullAuthProvider from '../authentication/nullAuthProvider';
+import { RouterLocation } from 'connected-react-router';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
@@ -63,10 +64,10 @@ const ContainerDiv = styled('div', {
 
 interface RoutingProps {
   plugins: PluginConfig[];
-  location: string;
+  location: RouterLocation<unknown>;
   drawerOpen: boolean;
   maintenance: MaintenanceState;
-  userIsloggedIn: boolean;
+  userIsLoggedIn: boolean;
   userIsAdmin: boolean;
   nullAuthProvider: boolean;
   homepageUrl?: string;
@@ -96,8 +97,8 @@ export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   // only set to false if we're on a plugin route i.e. not a scigateway route
   const manuallyLoadedPluginRef = React.useRef(
-    Object.values(scigatewayRoutes).includes(props.location) ||
-      props.location === adminRoutes.maintenance
+    Object.values(scigatewayRoutes).includes(props.location.pathname) ||
+      props.location.pathname === adminRoutes.maintenance
   );
 
   const theme = useTheme();
@@ -109,7 +110,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     if (!props.loading && !manuallyLoadedPluginRef.current) {
       intervalId = window.setInterval(() => {
         const pluginConf = props.plugins.find((p) =>
-          props.location.startsWith(p.link.split('?')[0])
+          props.location.pathname.startsWith(p.link.split('?')[0])
         );
 
         // finding pluginConf after loading implies that the route has loaded
@@ -170,6 +171,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       );
   }, [props.plugins]);
 
+  const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
+
   return (
     // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
     // Otherwise render the login component. Successful logins will continue to the requested
@@ -205,16 +208,23 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
              for userIsLoggedIn */}
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : !props.userIsloggedIn || props.loading ? (
+          ) : !props.userIsLoggedIn || props.loading ? (
             <LoginPage />
           ) : (
-            <Redirect to={scigatewayRoutes.logout} />
+            <Redirect
+              to={
+                prevUserIsLoggedIn === false && props.userIsLoggedIn
+                  ? (props.location.state as { referrer?: string })?.referrer ??
+                    scigatewayRoutes.home
+                  : scigatewayRoutes.logout
+              }
+            />
           )}
         </Route>
         <Route exact path={scigatewayRoutes.logout}>
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : props.userIsloggedIn || props.loading ? (
+          ) : props.userIsLoggedIn || props.loading ? (
             <LogoutPage />
           ) : (
             <Redirect to={scigatewayRoutes.login} />
@@ -245,10 +255,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
-  location: state.router.location.pathname,
+  location: state.router.location,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
-  userIsloggedIn:
+  userIsLoggedIn:
     state.scigateway.authorisation.provider.isLoggedIn() &&
     !(
       state.scigateway.authorisation.provider.autoLogin &&

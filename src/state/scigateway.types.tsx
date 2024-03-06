@@ -69,17 +69,13 @@ export interface AddNotificationsPayload {
   notifications: NotificationPayload[];
 }
 
-export interface AppStrings {
-  [id: string]: string;
-}
+export type AppStrings = Record<string, string>;
 
 export interface ConfigureStringsPayload {
   res: ApplicationStrings;
 }
 
-export interface ApplicationStrings {
-  [section: string]: AppStrings;
-}
+export type ApplicationStrings = Record<string, AppStrings>;
 
 export interface FeatureSwitchesPayload {
   switches: FeatureSwitches;
@@ -142,9 +138,7 @@ export interface PluginConfig {
   helpSteps?: { target: string; content: string }[];
 }
 
-export interface GroupedPlugins {
-  [section: string]: PluginConfig[];
-}
+export type GroupedPlugins = Record<string, PluginConfig[]>;
 
 export interface LoginPayload {
   username: string;

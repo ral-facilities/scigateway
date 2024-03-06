@@ -1,6 +1,6 @@
 import React from 'react';
 import PageNotFoundComponent from './pageNotFound.component';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createMemoryHistory, History } from 'history';
 import configureStore from 'redux-mock-store';

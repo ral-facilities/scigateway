@@ -521,7 +521,6 @@ export const verifyUsernameAndPassword = (
         // probably want to do something smarter with
         // err.response.status (e.g. 403 or 500)
         dispatch(unauthorised());
-        throw e;
       });
   };
 };
