@@ -421,7 +421,9 @@ describe('Login', () => {
       loginResponse = loginSuccess;
       cy.visit('/plugin1');
 
-      cy.contains('Failed to load plugin demo_plugin from /plugins/main.js.');
+      cy.contains(
+        'Failed to load plugin demo_plugin from /plugins/main.js.'
+      ).should('exist');
 
       cy.get('body').type('{esc}');
 
