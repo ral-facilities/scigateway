@@ -173,7 +173,7 @@ export const listenToPlugins = (
                 pluginMessage.detail.payload;
 
               if (showAllToasts !== 'true' && severity !== 'success') {
-                // Shows all toasts messages expect for the success the toasts messages
+                // Shows all toasts messages except for the success messages
                 toastrMessage(message, severity);
               } else if (showAllToasts === 'true') {
                 // Shows all of the toasts messages
