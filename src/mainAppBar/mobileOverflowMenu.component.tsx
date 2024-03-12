@@ -1,18 +1,17 @@
-import React from 'react';
 import {
+  Divider,
+  ListItemText,
   Menu,
   MenuItem,
-  ListItemText,
   MenuProps,
-  Divider,
 } from '@mui/material';
-import { SettingsMenuContent } from './settingsMenu.component';
+import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { toggleHelp } from '../state/actions/scigateway.actions';
+import { adminRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { push } from 'connected-react-router';
-import { adminRoutes } from '../state/scigateway.types';
-import { toggleHelp } from '../state/actions/scigateway.actions';
+import { SettingsMenuContent } from './settingsMenu.component';
 
 interface MobileOverflowMenuProps extends MenuProps {
   onClose: () => void;

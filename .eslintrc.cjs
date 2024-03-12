@@ -16,6 +16,7 @@ module.exports = {
   ],
   plugins: ['prettier', 'cypress'],
   rules: {
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     'prettier/prettier': [

@@ -1,12 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { StateType } from '../state/state.types';
 import Button from '@mui/material/Button';
-import { getAppStrings, getString } from '../state/strings';
 import Typography from '@mui/material/Typography';
-import React from 'react';
-import { appBarIconButtonStyle } from './styles';
 import { push } from 'connected-react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { adminRoutes } from '../state/scigateway.types';
+import { StateType } from '../state/state.types';
+import { getAppStrings, getString } from '../state/strings';
+import { appBarIconButtonStyle } from './styles';
 
 function PageLinks(): JSX.Element {
   const shouldShowHelpPageButton = useSelector(
