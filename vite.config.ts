@@ -47,18 +47,18 @@ export default defineConfig(({ command, mode }) => {
     test: {
       globals: 'true',
       environment: 'jsdom',
-      globalSetup: './globalSetup.js',
-      setupFiles: ['src/setupTests.tsx'],
+      // globalSetup: './globalSetup.js',
+      setupFiles: ['src/setupTests.ts'],
       coverage: {
         exclude: [
           'public/*',
           'server/*',
           // Leave handlers to show up unused code
-          'src/mocks/browser.ts',
-          'src/mocks/server.ts',
-          'src/vite-env.d.ts',
-          'src/main.tsx',
-          'src/testUtils.tsx',
+          // 'src/mocks/browser.ts',
+          // 'src/mocks/server.ts',
+          // 'src/vite-env.d.ts',
+          // 'src/main.tsx',
+          // 'src/testUtils.tsx',
         ],
       },
     },
