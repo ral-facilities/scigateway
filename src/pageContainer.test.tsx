@@ -16,10 +16,10 @@ import { buildTheme } from './theming';
 import { toastr } from 'react-redux-toastr';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   __esmodule: true,
   ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(() => true),
+  useMediaQuery: vi.fn(() => true),
 }));
 
 describe('PageContainer - Tests', () => {
@@ -47,7 +47,7 @@ describe('PageContainer - Tests', () => {
   });
 
   it('calls toastr.clean() when escape is clicked', async () => {
-    const cleanSpy = jest.spyOn(toastr, 'clean');
+    const cleanSpy = vi.spyOn(toastr, 'clean');
     render(
       <Provider store={configureStore([thunk])(state)}>
         <ThemeProvider theme={buildTheme(false)}>

@@ -7,14 +7,14 @@ describe('github auth provider', () => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
   beforeEach(() => {
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
-    window.localStorage.__proto__.getItem = jest
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) =>
         name === 'scigateway:token' ? testToken : null
       );
-    window.localStorage.__proto__.removeItem = jest.fn();
-    window.localStorage.__proto__.setItem = jest.fn();
+    window.localStorage.__proto__.removeItem = vi.fn();
+    window.localStorage.__proto__.setItem = vi.fn();
 
     authProvider = new GithubAuthProvider('http://localhost:8000');
   });
@@ -32,7 +32,7 @@ describe('github auth provider', () => {
   });
 
   it('should call the api to verify code', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    (mockAxios.post as vi.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
           token: testToken,
@@ -63,7 +63,7 @@ describe('github auth provider', () => {
   });
 
   it('should log the user out if code is invalid', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    (mockAxios.post as vi.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -80,7 +80,7 @@ describe('github auth provider', () => {
   });
 
   it('should log the user out if the token has expired', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    (mockAxios.post as vi.Mock).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -97,7 +97,7 @@ describe('github auth provider', () => {
   });
 
   it('should return user information if token is valid', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    (mockAxios.post as vi.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
           username: 'test_user',

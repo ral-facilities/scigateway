@@ -1,37 +1,36 @@
-import React from 'react';
+import { useMediaQuery } from '@mui/material';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import axios from 'axios';
 import { createRoot } from 'react-dom/client';
 import App, { AppSansHoc } from './App';
-import { act, fireEvent, render, screen } from '@testing-library/react';
 import { flushPromises } from './setupTests';
-import axios from 'axios';
 import { RegisterRouteType } from './state/scigateway.types';
-import { useMediaQuery } from '@mui/material';
 
-jest.mock('./state/actions/loadMicroFrontends', () => ({
-  init: jest.fn(() => Promise.resolve()),
+vi.mock('./state/actions/loadMicroFrontends', () => ({
+  init: vi.fn(() => Promise.resolve()),
   singleSpaPluginRoutes: ['/plugin1'],
 }));
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(),
 }));
 
 const testToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
 // needed for the maintenance state update test - for some reason it doesn't work when at the beginning of the test itself
-window.localStorage.__proto__.getItem = jest.fn().mockImplementation((name) => {
+window.localStorage.__proto__.getItem = vi.fn().mockImplementation((name) => {
   return name === 'scigateway:token' ? testToken : null;
 });
 
 describe('App', () => {
   beforeEach(() => {
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('renders without crashing', () => {
@@ -46,27 +45,27 @@ describe('App', () => {
   });
 
   it('should show preloader when react-i18next is not ready', () => {
-    render(<AppSansHoc t={jest.fn()} i18n={{}} tReady={false} />);
+    render(<AppSansHoc t={vi.fn()} i18n={{}} tReady={false} />);
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
   it('should dispatch loadMaintenanceState and force refresh the page when maintenance changes', async () => {
     // mock so token verify succeeds
-    (axios.post as jest.Mock).mockImplementation(() =>
+    (axios.post as vi.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
     );
-    window.matchMedia = jest.fn().mockReturnValue({ matches: true });
+    window.matchMedia = vi.fn().mockReturnValue({ matches: true });
 
     Object.defineProperty(window, 'location', {
       configurable: true,
-      value: { reload: jest.fn() },
+      value: { reload: vi.fn() },
     });
 
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
-    render(<AppSansHoc t={jest.fn()} i18n={{}} tReady={true} />);
+    render(<AppSansHoc t={vi.fn()} i18n={{}} tReady={true} />);
 
     const registerRouteAction = {
       type: RegisterRouteType,
@@ -94,7 +93,7 @@ describe('App', () => {
 
     expect(screen.queryByText('Maintenance')).not.toBeInTheDocument();
 
-    (axios.get as jest.Mock).mockImplementation(() =>
+    (axios.get as vi.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: true,
@@ -104,7 +103,7 @@ describe('App', () => {
     );
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     await act(async () => {
@@ -117,7 +116,7 @@ describe('App', () => {
     // should not refresh page when maintenance state changes from false to true
     expect(window.location.reload).not.toHaveBeenCalled();
 
-    (axios.get as jest.Mock).mockImplementation(() =>
+    (axios.get as vi.Mock).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: false,
@@ -126,7 +125,7 @@ describe('App', () => {
       })
     );
 
-    jest.runOnlyPendingTimers();
+    vi.runOnlyPendingTimers();
 
     await act(async () => {
       await flushPromises();

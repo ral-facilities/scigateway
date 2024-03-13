@@ -3,7 +3,7 @@ import ICATAuthProvider from './icatAuthProvider';
 import parseJwt from './parseJwt';
 import { BroadcastSignOutType } from '../state/scigateway.types';
 
-jest.mock('./parseJwt');
+vi.mock('./parseJwt');
 
 describe('ICAT auth provider', () => {
   let icatAuthProvider: ICATAuthProvider;
@@ -22,8 +22,8 @@ describe('ICAT auth provider', () => {
           return null;
         }
       });
-    window.localStorage.__proto__.removeItem = jest.fn();
-    window.localStorage.__proto__.setItem = jest.fn();
+    window.localStorage.__proto__.removeItem = vi.fn();
+    window.localStorage.__proto__.setItem = vi.fn();
 
     icatAuthProvider = new ICATAuthProvider(
       'mnemonic',
@@ -35,7 +35,7 @@ describe('ICAT auth provider', () => {
         `{"sessionId": "${token}", "username": "${token} username", "userIsAdmin": true}`
     );
 
-    document.dispatchEvent = jest.fn();
+    document.dispatchEvent = vi.fn();
   });
 
   it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
@@ -160,7 +160,7 @@ describe('ICAT auth provider', () => {
     );
 
     // ensure token is null
-    window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
+    window.localStorage.__proto__.getItem = vi.fn().mockReturnValue(null);
 
     icatAuthProvider = new ICATAuthProvider(
       undefined,
@@ -196,7 +196,7 @@ describe('ICAT auth provider', () => {
     );
 
     // ensure token is null
-    window.localStorage.__proto__.getItem = jest.fn().mockReturnValue(null);
+    window.localStorage.__proto__.getItem = vi.fn().mockReturnValue(null);
 
     icatAuthProvider = new ICATAuthProvider(
       undefined,
@@ -372,7 +372,7 @@ describe('ICAT auth provider', () => {
 
   it('should call api to set scheduled maintenance state', async () => {
     const scheduledMaintenanceState = { show: true, message: 'test' };
-    mockAxios.put = jest.fn().mockImplementation(() =>
+    mockAxios.put = vi.fn().mockImplementation(() =>
       Promise.resolve({
         data: 'test',
       })
@@ -393,7 +393,7 @@ describe('ICAT auth provider', () => {
 
   it('should log the user out if it fails to set scheduled maintenance state', async () => {
     const scheduledMaintenanceState = { show: true, message: 'test' };
-    mockAxios.put = jest.fn().mockImplementation(() =>
+    mockAxios.put = vi.fn().mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -427,7 +427,7 @@ describe('ICAT auth provider', () => {
 
   it('should log the user out if it fails to set maintenance state', async () => {
     const maintenanceState = { show: true, message: 'test' };
-    mockAxios.put = jest.fn().mockImplementation(() =>
+    mockAxios.put = vi.fn().mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,

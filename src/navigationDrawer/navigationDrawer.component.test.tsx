@@ -18,10 +18,10 @@ import ScigatewayReducer, {
   initialState as scigatewayInitialState,
 } from '../state/reducers/scigateway.reducer';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   __esmodule: true,
   ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Navigation drawer component', () => {
@@ -34,7 +34,7 @@ describe('Navigation drawer component', () => {
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {

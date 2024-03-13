@@ -25,10 +25,10 @@ const MOCK_REACT_ROUTER_LOCATION: Partial<Location> = {
 };
 
 // mock implementation of useLocation to return the mock URL
-jest.mock('react-router', () => ({
+vi.mock('react-router', () => ({
   __esModule: true,
   ...jest.requireActual('react-router'),
-  useLocation: jest.fn(),
+  useLocation: vi.fn(),
 }));
 
 describe('useAnchor', () => {
@@ -54,12 +54,12 @@ describe('useAnchor', () => {
       router: { location: createLocation('/') },
     });
 
-    const mockScrollIntoView = jest.fn();
+    const mockScrollIntoView = vi.fn();
     // pretend an element is found that matches the fragment
     // the weird type cast is to get around TypeScript error saying
     // the object is missing a bunch of other properties
     // we obviously don't care about them so there's no point in stubbing them.
-    jest.spyOn(document, 'getElementById').mockReturnValueOnce({
+    vi.spyOn(document, 'getElementById').mockReturnValueOnce({
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLDivElement);
 
@@ -83,10 +83,10 @@ describe('useAnchor', () => {
       router: { location: createLocation('/') },
     });
 
-    const mockScrollIntoView = jest.fn();
+    const mockScrollIntoView = vi.fn();
     // pretend no element with #fragment is found
     // and pretend there is other elements with IDs != fragment
-    jest.spyOn(document, 'getElementById').mockImplementation((id) =>
+    vi.spyOn(document, 'getElementById').mockImplementation((id) =>
       id === 'fragment'
         ? null
         : ({
@@ -117,12 +117,12 @@ describe('useAnchor', () => {
       router: { location: createLocation('/') },
     });
 
-    const mockScrollIntoView = jest.fn();
+    const mockScrollIntoView = vi.fn();
     // pretend an element is found that matches the fragment
     // the weird type cast is to get around TypeScript error saying
     // the object is missing a bunch of other properties
     // we obviously don't care about them so there's no point in stubbing them.
-    jest.spyOn(document, 'getElementById').mockReturnValueOnce({
+    vi.spyOn(document, 'getElementById').mockReturnValueOnce({
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLDivElement);
 

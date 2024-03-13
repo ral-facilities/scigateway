@@ -21,10 +21,10 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useMediaQuery } from '@mui/material';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   __esmodule: true,
   ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Main app bar component', () => {
@@ -66,7 +66,7 @@ describe('Main app bar component', () => {
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   const theme = buildTheme(false);
@@ -441,7 +441,7 @@ describe('Main app bar component', () => {
 
   describe('mobile variant', () => {
     beforeEach(() => {
-      jest.mocked(useMediaQuery).mockReturnValue(false);
+      vi.mocked(useMediaQuery).mockReturnValue(false);
     });
 
     it('shows drawer button, logo, user avatar, notification button, and an overflow menu button', () => {

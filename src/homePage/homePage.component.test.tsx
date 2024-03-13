@@ -6,10 +6,10 @@ import { ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { MemoryRouter } from 'react-router-dom';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   __esmodule: true,
   ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(() => true),
+  useMediaQuery: vi.fn(() => true),
 }));
 
 describe('Home page component', () => {

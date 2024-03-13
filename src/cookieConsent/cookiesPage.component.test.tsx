@@ -12,7 +12,7 @@ import { TOptionsBase } from 'i18next';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('react-i18next', () => ({
+vi.mock('react-i18next', () => ({
   useTranslation: () => {
     return {
       t: (key: string, options: TOptionsBase) =>
@@ -34,8 +34,8 @@ describe('Cookies page component', () => {
     };
     store = mockStore(state);
 
-    Cookies.set = jest.fn();
-    Cookies.remove = jest.fn();
+    Cookies.set = vi.fn();
+    Cookies.remove = vi.fn();
   });
 
   const theme = buildTheme(false);

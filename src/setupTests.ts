@@ -33,3 +33,7 @@ vi.mock('single-spa', () => ({
   triggerAppChange: vi.fn(),
   NOT_LOADED: 'NOT_LOADED',
 }));
+
+// Recreate jest behaviour by mocking with __mocks__ by mocking globally here
+vi.mock('axios');
+vi.mock('react-i18next');

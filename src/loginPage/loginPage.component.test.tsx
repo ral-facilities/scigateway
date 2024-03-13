@@ -34,7 +34,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 
-jest.mock('loglevel');
+vi.mock('loglevel');
 
 describe('Login selector component', () => {
   let props: CombinedLoginProps;
@@ -48,8 +48,8 @@ describe('Login selector component', () => {
         provider: new TestAuthProvider(null),
       },
       res: undefined,
-      verifyUsernameAndPassword: jest.fn(),
-      resetAuthState: jest.fn(),
+      verifyUsernameAndPassword: vi.fn(),
+      resetAuthState: vi.fn(),
     };
   });
 
@@ -65,7 +65,7 @@ describe('Login selector component', () => {
       },
     ];
     const user = userEvent.setup();
-    const testSetMnemonic = jest.fn();
+    const testSetMnemonic = vi.fn();
 
     render(
       <LoginSelector
@@ -116,7 +116,7 @@ describe('Login page component', () => {
       },
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      resetAuthState: jest.fn(),
+      resetAuthState: vi.fn(),
     };
 
     state.scigateway.authorisation = props.auth;
@@ -385,7 +385,7 @@ describe('Login page component', () => {
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
-    const mockLoginfn = jest.fn(() => Promise.resolve());
+    const mockLoginfn = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
 
@@ -447,7 +447,7 @@ describe('Login page component', () => {
     history.replace('/login?token=test_token');
 
     const promise = Promise.resolve();
-    const mockLoginfn = jest.fn(() => promise);
+    const mockLoginfn = vi.fn(() => promise);
     props.verifyUsernameAndPassword = mockLoginfn;
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
@@ -465,7 +465,7 @@ describe('Login page component', () => {
   });
 
   it('on submit verification method should be called when logs in via keyless authenticator', async () => {
-    const mockLoginfn = jest.fn(() => Promise.resolve());
+    const mockLoginfn = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';

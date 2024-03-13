@@ -76,7 +76,7 @@ describe('Cookie consent component', () => {
   });
 
   it('should set cookie to true upon user accept', async () => {
-    Cookies.set = jest.fn();
+    Cookies.set = vi.fn();
     const user = userEvent.setup();
 
     render(<CookieConsent />, { wrapper: Wrapper });
@@ -91,7 +91,7 @@ describe('Cookie consent component', () => {
   });
 
   it("initalises analytics if cookie consent is true but analytics hasn't yet been initialised", () => {
-    jest.spyOn(document.head, 'appendChild');
+    vi.spyOn(document.head, 'appendChild');
 
     Cookies.get = jest
       .fn()

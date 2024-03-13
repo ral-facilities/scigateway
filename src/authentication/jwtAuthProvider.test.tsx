@@ -7,14 +7,14 @@ describe('jwt auth provider', () => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VySXNBZG1pbiI6ZmFsc2V9.PEuKaAD98doFTLyqcNFpsuv50AQR8ejrbDQ0pwazM7Q';
 
   beforeEach(() => {
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) =>
         name === 'scigateway:token' ? testToken : null
       );
-    window.localStorage.__proto__.removeItem = jest.fn();
-    window.localStorage.__proto__.setItem = jest.fn();
+    window.localStorage.__proto__.removeItem = vi.fn();
+    window.localStorage.__proto__.setItem = vi.fn();
 
     jwtAuthProvider = new JWTAuthProvider('http://localhost:8000');
   });

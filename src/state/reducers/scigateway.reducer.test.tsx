@@ -129,7 +129,7 @@ describe('scigateway reducer', () => {
   });
 
   it('should not add steps when a duplicate target property is found', () => {
-    log.error = jest.fn();
+    log.error = vi.fn();
     state.helpSteps = [];
 
     const steps = [
@@ -547,7 +547,7 @@ describe('scigateway reducer', () => {
     });
 
     it('should log error and not register plugin with duplicate route in State', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
       const duplicatePayload = {
         ...basePayload,
         displayName: 'Duplicate Route',
@@ -600,7 +600,7 @@ describe('scigateway reducer', () => {
 
   it('should log an error if an initialiseAnalytics message is sent with no analytics config', () => {
     delete state.analytics;
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     const updatedState = ScigatewayReducer(state, initialiseAnalytics());
     expect(updatedState.analytics).toBeUndefined();

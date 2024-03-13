@@ -1,35 +1,6 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "esnext", "DOM", "DOM.Iterable",
-    ],
-    "module": "ESNext",
-    "skipLibCheck": true,
-
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-
-    /* Bundler mode */
-    "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
+    "types": ["vitest/globals", "vitest/jsdom"],
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "**/?*test.*",
-  ]
 }

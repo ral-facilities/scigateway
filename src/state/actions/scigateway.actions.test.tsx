@@ -474,7 +474,7 @@ describe('scigateway actions', () => {
       },
     };
 
-    document.addEventListener = jest.fn(
+    document.addEventListener = vi.fn(
       (id: string, inputHandler: (event: Event) => void) => {
         inputHandler(new CustomEvent('test', { detail: registerRouteAction }));
       }
@@ -552,7 +552,7 @@ describe('scigateway actions', () => {
       },
     });
 
-    const eventListenerSpy = jest.spyOn(document, 'addEventListener');
+    const eventListenerSpy = vi.spyOn(document, 'addEventListener');
 
     await asyncAction(dispatch, getState);
 
@@ -697,7 +697,7 @@ describe('scigateway actions', () => {
       })
     );
 
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) => (name === 'darkMode' ? 'true' : 'false'));
@@ -728,7 +728,7 @@ describe('scigateway actions', () => {
       })
     );
 
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
     window.localStorage.__proto__.getItem = jest
       .fn()
       .mockImplementation((name) =>
@@ -756,7 +756,7 @@ describe('scigateway actions', () => {
     (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
       Promise.reject({})
     );
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -777,7 +777,7 @@ describe('scigateway actions', () => {
         data: 1,
       })
     );
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -796,7 +796,7 @@ describe('scigateway actions', () => {
     (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
       Promise.reject({})
     );
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     const path = 'non/existent/path';
     const asyncAction = loadStrings(path);
