@@ -21,9 +21,9 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useMediaQuery } from '@mui/material';
 
-vi.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
+  ...(await vi.importActual('@mui/material')),
   useMediaQuery: vi.fn(),
 }));
 
@@ -63,7 +63,7 @@ describe('Main app bar component', () => {
 
     testStore = configureStore()(state);
 
-    // I don't think MediaQuery works properly in jest
+    // I don't think MediaQuery works properly in vi
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
     vi.mocked(useMediaQuery).mockReturnValue(true);
@@ -369,7 +369,7 @@ describe('Main app bar component', () => {
     state.scigateway.siteLoading = false;
 
     // Need to attachTo something to ensure document.getElementById works as expected
-    // https://stackoverflow.com/questions/43694975/jest-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
+    // https://stackoverflow.com/questions/43694975/vi-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
     const holder = document.createElement('div');
     document.body.appendChild(holder);
     render(

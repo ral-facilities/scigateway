@@ -1,7 +1,6 @@
 import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
 import type { DeepPartial } from 'redux';
-import * as React from 'react';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router';
 import { createLocation } from 'history';
@@ -25,9 +24,9 @@ const MOCK_REACT_ROUTER_LOCATION: Partial<Location> = {
 };
 
 // mock implementation of useLocation to return the mock URL
-vi.mock('react-router', () => ({
+vi.mock('react-router', async () => ({
   __esModule: true,
-  ...jest.requireActual('react-router'),
+  ...(await vi.importActual('react-router')),
   useLocation: vi.fn(),
 }));
 
@@ -36,14 +35,14 @@ describe('useAnchor', () => {
 
   beforeEach(() => {
     // use fake timers bc useAnchor uses setTimeout under the hood
-    jest.useFakeTimers();
-    (useLocation as jest.Mock).mockReturnValue(MOCK_REACT_ROUTER_LOCATION);
+    vi.useFakeTimers();
+    vi.mocked(useLocation).mockReturnValue(MOCK_REACT_ROUTER_LOCATION);
     createMockStore = configureStore();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('should scroll the element into view if the fragment in URL matches an element', () => {
@@ -69,7 +68,7 @@ describe('useAnchor', () => {
       </Provider>
     );
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     // fragment matches an element, should be scrolled into view
     expect(mockScrollIntoView).toBeCalledTimes(1);
@@ -102,7 +101,7 @@ describe('useAnchor', () => {
       </Provider>
     );
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     // fragment doesn't match any element, useAnchor should not randomly
     // jump to other elements
@@ -132,7 +131,7 @@ describe('useAnchor', () => {
       </Provider>
     );
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     // fragment matches an element but website still loading
     expect(mockScrollIntoView).not.toBeCalled();

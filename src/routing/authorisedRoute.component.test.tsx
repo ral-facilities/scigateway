@@ -269,7 +269,7 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
-    state.scigateway.authorisation.provider.verifyLogIn = jest
+    state.scigateway.authorisation.provider.verifyLogIn = vi
       .fn()
       .mockResolvedValue(undefined);
 

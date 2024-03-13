@@ -150,7 +150,7 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.helpSteps.length).toEqual(1);
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     const call = mockLog.calls[0][0];
     expect(call).toEqual('Duplicate help step target identified: .test-1.');
   });
@@ -268,7 +268,7 @@ describe('scigateway reducer', () => {
 
     // mock localstorage so that ICAT authenticator thinks it's already logged in
     // therefore won't trigger autologin, and do some HTTP request shenanigans
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) =>
         name === 'scigateway:token' ? testToken : null
@@ -572,7 +572,7 @@ describe('scigateway reducer', () => {
       });
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       const call = mockLog.calls[0][0];
       expect(call).toContain(duplicatePayload.plugin);
       expect(call).toContain(duplicatePayload.link);
@@ -606,7 +606,7 @@ describe('scigateway reducer', () => {
     expect(updatedState.analytics).toBeUndefined();
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     const call = mockLog.calls[0][0];
     expect(call)
       .toEqual(`Attempted to initialise analytics without analytics configuration -

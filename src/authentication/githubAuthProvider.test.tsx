@@ -32,7 +32,7 @@ describe('github auth provider', () => {
   });
 
   it('should call the api to verify code', async () => {
-    (mockAxios.post as vi.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: {
           token: testToken,
@@ -63,7 +63,7 @@ describe('github auth provider', () => {
   });
 
   it('should log the user out if code is invalid', async () => {
-    (mockAxios.post as vi.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -80,7 +80,7 @@ describe('github auth provider', () => {
   });
 
   it('should log the user out if the token has expired', async () => {
-    (mockAxios.post as vi.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -97,7 +97,7 @@ describe('github auth provider', () => {
   });
 
   it('should return user information if token is valid', async () => {
-    (mockAxios.post as vi.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: {
           username: 'test_user',

@@ -1,14 +1,12 @@
-import React from 'react';
-
 import HomePage from './homePage.component';
 import { render } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { MemoryRouter } from 'react-router-dom';
 
-vi.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
+  ...(await vi.importActual('@mui/material')),
   useMediaQuery: vi.fn(() => true),
 }));
 

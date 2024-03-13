@@ -84,7 +84,7 @@ describe('Cookie consent component', () => {
     await user.click(screen.getByRole('button', { name: 'accept-button' }));
 
     expect(Cookies.set).toHaveBeenCalled();
-    const mockCookies = (Cookies.set as jest.Mock).mock;
+    const mockCookies = vi.mocked(Cookies.set).mock;
     const callArguments = mockCookies.calls[0];
     expect(callArguments[0]).toEqual('cookie-consent');
     expect(callArguments[1]).toEqual(JSON.stringify({ analytics: true }));
@@ -93,7 +93,7 @@ describe('Cookie consent component', () => {
   it("initalises analytics if cookie consent is true but analytics hasn't yet been initialised", () => {
     vi.spyOn(document.head, 'appendChild');
 
-    Cookies.get = jest
+    Cookies.get = vi
       .fn()
       .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : 'null'
@@ -126,7 +126,7 @@ describe('Cookie consent component', () => {
   });
 
   it('should set open to false if cookie-consent cookie is set', () => {
-    Cookies.get = jest
+    Cookies.get = vi
       .fn()
       .mockImplementation((name) =>
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null

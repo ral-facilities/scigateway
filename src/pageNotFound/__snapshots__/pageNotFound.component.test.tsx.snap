@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Page Not found component renders pageNotFound page correctly 1`] = `
+exports[`Page Not found component > renders pageNotFound page correctly 1`] = `
 <DocumentFragment>
   <div>
     <div

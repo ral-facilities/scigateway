@@ -11,7 +11,7 @@ describe('ICAT auth provider', () => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
   beforeEach(() => {
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) => {
         if (name === 'scigateway:token') {
@@ -30,7 +30,7 @@ describe('ICAT auth provider', () => {
       'http://localhost:8000',
       true
     );
-    (parseJwt as jest.Mock).mockImplementation(
+    vi.mocked(parseJwt).mockImplementation(
       (token) =>
         `{"sessionId": "${token}", "username": "${token} username", "userIsAdmin": true}`
     );
@@ -59,9 +59,7 @@ describe('ICAT auth provider', () => {
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
     expect(document.dispatchEvent).toHaveBeenCalled();
-    expect(
-      (document.dispatchEvent as jest.Mock).mock.calls[0][0].detail
-    ).toEqual({
+    expect(vi.mocked(document.dispatchEvent).mock.calls[0][0].detail).toEqual({
       type: BroadcastSignOutType,
     });
   });
@@ -71,12 +69,12 @@ describe('ICAT auth provider', () => {
   });
 
   it('should successfully log in if user is already logged in via autoLogin', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: testToken,
       })
     );
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) => {
         if (name === 'scigateway:token') {
@@ -92,9 +90,7 @@ describe('ICAT auth provider', () => {
 
     // should send sign out action for autologin logout
     expect(document.dispatchEvent).toHaveBeenCalled();
-    expect(
-      (document.dispatchEvent as jest.Mock).mock.calls[0][0].detail
-    ).toEqual({
+    expect(vi.mocked(document.dispatchEvent).mock.calls[0][0].detail).toEqual({
       type: BroadcastSignOutType,
     });
 
@@ -109,7 +105,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should call the api to authenticate', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: testToken,
       })
@@ -133,7 +129,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should log the user out for an invalid login attempt', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -153,7 +149,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should attempt to autologin via anon authenticator when initialised', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: testToken,
       })
@@ -187,7 +183,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should set autoLogin to false if autoLogin fails', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -240,7 +236,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should call api to verify token', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() => Promise.resolve());
+    vi.mocked(mockAxios.post).mockImplementation(() => Promise.resolve());
 
     await icatAuthProvider.verifyLogIn();
 
@@ -250,14 +246,14 @@ describe('ICAT auth provider', () => {
   });
 
   it('should call refresh if the access token has expired', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
         },
       })
     );
-    const refreshSpy = jest
+    const refreshSpy = vi
       .spyOn(icatAuthProvider, 'refresh')
       .mockImplementationOnce(() => Promise.resolve());
 
@@ -267,7 +263,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should update the token if the refresh method is successful', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: 'new-token',
       })
@@ -288,7 +284,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should log the user out if the refresh token has expired', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -305,7 +301,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should call api to fetch scheduled maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: false,
@@ -321,7 +317,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -338,7 +334,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should call api to fetch maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: false,
@@ -354,7 +350,7 @@ describe('ICAT auth provider', () => {
   });
 
   it('should log the user out if it fails to fetch maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -413,7 +409,7 @@ describe('ICAT auth provider', () => {
 
   it('should call api to set maintenance state', async () => {
     const maintenanceState = { show: true, message: 'test' };
-    mockAxios.put = jest
+    mockAxios.put = vi
       .fn()
       .mockImplementation(() => Promise.resolve({ data: 'test' }));
 

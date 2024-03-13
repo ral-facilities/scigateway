@@ -21,9 +21,9 @@ vi.mock(
 vi.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
 }));
-vi.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
+  ...(await vi.importActual('@mui/material')),
   useMediaQuery: vi.fn(),
 }));
 
@@ -65,8 +65,8 @@ describe('Routing component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('renders component with no plugin routes', () => {
@@ -217,15 +217,15 @@ describe('Routing component', () => {
   });
 
   it('redirects to the homepage if navigating to login page while logged in', () => {
-    state.scigateway.authorisation.provider.isLoggedIn = jest
+    state.scigateway.authorisation.provider.isLoggedIn = vi
       .fn()
       .mockImplementationOnce(() => true);
 
-    state.scigateway.authorisation.provider.autoLogin = jest
+    state.scigateway.authorisation.provider.autoLogin = vi
       .fn()
       .mockImplementationOnce(() => Promise.reject());
 
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementationOnce((name) =>
         name === 'autoLogin' ? 'false' : null
@@ -326,7 +326,7 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    (singleSpa.unloadApplication as jest.Mock).mockClear();
+    vi.mocked(singleSpa.unloadApplication).mockClear();
 
     window.dispatchEvent(
       new CustomEvent('single-spa:before-no-app-change', {
@@ -376,7 +376,7 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    (singleSpa.unloadApplication as jest.Mock).mockClear();
+    vi.mocked(singleSpa.unloadApplication).mockClear();
 
     window.dispatchEvent(
       new CustomEvent('single-spa:before-no-app-change', {
@@ -392,7 +392,7 @@ describe('Routing component', () => {
   });
 
   it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
     state.scigateway.plugins = [
@@ -414,7 +414,7 @@ describe('Routing component', () => {
 
     render(<Routing />, { wrapper: Wrapper });
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
       'test_plugin_name'

@@ -240,7 +240,7 @@ describe('Login page component', () => {
 
   it('login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon)', async () => {
     props.auth.provider.mnemonic = '';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -268,7 +268,7 @@ describe('Login page component', () => {
 
   it("login page doesn't render dropdown if anon is the only other authenticator", async () => {
     props.auth.provider.mnemonic = '';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -291,7 +291,7 @@ describe('Login page component', () => {
 
   it('login page renders anonymous login if mnemonic present with no keys', async () => {
     props.auth.provider.mnemonic = 'nokeys';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -309,7 +309,7 @@ describe('Login page component', () => {
 
   it('login page renders credentials login if mnemonic present + user/pass is selected', async () => {
     props.auth.provider.mnemonic = 'user/pass';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -351,10 +351,10 @@ describe('Login page component', () => {
 
   it('login page displays and logs an error if fetchMnemonics fails', async () => {
     props.auth.provider.mnemonic = '';
-    (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
+    vi.mocked(axios.get).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    const dispatchEventSpy = jest
+    const dispatchEventSpy = vi
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
         events.push(e as CustomEvent<AnyAction>);
@@ -378,7 +378,7 @@ describe('Login page component', () => {
       });
 
       expect(log.error).toHaveBeenCalled();
-      expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
+      expect(vi.mocked(log.error).mock.calls[0][0]).toEqual(
         'It is not possible to authenticate you at the moment. Please, try again later'
       );
     });
@@ -470,7 +470,7 @@ describe('Login page component', () => {
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';
 
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -496,7 +496,7 @@ describe('Login page component', () => {
     history.replace('/login?token=test_token');
     state.scigateway.authorisation.provider.mnemonic = 'nokeys';
 
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {

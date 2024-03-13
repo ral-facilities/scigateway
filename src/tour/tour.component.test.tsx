@@ -14,7 +14,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('popper.js', async () => {
-  const PopperJS = await vi.requireActual('popper.js');
+  const PopperJS = await vi.importActual('popper.js');
 
   return class {
     public static placements = PopperJS.placements;

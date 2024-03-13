@@ -1,24 +1,15 @@
-import React from 'react';
-import { FooterProps, UnconnectedFooter } from './footer.component';
-import { render } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
-import { buildTheme } from '../theming';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { buildTheme } from '../theming';
+import Footer from './footer.component';
 
 describe('Footer component', () => {
-  let props: FooterProps;
-
-  beforeEach(() => {
-    props = {
-      res: undefined,
-    };
-  });
-
   it('footer renders correctly', () => {
     const { asFragment } = render(
       <MemoryRouter>
         <ThemeProvider theme={buildTheme(false)}>
-          <UnconnectedFooter {...props} />
+          <Footer />
         </ThemeProvider>
       </MemoryRouter>
     );

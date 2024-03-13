@@ -51,7 +51,7 @@ describe('App', () => {
 
   it('should dispatch loadMaintenanceState and force refresh the page when maintenance changes', async () => {
     // mock so token verify succeeds
-    (axios.post as vi.Mock).mockImplementation(() =>
+    vi.mocked(axios.post).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
@@ -93,7 +93,7 @@ describe('App', () => {
 
     expect(screen.queryByText('Maintenance')).not.toBeInTheDocument();
 
-    (axios.get as vi.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: true,
@@ -116,7 +116,7 @@ describe('App', () => {
     // should not refresh page when maintenance state changes from false to true
     expect(window.location.reload).not.toHaveBeenCalled();
 
-    (axios.get as vi.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: false,
