@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import { U } from 'vitest/dist/reporters-MmQN-57K';
 
 function noOp(): void {
   // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
@@ -23,7 +22,7 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-export const flushPromises = async (): Promise<Unknown> =>
+export const flushPromises = async (): Promise<unknown> =>
   (await vi.importActual('timers')).setImmediate;
 
 // globally mock as we never want to actually call single-spa funcs in unit tests

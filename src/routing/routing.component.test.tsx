@@ -13,11 +13,12 @@ import { buildTheme } from '../theming';
 import { act, render } from '@testing-library/react';
 import { Router } from 'react-router';
 
-vi.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
-vi.mock(
-  '../maintenancePage/maintenancePage.component',
-  () => () => 'Mocked MaintenancePage'
-);
+vi.mock('../adminPage/adminPage.component', () => ({
+  default: () => 'Mocked AdminPage',
+}));
+vi.mock('../maintenancePage/maintenancePage.component', () => ({
+  default: () => 'Mocked MaintenancePage',
+}));
 vi.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
 }));
