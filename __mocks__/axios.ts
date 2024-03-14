@@ -1,5 +1,3 @@
-// TODO: move __mocks__ folder back to root once facebook/create-react-app#7539 is fixed
-
 const requests = {
   get: vi.fn((path) => {
     if (path === '/settings.json') {

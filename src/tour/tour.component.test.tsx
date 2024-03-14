@@ -145,7 +145,7 @@ describe('Tour component', () => {
         content: 'Plugin link test',
       },
     ];
-    vi.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({
       advanceTimers: vi.advanceTimersByTime,
     });

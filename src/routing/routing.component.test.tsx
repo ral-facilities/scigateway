@@ -67,7 +67,6 @@ describe('Routing component', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
-    vi.useRealTimers();
   });
 
   it('renders component with no plugin routes', () => {
@@ -393,7 +392,7 @@ describe('Routing component', () => {
   });
 
   it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
     state.scigateway.plugins = [
@@ -421,9 +420,11 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    expect(clearIntervalSpy).toHaveBeenCalledWith(expect.any(Number));
+    // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
+    expect(clearIntervalSpy).toHaveBeenCalled();
 
     // restore clearInterval to avoid errors with it not being a function on unmount
     clearIntervalSpy.mockRestore();
+    vi.useRealTimers();
   });
 });
