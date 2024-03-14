@@ -23,7 +23,7 @@ import { Provider } from 'react-redux';
 import { thunk } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
-import * as log from 'loglevel';
+import log from 'loglevel';
 import {
   act,
   render,
@@ -351,6 +351,7 @@ describe('Login page component', () => {
 
   it('login page displays and logs an error if fetchMnemonics fails', async () => {
     props.auth.provider.mnemonic = '';
+    log.error = vi.fn();
     vi.mocked(axios.get).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 

@@ -249,7 +249,7 @@ describe('Navigation drawer component', () => {
 
     expect(screen.getByRole('img')).toHaveAttribute(
       'src',
-      'stfc-logo-white-text.png'
+      '/src/images/stfc-logo-white-text.png'
     );
   });
 
