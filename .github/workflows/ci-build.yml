@@ -25,7 +25,7 @@ jobs:
           sudo apt-get install libgconf-2-4
           yarn --immutable
       - name: Run linting
-        run: yarn lint:js
+        run: yarn lint
       - name: Run unit tests
         run: yarn test
       - name: Upload unit test coverage
