@@ -80,14 +80,14 @@ describe('maintenance page component', () => {
 
     await waitFor(() => {
       expect(store.getActions().length).toEqual(1);
-      expect(store.getActions()[0]).toEqual(
-        loadScheduledMaintenanceState({
-          show: true,
-          message: 'test',
-          severity: 'information',
-        })
-      );
     });
+    expect(store.getActions()[0]).toEqual(
+      loadScheduledMaintenanceState({
+        show: true,
+        message: 'test',
+        severity: 'information',
+      })
+    );
   });
 
   it('setMaintenanceState action should be sent when the setMaintenanceState function is called', async () => {

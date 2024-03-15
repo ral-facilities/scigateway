@@ -7,8 +7,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    'react-app',
+    'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/stylistic',
     'prettier',
@@ -29,6 +30,20 @@ module.exports = {
     ],
     // disable for all files - this means we can have plain JS files not causing errors
     '@typescript-eslint/explicit-function-return-type': 'off',
+    // Emulate typescript style for unused variables, see
+    // https://typescript-eslint.io/rules/no-unused-vars/
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        args: 'all',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
+    ],
   },
   overrides: [
     {
@@ -43,6 +58,10 @@ module.exports = {
           },
         ],
       },
+    },
+    {
+      files: ['**/?*test.*'],
+      extends: ['plugin:testing-library/react'],
     },
   ],
   parserOptions: {

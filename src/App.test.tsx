@@ -64,6 +64,7 @@ describe('App', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     const root = createRoot(div);
+    // eslint-disable-next-line testing-library/no-unnecessary-act
     act(() => {
       root.render(<App useSuspense={false} />);
     });
@@ -115,8 +116,9 @@ describe('App', () => {
     });
 
     // go to plugin page
-    await fireEvent.click(screen.getByRole('link', { name: 'Test plugin' }));
+    fireEvent.click(screen.getByRole('link', { name: 'Test plugin' }));
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.getElementById('test_plugin')).toBeInTheDocument();
 
     expect(screen.queryByText('Maintenance')).not.toBeInTheDocument();

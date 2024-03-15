@@ -93,6 +93,7 @@ describe('useAnchor', () => {
           } as unknown as HTMLDivElement)
     );
     // another element with ID "other", which is obv != fragment
+    // eslint-disable-next-line testing-library/no-node-access
     const otherElem = document.getElementById('other');
 
     render(

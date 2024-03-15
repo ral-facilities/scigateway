@@ -27,6 +27,7 @@ import { push } from 'connected-react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
 import { getAppStrings, getString } from '../strings';
+import { Theme } from '@mui/material';
 
 const microFrontendMessageId = 'scigateway';
 
@@ -63,6 +64,25 @@ const toastrMessage = (
     default:
       log.error(`Invalid severity provided: ${severity}`);
   }
+};
+
+const generateTheme = (primaryColour?: string): Theme => {
+  let darkModePreference: boolean;
+  const darkModeLocalStorage = localStorage.getItem('darkMode');
+  if (darkModeLocalStorage) {
+    darkModePreference = darkModeLocalStorage === 'true' ? true : false;
+  } else {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModePreference = mq.matches;
+  }
+  const highContrastModePreference: boolean =
+    localStorage.getItem('highContrastMode') === 'true' ? true : false;
+
+  return buildTheme(
+    darkModePreference,
+    highContrastModePreference,
+    primaryColour
+  );
 };
 
 export const listenToPlugins = (
@@ -133,24 +153,10 @@ export const listenToPlugins = (
             singleSpa.triggerAppChange();
           }
 
-          let darkModePreference: boolean;
-          const darkModeLocalStorage = localStorage.getItem('darkMode');
-          if (darkModeLocalStorage) {
-            darkModePreference = darkModeLocalStorage === 'true' ? true : false;
-          } else {
-            const mq = window.matchMedia('(prefers-color-scheme: dark)');
-            darkModePreference = mq.matches;
-          }
-          const highContrastModePreference: boolean =
-            localStorage.getItem('highContrastMode') === 'true' ? true : false;
-
-          const theme = buildTheme(
-            darkModePreference,
-            highContrastModePreference,
-            getState().scigateway.primaryColour
-          );
           // Send theme options once registered.
-          dispatch(sendThemeOptions(theme));
+          dispatch(
+            sendThemeOptions(generateTheme(getState().scigateway.primaryColour))
+          );
 
           break;
 

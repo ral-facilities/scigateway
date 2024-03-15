@@ -114,7 +114,7 @@ describe('scigateway middleware', () => {
     };
 
     document.addEventListener = vi.fn(
-      (id: string, inputHandler: (event: Event) => void) => {
+      (_id: string, inputHandler: (event: Event) => void) => {
         handler = inputHandler;
       }
     );

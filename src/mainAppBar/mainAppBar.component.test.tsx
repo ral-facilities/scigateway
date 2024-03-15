@@ -474,7 +474,7 @@ describe('Main app bar component', () => {
       expect(
         screen.getByRole('button', { name: 'Open notification menu' })
       ).toBeInTheDocument();
-      expect(screen.queryByTestId('NotificationsIcon')).toBeInTheDocument();
+      expect(screen.getByTestId('NotificationsIcon')).toBeInTheDocument();
       expect(
         screen.getByRole('button', { name: 'Open user menu' })
       ).toBeInTheDocument();

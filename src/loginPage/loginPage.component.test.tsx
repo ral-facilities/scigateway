@@ -368,21 +368,21 @@ describe('Login page component', () => {
 
     await waitFor(() => {
       expect(dispatchEventSpy).toHaveBeenCalled();
-      expect(events.length).toEqual(1);
-      expect(events[0].detail).toEqual({
-        type: NotificationType,
-        payload: {
-          message:
-            'It is not possible to authenticate you at the moment. Please, try again later',
-          severity: 'error',
-        },
-      });
-
-      expect(log.error).toHaveBeenCalled();
-      expect(vi.mocked(log.error).mock.calls[0][0]).toEqual(
-        'It is not possible to authenticate you at the moment. Please, try again later'
-      );
     });
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual({
+      type: NotificationType,
+      payload: {
+        message:
+          'It is not possible to authenticate you at the moment. Please, try again later',
+        severity: 'error',
+      },
+    });
+
+    expect(log.error).toHaveBeenCalled();
+    expect(vi.mocked(log.error).mock.calls[0][0]).toEqual(
+      'It is not possible to authenticate you at the moment. Please, try again later'
+    );
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {

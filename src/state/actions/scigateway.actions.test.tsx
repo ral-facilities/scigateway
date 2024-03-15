@@ -475,7 +475,7 @@ describe('scigateway actions', () => {
     };
 
     document.addEventListener = vi.fn(
-      (id: string, inputHandler: (event: Event) => void) => {
+      (_id: string, inputHandler: (event: Event) => void) => {
         inputHandler(new CustomEvent('test', { detail: registerRouteAction }));
       }
     );

@@ -70,7 +70,7 @@ describe('AuthorisedRoute component', () => {
     const testStore = mockStore(state);
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
-    const result = render(
+    const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router history={history}>
@@ -85,7 +85,7 @@ describe('AuthorisedRoute component', () => {
     return {
       history,
       testStore: testStore,
-      ...result,
+      ...view,
     };
   };
 
@@ -135,7 +135,7 @@ describe('AuthorisedRoute component', () => {
     };
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
-    const result = render(
+    const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router history={history}>
@@ -149,7 +149,7 @@ describe('AuthorisedRoute component', () => {
 
     return {
       history,
-      ...result,
+      ...view,
       ...utils,
     };
   };
