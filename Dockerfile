@@ -29,7 +29,7 @@ FROM httpd:2.4-alpine3.15
 WORKDIR /usr/local/apache2/htdocs
 
 # Put the output of the build into an apache server
-COPY --from=builder /scigateway-build/build/. .
+COPY --from=builder /scigateway-build/dist/. .
 
 RUN set -eux; \
     \

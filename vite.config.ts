@@ -21,7 +21,7 @@ function jsonHMR(): PluginOption {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   const plugins: PluginOption[] = [react()];
@@ -45,9 +45,8 @@ export default defineConfig(({ command, mode }) => {
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
     },
     test: {
-      globals: 'true',
+      globals: true,
       environment: 'jsdom',
-      // globalSetup: './globalSetup.js',
       setupFiles: ['src/setupTests.ts'],
       coverage: {
         exclude: [
@@ -56,6 +55,7 @@ export default defineConfig(({ command, mode }) => {
           '__mocks__/axios.ts',
           'micro-frontend-tools/serve-plugins.js',
           '.eslintrc.cjs',
+          'src/vite-env.d.ts',
           'src/main.tsx',
         ],
       },
