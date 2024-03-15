@@ -16,12 +16,40 @@ vi.mock('@mui/material', async () => ({
   useMediaQuery: vi.fn(),
 }));
 
-const testToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
+// Needed for the maintenance state update test, has to be hoisted in order to be run before any imports
+vi.hoisted(() => {
+  const testToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
+  vi.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation(
+    (name) => (name === 'scigateway:token' ? testToken : null)
+  );
+});
 
-// needed for the maintenance state update test - for some reason it doesn't work when at the beginning of the test itself
-window.localStorage.__proto__.getItem = vi.fn().mockImplementation((name) => {
-  return name === 'scigateway:token' ? testToken : null;
+/* Have to remock to replace the auth-provider just for this file. We used to be able to use
+   expect.getState().testPath?.includes('App.test') inside the __mocks__ folder, but this is undefined
+   until the tests in this file are actually executed since migrating from Jest to Vitest */
+vi.mock('axios', async () => {
+  return {
+    default: {
+      get: vi.fn((path) => {
+        if (path === '/settings.json') {
+          return Promise.resolve({
+            data: {
+              'auth-provider': 'icat',
+              'ui-strings': '/res/default.json',
+              plugins: [],
+              'help-tour-steps': [],
+            },
+          });
+        } else {
+          return Promise.resolve({
+            data: {},
+          });
+        }
+      }),
+      post: vi.fn(() => Promise.resolve({ data: {} })),
+    },
+  };
 });
 
 describe('App', () => {
