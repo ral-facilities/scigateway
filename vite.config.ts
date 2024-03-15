@@ -53,12 +53,10 @@ export default defineConfig(({ command, mode }) => {
         exclude: [
           'public/*',
           'server/*',
-          // Leave handlers to show up unused code
-          // 'src/mocks/browser.ts',
-          // 'src/mocks/server.ts',
-          // 'src/vite-env.d.ts',
-          // 'src/main.tsx',
-          // 'src/testUtils.tsx',
+          '__mocks__/axios.ts',
+          'micro-frontend-tools/serve-plugins.js',
+          '.eslintrc.cjs',
+          'src/main.tsx',
         ],
       },
     },

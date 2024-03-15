@@ -4324,7 +4324,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.3.0, chalk@npm:^2.4.2":
+"chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -4832,16 +4832,6 @@ __metadata:
   version: 1.0.7
   resolution: "custom-event-polyfill@npm:1.0.7"
   checksum: 10/f9ff2cf13e482a75b3cf83dce9e2c6e3063c5ac1b9c23ac440e4f27e875b0873445b11811237f3f30aeb1216e9ad20f9f9d30ccf5b1b658a4e50dd0b3e67b629
-  languageName: node
-  linkType: hard
-
-"cypress-failed-log@npm:2.10.0":
-  version: 2.10.0
-  resolution: "cypress-failed-log@npm:2.10.0"
-  dependencies:
-    debug: "npm:4.3.4"
-    logdown: "npm:3.3.1"
-  checksum: 10/5321f401175d53a3c1ef8751b9e4c635f74e2f8a8461034469950d14cb7ccdaca5231ed6cd88c78341786e3bf2e938d107ed9f7443a656e9c407d761228c699b
   languageName: node
   linkType: hard
 
@@ -7842,15 +7832,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"logdown@npm:3.3.1":
-  version: 3.3.1
-  resolution: "logdown@npm:3.3.1"
-  dependencies:
-    chalk: "npm:^2.3.0"
-  checksum: 10/2139caa178bd43ff8050df43e9aacb6cbc79815f07f2388a6715e3ea2b72078526671bbc44919e3bb2aba78c95c70f9afa7faa2f0bea148fb865943c114687f9
-  languageName: node
-  linkType: hard
-
 "loglevel@npm:1.9.1":
   version: 1.9.1
   resolution: "loglevel@npm:1.9.1"
@@ -9734,7 +9715,6 @@ __metadata:
     cross-env: "npm:7.0.3"
     custom-event-polyfill: "npm:1.0.7"
     cypress: "npm:13.6.4"
-    cypress-failed-log: "npm:2.10.0"
     eslint: "npm:8.56.0"
     eslint-config-prettier: "npm:9.1.0"
     eslint-config-react-app: "npm:7.0.0"
