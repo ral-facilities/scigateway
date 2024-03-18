@@ -87,16 +87,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{tsx,js,jsx,ts}",
-      "!src/index.tsx",
-      "!src/serviceWorker.ts",
-      "!src/setupTests.ts",
-      "!src/state/reducers/App.reducer.tsx",
-      "!src/state/actions/loadMicroFrontends.tsx"
-    ]
-  },
   "browserslist": [
     ">0.2%",
     "not dead",

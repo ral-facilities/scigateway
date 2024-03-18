@@ -39,11 +39,6 @@ export default defineConfig(({ mode }) => {
     preview: {
       port: 5001,
     },
-    define: {
-      // See https://vitejs.dev/guide/build.html#library-mode
-      // we need to replace here as the build in library mode won't
-      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-    },
     test: {
       globals: true,
       environment: 'jsdom',
