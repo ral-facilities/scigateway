@@ -1,6 +1,3 @@
-import 'custom-event-polyfill';
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import { createRoot } from 'react-dom/client';
 import 'typeface-roboto';
 import App from './App';

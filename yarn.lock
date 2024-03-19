@@ -2443,13 +2443,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asap@npm:~2.0.6":
-  version: 2.0.6
-  resolution: "asap@npm:2.0.6"
-  checksum: 10/b244c0458c571945e4b3be0b14eb001bea5596f9868cc50cc711dc03d58a7e953517d3f0dad81ccde3ff37d1f074701fa76a6f07d41aaa992d7204a37b915dda
-  languageName: node
-  linkType: hard
-
 "asn1@npm:~0.2.3":
   version: 0.2.6
   resolution: "asn1@npm:0.2.6"
@@ -3266,13 +3259,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.19.2":
-  version: 3.26.1
-  resolution: "core-js@npm:3.26.1"
-  checksum: 10/ec6f6a366d0a9503b29e8b46cbc2665000cc920b0a4add7b7b53fb8f45c3ac934921334bd741f2d40fca87991d6c31dcd1becdca6bd8782f8833f1229d8c20d8
-  languageName: node
-  linkType: hard
-
 "core-util-is@npm:1.0.2":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -3355,13 +3341,6 @@ __metadata:
   version: 3.1.3
   resolution: "csstype@npm:3.1.3"
   checksum: 10/f593cce41ff5ade23f44e77521e3a1bcc2c64107041e1bf6c3c32adc5187d0d60983292fda326154d20b01079e24931aa5b08e4467cc488b60bb1e7f6d478ade
-  languageName: node
-  linkType: hard
-
-"custom-event-polyfill@npm:1.0.7":
-  version: 1.0.7
-  resolution: "custom-event-polyfill@npm:1.0.7"
-  checksum: 10/f9ff2cf13e482a75b3cf83dce9e2c6e3063c5ac1b9c23ac440e4f27e875b0873445b11811237f3f30aeb1216e9ad20f9f9d30ccf5b1b658a4e50dd0b3e67b629
   languageName: node
   linkType: hard
 
@@ -7439,15 +7418,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"promise@npm:^8.1.0":
-  version: 8.3.0
-  resolution: "promise@npm:8.3.0"
-  dependencies:
-    asap: "npm:~2.0.6"
-  checksum: 10/55e9d0d723c66810966bc055c6c77a3658c0af7e4a8cc88ea47aeaf2949ca0bd1de327d9c631df61236f5406ad478384fa19a77afb3f88c0303eba9e5eb0a8d8
-  languageName: node
-  linkType: hard
-
 "prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
@@ -7576,15 +7546,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raf@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "raf@npm:3.4.1"
-  dependencies:
-    performance-now: "npm:^2.1.0"
-  checksum: 10/4c4b4c826b09d2aec6ca809f1a3c3c12136e7ec8d13fbb91f495dd2c99cd43345240e003da3bfd16036a432e635049fc6d9f69f9187f5f22ea88bb146ec75881
-  languageName: node
-  linkType: hard
-
 "range-parser@npm:1.2.0":
   version: 1.2.0
   resolution: "range-parser@npm:1.2.0"
@@ -7622,20 +7583,6 @@ __metadata:
   bin:
     rc: ./cli.js
   checksum: 10/5c4d72ae7eec44357171585938c85ce066da8ca79146b5635baf3d55d74584c92575fa4e2c9eac03efbed3b46a0b2e7c30634c012b4b4fa40d654353d3c163eb
-  languageName: node
-  linkType: hard
-
-"react-app-polyfill@npm:3.0.0":
-  version: 3.0.0
-  resolution: "react-app-polyfill@npm:3.0.0"
-  dependencies:
-    core-js: "npm:^3.19.2"
-    object-assign: "npm:^4.1.1"
-    promise: "npm:^8.1.0"
-    raf: "npm:^3.4.1"
-    regenerator-runtime: "npm:^0.13.9"
-    whatwg-fetch: "npm:^3.6.2"
-  checksum: 10/c544a1d9f5b3e4df1f51a01ceaa21d1350016520d0caf67549239ce112ea00b6014612f756e576609b986abe6eca1bb4f2625608bb9ae4501b74ca4398874be3
   languageName: node
   linkType: hard
 
@@ -7932,13 +7879,6 @@ __metadata:
     globalthis: "npm:^1.0.3"
     which-builtin-type: "npm:^1.1.3"
   checksum: 10/14560efa54b4b8549f5e0961ee4dfa9f034bd4b85c7805d487da30eb520ea252b566bc4098a7cb1bc2219e4d9cb095db43c05b27205bd6299bb141294cea2d14
-  languageName: node
-  linkType: hard
-
-"regenerator-runtime@npm:^0.13.9":
-  version: 0.13.11
-  resolution: "regenerator-runtime@npm:0.13.11"
-  checksum: 10/d493e9e118abef5b099c78170834f18540c4933cedf9bfabc32d3af94abfb59a7907bd7950259cbab0a929ebca7db77301e8024e5121e6482a82f78283dfd20c
   languageName: node
   linkType: hard
 
@@ -8316,7 +8256,6 @@ __metadata:
     cookie-parser: "npm:1.4.5"
     cors: "npm:2.8.5"
     cross-env: "npm:7.0.3"
-    custom-event-polyfill: "npm:1.0.7"
     cypress: "npm:13.6.4"
     eslint: "npm:8.56.0"
     eslint-config-prettier: "npm:9.1.0"
@@ -8339,7 +8278,6 @@ __metadata:
     prop-types: "npm:15.8.1"
     query-string: "npm:7.1.1"
     react: "npm:18.2.0"
-    react-app-polyfill: "npm:3.0.0"
     react-dom: "npm:18.2.0"
     react-i18next: "npm:14.0.1"
     react-joyride: "npm:2.7.2"
@@ -9726,13 +9664,6 @@ __metadata:
   dependencies:
     iconv-lite: "npm:0.6.3"
   checksum: 10/bbef815eb67f91487c7f2ef96329743f5fd8357d7d62b1119237d25d41c7e452dff8197235b2d3c031365a17f61d3bb73ca49d0ed1582475aa4a670815e79534
-  languageName: node
-  linkType: hard
-
-"whatwg-fetch@npm:^3.6.2":
-  version: 3.6.2
-  resolution: "whatwg-fetch@npm:3.6.2"
-  checksum: 10/f05ceff9e9098db228fee84b9f9258a434283c0eb3cd8183c8b22e25e32698a2f80ee8a9c1c634d5b1441fe7692a031812d8a1f21079da76892a5119be2ac945
   languageName: node
   linkType: hard
 
