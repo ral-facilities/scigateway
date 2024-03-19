@@ -22,9 +22,6 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-export const flushPromises = async (): Promise<unknown> =>
-  (await vi.importActual('timers')).setImmediate;
-
 // globally mock as we never want to actually call single-spa funcs in unit tests
 vi.mock('single-spa', () => ({
   unloadApplication: vi.fn(),

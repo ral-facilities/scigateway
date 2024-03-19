@@ -46,7 +46,7 @@ import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
 import log from 'loglevel';
 import { createLocation } from 'history';
-import { flushPromises } from '../../setupTests';
+import { flushPromises } from '../../testUtils';
 
 function mockAxiosGetResponse(message: string): void {
   vi.mocked(mockAxios.get).mockImplementationOnce(() =>

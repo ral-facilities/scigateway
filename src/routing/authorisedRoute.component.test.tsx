@@ -15,7 +15,7 @@ import {
   siteLoadingUpdate,
   verifyUsernameAndPassword,
 } from '../state/actions/scigateway.actions';
-import { flushPromises } from '../setupTests';
+import { flushPromises } from '../testUtils';
 import { Provider } from 'react-redux';
 import {
   act,
