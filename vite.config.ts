@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 import { PluginOption, defineConfig, loadEnv } from 'vite';
 
 /* See https://stackoverflow.com/questions/69626090/how-to-watch-public-directory-in-vite-project-for-hot-reload allows
@@ -38,6 +39,10 @@ export default defineConfig(({ mode }) => {
     },
     preview: {
       port: 5001,
+    },
+    build: {
+      // Use browserslist config
+      target: browserslistToEsbuild(),
     },
     test: {
       globals: true,
