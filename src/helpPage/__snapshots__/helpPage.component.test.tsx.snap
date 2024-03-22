@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Help page component should back to top elements next to each header 1`] = `
+exports[`Help page component > should back to top elements next to each header 1`] = `
 <DocumentFragment>
   <div
     class="css-18rbhl5"
@@ -83,7 +83,7 @@ exports[`Help page component should back to top elements next to each header 1`]
 </DocumentFragment>
 `;
 
-exports[`Help page component should render TOC correctly with nested headers 1`] = `
+exports[`Help page component > should render TOC correctly with nested headers 1`] = `
 <DocumentFragment>
   <nav
     class="css-1krrpur"
@@ -130,7 +130,7 @@ exports[`Help page component should render TOC correctly with nested headers 1`]
 </DocumentFragment>
 `;
 
-exports[`Help page component should render correctly 1`] = `
+exports[`Help page component > should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="css-18rbhl5"

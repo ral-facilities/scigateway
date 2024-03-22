@@ -1,12 +1,9 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import { getAppStrings } from '../state/strings';
-import { connect } from 'react-redux';
-import { StateType } from '../state/state.types';
-import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
-import { Trans, useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
+import { scigatewayRoutes } from '../state/scigateway.types';
 
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -37,12 +34,7 @@ const StyledLink = styled(Link)<{ component?: React.ElementType; to?: string }>(
   }
 );
 
-export interface FooterProps {
-  res: AppStrings | undefined;
-  drawerOpen: boolean;
-}
-
-const Footer = (props: FooterProps): React.ReactElement => {
+const Footer = (): React.ReactElement => {
   const [t] = useTranslation();
 
   return (
@@ -114,11 +106,4 @@ const Footer = (props: FooterProps): React.ReactElement => {
   );
 };
 
-const mapStateToProps = (state: StateType): FooterProps => ({
-  res: getAppStrings(state, 'footer'),
-  drawerOpen: state.scigateway.drawerOpen,
-});
-
-export const UnconnectedFooter = Footer;
-
-export default connect(mapStateToProps)(Footer);
+export default Footer;

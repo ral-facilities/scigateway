@@ -1,24 +1,26 @@
-var express = require('express');
-var path = require('path');
-var serveStatic = require('serve-static');
-var axios = require('axios');
+import express from 'express';
+import path from 'path';
+import serveStatic from 'serve-static';
+import axios from 'axios';
 
 var app = express();
 
-app.get('/settings.json', function(req, res) {
-  res.sendFile(path.join(__dirname, 'e2e-settings.json'));
+app.get('/settings.json', function (req, res) {
+  res.sendFile(path.resolve('./server/e2e-settings.json'));
 });
 
-app.get('/plugins/*', function(req, res) {
-  res.sendFile(path.join(__dirname, req.originalUrl.replace('/plugins/', '')));
+app.get('/plugins/*', function (req, res) {
+  res.sendFile(
+    path.resolve(`./server/${req.originalUrl.replace('/plugins/', '')}`)
+  );
 });
 
 app.use(
   express.json(),
-  serveStatic(path.resolve('./build'), { index: ['index.html', 'index.htm'] })
+  serveStatic(path.resolve('./dist'), { index: ['index.html', 'index.htm'] })
 );
 
-app.post('/api/*', function(req, res) {
+app.post('/api/*', function (req, res) {
   axios
     .post('http://127.0.0.1:8000' + req.url, req.body)
     .then(apiRes => {
@@ -29,8 +31,8 @@ app.post('/api/*', function(req, res) {
     });
 });
 
-app.get('/*', function(req, res) {
-  res.sendFile(path.resolve('./build/index.html'));
+app.get('/*', function (req, res) {
+  res.sendFile(path.resolve('./dist/index.html'));
 });
 
 app.listen(3000);

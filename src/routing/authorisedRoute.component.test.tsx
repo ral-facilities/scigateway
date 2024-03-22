@@ -15,7 +15,7 @@ import {
   siteLoadingUpdate,
   verifyUsernameAndPassword,
 } from '../state/actions/scigateway.actions';
-import { flushPromises } from '../setupTests';
+import { flushPromises } from '../testUtils';
 import { Provider } from 'react-redux';
 import {
   act,
@@ -70,7 +70,7 @@ describe('AuthorisedRoute component', () => {
     const testStore = mockStore(state);
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
-    const result = render(
+    const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router history={history}>
@@ -85,7 +85,7 @@ describe('AuthorisedRoute component', () => {
     return {
       history,
       testStore: testStore,
-      ...result,
+      ...view,
     };
   };
 
@@ -135,7 +135,7 @@ describe('AuthorisedRoute component', () => {
     };
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
-    const result = render(
+    const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router history={history}>
@@ -149,7 +149,7 @@ describe('AuthorisedRoute component', () => {
 
     return {
       history,
-      ...result,
+      ...view,
       ...utils,
     };
   };
@@ -168,7 +168,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders non admin component when non admin user accesses it', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -192,7 +192,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders PageNotFound component when non admin user accesses admin component', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -269,7 +269,7 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
-    state.scigateway.authorisation.provider.verifyLogIn = jest
+    state.scigateway.authorisation.provider.verifyLogIn = vi
       .fn()
       .mockResolvedValue(undefined);
 

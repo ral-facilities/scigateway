@@ -72,7 +72,7 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
         textColor="secondary"
         indicatorColor="secondary"
         value={tabValue}
-        onChange={(event, newValue) => {
+        onChange={(_event, newValue) => {
           setTabValue(newValue);
         }}
       >
