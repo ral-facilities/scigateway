@@ -1,7 +1,7 @@
 # Dockerfile to build and serve scigateway
 
 # Build stage
-FROM node:20.11-alpine3.18 as builder
+FROM node:20.11.1-alpine3.18@sha256:a02826c7340c37a29179152723190bcc3044f933c925f3c2d78abb20f794de3f as builder
 
 WORKDIR /scigateway-build
 
@@ -24,7 +24,7 @@ COPY docker/settings.json public/settings.json
 RUN yarn build
 
 # Run stage
-FROM httpd:2.4-alpine3.15
+FROM httpd:2.4.53-alpine3.15@sha256:4eb4177b9245c686696dd8120c79cd64b7632b27d890db4cad3b0e844ed737af
 
 WORKDIR /usr/local/apache2/htdocs
 
