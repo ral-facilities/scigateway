@@ -41,6 +41,9 @@ const ContainerDiv = styled('div', {
         ? `calc(100vh - ${theme.mainAppBarHeight})`
         : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight})`,
       overflow: 'auto',
+      '@media print': {
+        overflow: 'visible',
+      },
       marginLeft: isMobileViewport ? 0 : theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
@@ -55,6 +58,9 @@ const ContainerDiv = styled('div', {
       ? `calc(100vh - ${theme.mainAppBarHeight})`
       : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight})`,
     overflow: 'auto',
+    '@media print': {
+      overflow: 'visible',
+    },
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeIn,
       duration: theme.transitions.duration.leavingScreen,
