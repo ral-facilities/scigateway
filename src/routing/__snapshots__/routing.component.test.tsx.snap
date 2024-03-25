@@ -3,7 +3,7 @@
 exports[`Routing component redirects to the homepage if navigating to login page while logged in 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     <div
       id="dg-homepage"
@@ -262,7 +262,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
 exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     <div>
       <div
@@ -278,7 +278,7 @@ exports[`Routing component renders a route for a plugin when site is under maint
 exports[`Routing component renders a route for admin page 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     <div>
       Mocked AdminPage
@@ -290,7 +290,7 @@ exports[`Routing component renders a route for admin page 1`] = `
 exports[`Routing component renders a route for maintenance page when site is under maintenance and user is not admin 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     Mocked MaintenancePage
   </div>
@@ -300,7 +300,7 @@ exports[`Routing component renders a route for maintenance page when site is und
 exports[`Routing component renders an unauthorised route for a plugin 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     <div
       id="dg-homepage"
@@ -559,7 +559,7 @@ exports[`Routing component renders an unauthorised route for a plugin 1`] = `
 exports[`Routing component renders component with no plugin routes 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     <div
       id="dg-homepage"
@@ -818,7 +818,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
 exports[`Routing component renders component with plugins 1`] = `
 <DocumentFragment>
   <div
-    class="css-uuc84g"
+    class="css-frbs4c"
   >
     <div
       id="dg-homepage"
