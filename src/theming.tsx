@@ -10,6 +10,7 @@ import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
 import { checkboxClasses } from '@mui/material/Checkbox';
 import {
+  CssBaseline,
   formHelperTextClasses,
   formLabelClasses,
   inputClasses,
@@ -76,6 +77,7 @@ interface ThemeColours {
   /* Darker colours */
   darkGreen: string; //Used for cookie consent message
   darkOrange: string; //Used for help tour
+  darkBlue: string;
 
   /* Contrast colours that need to change significantly between dark
      and light modes */
@@ -114,8 +116,6 @@ declare module '@mui/material/styles' {
   interface Theme {
     colours: ThemeColours;
     drawerWidth: string;
-    footerPaddingTop: string;
-    footerPaddingBottom: string;
     footerHeight: string;
     mainAppBarHeight: string;
   }
@@ -123,8 +123,6 @@ declare module '@mui/material/styles' {
   interface ThemeOptions {
     colours: ThemeColours;
     drawerWidth: string;
-    footerPaddingTop: string;
-    footerPaddingBottom: string;
     footerHeight: string;
     mainAppBarHeight: string;
   }
@@ -145,6 +143,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: UKRI_COLOURS.deep.blue,
   contrastGrey: '#E6E6E6',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
@@ -181,6 +180,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FFC14D',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: '#86B4FF',
   contrastGrey: '#FFFFFF',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFC14D',
@@ -217,6 +217,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: UKRI_COLOURS.deep.blue,
   contrastGrey: '#717171',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
@@ -253,6 +254,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: UKRI_COLOURS.deep.blue,
   contrastGrey: '#000000',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
@@ -493,9 +495,7 @@ export const buildTheme = (
     components: componentOverrides,
     colours: colours,
     drawerWidth: '220px',
-    footerPaddingTop: '8px',
-    footerPaddingBottom: '8px',
-    footerHeight: '20px',
+    footerHeight: '32px',
     mainAppBarHeight: '64px',
   });
 };
@@ -531,6 +531,7 @@ const SciGatewayThemeProvider = (props: {
           primaryColour
         )}
       >
+        <CssBaseline enableColorScheme />
         {props.children}
       </ThemeProvider>
     </StyledEngineProvider>

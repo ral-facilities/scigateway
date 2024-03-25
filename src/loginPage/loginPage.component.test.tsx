@@ -10,7 +10,7 @@ import LoginPage, {
 import { buildTheme } from '../theming';
 import { ThemeProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
-import { createLocation } from 'history';
+import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
 import axios from 'axios';
 import { ICATAuthenticator, StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
@@ -25,21 +25,16 @@ import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
 import {
+  act,
   render,
   screen,
   waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Router } from 'react-router-dom';
 
 jest.mock('loglevel');
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'localhost:3000/login',
-  }),
-}));
 
 describe('Login selector component', () => {
   let props: CombinedLoginProps;
@@ -52,8 +47,9 @@ describe('Login selector component', () => {
         loading: false,
         provider: new TestAuthProvider(null),
       },
-      location: createLocation('/'),
       res: undefined,
+      verifyUsernameAndPassword: jest.fn(),
+      resetAuthState: jest.fn(),
     };
   });
 
@@ -96,13 +92,19 @@ describe('Login page component', () => {
   let props: CombinedLoginProps;
   let mockStore;
   let state: StateType;
+  let history: MemoryHistory;
 
   beforeEach(() => {
     mockStore = configureStore([thunk]);
 
+    history = createMemoryHistory({ initialEntries: ['/login'] });
+
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'POP',
+      },
     };
 
     props = {
@@ -112,9 +114,9 @@ describe('Login page component', () => {
         loading: false,
         provider: new TestAuthProvider(null),
       },
-      location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
+      resetAuthState: jest.fn(),
     };
 
     state.scigateway.authorisation = props.auth;
@@ -125,7 +127,11 @@ describe('Login page component', () => {
   }: {
     children: React.ReactElement;
   }): JSX.Element {
-    return <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>;
+    return (
+      <Router history={history}>
+        <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>
+      </Router>
+    );
   }
 
   it('credential component renders correctly', () => {
@@ -379,7 +385,7 @@ describe('Login page component', () => {
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
-    const mockLoginfn = jest.fn();
+    const mockLoginfn = jest.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
 
@@ -436,14 +442,19 @@ describe('Login page component', () => {
     expect(window.location.href).toEqual('test redirect');
   });
 
-  it('on location.search filled in verification method should be called with blank username and query string', () => {
+  it('on location.search filled in verification method should be called with blank username and query string', async () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    props.location.search = '?token=test_token';
+    history.replace('/login?token=test_token');
 
-    const mockLoginfn = jest.fn();
+    const promise = Promise.resolve();
+    const mockLoginfn = jest.fn(() => promise);
     props.verifyUsernameAndPassword = mockLoginfn;
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    await act(async () => {
+      await promise;
+    });
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
     expect(mockLoginfn.mock.calls[0]).toEqual([
@@ -454,7 +465,7 @@ describe('Login page component', () => {
   });
 
   it('on submit verification method should be called when logs in via keyless authenticator', async () => {
-    const mockLoginfn = jest.fn();
+    const mockLoginfn = jest.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';
@@ -482,7 +493,7 @@ describe('Login page component', () => {
 
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
     state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
-    state.router.location.search = '?token=test_token';
+    history.replace('/login?token=test_token');
     state.scigateway.authorisation.provider.mnemonic = 'nokeys';
 
     (axios.get as jest.Mock).mockImplementation(() =>

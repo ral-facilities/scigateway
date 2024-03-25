@@ -22,6 +22,7 @@ export const LoadDarkModePreferenceType =
   'scigateway:load_dark_mode_preference';
 export const LoadHighContrastModePreferenceType =
   'scigateway:load_high_contrast_mode_preference';
+export const TokenRefreshedType = 'scigateway:api:token_refreshed';
 export const SignOutType = 'scigateway:signout';
 export const ResetAuthStateType = 'scigateway:reset_auth_state';
 export const BroadcastSignOutType = 'scigateway:api:signout';

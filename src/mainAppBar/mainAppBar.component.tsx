@@ -9,7 +9,7 @@ import HelpIcon from '@mui/icons-material/HelpOutline';
 import MenuIcon from '@mui/icons-material/Menu';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { styled, useMediaQuery } from '@mui/material';
+import { Box, styled, useMediaQuery } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { Theme, useTheme } from '@mui/material/styles';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
@@ -129,7 +129,14 @@ export const MainAppBar = (
   }, [isViewportMdOrLarger]);
 
   return (
-    <div style={{ width: '100%' }}>
+    <Box
+      sx={{
+        width: '100%',
+        '@media print': {
+          display: 'none',
+        },
+      }}
+    >
       <AppBar
         position="static"
         color="transparent"
@@ -242,7 +249,7 @@ export const MainAppBar = (
           )}
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 };
 

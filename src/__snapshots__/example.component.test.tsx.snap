@@ -3,7 +3,9 @@
 exports[`Example component renders correctly 1`] = `
 <DocumentFragment>
   <div>
-    test notification
+    <div>
+      warning test notification
+    </div>
   </div>
 </DocumentFragment>
 `;

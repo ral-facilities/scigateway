@@ -8,6 +8,7 @@ import Tour from './tour/tour.component';
 import CookieConsent from './cookieConsent/cookieConsent.component';
 import Footer from './footer/footer.component';
 import { useMediaQuery } from '@mui/material';
+import { toastr } from 'react-redux-toastr';
 
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -18,6 +19,26 @@ const RootDiv = styled('div')(({ theme }) => ({
 const PageContainer = (): React.ReactElement => {
   const theme = useTheme();
   const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+
+  React.useEffect(() => {
+    const clearToasts = (): void => {
+      toastr.clean();
+    };
+
+    const handleKeyPress = (event: KeyboardEvent): void => {
+      if (event instanceof KeyboardEvent && event.key === 'Escape') {
+        clearToasts();
+      }
+    };
+
+    // Add event listeners for  keydown events
+    document.addEventListener('keydown', handleKeyPress);
+
+    // Clean up the event listeners when component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
 
   return (
     <RootDiv>

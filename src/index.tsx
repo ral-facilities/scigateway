@@ -3,11 +3,11 @@ import 'react-app-polyfill/stable';
 import 'custom-event-polyfill';
 import './i18n';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import 'typeface-roboto';
 
-ReactDOM.render(
-  <App useSuspense={false} />,
-  document.getElementById('scigateway')
-);
+const container = document.getElementById('scigateway');
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(container!);
+root.render(<App useSuspense={false} />);
