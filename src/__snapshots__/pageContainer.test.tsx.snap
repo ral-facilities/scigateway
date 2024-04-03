@@ -40,7 +40,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
       </div>
     </div>
     <div
-      style="width: 100%;"
+      class="MuiBox-root css-1g9g0uu"
     >
       <header
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-1p9tt43-MuiPaper-root-MuiAppBar-root"
@@ -192,7 +192,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
       class="react-joyride"
     />
     <div
-      class="css-uuc84g"
+      class="css-frbs4c"
     >
       <div
         id="dg-homepage"
@@ -446,7 +446,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="css-1j8dxwd"
+      class="css-1dqylve"
     >
       <div
         style="text-align: left; font-weight: bold; font-size: 14px; text-indent: 16px; display: inline-block;"

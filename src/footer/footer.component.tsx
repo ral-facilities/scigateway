@@ -26,6 +26,9 @@ const RootDiv = styled('div')(({ theme }) => ({
       color: theme.colours.footerLink.active,
     },
   },
+  '@media print': {
+    display: 'none',
+  },
 }));
 
 const StyledLink = styled(Link)<{ component?: React.ElementType; to?: string }>(
