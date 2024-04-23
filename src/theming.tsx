@@ -77,6 +77,7 @@ interface ThemeColours {
   /* Darker colours */
   darkGreen: string; //Used for cookie consent message
   darkOrange: string; //Used for help tour
+  darkBlue: string;
 
   /* Contrast colours that need to change significantly between dark
      and light modes */
@@ -142,6 +143,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: UKRI_COLOURS.deep.blue,
   contrastGrey: '#E6E6E6',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
@@ -178,6 +180,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FFC14D',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: '#86B4FF',
   contrastGrey: '#FFFFFF',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFC14D',
@@ -214,6 +217,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: UKRI_COLOURS.deep.blue,
   contrastGrey: '#717171',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
@@ -250,6 +254,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   lightOrange: '#FF6900',
   darkGreen: '#3A7F3A',
   darkOrange: STATIC_COLOURS.orange,
+  darkBlue: UKRI_COLOURS.deep.blue,
   contrastGrey: '#000000',
   information: UKRI_COLOURS.deep.blue,
   warning: '#FFA500',
@@ -281,8 +286,8 @@ export const buildTheme = (
       ? DARK_MODE_HIGH_CONTRAST_COLOURS
       : DARK_MODE_COLOURS
     : highContrastModePreference
-    ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
-    : LIGHT_MODE_COLOURS;
+      ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
+      : LIGHT_MODE_COLOURS;
 
   if (primaryColour && !(darkModePreference && highContrastModePreference)) {
     colours.primary = primaryColour;

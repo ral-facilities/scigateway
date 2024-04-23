@@ -29,7 +29,6 @@ import axios from 'axios';
 import log from 'loglevel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { useHistory } from 'react-router';
 
 const RootDiv = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -144,30 +143,11 @@ export const CredentialsLoginScreen = (
 
   const [t] = useTranslation();
 
-  const location = useLocation<{ referrer?: string } | undefined>();
-  const history = useHistory();
-
   const { verifyUsernameAndPassword, mnemonic } = props;
 
   const login = React.useCallback(async () => {
-    try {
-      await verifyUsernameAndPassword(username, password, mnemonic);
-
-      // if successful - redirect
-      const referrer = location.state?.referrer;
-
-      // redirect the user to the original page they were trying to get to
-      // the referrer is added by the redirect in authorisedRoute.component.tsx
-      history.push(referrer ?? '/');
-    } catch {}
-  }, [
-    history,
-    location.state?.referrer,
-    password,
-    verifyUsernameAndPassword,
-    mnemonic,
-    username,
-  ]);
+    return await verifyUsernameAndPassword(username, password, mnemonic);
+  }, [password, verifyUsernameAndPassword, mnemonic, username]);
 
   return (
     <RootDiv
@@ -263,23 +243,11 @@ export const AnonLoginScreen = (
 ): React.ReactElement => {
   const [t] = useTranslation();
 
-  const location = useLocation<{ referrer?: string } | undefined>();
-  const history = useHistory();
-
   const { verifyUsernameAndPassword, mnemonic } = props;
 
   const login = React.useCallback(async () => {
-    try {
-      await verifyUsernameAndPassword('', '', mnemonic);
-
-      // if successful - redirect
-      const referrer = location.state?.referrer;
-
-      // redirect the user to the original page they were trying to get to
-      // the referrer is added by the redirect in authorisedRoute.component.tsx
-      history.push(referrer ?? '/');
-    } catch {}
-  }, [history, location.state?.referrer, verifyUsernameAndPassword, mnemonic]);
+    return await verifyUsernameAndPassword('', '', mnemonic);
+  }, [verifyUsernameAndPassword, mnemonic]);
 
   return (
     <RootDiv
@@ -390,32 +358,12 @@ export const LoginPageComponent = (
     props.auth.provider.mnemonic
   );
   const location = useLocation<{ referrer?: string } | undefined>();
-  const history = useHistory();
 
   const { verifyUsernameAndPassword } = props;
 
   const login = React.useCallback(async () => {
-    try {
-      await verifyUsernameAndPassword('', location.search, mnemonic);
-
-      console.log('success!');
-
-      // if successful - redirect
-      const referrer = location.state?.referrer;
-      console.log('referrer', referrer);
-
-      // redirect the user to the original page they were trying to get to
-      // the referrer is added by the redirect in authorisedRoute.component.tsx
-      history.push(referrer ?? '/');
-      console.log('pushed to history');
-    } catch {}
-  }, [
-    history,
-    location.search,
-    location.state?.referrer,
-    verifyUsernameAndPassword,
-    mnemonic,
-  ]);
+    return await verifyUsernameAndPassword('', location.search, mnemonic);
+  }, [location.search, verifyUsernameAndPassword, mnemonic]);
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {

@@ -6,7 +6,7 @@ import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
 import { render, screen, within } from '@testing-library/react';

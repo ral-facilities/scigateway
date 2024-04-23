@@ -20,7 +20,7 @@ import {
   resetAuthState,
 } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
@@ -47,8 +47,9 @@ describe('Login selector component', () => {
         loading: false,
         provider: new TestAuthProvider(null),
       },
-      location: createLocation('/'),
       res: undefined,
+      verifyUsernameAndPassword: jest.fn(),
+      resetAuthState: jest.fn(),
     };
   });
 
@@ -75,7 +76,7 @@ describe('Login selector component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /authenticator/i }));
+    await user.click(screen.getByRole('combobox', { name: /authenticator/i }));
     await user.selectOptions(
       screen.getByRole('listbox', { name: /authenticator/i }),
       screen.getByRole('option', { name: 'anon' })
@@ -100,7 +101,10 @@ describe('Login page component', () => {
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
+      router: {
+        location: { ...createLocation('/'), query: {} },
+        action: 'POP',
+      },
     };
 
     props = {
@@ -110,9 +114,9 @@ describe('Login page component', () => {
         loading: false,
         provider: new TestAuthProvider(null),
       },
-      location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
+      resetAuthState: jest.fn(),
     };
 
     state.scigateway.authorisation = props.auth;
@@ -258,7 +262,7 @@ describe('Login page component', () => {
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     expect(
-      await screen.findByRole('button', { name: /authenticator/i })
+      await screen.findByRole('combobox', { name: /authenticator/i })
     ).toBeInTheDocument();
   });
 
@@ -405,10 +409,6 @@ describe('Login page component', () => {
       'new password',
       undefined,
     ]);
-    expect(history.location.pathname).toBe('/');
-    act(() => {
-      history.replace('/login', { referrer: '/test' });
-    });
 
     await user.clear(usernameTextBox);
     await user.clear(passwordBox);
@@ -421,8 +421,6 @@ describe('Login page component', () => {
       'new password 2',
       undefined,
     ]);
-
-    expect(history.location.pathname).toBe('/test');
   });
 
   it('on submit window location should change for redirect', async () => {
@@ -464,7 +462,6 @@ describe('Login page component', () => {
       '?token=test_token',
       undefined,
     ]);
-    expect(history.location.pathname).toBe('/');
   });
 
   it('on submit verification method should be called when logs in via keyless authenticator', async () => {
@@ -492,7 +489,6 @@ describe('Login page component', () => {
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
     expect(mockLoginfn.mock.calls[0]).toEqual(['', '', 'nokeys']);
-    expect(history.location.pathname).toBe('/');
   });
 
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {

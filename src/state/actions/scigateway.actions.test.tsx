@@ -144,11 +144,7 @@ describe('scigateway actions', () => {
 
     const action = asyncAction(dispatch, getState);
     jest.runAllTimers();
-
-    // don't care about what specifically we reject with just that we do reject
-    await expect(action).rejects.toBeTruthy();
-
-    // await expect(action).rejects.toThrow();
+    await action;
 
     const expectedResponse = { type: 'scigateway:auth_failure' };
 

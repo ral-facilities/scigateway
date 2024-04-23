@@ -24,7 +24,7 @@ exports[`Accessibility page component should render correctly and display contac
       >
         <li>
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
             href="accessibility-page.domains-list0"
           >
             accessibility-page.domains-list0
@@ -32,7 +32,7 @@ exports[`Accessibility page component should render correctly and display contac
         </li>
         <li>
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
             href="accessibility-page.domains-list1"
           >
             accessibility-page.domains-list1
@@ -73,7 +73,7 @@ exports[`Accessibility page component should render correctly and display contac
       class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
     >
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
         href="accessibility-page.advice-on-how-to-make-device-more-accessible-link"
       >
         AbilityNet
@@ -123,7 +123,7 @@ exports[`Accessibility page component should render correctly and display contac
             class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
               href="mailto:accessibility-page.contact-info"
             >
               accessibility-page.contact-info
@@ -145,7 +145,7 @@ exports[`Accessibility page component should render correctly and display contac
       >
         The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint,
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
           href="accessibility-page.enforcement-procedure-link"
         >
           contact the Equality Advisory and Support Service (EASS)
@@ -175,7 +175,7 @@ exports[`Accessibility page component should render correctly and display contac
       >
         This website is partially compliant with the 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
           href="accessibility-page.compliance-status-link"
         >
           Web Content Accessibility Guidelines version 2.1
@@ -270,7 +270,7 @@ exports[`Accessibility page component should render correctly and display contac
       >
         We have assessed the time it would take to resolve these issues with table view, and card view. We believe that doing so now would be a 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17t6e9i-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
           href="accessibility-page.disproportionate-burden.link"
         >
           disproportionate burden 
