@@ -3315,12 +3315,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.11.5":
+"@types/node@npm:*":
   version: 20.11.5
   resolution: "@types/node@npm:20.11.5"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10/9f31c471047d7b3e240ce7b77ff29b0d15e83be7e3feafb3d0b0d0931122b438b1eefa302a5a2e1e9849914ff3fd76aafbd8ccb372efb1331ba048da63bce6f8
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.14.0":
+  version: 20.14.0
+  resolution: "@types/node@npm:20.14.0"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/49b332fbf8aee4dc4f61cc1f1f6e130632510f795dd7b274e55894516feaf4bec8a3d13ea764e2443e340a64ce9bbeb006d14513bf6ccdd4f21161eccc7f311e
   languageName: node
   linkType: hard
 
@@ -13883,7 +13892,7 @@ __metadata:
     "@types/jest": "npm:29.5.2"
     "@types/js-cookie": "npm:3.0.1"
     "@types/jsonwebtoken": "npm:9.0.1"
-    "@types/node": "npm:20.11.5"
+    "@types/node": "npm:20.14.0"
     "@types/react": "npm:18.0.33"
     "@types/react-dom": "npm:18.0.11"
     "@types/react-redux": "npm:7.1.20"
