@@ -72,7 +72,7 @@ interface ThemeColours {
 
   /* Lighter colours */
   lightBlue: string; //Used for lighter coloured buttons
-  lightOrange: string; //Used for notifcation icon
+  lightOrange: string; //Used for notification icon
 
   /* Darker colours */
   darkGreen: string; //Used for cookie consent message
@@ -478,6 +478,9 @@ export const buildTheme = (
       },
       secondary: {
         main: colours.secondary,
+      },
+      error: {
+        main: colours.red,
       },
       text: {
         secondary: colours.textSecondary,

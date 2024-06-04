@@ -62,10 +62,10 @@ exports[`Accessibility page component > should render correctly and display cont
         class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
       >
         <li>
-          accessibility-page.accessibile-parts-of-datagateway-list0
+          accessibility-page.accessible-parts-of-list0
         </li>
         <li>
-          accessibility-page.accessibile-parts-of-datagateway-list1
+          accessibility-page.accessible-parts-of-list1
         </li>
       </ul>
     </div>
@@ -86,16 +86,16 @@ exports[`Accessibility page component > should render correctly and display cont
       <p
         class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
       >
-        accessibility-page.non-accessibile-parts-of-datagateway-text
+        accessibility-page.non-accessible-parts-of-text
       </p>
       <ul
         class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
       >
         <li>
-          accessibility-page.non-accessibile-parts-of-datagateway-list0
+          accessibility-page.accessible-parts-of-list0
         </li>
         <li>
-          accessibility-page.non-accessibile-parts-of-datagateway-list1
+          accessibility-page.accessible-parts-of-list1
         </li>
       </ul>
     </div>
