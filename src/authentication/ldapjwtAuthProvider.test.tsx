@@ -1,13 +1,11 @@
 import mockAxios from 'axios';
-import ldapJWTAuthProvider from './ldapjwtAuthProvider';
-
-jest.mock('./parseJWT');
+import LDAPJWTAuthProvider from './ldapjwtAuthProvider';
 
 describe('ldapJWT auth provider', () => {
-  let ldapJjwtAuthProvider: ldapJWTAuthProvider;
+  let ldapJjwtAuthProvider: LDAPJWTAuthProvider;
 
   beforeEach(() => {
-    ldapJjwtAuthProvider = new ldapJWTAuthProvider('http://localhost:8000');
+    ldapJjwtAuthProvider = new LDAPJWTAuthProvider('http://localhost:8000');
   });
 
   it('should call api to fetch maintenance state', async () => {
