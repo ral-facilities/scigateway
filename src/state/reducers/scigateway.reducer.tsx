@@ -365,6 +365,10 @@ export function handleAuthProviderUpdate(
         provider = new JWTAuthProvider(payload.authUrl);
         break;
 
+      case 'ldapjwt':
+        provider = new JWTAuthProvider(payload.authUrl);
+        break;
+
       case 'github':
         provider = new GithubAuthProvider(payload.authUrl);
         break;
