@@ -35,9 +35,9 @@ describe('ldapJWT auth provider', () => {
       })
     );
 
-    await ldapJjwtAuthProvider.fetchMaintenanceState();
+    await ldapJjwtAuthProvider.fetchScheduledMaintenanceState();
     expect(mockAxios.get).toHaveBeenCalledWith(
-      'http://localhost:8000/maintenance'
+      'http://localhost:8000/scheduled_maintenance'
     );
   });
 });
