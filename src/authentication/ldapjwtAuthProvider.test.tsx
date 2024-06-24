@@ -1,5 +1,5 @@
 import mockAxios from 'axios';
-import LDAPJWTAuthProvider from './ldapJWTAuthProvider';
+import LDAPJWTAuthProvider from './ldapjwtAuthProvider';
 
 describe('ldapJWT auth provider', () => {
   let ldapJjwtAuthProvider: LDAPJWTAuthProvider;
