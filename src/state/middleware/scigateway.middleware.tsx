@@ -171,9 +171,9 @@ export const listenToPlugins = (
             if (pluginMessage.detail.payload.severity !== undefined) {
               const { severity, message } = pluginMessage.detail.payload;
 
-              if (severity !== 'success') {
-                toastrMessage(message, severity);
-              }
+              // if (severity !== 'success') {
+              toastrMessage(message, severity);
+              //}
             }
           }
           break;
