@@ -66,7 +66,7 @@ describe('ldapJWT auth provider', () => {
       })
     );
 
-    await ldapJjwtAuthProvider.fetchMaintenanceState().catch(() => {
+    await ldapJjwtAuthProvider.fetchScheduledMaintenanceState().catch(() => {
       // catch error
     });
 
