@@ -1,11 +1,11 @@
 import mockAxios from 'axios';
-import LDAPJWTAuthProvider from './ldapjwtAuthProvider';
+import LDAPJWTAuthProvider from './ldapJWTAuthProvider';
 
-describe('ldapJWT auth provider', () => {
-  let ldapJjwtAuthProvider: LDAPJWTAuthProvider;
+describe('LDAP-JWT Auth provider', () => {
+  let ldapJWTAuthProvider: LDAPJWTAuthProvider;
 
   beforeEach(() => {
-    ldapJjwtAuthProvider = new LDAPJWTAuthProvider('http://localhost:8000');
+    ldapJWTAuthProvider = new LDAPJWTAuthProvider('http://localhost:8000');
   });
 
   it('should call api to fetch maintenance state', async () => {
@@ -18,7 +18,7 @@ describe('ldapJWT auth provider', () => {
       })
     );
 
-    await ldapJjwtAuthProvider.fetchMaintenanceState();
+    await ldapJWTAuthProvider.fetchMaintenanceState();
     expect(mockAxios.get).toHaveBeenCalledWith(
       'http://localhost:8000/maintenance'
     );
@@ -35,7 +35,7 @@ describe('ldapJWT auth provider', () => {
       })
     );
 
-    await ldapJjwtAuthProvider.fetchScheduledMaintenanceState();
+    await ldapJWTAuthProvider.fetchScheduledMaintenanceState();
     expect(mockAxios.get).toHaveBeenCalledWith(
       'http://localhost:8000/scheduled_maintenance'
     );
@@ -50,11 +50,11 @@ describe('ldapJWT auth provider', () => {
       })
     );
 
-    await ldapJjwtAuthProvider.fetchMaintenanceState().catch(() => {
+    await ldapJWTAuthProvider.fetchMaintenanceState().catch(() => {
       // catch error
     });
 
-    expect(ldapJjwtAuthProvider.isLoggedIn()).toBeFalsy();
+    expect(ldapJWTAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
   it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
@@ -66,10 +66,10 @@ describe('ldapJWT auth provider', () => {
       })
     );
 
-    await ldapJjwtAuthProvider.fetchScheduledMaintenanceState().catch(() => {
+    await ldapJWTAuthProvider.fetchScheduledMaintenanceState().catch(() => {
       // catch error
     });
 
-    expect(ldapJjwtAuthProvider.isLoggedIn()).toBeFalsy();
+    expect(ldapJWTAuthProvider.isLoggedIn()).toBeFalsy();
   });
 });
