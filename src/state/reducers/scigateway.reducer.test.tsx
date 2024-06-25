@@ -281,16 +281,16 @@ describe('scigateway reducer', () => {
       ICATAuthProvider
     );
 
-    updatedState = ScigatewayReducer(state, loadAuthProvider('ldap-jwt'));
-
-    expect(updatedState.authorisation.provider).toBeInstanceOf(
-      LDAPJWTAuthProvider
-    );
-
     updatedState = ScigatewayReducer(state, loadAuthProvider('icat.anon'));
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       ICATAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(state, loadAuthProvider('ldap-jwt'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      LDAPJWTAuthProvider
     );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider(null));
