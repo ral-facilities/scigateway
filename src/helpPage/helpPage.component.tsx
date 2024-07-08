@@ -117,7 +117,7 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
   useAnchor();
 
   return (
-    <RootDiv>
+    <RootDiv id="help-page">
       <Typography
         variant="h3"
         sx={{ fontWeight: 'bold', color: 'secondary.main' }}
