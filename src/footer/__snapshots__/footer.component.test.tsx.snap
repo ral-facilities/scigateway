@@ -1,70 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer component footer renders correctly 1`] = `
-<div
-  className="root-class"
->
-  <div>
-    <Trans
-      i18nKey="footer.links.text"
+<DocumentFragment>
+  <div
+    class="css-1co1cbj"
+  >
+    <div
+      style="text-align: left; font-weight: bold; font-size: 14px; text-indent: 16px; display: inline-block;"
     >
-      <WithStyles(ForwardRef(Link))
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
         href="footer.links.facility"
       >
         Facility Home
-      </WithStyles(ForwardRef(Link))>
+      </a>
        | 
-      <WithStyles(ForwardRef(Link))
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
         href="footer.links.privacy-statement"
       >
         Privacy statement
-      </WithStyles(ForwardRef(Link))>
+      </a>
        | 
-      <WithStyles(ForwardRef(Link))
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
         href="footer.links.data-policy"
       >
         Data policy
-      </WithStyles(ForwardRef(Link))>
+      </a>
        | 
-      <WithStyles(ForwardRef(Link))
-        component={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "displayName": "Link",
-            "propTypes": Object {
-              "innerRef": [Function],
-              "onClick": [Function],
-              "replace": [Function],
-              "target": [Function],
-              "to": [Function],
-            },
-            "render": [Function],
-          }
-        }
-        to="/accessibility"
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+        href="/accessibility"
       >
         Accessibilty statement
-      </WithStyles(ForwardRef(Link))>
+      </a>
        | 
-      <WithStyles(ForwardRef(Link))
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
         href="footer.links.contact"
       >
         Contact
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
-  </div>
-  <div>
-    <Trans
-      i18nKey="footer.website-development-provider"
+      </a>
+    </div>
+    <div
+      style="text-align: right; font-size: 14px; right: 0px; padding-right: 16px; margin-left: auto;"
     >
       Built by the
-       
-      <WithStyles(ForwardRef(Link))
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+        href="https://www.scd.stfc.ac.uk/Pages/home.aspx"
+      >
+        Scientific Computing
+      </a>
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
         href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
       >
         Data and Software Engineering Group
-      </WithStyles(ForwardRef(Link))>
-    </Trans>
+      </a>
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

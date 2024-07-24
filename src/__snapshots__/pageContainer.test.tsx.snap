@@ -1,17 +1,381 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageContainer - Tests renders correctly 1`] = `
-<div
-  className="PageContainer-root-1"
->
-  <Connect(Preloader)
-    fullScreen={true}
-  />
-  <Connect(WithStyles(MainAppBar)) />
-  <Connect(WithStyles(NavigationDrawer)) />
-  <Connect(WithTheme(Tour)) />
-  <Connect(WithStyles(CookieConsent)) />
-  <Connect(WithStyles(Routing)) />
-  <Connect(WithStyles(Footer)) />
-</div>
+<DocumentFragment>
+  <div
+    class="css-1kl99y5"
+  >
+    <div>
+      <div
+        class="MuiBox-root css-n0zxlq"
+      >
+        <div
+          style="box-sizing: border-box; padding: 10px 0px;"
+        >
+          <div
+            style="position: relative; display: block; margin: auto; width: 230px; height: 230px; animation: rotate 10s infinite linear;"
+          >
+            <i
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 140px; border-top-right-radius: 140px; border-color: #8c4799; height: 70px; width: 140px; margin-top: -70px; margin-left: -70px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0, 0, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+            />
+            <i
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 148px; border-top-right-radius: 148px; border-color: #1d4f91; height: 79px; width: 158px; margin-top: -79px; margin-left: -79px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.3, 0.12, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+            />
+            <i
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 156px; border-top-right-radius: 156px; border-color: #c34613; height: 88px; width: 176px; margin-top: -88px; margin-left: -88px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.6, 0.24, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+            />
+            <i
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 164px; border-top-right-radius: 164px; border-color: #008275; height: 97px; width: 194px; margin-top: -97px; margin-left: -97px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.8999999999999999, 0.36, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+            />
+            <i
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 172px; border-top-right-radius: 172px; border-color: #63666a; height: 106px; width: 212px; margin-top: -106px; margin-left: -106px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 1.2, 0.48, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1jolfkj"
+        >
+          Loading...
+        </div>
+      </div>
+    </div>
+    <div
+      style="width: 100%;"
+    >
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-1p9tt43-MuiPaper-root-MuiAppBar-root"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-regular css-iv6ml1-MuiToolbar-root"
+        >
+          <button
+            aria-label="open-navigation-menu"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeLarge css-1nin6cb-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="MenuIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-label="home-page"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium tour-title css-bj8lf8-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <img
+              alt="title"
+              src="scigateway-white-text-blue-mark-logo.svg"
+              style="height: 24px;"
+            />
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            style="flex-grow: 1;"
+          />
+          <div
+            class="tour-user-profile"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1yxmrfv-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1vvwrqo-MuiTypography-root"
+              >
+                login-button
+              </p>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+          <button
+            aria-haspopup="true"
+            aria-label="open-mobile-menu"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-19c6lcd-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </header>
+    </div>
+    <div
+      class="react-joyride"
+    />
+    <div
+      class="css-9peh1a"
+    >
+      <div
+        id="dg-homepage"
+      >
+        <div
+          style="background-image: url(background.jpg); width: 100%; height: 250px;"
+        >
+          <div
+            style="background-repeat: no-repeat; width: 100%; height: 250px;"
+          >
+            <div
+              class="MuiBox-root css-h95k7f"
+            >
+              <h2
+                class="MuiTypography-root MuiTypography-h2 css-1qicgzl-MuiTypography-root"
+              >
+                <strong>
+                  Data discovery
+                </strong>
+                 and 
+                <strong>
+                  access
+                </strong>
+              </h2>
+              <h2
+                class="MuiTypography-root MuiTypography-h2 css-1qicgzl-MuiTypography-root"
+              >
+                for 
+                <strong>
+                  large-scale
+                </strong>
+                science facilities
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1qrn4l7"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              style="height: 100%;"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-1fyyp8j-MuiGrid-root"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <h3
+                    class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                  >
+                    home-page.browse.title
+                  </h3>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  >
+                    home-page.browse.description1
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  >
+                    <strong>
+                      DataGateway
+                    </strong>
+                     focuses on providing data discovery and data access functionality to the data.
+                  </p>
+                  <div
+                    class="MuiBox-root css-1yuhvjn"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      data-testid="browse-button"
+                      href="/home-page.browse.link"
+                      tabindex="0"
+                    >
+                      home-page.browse.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                      data-testid="SearchIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                      />
+                    </svg>
+                  </div>
+                  <h4
+                    class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  >
+                    home-page.search.title
+                  </h4>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  >
+                    home-page.search.description
+                  </p>
+                  <div
+                    class="MuiBox-root css-8xl60i"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      data-testid="search-button"
+                      href="/home-page.search.link"
+                      tabindex="0"
+                    >
+                      home-page.search.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                      data-testid="GetAppIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"
+                      />
+                    </svg>
+                  </div>
+                  <h4
+                    class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  >
+                    home-page.download.title
+                  </h4>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  >
+                    home-page.download.description
+                  </p>
+                  <div
+                    class="MuiBox-root css-8xl60i"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      data-testid="download-button"
+                      href="/home-page.download.link"
+                      tabindex="0"
+                    >
+                      home-page.download.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+              >
+                <div
+                  style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                >
+                  <div
+                    class="MuiBox-root css-1onku40"
+                  >
+                    <h4
+                      class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                    >
+                      home-page.facility.title
+                    </h4>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                    >
+                      home-page.facility.description
+                    </p>
+                    <div
+                      class="MuiBox-root css-8xl60i"
+                    >
+                      <a
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                        data-testid="facility-button"
+                        href="home-page.facility.link"
+                        tabindex="0"
+                      >
+                        home-page.facility.button
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;

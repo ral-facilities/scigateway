@@ -1,72 +1,63 @@
 import React from 'react';
-import UserProfileComponent, {
-  UserProfileWithoutStyles,
-} from './userProfile.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
+import UserProfileComponent from './userProfile.component';
 import { StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
+import configureStore, { type MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Avatar, MuiThemeProvider } from '@material-ui/core';
-import thunk from 'redux-thunk';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { buildTheme } from '../theming';
-import { ReactWrapper } from 'enzyme';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('User profile component', () => {
-  let shallow;
-  let mount;
-  let mockStore;
+  let testStore: MockStore;
   let state: StateType;
   const theme = buildTheme(false);
 
-  beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
+      <Provider store={testStore}>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </StyledEngineProvider>
+      </Provider>
+    );
+  }
 
-    mockStore = configureStore([thunk]);
+  beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
+    testStore = configureStore([thunk])(state);
   });
-
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
-  const createShallowWrapper = (): ReactWrapper => {
-    return shallow(
-      <UserProfileWithoutStyles
-        store={mockStore(state)}
-        classes={{ button: 'button-class' }}
-      />
-    );
-  };
 
   it('renders sign in button if not signed in', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
-    const wrapper = createShallowWrapper();
-    expect(wrapper).toMatchSnapshot();
+    render(<UserProfileComponent />, { wrapper: Wrapper });
+
+    expect(
+      screen.getByRole('button', { name: 'login-button' })
+    ).toBeInTheDocument();
   });
 
-  it('redirects to login when sign in is pressed', () => {
+  it('redirects to login when sign in is pressed', async () => {
+    const user = userEvent.setup();
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <UserProfileComponent />
-        </MuiThemeProvider>
-      </Provider>
-    );
+    render(<UserProfileComponent />, { wrapper: Wrapper });
 
-    wrapper.find('button').first().simulate('click');
+    await user.click(screen.getByRole('button', { name: 'login-button' }));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(push('/login'));
@@ -79,15 +70,20 @@ describe('User profile component', () => {
       .fn()
       .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
 
-    const wrapper = createShallowWrapper();
+    render(<UserProfileComponent />, { wrapper: Wrapper });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      screen.getByRole('button', { name: 'login-button' })
+    ).toBeInTheDocument();
     expect(localStorage.getItem).toBeCalledWith('autoLogin');
   });
 
   it('renders default avatar if signed in', () => {
-    const wrapper = createShallowWrapper();
-    expect(wrapper).toMatchSnapshot();
+    render(<UserProfileComponent />, { wrapper: Wrapper });
+
+    expect(
+      screen.getByRole('button', { name: 'Open user menu' })
+    ).toBeInTheDocument();
   });
 
   it('renders user avatar if signed in with avatar url', () => {
@@ -95,41 +91,36 @@ describe('User profile component', () => {
       username: 'test',
       avatarUrl: 'test_url',
     };
-    const wrapper = createShallowWrapper();
-    expect(wrapper).toMatchSnapshot();
+
+    render(<UserProfileComponent />, { wrapper: Wrapper });
+
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'test_url');
   });
 
-  it('opens menu when button clicked', () => {
-    state.scigateway.authorisation.provider.user = {
-      username: 'test',
-      avatarUrl: 'test_url',
-    };
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <UserProfileComponent store={mockStore(state)} />
-      </MuiThemeProvider>
-    );
+  it('opens menu when button clicked', async () => {
+    const user = userEvent.setup();
 
-    expect(wrapper.find('#simple-menu').first().prop('open')).toBeFalsy();
+    render(<UserProfileComponent />, { wrapper: Wrapper });
 
-    wrapper.find(Avatar).simulate('click');
+    expect(screen.queryByRole('menu')).toBeNull();
 
-    expect(wrapper.find('#simple-menu').first().prop('open')).toBeTruthy();
+    await user.click(screen.getByRole('button', { name: 'Open user menu' }));
+
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
   });
 
-  it('signs out if sign out clicked', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <UserProfileComponent />
-        </MuiThemeProvider>
-      </Provider>
-    );
+  it('signs out if sign out clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<UserProfileComponent />, { wrapper: Wrapper });
 
     // Click the user menu button and click on the sign out menu item.
-    wrapper.find('button').simulate('click');
-    wrapper.find('#item-sign-out').first().simulate('click');
+    await user.click(screen.getByRole('button', { name: 'Open user menu' }));
+    await user.click(
+      within(screen.getByRole('menu')).getByRole('menuitem', {
+        name: 'logout-button',
+      })
+    );
 
     expect(testStore.getActions().length).toEqual(2);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });

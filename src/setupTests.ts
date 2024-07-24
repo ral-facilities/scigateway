@@ -1,7 +1,4 @@
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-// React 16 Enzyme adapter
-Enzyme.configure({ adapter: new Adapter() });
+import '@testing-library/jest-dom';
 
 function noOp(): void {
   // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
@@ -25,4 +22,14 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-export const flushPromises = (): Promise<void> => new Promise(process.nextTick);
+export const flushPromises = (): Promise<void> =>
+  new Promise(jest.requireActual('timers').setImmediate);
+
+// globally mock as we never want to actually call single-spa funcs in unit tests
+jest.mock('single-spa', () => ({
+  unloadApplication: jest.fn(),
+  start: jest.fn(),
+  getAppStatus: jest.fn(),
+  triggerAppChange: jest.fn(),
+  NOT_LOADED: 'NOT_LOADED',
+}));

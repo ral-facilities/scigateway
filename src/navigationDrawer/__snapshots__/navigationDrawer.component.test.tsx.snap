@@ -1,476 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navigation drawer component Navigation drawer renders correctly when closed 1`] = `
-<div
-  className="MuiDrawer-root MuiDrawer-docked drawer-1"
->
-  <ForwardRef(Slide)
-    appear={false}
-    direction="right"
-    in={false}
-    timeout={
-      Object {
-        "enter": 225,
-        "exit": 195,
-      }
-    }
+<DocumentFragment>
+  <div
+    class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
   >
-    <WithStyles(ForwardRef(Paper))
-      className="MuiDrawer-paper drawerPaper-1 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
-      elevation={0}
-      square={true}
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-8bwi45-MuiPaper-root-MuiDrawer-paper"
+      style="visibility: hidden; webkit-transform: translateX(-0px); transform: translateX(-0px);"
     >
-      <Styled(MuiBox)
-        boxSizing="border-box"
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="flex-start"
+      <div
+        class="MuiBox-root css-1pvs5pb"
       >
-        <Styled(MuiBox)
-          marginTop="auto"
+        <div
+          class="MuiBox-root css-8xl60i"
         >
           <img
             alt="alternative-text"
-            className="menuLogo-1"
+            class="css-1taxr2z"
             src="stfc-logo-blue-text.png"
           />
-        </Styled(MuiBox)>
-      </Styled(MuiBox)>
-    </WithStyles(ForwardRef(Paper))>
-  </ForwardRef(Slide)>
-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Navigation drawer component Navigation drawer renders correctly when open 1`] = `
-<div
-  className="MuiDrawer-root MuiDrawer-docked drawer-1"
->
-  <ForwardRef(Slide)
-    appear={false}
-    direction="right"
-    in={true}
-    timeout={
-      Object {
-        "enter": 225,
-        "exit": 195,
-      }
-    }
+<DocumentFragment>
+  <div
+    class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
   >
-    <WithStyles(ForwardRef(Paper))
-      className="MuiDrawer-paper drawerPaper-1 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
-      elevation={0}
-      square={true}
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-8bwi45-MuiPaper-root-MuiDrawer-paper"
     >
-      <Styled(MuiBox)
-        boxSizing="border-box"
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="flex-start"
+      <div
+        class="MuiBox-root css-1pvs5pb"
       >
-        <Styled(MuiBox)
-          marginTop="auto"
+        <div
+          class="MuiBox-root css-8xl60i"
         >
           <img
             alt="alternative-text"
-            className="menuLogo-1"
+            class="css-1taxr2z"
             src="stfc-logo-blue-text.png"
           />
-        </Styled(MuiBox)>
-      </Styled(MuiBox)>
-    </WithStyles(ForwardRef(Paper))>
-  </ForwardRef(Slide)>
-</div>
-`;
-
-exports[`Navigation drawer component does not display link to homepage if a homepage link is set 1`] = `
-<div
-  className="MuiDrawer-root MuiDrawer-docked drawer-1"
->
-  <ForwardRef(Slide)
-    appear={false}
-    direction="right"
-    in={true}
-    timeout={
-      Object {
-        "enter": 225,
-        "exit": 195,
-      }
-    }
-  >
-    <WithStyles(ForwardRef(Paper))
-      className="MuiDrawer-paper drawerPaper-1 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
-      elevation={0}
-      square={true}
-    >
-      <Styled(MuiBox)
-        boxSizing="border-box"
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="flex-start"
-      >
-        <WithStyles(ForwardRef(Typography))
-          className="sectionTitle-1"
-          variant="h6"
-        >
-          DATA
-        </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(List))
-          component="nav"
-        >
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-plugin_link"
-            key="0"
-            to="plugin_link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="display name"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-        </WithStyles(ForwardRef(List))>
-        <Styled(MuiBox)
-          marginTop="auto"
-        >
-          <img
-            alt="alternative-text"
-            className="menuLogo-1"
-            src="stfc-logo-blue-text.png"
-          />
-        </Styled(MuiBox)>
-      </Styled(MuiBox)>
-    </WithStyles(ForwardRef(Paper))>
-  </ForwardRef(Slide)>
-</div>
-`;
-
-exports[`Navigation drawer component does not render admin plugins or plugins that ask to hide in list 1`] = `
-<div
-  className="MuiDrawer-root MuiDrawer-docked drawer-1"
->
-  <ForwardRef(Slide)
-    appear={false}
-    direction="right"
-    in={true}
-    timeout={
-      Object {
-        "enter": 225,
-        "exit": 195,
-      }
-    }
-  >
-    <WithStyles(ForwardRef(Paper))
-      className="MuiDrawer-paper drawerPaper-1 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
-      elevation={0}
-      square={true}
-    >
-      <Styled(MuiBox)
-        boxSizing="border-box"
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="flex-start"
-      >
-        <Styled(MuiBox)
-          marginTop="auto"
-        >
-          <img
-            alt="alternative-text"
-            className="menuLogo-1"
-            src="stfc-logo-blue-text.png"
-          />
-        </Styled(MuiBox)>
-      </Styled(MuiBox)>
-    </WithStyles(ForwardRef(Paper))>
-  </ForwardRef(Slide)>
-</div>
-`;
-
-exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 1`] = `
-<div
-  className="MuiDrawer-root MuiDrawer-docked drawer-1"
->
-  <ForwardRef(Slide)
-    appear={false}
-    direction="right"
-    in={true}
-    timeout={
-      Object {
-        "enter": 225,
-        "exit": 195,
-      }
-    }
-  >
-    <WithStyles(ForwardRef(Paper))
-      className="MuiDrawer-paper drawerPaper-1 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft"
-      elevation={0}
-      square={true}
-    >
-      <Styled(MuiBox)
-        boxSizing="border-box"
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="flex-start"
-      >
-        <WithStyles(ForwardRef(Typography))
-          className="sectionTitle-1"
-          variant="h6"
-        >
-          ANALYSIS
-        </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(List))
-          component="nav"
-        >
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-link"
-            key="0"
-            to="link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="analysis-plugin"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-link"
-            key="1"
-            to="link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="analysis-plugin2"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-        </WithStyles(ForwardRef(List))>
-        <WithStyles(ForwardRef(Typography))
-          className="sectionTitle-1"
-          variant="h6"
-        >
-          DATA
-        </WithStyles(ForwardRef(Typography))>
-        <WithStyles(ForwardRef(List))
-          component="nav"
-        >
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-link"
-            key="0"
-            to="link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="data-plugin"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-link"
-            key="1"
-            to="link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="data-plugin1"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-link"
-            key="2"
-            to="link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="data-plugin2"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-          <WithStyles(ForwardRef(ListItem))
-            button={true}
-            component={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "displayName": "ForwardRefLink",
-                "render": [Function],
-              }
-            }
-            dense={true}
-            id="plugin-link-plugin_link"
-            key="3"
-            to="plugin_link"
-          >
-            <WithStyles(ForwardRef(ListItemText))
-              classes={
-                Object {
-                  "primary": "menuItem-1",
-                }
-              }
-              inset={true}
-              primary="data-plugin-no-displayname"
-              primaryTypographyProps={
-                Object {
-                  "variant": "subtitle1",
-                }
-              }
-            />
-          </WithStyles(ForwardRef(ListItem))>
-        </WithStyles(ForwardRef(List))>
-        <Styled(MuiBox)
-          marginTop="auto"
-        >
-          <img
-            alt="alternative-text"
-            className="menuLogo-1"
-            src="stfc-logo-blue-text.png"
-          />
-        </Styled(MuiBox)>
-      </Styled(MuiBox)>
-    </WithStyles(ForwardRef(Paper))>
-  </ForwardRef(Slide)>
-</div>
-`;
-
-exports[`Navigation drawer component renders a plugin list grouped by sections ordered alphabetically when open 2`] = `
-<WithStyles(ForwardRef(ListItem))
-  button={true}
-  component={
-    Object {
-      "$$typeof": Symbol(react.forward_ref),
-      "displayName": "ForwardRefLink",
-      "render": [Function],
-    }
-  }
-  dense={true}
-  id="plugin-link-plugin_link"
-  key="3"
-  to="plugin_link"
->
-  <WithStyles(ForwardRef(ListItemText))
-    classes={
-      Object {
-        "primary": "menuItem-1",
-      }
-    }
-    inset={true}
-    primary="data-plugin-no-displayname"
-    primaryTypographyProps={
-      Object {
-        "variant": "subtitle1",
-      }
-    }
-  />
-</WithStyles(ForwardRef(ListItem))>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;

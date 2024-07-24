@@ -1,225 +1,166 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
-import NotificationBadge, {
-  NotificationBadgeWithoutStyles,
-  CombinedNotificationBadgeProps,
-} from './notificationBadge.component';
-import Badge from '@material-ui/core/Badge';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import NotificationBadge from './notificationBadge.component';
+import { ThemeProvider } from '@mui/material/styles';
 import { buildTheme } from '../theming';
-import configureStore from 'redux-mock-store';
+import configureStore, { MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
 import { StateType } from '../state/state.types';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Notification Badge component', () => {
   const theme = buildTheme(false);
 
-  let shallow;
-  let mount;
-  let mockStore;
+  let testStore: MockStore;
   let state: StateType;
-  let props: CombinedNotificationBadgeProps;
+
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
+      <Provider store={testStore}>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </Provider>
+    );
+  }
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-    mockStore = configureStore();
-
     state = {
-      scigateway: { ...initialState, authorisation: { ...authState } },
-    };
-    props = {
-      notifications: [{ message: 'my message', severity: 'warning' }],
-      deleteMenuItem: jest.fn(),
-      classes: {
-        button: 'button-class',
-        badge: 'badge-class',
+      scigateway: {
+        ...initialState,
+        authorisation: { ...authState },
+        notifications: [
+          { message: 'my message', severity: 'warning' },
+          { message: 'my other message', severity: 'success' },
+        ],
       },
     };
+    testStore = configureStore()(state);
   });
 
   it('Notification badge renders correctly', () => {
-    const wrapper = shallow(<NotificationBadgeWithoutStyles {...props} />);
+    render(<NotificationBadge />, { wrapper: Wrapper });
 
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      screen.getByRole('button', { name: 'Open notification menu' })
+    ).toBeInTheDocument();
+    expect(
+      within(
+        screen.getByRole('button', { name: 'Open notification menu' })
+      ).getByLabelText('Notification count')
+    ).toHaveTextContent('2');
   });
 
-  it('renders correct number of notifications in the badge', () => {
-    let wrapper = shallow(
-      <NotificationBadgeWithoutStyles
-        {...props}
-        notifications={[
-          ...props.notifications,
-          { message: 'my other message', severity: 'success' },
-        ]}
-      />
+  it('sends dismissMenuItem action when dismissNotification prop is called', async () => {
+    const user = userEvent.setup();
+
+    render(<NotificationBadge />, { wrapper: Wrapper });
+
+    await user.click(
+      screen.getByRole('button', { name: 'Open notification menu' })
     );
 
-    expect(wrapper.find(Badge).prop('badgeContent')).toEqual(2);
-
-    wrapper = shallow(
-      <NotificationBadgeWithoutStyles
-        {...props}
-        notifications={[]}
-        deleteMenuItem={props.deleteMenuItem}
-      />
+    // dismiss first notification
+    await user.click(
+      (
+        await screen.findAllByRole('button', { name: 'Dismiss notification' })
+      )[0]
     );
-
-    expect(wrapper.find(Badge).prop('badgeContent')).toBeNull();
-  });
-
-  it('sends dismissMenuItem action when dismissNotification prop is called', () => {
-    state.scigateway.notifications = props.notifications;
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
-      </Provider>
-    );
-
-    wrapper
-      .find('[aria-label="Open notification menu"]')
-      .first()
-      .simulate('click');
-    wrapper.update();
-
-    wrapper
-      .find('[aria-label="Dismiss notification"]')
-      .first()
-      .simulate('click');
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(dismissMenuItem(0));
   });
 
-  it('opens menu when button clicked and closes menu when there are no more notifications', () => {
-    state.scigateway.notifications = props.notifications;
+  it('opens menu when button clicked and closes menu when there are no more notifications', async () => {
+    const user = userEvent.setup();
 
-    let testStore = mockStore(state);
+    const { rerender } = render(<NotificationBadge />, { wrapper: Wrapper });
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
-      </Provider>
+    await user.click(
+      screen.getByRole('button', { name: 'Open notification menu' })
     );
 
-    act(() => {
-      wrapper
-        .find('[aria-label="Open notification menu"]')
-        .first()
-        .prop('onClick')({
-        currentTarget: wrapper
-          .find('[aria-label="Open notification menu"]')
-          .first()
-          .getDOMNode(),
-      });
-    });
-
-    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
 
     state.scigateway.notifications = [];
-    testStore = mockStore(state);
-    wrapper.setProps({ store: testStore });
+    testStore = configureStore()(state);
 
-    expect(wrapper.find('#notifications-menu').exists()).toBeFalsy();
+    rerender(<NotificationBadge />);
+
+    expect(screen.queryByRole('menu')).toBeNull();
   });
 
-  it('opens menu with no notifications message when button clicked and there are no notifications', () => {
+  it('opens menu with no notifications message when button clicked and there are no notifications', async () => {
+    const user = userEvent.setup();
     state.scigateway.notifications = [];
 
-    const testStore = mockStore(state);
+    render(<NotificationBadge />, { wrapper: Wrapper });
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
-      </Provider>
+    await user.click(
+      screen.getByRole('button', { name: 'Open notification menu' })
     );
 
-    wrapper
-      .find('[aria-label="Open notification menu"]')
-      .first()
-      .simulate('click');
-
-    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
     expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeTruthy();
+      within(await screen.findByRole('menu')).getByLabelText(
+        'No notifications message'
+      )
+    ).toBeInTheDocument();
   });
 
-  it('no notifications message disappears when a notification occurs', () => {
+  it('no notifications message disappears when a notification occurs', async () => {
+    const user = userEvent.setup();
+    const notifications = state.scigateway.notifications;
     state.scigateway.notifications = [];
 
-    let testStore = mockStore(state);
+    const { rerender } = render(<NotificationBadge />, { wrapper: Wrapper });
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
-      </Provider>
+    await user.click(
+      screen.getByRole('button', { name: 'Open notification menu' })
     );
 
-    wrapper
-      .find('[aria-label="Open notification menu"]')
-      .first()
-      .simulate('click');
-
-    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
     expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeTruthy();
+      within(await screen.findByRole('menu')).getByLabelText(
+        'No notifications message'
+      )
+    ).toBeInTheDocument();
 
-    state.scigateway.notifications = props.notifications;
-    testStore = mockStore(state);
-    wrapper.setProps({ store: testStore });
+    state.scigateway.notifications = notifications;
+    testStore = configureStore()(state);
 
-    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
+    rerender(<NotificationBadge />);
+
+    const notificationMenu = screen.getByRole('menu');
+    expect(notificationMenu).toBeInTheDocument();
     expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeFalsy();
+      within(notificationMenu).queryByLabelText('No notifications message')
+    ).toBeNull();
   });
 
-  it('no notifications message can be closed', () => {
+  it('no notifications message can be closed', async () => {
+    const user = userEvent.setup();
     state.scigateway.notifications = [];
-    const testStore = mockStore(state);
 
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <NotificationBadge />
-        </MuiThemeProvider>
-      </Provider>
-    );
+    render(<NotificationBadge />, { wrapper: Wrapper });
 
     //Check can close using close button
-    wrapper
-      .find('[aria-label="Open notification menu"]')
-      .first()
-      .simulate('click');
+    await user.click(
+      screen.getByRole('button', { name: 'Open notification menu' })
+    );
 
-    expect(wrapper.find('#notifications-menu').exists()).toBeTruthy();
     expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeTruthy();
+      within(await screen.findByRole('menu')).getByLabelText(
+        'No notifications message'
+      )
+    ).toBeInTheDocument();
 
-    wrapper
-      .find('[aria-label="Dismiss notification"]')
-      .first()
-      .simulate('click');
+    await user.click(
+      screen.getByRole('button', { name: 'Dismiss notification' })
+    );
 
-    expect(wrapper.find('#notifications-menu').exists()).toBeFalsy();
-    expect(
-      wrapper.find('[aria-label="No notifications message"]').exists()
-    ).toBeFalsy();
+    expect(screen.queryByRole('menu')).toBeNull();
   });
 });

@@ -1,25 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import {
-  Theme,
-  WithStyles,
-  withStyles,
-  Badge,
-  Menu,
-  createStyles,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import { StyleRules } from '@material-ui/core/styles';
+import IconButton from '@mui/material/IconButton';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Badge, Menu, Typography } from '@mui/material';
 import { StateType, ScigatewayNotification } from '../state/state.types';
 import { Dispatch, Action } from 'redux';
 import { dismissMenuItem } from '../state/actions/scigateway.actions';
-import { NotificationWithStyles } from './scigatewayNotification.component';
+import Notification from './scigatewayNotification.component';
 import { AppStrings } from '../state/scigateway.types';
 import { getAppStrings, getString } from '../state/strings';
-import DeleteIcon from '@material-ui/icons/Clear';
+import DeleteIcon from '@mui/icons-material/Clear';
 
 interface BadgeProps {
   notifications: ScigatewayNotification[];
@@ -30,30 +20,14 @@ interface BadgeDispatchProps {
   deleteMenuItem: (index: number) => Action;
 }
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    button: {
-      margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
-    },
-    menuItem: {
-      display: 'flex',
-    },
-    message: {
-      flexGrow: 1,
-    },
-  });
-
-export type CombinedNotificationBadgeProps = BadgeProps &
-  BadgeDispatchProps &
-  WithStyles<typeof styles>;
+export type CombinedNotificationBadgeProps = BadgeProps & BadgeDispatchProps;
 
 function buildMenuItems(
   notifications: ScigatewayNotification[],
   dismissNotificationAction: (index: number) => Action
 ): JSX.Element[] {
   const menuItems = notifications.map((notification, index) => (
-    <NotificationWithStyles
+    <Notification
       dismissNotification={() => {
         return dismissNotificationAction(index);
       }}
@@ -66,26 +40,6 @@ function buildMenuItems(
   return menuItems;
 }
 
-const useNoNotificationsStyles = makeStyles(
-  (theme: Theme): StyleRules =>
-    createStyles({
-      root: {
-        display: 'flex',
-        alignItems: 'center',
-      },
-      text: {
-        marginLeft: 15,
-      },
-      button: {
-        marginLeft: 5,
-      },
-      deleteIcon: {
-        height: 15,
-        width: 15,
-      },
-    })
-);
-
 const NoNotificationsMessage = React.forwardRef(
   (
     props: {
@@ -94,22 +48,22 @@ const NoNotificationsMessage = React.forwardRef(
     },
     ref: React.Ref<HTMLDivElement>
   ): React.ReactElement => {
-    const classes = useNoNotificationsStyles();
     return (
       <div
         aria-label="No notifications message"
         ref={ref}
-        className={classes.root}
+        style={{ display: 'flex', alignItems: 'center' }}
       >
-        <Typography variant="body2" className={classes.text}>
+        <Typography variant="body2" sx={{ marginLeft: '15px', marginTop: 0.5 }}>
           {getString(props.res, 'no-notifications')}
         </Typography>
         <IconButton
-          className={classes.button}
+          sx={{ marginLeft: '5px', marginTop: '2px' }}
           onClick={props.onClose}
           aria-label="Dismiss notification"
+          size="large"
         >
-          <DeleteIcon className={classes.deleteIcon} />
+          <DeleteIcon sx={{ height: '15px', width: '15px' }} />
         </IconButton>
       </div>
     );
@@ -120,18 +74,16 @@ NoNotificationsMessage.displayName = 'NoNotificationsMessage';
 const NotificationBadge = (
   props: CombinedNotificationBadgeProps
 ): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+  const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const [displayNoNotifications, setDisplayNoNotifications] = useState(false);
   const closeMenu = (): void => {
     setMenuAnchor(null);
     setDisplayNoNotifications(false);
   };
+  const open = Boolean(menuAnchor);
+
   // Ensure menu is closed if no notifications, or all notifications are deleted and not displaying 'no notifications'
-  if (
-    !displayNoNotifications &&
-    getMenuAnchor !== null &&
-    props.notifications.length === 0
-  ) {
+  if (!displayNoNotifications && open && props.notifications.length === 0) {
     closeMenu();
   }
   //Ensure 'no notifications' message does not display when there are notifications
@@ -146,15 +98,20 @@ const NotificationBadge = (
   return (
     <div className="tour-notifications">
       <IconButton
-        className={props.classes.button}
+        sx={{ margin: 1, color: 'primary.contrastText' }}
         onClick={(e) => {
+          setMenuAnchor(e.currentTarget);
           if (!props.notifications || props.notifications.length === 0)
             setDisplayNoNotifications(true);
-          setMenuAnchor(e.currentTarget);
         }}
         aria-label="Open notification menu"
+        aria-controls={open ? 'notifications-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        size="large"
       >
         <Badge
+          aria-label="Notification count"
           badgeContent={
             props.notifications.length > 0 ? props.notifications.length : null
           }
@@ -168,8 +125,8 @@ const NotificationBadge = (
       (props.notifications && props.notifications.length) ? (
         <Menu
           id="notifications-menu"
-          anchorEl={getMenuAnchor}
-          open={getMenuAnchor !== null}
+          anchorEl={menuAnchor}
+          open={open}
           onClose={closeMenu}
         >
           {displayNoNotifications ? (
@@ -186,10 +143,6 @@ const NotificationBadge = (
   );
 };
 
-export const NotificationBadgeWithoutStyles = NotificationBadge;
-export const NotificationBadgeWithStyles =
-  withStyles(styles)(NotificationBadge);
-
 const mapStateToProps = (state: StateType): BadgeProps => ({
   notifications: state.scigateway.notifications,
   res: getAppStrings(state, 'main-appbar'),
@@ -201,7 +154,6 @@ const mapDispatchToProps = (dispatch: Dispatch): BadgeDispatchProps => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationBadgeWithStyles);
+export const UnconnectedNotificationBadge = NotificationBadge;
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationBadge);

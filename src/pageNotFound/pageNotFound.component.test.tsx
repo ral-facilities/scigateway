@@ -1,85 +1,58 @@
 import React from 'react';
-import PageNotFoundWithStyles, {
-  PageNotFoundComponent,
-  PageNotFoundProps,
-} from './pageNotFound.component';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
-import thunk from 'redux-thunk';
+import PageNotFoundComponent from './pageNotFound.component';
+import { thunk } from 'redux-thunk';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createMemoryHistory, History } from 'history';
 import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { Provider } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 import { Router } from 'react-router';
+import { render, screen } from '@testing-library/react';
 
 describe('Page Not found component', () => {
-  let shallow;
-  let props: PageNotFoundProps;
-  let mockStore;
   let state: StateType;
-  let mount;
   let history: History;
 
-  const dummyClasses = {
-    titleContainer: 'titleContainer-class',
-    bugIcon: 'paper-class',
-    codeText: 'bugIcon-class',
-    container: 'container-class',
-    bold: 'bold-class',
-    message: 'message-class',
-  };
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
+      <Provider store={configureStore([thunk])(state)}>
+        <Router history={history}>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </StyledEngineProvider>
+        </Router>
+      </Provider>
+    );
+  }
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
-    mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
 
     history = createMemoryHistory();
-
-    props = { classes: dummyClasses };
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
   });
 
   const theme = buildTheme(false);
 
   it('renders pageNotFound page correctly', () => {
-    const wrapper = shallow(<PageNotFoundComponent {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+    const { asFragment } = render(<PageNotFoundComponent />, {
+      wrapper: Wrapper,
+    });
 
-  it('Should have the correct path for the links on the PageNotFound page', () => {
-    const testStore = mockStore(state);
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <Router history={history}>
-          <MuiThemeProvider theme={theme}>
-            <PageNotFoundWithStyles />
-          </MuiThemeProvider>
-        </Router>
-      </Provider>
+    expect(asFragment()).toMatchSnapshot();
+    expect(screen.getByRole('link', { name: 'homepage' })).toHaveAttribute(
+      'href',
+      '/'
     );
-
     expect(
-      wrapper
-        .find('[data-test-id="page-not-found-homepage-link"]')
-        .first()
-        .prop('to')
-    ).toEqual('/');
-
-    expect(
-      wrapper
-        .find('[data-test-id="page-not-found-contact-support-link"]')
-        .first()
-        .prop('href')
-    ).toEqual('footer.links.contact');
+      screen.getByRole('link', { name: 'contact support' })
+    ).toHaveAttribute('href', '/footer.links.contact');
   });
 });

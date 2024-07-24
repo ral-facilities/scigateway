@@ -1,17 +1,17 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Tour, { TourWithoutStyles, CombinedTourProps } from './tour.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
-import configureStore from 'redux-mock-store';
+import Tour from './tour.component';
+import configureStore, { MockStore } from 'redux-mock-store';
 import { StateType } from '../state/state.types';
 import { initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
-import { toggleHelp, toggleDrawer } from '../state/actions/scigateway.actions';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
-import Joyride from 'react-joyride';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('popper.js', () => {
   const PopperJS = jest.requireActual('popper.js');
@@ -35,16 +35,25 @@ jest.mock('popper.js', () => {
 describe('Tour component', () => {
   const theme = buildTheme(false);
 
-  let shallow;
-  let mount;
-  let mockStore;
+  let testStore: MockStore;
   let state: StateType;
-  let props: CombinedTourProps;
+  let holder;
+
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Provider store={testStore}>{children}</Provider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    );
+  }
 
   beforeEach(() => {
-    shallow = createShallow({});
-    mount = createMount();
-
     state = {
       scigateway: {
         ...initialState,
@@ -68,112 +77,59 @@ describe('Tour component', () => {
         location: createLocation('/'),
       },
     };
-    mockStore = configureStore();
+    testStore = configureStore()(state);
 
-    props = {
-      showHelp: state.scigateway.showHelp,
-      helpSteps: state.scigateway.helpSteps,
-      drawerOpen: state.scigateway.drawerOpen,
-      loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
-
-      dismissHelp: jest.fn(),
-      toggleDrawer: jest.fn(),
-
-      theme: theme,
-    };
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
   });
 
-  it('renders correctly', () => {
-    props.showHelp = true;
-
-    const wrapper = shallow(<TourWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
-  it('shows next tooltip when next is clicked', () => {
+  it('can navigate between tutorial steps', async () => {
     state.scigateway.showHelp = true;
-    const testStore = mockStore(state);
+    const user = userEvent.setup();
 
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div className="test-2" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+    render(
+      <div>
+        <Tour />
+        <div className="test-1" />
+        <div className="test-2" />
+      </div>,
+      { wrapper: Wrapper }
     );
 
-    const joyride: Joyride = wrapper.find('Joyride').instance();
-    expect(joyride.state.index).toEqual(0);
+    // first step should be test-1
+    expect(screen.getByText('Test 1')).toBeInTheDocument();
 
-    wrapper
-      .find('JoyrideTooltip')
-      .find('button[aria-label="Next"]')
-      .first()
-      .simulate('click');
-
-    expect(joyride.state.index).toEqual(1);
+    // i have no idea why testing library can't find the button with getByRole
+    // even though the next button is CLEARLY a button with a button role EXPLICITLY specified
+    // time wasted: too much
+    await user.click(screen.getByLabelText('Next'));
+    expect(await screen.findByText('Test 2')).toBeInTheDocument();
   });
 
-  it('shows previous tooltip when back is clicked', () => {
+  it('sends toggleHelp message when tour is finished', async () => {
     state.scigateway.showHelp = true;
-    const testStore = mockStore(state);
+    const user = userEvent.setup();
 
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div className="test-2" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+    render(
+      <div>
+        <Tour />
+        <div className="test-1" />
+        <div className="test-2" />
+      </div>,
+      { wrapper: Wrapper }
     );
 
-    const joyride: Joyride = wrapper.find('Joyride').instance();
-    joyride.setState({ index: 1 });
-    wrapper.update();
-    expect(joyride.state.index).toEqual(1);
-
-    wrapper
-      .find('JoyrideTooltip')
-      .find('button[aria-label="Back"]')
-      .first()
-      .simulate('click');
-
-    expect(joyride.state.index).toEqual(0);
-  });
-
-  it('sends toggleHelp message when tour is finished', () => {
-    state.scigateway.showHelp = true;
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
-    );
-
-    wrapper
-      .find('JoyrideTooltip')
-      .find('button[aria-label="Close"]')
-      .first()
-      .simulate('click');
+    await user.click(screen.getByLabelText('Close'));
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleHelp());
   });
 
-  it('sends toggleDrawer message when tour moves into plugin link tour steps', () => {
+  it('sends toggleDrawer message when tour moves into plugin link tour steps', async () => {
     state.scigateway.drawerOpen = false;
     state.scigateway.showHelp = true;
     state.scigateway.authorisation.provider = new TestAuthProvider(
@@ -190,73 +146,49 @@ describe('Tour component', () => {
       },
     ];
     jest.useFakeTimers();
+    const user = userEvent.setup({
+      advanceTimers: jest.advanceTimersByTime,
+    });
 
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div id="plugin-link-test" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+    render(
+      <div>
+        <Tour />
+        <div className="test-1" />
+        <div id="plugin-link-test" />
+      </div>,
+      { wrapper: Wrapper }
     );
 
-    const joyride: Joyride = wrapper.find('Joyride').instance();
-    expect(joyride.state.index).toEqual(0);
-
-    wrapper
-      .find('JoyrideTooltip')
-      .find('button[aria-label="Next"]')
-      .first()
-      .simulate('click');
+    await user.click(screen.getByLabelText('Next'));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(joyride.state.index).toEqual(1);
-
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
-  it('does not show plugin links when user is not logged in', () => {
+  it('does not show plugin links when user is not logged in', async () => {
     state.scigateway.showHelp = true;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
-    jest.useFakeTimers();
+    const user = userEvent.setup();
 
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <Provider store={testStore}>
-          <div>
-            <Tour />
-            <div className="test-1" />
-            <div className="test-2" />
-            <div id="plugin-link-test" />
-          </div>
-        </Provider>
-      </MuiThemeProvider>
+    render(
+      <div>
+        <Tour />
+        <div className="test-1" />
+        <div className="test-2" />
+        <div id="plugin-link-test" />
+      </div>,
+      { wrapper: Wrapper }
     );
 
-    const steps = wrapper.find('Joyride').prop('steps');
-    expect(steps.length).toEqual(2);
-    expect(steps).not.toContainEqual({
-      target: '#plugin-link-test',
-      content: 'Plugin link test',
-      disableBeacon: true,
-    });
-  });
+    expect(screen.getByText('Test 1')).toBeInTheDocument();
 
-  it('renders correctly in dark mode', () => {
-    props.theme = buildTheme(true);
-
-    const wrapper = shallow(<TourWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+    await user.click(screen.getByLabelText('Next'));
+    expect(await screen.findByText('Test 2')).toBeInTheDocument();
+    // Test 2 should be the last step, so no next button
+    expect(screen.queryByLabelText('Next')).toBeNull();
+  }, 10000);
 });

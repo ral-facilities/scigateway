@@ -1,30 +1,27 @@
 import React from 'react';
-import { createMount, createShallow } from '@material-ui/core/test-utils';
-import { FooterWithoutStyles, CombinedFooterProps } from './footer.component';
+import { FooterProps, UnconnectedFooter } from './footer.component';
+import { render } from '@testing-library/react';
+import { ThemeProvider } from '@mui/material';
+import { buildTheme } from '../theming';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Footer component', () => {
-  let shallow;
-  let mount;
-  let props: CombinedFooterProps;
+  let props: FooterProps;
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-
     props = {
       res: undefined,
-      classes: {
-        root: 'root-class',
-      },
     };
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
-
   it('footer renders correctly', () => {
-    const wrapper = shallow(<FooterWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <MemoryRouter>
+        <ThemeProvider theme={buildTheme(false)}>
+          <UnconnectedFooter {...props} />
+        </ThemeProvider>
+      </MemoryRouter>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

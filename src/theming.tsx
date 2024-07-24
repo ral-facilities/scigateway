@@ -1,9 +1,21 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { ThemeOptions, Theme } from '@material-ui/core/styles/createMuiTheme';
+import {
+  createTheme,
+  ThemeProvider,
+  StyledEngineProvider,
+  Theme,
+} from '@mui/material/styles';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import React from 'react';
 import { StateType } from './state/state.types';
 import { connect, useSelector } from 'react-redux';
+import { checkboxClasses } from '@mui/material/Checkbox';
+import {
+  formHelperTextClasses,
+  formLabelClasses,
+  inputClasses,
+  outlinedInputClasses,
+  tabClasses,
+} from '@mui/material';
 
 /* UKRI colours */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -96,6 +108,26 @@ interface ThemeColours {
 
   /* Colour for Tabs in search */
   tabsGrey: string;
+}
+
+declare module '@mui/material/styles' {
+  interface Theme {
+    colours: ThemeColours;
+    drawerWidth: string;
+    footerPaddingTop: string;
+    footerPaddingBottom: string;
+    footerHeight: string;
+    mainAppBarHeight: string;
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    colours: ThemeColours;
+    drawerWidth: string;
+    footerPaddingTop: string;
+    footerPaddingBottom: string;
+    footerHeight: string;
+    mainAppBarHeight: string;
+  }
 }
 
 const DARK_MODE_COLOURS: ThemeColours = {
@@ -241,23 +273,6 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
   },
   tabsGrey: '#EEEEEE',
 };
-export interface UKRIThemeOptions extends ThemeOptions {
-  drawerWidth: number;
-  footerPaddingTop: string;
-  footerPaddingBottom: string;
-  footerHeight: string;
-  mainAppBarHeight: string;
-  colours: ThemeColours;
-}
-
-export interface UKRITheme extends Theme {
-  drawerWidth: number;
-  footerPaddingTop: string;
-  footerPaddingBottom: string;
-  footerHeight: string;
-  mainAppBarHeight: string;
-  colours: ThemeColours;
-}
 
 export const buildTheme = (
   darkModePreference: boolean,
@@ -269,142 +284,193 @@ export const buildTheme = (
       ? DARK_MODE_HIGH_CONTRAST_COLOURS
       : DARK_MODE_COLOURS
     : highContrastModePreference
-    ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
-    : LIGHT_MODE_COLOURS;
+      ? LIGHT_MODE_HIGH_CONTRAST_COLOURS
+      : LIGHT_MODE_COLOURS;
 
   if (primaryColour && !(darkModePreference && highContrastModePreference)) {
     colours.primary = primaryColour;
   }
 
-  const overrides = {
+  const componentOverrides = {
+    MuiPaper: {
+      styleOverrides: { root: { backgroundImage: 'unset' } },
+    },
     MuiLink: {
-      root: {
-        color: colours.blue,
+      defaultProps: {
+        underline: 'hover' as 'always' | 'none' | 'hover' | undefined,
       },
-      button: {
-        fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-        verticalAlign: 'none',
-      },
-    },
-    MuiTabs: {
-      indicator: {
-        color: STATIC_COLOURS.darkBlue,
-        textDecoration: 'underline',
-      },
-    },
-    MuiFormLabel: {
-      root: {
-        '&$error': {
-          color: colours.red,
-        },
-        '&$focused': {
+      styleOverrides: {
+        root: {
           color: colours.blue,
         },
       },
-      asterisk: {
-        '&$error': {
-          color: colours.red,
+    },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          color: STATIC_COLOURS.darkBlue,
+          textDecoration: 'underline',
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        textColorSecondary: {
+          [`&.${tabClasses.selected}`]: {
+            color: darkModePreference ? '#FFFFFF' : colours.blue,
+          },
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        colorPrimary: {
+          [`&.${checkboxClasses.checked}`]: {
+            color: colours.blue,
+          },
+          [`&.${checkboxClasses.indeterminate}`]: {
+            color: colours.grey,
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          [`&.${formLabelClasses.error}`]: {
+            color: colours.red,
+          },
+          [`&.${formLabelClasses.focused}`]: {
+            color: colours.blue,
+          },
+        },
+        asterisk: {
+          [`&.${formLabelClasses.error}`]: {
+            color: colours.red,
+          },
         },
       },
     },
     MuiBadge: {
-      colorPrimary: {
-        backgroundColor: STATIC_COLOURS.orange,
-        color: 'white',
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: STATIC_COLOURS.orange,
+          color: 'white',
+        },
       },
     },
     MuiInput: {
-      underline: {
-        '&$error:after': {
-          borderBottomColor: colours.red,
-        },
-        '&:after': {
-          borderBottomColor: colours.blue,
+      styleOverrides: {
+        underline: {
+          [`&.${inputClasses.error}`]: {
+            borderBottomColor: colours.red,
+          },
+          [`&.${inputClasses.error}:after`]: {
+            borderBottomColor: colours.blue,
+          },
         },
       },
     },
     MuiOutlinedInput: {
-      root: {
-        '&$error $notchedOutline': {
-          borderColor: colours.red,
+      styleOverrides: {
+        root: {
+          [`&.${outlinedInputClasses.error} .${outlinedInputClasses.notchedOutline}`]:
+            {
+              borderColor: colours.red,
+            },
         },
-      },
-      //Override opacity of placeholder text
-      input: {
-        '&::placeholder': {
-          colour: colours.textSecondary,
-          opacity:
-            !darkModePreference && highContrastModePreference ? 1.0 : 0.7,
+        //Override opacity of placeholder text
+        input: {
+          '&::placeholder': {
+            colour: colours.textSecondary,
+            opacity:
+              !darkModePreference && highContrastModePreference ? 1.0 : 0.7,
+          },
         },
       },
     },
     MuiFormHelperText: {
-      root: {
-        '&$error': {
-          color: colours.red,
+      styleOverrides: {
+        root: {
+          [`&.${formHelperTextClasses.error}`]: {
+            color: colours.red,
+          },
         },
       },
     },
     MuiChip: {
-      root: {
-        backgroundColor: colours.chip,
+      styleOverrides: {
+        root: {
+          backgroundColor: colours.chip,
+        },
       },
     },
     MuiPickersToolbar: {
-      toolbar: {
-        backgroundColor: colours.primary,
+      styleOverrides: {
+        toolbar: {
+          backgroundColor: colours.primary,
+        },
       },
     },
     MuiPickersCalendarHeader: {
-      dayLabel: {
-        color: colours.grey,
+      styleOverrides: {
+        dayLabel: {
+          color: colours.grey,
+        },
       },
     },
     MuiPickersDay: {
-      current: {
-        color: colours.blue,
-      },
-      dayDisabled: {
-        color: colours.grey,
+      styleOverrides: {
+        current: {
+          color: colours.blue,
+        },
+        dayDisabled: {
+          color: colours.grey,
+        },
       },
     },
     MuiPickersYear: {
-      root: {
-        '&:active': {
+      styleOverrides: {
+        root: {
+          '&:active': {
+            color: colours.blue,
+          },
+          '&:focus': {
+            color: colours.blue,
+          },
+        },
+        yearSelected: {
           color: colours.blue,
         },
-        '&:focus': {
-          color: colours.blue,
+        yearDisabled: {
+          color: colours.grey,
         },
-      },
-      yearSelected: {
-        color: colours.blue,
-      },
-      yearDisabled: {
-        color: colours.grey,
       },
     },
     MuiPickersMonth: {
-      root: {
-        '&:active': {
+      styleOverrides: {
+        root: {
+          '&:active': {
+            color: colours.blue,
+          },
+          '&:focus': {
+            color: colours.blue,
+          },
+        },
+        monthSelected: {
           color: colours.blue,
         },
-        '&:focus': {
-          color: colours.blue,
+        monthDisabled: {
+          color: colours.grey,
         },
-      },
-      monthSelected: {
-        color: colours.blue,
-      },
-      monthDisabled: {
-        color: colours.grey,
       },
     },
   };
-  const options: UKRIThemeOptions = {
+
+  return createTheme({
     palette: {
       // Light/dark mode
-      type: darkModePreference ? 'dark' : 'light',
+      mode: darkModePreference ? 'dark' : 'light',
       primary: {
         main: colours.primary,
       },
@@ -419,21 +485,19 @@ export const buildTheme = (
         paper: colours.paper,
       },
     },
-    drawerWidth: 220,
-    footerPaddingTop: '8px',
-    footerPaddingBottom: '8px',
-    footerHeight: '20px',
-    mainAppBarHeight: '64px',
-    overrides: overrides,
-    colours: colours,
     typography: {
       button: {
         textTransform: 'none',
       },
     },
-  };
-
-  return createMuiTheme(options);
+    components: componentOverrides,
+    colours: colours,
+    drawerWidth: '220px',
+    footerPaddingTop: '8px',
+    footerPaddingBottom: '8px',
+    footerHeight: '20px',
+    mainAppBarHeight: '64px',
+  });
 };
 
 function mapThemeProviderStateToProps(state: StateType): {
@@ -459,15 +523,17 @@ const SciGatewayThemeProvider = (props: {
     (state: StateType) => state.scigateway.primaryColour
   );
   return (
-    <MuiThemeProvider
-      theme={buildTheme(
-        darkModePreference,
-        highContrastModePreference,
-        primaryColour
-      )}
-    >
-      {props.children}
-    </MuiThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider
+        theme={buildTheme(
+          darkModePreference,
+          highContrastModePreference,
+          primaryColour
+        )}
+      >
+        {props.children}
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

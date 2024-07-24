@@ -8,7 +8,6 @@ import configureStore, {
   MockStoreEnhanced,
 } from 'redux-mock-store';
 import log from 'loglevel';
-import ReactGA from 'react-ga';
 import { createLocation } from 'history';
 import {
   InvalidateTokenType,
@@ -28,7 +27,7 @@ import TestAuthProvider from '../../authentication/testAuthProvider';
 import { flushPromises } from '../../setupTests';
 import { authState, initialState } from '../reducers/scigateway.reducer';
 import { buildTheme } from '../../theming';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { autoLoginAuthorised } from '../actions/scigateway.actions';
 import * as singleSpa from 'single-spa';
 
@@ -119,13 +118,8 @@ describe('scigateway middleware', () => {
     );
 
     store = mockStore(getState());
-    ReactGA.initialize('test id', { testMode: true, titleCase: false });
 
     Storage.prototype.getItem = jest.fn(() => 'false');
-  });
-
-  afterEach(() => {
-    ReactGA.testModeAPI.resetCalls();
   });
 
   describe('autoLoginMiddleware', () => {
@@ -268,58 +262,9 @@ describe('scigateway middleware', () => {
         action: 'POP',
       },
     });
-
-    expect(ReactGA.testModeAPI.calls.length).toEqual(1);
   });
 
-  it('should send page views on location change event', () => {
-    store = mockStore({
-      scigateway: { analytics: { id: 'test id', initialised: true } },
-    });
-
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/'),
-        action: 'POP',
-      },
-    });
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('set');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      page: '/',
-    });
-    expect(ReactGA.testModeAPI.calls[2][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[2][1]).toEqual({
-      hitType: 'pageview',
-      page: '/',
-    });
-  });
-
-  it("should not send page views on location change event when location hasn't changed", () => {
-    store = mockStore({
-      scigateway: { analytics: { id: 'test id', initialised: true } },
-    });
-
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/newlocation'),
-        action: 'POP',
-      },
-    });
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/newlocation'),
-        action: 'POP',
-      },
-    });
-
-    expect(ReactGA.testModeAPI.calls.length).toEqual(3);
-  });
-
-  it('should also send request plugin rerender action when ToggleDrawer action is sent', () => {
+  it('should send request plugin rerender action when ToggleDrawer action is sent', () => {
     const toggleDrawerAction = {
       type: ToggleDrawerType,
     };
@@ -636,7 +581,7 @@ describe('scigateway middleware', () => {
       },
     });
 
-    (singleSpa.getAppStatus as jest.Mock).mockReturnValue('NOT_LOADED');
+    (singleSpa.getAppStatus as jest.Mock).mockReturnValue(singleSpa.NOT_LOADED);
 
     listenToPlugins(store.dispatch, getState);
 
@@ -722,6 +667,45 @@ describe('scigateway middleware', () => {
       const mockToastr = (toastr.warning as jest.Mock).mock;
       expect(mockToastr.calls[0][0]).toContain('Warning');
       expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
+
+    it('should listen for notification events and create toast for information', () => {
+      toastr.info = jest.fn();
+      listenToPlugins(store.dispatch, getState);
+
+      const notificationAction = {
+        type: NotificationType,
+        payload: {
+          message: 'test notification',
+          severity: 'information',
+        },
+      };
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(toastr.info).toHaveBeenCalled();
+      const mockToastr = (toastr.info as jest.Mock).mock;
+      expect(mockToastr.calls[0][0]).toContain('Information');
+      expect(mockToastr.calls[0][1]).toContain('test notification');
+    });
+
+    it('should listen for notification events and log error for invalid severity', () => {
+      log.error = jest.fn();
+      listenToPlugins(store.dispatch, getState);
+
+      const notificationAction = {
+        type: NotificationType,
+        payload: {
+          message: 'test notification',
+          severity: 'invalid',
+        },
+      };
+      handler(new CustomEvent('test', { detail: notificationAction }));
+
+      expect(log.error).toHaveBeenCalled();
+      const mockLog = (log.error as jest.Mock).mock;
+      expect(mockLog.calls[0][0]).toContain(
+        'Invalid severity provided: invalid'
+      );
     });
   });
 

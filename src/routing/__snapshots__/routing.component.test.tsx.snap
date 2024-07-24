@@ -1,826 +1,1085 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Routing component redirects to a homepage URL if specified 1`] = `
-<div
-  className="container-class"
->
-  <Switch>
-    <Route
-      exact={true}
-      path="/"
-    >
-      <Redirect
-        to="/homepage"
-      />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HelpPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/help"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/accessibility"
-    />
-    <Route
-      path="/admin"
-      render={[Function]}
-    />
-    <Route
-      exact={true}
-      path="/login"
-    >
-      <Connect(LoginPageComponent) />
-    </Route>
-    <Route
-      exact={true}
-      path="/logout"
-    >
-      <Connect(LogoutPageComponent) />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(CookiesPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/cookies"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
-    />
-  </Switch>
-</div>
-`;
-
 exports[`Routing component redirects to the homepage if navigating to login page while logged in 1`] = `
-<div
-  className="container-class"
->
-  <Switch>
-    <Route
-      exact={true}
-      path="/"
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
+  >
+    <div
+      id="dg-homepage"
     >
-      <HomePage />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HelpPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/help"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/accessibility"
-    />
-    <Route
-      path="/admin"
-      render={[Function]}
-    />
-    <Route
-      exact={true}
-      path="/login"
-    >
-      <Connect(LoginPageComponent) />
-    </Route>
-    <Route
-      exact={true}
-      path="/logout"
-    >
-      <Connect(LogoutPageComponent) />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(CookiesPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/cookies"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
-    />
-  </Switch>
-</div>
+      <div
+        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+      >
+        <div
+          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+        >
+          <div
+            class="MuiBox-root css-h95k7f"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              <strong>
+                Data discovery
+              </strong>
+               and 
+              <strong>
+                access
+              </strong>
+            </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              for 
+              <strong>
+                large-scale
+              </strong>
+              science facilities
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-12vlygr"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            style="height: 100%;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-1fyyp8j-MuiGrid-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <h3
+                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                >
+                  home-page.browse.title
+                </h3>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.browse.description1
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  <strong>
+                    DataGateway
+                  </strong>
+                   focuses on providing data discovery and data access functionality to the data.
+                </p>
+                <div
+                  class="MuiBox-root css-1yuhvjn"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="browse-button"
+                    href="/home-page.browse.link"
+                    tabindex="0"
+                  >
+                    home-page.browse.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
+            >
+              <div
+                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+              >
+                <div
+                  class="css-1g012h9"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="SearchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.search.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.search.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="search-button"
+                    href="/home-page.search.link"
+                    tabindex="0"
+                  >
+                    home-page.search.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="GetAppIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.download.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.download.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="download-button"
+                    href="/home-page.download.link"
+                    tabindex="0"
+                  >
+                    home-page.download.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+            >
+              <div
+                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <h4
+                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                  >
+                    home-page.facility.title
+                  </h4>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                  >
+                    home-page.facility.description
+                  </p>
+                  <div
+                    class="MuiBox-root css-8xl60i"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      data-testid="facility-button"
+                      href="home-page.facility.link"
+                      tabindex="0"
+                    >
+                      home-page.facility.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "key": "testKey",
-          "pathname": "/test_link",
-        },
-      ]
-    }
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
   >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "key": "testKey",
-              "pathname": "/test_link",
-              "search": "",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
-            "hash": "",
-            "key": "testKey",
-            "pathname": "/test_link",
-            "search": "",
-          },
-          "push": [Function],
-          "replace": [Function],
-        }
-      }
-    >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
+    <div>
+      <div
+        id="test_plugin_name"
       >
-        <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
-          dispatch={[Function]}
-          drawerOpen={false}
-          loading={false}
-          location="/"
-          maintenance={
-            Object {
-              "message": "test",
-              "show": true,
-            }
-          }
-          plugins={
-            Array [
-              Object {
-                "displayName": "Test Plugin",
-                "link": "/test_link",
-                "order": 1,
-                "plugin": "test_plugin_name",
-                "section": "test section",
-              },
-            ]
-          }
-          userIsAdmin={true}
-          userIsloggedIn={true}
-        >
-          <div
-            className="container-class"
-          >
-            <Switch>
-              <Route
-                computedMatch={
-                  Object {
-                    "isExact": true,
-                    "params": Object {},
-                    "path": "/test_link",
-                    "url": "/test_link",
-                  }
-                }
-                key="test_plugin_name"
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/test_link",
-                    "search": "",
-                  }
-                }
-                path={
-                  Array [
-                    "/test_link",
-                  ]
-                }
-              >
-                <Connect(WithAuthComponent)
-                  id="test_plugin_name"
-                >
-                  <WithAuthComponent
-                    id="test_plugin_name"
-                    invalidToken={[Function]}
-                    loading={false}
-                    location="/"
-                    loggedIn={true}
-                    provider={
-                      TestAuthProvider {
-                        "authUrl": undefined,
-                        "autoLogin": undefined,
-                        "mnemonic": undefined,
-                        "redirectUrl": null,
-                        "token": "logged in",
-                        "user": null,
-                      }
-                    }
-                    requestPluginRerender={[Function]}
-                    userIsAdmin={true}
-                  >
-                    <div>
-                      <PluginPlaceHolder
-                        id="test_plugin_name"
-                      >
-                        <div
-                          id="test_plugin_name"
-                        >
-                          <Preloader
-                            fullScreen={false}
-                            id="plugin-preloader"
-                            loading={true}
-                          >
-                            Mocked Preloader
-                          </Preloader>
-                        </div>
-                      </PluginPlaceHolder>
-                    </div>
-                  </WithAuthComponent>
-                </Connect(WithAuthComponent)>
-              </Route>
-            </Switch>
-          </div>
-        </Routing>
-      </Connect(Routing)>
-    </Router>
-  </MemoryRouter>
-</Provider>
+        Mocked Preloader
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Routing component renders a route for admin page 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "key": "testKey",
-          "pathname": "/admin",
-        },
-      ]
-    }
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
   >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "key": "testKey",
-              "pathname": "/admin",
-              "search": "",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
-            "hash": "",
-            "key": "testKey",
-            "pathname": "/admin",
-            "search": "",
-          },
-          "push": [Function],
-          "replace": [Function],
-        }
-      }
-    >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
-      >
-        <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
-          dispatch={[Function]}
-          drawerOpen={false}
-          loading={false}
-          location="/"
-          maintenance={
-            Object {
-              "message": "",
-              "show": false,
-            }
-          }
-          plugins={Array []}
-          userIsAdmin={true}
-          userIsloggedIn={true}
-        >
-          <div
-            className="container-class"
-          >
-            <Switch>
-              <Route
-                computedMatch={
-                  Object {
-                    "isExact": true,
-                    "params": Object {},
-                    "path": "/admin",
-                    "url": "/admin",
-                  }
-                }
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/admin",
-                    "search": "",
-                  }
-                }
-                path="/admin"
-                render={[Function]}
-              >
-                <Connect(WithAuthComponent)>
-                  <WithAuthComponent
-                    invalidToken={[Function]}
-                    loading={false}
-                    location="/"
-                    loggedIn={true}
-                    provider={
-                      TestAuthProvider {
-                        "authUrl": undefined,
-                        "autoLogin": undefined,
-                        "mnemonic": undefined,
-                        "redirectUrl": null,
-                        "token": "logged in",
-                        "user": null,
-                      }
-                    }
-                    requestPluginRerender={[Function]}
-                    userIsAdmin={true}
-                  >
-                    <div>
-                      <Component>
-                        Mocked AdminPage
-                      </Component>
-                    </div>
-                  </WithAuthComponent>
-                </Connect(WithAuthComponent)>
-              </Route>
-            </Switch>
-          </div>
-        </Routing>
-      </Connect(Routing)>
-    </Router>
-  </MemoryRouter>
-</Provider>
+    <div>
+      Mocked AdminPage
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Routing component renders a route for maintenance page when site is under maintenance and user is not admin 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "key": "testKey",
-          "pathname": "/test_link",
-        },
-      ]
-    }
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
   >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "key": "testKey",
-              "pathname": "/test_link",
-              "search": "",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
-            "hash": "",
-            "key": "testKey",
-            "pathname": "/test_link",
-            "search": "",
-          },
-          "push": [Function],
-          "replace": [Function],
-        }
-      }
+    Mocked MaintenancePage
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Routing component renders an unauthorised route for a plugin 1`] = `
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
+  >
+    <div
+      id="dg-homepage"
     >
-      <Connect(Routing)
-        classes={
-          Object {
-            "container": "container-class",
-            "containerShift": "containerShift-class",
-          }
-        }
+      <div
+        style="background-image: url(background.jpg); width: 100%; height: 250px;"
       >
-        <Routing
-          classes={
-            Object {
-              "container": "container-class",
-              "containerShift": "containerShift-class",
-            }
-          }
-          dispatch={[Function]}
-          drawerOpen={false}
-          loading={false}
-          location="/"
-          maintenance={
-            Object {
-              "message": "test",
-              "show": true,
-            }
-          }
-          plugins={
-            Array [
-              Object {
-                "displayName": "Test Plugin",
-                "link": "/test_link",
-                "order": 1,
-                "plugin": "test_plugin_name",
-                "section": "test section",
-              },
-            ]
-          }
-          userIsAdmin={false}
-          userIsloggedIn={true}
+        <div
+          style="background-repeat: no-repeat; width: 100%; height: 250px;"
         >
           <div
-            className="container-class"
+            class="MuiBox-root css-h95k7f"
           >
-            <Switch>
-              <Route
-                component={[Function]}
-                computedMatch={
-                  Object {
-                    "isExact": false,
-                    "params": Object {},
-                    "path": "/",
-                    "url": "/",
-                  }
-                }
-                location={
-                  Object {
-                    "hash": "",
-                    "key": "testKey",
-                    "pathname": "/test_link",
-                    "search": "",
-                  }
-                }
-              >
-                <Component
-                  history={
-                    Object {
-                      "action": "POP",
-                      "block": [Function],
-                      "canGo": [Function],
-                      "createHref": [Function],
-                      "entries": Array [
-                        Object {
-                          "hash": "",
-                          "key": "testKey",
-                          "pathname": "/test_link",
-                          "search": "",
-                        },
-                      ],
-                      "go": [Function],
-                      "goBack": [Function],
-                      "goForward": [Function],
-                      "index": 0,
-                      "length": 1,
-                      "listen": [Function],
-                      "location": Object {
-                        "hash": "",
-                        "key": "testKey",
-                        "pathname": "/test_link",
-                        "search": "",
-                      },
-                      "push": [Function],
-                      "replace": [Function],
-                    }
-                  }
-                  location={
-                    Object {
-                      "hash": "",
-                      "key": "testKey",
-                      "pathname": "/test_link",
-                      "search": "",
-                    }
-                  }
-                  match={
-                    Object {
-                      "isExact": false,
-                      "params": Object {},
-                      "path": "/",
-                      "url": "/",
-                    }
-                  }
-                >
-                  Mocked MaintenancePage
-                </Component>
-              </Route>
-            </Switch>
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              <strong>
+                Data discovery
+              </strong>
+               and 
+              <strong>
+                access
+              </strong>
+            </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              for 
+              <strong>
+                large-scale
+              </strong>
+              science facilities
+            </h2>
           </div>
-        </Routing>
-      </Connect(Routing)>
-    </Router>
-  </MemoryRouter>
-</Provider>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-12vlygr"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            style="height: 100%;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-1fyyp8j-MuiGrid-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <h3
+                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                >
+                  home-page.browse.title
+                </h3>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.browse.description1
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  <strong>
+                    DataGateway
+                  </strong>
+                   focuses on providing data discovery and data access functionality to the data.
+                </p>
+                <div
+                  class="MuiBox-root css-1yuhvjn"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="browse-button"
+                    href="/home-page.browse.link"
+                    tabindex="0"
+                  >
+                    home-page.browse.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
+            >
+              <div
+                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+              >
+                <div
+                  class="css-1g012h9"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="SearchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.search.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.search.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="search-button"
+                    href="/home-page.search.link"
+                    tabindex="0"
+                  >
+                    home-page.search.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="GetAppIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.download.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.download.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="download-button"
+                    href="/home-page.download.link"
+                    tabindex="0"
+                  >
+                    home-page.download.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+            >
+              <div
+                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <h4
+                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                  >
+                    home-page.facility.title
+                  </h4>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                  >
+                    home-page.facility.description
+                  </p>
+                  <div
+                    class="MuiBox-root css-8xl60i"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      data-testid="facility-button"
+                      href="home-page.facility.link"
+                      tabindex="0"
+                    >
+                      home-page.facility.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Routing component renders component with no plugin routes 1`] = `
-<div
-  className="container-class"
->
-  <Switch>
-    <Route
-      exact={true}
-      path="/"
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
+  >
+    <div
+      id="dg-homepage"
     >
-      <HomePage />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HelpPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/help"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/accessibility"
-    />
-    <Route
-      path="/admin"
-      render={[Function]}
-    />
-    <Route
-      exact={true}
-      path="/login"
-    >
-      <Connect(LoginPageComponent) />
-    </Route>
-    <Route
-      exact={true}
-      path="/logout"
-    >
-      <Connect(LogoutPageComponent) />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(CookiesPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/cookies"
-    />
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
-    />
-  </Switch>
-</div>
+      <div
+        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+      >
+        <div
+          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+        >
+          <div
+            class="MuiBox-root css-h95k7f"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              <strong>
+                Data discovery
+              </strong>
+               and 
+              <strong>
+                access
+              </strong>
+            </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              for 
+              <strong>
+                large-scale
+              </strong>
+              science facilities
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-12vlygr"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            style="height: 100%;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-1fyyp8j-MuiGrid-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <h3
+                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                >
+                  home-page.browse.title
+                </h3>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.browse.description1
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  <strong>
+                    DataGateway
+                  </strong>
+                   focuses on providing data discovery and data access functionality to the data.
+                </p>
+                <div
+                  class="MuiBox-root css-1yuhvjn"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="browse-button"
+                    href="/home-page.browse.link"
+                    tabindex="0"
+                  >
+                    home-page.browse.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
+            >
+              <div
+                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+              >
+                <div
+                  class="css-1g012h9"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="SearchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.search.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.search.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="search-button"
+                    href="/home-page.search.link"
+                    tabindex="0"
+                  >
+                    home-page.search.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="GetAppIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.download.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.download.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="download-button"
+                    href="/home-page.download.link"
+                    tabindex="0"
+                  >
+                    home-page.download.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+            >
+              <div
+                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <h4
+                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                  >
+                    home-page.facility.title
+                  </h4>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                  >
+                    home-page.facility.description
+                  </p>
+                  <div
+                    class="MuiBox-root css-8xl60i"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      data-testid="facility-button"
+                      href="home-page.facility.link"
+                      tabindex="0"
+                    >
+                      home-page.facility.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Routing component renders component with plugins 1`] = `
-<div
-  className="container-class"
->
-  <Switch>
-    <Route
-      exact={true}
-      path="/"
+<DocumentFragment>
+  <div
+    class="css-uuc84g"
+  >
+    <div
+      id="dg-homepage"
     >
-      <HomePage />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(HelpPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/help"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/accessibility"
-    />
-    <Route
-      path="/admin"
-      render={[Function]}
-    />
-    <Route
-      exact={true}
-      path="/login"
-    >
-      <Connect(LoginPageComponent) />
-    </Route>
-    <Route
-      exact={true}
-      path="/logout"
-    >
-      <Connect(LogoutPageComponent) />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(CookiesPage)",
-          "type": [Function],
-        }
-      }
-      exact={true}
-      path="/cookies"
-    />
-    <Route
-      key="test_plugin_name"
-      path={
-        Array [
-          "test link",
-          "test link alt",
-        ]
-      }
-    >
-      <Connect(WithAuthComponent)
-        id="test_plugin_name"
-      />
-    </Route>
-    <Route
-      key="test_plugin_name_2"
-      path={
-        Array [
-          "test link 2",
-        ]
-      }
-    >
-      <Connect(WithAuthComponent)
-        id="test_plugin_name_2"
-      />
-    </Route>
-    <Route
-      component={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(WithAuthComponent)",
-          "type": [Function],
-        }
-      }
-    />
-  </Switch>
-</div>
+      <div
+        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+      >
+        <div
+          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+        >
+          <div
+            class="MuiBox-root css-h95k7f"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              <strong>
+                Data discovery
+              </strong>
+               and 
+              <strong>
+                access
+              </strong>
+            </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+            >
+              for 
+              <strong>
+                large-scale
+              </strong>
+              science facilities
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-12vlygr"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            style="height: 100%;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-1fyyp8j-MuiGrid-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <h3
+                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                >
+                  home-page.browse.title
+                </h3>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.browse.description1
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  <strong>
+                    DataGateway
+                  </strong>
+                   focuses on providing data discovery and data access functionality to the data.
+                </p>
+                <div
+                  class="MuiBox-root css-1yuhvjn"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="browse-button"
+                    href="/home-page.browse.link"
+                    tabindex="0"
+                  >
+                    home-page.browse.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
+            >
+              <div
+                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+              >
+                <div
+                  class="css-1g012h9"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="SearchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.search.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.search.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="search-button"
+                    href="/home-page.search.link"
+                    tabindex="0"
+                  >
+                    home-page.search.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            >
+              <div
+                class="MuiBox-root css-1onku40"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    data-testid="GetAppIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                >
+                  home-page.download.title
+                </h4>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                >
+                  home-page.download.description
+                </p>
+                <div
+                  class="MuiBox-root css-8xl60i"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-testid="download-button"
+                    href="/home-page.download.link"
+                    tabindex="0"
+                  >
+                    home-page.download.button
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+            >
+              <div
+                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+              >
+                <div
+                  class="MuiBox-root css-1onku40"
+                >
+                  <h4
+                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                  >
+                    home-page.facility.title
+                  </h4>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                  >
+                    home-page.facility.description
+                  </p>
+                  <div
+                    class="MuiBox-root css-8xl60i"
+                  >
+                    <a
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      data-testid="facility-button"
+                      href="home-page.facility.link"
+                      tabindex="0"
+                    >
+                      home-page.facility.button
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Routing component renders placeholder for a plugin 1`] = `
-<div
-  id="test_id"
->
-  <Preloader
-    fullScreen={false}
-    id="plugin-preloader"
-    loading={true}
-  />
-</div>
+<DocumentFragment>
+  <div
+    id="test_id"
+  >
+    Mocked Preloader
+  </div>
+</DocumentFragment>
 `;

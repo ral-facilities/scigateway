@@ -20,22 +20,12 @@ import {
   sendThemeOptions,
   autoLoginAuthorised,
 } from '../actions/scigateway.actions';
-import ReactGA from 'react-ga';
 import { StateType } from '../state.types';
 import { buildTheme } from '../../theming';
 import { push } from 'connected-react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
 import { getAppStrings, getString } from '../strings';
-
-const trackPage = (page: string): void => {
-  ReactGA.set({
-    page,
-  });
-  ReactGA.pageview(page);
-};
-
-let currentPage = '';
 
 const microFrontendMessageId = 'scigateway';
 
@@ -54,7 +44,7 @@ const toastrMessageOptions = {
 
 const toastrMessage = (
   message: string,
-  severity: 'success' | 'warning' | 'error'
+  severity: 'success' | 'warning' | 'error' | 'information'
 ): void => {
   switch (severity) {
     case 'success':
@@ -65,6 +55,9 @@ const toastrMessage = (
       break;
     case 'error':
       toastr.error('Error', message, toastrMessageOptions);
+      break;
+    case 'information':
+      toastr.info('Information', message, toastrMessageOptions);
       break;
     default:
       log.error(`Invalid severity provided: ${severity}`);
@@ -225,19 +218,6 @@ const ScigatewayMiddleware: Middleware = ((
 
     if (action.payload && action.payload.broadcast) {
       broadcastToPlugins(action);
-    }
-
-    if (
-      action.type === '@@router/LOCATION_CHANGE' &&
-      state.scigateway.analytics &&
-      state.scigateway.analytics.initialised
-    ) {
-      const nextPage = `${action.payload.location.pathname}${action.payload.location.search}`;
-
-      if (currentPage !== nextPage) {
-        currentPage = nextPage;
-        trackPage(nextPage);
-      }
     }
 
     if (action.type === ToggleDrawerType) {

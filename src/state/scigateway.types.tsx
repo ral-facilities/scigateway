@@ -1,5 +1,5 @@
+import { Theme } from '@mui/material';
 import { Step } from 'react-joyride';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { LogoState } from './state.types';
 
 export const AuthSuccessType = 'scigateway:auth_success';
@@ -68,17 +68,13 @@ export interface AddNotificationsPayload {
   notifications: NotificationPayload[];
 }
 
-export interface AppStrings {
-  [id: string]: string;
-}
+export type AppStrings = Record<string, string>;
 
 export interface ConfigureStringsPayload {
   res: ApplicationStrings;
 }
 
-export interface ApplicationStrings {
-  [section: string]: AppStrings;
-}
+export type ApplicationStrings = Record<string, AppStrings>;
 
 export interface FeatureSwitchesPayload {
   switches: FeatureSwitches;
@@ -114,6 +110,7 @@ export interface RegisterRoutePayload {
   link: string;
   plugin: string;
   displayName: string;
+  unauthorised?: boolean;
   hideFromMenu?: boolean;
   admin?: boolean;
   order: number;
@@ -129,6 +126,7 @@ export interface PluginConfig {
   link: string;
   plugin: string;
   displayName: string;
+  unauthorised?: boolean;
   hideFromMenu?: boolean;
   admin?: boolean;
   order: number;
@@ -139,9 +137,7 @@ export interface PluginConfig {
   helpSteps?: { target: string; content: string }[];
 }
 
-export interface GroupedPlugins {
-  [section: string]: PluginConfig[];
-}
+export type GroupedPlugins = Record<string, PluginConfig[]>;
 
 export interface LoginPayload {
   username: string;
@@ -176,7 +172,7 @@ export interface DismissNotificationPayload {
 }
 
 export interface AuthProviderPayload {
-  authProvider: string;
+  authProvider: string | null;
   authUrl?: string;
   autoLogin?: boolean;
 }
@@ -188,6 +184,7 @@ export interface ScheduledMaintenanceStatePayLoad {
 export interface ScheduledMaintenanceState {
   show: boolean;
   message: string;
+  severity?: 'success' | 'warning' | 'error' | 'information';
 }
 
 export interface MaintenanceStatePayLoad {

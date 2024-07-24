@@ -1,27 +1,17 @@
 import React, { useState } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/HelpOutline';
-import MenuIcon from '@material-ui/icons/Menu';
-import BrightnessIcon from '@material-ui/icons/Brightness4';
-import InvertColorsIcon from '@material-ui/icons/InvertColors';
-import TuneIcon from '@material-ui/icons/Tune';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import {
-  withStyles,
-  createStyles,
-  Theme,
-  StyleRules,
-  WithStyles,
-} from '@material-ui/core/styles';
-import classNames from 'classnames';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import HelpIcon from '@mui/icons-material/HelpOutline';
+import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { styled, useMediaQuery } from '@mui/material';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { Theme, useTheme } from '@mui/material/styles';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
 import {
   toggleDrawer,
@@ -29,22 +19,26 @@ import {
   loadDarkModePreference,
   loadHighContrastModePreference,
 } from '../state/actions/scigateway.actions';
-import { adminRoutes, AppStrings } from '../state/scigateway.types';
+import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
-//import { UKRITheme } from '../theming';
 import UserProfileComponent from './userProfile.component';
 import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import { PluginConfig } from '../state/scigateway.types';
 import { useLocation } from 'react-router-dom';
-import { UKRITheme } from '../theming';
+import SettingsMenu from './settingsMenu.component';
+import MobileOverflowMenu from './mobileOverflowMenu.component';
+import { appBarIconButtonStyle, appBarMenuItemIconStyle } from './styles';
+import PageLinks from './pageLinks.component';
+import NullAuthProvider from '../authentication/nullAuthProvider';
 
 interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
   showHelpPageButton: boolean;
   showAdminPageButton: boolean;
+  showUserComponent: boolean;
   singlePluginLogo: boolean;
   loggedIn: boolean;
   darkMode: boolean;
@@ -68,80 +62,29 @@ interface MainAppDispatchProps {
   toggleHighContrastMode: (preference: boolean) => Action;
 }
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      width: '100%',
-    },
-    appBar: {
-      backgroundColor: theme.palette.primary.main,
-      height: (theme as UKRITheme).mainAppBarHeight,
-    },
-    grow: {
-      flexGrow: 1,
-    },
-    titleButton: {
-      padding: 4,
-      margin: theme.spacing(1),
-      '& img': {
-        // logo maxHeight = mainAppBar height - 2 * padding - 2 * margin
-        maxHeight: `calc(${
-          (theme as UKRITheme).mainAppBarHeight
-        } - 2 * 4px - 2 * ${theme.spacing(1)}px)`,
-      },
-    },
-    button: {
-      margin: theme.spacing(1),
-      color: theme.palette.primary.contrastText,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 0,
-      color: theme.palette.primary.contrastText,
-    },
-    menuButtonPlaceholder: {
-      marginLeft: -12,
-      marginRight: 0,
-      width: 48,
-    },
-    menuButtonOpen: {
-      marginLeft: -12,
-      marginRight: 0,
-      color: theme.palette.primary.contrastText,
-    },
-  });
+const TitleButton = styled(Button)(({ theme }) => ({
+  padding: '4px',
+  margin: 1,
+  '& img': {
+    // logo maxHeight = mainAppBar height - 2 * padding - 2 * margin
+    maxHeight: `calc(${theme.mainAppBarHeight} - 2 * 4px - 2 * ${theme.spacing(
+      1
+    )}px)`,
+  },
+}));
 
-type CombinedMainAppBarProps = MainAppProps &
-  MainAppDispatchProps &
-  WithStyles<typeof styles>;
+type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 
-const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
-  const [getMenuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+export const MainAppBar = (
+  props: CombinedMainAppBarProps
+): React.ReactElement => {
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [defaultLogo, setLogo] = useState<string>(ScigatewayLogo);
   const closeMenu = (): void => setMenuAnchor(null);
-  const manageCookies = (): void => {
-    closeMenu();
-    props.manageCookies();
-  };
-  const toggleDarkMode = (): void => {
-    const toggledPreference = !props.darkMode;
-    localStorage.setItem('darkMode', toggledPreference.toString());
-    props.toggleDarkMode(toggledPreference);
-  };
-
-  const toggleHighContrastMode = (): void => {
-    const toggledPreference = !props.highContrastMode;
-    localStorage.setItem('highContrastMode', toggledPreference.toString());
-    props.toggleHighContrastMode(toggledPreference);
-  };
-
+  const settingsMenuOpen = Boolean(menuAnchor);
   const location = useLocation();
-
-  const navigateToAdminPage = (): void => {
-    props.navigateToAdminPage(
-      adminRoutes[props.adminPageDefaultTab ?? 'maintenance']
-    );
-  };
+  const theme = useTheme();
+  const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -152,9 +95,9 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
           setLogo(props.plugins[0].logoDarkMode ?? ScigatewayLogo);
           set = true;
         } else {
-          for (let i = 0; i < props.plugins.length; i++) {
-            if (document.getElementById(props.plugins[i].plugin) !== null) {
-              setLogo(props.plugins[i].logoDarkMode ?? ScigatewayLogo);
+          for (const p of props.plugins) {
+            if (document.getElementById(p.plugin) !== null) {
+              setLogo(p.logoDarkMode ?? ScigatewayLogo);
               set = true;
               break;
             }
@@ -170,47 +113,62 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
 
   // have menu open by default after page loads
   React.useEffect(() => {
-    if (!props.loading && !props.drawerOpen) {
+    if (!props.loading && !props.drawerOpen && isViewportMdOrLarger) {
       props.toggleDrawer();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.loading]);
+  }, [props.loading, isViewportMdOrLarger]);
+
+  // close menu when viewport changes between mobile and non-mobile viewport
+  // to prevent the wrong type of menu lingering
+  //
+  // for example, when the normal settings menu is visible, and the viewport size changes to mobile,
+  // it should be closed because the mobile overflow menu is used instead.
+  React.useEffect(() => {
+    setMenuAnchor(null);
+  }, [isViewportMdOrLarger]);
 
   return (
-    <div className={props.classes.root}>
-      <AppBar position="static" className={props.classes.appBar}>
+    <div style={{ width: '100%' }}>
+      <AppBar
+        position="static"
+        color="transparent"
+        sx={(theme: Theme) => ({
+          backgroundColor: theme.palette.primary.main,
+          height: theme.mainAppBarHeight,
+        })}
+      >
         <Toolbar
           disableGutters
-          style={{ marginLeft: '16px', marginRight: '16px' }}
+          sx={{
+            marginLeft: '16px',
+            marginRight: isViewportMdOrLarger ? '16px' : 0,
+          }}
         >
           {!props.drawerOpen ? (
             <IconButton
-              className={classNames(
-                props.classes.menuButton,
-                props.drawerOpen && props.classes.menuButtonOpen
-              )}
+              sx={appBarMenuItemIconStyle}
               color="inherit"
               onClick={props.toggleDrawer}
               aria-label={getString(props.res, 'open-navigation-menu')}
+              size="large"
             >
               <MenuIcon />
             </IconButton>
           ) : (
             <IconButton
-              className={classNames(
-                props.classes.menuButtonOpen,
-                props.drawerOpen && props.classes.menuButton,
-                'tour-nav-menu'
-              )}
+              sx={appBarMenuItemIconStyle}
               color="inherit"
               onClick={props.toggleDrawer}
               aria-label={getString(props.res, 'close-navigation-menu')}
+              size="large"
             >
               <MenuOpenIcon />
             </IconButton>
           )}
-          <Button
-            className={classNames(props.classes.titleButton, 'tour-title')}
+
+          <TitleButton
+            className="tour-title"
             onClick={props.navigateToHome}
             aria-label={getString(props.res, 'home-page')}
           >
@@ -221,97 +179,67 @@ const MainAppBar = (props: CombinedMainAppBarProps): React.ReactElement => {
               style={props.logo ? {} : { height: '24px' }}
               alt={getString(props.res, 'title')}
             />
-          </Button>
+          </TitleButton>
 
-          {props.showHelpPageButton ? (
-            <Button
-              className={classNames(props.classes.button, 'tour-help')}
-              onClick={props.navigateToHelpPage}
-              aria-label={getString(props.res, 'help-page')}
-            >
-              <Typography
-                color="inherit"
-                noWrap
-                style={{ fontWeight: 500, marginTop: 3 }}
+          {isViewportMdOrLarger && <PageLinks />}
+          <div style={{ flexGrow: 1 }} />
+          {isViewportMdOrLarger && (
+            <>
+              <IconButton
+                sx={appBarIconButtonStyle}
+                onClick={props.toggleHelp}
+                aria-label={getString(props.res, 'help')}
+                size="large"
               >
-                {getString(props.res, 'help')}
-              </Typography>
-            </Button>
-          ) : null}
-          {props.showAdminPageButton ? (
-            <Button
-              className={classNames(props.classes.button, 'tour-admin')}
-              onClick={navigateToAdminPage}
-              aria-label={getString(props.res, 'admin-page')}
-            >
-              <Typography
-                color="inherit"
-                noWrap
-                style={{ fontWeight: 500, marginTop: 3 }}
+                <HelpIcon />
+              </IconButton>
+              <IconButton
+                className={'tour-settings'}
+                sx={appBarIconButtonStyle}
+                onClick={(e) => setMenuAnchor(e.currentTarget)}
+                aria-label={getString(props.res, 'open-browser-settings')}
+                aria-controls={settingsMenuOpen ? SettingsMenu.ID : undefined}
+                aria-haspopup="true"
+                aria-expanded={settingsMenuOpen ? 'true' : undefined}
+                size="large"
               >
-                {getString(props.res, 'admin')}
-              </Typography>
-            </Button>
-          ) : null}
-          <div className={props.classes.grow} />
-          <IconButton
-            className={props.classes.button}
-            onClick={props.toggleHelp}
-            aria-label={getString(props.res, 'help')}
-          >
-            <HelpIcon />
-          </IconButton>
-          <IconButton
-            className={classNames(props.classes.button, 'tour-settings')}
-            onClick={(e) => setMenuAnchor(e.currentTarget)}
-            aria-label={getString(props.res, 'open-browser-settings')}
-          >
-            <SettingsIcon />
-          </IconButton>
-          <Menu
-            id="settings"
-            anchorEl={getMenuAnchor}
-            open={getMenuAnchor !== null}
-            onClose={closeMenu}
-          >
-            <MenuItem id="item-manage-cookies" onClick={manageCookies}>
-              <ListItemIcon>
-                <TuneIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={getString(props.res, 'manage-cookies-button')}
-              />
-            </MenuItem>
-            <MenuItem id="item-dark-mode" onClick={toggleDarkMode}>
-              <ListItemIcon>
-                <BrightnessIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  props.darkMode
-                    ? getString(props.res, 'switch-light-mode')
-                    : getString(props.res, 'switch-dark-mode')
-                }
-              />
-            </MenuItem>
-            <MenuItem
-              id="item-high-contrast-mode"
-              onClick={toggleHighContrastMode}
+                <SettingsIcon />
+              </IconButton>
+            </>
+          )}
+
+          {props.loggedIn && <NotificationBadgeComponent />}
+          {props.showUserComponent && <UserProfileComponent />}
+
+          {!isViewportMdOrLarger && (
+            <IconButton
+              sx={appBarIconButtonStyle}
+              onClick={(e) => setMenuAnchor(e.currentTarget)}
+              aria-label={getString(props.res, 'open-mobile-menu')}
+              aria-controls={
+                settingsMenuOpen ? MobileOverflowMenu.ID : undefined
+              }
+              aria-haspopup="true"
+              aria-expanded={settingsMenuOpen ? 'true' : undefined}
+              size="large"
             >
-              <ListItemIcon>
-                <InvertColorsIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  props.highContrastMode
-                    ? getString(props.res, 'switch-high-contrast-off')
-                    : getString(props.res, 'switch-high-contrast-on')
-                }
-              />
-            </MenuItem>
-          </Menu>
-          {props.loggedIn ? <NotificationBadgeComponent /> : null}
-          <UserProfileComponent />
+              <MoreVertIcon />
+            </IconButton>
+          )}
+
+          {isViewportMdOrLarger ? (
+            <SettingsMenu
+              open={settingsMenuOpen}
+              anchorEl={menuAnchor}
+              onClose={closeMenu}
+            />
+          ) : (
+            <MobileOverflowMenu
+              open={settingsMenuOpen}
+              anchorEl={menuAnchor}
+              onClose={closeMenu}
+            />
+          )}
         </Toolbar>
       </AppBar>
     </div>
@@ -326,6 +254,9 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   showAdminPageButton:
     state.scigateway.authorisation.provider.isLoggedIn() &&
     state.scigateway.authorisation.provider.isAdmin(),
+  showUserComponent: !(
+    state.scigateway.authorisation.provider instanceof NullAuthProvider
+  ),
   res: getAppStrings(state, 'main-appbar'),
   darkMode: state.scigateway.darkMode,
   highContrastMode: state.scigateway.highContrastMode,
@@ -350,9 +281,4 @@ const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
     dispatch(loadHighContrastModePreference(preference)),
 });
 
-export const MainAppBarWithStyles = withStyles(styles)(MainAppBar);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainAppBarWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(MainAppBar);

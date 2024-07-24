@@ -51,6 +51,7 @@ export default class TestAuthProvider implements AuthProvider {
     return Promise.resolve({
       show: false,
       message: 'test',
+      severity: 'warning',
     });
   }
 
@@ -71,5 +72,11 @@ export default class TestAuthProvider implements AuthProvider {
     maintenanceState: MaintenanceState
   ): Promise<string | void> {
     return Promise.resolve('test');
+  }
+}
+
+export class NonAdminTestAuthProvider extends TestAuthProvider {
+  isAdmin(): boolean {
+    return false;
   }
 }

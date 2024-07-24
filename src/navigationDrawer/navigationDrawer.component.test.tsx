@@ -1,64 +1,97 @@
-import React from 'react';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
-import {
-  NavigationDrawerWithoutStyles,
-  CombinedNavigationProps,
-} from './navigationDrawer.component';
+import * as React from 'react';
+import { NavigationDrawer } from './navigationDrawer.component';
 
 import { PluginConfig } from '../state/scigateway.types';
-import { ListItemText } from '@material-ui/core';
-import { MemoryRouter } from 'react-router';
+import {
+  StyledEngineProvider,
+  ThemeProvider,
+  useMediaQuery,
+} from '@mui/material';
+import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory, History } from 'history';
-import { ReactWrapper } from 'enzyme';
+import { buildTheme } from '../theming';
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore, Store } from 'redux';
+import { ScigatewayState, StateType } from '../state/state.types';
+import ScigatewayReducer, {
+  initialState as scigatewayInitialState,
+} from '../state/reducers/scigateway.reducer';
+
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(),
+}));
 
 describe('Navigation drawer component', () => {
-  let shallow;
-  let mount;
-  let props: CombinedNavigationProps;
   let history: History;
-
-  const dummyClasses = {
-    root: 'root-1',
-    drawer: 'drawer-1',
-    drawerPaper: 'drawerPaper-1',
-    sectionTitle: 'sectionTitle-1',
-    menuItem: 'menuItem-1',
-    menuLogo: 'menuLogo-1',
-  };
+  const theme = buildTheme(false);
 
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'NavigationDrawer' });
-    mount = createMount();
     history = createMemoryHistory();
     history.replace('/help');
+    // I don't think MediaQuery works properly in jest
+    // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
+    // here we assume it is always the case.
+    jest.mocked(useMediaQuery).mockReturnValue(true);
   });
 
-  afterEach(() => {
-    mount.cleanUp();
-  });
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
+    return (
+      <MemoryRouter>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </StyledEngineProvider>
+      </MemoryRouter>
+    );
+  }
+
+  function createMockStore(initialState: Partial<ScigatewayState>): Store {
+    return createStore(
+      combineReducers<Partial<StateType>>({
+        scigateway: (
+          state = { ...scigatewayInitialState, ...initialState },
+          action
+        ) => ScigatewayReducer(state, action),
+      })
+    );
+  }
 
   it('Navigation drawer renders correctly when open', () => {
-    props = {
-      open: true,
-      plugins: [],
-      res: undefined,
-      classes: dummyClasses,
-    };
+    const { asFragment } = render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: [],
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
+    );
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('Navigation drawer renders correctly when closed', () => {
-    props = {
-      open: false,
-      plugins: [],
-      res: undefined,
-      classes: dummyClasses,
-    };
+    const { asFragment } = render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: false,
+          plugins: [],
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
+    );
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   function buildPlugin(
@@ -90,18 +123,29 @@ describe('Navigation drawer component', () => {
       },
     ];
 
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-    };
+    render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
+    );
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
+    const navBarLinks = screen.getAllByRole('link');
+    expect(navBarLinks).toHaveLength(6);
 
-    expect(wrapper).toMatchSnapshot();
-
-    expect(wrapper.find('[to="plugin_link"]').first()).toMatchSnapshot();
+    expect(navBarLinks[0]).toHaveTextContent('analysis-plugin');
+    expect(navBarLinks[1]).toHaveTextContent('analysis-plugin2');
+    expect(navBarLinks[2]).toHaveTextContent('data-plugin');
+    expect(navBarLinks[3]).toHaveTextContent('data-plugin1');
+    expect(navBarLinks[4]).toHaveTextContent('data-plugin2');
+    expect(navBarLinks[5]).toHaveTextContent('data-plugin-no-displayname');
   });
 
   it('does not render admin plugins or plugins that ask to hide in list', () => {
@@ -124,16 +168,21 @@ describe('Navigation drawer component', () => {
       },
     ];
 
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-    };
+    render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
+    );
 
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
-
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.queryAllByRole('link')).toHaveLength(0);
   });
 
   it('does not display link to homepage if a homepage link is set', () => {
@@ -144,7 +193,7 @@ describe('Navigation drawer component', () => {
         plugin: 'homepage-plugin',
         link: homepageLink,
         section: 'Homepage',
-        displayName: 'display name',
+        displayName: 'home page',
       },
       {
         order: 1,
@@ -155,76 +204,22 @@ describe('Navigation drawer component', () => {
       },
     ];
 
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      homepageUrl: homepageLink,
-    };
-
-    const wrapper = shallow(<NavigationDrawerWithoutStyles {...props} />);
-
-    expect(wrapper).toMatchSnapshot();
-
-    expect(wrapper.find('[to="homepage"]')).toEqual({});
-  });
-
-  it('renders a plugin', () => {
-    const dummyPlugins: PluginConfig[] = [
-      {
-        order: 0,
-        plugin: 'data-plugin',
-        link: 'plugin_link',
-        section: 'DATA',
-        displayName: '\xa0display name',
-      },
-    ];
-
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-    };
-
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawerWithoutStyles {...props} />
-      </MemoryRouter>
+    render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+          homepageUrl: homepageLink,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
     );
 
-    const listItemText = wrapper.find(ListItemText).last();
-    expect(listItemText.text()).toEqual('\xa0display name');
-  });
-
-  it('renders the light mode logo at the bottom', () => {
-    const dummyPlugins: PluginConfig[] = [
-      {
-        order: 0,
-        plugin: 'data-plugin',
-        link: 'plugin_link',
-        section: 'DATA',
-        displayName: '\xa0display name',
-      },
-    ];
-
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      darkMode: false,
-    };
-
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawerWithoutStyles {...props} />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find('img')).toHaveLength(1);
-    expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-blue-text.png');
+    expect(screen.queryByRole('link', { name: 'home page' })).toBeNull();
   });
 
   it('renders the dark mode logo at the top', () => {
@@ -237,23 +232,27 @@ describe('Navigation drawer component', () => {
         displayName: '\xa0display name',
       },
     ];
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      darkMode: true,
-    };
 
-    const wrapper = mount(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <NavigationDrawerWithoutStyles {...props} />
-      </MemoryRouter>
+    render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: true,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
     );
 
-    expect(wrapper.find('img')).toHaveLength(1);
-    expect(wrapper.find('img').prop('src')).toEqual('stfc-logo-white-text.png');
+    expect(screen.getByRole('img')).toHaveAttribute(
+      'src',
+      'stfc-logo-white-text.png'
+    );
   });
+
   it('should be able to use logo set in the settings file', () => {
     const dummyPlugins: PluginConfig[] = [
       {
@@ -264,50 +263,49 @@ describe('Navigation drawer component', () => {
         displayName: '\xa0display name',
       },
     ];
-
-    const createWrapper = (props: CombinedNavigationProps): ReactWrapper => {
-      return mount(
-        <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-          <NavigationDrawerWithoutStyles {...props} />
-        </MemoryRouter>
-      );
-    };
-    // darkmode
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      darkMode: true,
-      navigationDrawerLogo: {
-        light: '/test/lightmode',
-        dark: '/test/darkmode',
-        altTxt: 'alt txt test',
-      },
+    const navigationDrawerLogo = {
+      light: '/test/lightmode',
+      dark: '/test/darkmode',
+      altTxt: 'alt txt test',
     };
 
-    let wrapper = createWrapper(props);
+    const { rerender } = render(
+      <Provider
+        store={createMockStore({
+          navigationDrawerLogo,
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
+    );
 
-    expect(wrapper.find('img').props().src).toEqual('/test/darkmode');
-    expect(wrapper.find('img').props().alt).toEqual('alt txt test');
+    expect(screen.getByAltText('alt txt test')).toHaveAttribute(
+      'src',
+      '/test/lightmode'
+    );
 
-    // lightmode
-    props = {
-      open: true,
-      plugins: dummyPlugins,
-      res: undefined,
-      classes: dummyClasses,
-      darkMode: false,
-      navigationDrawerLogo: {
-        light: '/test/lightmode',
-        dark: '/test/darkmode',
-        altTxt: 'alt txt test',
-      },
-    };
+    rerender(
+      <Provider
+        store={createMockStore({
+          navigationDrawerLogo,
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: true,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>
+    );
 
-    wrapper = createWrapper(props);
-
-    expect(wrapper.find('img').props().src).toEqual('/test/lightmode');
-    expect(wrapper.find('img').props().alt).toEqual('alt txt test');
+    expect(screen.getByAltText('alt txt test')).toHaveAttribute(
+      'src',
+      '/test/darkmode'
+    );
   });
 });

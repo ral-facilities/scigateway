@@ -1,73 +1,185 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Scigateway Notification component Scigateway Notification error message renders correctly 1`] = `
-<div
-  className="root-class"
->
-  <Memo(ForwardRef(HighlightOffIcon))
-    className="errorIcon-class"
-  />
-  <WithStyles(ForwardRef(Typography))
-    variant="body2"
+<DocumentFragment>
+  <div
+    style="display: flex; align-items: center;"
   >
-    error message
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(IconButton))
-    aria-label="Dismiss notification"
-    className="button-class"
-    onClick={[Function]}
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1867c3f-MuiSvgIcon-root"
+      data-testid="HighlightOffIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M14.59 8 12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+    >
+      error message
+    </p>
+    <button
+      aria-label="Dismiss notification"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        data-testid="ClearIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Scigateway Notification component Scigateway Notification information message renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    style="display: flex; align-items: center;"
   >
-    <Memo(ForwardRef(ClearIcon))
-      className="deleteIcon-class"
-    />
-  </WithStyles(ForwardRef(IconButton))>
-</div>
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-kjenk6-MuiSvgIcon-root"
+      data-testid="InfoIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-6h2zm0-8h-2V7h2z"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+    >
+      information message
+    </p>
+    <button
+      aria-label="Dismiss notification"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        data-testid="ClearIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Scigateway Notification component Scigateway Notification success message renders correctly 1`] = `
-<div
-  className="root-class"
->
-  <Memo(ForwardRef(CheckCircleIcon))
-    className="successIcon-class"
-  />
-  <WithStyles(ForwardRef(Typography))
-    variant="body2"
+<DocumentFragment>
+  <div
+    style="display: flex; align-items: center;"
   >
-    success message
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(IconButton))
-    aria-label="Dismiss notification"
-    className="button-class"
-    onClick={[Function]}
-  >
-    <Memo(ForwardRef(ClearIcon))
-      className="deleteIcon-class"
-    />
-  </WithStyles(ForwardRef(IconButton))>
-</div>
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-18vlyb1-MuiSvgIcon-root"
+      data-testid="CheckCircleIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+    >
+      success message
+    </p>
+    <button
+      aria-label="Dismiss notification"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        data-testid="ClearIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Scigateway Notification component Scigateway Notification warning message renders correctly 1`] = `
-<div
-  className="root-class"
->
-  <Memo(ForwardRef(ErrorOutlineIcon))
-    className="warningIcon-class"
-  />
-  <WithStyles(ForwardRef(Typography))
-    variant="body2"
+<DocumentFragment>
+  <div
+    style="display: flex; align-items: center;"
   >
-    warning message
-  </WithStyles(ForwardRef(Typography))>
-  <WithStyles(ForwardRef(IconButton))
-    aria-label="Dismiss notification"
-    className="button-class"
-    onClick={[Function]}
-  >
-    <Memo(ForwardRef(ClearIcon))
-      className="deleteIcon-class"
-    />
-  </WithStyles(ForwardRef(IconButton))>
-</div>
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1o88wul-MuiSvgIcon-root"
+      data-testid="ErrorOutlineIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+    >
+      warning message
+    </p>
+    <button
+      aria-label="Dismiss notification"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        data-testid="ClearIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</DocumentFragment>
 `;

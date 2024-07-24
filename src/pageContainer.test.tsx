@@ -1,35 +1,29 @@
 import React from 'react';
-import { ReactWrapper } from 'enzyme';
 
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import { createShallow } from '@material-ui/core/test-utils';
-// history package is part of react-router, which we depend on
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createLocation } from 'history';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 import PageContainer from './pageContainer.component';
 import { StateType } from './state/state.types';
 import { authState, initialState } from './state/reducers/scigateway.reducer';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from '@mui/material';
+import { buildTheme } from './theming';
+
+jest.mock('@mui/material', () => ({
+  __esmodule: true,
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn(() => true),
+}));
 
 describe('PageContainer - Tests', () => {
-  let shallow;
   let state: StateType;
 
-  const createWrapper = (state: StateType): ReactWrapper => {
-    const mockStore = configureStore([thunk]);
-    return shallow(
-      <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-        <PageContainer store={mockStore(state)} />
-      </MemoryRouter>
-    );
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'Grid' });
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: { location: createLocation('/') },
@@ -37,8 +31,16 @@ describe('PageContainer - Tests', () => {
   });
 
   it('renders correctly', () => {
-    const wrapper = createWrapper(state);
+    const { asFragment } = render(
+      <Provider store={configureStore([thunk])(state)}>
+        <ThemeProvider theme={buildTheme(false)}>
+          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+            <PageContainer />
+          </MemoryRouter>
+        </ThemeProvider>
+      </Provider>
+    );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

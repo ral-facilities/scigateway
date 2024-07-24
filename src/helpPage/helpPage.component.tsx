@@ -1,61 +1,55 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
-} from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import { getAppStrings, getString } from '../state/strings';
 import { connect } from 'react-redux';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import { UKRITheme } from '../theming';
+import useAnchor from '../hooks/useAnchor';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      backgroundColor: theme.palette.background.default,
-      '& a': {
-        '&:link': {
-          color: (theme as UKRITheme).colours.link.default,
-        },
-        '&:visited': {
-          color: (theme as UKRITheme).colours.link.visited,
-        },
-        '&:active': {
-          color: (theme as UKRITheme).colours.link.active,
-        },
-      },
+const RootDiv = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.default,
+  '& a': {
+    '&:link': {
+      color: theme.colours.link.default,
     },
-    container: {
-      color: theme.palette.text.primary,
+    '&:visited': {
+      color: theme.colours.link.visited,
     },
-    titleText: {
-      fontWeight: 'bold',
-      color: theme.palette.secondary.main,
+    '&:active': {
+      color: theme.colours.link.active,
     },
-    description: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-    },
-    toc: {
-      color: theme.palette.text.primary,
-      backgroundColor: theme.palette.background.paper,
-      border: `solid 1px ${theme.palette.divider}`,
-      display: 'table',
-      padding: '10px',
-      marginTop: '10px',
-    },
-  });
+  },
+}));
+
+const ContainerDiv = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.primary,
+}));
+
+const DescriptionTypography = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+}));
+
+const TableOfContentsNav = styled('nav')(({ theme }) => ({
+  color: theme.palette.text.primary,
+  backgroundColor: theme.palette.background.paper,
+  border: `solid 1px ${theme.palette.divider}`,
+  display: 'table',
+  padding: '10px',
+  marginTop: '10px',
+}));
 
 interface HelpPageProps {
   res: AppStrings | undefined;
 }
 
-export type CombinedHelpPageProps = HelpPageProps & WithStyles<typeof styles>;
+export type CombinedHelpPageProps = HelpPageProps;
 
 export const TableOfContents = (
   props: CombinedHelpPageProps
@@ -72,6 +66,9 @@ export const TableOfContents = (
   // highest level of h that's valid is 2 (as there should only be 1 h1 per page)
   let currLevel = 2;
   let tocHtml = '';
+
+  // ignore the for-of loop rule as NodeList is not iterable
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < helpLinks.length; i++) {
     const h = helpLinks[i];
     // the "h level" is the second character of the header tag i.e. h1 is hLevel 1
@@ -92,15 +89,15 @@ export const TableOfContents = (
   tocHtml += '</ul>'.repeat(currLevel - 2);
 
   return (
-    <nav className={props.classes.toc}>
-      <Typography component="h2" variant="h5">
+    <TableOfContentsNav>
+      <Typography variant="h5">
         {getString(props.res, 'table-of-contents')}
       </Typography>
       <ul
         style={{ padding: '0px', margin: '0px' }}
         dangerouslySetInnerHTML={{ __html: tocHtml }}
       />
-    </nav>
+    </TableOfContentsNav>
   );
 };
 
@@ -117,26 +114,26 @@ const HelpPage = (props: CombinedHelpPageProps): React.ReactElement => {
       el.insertAdjacentHTML('afterbegin', topOfPageIcon);
     });
 
+  useAnchor();
+
   return (
-    <div className={props.classes.root}>
+    <RootDiv id="help-page">
       <Typography
-        component="h1"
-        variant="h2"
-        className={props.classes.titleText}
+        variant="h3"
+        sx={{ fontWeight: 'bold', color: 'secondary.main' }}
       >
         {getString(props.res, 'title')}
       </Typography>
       <TableOfContents {...props} />
-      <div className={props.classes.container}>
-        <Typography
+      <ContainerDiv>
+        <DescriptionTypography
           variant="body1"
-          className={props.classes.description}
           dangerouslySetInnerHTML={{
             __html: helpTextHtml.body.innerHTML,
           }}
         />
-      </div>
-    </div>
+      </ContainerDiv>
+    </RootDiv>
   );
 };
 
@@ -144,7 +141,6 @@ const mapStateToProps = (state: StateType): HelpPageProps => ({
   res: getAppStrings(state, 'help-page'),
 });
 
-export const HelpPageWithoutStyles = HelpPage;
-export const HelpPageWithStyles = withStyles(styles)(HelpPage);
+export const UnconnectedHelpPage = HelpPage;
 
-export default connect(mapStateToProps)(HelpPageWithStyles);
+export default connect(mapStateToProps)(HelpPage);

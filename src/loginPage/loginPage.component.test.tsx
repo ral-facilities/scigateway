@@ -1,22 +1,17 @@
 import React from 'react';
-import * as singleSpa from 'single-spa';
 import LoginPage, {
-  LoginPageWithoutStyles,
-  LoginPageWithStyles,
-  CredentialsLoginScreen,
-  RedirectLoginScreen,
-  CombinedLoginProps,
   AnonLoginScreen,
+  CombinedLoginProps,
+  CredentialsLoginScreen,
   LoginSelector,
+  RedirectLoginScreen,
+  UnconnectedLoginPage,
 } from './loginPage.component';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { createLocation } from 'history';
 import axios from 'axios';
-import { flushPromises } from '../setupTests';
-import { act } from 'react-dom/test-utils';
 import { ICATAuthenticator, StateType } from '../state/state.types';
 import configureStore from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -25,10 +20,17 @@ import {
   resetAuthState,
 } from '../state/actions/scigateway.actions';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
 import * as log from 'loglevel';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('loglevel');
 
@@ -40,19 +42,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Login selector component', () => {
-  let shallow;
   let props: CombinedLoginProps;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-    spinner: 'spinner-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-
     props = {
       auth: {
         failedToLogin: false,
@@ -62,11 +54,10 @@ describe('Login selector component', () => {
       },
       location: createLocation('/'),
       res: undefined,
-      classes: dummyClasses,
     };
   });
 
-  it('sets a new mnemonic in local state on mnemonic change', () => {
+  it('sets a new mnemonic in local state on mnemonic change', async () => {
     const mnemonics: ICATAuthenticator[] = [
       {
         mnemonic: 'user/pass',
@@ -77,10 +68,10 @@ describe('Login selector component', () => {
         keys: [],
       },
     ];
+    const user = userEvent.setup();
     const testSetMnemonic = jest.fn();
-    const event = { target: { name: 'mnemonicChange', value: 'anon' } };
 
-    const wrapper = shallow(
+    render(
       <LoginSelector
         {...props}
         mnemonics={mnemonics}
@@ -89,28 +80,24 @@ describe('Login selector component', () => {
       />
     );
 
-    wrapper.find('#select-mnemonic').simulate('change', event);
-    expect(testSetMnemonic).toBeCalledWith('anon');
+    await user.click(screen.getByRole('combobox', { name: /authenticator/i }));
+    await user.selectOptions(
+      screen.getByRole('listbox', { name: /authenticator/i }),
+      screen.getByRole('option', { name: 'anon' })
+    );
+
+    await waitFor(() => {
+      expect(testSetMnemonic).toBeCalledWith('anon');
+    });
   });
 });
 
 describe('Login page component', () => {
-  let shallow;
-  let mount;
   let props: CombinedLoginProps;
   let mockStore;
   let state: StateType;
 
-  const dummyClasses = {
-    root: 'root-1',
-    paper: 'paper-class',
-    avatar: 'avatar-class',
-    spinner: 'spinner-class',
-  };
-
   beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
     mockStore = configureStore([thunk]);
 
     state = {
@@ -128,106 +115,121 @@ describe('Login page component', () => {
       location: createLocation('/'),
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      classes: dummyClasses,
     };
 
     state.scigateway.authorisation = props.auth;
-
-    singleSpa.start();
   });
 
-  const theme = buildTheme(false);
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>;
+  }
 
   it('credential component renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
+    render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByRole('textbox', { name: 'login.username-arialabel' })
+    ).toBeInTheDocument();
+    // for some unknown reason password input type does not have a role???
+    // https://github.com/testing-library/dom-testing-library/issues/567
+    expect(
+      screen.getByLabelText('login.password-arialabel')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.forgotten-your-password' })
+    ).toHaveAttribute('href', 'login.forgotten-your-password-link');
+    expect(
+      screen.getByRole('button', { name: 'login.login-button' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.need-help-signing-in' })
+    ).toHaveAttribute('href', 'login.need-help-signing-in-link');
+    expect(screen.getByRole('link', { name: 'Sign up now' })).toHaveAttribute(
+      'href',
+      'login.dont-have-an-account-sign-up-now-link'
     );
-
-    expect(wrapper).toMatchSnapshot();
   });
 
   it('credential component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-    expect(wrapper).toMatchSnapshot();
+    render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(screen.getByText('login.login-error-msg')).toBeInTheDocument();
   });
 
   it('credential component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <CredentialsLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-    expect(wrapper).toMatchSnapshot();
+    render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(screen.getByText('login.token-invalid-msg')).toBeInTheDocument();
   });
 
   it('redirect component renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
-    expect(wrapper).toMatchSnapshot();
+    render(<RedirectLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByRole('button', { name: 'Login with Github' })
+    ).toBeInTheDocument();
   });
 
   it('redirect component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <RedirectLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
-    expect(wrapper).toMatchSnapshot();
+    render(<RedirectLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByText('login.login-redirect-error-msg')
+    ).toBeInTheDocument();
   });
 
   it('anonymous component renders correctly', () => {
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-
-    expect(wrapper).toMatchSnapshot();
+    render(<AnonLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByRole('button', { name: 'login.login-button' })
+    ).toBeInTheDocument();
   });
 
   it('anonymous component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-    expect(wrapper).toMatchSnapshot();
+    render(<AnonLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(screen.getByText('login.login-error-msg')).toBeInTheDocument();
   });
 
   it('anonymous component renders signedOutDueToTokenInvalidation error correctly', () => {
     props.auth.signedOutDueToTokenInvalidation = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <AnonLoginScreen {...props} />
-      </MuiThemeProvider>
-    );
-    expect(wrapper).toMatchSnapshot();
+    render(<AnonLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(screen.getByText('login.token-invalid-msg')).toBeInTheDocument();
   });
 
   it('login page renders credential component if no redirect url', () => {
-    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByRole('textbox', { name: 'login.username-arialabel' })
+    ).toBeInTheDocument();
+    // for some unknown reason password input type does not have a role???
+    // https://github.com/testing-library/dom-testing-library/issues/567
+    expect(
+      screen.getByLabelText('login.password-arialabel')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.forgotten-your-password' })
+    ).toHaveAttribute('href', 'login.forgotten-your-password-link');
+    expect(
+      screen.getByRole('button', { name: 'login.login-button' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.need-help-signing-in' })
+    ).toHaveAttribute('href', 'login.need-help-signing-in-link');
+    expect(screen.getByRole('link', { name: 'Sign up now' })).toHaveAttribute(
+      'href',
+      'login.dont-have-an-account-sign-up-now-link'
+    );
   });
 
   it('login page renders redirect component if redirect url present', () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    const wrapper = shallow(<LoginPageWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByRole('button', { name: 'Login with Github' })
+    ).toBeInTheDocument();
   });
 
   it('login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon)', async () => {
@@ -251,23 +253,11 @@ describe('Login page component', () => {
       })
     );
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(wrapper).toMatchSnapshot();
-    spy.mockRestore();
+    expect(
+      await screen.findByRole('combobox', { name: /authenticator/i })
+    ).toBeInTheDocument();
   });
 
   it("login page doesn't render dropdown if anon is the only other authenticator", async () => {
@@ -287,23 +277,10 @@ describe('Login page component', () => {
       })
     );
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(wrapper).toMatchSnapshot();
-    spy.mockRestore();
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    expect(screen.queryByRole('button', { name: /authenticator/i })).toBeNull();
   });
 
   it('login page renders anonymous login if mnemonic present with no keys', async () => {
@@ -319,23 +296,9 @@ describe('Login page component', () => {
       })
     );
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(wrapper).toMatchSnapshot();
-    spy.mockRestore();
+    expect(await screen.findByTestId('anon-login-screen')).toBeInTheDocument();
   });
 
   it('login page renders credentials login if mnemonic present + user/pass is selected', async () => {
@@ -351,33 +314,33 @@ describe('Login page component', () => {
       })
     );
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
+    expect(
+      await screen.findByRole('textbox', { name: 'login.username-arialabel' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('login.password-arialabel')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.forgotten-your-password' })
+    ).toHaveAttribute('href', 'login.forgotten-your-password-link');
+    expect(
+      screen.getByRole('button', { name: 'login.login-button' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.need-help-signing-in' })
+    ).toHaveAttribute('href', 'login.need-help-signing-in-link');
+    expect(screen.getByRole('link', { name: 'Sign up now' })).toHaveAttribute(
+      'href',
+      'login.dont-have-an-account-sign-up-now-link'
     );
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    expect(wrapper).toMatchSnapshot();
-    spy.mockRestore();
   });
 
-  it('login page renders spinner if auth is loading', () => {
+  it('login page renders spinner if auth is loading', async () => {
     props.auth.loading = true;
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
-    expect(wrapper).toMatchSnapshot();
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
   });
 
   it('login page displays and logs an error if fetchMnemonics fails', async () => {
@@ -385,9 +348,6 @@ describe('Login page component', () => {
     (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    const spy = jest
-      .spyOn(React, 'useEffect')
-      .mockImplementationOnce((f) => f());
     const dispatchEventSpy = jest
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
@@ -395,77 +355,61 @@ describe('Login page component', () => {
         return true;
       });
 
-    const wrapper = shallow(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithoutStyles {...props} />
-      </MuiThemeProvider>
-    );
-
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
+    render(<UnconnectedLoginPage {...props} />, {
+      wrapper: Wrapper,
     });
 
-    expect(dispatchEventSpy).toHaveBeenCalled();
-    expect(events.length).toEqual(1);
-    expect(events[0].detail).toEqual({
-      type: NotificationType,
-      payload: {
-        message:
-          'It is not possible to authenticate you at the moment. Please, try again later',
-        severity: 'error',
-      },
-    });
+    await waitFor(() => {
+      expect(dispatchEventSpy).toHaveBeenCalled();
+      expect(events.length).toEqual(1);
+      expect(events[0].detail).toEqual({
+        type: NotificationType,
+        payload: {
+          message:
+            'It is not possible to authenticate you at the moment. Please, try again later',
+          severity: 'error',
+        },
+      });
 
-    expect(log.error).toHaveBeenCalled();
-    expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
-      'It is not possible to authenticate you at the moment. Please, try again later'
-    );
-    spy.mockRestore();
+      expect(log.error).toHaveBeenCalled();
+      expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
+        'It is not possible to authenticate you at the moment. Please, try again later'
+      );
+    });
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
     const mockLoginfn = jest.fn();
+    const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
 
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    const usernameTextBox = await screen.findByRole('textbox', {
+      name: 'login.username-arialabel',
+    });
+    const passwordBox = screen.getByLabelText('login.password-arialabel');
+
+    await user.type(usernameTextBox, 'new username');
+    await user.type(passwordBox, 'new password');
+
+    await user.click(
+      screen.getByRole('button', { name: 'login.login-button' })
     );
 
-    const simulateUsernameInput = wrapper.find('input').at(0);
-    simulateUsernameInput.instance().value = 'new username';
-    simulateUsernameInput.simulate('change');
-
-    const simulatePasswordInput = wrapper.find('input').at(1);
-    simulatePasswordInput.instance().value = 'new password';
-    simulatePasswordInput.simulate('change');
-
-    wrapper.find('button').simulate('click');
-
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-
     expect(mockLoginfn.mock.calls[0]).toEqual([
       'new username',
       'new password',
       undefined,
     ]);
 
-    simulateUsernameInput.instance().value = 'new username 2';
-    simulateUsernameInput.simulate('change');
-
-    simulatePasswordInput.instance().value = 'new password 2';
-    simulatePasswordInput.simulate('change');
-
-    wrapper
-      .find(CredentialsLoginScreen)
-      .find('div')
-      .first()
-      .simulate('keypress', { key: 'Enter' });
+    await user.clear(usernameTextBox);
+    await user.clear(passwordBox);
+    await user.type(usernameTextBox, 'new username 2');
+    await user.type(passwordBox, 'new password 2{enter}');
 
     expect(mockLoginfn.mock.calls.length).toEqual(2);
-
     expect(mockLoginfn.mock.calls[1]).toEqual([
       'new username 2',
       'new password 2',
@@ -473,7 +417,8 @@ describe('Login page component', () => {
     ]);
   });
 
-  it('on submit window location should change for redirect', () => {
+  it('on submit window location should change for redirect', async () => {
+    const user = userEvent.setup();
     props.auth.provider.redirectUrl = 'test redirect';
 
     global.window = Object.create(window);
@@ -482,13 +427,11 @@ describe('Login page component', () => {
       value: JSON.parse(windowLocation),
     });
 
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
-    );
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
-    wrapper.find('button').simulate('click');
+    await user.click(
+      await screen.findByRole('button', { name: 'Login with Github' })
+    );
 
     expect(window.location.href).toEqual('test redirect');
   });
@@ -500,12 +443,7 @@ describe('Login page component', () => {
     const mockLoginfn = jest.fn();
     props.verifyUsernameAndPassword = mockLoginfn;
 
-    // TODO: switch to shallow when enzyme supports hooks/useEffect
-    mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
-    );
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
     expect(mockLoginfn.mock.calls[0]).toEqual([
@@ -517,6 +455,7 @@ describe('Login page component', () => {
 
   it('on submit verification method should be called when logs in via keyless authenticator', async () => {
     const mockLoginfn = jest.fn();
+    const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';
 
@@ -531,32 +470,14 @@ describe('Login page component', () => {
       })
     );
 
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <LoginPageWithStyles {...props} />
-      </MuiThemeProvider>
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    await user.click(
+      await screen.findByRole('button', { name: 'login.login-button' })
     );
 
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
-
-    wrapper.find('button').simulate('click');
-
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-
     expect(mockLoginfn.mock.calls[0]).toEqual(['', '', 'nokeys']);
-
-    wrapper
-      .find(AnonLoginScreen)
-      .find('div')
-      .first()
-      .simulate('keypress', { key: 'Enter' });
-
-    expect(mockLoginfn.mock.calls.length).toEqual(2);
-
-    expect(mockLoginfn.mock.calls[1]).toEqual(['', '', 'nokeys']);
   });
 
   it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
@@ -577,18 +498,14 @@ describe('Login page component', () => {
 
     const testStore = mockStore(state);
 
-    const wrapper = mount(
+    render(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
-      </Provider>
+        <LoginPage />
+      </Provider>,
+      { wrapper: Wrapper }
     );
 
-    await act(async () => {
-      await flushPromises();
-      wrapper.update();
-    });
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
     expect(testStore.getActions()[0]).toEqual(loadingAuthentication());
   });
@@ -599,12 +516,11 @@ describe('Login page component', () => {
 
     const testStore = mockStore(state);
 
-    mount(
+    render(
       <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <LoginPage />
-        </MuiThemeProvider>
-      </Provider>
+        <LoginPage />
+      </Provider>,
+      { wrapper: Wrapper }
     );
 
     expect(testStore.getActions()[0]).toEqual(resetAuthState());

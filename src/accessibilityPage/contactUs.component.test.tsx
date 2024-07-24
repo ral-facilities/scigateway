@@ -1,41 +1,31 @@
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
-import {
-  ContactUsWithoutStyles,
-  CombinedContactUsProps,
-} from './contactUs.component';
+import { UnconnectedContactUs } from './contactUs.component';
+import { render, screen } from '@testing-library/react';
+import { ThemeProvider } from '@mui/material';
+import { buildTheme } from '../theming';
 
 describe('Contact us component', () => {
-  let shallow;
-  let props: CombinedContactUsProps;
-
-  const dummyClasses = {
-    description: 'description-class',
-  };
-
-  beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'ContactUs' });
-  });
+  const testTheme = buildTheme(false);
 
   it('renders iframe correctly if form url set', () => {
-    props = {
-      contactUsAccessibilityFormUrl: 'test-url',
-      classes: dummyClasses,
-    };
+    render(
+      <ThemeProvider theme={testTheme}>
+        <UnconnectedContactUs contactUsAccessibilityFormUrl="test-url" />
+      </ThemeProvider>
+    );
 
-    const wrapper = shallow(<ContactUsWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper.find('#contact-us-form')).toBeTruthy();
+    expect(screen.getByTestId('contact-us-form')).toBeInTheDocument();
   });
 
   it('renders mailto link correctly if form url not set', () => {
-    props = {
-      contactUsAccessibilityFormUrl: undefined,
-      classes: dummyClasses,
-    };
+    render(
+      <ThemeProvider theme={testTheme}>
+        <UnconnectedContactUs contactUsAccessibilityFormUrl="" />
+      </ThemeProvider>
+    );
 
-    const wrapper = shallow(<ContactUsWithoutStyles {...props} />);
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper.find('#contact-info')).toBeTruthy();
+    expect(
+      screen.getByRole('link', { name: 'accessibility-page.contact-info' })
+    ).toHaveAttribute('href', 'mailto:accessibility-page.contact-info');
   });
 });

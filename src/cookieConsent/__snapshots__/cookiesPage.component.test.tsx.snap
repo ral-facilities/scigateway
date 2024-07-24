@@ -1,192 +1,183 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Cookies page component should render correctly 1`] = `
-<div
-  className="root-class"
->
-  <WithStyles(ForwardRef(Typography))
-    className="titleText-class"
-    variant="h3"
-  >
-    title
-  </WithStyles(ForwardRef(Typography))>
+<DocumentFragment>
   <div
-    className="container-class"
+    class="css-18rbhl5"
   >
-    <WithStyles(ForwardRef(Typography))
-      variant="h4"
+    <h3
+      class="MuiTypography-root MuiTypography-h3 css-nxx1w0-MuiTypography-root"
     >
-      cookie-policy-title
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Typography))
-      className="cookiePolicy-class"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "cookie-policy",
-        }
-      }
-      variant="body1"
-    />
-  </div>
-  <div
-    className="container-class"
-  >
-    <WithStyles(ForwardRef(Typography))
-      variant="h4"
+      title
+    </h3>
+    <div
+      class="css-9c2a3a"
     >
-      cookie-management-title
-    </WithStyles(ForwardRef(Typography))>
-    <WithStyles(ForwardRef(Grid))
-      className="cookieTypes-class"
-      container={true}
-      direction="column"
-      spacing={4}
-    >
-      <WithStyles(ForwardRef(Grid))
-        alignItems="center"
-        container={true}
-        item={true}
-        justify="flex-start"
+      <h4
+        class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
       >
-        <WithStyles(ForwardRef(Grid))
-          item={true}
-          sm={1}
-          xs={2}
-        >
-          <WithStyles(ForwardRef(Switch))
-            checked={true}
-            color="primary"
-            disabled={true}
-            inputProps={
-              Object {
-                "aria-describedby": "essential-cookies-description",
-                "aria-labelledby": "essential-cookies-title",
-              }
-            }
-          />
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
-          item={true}
-          sm={2}
-          xs={4}
-        >
-          <WithStyles(ForwardRef(Typography))
-            id="essential-cookies-title"
-            variant="body1"
-          >
-            essential-cookies-title
-          </WithStyles(ForwardRef(Typography))>
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
-          id="essential-cookies-description"
-          item={true}
-          sm={9}
-          xs={12}
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="body1"
-          >
-            essential-cookies-description
-          </WithStyles(ForwardRef(Typography))>
-          <ul
-            className="cookieList-class"
-          >
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
-              component="li"
-              key="cookies-page.essential-cookies-list 1"
-              variant="body1"
-            >
-              cookies-page.essential-cookies-list 1
-            </WithStyles(ForwardRef(Typography))>
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
-              component="li"
-              key="cookies-page.essential-cookies-list 2"
-              variant="body1"
-            >
-              cookies-page.essential-cookies-list 2
-            </WithStyles(ForwardRef(Typography))>
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
-              component="li"
-              key="cookies-page.essential-cookies-list 3"
-              variant="body1"
-            >
-              cookies-page.essential-cookies-list 3
-            </WithStyles(ForwardRef(Typography))>
-          </ul>
-        </WithStyles(ForwardRef(Grid))>
-      </WithStyles(ForwardRef(Grid))>
-      <WithStyles(ForwardRef(Grid))
-        alignItems="center"
-        container={true}
-        item={true}
-        justify="flex-start"
+        cookie-policy-title
+      </h4>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-izaxaw-MuiTypography-root"
       >
-        <WithStyles(ForwardRef(Grid))
-          item={true}
-          sm={1}
-          xs={2}
+        cookie-policy
+      </p>
+    </div>
+    <div
+      class="css-9c2a3a"
+    >
+      <h4
+        class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+      >
+        cookie-management-title
+      </h4>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-direction-xs-column css-dy4j06-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-item css-i6prtc-MuiGrid-root"
         >
-          <WithStyles(ForwardRef(Switch))
-            checked={false}
-            color="primary"
-            inputProps={
-              Object {
-                "aria-describedby": "analytics-cookies-description",
-                "aria-labelledby": "analytics-cookies-title",
-              }
-            }
-            onChange={[Function]}
-          />
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
-          item={true}
-          sm={2}
-          xs={4}
-        >
-          <WithStyles(ForwardRef(Typography))
-            id="analytics-cookies-title"
-            variant="body1"
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-1 css-1ux21pi-MuiGrid-root"
           >
-            analytics-cookies-title
-          </WithStyles(ForwardRef(Typography))>
-        </WithStyles(ForwardRef(Grid))>
-        <WithStyles(ForwardRef(Grid))
-          id="analytics-cookies-description"
-          item={true}
-          sm={9}
-          xs={12}
-        >
-          <WithStyles(ForwardRef(Typography))
-            variant="body1"
-          >
-            analytics-cookies-description
-          </WithStyles(ForwardRef(Typography))>
-          <ul
-            className="cookieList-class"
-          >
-            <WithStyles(ForwardRef(Typography))
-              className="cookieListItem-class"
-              component="li"
-              variant="body1"
+            <span
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
             >
-              google-analytics-description
-            </WithStyles(ForwardRef(Typography))>
-          </ul>
-        </WithStyles(ForwardRef(Grid))>
-      </WithStyles(ForwardRef(Grid))>
-    </WithStyles(ForwardRef(Grid))>
+              <span
+                aria-disabled="true"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-1op2d48-MuiButtonBase-root-MuiSwitch-switchBase"
+                tabindex="-1"
+              >
+                <input
+                  aria-describedby="essential-cookies-description"
+                  aria-labelledby="essential-cookies-title"
+                  checked=""
+                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  disabled=""
+                  type="checkbox"
+                />
+                <span
+                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                />
+              </span>
+              <span
+                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+              />
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 MuiGrid-grid-sm-2 css-1kb962v-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              id="essential-cookies-title"
+            >
+              essential-cookies-title
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-9 css-173qa7i-MuiGrid-root"
+            id="essential-cookies-description"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            >
+              essential-cookies-description
+            </p>
+            <ul
+              class="css-n085mf"
+            >
+              <li
+                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+              >
+                cookies-page.essential-cookies-list 1
+              </li>
+              <li
+                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+              >
+                cookies-page.essential-cookies-list 2
+              </li>
+              <li
+                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+              >
+                cookies-page.essential-cookies-list 3
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-item css-i6prtc-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-1 css-1ux21pi-MuiGrid-root"
+          >
+            <span
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-1op2d48-MuiButtonBase-root-MuiSwitch-switchBase"
+              >
+                <input
+                  aria-describedby="analytics-cookies-description"
+                  aria-labelledby="analytics-cookies-title"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  type="checkbox"
+                />
+                <span
+                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                />
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+              <span
+                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+              />
+            </span>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 MuiGrid-grid-sm-2 css-1kb962v-MuiGrid-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              id="analytics-cookies-title"
+            >
+              analytics-cookies-title
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-9 css-173qa7i-MuiGrid-root"
+            id="analytics-cookies-description"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            >
+              analytics-cookies-description
+            </p>
+            <ul
+              class="css-n085mf"
+            >
+              <li
+                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+              >
+                google-analytics-description
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-ekw1he-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
+    >
+      save-preferences-button
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
   </div>
-  <WithStyles(ForwardRef(Button))
-    className="button-class"
-    color="primary"
-    onClick={[Function]}
-    size="medium"
-    variant="contained"
-  >
-    save-preferences-button
-  </WithStyles(ForwardRef(Button))>
-</div>
+</DocumentFragment>
 `;

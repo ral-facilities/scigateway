@@ -1,41 +1,47 @@
 import React from 'react';
 import { StateType } from '../state/state.types';
-import Typography from '@material-ui/core/Typography';
-import {
-  Theme,
-  StyleRules,
-  createStyles,
-  WithStyles,
-  withStyles,
-  Link,
-} from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { Link, styled } from '@mui/material';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    description: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      color: theme.palette.text.primary,
+const RootDiv = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.default,
+  '& a': {
+    '&:link': {
+      color: theme.colours.link.default,
     },
-  });
+    '&:visited': {
+      color: theme.colours.link.visited,
+    },
+    '&:active': {
+      color: theme.colours.link.active,
+    },
+  },
+}));
 
-interface ContactUsProps {
+const DescriptionTypography = styled(Typography)<{
+  component?: React.ElementType;
+}>(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  color: theme.palette.text.primary,
+}));
+
+export interface ContactUsProps {
   contactUsAccessibilityFormUrl: string | undefined;
 }
 
-export type CombinedContactUsProps = WithStyles<typeof styles> & ContactUsProps;
-
-const ContactUs = (props: CombinedContactUsProps): React.ReactElement => {
+const ContactUs = (props: ContactUsProps): React.ReactElement => {
   const [t] = useTranslation();
 
   return (
-    <div id="contact-us">
+    <RootDiv id="contact-us">
       {/* If we have a contact us form link defined in the settings, display the form */}
       {props.contactUsAccessibilityFormUrl &&
       props.contactUsAccessibilityFormUrl !== '' ? (
-        <div id="contact-us-form">
+        <div data-testid="contact-us-form">
           <iframe
             title="Contact Us"
             width="740px"
@@ -48,21 +54,21 @@ const ContactUs = (props: CombinedContactUsProps): React.ReactElement => {
         <div id="contact-info">
           {/* Otherwise, we have no contact us form to link to. Display an email
           address for the user to email support themselves */}
-          <Typography className={props.classes.description}>
+          <DescriptionTypography>
             <Link href={`mailto:${t('accessibility-page.contact-info')}`}>
               {t('accessibility-page.contact-info')}
             </Link>
-          </Typography>
+          </DescriptionTypography>
         </div>
       )}
-    </div>
+    </RootDiv>
   );
 };
 
 const mapStateToProps = (state: StateType): ContactUsProps => ({
   contactUsAccessibilityFormUrl: state.scigateway.contactUsAccessibilityFormUrl,
 });
-export const ContactUsWithStyles = withStyles(styles)(ContactUs);
-export const ContactUsWithoutStyles = ContactUs;
 
-export default connect(mapStateToProps)(ContactUsWithStyles);
+export const UnconnectedContactUs = ContactUs;
+
+export default connect(mapStateToProps)(ContactUs);

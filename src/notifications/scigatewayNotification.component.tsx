@@ -1,51 +1,18 @@
 import React from 'react';
-import {
-  Theme,
-  withStyles,
-  IconButton,
-  WithStyles,
-  Typography,
-} from '@material-ui/core';
-import { StyleRules } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Clear';
-import TickIcon from '@material-ui/icons/CheckCircle';
-import WarningIcon from '@material-ui/icons/ErrorOutline';
-import ErrorIcon from '@material-ui/icons/HighlightOff';
+import { Theme, IconButton, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Clear';
+import TickIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/ErrorOutline';
+import ErrorIcon from '@mui/icons-material/HighlightOff';
+import InfoIcon from '@mui/icons-material/Info';
 import { Action } from 'redux';
-import { UKRITheme } from '../theming';
 
 const severityIconStyle = {
-  marginLeft: 5,
-  marginRight: 5,
-  height: 20,
-  width: 20,
+  marginLeft: '5px',
+  marginRight: '5px',
+  height: '20px',
+  width: '20px',
 };
-
-const styles = (theme: Theme): StyleRules => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  button: {
-    marginLeft: 5,
-  },
-  deleteIcon: {
-    height: 15,
-    width: 15,
-  },
-  successIcon: {
-    ...severityIconStyle,
-    color: 'green',
-  },
-  warningIcon: {
-    ...severityIconStyle,
-    color: (theme as UKRITheme).colours.lightOrange,
-  },
-  errorIcon: {
-    ...severityIconStyle,
-    color: 'red',
-  },
-});
 
 interface NotificationProps {
   message: string;
@@ -58,39 +25,49 @@ interface NotificationDispatchProps {
 }
 
 export type CombinedNotificationProps = NotificationProps &
-  NotificationDispatchProps &
-  WithStyles<typeof styles>;
+  NotificationDispatchProps;
 
-const ForwardRefScigatewayNotification = React.forwardRef(
-  function ScigatewayNotification(
-    props: CombinedNotificationProps,
-    ref: React.Ref<HTMLDivElement>
-  ): React.ReactElement {
-    return (
-      <div ref={ref} className={props.classes.root}>
-        {props.severity === 'success' ? (
-          <TickIcon className={props.classes.successIcon} />
-        ) : null}
-        {props.severity === 'warning' ? (
-          <WarningIcon className={props.classes.warningIcon} />
-        ) : null}
-        {props.severity === 'error' ? (
-          <ErrorIcon className={props.classes.errorIcon} />
-        ) : null}
-        <Typography variant="body2">{props.message}</Typography>
-        <IconButton
-          className={props.classes.button}
-          onClick={props.dismissNotification}
-          aria-label="Dismiss notification"
-        >
-          <DeleteIcon className={props.classes.deleteIcon} />
-        </IconButton>
-      </div>
-    );
-  }
-);
+const ScigatewayNotification = React.forwardRef(function ScigatewayNotification(
+  props: CombinedNotificationProps,
+  ref: React.Ref<HTMLDivElement>
+): React.ReactElement {
+  return (
+    <div ref={ref} style={{ display: 'flex', alignItems: 'center' }}>
+      {props.severity === 'success' ? (
+        <TickIcon sx={{ ...severityIconStyle, color: 'green' }} />
+      ) : null}
+      {props.severity === 'warning' ? (
+        <WarningIcon
+          sx={{
+            ...severityIconStyle,
+            color: (theme: Theme) => theme.colours.lightOrange,
+          }}
+        />
+      ) : null}
+      {props.severity === 'information' ? (
+        <InfoIcon
+          sx={{
+            ...severityIconStyle,
+            color: (theme: Theme) => theme.colours.lightBlue,
+          }}
+        />
+      ) : null}
+      {props.severity === 'error' ? (
+        <ErrorIcon sx={{ ...severityIconStyle, color: 'red' }} />
+      ) : null}
+      <Typography variant="body2" sx={{ marginTop: 0.5 }}>
+        {props.message}
+      </Typography>
+      <IconButton
+        sx={{ marginLeft: '5px', marginTop: '2px' }}
+        onClick={props.dismissNotification}
+        aria-label="Dismiss notification"
+        size="large"
+      >
+        <DeleteIcon sx={{ height: '15px', width: '15px' }} />
+      </IconButton>
+    </div>
+  );
+});
 
-export const NotificationWithoutStyles = ForwardRefScigatewayNotification;
-export const NotificationWithStyles = withStyles(styles)(
-  ForwardRefScigatewayNotification
-);
+export default ScigatewayNotification;

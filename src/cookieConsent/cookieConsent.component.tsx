@@ -1,17 +1,9 @@
 import React from 'react';
-import {
-  Theme,
-  createStyles,
-  StyleRules,
-  WithStyles,
-  withStyles,
-} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import { UKRITheme } from '../theming';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 import Cookies from 'js-cookie';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
-import ReactGA from 'react-ga';
 import { Action } from 'redux';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { connect } from 'react-redux';
@@ -21,21 +13,15 @@ import { AppStrings } from '../state/scigateway.types';
 import { push } from 'connected-react-router';
 import { Location } from 'history';
 
-const styles = (theme: Theme): StyleRules =>
-  createStyles({
-    root: {
-      color: '#FFFFFF',
-      backgroundColor: (theme as UKRITheme).colours.darkGreen,
-    },
-    acceptButton: {
-      color: theme.palette.primary.contrastText,
-      margin: theme.spacing(1),
-    },
-    managePreferencesButton: {
-      color: '#FFFFFF',
-      margin: theme.spacing(1),
-    },
-  });
+const ManageButton = styled(Button)(({ theme }) => ({
+  color: '#FFFFFF',
+  margin: theme.spacing(1),
+}));
+
+const AcceptButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  margin: theme.spacing(1),
+}));
 
 interface CookieConsentStateProps {
   analytics?: AnalyticsState;
@@ -50,10 +36,9 @@ interface CookieConsentDispatchProps {
 }
 
 export type CombinedCookieConsentProps = CookieConsentStateProps &
-  CookieConsentDispatchProps &
-  WithStyles<typeof styles>;
+  CookieConsentDispatchProps;
 
-const CookieConsent = (
+export const CookieConsent = (
   props: CombinedCookieConsentProps
 ): React.ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -66,20 +51,21 @@ const CookieConsent = (
       consentCookie &&
       consentCookie.analytics
     ) {
-      ReactGA.initialize(props.analytics.id, {
-        titleCase: false,
-        gaOptions: {
-          cookieExpires: 60 * 60 * 24 * 365, // one year
-          cookieFlags: 'Samesite=None;Secure',
-        },
-      });
-      const page = `${props.location.pathname}${props.location.search}`;
-      ReactGA.set({
-        anonymizeIp: true,
-        page,
-      });
-      // need to send initial pageview
-      ReactGA.pageview(page);
+      //Global Site Tag (gtag.js) - Google Analytics
+      const urlScript = document.createElement('script');
+      urlScript.async = true;
+      urlScript.src = `https://www.googletagmanager.com/gtag/js?id=${props.analytics.id}`;
+
+      const gtagScript = document.createElement('script');
+      gtagScript.innerText =
+        'window.dataLayer = window.dataLayer || [];' +
+        'function gtag(){dataLayer.push(arguments);}' +
+        "gtag('js', new Date());" +
+        `gtag('config', '${props.analytics.id}');`;
+
+      document.head.appendChild(urlScript);
+      document.head.appendChild(gtagScript);
+
       props.initialiseAnalytics();
     }
 
@@ -111,29 +97,32 @@ const CookieConsent = (
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      ContentProps={{ className: props.classes.root }}
+      ContentProps={{
+        sx: {
+          color: 'primary.contrastText',
+          backgroundColor: (theme) => theme.colours.darkGreen,
+        },
+      }}
       open={open}
       message={<div>{getString(props.res, 'text')}</div>}
       action={[
-        <Button
+        <ManageButton
           key="decline"
           variant="outlined"
-          className={props.classes.managePreferencesButton}
           size="small"
           onClick={props.navigateToCookies}
         >
           {getString(props.res, 'manage-preferences-button')}
-        </Button>,
-        <Button
+        </ManageButton>,
+        <AcceptButton
           key="accept"
           variant="contained"
           color="primary"
-          className={props.classes.acceptButton}
           size="small"
           onClick={handleAccept}
         >
           {getString(props.res, 'accept-button')}
-        </Button>,
+        </AcceptButton>,
       ]}
     />
   );
@@ -153,10 +142,6 @@ const mapDispatchToProps = (
   navigateToCookies: () => dispatch(push('/cookies')),
 });
 
-export const CookieConsentWithoutStyles = CookieConsent;
-export const CookieConsentWithStyles = withStyles(styles)(CookieConsent);
+export const UnconnectedCookieConsent = CookieConsent;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CookieConsentWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(CookieConsent);

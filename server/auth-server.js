@@ -6,9 +6,11 @@ const cookieParser = require('cookie-parser');
 const https = require('https');
 const fs = require('fs');
 const waitOn = require('wait-on');
+const cors = require('cors');
 
 const app = express();
 const port = 8000;
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 

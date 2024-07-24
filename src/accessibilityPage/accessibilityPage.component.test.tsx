@@ -1,58 +1,37 @@
 import React from 'react';
-import { createMount } from '@material-ui/core/test-utils';
-import {
-  AccessibiiltyPageWithStyles,
-  CombinedAccessibiiltyPageProps,
-} from './accessibilityPage.component';
-import { MuiThemeProvider } from '@material-ui/core';
+import AccessibilityPage from './accessibilityPage.component';
 import { buildTheme } from '../theming';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { StateType } from '../state/state.types';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { createLocation } from 'history';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 import { Provider } from 'react-redux';
-
-const dummyClasses = {
-  root: 'root-class',
-  container: 'container-class',
-  titleText: 'titleText-class',
-  description: 'description-class',
-};
+import { render } from '@testing-library/react';
 
 describe('Accessibility page component', () => {
-  let mount;
-  let mockStore;
-  let props: CombinedAccessibiiltyPageProps;
+  const theme = buildTheme(false);
   let state: StateType;
 
   beforeEach(() => {
-    mount = createMount();
-    mockStore = configureStore([thunk]);
-    props = {
-      classes: dummyClasses,
-    };
-
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
       router: { location: createLocation('/') },
     };
   });
 
-  const theme = buildTheme(false);
-
   it('should render correctly and display contact us component', () => {
-    const testStore = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={testStore}>
-        <MuiThemeProvider theme={theme}>
-          <AccessibiiltyPageWithStyles {...props} />
-        </MuiThemeProvider>
+    const { asFragment } = render(
+      <Provider store={configureStore([thunk])(state)}>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <AccessibilityPage />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
 
-    expect(wrapper.find('#accessibility-page')).toBeTruthy();
-    expect(wrapper.find('#contact-us')).toBeTruthy();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

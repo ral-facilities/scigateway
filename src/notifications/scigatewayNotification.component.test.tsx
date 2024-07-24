@@ -1,92 +1,86 @@
 import React from 'react';
-import { createShallow, createMount } from '@material-ui/core/test-utils';
-import {
-  NotificationWithoutStyles,
-  NotificationWithStyles,
-} from './scigatewayNotification.component';
-import { Action } from 'redux';
+import Notification from './scigatewayNotification.component';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { buildTheme } from '../theming';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-
-const theme = buildTheme(false);
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 function createScigatewayNotification(
   severity: string,
   message: string
 ): React.ReactElement {
-  const props = {
-    classes: {
-      root: 'root-class',
-      successIcon: 'successIcon-class',
-      warningIcon: 'warningIcon-class',
-      errorIcon: 'errorIcon-class',
-      button: 'button-class',
-      deleteIcon: 'deleteIcon-class',
-    },
-  };
-
   return (
-    <MuiThemeProvider theme={theme}>
-      <NotificationWithoutStyles
-        message={message}
-        severity={severity}
-        index={0}
-        dismissNotification={(): Action => ({ type: 'test' })}
-        {...props}
-      />
-    </MuiThemeProvider>
+    <Notification
+      message={message}
+      severity={severity}
+      index={0}
+      dismissNotification={jest.fn()}
+    />
   );
 }
 
 describe('Scigateway Notification component', () => {
-  let shallow;
-  let mount;
-
-  beforeEach(() => {
-    shallow = createShallow({ untilSelector: 'div' });
-    mount = createMount();
-  });
-
-  afterEach(() => {
-    mount.cleanUp();
-  });
+  function Wrapper({
+    children,
+  }: {
+    children: React.ReactElement;
+  }): JSX.Element {
+    return (
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>
+      </StyledEngineProvider>
+    );
+  }
 
   it('Scigateway Notification success message renders correctly', () => {
-    const wrapper = shallow(
-      createScigatewayNotification('success', 'success message')
+    const { asFragment } = render(
+      createScigatewayNotification('success', 'success message'),
+      { wrapper: Wrapper }
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('Scigateway Notification warning message renders correctly', () => {
-    const wrapper = shallow(
-      createScigatewayNotification('warning', 'warning message')
+    const { asFragment } = render(
+      createScigatewayNotification('warning', 'warning message'),
+      { wrapper: Wrapper }
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('Scigateway Notification error message renders correctly', () => {
-    const wrapper = shallow(
-      createScigatewayNotification('error', 'error message')
+    const { asFragment } = render(
+      createScigatewayNotification('error', 'error message'),
+      { wrapper: Wrapper }
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('an action is fired when Scigateway Notification button is clicked', () => {
-    const mockDismissFn = jest.fn();
+  it('Scigateway Notification information message renders correctly', () => {
+    const { asFragment } = render(
+      createScigatewayNotification('information', 'information message'),
+      { wrapper: Wrapper }
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
 
-    const wrapper = mount(
-      <MuiThemeProvider theme={theme}>
-        <NotificationWithStyles
-          message={'warning message'}
-          severity={'warning'}
-          index={0}
-          dismissNotification={mockDismissFn}
-        />
-      </MuiThemeProvider>
+  it('an action is fired when Scigateway Notification button is clicked', async () => {
+    const mockDismissFn = jest.fn();
+    const user = userEvent.setup();
+
+    render(
+      <Notification
+        message="warning message"
+        severity="warning"
+        index={0}
+        dismissNotification={mockDismissFn}
+      />,
+      { wrapper: Wrapper }
     );
 
-    wrapper.find('button').simulate('click');
+    await user.click(
+      screen.getByRole('button', { name: 'Dismiss notification' })
+    );
 
     expect(mockDismissFn.mock.calls.length).toEqual(1);
   });

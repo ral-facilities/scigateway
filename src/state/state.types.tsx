@@ -14,6 +14,7 @@ export interface Plugin {
   name: string;
   src: string;
   enable: boolean;
+  unauthorised?: boolean;
   location: 'main' | 'left' | 'right';
 }
 

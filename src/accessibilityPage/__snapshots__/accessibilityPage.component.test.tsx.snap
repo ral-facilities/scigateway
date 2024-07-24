@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accessibility page component should render correctly and display contact us component 1`] = `
+<DocumentFragment>
+  <div
+    class="css-18rbhl5"
+    id="accessibility-page"
+  >
+    <h3
+      class="MuiTypography-root MuiTypography-h3 css-1b5h65s-MuiTypography-root"
+    >
+      accessibility-page.title
+    </h3>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        accessibility-page.domains-list-text
+      </p>
+      <ul
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <li>
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+            href="accessibility-page.domains-list0"
+          >
+            accessibility-page.domains-list0
+          </a>
+        </li>
+        <li>
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+            href="accessibility-page.domains-list1"
+          >
+            accessibility-page.domains-list1
+          </a>
+        </li>
+      </ul>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        accessibility-page.website-developed-by
+      </p>
+    </div>
+    <h4
+      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+    >
+      accessibility-page.how-accessible-this-website-is
+    </h4>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        accessibility-page.how-accessible-this-website-is-text
+      </p>
+      <ul
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <li>
+          accessibility-page.accessibile-parts-of-datagateway-list0
+        </li>
+        <li>
+          accessibility-page.accessibile-parts-of-datagateway-list1
+        </li>
+      </ul>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+    >
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+        href="accessibility-page.advice-on-how-to-make-device-more-accessible-link"
+      >
+        AbilityNet
+      </a>
+      has advice on making your device easier to use if you have a disability.
+    </p>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        accessibility-page.non-accessibile-parts-of-datagateway-text
+      </p>
+      <ul
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <li>
+          accessibility-page.non-accessibile-parts-of-datagateway-list0
+        </li>
+        <li>
+          accessibility-page.non-accessibile-parts-of-datagateway-list1
+        </li>
+      </ul>
+    </div>
+    <h4
+      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+    >
+      accessibility-page.contact-us-about-accessibility
+    </h4>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        accessibility-page.contact-us-about-accessibility-text
+      </p>
+      <div
+        class="css-18rbhl5"
+        id="contact-us"
+      >
+        <div
+          id="contact-info"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+              href="mailto:accessibility-page.contact-info"
+            >
+              accessibility-page.contact-info
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <h4
+      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+    >
+      accessibility-page.enforcement-procedure
+    </h4>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint,
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+          href="accessibility-page.enforcement-procedure-link"
+        >
+          contact the Equality Advisory and Support Service (EASS)
+        </a>
+      </p>
+    </div>
+    <h4
+      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+    >
+      accessibility-page.technical-information-about-this-website-accessibility
+    </h4>
+    <p
+      class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+    >
+      accessibility-page.technical-information-about-this-website-accessibility-text
+    </p>
+    <h4
+      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+    >
+      accessibility-page.compliance-status
+    </h4>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        This website is partially compliant with the 
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+          href="accessibility-page.compliance-status-link"
+        >
+          Web Content Accessibility Guidelines version 2.1
+        </a>
+         AA standard, due to the non-compliances and exemptions listed below.
+      </p>
+    </div>
+    <h4
+      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+    >
+      accessibility-page.non-accessible-content
+    </h4>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <em>
+           accessibility-page.non-accessible-content-text
+        </em>
+      </p>
+    </div>
+    <h5
+      class="MuiTypography-root MuiTypography-h5 css-ch59xs-MuiTypography-root"
+    >
+      accessibility-page.non-compliance-with-the-accessibility-regulations
+    </h5>
+    <div
+      class="css-9c2a3a"
+    >
+      <ul
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <li>
+          accessibility-page.non-compliance-with-the-accessibility-regulations-list0
+        </li>
+        <li>
+          accessibility-page.non-compliance-with-the-accessibility-regulations-list1
+        </li>
+      </ul>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1hd3sn1-MuiTypography-root"
+      >
+        accessibility-page.non-compliance-with-the-accessibility-regulations-text
+      </p>
+    </div>
+    <h5
+      class="MuiTypography-root MuiTypography-h5 css-ch59xs-MuiTypography-root"
+    >
+      accessibility-page.disproportionate-burden.title
+    </h5>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1apcfzz-MuiTypography-root"
+    >
+      accessibility-page.disproportionate-burden.table-view
+    </h6>
+    <div
+      class="css-9c2a3a"
+    >
+      <ul
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <li>
+          accessibility-page.disproportionate-burden.table-view-list0
+        </li>
+        <li>
+          accessibility-page.disproportionate-burden.table-view-list1
+        </li>
+      </ul>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-ldi3b6-MuiTypography-root"
+    >
+      accessibility-page.disproportionate-burden.card-view
+    </h6>
+    <div
+      class="css-9c2a3a"
+    >
+      <ul
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        <li>
+          accessibility-page.disproportionate-burden.card-view-list0
+        </li>
+        <li>
+          accessibility-page.disproportionate-burden.card-view-list1
+        </li>
+      </ul>
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        We have assessed the time it would take to resolve these issues with table view, and card view. We believe that doing so now would be a 
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+          href="accessibility-page.disproportionate-burden.link"
+        >
+          disproportionate burden 
+        </a>
+        within the meaning of the accessibility regulations. We will make another assessment before the next release, likely to be in September 2022.
+      </p>
+    </div>
+    <h5
+      class="MuiTypography-root MuiTypography-h5 css-ch59xs-MuiTypography-root"
+    >
+      accessibility-page.preparation-of-this-accessibility-statement
+    </h5>
+    <div
+      class="css-9c2a3a"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      >
+        This statement was prepared on the 
+        <strong>
+          14th of February 2022
+        </strong>
+         It was last reviewed on the 
+        <strong>
+          11th of March 2022
+        </strong>
+        . 
+        <br />
+         This website was last tested on 
+        <strong>
+           30th of November 2021 
+        </strong>
+        . The test was carried out by the 
+        <strong>
+           Data & Software Engineering Group. 
+        </strong>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

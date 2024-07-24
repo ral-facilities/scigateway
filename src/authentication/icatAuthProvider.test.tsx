@@ -1,6 +1,5 @@
 import mockAxios from 'axios';
 import ICATAuthProvider from './icatAuthProvider';
-import ReactGA from 'react-ga';
 import parseJwt from './parseJwt';
 import { BroadcastSignOutType } from '../state/scigateway.types';
 
@@ -31,17 +30,12 @@ describe('ICAT auth provider', () => {
       'http://localhost:8000',
       true
     );
-    ReactGA.initialize('test id', { testMode: true, titleCase: false });
     (parseJwt as jest.Mock).mockImplementation(
       (token) =>
         `{"sessionId": "${token}", "username": "${token} username", "userIsAdmin": true}`
     );
 
     document.dispatchEvent = jest.fn();
-  });
-
-  afterEach(() => {
-    ReactGA.testModeAPI.resetCalls();
   });
 
   it('should set the mnemonic to empty string if none is provided (after autologin)', async () => {
@@ -136,13 +130,6 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
     expect(icatAuthProvider.user).not.toBeNull();
     expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Successfully logged in via JWT',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
   });
 
   it('should log the user out for an invalid login attempt', async () => {
@@ -163,13 +150,6 @@ describe('ICAT auth provider', () => {
 
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Failed to log in via JWT',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
   });
 
   it('should attempt to autologin via anon authenticator when initialised', async () => {
@@ -202,13 +182,6 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.user).not.toBeNull();
     expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
     expect(icatAuthProvider.isAdmin()).toBeTruthy();
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Successfully logged in via JWT',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
 
     expect(icatAuthProvider.mnemonic).toBe('');
   });
@@ -243,13 +216,6 @@ describe('ICAT auth provider', () => {
 
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
     expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
-
-    expect(ReactGA.testModeAPI.calls[1][0]).toEqual('send');
-    expect(ReactGA.testModeAPI.calls[1][1]).toEqual({
-      eventAction: 'Failed to log in via JWT',
-      eventCategory: 'Login',
-      hitType: 'event',
-    });
 
     expect(icatAuthProvider.mnemonic).toBe('');
   });
