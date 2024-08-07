@@ -61,6 +61,7 @@ export default defineConfig(({ mode }) => {
         exclude: [
           'public/*',
           'server/*',
+          'cypress/*',
           '__mocks__/axios.ts',
           'micro-frontend-tools/serve-plugins.js',
           '.eslintrc.cjs',
