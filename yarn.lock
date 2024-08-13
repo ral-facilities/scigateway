@@ -3322,16 +3322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 20.11.5
-  resolution: "@types/node@npm:20.11.5"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10/9f31c471047d7b3e240ce7b77ff29b0d15e83be7e3feafb3d0b0d0931122b438b1eefa302a5a2e1e9849914ff3fd76aafbd8ccb372efb1331ba048da63bce6f8
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:20.14.0":
+"@types/node@npm:*, @types/node@npm:20.14.0":
   version: 20.14.0
   resolution: "@types/node@npm:20.14.0"
   dependencies:
@@ -4627,14 +4618,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.6.2":
-  version: 1.6.2
-  resolution: "axios@npm:1.6.2"
+"axios@npm:1.7.4, axios@npm:^1.6.1":
+  version: 1.7.4
+  resolution: "axios@npm:1.7.4"
   dependencies:
-    follow-redirects: "npm:^1.15.0"
+    follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/612bc93f8f738a518e7c5f9de9cc782bcd36aac6bae279160ef6a10260378e21c1786520eab3336898e3d66e0839ebdf739f327fb6d0431baa4d3235703a7652
+  checksum: 10/7a1429be1e3d0c2e1b96d4bba4d113efbfabc7c724bed107beb535c782c7bea447ff634886b0c7c43395a264d085450d009eb1154b5f38a8bae49d469fdcbc61
   languageName: node
   linkType: hard
 
@@ -4645,17 +4636,6 @@ __metadata:
     follow-redirects: "npm:^1.14.9"
     form-data: "npm:^4.0.0"
   checksum: 10/2efaf18dd0805f7bc772882bc86f004abd92d51007b54c5081f74db0d08ce3593e2c010261896d25a14318eeaa2e966fd825e34f810e8a3339dc64b9d177cf70
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.6.1":
-  version: 1.6.5
-  resolution: "axios@npm:1.6.5"
-  dependencies:
-    follow-redirects: "npm:^1.15.4"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/465489d9bf8f039b9adbc8103b6299d6a5e26de77b27f0e4173d814d39bca8f4b4659d94e09ee40461aedccd8c2452f1e2b3edace1c9f81220060d2974ff9dc7
   languageName: node
   linkType: hard
 
@@ -4912,26 +4892,6 @@ __metadata:
   version: 3.7.2
   resolution: "bluebird@npm:3.7.2"
   checksum: 10/007c7bad22c5d799c8dd49c85b47d012a1fe3045be57447721e6afbd1d5be43237af1db62e26cb9b0d9ba812d2e4ca3bac82f6d7e016b6b88de06ee25ceb96e7
-  languageName: node
-  linkType: hard
-
-"body-parser@npm:1.20.1":
-  version: 1.20.1
-  resolution: "body-parser@npm:1.20.1"
-  dependencies:
-    bytes: "npm:3.1.2"
-    content-type: "npm:~1.0.4"
-    debug: "npm:2.6.9"
-    depd: "npm:2.0.0"
-    destroy: "npm:1.2.0"
-    http-errors: "npm:2.0.0"
-    iconv-lite: "npm:0.4.24"
-    on-finished: "npm:2.4.1"
-    qs: "npm:6.11.0"
-    raw-body: "npm:2.5.1"
-    type-is: "npm:~1.6.18"
-    unpipe: "npm:1.0.0"
-  checksum: 10/5f8d128022a2fb8b6e7990d30878a0182f300b70e46b3f9d358a9433ad6275f0de46add6d63206da3637c01c3b38b6111a7480f7e7ac2e9f7b989f6133fe5510
   languageName: node
   linkType: hard
 
@@ -5727,14 +5687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"content-type@npm:~1.0.4":
-  version: 1.0.4
-  resolution: "content-type@npm:1.0.4"
-  checksum: 10/5ea85c5293475c0cdf2f84e2c71f0519ced565840fb8cbda35997cb67cc45b879d5b9dbd37760c4041ca7415a3687f8a5f2f87b556b2aaefa49c0f3436a346d4
-  languageName: node
-  linkType: hard
-
-"content-type@npm:~1.0.5":
+"content-type@npm:~1.0.4, content-type@npm:~1.0.5":
   version: 1.0.5
   resolution: "content-type@npm:1.0.5"
   checksum: 10/585847d98dc7fb8035c02ae2cb76c7a9bd7b25f84c447e5ed55c45c2175e83617c8813871b4ee22f368126af6b2b167df655829007b21aa10302873ea9c62662
@@ -5769,13 +5722,6 @@ __metadata:
   version: 0.4.0
   resolution: "cookie@npm:0.4.0"
   checksum: 10/494314fb0edfc3262e7809ba184829f3dea798800bf81c3e6ca5185083f75ba10fe37ee32a2aa5a4cd79ea1abcc1452ec47d331a4e6beaceaa30b8e6b3ec7636
-  languageName: node
-  linkType: hard
-
-"cookie@npm:0.5.0":
-  version: 0.5.0
-  resolution: "cookie@npm:0.5.0"
-  checksum: 10/aae7911ddc5f444a9025fbd979ad1b5d60191011339bce48e555cb83343d0f98b865ff5c4d71fecdfb8555a5cafdc65632f6fce172f32aaf6936830a883a0380
   languageName: node
   linkType: hard
 
@@ -7585,7 +7531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.19.2":
+"express@npm:4.19.2, express@npm:^4.17.3":
   version: 4.19.2
   resolution: "express@npm:4.19.2"
   dependencies:
@@ -7621,45 +7567,6 @@ __metadata:
     utils-merge: "npm:1.0.1"
     vary: "npm:~1.1.2"
   checksum: 10/3fcd792536f802c059789ef48db3851b87e78fba103423e524144d79af37da7952a2b8d4e1a007f423329c7377d686d9476ac42e7d9ea413b80345d495e30a3a
-  languageName: node
-  linkType: hard
-
-"express@npm:^4.17.3":
-  version: 4.18.2
-  resolution: "express@npm:4.18.2"
-  dependencies:
-    accepts: "npm:~1.3.8"
-    array-flatten: "npm:1.1.1"
-    body-parser: "npm:1.20.1"
-    content-disposition: "npm:0.5.4"
-    content-type: "npm:~1.0.4"
-    cookie: "npm:0.5.0"
-    cookie-signature: "npm:1.0.6"
-    debug: "npm:2.6.9"
-    depd: "npm:2.0.0"
-    encodeurl: "npm:~1.0.2"
-    escape-html: "npm:~1.0.3"
-    etag: "npm:~1.8.1"
-    finalhandler: "npm:1.2.0"
-    fresh: "npm:0.5.2"
-    http-errors: "npm:2.0.0"
-    merge-descriptors: "npm:1.0.1"
-    methods: "npm:~1.1.2"
-    on-finished: "npm:2.4.1"
-    parseurl: "npm:~1.3.3"
-    path-to-regexp: "npm:0.1.7"
-    proxy-addr: "npm:~2.0.7"
-    qs: "npm:6.11.0"
-    range-parser: "npm:~1.2.1"
-    safe-buffer: "npm:5.2.1"
-    send: "npm:0.18.0"
-    serve-static: "npm:1.15.0"
-    setprototypeof: "npm:1.2.0"
-    statuses: "npm:2.0.1"
-    type-is: "npm:~1.6.18"
-    utils-merge: "npm:1.0.1"
-    vary: "npm:~1.1.2"
-  checksum: 10/869ae89ed6ff4bed7b373079dc58e5dddcf2915a2669b36037ff78c99d675ae930e5fe052b35c24f56557d28a023bb1cbe3e2f2fb87eaab96a1cedd7e597809d
   languageName: node
   linkType: hard
 
@@ -7928,7 +7835,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.0, follow-redirects@npm:^1.15.4":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.6":
   version: 1.15.6
   resolution: "follow-redirects@npm:1.15.6"
   peerDependenciesMeta:
@@ -12902,18 +12809,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raw-body@npm:2.5.1":
-  version: 2.5.1
-  resolution: "raw-body@npm:2.5.1"
-  dependencies:
-    bytes: "npm:3.1.2"
-    http-errors: "npm:2.0.0"
-    iconv-lite: "npm:0.4.24"
-    unpipe: "npm:1.0.0"
-  checksum: 10/280bedc12db3490ecd06f740bdcf66093a07535374b51331242382c0e130bb273ebb611b7bc4cba1b4b4e016cc7b1f4b05a6df885a6af39c2bc3b94c02291c84
-  languageName: node
-  linkType: hard
-
 "raw-body@npm:2.5.2":
   version: 2.5.2
   resolution: "raw-body@npm:2.5.2"
@@ -13911,7 +13806,7 @@ __metadata:
     "@types/redux-mock-store": "npm:1.0.2"
     "@typescript-eslint/eslint-plugin": "npm:7.0.2"
     "@typescript-eslint/parser": "npm:7.0.2"
-    axios: "npm:1.6.2"
+    axios: "npm:1.7.4"
     axios-mock-adapter: "npm:1.22.0"
     concurrently: "npm:8.2.0"
     connected-react-router: "npm:6.9.1"
