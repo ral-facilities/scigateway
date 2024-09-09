@@ -24,7 +24,7 @@ COPY docker/settings.json public/settings.json
 RUN yarn build
 
 # Run stage
-FROM httpd:2.4.59-alpine3.20@sha256:554f25b8496f360a58febaaa5df9effb8e037cc1b70b27d40b7353a85e8edbf0
+FROM httpd:2.4.62-alpine3.20@sha256:66c49302c02430619abb84240a438bcfc083015661009fcaaeaac931450f62cd
 
 WORKDIR /usr/local/apache2/htdocs
 
