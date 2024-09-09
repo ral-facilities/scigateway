@@ -1,6 +1,6 @@
 {
   "name": "scigateway",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "private": true,
   "resolutions": {
     "@types/react": "18.0.33",
@@ -20,7 +20,7 @@
     "@types/react-redux-toastr": "7.6.2",
     "@types/react-router-dom": "5.3.3",
     "@types/redux-logger": "3.0.8",
-    "axios": "1.6.1",
+    "axios": "1.7.4",
     "connected-react-router": "6.9.3",
     "cookie-parser": "1.4.5",
     "custom-event-polyfill": "1.0.7",
