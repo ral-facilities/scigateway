@@ -4,6 +4,7 @@ exports[`Help page component > should back to top elements next to each header 1
 <DocumentFragment>
   <div
     class="css-18rbhl5"
+    id="help-page"
   >
     <h3
       class="MuiTypography-root MuiTypography-h3 css-nxx1w0-MuiTypography-root"
@@ -134,6 +135,7 @@ exports[`Help page component > should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="css-18rbhl5"
+    id="help-page"
   >
     <h3
       class="MuiTypography-root MuiTypography-h3 css-nxx1w0-MuiTypography-root"
