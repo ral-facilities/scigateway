@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Navigation drawer component Navigation drawer renders correctly when closed 1`] = `
+exports[`Navigation drawer component > Navigation drawer renders correctly when closed 1`] = `
 <DocumentFragment>
   <div
     class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
@@ -18,7 +18,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
           <img
             alt="alternative-text"
             class="css-1taxr2z"
-            src="stfc-logo-blue-text.png"
+            src="/src/images/stfc-logo-blue-text.png"
           />
         </div>
       </div>
@@ -27,7 +27,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when cl
 </DocumentFragment>
 `;
 
-exports[`Navigation drawer component Navigation drawer renders correctly when open 1`] = `
+exports[`Navigation drawer component > Navigation drawer renders correctly when open 1`] = `
 <DocumentFragment>
   <div
     class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
@@ -44,7 +44,7 @@ exports[`Navigation drawer component Navigation drawer renders correctly when op
           <img
             alt="alternative-text"
             class="css-1taxr2z"
-            src="stfc-logo-blue-text.png"
+            src="/src/images/stfc-logo-blue-text.png"
           />
         </div>
       </div>

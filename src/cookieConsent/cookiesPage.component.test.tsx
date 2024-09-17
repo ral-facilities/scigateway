@@ -12,7 +12,7 @@ import { TOptionsBase } from 'i18next';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('react-i18next', () => ({
+vi.mock('react-i18next', () => ({
   useTranslation: () => {
     return {
       t: (key: string, options: TOptionsBase) =>
@@ -34,8 +34,8 @@ describe('Cookies page component', () => {
     };
     store = mockStore(state);
 
-    Cookies.set = jest.fn();
-    Cookies.remove = jest.fn();
+    Cookies.set = vi.fn();
+    Cookies.remove = vi.fn();
   });
 
   const theme = buildTheme(false);
@@ -74,7 +74,7 @@ describe('Cookies page component', () => {
     );
 
     expect(Cookies.set).toHaveBeenCalled();
-    const mockCookies = (Cookies.set as jest.Mock).mock;
+    const mockCookies = vi.mocked(Cookies.set).mock;
     const callArguments = mockCookies.calls[0];
     expect(callArguments[0]).toEqual('cookie-consent');
     expect(callArguments[1]).toEqual(JSON.stringify({ analytics: true }));
@@ -85,7 +85,7 @@ describe('Cookies page component', () => {
 
   it('should remove cookies when user revokes consent', async () => {
     const user = userEvent.setup();
-    Cookies.get = jest
+    Cookies.get = vi
       .fn()
       .mockImplementationOnce((name) =>
         name === 'cookie-consent' ? JSON.stringify({ analytics: true }) : null
@@ -106,13 +106,13 @@ describe('Cookies page component', () => {
     );
 
     expect(Cookies.set).toHaveBeenCalled();
-    const mockCookiesSet = (Cookies.set as jest.Mock).mock;
+    const mockCookiesSet = vi.mocked(Cookies.set).mock;
     const setCallArguments = mockCookiesSet.calls[0];
     expect(setCallArguments[0]).toEqual('cookie-consent');
     expect(setCallArguments[1]).toEqual(JSON.stringify({ analytics: false }));
 
     expect(Cookies.remove).toHaveBeenCalledTimes(2);
-    const mockCookiesRemove = (Cookies.remove as jest.Mock).mock;
+    const mockCookiesRemove = vi.mocked(Cookies.remove).mock;
     expect(mockCookiesRemove.calls[0][0]).toEqual('_ga');
     expect(mockCookiesRemove.calls[1][0]).toEqual('_gid');
 

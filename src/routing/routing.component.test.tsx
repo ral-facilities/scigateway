@@ -13,18 +13,19 @@ import { buildTheme } from '../theming';
 import { act, render } from '@testing-library/react';
 import { Router } from 'react-router';
 
-jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
-jest.mock(
-  '../maintenancePage/maintenancePage.component',
-  () => () => 'Mocked MaintenancePage'
-);
-jest.mock('../preloader/preloader.component', () => ({
+vi.mock('../adminPage/adminPage.component', () => ({
+  default: () => 'Mocked AdminPage',
+}));
+vi.mock('../maintenancePage/maintenancePage.component', () => ({
+  default: () => 'Mocked MaintenancePage',
+}));
+vi.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
 }));
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Routing component', () => {
@@ -61,12 +62,11 @@ describe('Routing component', () => {
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
   });
 
   it('renders component with no plugin routes', () => {
@@ -172,7 +172,7 @@ describe('Routing component', () => {
 
   it('renders a route for maintenance page when site is under maintenance and user is not admin', () => {
     const testAuthProvider = new TestAuthProvider('logged in');
-    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.maintenance = { show: true, message: 'test' };
@@ -217,15 +217,15 @@ describe('Routing component', () => {
   });
 
   it('redirects to the homepage if navigating to login page while logged in', () => {
-    state.scigateway.authorisation.provider.isLoggedIn = jest
+    state.scigateway.authorisation.provider.isLoggedIn = vi
       .fn()
       .mockImplementationOnce(() => true);
 
-    state.scigateway.authorisation.provider.autoLogin = jest
+    state.scigateway.authorisation.provider.autoLogin = vi
       .fn()
       .mockImplementationOnce(() => Promise.reject());
 
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementationOnce((name) =>
         name === 'autoLogin' ? 'false' : null
@@ -326,7 +326,7 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    (singleSpa.unloadApplication as jest.Mock).mockClear();
+    vi.mocked(singleSpa.unloadApplication).mockClear();
 
     window.dispatchEvent(
       new CustomEvent('single-spa:before-no-app-change', {
@@ -376,7 +376,7 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    (singleSpa.unloadApplication as jest.Mock).mockClear();
+    vi.mocked(singleSpa.unloadApplication).mockClear();
 
     window.dispatchEvent(
       new CustomEvent('single-spa:before-no-app-change', {
@@ -392,7 +392,7 @@ describe('Routing component', () => {
   });
 
   it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
     state.scigateway.plugins = [
@@ -406,23 +406,25 @@ describe('Routing component', () => {
     ];
     state.router.location = createLocation('/test_link');
 
-    jest.spyOn(document, 'getElementById').mockImplementation(() => {
+    vi.spyOn(document, 'getElementById').mockImplementation(() => {
       return document.createElement('div');
     });
 
-    const clearIntervalSpy = jest.spyOn(window, 'clearInterval');
+    const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
 
     render(<Routing />, { wrapper: Wrapper });
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
       'test_plugin_name'
     );
 
-    expect(clearIntervalSpy).toHaveBeenCalledWith(expect.any(Number));
+    // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
+    expect(clearIntervalSpy).toHaveBeenCalled();
 
     // restore clearInterval to avoid errors with it not being a function on unmount
     clearIntervalSpy.mockRestore();
+    vi.useRealTimers();
   });
 });

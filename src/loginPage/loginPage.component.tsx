@@ -327,7 +327,7 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
     .then((res) => {
       return res.data;
     })
-    .catch((err) => {
+    .catch(() => {
       log.error(
         'It is not possible to authenticate you at the moment. Please, try again later'
       );
