@@ -18,7 +18,9 @@ describe('Example component', () => {
 
   it('renders correctly', () => {
     // update the notification
-    state.scigateway.notifications = ['test notification'];
+    state.scigateway.notifications = [
+      { severity: 'warning', message: 'test notification' },
+    ];
 
     const { asFragment } = render(
       <ExampleComponent store={mockStore(state)} />

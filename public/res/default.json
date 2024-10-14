@@ -145,7 +145,7 @@
     "website-developed-by": "These sites are maintained by the Data Software and Engineering Group, in the Scientific Computing Department. ",
     "how-accessible-this-website-is": "How Accessible This Website Is ",
     "how-accessible-this-website-is-text": "We want as many people as possible to be able to use this website. For example, that means you should be able to: ",
-    "accessibile-parts-of-datagateway-list": [
+    "accessible-parts-of-list": [
       "listen to most of the website using a screen reader",
       "clearly see all components and text as the contrast has been checked against different types of colour-blindness in normal or high contrast modes (which includes protanopia, protanomaly, deuteranopia, deuteranomaly, tritanopia, tritanomaly, achromatopsia and achromatomaly) ",
       "navigate most of the website using just a keyboard  ",
@@ -153,8 +153,8 @@
     ],
     "advice-on-how-to-make-device-more-accessible": "<0>AbilityNet</0> has advice on making your device easier to use if you have a disability.",
     "advice-on-how-to-make-device-more-accessible-link": "https://mcmw.abilitynet.org.uk/",
-    "non-accessibile-parts-of-datagateway-text": "We know some parts of this website are not fully accessible:",
-    "non-accessibile-parts-of-datagateway-list": [
+    "non-accessible-parts-of-text": "We know some parts of this website are not fully accessible:",
+    "non-accessible-parts-of-list": [
       "the columns on table view cannot be resized using the keyboard",
       "pages sometimes have unreadable ARIA labels",
       "table view has aria-hidden elements that contain focusable elements and elements in the table with an ARIA role that require a parent are not contained by them ",

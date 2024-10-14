@@ -60,6 +60,7 @@ import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import NullAuthProvider from '../../authentication/nullAuthProvider';
 import { Step } from 'react-joyride';
 import ICATAuthProvider from '../../authentication/icatAuthProvider';
+import LDAPJWTAuthProvider from '../../authentication/ldapJWTAuthProvider';
 
 export const authState: AuthState = {
   failedToLogin: false,
@@ -363,6 +364,10 @@ export function handleAuthProviderUpdate(
     switch (payload.authProvider.split('.')[0]) {
       case 'jwt':
         provider = new JWTAuthProvider(payload.authUrl);
+        break;
+
+      case 'ldap-jwt':
+        provider = new LDAPJWTAuthProvider(payload.authUrl);
         break;
 
       case 'github':

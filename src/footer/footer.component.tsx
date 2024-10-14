@@ -11,8 +11,8 @@ import { Link as RouterLink } from 'react-router-dom';
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'absolute',
   bottom: 0,
-  paddingBottom: theme.footerPaddingBottom,
-  paddingTop: theme.footerPaddingTop,
+  paddingBottom: theme.spacing(1),
+  paddingTop: theme.spacing(1),
   width: '100%',
   height: theme.footerHeight,
   display: 'flex',
@@ -28,6 +28,9 @@ const RootDiv = styled('div')(({ theme }) => ({
     '&:active': {
       color: theme.colours.footerLink.active,
     },
+  },
+  '@media print': {
+    display: 'none',
   },
 }));
 

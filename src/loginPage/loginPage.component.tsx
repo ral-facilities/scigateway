@@ -16,7 +16,6 @@ import {
 } from '../state/actions/scigateway.actions';
 import { AppStrings, NotificationType } from '../state/scigateway.types';
 import { AuthState, ICATAuthenticator, StateType } from '../state/state.types';
-import { Location } from 'history';
 import {
   Box,
   FormControl,
@@ -90,7 +89,6 @@ const DividerWithText = (props: {
 interface LoginPageProps {
   auth: AuthState;
   res?: AppStrings;
-  location: Location;
 }
 
 interface LoginPageDispatchProps {
@@ -145,15 +143,21 @@ export const CredentialsLoginScreen = (
 
   const [t] = useTranslation();
 
+  const { verifyUsernameAndPassword, mnemonic } = props;
+
+  const login = React.useCallback(async () => {
+    return await verifyUsernameAndPassword(username, password, mnemonic);
+  }, [password, verifyUsernameAndPassword, mnemonic, username]);
+
   return (
     <RootDiv
-      onKeyPress={(e) => {
+      onKeyDown={(e) => {
         if (
           !props.auth.provider.redirectUrl &&
           e.key === 'Enter' &&
           isInputValid()
         ) {
-          props.verifyUsernameAndPassword(username, password, props.mnemonic);
+          login();
         }
       }}
     >
@@ -194,9 +198,7 @@ export const CredentialsLoginScreen = (
         color="primary"
         sx={buttonStyles}
         disabled={!isInputValid() || props.auth.loading}
-        onClick={() => {
-          props.verifyUsernameAndPassword(username, password, props.mnemonic);
-        }}
+        onClick={login}
       >
         <Typography
           color="inherit"
@@ -241,12 +243,18 @@ export const AnonLoginScreen = (
 ): React.ReactElement => {
   const [t] = useTranslation();
 
+  const { verifyUsernameAndPassword, mnemonic } = props;
+
+  const login = React.useCallback(async () => {
+    return await verifyUsernameAndPassword('', '', mnemonic);
+  }, [verifyUsernameAndPassword, mnemonic]);
+
   return (
     <RootDiv
       data-testid="anon-login-screen"
-      onKeyPress={(e) => {
+      onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          props.verifyUsernameAndPassword('', '', props.mnemonic);
+          login();
         }
       }}
     >
@@ -260,9 +268,7 @@ export const AnonLoginScreen = (
         variant="contained"
         color="primary"
         sx={buttonStyles}
-        onClick={() => {
-          props.verifyUsernameAndPassword('', '', props.mnemonic);
-        }}
+        onClick={login}
       >
         <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
           {t('login.login-button')}
@@ -351,7 +357,13 @@ export const LoginPageComponent = (
   const [mnemonic, setMnemonic] = useState<string | undefined>(
     props.auth.provider.mnemonic
   );
-  const location = useLocation();
+  const location = useLocation<{ referrer?: string } | undefined>();
+
+  const { verifyUsernameAndPassword } = props;
+
+  const login = React.useCallback(async () => {
+    return await verifyUsernameAndPassword('', location.search, mnemonic);
+  }, [location.search, verifyUsernameAndPassword, mnemonic]);
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
@@ -377,12 +389,12 @@ export const LoginPageComponent = (
   React.useEffect(() => {
     if (
       props.auth.provider.redirectUrl &&
-      props.location.search &&
+      location.search &&
       !props.auth.loading &&
       !props.auth.failedToLogin
     ) {
-      if (props.location.search) {
-        props.verifyUsernameAndPassword('', props.location.search, mnemonic);
+      if (location.search) {
+        login();
       }
     }
   });
@@ -488,7 +500,6 @@ export const LoginPageComponent = (
 
 const mapStateToProps = (state: StateType): LoginPageProps => ({
   auth: state.scigateway.authorisation,
-  location: state.router.location,
 });
 
 const mapDispatchToProps = (
