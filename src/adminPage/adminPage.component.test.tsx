@@ -145,6 +145,55 @@ describe('Admin page component', () => {
     ).toBeInTheDocument();
   });
 
+  it("falls back to 'maintenance' when adminPageDefaultTab is not provided", () => {
+    state.scigateway.adminPageDefaultTab = undefined;
+    history.replace('/admin');
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    // Assert that the `maintenance` tab is selected by default
+    expect(screen.getByRole('tab', { name: 'Maintenance' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
+  it("falls back to 'maintenance' when on an invalid route", () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+    state.scigateway.adminPageDefaultTab = 'maintenance';
+    history.replace('/admin/test');
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    // Assert that the `maintenance` tab is selected by default
+    expect(screen.getByRole('tab', { name: 'Maintenance' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
+  it("falls back to 'maintenance' when adminPageDefaultTab doesn't match any key in adminRoutes", () => {
+    state.scigateway.adminPageDefaultTab = 'nonexistentTab';
+    history.replace('/admin');
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    // Assert that the `maintenance` tab is selected by default
+    expect(screen.getByRole('tab', { name: 'Maintenance' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
   it('should return an empty object when given an empty plugins array', () => {
     const plugins = [];
     const result = getAdminPluginRoutes({ plugins });
