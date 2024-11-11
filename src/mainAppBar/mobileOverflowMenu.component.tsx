@@ -1,18 +1,18 @@
 import React from 'react';
 import {
+  Divider,
+  ListItemText,
   Menu,
   MenuItem,
-  ListItemText,
   MenuProps,
-  Divider,
 } from '@mui/material';
-import { SettingsMenuContent } from './settingsMenu.component';
+import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAdminRoutes } from '../routing/routing.component';
+import { toggleHelp } from '../state/actions/scigateway.actions';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { push } from 'connected-react-router';
-import { adminRoutes } from '../state/scigateway.types';
-import { toggleHelp } from '../state/actions/scigateway.actions';
+import { SettingsMenuContent } from './settingsMenu.component';
 
 interface MobileOverflowMenuProps extends MenuProps {
   onClose: () => void;
@@ -39,6 +39,9 @@ function MobileOverflowMenu({
     (state: StateType) => state.scigateway.adminPageDefaultTab
   );
 
+  const plugins = useSelector((state: StateType) => state.scigateway.plugins);
+  const adminRoutes = getAdminRoutes({ plugins });
+
   const dispatch = useDispatch();
 
   function navigateToHelpPage(): void {
@@ -46,7 +49,12 @@ function MobileOverflowMenu({
   }
 
   function navigateToAdminPage(): void {
-    dispatch(push(adminRoutes[adminPageDefaultTab ?? 'maintenance']));
+    const targetRoute =
+      adminPageDefaultTab && adminRoutes.hasOwnProperty(adminPageDefaultTab)
+        ? adminRoutes[adminPageDefaultTab]
+        : adminRoutes['maintenance'];
+
+    dispatch(push(targetRoute));
   }
 
   function toggleTutorial(): void {

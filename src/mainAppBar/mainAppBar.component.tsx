@@ -1,37 +1,36 @@
-import React, { useState } from 'react';
-import { Dispatch, Action } from 'redux';
-import { connect } from 'react-redux';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import HelpIcon from '@mui/icons-material/HelpOutline';
 import MenuIcon from '@mui/icons-material/Menu';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Box, styled, useMediaQuery } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Box, styled, useMediaQuery } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import { Theme, useTheme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import { push } from 'connected-react-router';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { Action, Dispatch } from 'redux';
+import NullAuthProvider from '../authentication/nullAuthProvider';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
+import NotificationBadgeComponent from '../notifications/notificationBadge.component';
 import {
-  toggleDrawer,
-  toggleHelp,
   loadDarkModePreference,
   loadHighContrastModePreference,
+  toggleDrawer,
+  toggleHelp,
 } from '../state/actions/scigateway.actions';
-import { AppStrings } from '../state/scigateway.types';
+import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import { push } from 'connected-react-router';
 import { getAppStrings, getString } from '../state/strings';
-import UserProfileComponent from './userProfile.component';
-import NotificationBadgeComponent from '../notifications/notificationBadge.component';
-import { PluginConfig } from '../state/scigateway.types';
-import { useLocation } from 'react-router-dom';
-import SettingsMenu from './settingsMenu.component';
 import MobileOverflowMenu from './mobileOverflowMenu.component';
-import { appBarIconButtonStyle, appBarMenuItemIconStyle } from './styles';
 import PageLinks from './pageLinks.component';
-import NullAuthProvider from '../authentication/nullAuthProvider';
+import SettingsMenu from './settingsMenu.component';
+import { appBarIconButtonStyle, appBarMenuItemIconStyle } from './styles';
+import UserProfileComponent from './userProfile.component';
 
 interface MainAppProps {
   drawerOpen: boolean;
@@ -47,7 +46,7 @@ interface MainAppProps {
   loading: boolean;
   logo?: string;
   homepageUrl?: string;
-  adminPageDefaultTab?: 'maintenance' | 'download';
+  adminPageDefaultTab?: string;
   pathname: string;
 }
 

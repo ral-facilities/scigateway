@@ -1,29 +1,29 @@
-import React from 'react';
+import { useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
+import { RouterLocation } from 'connected-react-router';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { StateType } from '../state/state.types';
+import * as singleSpa from 'single-spa';
+import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
+import AdminPage from '../adminPage/adminPage.component';
+import NullAuthProvider from '../authentication/nullAuthProvider';
+import CookiesPage from '../cookieConsent/cookiesPage.component';
+import HelpPage from '../helpPage/helpPage.component';
+import HomePage from '../homePage/homePage.component';
+import LoginPage from '../loginPage/loginPage.component';
+import LogoutPage from '../logoutPage/logoutPage.component';
+import MaintenancePage from '../maintenancePage/maintenancePage.component';
+import PageNotFound from '../pageNotFound/pageNotFound.component';
+import { Preloader } from '../preloader/preloader.component';
 import {
-  adminRoutes,
+  baseAdminRoutes,
   MaintenanceState,
   PluginConfig,
   scigatewayRoutes,
 } from '../state/scigateway.types';
-import { connect } from 'react-redux';
-import HomePage from '../homePage/homePage.component';
-import HelpPage from '../helpPage/helpPage.component';
-import LoginPage from '../loginPage/loginPage.component';
-import LogoutPage from '../logoutPage/logoutPage.component';
-import CookiesPage from '../cookieConsent/cookiesPage.component';
-import MaintenancePage from '../maintenancePage/maintenancePage.component';
-import AdminPage from '../adminPage/adminPage.component';
-import PageNotFound from '../pageNotFound/pageNotFound.component';
-import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
+import { StateType } from '../state/state.types';
 import withAuth, { usePrevious } from './authorisedRoute.component';
-import { Preloader } from '../preloader/preloader.component';
-import * as singleSpa from 'single-spa';
-import { useMediaQuery } from '@mui/material';
-import NullAuthProvider from '../authentication/nullAuthProvider';
-import { RouterLocation } from 'connected-react-router';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
@@ -68,6 +68,29 @@ const ContainerDiv = styled('div', {
   };
 });
 
+export const getAdminRoutes = (props: {
+  plugins: PluginConfig[];
+}): Record<string, string> => {
+  const { plugins } = props;
+  const newAdminRoutes: Record<string, string> = JSON.parse(
+    JSON.stringify(baseAdminRoutes)
+  );
+
+  // Note: Any nested paths under `/admin/path` are managed by the plugin itself and
+  // should not be included in the `newAdminRoutes` object. This ensures only top-level
+  // admin routes are added here, keeping the route structure consistent and preventing
+  // conflicts in routing.
+
+  plugins.forEach((plugin) => {
+    if (plugin.admin) {
+      const routeKey = plugin.link.split('/')[2];
+      newAdminRoutes[routeKey] = plugin.link;
+    }
+  });
+
+  return newAdminRoutes;
+};
+
 interface RoutingProps {
   plugins: PluginConfig[];
   location: RouterLocation<unknown>;
@@ -101,6 +124,7 @@ export const UnauthorisedPlugin = PluginPlaceHolder;
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
+  const adminRoutes = getAdminRoutes({ plugins: props.plugins });
   // only set to false if we're on a plugin route i.e. not a scigateway route
   const manuallyLoadedPluginRef = React.useRef(
     Object.values(scigatewayRoutes).includes(props.location.pathname) ||
@@ -137,7 +161,6 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       window.clearInterval(intervalId);
     };
   }, [props.loading, props.plugins, props.location]);
-
   React.useEffect(() => {
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount
