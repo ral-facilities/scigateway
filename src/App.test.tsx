@@ -1,11 +1,11 @@
+import { useMediaQuery } from '@mui/material';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import axios from 'axios';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App, { AppSansHoc } from './App';
-import { act, fireEvent, render, screen } from '@testing-library/react';
 import { flushPromises } from './setupTests';
-import axios from 'axios';
 import { RegisterRouteType } from './state/scigateway.types';
-import { useMediaQuery } from '@mui/material';
 
 jest.mock('./state/actions/loadMicroFrontends', () => ({
   init: jest.fn(() => Promise.resolve()),

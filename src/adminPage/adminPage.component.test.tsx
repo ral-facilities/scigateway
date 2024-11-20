@@ -1,19 +1,18 @@
-import React from 'react';
-import { createLocation, createMemoryHistory, History } from 'history';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { StateType } from '../state/state.types';
-import { PluginConfig } from '../state/scigateway.types';
-import configureStore from 'redux-mock-store';
-import AdminPage from './adminPage.component';
-import { Provider } from 'react-redux';
-import { buildTheme } from '../theming';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import { thunk } from 'redux-thunk';
-import { Router } from 'react-router';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { getPluginRoutes } from './adminPage.component';
+import { createLocation, createMemoryHistory, History } from 'history';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { PluginConfig } from '../state/scigateway.types';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import AdminPage, { getAdminPluginRoutes } from './adminPage.component';
 
 describe('Admin page component', () => {
   let mockStore;
@@ -50,9 +49,24 @@ describe('Admin page component', () => {
     );
   }
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render maintenance page correctly', () => {
-    history.replace('/admin/maintenance');
     state.scigateway.adminPageDefaultTab = 'download';
+    state.scigateway.plugins = [
+      ...state.scigateway.plugins,
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+    history.replace('/admin/maintenance');
 
     render(<AdminPage />, { wrapper: Wrapper });
 
@@ -131,9 +145,58 @@ describe('Admin page component', () => {
     ).toBeInTheDocument();
   });
 
+  it("falls back to 'maintenance' when adminPageDefaultTab is not provided", () => {
+    state.scigateway.adminPageDefaultTab = undefined;
+    history.replace('/admin');
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    // Assert that the `maintenance` tab is selected by default
+    expect(screen.getByRole('tab', { name: 'Maintenance' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
+  it("falls back to 'maintenance' when on an invalid route", () => {
+    state.scigateway.plugins = [
+      {
+        order: 1,
+        plugin: 'datagateway-download',
+        link: '/admin/download',
+        section: 'Admin',
+        displayName: 'Admin Download',
+        admin: true,
+      },
+    ];
+    state.scigateway.adminPageDefaultTab = 'maintenance';
+    history.replace('/admin/test');
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    // Assert that the `maintenance` tab is selected by default
+    expect(screen.getByRole('tab', { name: 'Maintenance' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
+  it("falls back to 'maintenance' when adminPageDefaultTab doesn't match any key in adminRoutes", () => {
+    state.scigateway.adminPageDefaultTab = 'nonexistentTab';
+    history.replace('/admin');
+
+    render(<AdminPage />, { wrapper: Wrapper });
+
+    // Assert that the `maintenance` tab is selected by default
+    expect(screen.getByRole('tab', { name: 'Maintenance' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
   it('should return an empty object when given an empty plugins array', () => {
     const plugins = [];
-    const result = getPluginRoutes(plugins);
+    const result = getAdminPluginRoutes({ plugins });
     expect(result).toEqual({});
   });
 
@@ -164,9 +227,9 @@ describe('Admin page component', () => {
         order: 3,
       },
     ];
-    const result = getPluginRoutes(plugins, true); // Admin user
+    const result = getAdminPluginRoutes({ plugins }); // Admin user
     expect(result).toEqual({
-      PluginA: ['/admin/pluginA', '/admin/pluginA2'],
+      PluginA: { pluginA: '/admin/pluginA', pluginA2: '/admin/pluginA2' },
     });
   });
 
@@ -175,7 +238,7 @@ describe('Admin page component', () => {
       {
         plugin: 'PluginA',
         admin: true,
-        link: '/admin/pluginA',
+        link: '/admin/pluginALink',
         section: 'A',
         displayName: 'A',
         order: 1,
@@ -183,15 +246,17 @@ describe('Admin page component', () => {
       {
         plugin: 'PluginB',
         admin: false,
-        link: '/public/pluginB',
+        link: '/public/pluginBLink',
         section: 'B',
         displayName: 'B',
         order: 2,
       },
     ];
-    const result = getPluginRoutes(plugins, false); // Non-admin user
+    const result = getAdminPluginRoutes({ plugins }); // Non-admin user
     expect(result).toEqual({
-      PluginB: ['/public/pluginB'],
+      PluginA: {
+        pluginALink: '/admin/pluginALink',
+      },
     });
   });
 });
