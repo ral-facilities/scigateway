@@ -1,55 +1,70 @@
-import React, { ReactElement } from 'react';
-import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
+import { PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import { adminRoutes, PluginConfig } from '../state/scigateway.types';
 
-import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { useTranslation } from 'react-i18next';
 import { Link, Route, Switch, useLocation } from 'react-router-dom';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
-import { PluginPlaceHolder } from '../routing/routing.component';
+import {
+  getAdminRoutes,
+  PluginPlaceHolder,
+} from '../routing/routing.component';
 import MaintenancePage from './maintenancePage.component';
-import { useTranslation } from 'react-i18next';
 
 export interface AdminPageProps {
   plugins: PluginConfig[];
-  adminPageDefaultTab?: 'maintenance' | 'download';
+  adminPageDefaultTab?: string;
 }
 
-export const getPluginRoutes = (
-  plugins: PluginConfig[],
-  admin?: boolean
-): Record<string, string[]> => {
-  const pluginRoutes: Record<string, string[]> = {};
+export const getAdminPluginRoutes = (props: {
+  plugins: PluginConfig[];
+}): Record<string, Record<string, string>> => {
+  const { plugins } = props;
+  const pluginRoutes: Record<string, Record<string, string>> = {};
 
   plugins.forEach((p) => {
-    const isAdmin = admin ? p.admin : !p.admin;
     const basePluginLink = p.link.split('?')[0];
-    if (isAdmin) {
-      if (pluginRoutes[p.plugin]) {
-        pluginRoutes[p.plugin].push(basePluginLink);
-      } else {
-        pluginRoutes[p.plugin] = [basePluginLink];
+
+    if (p.admin) {
+      // Extract `plugin` and `tabName` values from the link
+      const tabName = basePluginLink.split('/')[2]; // Ignore `/admin` part, get the tabName as the third part
+
+      // Initialize nested structure for each plugin and tabName
+      if (!pluginRoutes[p.plugin]) {
+        pluginRoutes[p.plugin] = {};
+      }
+
+      // Only store the first route (or the most relevant one)
+      if (!pluginRoutes[p.plugin][tabName]) {
+        pluginRoutes[p.plugin][tabName] = basePluginLink;
       }
     }
   });
+
   return pluginRoutes;
 };
 
 const AdminPage = (props: AdminPageProps): ReactElement => {
-  const pluginRoutes = getPluginRoutes(props.plugins, true);
+  const pluginRoutes = getAdminPluginRoutes({ plugins: props.plugins });
+  const adminRoutes = getAdminRoutes({ plugins: props.plugins });
 
   const location = useLocation();
-
-  const [tabValue, setTabValue] = React.useState<'maintenance' | 'download'>(
-    // allows direct access to a tab when another tab is the default
-    (Object.keys(adminRoutes) as (keyof typeof adminRoutes)[]).find(
-      (key) => adminRoutes[key] === location.pathname
+  const [tabValue, setTabValue] = React.useState<string>(
+    (Object.keys(adminRoutes) as (keyof typeof adminRoutes)[]).find((key) =>
+      location.pathname.startsWith(adminRoutes[key])
     ) ??
-      props.adminPageDefaultTab ??
-      'maintenance'
+      (props.adminPageDefaultTab &&
+      Object.prototype.hasOwnProperty.call(
+        adminRoutes,
+        props.adminPageDefaultTab
+      )
+        ? props.adminPageDefaultTab
+        : 'maintenance')
   );
 
   const [t] = useTranslation();
@@ -76,22 +91,26 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
           setTabValue(newValue);
         }}
       >
-        <Tab
-          id="maintenance-tab"
-          aria-controls="maintenance-panel"
-          label="Maintenance"
-          value="maintenance"
-          component={Link}
-          to={adminRoutes.maintenance}
-        />
-        <Tab
-          id="download-tab"
-          label="Admin Download"
-          value="download"
-          aria-controls="download-panel"
-          component={Link}
-          to={adminRoutes.download}
-        />
+        {Object.entries(adminRoutes).map(([key, value]) => {
+          const pluginDetails = props.plugins.find(
+            (plugin) => plugin.link === value
+          );
+
+          return (
+            <Tab
+              key={key}
+              id={`${key}-tab`}
+              label={
+                pluginDetails?.displayName ||
+                `${key.charAt(0).toUpperCase() + key.slice(1)}`
+              }
+              value={key}
+              aria-controls={`${key}-panel`}
+              component={Link}
+              to={value}
+            />
+          );
+        })}
       </Tabs>
       <Switch>
         <Route exact path={adminRoutes.maintenance}>
@@ -105,20 +124,21 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
           </div>
         </Route>
 
-        {Object.entries(pluginRoutes).map(([key, value]) => {
-          return (
-            <Route exact key={key} path={value}>
+        {Object.entries(pluginRoutes).map(([pluginName, tabRoutes]) =>
+          Object.entries(tabRoutes).map(([tabName, route]) => (
+            <Route key={`${pluginName}-${tabName}}`} path={route}>
               <div
-                id="download-panel"
-                aria-labelledby="download-tab"
+                id={`${tabName}-panel`}
+                aria-labelledby={`${tabName}-tab`}
                 role="tabpanel"
-                hidden={tabValue !== 'download'}
+                hidden={tabValue !== tabName}
               >
-                <PluginPlaceHolder id={key} />
+                <PluginPlaceHolder id={pluginName} />
               </div>
             </Route>
-          );
-        })}
+          ))
+        )}
+
         <Route component={PageNotFound} />
       </Switch>
     </Paper>

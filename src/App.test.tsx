@@ -3,8 +3,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
 import App, { AppSansHoc } from './App';
-import { flushPromises } from './testUtils';
 import { RegisterRouteType } from './state/scigateway.types';
+import { flushPromises } from './testUtils';
 
 vi.mock('./state/actions/loadMicroFrontends', () => ({
   init: vi.fn(() => Promise.resolve()),

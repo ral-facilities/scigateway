@@ -7,8 +7,8 @@ import {
 } from '@mui/material';
 import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAdminRoutes } from '../routing/routing.component';
 import { toggleHelp } from '../state/actions/scigateway.actions';
-import { adminRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { SettingsMenuContent } from './settingsMenu.component';
@@ -38,6 +38,9 @@ function MobileOverflowMenu({
     (state: StateType) => state.scigateway.adminPageDefaultTab
   );
 
+  const plugins = useSelector((state: StateType) => state.scigateway.plugins);
+  const adminRoutes = getAdminRoutes({ plugins });
+
   const dispatch = useDispatch();
 
   function navigateToHelpPage(): void {
@@ -45,7 +48,13 @@ function MobileOverflowMenu({
   }
 
   function navigateToAdminPage(): void {
-    dispatch(push(adminRoutes[adminPageDefaultTab ?? 'maintenance']));
+    const targetRoute =
+      adminPageDefaultTab &&
+      Object.prototype.hasOwnProperty.call(adminRoutes, adminPageDefaultTab)
+        ? adminRoutes[adminPageDefaultTab]
+        : adminRoutes['maintenance'];
+
+    dispatch(push(targetRoute));
   }
 
   function toggleTutorial(): void {

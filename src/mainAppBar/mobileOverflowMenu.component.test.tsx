@@ -1,20 +1,20 @@
-import configureStore, { MockStore } from 'redux-mock-store';
-import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { push } from 'connected-react-router';
 import { createLocation, createMemoryHistory, History } from 'history';
 import * as React from 'react';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { buildTheme } from '../theming';
-import { render, screen } from '@testing-library/react';
-import MobileOverflowMenu from './mobileOverflowMenu.component';
+import configureStore, { MockStore } from 'redux-mock-store';
 import TestAuthProvider, {
   NonAdminTestAuthProvider,
 } from '../authentication/testAuthProvider';
-import userEvent from '@testing-library/user-event';
-import { push } from 'connected-react-router';
 import { toggleHelp } from '../state/actions/scigateway.actions';
+import { initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import MobileOverflowMenu from './mobileOverflowMenu.component';
 
 describe('Mobile overflow menu', () => {
   let testStore: MockStore;
@@ -99,6 +99,17 @@ describe('Mobile overflow menu', () => {
 
   it('redirects to Admin page when Admin button clicked (download is default)', async () => {
     state.scigateway.adminPageDefaultTab = 'download';
+    state.scigateway.plugins = [
+      ...state.scigateway.plugins,
+      {
+        section: 'Admin',
+        link: '/admin/download',
+        displayName: 'Admin Download',
+        admin: true,
+        order: 1,
+        plugin: 'plugin',
+      },
+    ];
     const user = userEvent.setup();
 
     render(<MobileOverflowMenu open onClose={vi.fn()} />, {

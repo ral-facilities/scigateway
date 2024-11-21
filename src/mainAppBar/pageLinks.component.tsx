@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { adminRoutes } from '../state/scigateway.types';
+import { getAdminRoutes } from '../routing/routing.component';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { appBarIconButtonStyle } from './styles';
@@ -19,6 +19,10 @@ function PageLinks(): JSX.Element {
   const adminPageDefaultTab = useSelector(
     (state: StateType) => state.scigateway.adminPageDefaultTab
   );
+
+  const plugins = useSelector((state: StateType) => state.scigateway.plugins);
+  const adminRoutes = getAdminRoutes({ plugins });
+
   const res = useSelector((state: StateType) =>
     getAppStrings(state, 'main-appbar')
   );
@@ -30,7 +34,13 @@ function PageLinks(): JSX.Element {
   }
 
   function navigateToAdminPage(): void {
-    dispatch(push(adminRoutes[adminPageDefaultTab ?? 'maintenance']));
+    const targetRoute =
+      adminPageDefaultTab &&
+      Object.prototype.hasOwnProperty.call(adminRoutes, adminPageDefaultTab)
+        ? adminRoutes[adminPageDefaultTab]
+        : adminRoutes['maintenance'];
+
+    dispatch(push(targetRoute));
   }
 
   return (
