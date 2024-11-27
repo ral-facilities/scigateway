@@ -40,7 +40,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
       </div>
     </div>
     <div
-      style="width: 100%;"
+      class="MuiBox-root css-1g9g0uu"
     >
       <header
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-1p9tt43-MuiPaper-root-MuiAppBar-root"
@@ -134,7 +134,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
       class="react-joyride"
     />
     <div
-      class="css-9peh1a"
+      class="css-1vufbvj"
     >
       <div
         id="dg-homepage"

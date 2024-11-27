@@ -5,6 +5,7 @@ import log from 'loglevel';
 import { Step } from 'react-joyride';
 import { Action, AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import * as singleSpa from 'single-spa';
 import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
@@ -18,15 +19,27 @@ import {
   ConfigureFeatureSwitchesType,
   ConfigureStringsPayload,
   ConfigureStringsType,
+  ContactUsAccessibilityFormUrlPayload,
+  CustomAdminPageDefaultTabPayload,
+  CustomAdminPageDefaultTabType,
+  CustomLogoPayload,
+  CustomLogoType,
+  CustomNavigationDrawerLogoPayload,
+  CustomNavigationDrawerLogoType,
+  CustomPrimaryColourPayload,
+  CustomPrimaryColourType,
   DismissNotificationPayload,
   DismissNotificationType,
   FeatureSwitches,
   FeatureSwitchesPayload,
+  HomepageUrlPayload,
   InitialiseAnalyticsType,
   InvalidateTokenType,
   LoadAuthProviderType,
   LoadDarkModePreferencePayload,
   LoadDarkModePreferenceType,
+  LoadHighContrastModePreferencePayload,
+  LoadHighContrastModePreferenceType,
   LoadMaintenanceStateType,
   LoadScheduledMaintenanceStateType,
   LoadedAuthType,
@@ -34,8 +47,11 @@ import {
   MaintenanceState,
   MaintenanceStatePayLoad,
   NotificationType,
+  RegisterContactUsAccessibilityFormUrlType,
   RegisterHomepageUrlType,
+  RegisterRouteType,
   RequestPluginRerenderType,
+  ResetAuthStateType,
   ScheduledMaintenanceState,
   ScheduledMaintenanceStatePayLoad,
   SendThemeOptionsPayload,
@@ -43,29 +59,13 @@ import {
   SignOutType,
   SiteLoadingPayload,
   SiteLoadingType,
-  HomepageUrlPayload,
-  CustomLogoPayload,
   ToggleDrawerType,
   ToggleHelpType,
-  RegisterRouteType,
+  baseAdminRoutes,
   scigatewayRoutes,
-  CustomLogoType,
-  LoadHighContrastModePreferenceType,
-  LoadHighContrastModePreferencePayload,
-  ResetAuthStateType,
-  CustomNavigationDrawerLogoPayload,
-  CustomNavigationDrawerLogoType,
-  CustomAdminPageDefaultTabPayload,
-  CustomAdminPageDefaultTabType,
-  RegisterContactUsAccessibilityFormUrlType,
-  ContactUsAccessibilityFormUrlPayload,
-  adminRoutes,
-  CustomPrimaryColourType,
-  CustomPrimaryColourPayload,
 } from '../scigateway.types';
 import { ActionType, LogoState, StateType, ThunkResult } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
-import * as singleSpa from 'single-spa';
 
 export const configureStrings = (
   appStrings: ApplicationStrings
@@ -124,7 +124,7 @@ export const customNavigationDrawerLogo = (
 });
 
 export const customAdminPageDefaultTab = (
-  adminPageDefaultTab: 'maintenance' | 'download'
+  adminPageDefaultTab: string
 ): ActionType<CustomAdminPageDefaultTabPayload> => ({
   type: CustomAdminPageDefaultTabType,
   payload: {
@@ -342,11 +342,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           dispatch(customPrimaryColour(settings['primaryColour']));
         }
 
-        if (
-          settings['adminPageDefaultTab'] &&
-          (settings['adminPageDefaultTab'].includes('maintenance') ||
-            settings['adminPageDefaultTab'].includes('download'))
-        ) {
+        if (settings['adminPageDefaultTab']) {
           dispatch(customAdminPageDefaultTab(settings['adminPageDefaultTab']));
         }
 
@@ -371,7 +367,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
             const currUrl = getState().router.location.pathname;
             if (
               !Object.values(scigatewayRoutes).includes(currUrl) &&
-              currUrl !== adminRoutes.maintenance &&
+              currUrl !== baseAdminRoutes.maintenance &&
               !getState().scigateway.plugins.find((p) =>
                 currUrl.startsWith(p.link.split('?')[0])
               )
@@ -507,8 +503,6 @@ export const verifyUsernameAndPassword = (
     await authProvider
       .logIn(username, password)
       .then(() => {
-        const referrer = getState().router.location.state?.referrer;
-
         if (newMnemonic)
           dispatch(
             loadAuthProvider(
@@ -518,12 +512,8 @@ export const verifyUsernameAndPassword = (
             )
           );
         dispatch(authorised());
-
-        // redirect the user to the original page they were trying to get to
-        // the referrer is added by the redirect in authorisedRoute.component.tsx
-        dispatch(push(referrer ?? '/'));
       })
-      .catch(() => {
+      .catch((e) => {
         // probably want to do something smarter with
         // err.response.status (e.g. 403 or 500)
         dispatch(unauthorised());

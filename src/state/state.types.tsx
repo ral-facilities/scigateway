@@ -1,14 +1,14 @@
-import { ThunkAction } from 'redux-thunk';
-import { AnyAction } from 'redux';
+import { RouterState } from 'connected-react-router';
 import { Step } from 'react-joyride';
+import { AnyAction } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import {
   ApplicationStrings,
-  PluginConfig,
   FeatureSwitches,
-  ScheduledMaintenanceState,
   MaintenanceState,
+  PluginConfig,
+  ScheduledMaintenanceState,
 } from './scigateway.types';
-import { RouterState } from 'connected-react-router';
 
 export interface Plugin {
   name: string;
@@ -41,7 +41,7 @@ export interface ScigatewayState {
   scheduledMaintenance: ScheduledMaintenanceState;
   maintenance: MaintenanceState;
   navigationDrawerLogo?: LogoState;
-  adminPageDefaultTab?: 'maintenance' | 'download';
+  adminPageDefaultTab?: string;
   contactUsAccessibilityFormUrl?: string;
   primaryColour?: string;
 }
