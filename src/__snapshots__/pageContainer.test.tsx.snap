@@ -287,7 +287,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                   style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
                 >
                   <div
-                    class="css-18pmme8"
+                    class="css-1ox020v"
                   />
                 </div>
               </div>
