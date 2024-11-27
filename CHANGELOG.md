@@ -1,5 +1,38 @@
 # Changelog
 
+## [v3.0.0](https://github.com/ral-facilities/scigateway/tree/v3.0.0) (2024-11-27)
+
+## What's Changed
+
+### Features
+
+* add darkBlue colour to theming  by @joshuadkitenge in https://github.com/ral-facilities/scigateway/pull/1375
+* Increase toast functionailty #355 by @joshuadkitenge in https://github.com/ral-facilities/scigateway/pull/1376
+* Print improvement for IMS by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1385
+* Change accessibility page variable to be more general #356 by @joshuadkitenge in https://github.com/ral-facilities/scigateway/pull/1377
+* Fix error colour inconsistency for IMS by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1393
+* Ims maintenance endpoints by @MatteoGuarnaccia5 in https://github.com/ral-facilities/scigateway/pull/1398
+* Add docker image push when tags pushed #1390 by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1420
+* Generate custom admin tabs from plugin routes #1418 by @joshuadkitenge in https://github.com/ral-facilities/scigateway/pull/1419
+* React 18 #1205 by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1275
+
+### Dependencies
+
+* Bump webpack from 5.76.1 to 5.94.0 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1408
+* Update dependency axios to v1.7.4 [SECURITY] by @renovate in https://github.com/ral-facilities/scigateway/pull/1407
+* Update Node.js to v20.17.0 by @renovate in https://github.com/ral-facilities/scigateway/pull/1411
+* Update httpd:2.4.59-alpine3.20 Docker image to http:2.4.62-alpine3.20 by @renovate in https://github.com/ral-facilities/scigateway/pull/1410
+* Update dependency express to v4.20.0 [SECURITY] by @renovate in https://github.com/ral-facilities/scigateway/pull/1414
+* Bump rollup from 2.79.1 to 2.79.2 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1416
+* Bump http-proxy-middleware from 2.0.6 to 2.0.7 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1417
+* Bump cross-spawn from 7.0.3 to 7.0.6 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1421
+
+## New Contributors
+
+* @MatteoGuarnaccia5 made their first contribution in https://github.com/ral-facilities/scigateway/pull/1398
+
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v2.0.0...v3.0.0
+
 ## [v2.0.0](https://github.com/ral-facilities/scigateway/tree/v2.0.0) (2024-07-24)
 
 ## What's Changed
