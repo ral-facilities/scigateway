@@ -1,25 +1,25 @@
-import React from 'react';
-import MainAppBarComponent from './mainAppBar.component';
-import { createLocation, createMemoryHistory, History } from 'history';
-import { StateType } from '../state/state.types';
-import { PluginConfig } from '../state/scigateway.types';
-import configureStore, { MockStore } from 'redux-mock-store';
+import { useMediaQuery } from '@mui/material';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { push } from 'connected-react-router';
-import { initialState } from '../state/reducers/scigateway.reducer';
+import { createLocation, createMemoryHistory, History } from 'history';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import configureStore, { MockStore } from 'redux-mock-store';
+import TestAuthProvider from '../authentication/testAuthProvider';
 import {
   loadDarkModePreference,
   loadHighContrastModePreference,
   toggleDrawer,
   toggleHelp,
 } from '../state/actions/scigateway.actions';
-import { Provider } from 'react-redux';
-import TestAuthProvider from '../authentication/testAuthProvider';
+import { initialState } from '../state/reducers/scigateway.reducer';
+import { PluginConfig } from '../state/scigateway.types';
+import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import { Router } from 'react-router-dom';
-import { render, screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { useMediaQuery } from '@mui/material';
+import MainAppBarComponent from './mainAppBar.component';
 
 jest.mock('@mui/material', () => ({
   __esmodule: true,
@@ -219,6 +219,17 @@ describe('Main app bar component', () => {
 
   it('redirects to Admin page when Admin button clicked (download is default)', async () => {
     state.scigateway.adminPageDefaultTab = 'download';
+    state.scigateway.plugins = [
+      ...state.scigateway.plugins,
+      {
+        section: 'Admin',
+        link: '/admin/download',
+        displayName: 'Admin Download',
+        admin: true,
+        order: 1,
+        plugin: 'plugin',
+      },
+    ];
     const user = userEvent.setup();
 
     render(<MainAppBarComponent />, { wrapper: Wrapper });

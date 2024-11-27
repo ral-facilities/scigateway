@@ -14,7 +14,7 @@ import { useLocation } from 'react-router';
 const isStartingUpOrLoading = (auth: AuthState): boolean =>
   auth.provider instanceof LoadingAuthProvider || auth.loading;
 
-function usePrevious<T>(value: T): T | undefined {
+export function usePrevious<T>(value: T): T | undefined {
   const ref = React.useRef<T>();
   React.useEffect(() => {
     ref.current = value; //assign the value of ref to the argument

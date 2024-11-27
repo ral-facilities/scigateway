@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App, { AppSansHoc } from './App';
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import { flushPromises } from './setupTests';
-import axios from 'axios';
-import { RegisterRouteType } from './state/scigateway.types';
 import { useMediaQuery } from '@mui/material';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import axios from 'axios';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App, { AppSansHoc } from './App';
+import { flushPromises } from './setupTests';
+import { RegisterRouteType } from './state/scigateway.types';
 
 jest.mock('./state/actions/loadMicroFrontends', () => ({
   init: jest.fn(() => Promise.resolve()),
@@ -36,8 +36,13 @@ describe('App', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<App useSuspense={false} />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const root = createRoot(div);
+    act(() => {
+      root.render(<App useSuspense={false} />);
+    });
+    act(() => {
+      root.unmount();
+    });
   });
 
   it('should show preloader when react-i18next is not ready', () => {
@@ -73,11 +78,14 @@ describe('App', () => {
         order: 0,
       },
     };
-    document.dispatchEvent(
-      new CustomEvent('scigateway', {
-        detail: registerRouteAction,
-      })
-    );
+
+    act(() => {
+      document.dispatchEvent(
+        new CustomEvent('scigateway', {
+          detail: registerRouteAction,
+        })
+      );
+    });
 
     // go to plugin page
     await fireEvent.click(screen.getByRole('link', { name: 'Test plugin' }));
@@ -95,7 +103,9 @@ describe('App', () => {
       })
     );
 
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
 
     await act(async () => {
       await flushPromises();

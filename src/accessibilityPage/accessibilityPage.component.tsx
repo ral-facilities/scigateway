@@ -41,41 +41,41 @@ const DescriptionTypography = styled(Typography)<{
   color: theme.palette.text.primary,
 }));
 
-const AccessibiiltyPage = (): React.ReactElement => {
+const AccessibilityPage = (): React.ReactElement => {
   const [t] = useTranslation();
 
-  let datagatewayDomains: string[] = t('accessibility-page.domains-list', {
+  let domains: string[] = t('accessibility-page.domains-list', {
     returnObjects: true,
   });
-  let datagatewayAccessibileParts: string[] = t(
-    'accessibility-page.accessibile-parts-of-datagateway-list',
+  let accessibleParts: string[] = t(
+    'accessibility-page.accessible-parts-of-list',
     {
       returnObjects: true,
     }
   );
 
-  let datagatewayNonAccessibileParts: string[] = t(
-    'accessibility-page.non-accessibile-parts-of-datagateway-list',
+  let nonAccessibleParts: string[] = t(
+    'accessibility-page.non-accessible-parts-of-list',
     {
       returnObjects: true,
     }
   );
 
-  let datagatewayNonCompliance: string[] = t(
+  let nonCompliance: string[] = t(
     'accessibility-page.non-compliance-with-the-accessibility-regulations-list',
     {
       returnObjects: true,
     }
   );
 
-  let datagatewayDisproportionateBurdenTable: string[] = t(
+  let disproportionateBurdenTable: string[] = t(
     'accessibility-page.disproportionate-burden.table-view-list',
     {
       returnObjects: true,
     }
   );
 
-  let datagatewayDisproportionateBurdenCard: string[] = t(
+  let disproportionateBurdenCard: string[] = t(
     'accessibility-page.disproportionate-burden.card-view-list',
     {
       returnObjects: true,
@@ -87,17 +87,14 @@ const AccessibiiltyPage = (): React.ReactElement => {
   //When testing can't easily mock i18next data, but **.map will fail if
   //given a string, so replace the formats here
 
-  if (!Array.isArray(datagatewayDomains)) datagatewayDomains = listPlaceholder;
-  if (!Array.isArray(datagatewayAccessibileParts))
-    datagatewayAccessibileParts = listPlaceholder;
-  if (!Array.isArray(datagatewayNonAccessibileParts))
-    datagatewayNonAccessibileParts = listPlaceholder;
-  if (!Array.isArray(datagatewayNonCompliance))
-    datagatewayNonCompliance = listPlaceholder;
-  if (!Array.isArray(datagatewayDisproportionateBurdenTable))
-    datagatewayDisproportionateBurdenTable = listPlaceholder;
-  if (!Array.isArray(datagatewayDisproportionateBurdenCard))
-    datagatewayDisproportionateBurdenCard = listPlaceholder;
+  if (!Array.isArray(domains)) domains = listPlaceholder;
+  if (!Array.isArray(accessibleParts)) accessibleParts = listPlaceholder;
+  if (!Array.isArray(nonAccessibleParts)) nonAccessibleParts = listPlaceholder;
+  if (!Array.isArray(nonCompliance)) nonCompliance = listPlaceholder;
+  if (!Array.isArray(disproportionateBurdenTable))
+    disproportionateBurdenTable = listPlaceholder;
+  if (!Array.isArray(disproportionateBurdenCard))
+    disproportionateBurdenCard = listPlaceholder;
 
   return (
     <RootDiv id="accessibility-page">
@@ -111,7 +108,7 @@ const AccessibiiltyPage = (): React.ReactElement => {
         </DescriptionTypography>
 
         <DescriptionTypography component="ul">
-          {datagatewayDomains.map((item) => (
+          {domains.map((item) => (
             <li key={item}>
               <Link href={item}>{item}</Link>
             </li>
@@ -132,7 +129,7 @@ const AccessibiiltyPage = (): React.ReactElement => {
           {t('accessibility-page.how-accessible-this-website-is-text')}
         </DescriptionTypography>
         <DescriptionTypography component="ul">
-          {datagatewayAccessibileParts.map((item) => (
+          {accessibleParts.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </DescriptionTypography>
@@ -157,11 +154,11 @@ const AccessibiiltyPage = (): React.ReactElement => {
 
       <ContainerDiv>
         <DescriptionTypography>
-          {t('accessibility-page.non-accessibile-parts-of-datagateway-text')}
+          {t('accessibility-page.non-accessible-parts-of-text')}
         </DescriptionTypography>
 
         <DescriptionTypography component="ul">
-          {datagatewayNonAccessibileParts.map((item) => (
+          {accessibleParts.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </DescriptionTypography>
@@ -243,7 +240,7 @@ const AccessibiiltyPage = (): React.ReactElement => {
 
       <ContainerDiv>
         <DescriptionTypography component="ul">
-          {datagatewayNonCompliance.map((item) => (
+          {nonCompliance.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </DescriptionTypography>
@@ -264,7 +261,7 @@ const AccessibiiltyPage = (): React.ReactElement => {
       </TitleTypography>
       <ContainerDiv>
         <DescriptionTypography component="ul">
-          {datagatewayDisproportionateBurdenTable.map((item) => (
+          {disproportionateBurdenTable.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </DescriptionTypography>
@@ -275,7 +272,7 @@ const AccessibiiltyPage = (): React.ReactElement => {
       </TitleTypography>
       <ContainerDiv>
         <DescriptionTypography component="ul">
-          {datagatewayDisproportionateBurdenCard.map((item) => (
+          {disproportionateBurdenCard.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </DescriptionTypography>
@@ -319,4 +316,4 @@ const AccessibiiltyPage = (): React.ReactElement => {
   );
 };
 
-export default AccessibiiltyPage;
+export default AccessibilityPage;

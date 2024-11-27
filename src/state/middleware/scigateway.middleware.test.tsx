@@ -19,6 +19,7 @@ import {
   SignOutType,
   AuthFailureType,
   NotificationType,
+  TokenRefreshedType,
 } from '../scigateway.types';
 import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
@@ -406,7 +407,7 @@ describe('scigateway middleware', () => {
     );
   });
 
-  it('should listen for events and refresh token on invalidateToken message', async () => {
+  it('should listen for events and refresh token on invalidateToken message & send token refreshed event', async () => {
     const testAuthProvider = new TestAuthProvider('test');
     const refreshSpy = jest
       .spyOn(testAuthProvider, 'refresh')
@@ -433,6 +434,10 @@ describe('scigateway middleware', () => {
 
     expect(document.addEventListener).toHaveBeenCalled();
     expect(refreshSpy).toHaveBeenCalled();
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual({
+      type: TokenRefreshedType,
+    });
   });
 
   it('should listen for events and fires invalidateToken action & notification event on invalidateToken message & failed refresh', async () => {

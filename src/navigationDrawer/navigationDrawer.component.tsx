@@ -1,5 +1,12 @@
 import React, { Fragment, useCallback } from 'react';
-import { Box, styled, Theme, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  ListItemButton,
+  styled,
+  Theme,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -69,21 +76,22 @@ export const NavigationDrawer = (): React.ReactElement => {
           component={ForwardRefLink}
           to={plugin.link}
           id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
-          button
+          disablePadding
           dense
         >
-          <ListItemText
-            inset={!imgSrc}
-            primary={displayText}
-            primaryTypographyProps={{
-              variant: 'subtitle1',
-              sx: {
-                textAlign: 'left',
-                fontWeight: 'bold',
-                color: (theme: Theme) => theme.colours.blue,
-              },
-            }}
-          />
+          <ListItemButton>
+            <ListItemText
+              primary={displayText}
+              primaryTypographyProps={{
+                variant: 'subtitle1',
+                sx: {
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                  color: (theme: Theme) => theme.colours.blue,
+                },
+              }}
+            />
+          </ListItemButton>
         </ListItem>
       );
     },
@@ -121,7 +129,7 @@ export const NavigationDrawer = (): React.ReactElement => {
     [createLink]
   );
 
-  const renderRoutes = useCallback((): React.ReactFragment => {
+  const renderRoutes = useCallback((): React.ReactElement => {
     // don't include link to homepage in nav bar
     const filteredPlugins = homepageUrl
       ? plugins.filter((plugin) => plugin.link !== homepageUrl)
@@ -133,7 +141,7 @@ export const NavigationDrawer = (): React.ReactElement => {
     );
 
     return (
-      <Fragment>
+      <>
         {Object.keys(sectionPlugins)
           .sort()
           .map((section, i) =>
@@ -143,7 +151,7 @@ export const NavigationDrawer = (): React.ReactElement => {
               i
             )
           )}
-      </Fragment>
+      </>
     );
   }, [buildMenuSection, plugins, homepageUrl]);
 
@@ -178,7 +186,7 @@ export const NavigationDrawer = (): React.ReactElement => {
                 width: theme.drawerWidth,
                 background: theme.palette.background.default,
                 top: theme.mainAppBarHeight,
-                height: `calc(100% - ${theme.footerPaddingBottom} - ${theme.footerPaddingTop} - ${theme.footerHeight} - ${theme.mainAppBarHeight})`,
+                height: `calc(100% - ${theme.footerHeight} - ${theme.mainAppBarHeight})`,
                 position: 'absolute',
               }),
             }

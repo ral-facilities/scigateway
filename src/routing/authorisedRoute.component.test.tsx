@@ -17,7 +17,13 @@ import {
 } from '../state/actions/scigateway.actions';
 import { flushPromises } from '../setupTests';
 import { Provider } from 'react-redux';
-import { render, waitFor, screen, RenderResult } from '@testing-library/react';
+import {
+  act,
+  render,
+  waitFor,
+  screen,
+  RenderResult,
+} from '@testing-library/react';
 import {
   createStore,
   combineReducers,
@@ -273,15 +279,21 @@ describe('AuthorisedRoute component', () => {
         componentToProtect: ComponentToProtect,
       });
 
-    dispatch(siteLoadingUpdate(false));
+    act(() => {
+      dispatch(siteLoadingUpdate(false));
+    });
 
     await waitFor(() =>
       expect(getDispatchedActions()).toContainEqual(requestPluginRerender())
     );
     clearDispatchedActions();
 
-    dispatch({ type: SignOutType });
-    dispatch(verifyUsernameAndPassword('username', 'password'));
+    act(() => {
+      dispatch({ type: SignOutType });
+    });
+    act(() => {
+      dispatch(verifyUsernameAndPassword('username', 'password'));
+    });
 
     await waitFor(() =>
       expect(getDispatchedActions()).toContainEqual(requestPluginRerender())

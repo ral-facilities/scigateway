@@ -18,7 +18,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       return Promise.resolve();
     }
 
-    return Axios.post(`${this.authUrl}/api/github/authenticate`, {
+    return Axios.post(`${this.authUrl}/github/login`, {
       code: params.code,
     })
       .then((res) => {
@@ -32,7 +32,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
   }
 
   public verifyLogIn(): Promise<void> {
-    return Axios.post(`${this.authUrl}/api/github/checkToken`, {
+    return Axios.post(`${this.authUrl}/github/verify`, {
       token: this.token,
     })
       .then((res) => {

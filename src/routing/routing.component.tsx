@@ -1,28 +1,29 @@
-import React from 'react';
+import { useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
+import { RouterLocation } from 'connected-react-router';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { StateType } from '../state/state.types';
+import * as singleSpa from 'single-spa';
+import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
+import AdminPage from '../adminPage/adminPage.component';
+import NullAuthProvider from '../authentication/nullAuthProvider';
+import CookiesPage from '../cookieConsent/cookiesPage.component';
+import HelpPage from '../helpPage/helpPage.component';
+import HomePage from '../homePage/homePage.component';
+import LoginPage from '../loginPage/loginPage.component';
+import LogoutPage from '../logoutPage/logoutPage.component';
+import MaintenancePage from '../maintenancePage/maintenancePage.component';
+import PageNotFound from '../pageNotFound/pageNotFound.component';
+import { Preloader } from '../preloader/preloader.component';
 import {
-  adminRoutes,
+  baseAdminRoutes,
   MaintenanceState,
   PluginConfig,
   scigatewayRoutes,
 } from '../state/scigateway.types';
-import { connect } from 'react-redux';
-import HomePage from '../homePage/homePage.component';
-import HelpPage from '../helpPage/helpPage.component';
-import LoginPage from '../loginPage/loginPage.component';
-import LogoutPage from '../logoutPage/logoutPage.component';
-import CookiesPage from '../cookieConsent/cookiesPage.component';
-import MaintenancePage from '../maintenancePage/maintenancePage.component';
-import AdminPage from '../adminPage/adminPage.component';
-import PageNotFound from '../pageNotFound/pageNotFound.component';
-import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
-import withAuth from './authorisedRoute.component';
-import { Preloader } from '../preloader/preloader.component';
-import * as singleSpa from 'single-spa';
-import { useMediaQuery } from '@mui/material';
-import NullAuthProvider from '../authentication/nullAuthProvider';
+import { StateType } from '../state/state.types';
+import withAuth, { usePrevious } from './authorisedRoute.component';
 
 interface ContainerDivProps {
   drawerOpen: boolean;
@@ -38,8 +39,11 @@ const ContainerDiv = styled('div', {
       width: isMobileViewport ? '100%' : `calc(100% - ${theme.drawerWidth})`,
       maxHeight: isMobileViewport
         ? `calc(100vh - ${theme.mainAppBarHeight})`
-        : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+        : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight})`,
       overflow: 'auto',
+      '@media print': {
+        overflow: 'visible',
+      },
       marginLeft: isMobileViewport ? 0 : theme.drawerWidth,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
@@ -52,8 +56,11 @@ const ContainerDiv = styled('div', {
     width: '100%',
     maxHeight: isMobileViewport
       ? `calc(100vh - ${theme.mainAppBarHeight})`
-      : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight} - ${theme.footerPaddingTop} - ${theme.footerPaddingBottom})`,
+      : `calc(100vh - ${theme.mainAppBarHeight} - ${theme.footerHeight})`,
     overflow: 'auto',
+    '@media print': {
+      overflow: 'visible',
+    },
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeIn,
       duration: theme.transitions.duration.leavingScreen,
@@ -61,12 +68,35 @@ const ContainerDiv = styled('div', {
   };
 });
 
+export const getAdminRoutes = (props: {
+  plugins: PluginConfig[];
+}): Record<string, string> => {
+  const { plugins } = props;
+  const newAdminRoutes: Record<string, string> = JSON.parse(
+    JSON.stringify(baseAdminRoutes)
+  );
+
+  // Note: Any nested paths under `/admin/path` are managed by the plugin itself and
+  // should not be included in the `newAdminRoutes` object. This ensures only top-level
+  // admin routes are added here, keeping the route structure consistent and preventing
+  // conflicts in routing.
+
+  plugins.forEach((plugin) => {
+    if (plugin.admin) {
+      const routeKey = plugin.link.split('/')[2];
+      newAdminRoutes[routeKey] = plugin.link;
+    }
+  });
+
+  return newAdminRoutes;
+};
+
 interface RoutingProps {
   plugins: PluginConfig[];
-  location: string;
+  location: RouterLocation<unknown>;
   drawerOpen: boolean;
   maintenance: MaintenanceState;
-  userIsloggedIn: boolean;
+  userIsLoggedIn: boolean;
   userIsAdmin: boolean;
   nullAuthProvider: boolean;
   homepageUrl?: string;
@@ -94,10 +124,11 @@ export const UnauthorisedPlugin = PluginPlaceHolder;
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
+  const adminRoutes = getAdminRoutes({ plugins: props.plugins });
   // only set to false if we're on a plugin route i.e. not a scigateway route
   const manuallyLoadedPluginRef = React.useRef(
-    Object.values(scigatewayRoutes).includes(props.location) ||
-      props.location === adminRoutes.maintenance
+    Object.values(scigatewayRoutes).includes(props.location.pathname) ||
+      props.location.pathname === adminRoutes.maintenance
   );
 
   const theme = useTheme();
@@ -109,7 +140,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     if (!props.loading && !manuallyLoadedPluginRef.current) {
       intervalId = window.setInterval(() => {
         const pluginConf = props.plugins.find((p) =>
-          props.location.startsWith(p.link.split('?')[0])
+          props.location.pathname.startsWith(p.link.split('?')[0])
         );
 
         // finding pluginConf after loading implies that the route has loaded
@@ -130,7 +161,6 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       window.clearInterval(intervalId);
     };
   }, [props.loading, props.plugins, props.location]);
-
   React.useEffect(() => {
     // switching between an admin & non-admin route of the same app causes problems
     // as the Route and thus the plugin div changes but single-spa doesn't remount
@@ -170,6 +200,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       );
   }, [props.plugins]);
 
+  const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
+
   return (
     // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
     // Otherwise render the login component. Successful logins will continue to the requested
@@ -205,16 +237,23 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
              for userIsLoggedIn */}
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : !props.userIsloggedIn || props.loading ? (
+          ) : !props.userIsLoggedIn || props.loading ? (
             <LoginPage />
           ) : (
-            <Redirect to={scigatewayRoutes.logout} />
+            <Redirect
+              to={
+                prevUserIsLoggedIn === false && props.userIsLoggedIn
+                  ? (props.location.state as { referrer?: string })?.referrer ??
+                    scigatewayRoutes.home
+                  : scigatewayRoutes.logout
+              }
+            />
           )}
         </Route>
         <Route exact path={scigatewayRoutes.logout}>
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : props.userIsloggedIn || props.loading ? (
+          ) : props.userIsLoggedIn || props.loading ? (
             <LogoutPage />
           ) : (
             <Redirect to={scigatewayRoutes.login} />
@@ -245,10 +284,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
-  location: state.router.location.pathname,
+  location: state.router.location,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
-  userIsloggedIn:
+  userIsLoggedIn:
     state.scigateway.authorisation.provider.isLoggedIn() &&
     !(
       state.scigateway.authorisation.provider.autoLogin &&
