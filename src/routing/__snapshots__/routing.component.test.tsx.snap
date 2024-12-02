@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Routing component redirects to the homepage if navigating to login page while logged in 1`] = `
+exports[`Routing component > redirects to the homepage if navigating to login page while logged in 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -9,7 +9,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
       id="dg-homepage"
     >
       <div
-        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
       >
         <div
           style="background-repeat: no-repeat; width: 100%; height: 250px;"
@@ -95,10 +95,10 @@ exports[`Routing component redirects to the homepage if navigating to login page
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-1g012h9"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -218,7 +218,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
             >
               <div
-                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
@@ -259,7 +259,7 @@ exports[`Routing component redirects to the homepage if navigating to login page
 </DocumentFragment>
 `;
 
-exports[`Routing component renders a route for a plugin when site is under maintenance and user is admin 1`] = `
+exports[`Routing component > renders a route for a plugin when site is under maintenance and user is admin 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -275,7 +275,7 @@ exports[`Routing component renders a route for a plugin when site is under maint
 </DocumentFragment>
 `;
 
-exports[`Routing component renders a route for admin page 1`] = `
+exports[`Routing component > renders a route for admin page 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -287,7 +287,7 @@ exports[`Routing component renders a route for admin page 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Routing component renders a route for maintenance page when site is under maintenance and user is not admin 1`] = `
+exports[`Routing component > renders a route for maintenance page when site is under maintenance and user is not admin 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -297,7 +297,7 @@ exports[`Routing component renders a route for maintenance page when site is und
 </DocumentFragment>
 `;
 
-exports[`Routing component renders an unauthorised route for a plugin 1`] = `
+exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -306,7 +306,7 @@ exports[`Routing component renders an unauthorised route for a plugin 1`] = `
       id="dg-homepage"
     >
       <div
-        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
       >
         <div
           style="background-repeat: no-repeat; width: 100%; height: 250px;"
@@ -392,10 +392,10 @@ exports[`Routing component renders an unauthorised route for a plugin 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-1g012h9"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -515,7 +515,7 @@ exports[`Routing component renders an unauthorised route for a plugin 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
             >
               <div
-                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
@@ -556,7 +556,7 @@ exports[`Routing component renders an unauthorised route for a plugin 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Routing component renders component with no plugin routes 1`] = `
+exports[`Routing component > renders component with no plugin routes 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -565,7 +565,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
       id="dg-homepage"
     >
       <div
-        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
       >
         <div
           style="background-repeat: no-repeat; width: 100%; height: 250px;"
@@ -651,10 +651,10 @@ exports[`Routing component renders component with no plugin routes 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-1g012h9"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -774,7 +774,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
             >
               <div
-                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
@@ -815,7 +815,7 @@ exports[`Routing component renders component with no plugin routes 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Routing component renders component with plugins 1`] = `
+exports[`Routing component > renders component with plugins 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
@@ -824,7 +824,7 @@ exports[`Routing component renders component with plugins 1`] = `
       id="dg-homepage"
     >
       <div
-        style="background-image: url(background.jpg); width: 100%; height: 250px;"
+        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
       >
         <div
           style="background-repeat: no-repeat; width: 100%; height: 250px;"
@@ -910,10 +910,10 @@ exports[`Routing component renders component with plugins 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-1g012h9"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -1033,7 +1033,7 @@ exports[`Routing component renders component with plugins 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
             >
               <div
-                style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
@@ -1074,7 +1074,7 @@ exports[`Routing component renders component with plugins 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Routing component renders placeholder for a plugin 1`] = `
+exports[`Routing component > renders placeholder for a plugin 1`] = `
 <DocumentFragment>
   <div
     id="test_id"

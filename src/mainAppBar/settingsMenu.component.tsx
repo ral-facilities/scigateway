@@ -1,3 +1,6 @@
+import BrightnessIcon from '@mui/icons-material/Brightness4';
+import InvertColorsIcon from '@mui/icons-material/InvertColors';
+import TuneIcon from '@mui/icons-material/Tune';
 import {
   ListItemIcon,
   ListItemText,
@@ -5,18 +8,14 @@ import {
   MenuItem,
   MenuProps,
 } from '@mui/material';
-import TuneIcon from '@mui/icons-material/Tune';
-import { getAppStrings, getString } from '../state/strings';
-import BrightnessIcon from '@mui/icons-material/Brightness4';
-import InvertColorsIcon from '@mui/icons-material/InvertColors';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   loadDarkModePreference,
   loadHighContrastModePreference,
 } from '../state/actions/scigateway.actions';
 import { StateType } from '../state/state.types';
+import { getAppStrings, getString } from '../state/strings';
 
 interface SettingsMenuProps extends MenuProps {
   onClose: () => void;

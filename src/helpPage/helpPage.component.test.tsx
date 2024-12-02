@@ -8,9 +8,9 @@ import { render } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
 
-jest.mock('../hooks/useAnchor', () => ({
+vi.mock('../hooks/useAnchor', () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: vi.fn(),
 }));
 
 describe('Help page component', () => {

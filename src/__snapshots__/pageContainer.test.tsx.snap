@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PageContainer - Tests renders correctly 1`] = `
+exports[`PageContainer - Tests > renders correctly 1`] = `
 <DocumentFragment>
   <div
     class="css-1kl99y5"
@@ -46,7 +46,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-1p9tt43-MuiPaper-root-MuiAppBar-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-regular css-iv6ml1-MuiToolbar-root"
+          class="MuiToolbar-root MuiToolbar-regular css-qcjnfz-MuiToolbar-root"
         >
           <button
             aria-label="open-navigation-menu"
@@ -77,9 +77,24 @@ exports[`PageContainer - Tests renders correctly 1`] = `
           >
             <img
               alt="title"
-              src="scigateway-white-text-blue-mark-logo.svg"
+              src="/src/images/scigateway-white-text-blue-mark-logo.svg"
               style="height: 24px;"
             />
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-label="help-page"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium tour-help css-19myg6g-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1vvwrqo-MuiTypography-root"
+            >
+              help
+            </p>
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
@@ -87,6 +102,49 @@ exports[`PageContainer - Tests renders correctly 1`] = `
           <div
             style="flex-grow: 1;"
           />
+          <button
+            aria-label="help"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-19c6lcd-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="HelpOutlineIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M11 18h2v-2h-2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-haspopup="true"
+            aria-label="open-browser-settings"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge tour-settings css-19c6lcd-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="SettingsIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
           <div
             class="tour-user-profile"
           >
@@ -105,42 +163,42 @@ exports[`PageContainer - Tests renders correctly 1`] = `
               />
             </button>
           </div>
-          <button
-            aria-haspopup="true"
-            aria-label="open-mobile-menu"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-19c6lcd-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="MoreVertIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
-              />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </header>
+    </div>
+    <div
+      class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1b4jzf5-MuiPaper-root-MuiDrawer-paper"
+        style="visibility: hidden; webkit-transform: translateX(-0px); transform: translateX(-0px);"
+      >
+        <div
+          class="MuiBox-root css-1pvs5pb"
+        >
+          <div
+            class="MuiBox-root css-8xl60i"
+          >
+            <img
+              alt="alternative-text"
+              class="css-1taxr2z"
+              src="/src/images/stfc-logo-blue-text.png"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <div
       class="react-joyride"
     />
     <div
-      class="css-1vufbvj"
+      class="css-frbs4c"
     >
       <div
         id="dg-homepage"
       >
         <div
-          style="background-image: url(background.jpg); width: 100%; height: 250px;"
+          style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
         >
           <div
             style="background-repeat: no-repeat; width: 100%; height: 250px;"
@@ -149,7 +207,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
               class="MuiBox-root css-h95k7f"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h2 css-1qicgzl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
               >
                 <strong>
                   Data discovery
@@ -160,7 +218,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
                 </strong>
               </h2>
               <h2
-                class="MuiTypography-root MuiTypography-h2 css-1qicgzl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
               >
                 for 
                 <strong>
@@ -172,7 +230,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-1qrn4l7"
+          class="MuiBox-root css-12vlygr"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
@@ -220,6 +278,17 @@ exports[`PageContainer - Tests renders correctly 1`] = `
                       />
                     </a>
                   </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
+              >
+                <div
+                  style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                >
+                  <div
+                    class="css-1ox020v"
+                  />
                 </div>
               </div>
             </div>
@@ -338,7 +407,7 @@ exports[`PageContainer - Tests renders correctly 1`] = `
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
               >
                 <div
-                  style="background-image: url(green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                  style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
                 >
                   <div
                     class="MuiBox-root css-1onku40"
@@ -374,6 +443,65 @@ exports[`PageContainer - Tests renders correctly 1`] = `
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="css-1dqylve"
+    >
+      <div
+        style="text-align: left; font-weight: bold; font-size: 14px; text-indent: 16px; display: inline-block;"
+      >
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="footer.links.facility"
+        >
+          Facility Home
+        </a>
+         | 
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="footer.links.privacy-statement"
+        >
+          Privacy statement
+        </a>
+         | 
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="footer.links.data-policy"
+        >
+          Data policy
+        </a>
+         | 
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="/accessibility"
+        >
+          Accessibilty statement
+        </a>
+         | 
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="footer.links.contact"
+        >
+          Contact
+        </a>
+      </div>
+      <div
+        style="text-align: right; font-size: 14px; right: 0px; padding-right: 16px; margin-left: auto;"
+      >
+        Built by the
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="https://www.scd.stfc.ac.uk/Pages/home.aspx"
+        >
+          Scientific Computing
+        </a>
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
+        >
+          Data and Software Engineering Group
+        </a>
       </div>
     </div>
   </div>

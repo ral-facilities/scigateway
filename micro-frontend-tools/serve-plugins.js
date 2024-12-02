@@ -1,8 +1,13 @@
-var fs = require('fs');
-const path = require('path');
-var exec = require('child_process').exec;
+import fs from 'fs';
+import path from 'path';
+import child_process from 'child_process';
 
-const settingsFilePath = path.join(__dirname, '/dev-plugin-settings.json');
+var exec = child_process.exec;
+
+const settingsFilePath = path.join(
+  import.meta.dirname,
+  '/dev-plugin-settings.json'
+);
 
 function checkForSettingsFile() {
   if (!fs.existsSync(settingsFilePath)) {

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Scigateway Notification component Scigateway Notification error message renders correctly 1`] = `
+exports[`Scigateway Notification component > Scigateway Notification error message renders correctly 1`] = `
 <DocumentFragment>
   <div
     style="display: flex; align-items: center;"
@@ -46,7 +46,7 @@ exports[`Scigateway Notification component Scigateway Notification error message
 </DocumentFragment>
 `;
 
-exports[`Scigateway Notification component Scigateway Notification information message renders correctly 1`] = `
+exports[`Scigateway Notification component > Scigateway Notification information message renders correctly 1`] = `
 <DocumentFragment>
   <div
     style="display: flex; align-items: center;"
@@ -92,7 +92,7 @@ exports[`Scigateway Notification component Scigateway Notification information m
 </DocumentFragment>
 `;
 
-exports[`Scigateway Notification component Scigateway Notification success message renders correctly 1`] = `
+exports[`Scigateway Notification component > Scigateway Notification success message renders correctly 1`] = `
 <DocumentFragment>
   <div
     style="display: flex; align-items: center;"
@@ -138,7 +138,7 @@ exports[`Scigateway Notification component Scigateway Notification success messa
 </DocumentFragment>
 `;
 
-exports[`Scigateway Notification component Scigateway Notification warning message renders correctly 1`] = `
+exports[`Scigateway Notification component > Scigateway Notification warning message renders correctly 1`] = `
 <DocumentFragment>
   <div
     style="display: flex; align-items: center;"

@@ -9,7 +9,7 @@ describe('LDAP-JWT Auth provider', () => {
   });
 
   it('should call api to fetch maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: false,
@@ -25,7 +25,7 @@ describe('LDAP-JWT Auth provider', () => {
   });
 
   it('should call api to fetch scheduled maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           show: false,
@@ -42,7 +42,7 @@ describe('LDAP-JWT Auth provider', () => {
   });
 
   it('should log the user out if it fails to fetch maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -58,7 +58,7 @@ describe('LDAP-JWT Auth provider', () => {
   });
 
   it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,

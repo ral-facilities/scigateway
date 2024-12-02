@@ -25,14 +25,15 @@ import { toastr } from 'react-redux-toastr';
 import { AddHelpTourStepsType } from '../scigateway.types';
 import { StateType } from '../state.types';
 import TestAuthProvider from '../../authentication/testAuthProvider';
-import { flushPromises } from '../../setupTests';
+import { flushPromises } from '../../testUtils';
 import { authState, initialState } from '../reducers/scigateway.reducer';
 import { buildTheme } from '../../theming';
 import { thunk } from 'redux-thunk';
 import { autoLoginAuthorised } from '../actions/scigateway.actions';
 import * as singleSpa from 'single-spa';
+import { Mock } from 'vitest';
 
-jest.mock('single-spa');
+vi.mock('single-spa');
 
 describe('scigateway middleware', () => {
   let events: CustomEvent<AnyAction>[] = [];
@@ -112,21 +113,21 @@ describe('scigateway middleware', () => {
       return true;
     };
 
-    document.addEventListener = jest.fn(
-      (id: string, inputHandler: (event: Event) => void) => {
+    document.addEventListener = vi.fn(
+      (_id: string, inputHandler: (event: Event) => void) => {
         handler = inputHandler;
       }
     );
 
     store = mockStore(getState());
 
-    Storage.prototype.getItem = jest.fn(() => 'false');
+    Storage.prototype.getItem = vi.fn(() => 'false');
   });
 
   describe('autoLoginMiddleware', () => {
-    let autoLogin: jest.Mock;
+    let autoLogin: Mock;
     beforeEach(() => {
-      autoLogin = jest.fn(() => Promise.resolve());
+      autoLogin = vi.fn(() => Promise.resolve());
       store = mockStore({
         ...getState(),
         scigateway: {
@@ -173,9 +174,9 @@ describe('scigateway middleware', () => {
     });
 
     it('sends an error notification if autoLogin fails', async () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
 
-      autoLogin = jest.fn(() => Promise.reject());
+      autoLogin = vi.fn(() => Promise.reject());
       store = mockStore({
         ...getState(),
         scigateway: {
@@ -199,7 +200,7 @@ describe('scigateway middleware', () => {
       expect(store.getActions().length).toEqual(1);
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       expect(mockLog.calls[0][0]).toEqual('Auto Login via middleware failed');
 
       expect(events.length).toEqual(1);
@@ -374,8 +375,8 @@ describe('scigateway middleware', () => {
         location: createLocation('/'),
       },
     });
-    Storage.prototype.getItem = jest.fn().mockReturnValueOnce(undefined);
-    window.matchMedia = jest.fn().mockReturnValueOnce({ matches: true });
+    Storage.prototype.getItem = vi.fn().mockReturnValueOnce(undefined);
+    window.matchMedia = vi.fn().mockReturnValueOnce({ matches: true });
     const theme = buildTheme(true, false, '#654321');
     const sendThemeOptionsAction = {
       type: SendThemeOptionsType,
@@ -409,7 +410,7 @@ describe('scigateway middleware', () => {
 
   it('should listen for events and refresh token on invalidateToken message & send token refreshed event', async () => {
     const testAuthProvider = new TestAuthProvider('test');
-    const refreshSpy = jest
+    const refreshSpy = vi
       .spyOn(testAuthProvider, 'refresh')
       .mockImplementationOnce(() => Promise.resolve());
 
@@ -586,7 +587,7 @@ describe('scigateway middleware', () => {
       },
     });
 
-    (singleSpa.getAppStatus as jest.Mock).mockReturnValue(singleSpa.NOT_LOADED);
+    vi.mocked(singleSpa.getAppStatus).mockReturnValue(singleSpa.NOT_LOADED);
 
     listenToPlugins(store.dispatch, getState);
 
@@ -636,7 +637,7 @@ describe('scigateway middleware', () => {
     });
 
     it('should listen for notification events and create toast for error', () => {
-      toastr.error = jest.fn();
+      toastr.error = vi.fn();
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
@@ -650,13 +651,13 @@ describe('scigateway middleware', () => {
       handler(new CustomEvent('test', { detail: notificationAction }));
 
       expect(toastr.error).toHaveBeenCalled();
-      const mockToastr = (toastr.error as jest.Mock).mock;
+      const mockToastr = vi.mocked(toastr.error).mock;
       expect(mockToastr.calls[0][0]).toContain('Error');
       expect(mockToastr.calls[0][1]).toContain('test notification');
     });
 
     it('should listen for notification events and create toast for warning', () => {
-      toastr.warning = jest.fn();
+      toastr.warning = vi.fn();
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
@@ -669,13 +670,13 @@ describe('scigateway middleware', () => {
       handler(new CustomEvent('test', { detail: notificationAction }));
 
       expect(toastr.warning).toHaveBeenCalled();
-      const mockToastr = (toastr.warning as jest.Mock).mock;
+      const mockToastr = vi.mocked(toastr.warning).mock;
       expect(mockToastr.calls[0][0]).toContain('Warning');
       expect(mockToastr.calls[0][1]).toContain('test notification');
     });
 
     it('should listen for notification events and create toast for information', () => {
-      toastr.info = jest.fn();
+      toastr.info = vi.fn();
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
@@ -688,13 +689,13 @@ describe('scigateway middleware', () => {
       handler(new CustomEvent('test', { detail: notificationAction }));
 
       expect(toastr.info).toHaveBeenCalled();
-      const mockToastr = (toastr.info as jest.Mock).mock;
+      const mockToastr = vi.mocked(toastr.info).mock;
       expect(mockToastr.calls[0][0]).toContain('Information');
       expect(mockToastr.calls[0][1]).toContain('test notification');
     });
 
     it('should listen for notification events and log error for invalid severity', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
       listenToPlugins(store.dispatch, getState);
 
       const notificationAction = {
@@ -707,7 +708,7 @@ describe('scigateway middleware', () => {
       handler(new CustomEvent('test', { detail: notificationAction }));
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       expect(mockLog.calls[0][0]).toContain(
         'Invalid severity provided: invalid'
       );
@@ -715,8 +716,8 @@ describe('scigateway middleware', () => {
   });
 
   it('should broadcast requestpluginrerender action but ignore it itself', () => {
-    log.warn = jest.fn();
-    const mockLog = (log.warn as jest.Mock).mock;
+    log.warn = vi.fn();
+    const mockLog = vi.mocked(log.warn).mock;
 
     listenToPlugins(store.dispatch, getState);
 
@@ -732,8 +733,8 @@ describe('scigateway middleware', () => {
   });
 
   it('should ignore BroadcastSignOut ', () => {
-    log.warn = jest.fn();
-    const mockLog = (log.warn as jest.Mock).mock;
+    log.warn = vi.fn();
+    const mockLog = vi.mocked(log.warn).mock;
 
     listenToPlugins(store.dispatch, getState);
     expect(document.addEventListener).toHaveBeenCalled();
@@ -743,7 +744,7 @@ describe('scigateway middleware', () => {
   });
 
   it('should listen for events and not fire unrecognised action', () => {
-    log.warn = jest.fn();
+    log.warn = vi.fn();
     listenToPlugins(store.dispatch, getState);
 
     handler(new CustomEvent('test', { detail: action }));
@@ -752,14 +753,14 @@ describe('scigateway middleware', () => {
     expect(store.getActions().length).toEqual(0);
 
     expect(log.warn).toHaveBeenCalled();
-    const mockLog = (log.warn as jest.Mock).mock;
+    const mockLog = vi.mocked(log.warn).mock;
     expect(mockLog.calls[0][0]).toContain(
       'Unexpected message received from plugin, not dispatched'
     );
   });
 
   it('should not fire actions for events without detail', () => {
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     listenToPlugins(store.dispatch, getState);
 
@@ -769,14 +770,14 @@ describe('scigateway middleware', () => {
     expect(store.getActions().length).toEqual(0);
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Invalid message received from a plugin:\nevent.detail = null'
     );
   });
 
   it('should not fire actions for events without type on detail', () => {
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     listenToPlugins(store.dispatch, getState);
 
@@ -786,7 +787,7 @@ describe('scigateway middleware', () => {
     expect(store.getActions().length).toEqual(0);
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Invalid message received from a plugin:\nevent.detail = {"actionWithoutType":true}'
     );
