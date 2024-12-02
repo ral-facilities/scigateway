@@ -59,10 +59,7 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
       location.pathname.startsWith(adminRoutes[key])
     ) ??
       (props.adminPageDefaultTab &&
-      Object.prototype.hasOwnProperty.call(
-        adminRoutes,
-        props.adminPageDefaultTab
-      )
+      Object.hasOwn(adminRoutes, props.adminPageDefaultTab)
         ? props.adminPageDefaultTab
         : 'maintenance')
   );

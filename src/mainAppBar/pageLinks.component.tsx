@@ -35,8 +35,7 @@ function PageLinks(): JSX.Element {
 
   function navigateToAdminPage(): void {
     const targetRoute =
-      adminPageDefaultTab &&
-      Object.prototype.hasOwnProperty.call(adminRoutes, adminPageDefaultTab)
+      adminPageDefaultTab && Object.hasOwn(adminRoutes, adminPageDefaultTab)
         ? adminRoutes[adminPageDefaultTab]
         : adminRoutes['maintenance'];
 

@@ -44,8 +44,6 @@ export default defineConfig(({ mode }) => {
     plugins: plugins,
     server: {
       port: 3000,
-      // Don't open by default as Dockerfile wont run as it can't find a display
-      open: false,
     },
     preview: {
       port: 5001,

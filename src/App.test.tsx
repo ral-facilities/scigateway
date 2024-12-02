@@ -35,6 +35,7 @@ vi.mock('axios', async () => {
         if (path === '/settings.json') {
           return Promise.resolve({
             data: {
+              // Set provider to icat as that supports maintenance states needed for App.test.tsx
               'auth-provider': 'icat',
               'ui-strings': '/res/default.json',
               plugins: [],
