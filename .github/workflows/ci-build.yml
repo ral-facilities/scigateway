@@ -38,7 +38,7 @@ jobs:
     # This job triggers only if all the other jobs succeed. It builds the Docker image to ensure it builds correctly.
     needs: [test]
     name: Docker
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
