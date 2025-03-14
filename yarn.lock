@@ -4640,14 +4640,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.8.2, axios@npm:^1.6.1":
-  version: 1.8.2
-  resolution: "axios@npm:1.8.2"
+"axios@npm:1.8.3":
+  version: 1.8.3
+  resolution: "axios@npm:1.8.3"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/d4328758128d0602cc809a8e7627622cb7839b379eae5e4d6b9d603dd4d5fb89159985630243ec107cf5c675cd8825dba737a319dff9499f3b7688d9a69ec9ed
+  checksum: 10/050f911cadd6d47a38ddbf91d2f8da2c34661dda8077e7ad6546e8178701125366fddbba07211a648b6815cf6c2c3c91c0a65d8b968e3d1a6054a21141ff9c01
   languageName: node
   linkType: hard
 
@@ -4658,6 +4658,17 @@ __metadata:
     follow-redirects: "npm:^1.14.9"
     form-data: "npm:^4.0.0"
   checksum: 10/2efaf18dd0805f7bc772882bc86f004abd92d51007b54c5081f74db0d08ce3593e2c010261896d25a14318eeaa2e966fd825e34f810e8a3339dc64b9d177cf70
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.6.1":
+  version: 1.8.2
+  resolution: "axios@npm:1.8.2"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10/d4328758128d0602cc809a8e7627622cb7839b379eae5e4d6b9d603dd4d5fb89159985630243ec107cf5c675cd8825dba737a319dff9499f3b7688d9a69ec9ed
   languageName: node
   linkType: hard
 
@@ -13889,7 +13900,7 @@ __metadata:
     "@types/redux-mock-store": "npm:1.0.2"
     "@typescript-eslint/eslint-plugin": "npm:7.0.2"
     "@typescript-eslint/parser": "npm:7.0.2"
-    axios: "npm:1.8.2"
+    axios: "npm:1.8.3"
     axios-mock-adapter: "npm:1.22.0"
     concurrently: "npm:8.2.0"
     connected-react-router: "npm:6.9.3"
