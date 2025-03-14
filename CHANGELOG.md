@@ -1,5 +1,23 @@
 # Changelog
 
+## [v3.0.1](https://github.com/ral-facilities/scigateway/tree/v3.0.1) (2025-03-14)
+
+## What's Changed
+
+### Features
+* Remove libgconf install step on CI jobs by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1426
+### Dependencies
+* Bump nanoid from 3.3.4 to 3.3.8 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1425
+* Update dependency ubuntu to v24 by @renovate in https://github.com/ral-facilities/scigateway/pull/1427
+* Update dependency axios to v1.8.2 [SECURITY] by @renovate in https://github.com/ral-facilities/scigateway/pull/1429
+* Bump @babel/runtime from 7.23.9 to 7.26.10 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1433
+* Bump @babel/helpers from 7.20.1 to 7.26.10 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1432
+* Update node to 20.18.3-alpine3.21 and httpd to 2.4.63-alpine3.21 in docker images by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1431
+* Bump axios from 1.7.4 to 1.8.2 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1428
+* Bump @babel/runtime-corejs3 from 7.20.1 to 7.26.10 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1430
+
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v3.0.0...v3.0.1
+
 ## [v3.0.0](https://github.com/ral-facilities/scigateway/tree/v3.0.0) (2024-11-27)
 
 ## What's Changed
