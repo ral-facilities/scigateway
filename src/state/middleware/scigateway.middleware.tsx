@@ -1,31 +1,31 @@
-import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
-import {
-  NotificationType,
-  RegisterRouteType,
-  InvalidateTokenType,
-  RequestPluginRerenderType,
-  ToggleDrawerType,
-  SendThemeOptionsType,
-  LoadDarkModePreferenceType,
-  BroadcastSignOutType,
-  LoadHighContrastModePreferenceType,
-  AuthFailureType,
-  SignOutType,
-  TokenRefreshedType,
-} from '../scigateway.types';
+import { push } from 'connected-react-router';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
-import {
-  addHelpTourSteps,
-  requestPluginRerender,
-  sendThemeOptions,
-  autoLoginAuthorised,
-} from '../actions/scigateway.actions';
-import { StateType } from '../state.types';
-import { buildTheme } from '../../theming';
-import { push } from 'connected-react-router';
+import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
+import { buildTheme } from '../../theming';
+import {
+  addHelpTourSteps,
+  autoLoginAuthorised,
+  requestPluginRerender,
+  sendThemeOptions,
+} from '../actions/scigateway.actions';
+import {
+  AuthFailureType,
+  BroadcastSignOutType,
+  InvalidateTokenType,
+  LoadDarkModePreferenceType,
+  LoadHighContrastModePreferenceType,
+  NotificationType,
+  RegisterRouteType,
+  RequestPluginRerenderType,
+  SendThemeOptionsType,
+  SignOutType,
+  ToggleDrawerType,
+  TokenRefreshedType,
+} from '../scigateway.types';
+import { StateType } from '../state.types';
 import { getAppStrings, getString } from '../strings';
 
 const microFrontendMessageId = 'scigateway';
@@ -45,7 +45,7 @@ const toastrMessageOptions = {
 
 const toastrMessage = (
   message: string,
-  severity: 'success' | 'warning' | 'error' | 'information'
+  severity: 'success' | 'warning' | 'error' | 'info'
 ): void => {
   switch (severity) {
     case 'success':
@@ -57,7 +57,7 @@ const toastrMessage = (
     case 'error':
       toastr.error('Error', message, toastrMessageOptions);
       break;
-    case 'information':
+    case 'info':
       toastr.info('Information', message, toastrMessageOptions);
       break;
     default:
