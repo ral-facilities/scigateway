@@ -1,6 +1,6 @@
 # Changelog
 
-## [v3.0.0](https://github.com/ral-facilities/scigateway/tree/v3.0.0) (2025-03-14)
+## [v3.0.1](https://github.com/ral-facilities/scigateway/tree/v3.0.1) (2025-03-14)
 
 ## What's Changed
 
