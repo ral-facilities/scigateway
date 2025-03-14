@@ -1,46 +1,47 @@
 import log from 'loglevel';
-import {
-  toggleDrawer,
-  authorised,
-  unauthorised,
-  loadingAuthentication,
-  dismissMenuItem,
-  configureAnalytics,
-  initialiseAnalytics,
-  siteLoadingUpdate,
-  loadAuthProvider,
-  configureStrings,
-  loadFeatureSwitches,
-  toggleHelp,
-  addHelpTourSteps,
-  invalidToken,
-  loadedAuthentication,
-  loadDarkModePreference,
-  registerHomepageUrl,
-  loadScheduledMaintenanceState,
-  loadMaintenanceState,
-  loadHighContrastModePreference,
-  customLogo,
-  customNavigationDrawerLogo,
-  customAdminPageDefaultTab,
-  autoLoginAuthorised,
-  resetAuthState,
-  registerContactUsAccessibilityFormUrl,
-  customPrimaryColour,
-} from '../actions/scigateway.actions';
-import ScigatewayReducer, {
-  initialState,
-  handleAuthProviderUpdate,
-  authState,
-} from './scigateway.reducer';
-import { SignOutType } from '../scigateway.types';
-import { ScigatewayState } from '../state.types';
-import TestAuthProvider from '../../authentication/testAuthProvider';
-import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import ICATAuthProvider from '../../authentication/icatAuthProvider';
-import NullAuthProvider from '../../authentication/nullAuthProvider';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import LDAPJWTAuthProvider from '../../authentication/ldapJWTAuthProvider';
+import NullAuthProvider from '../../authentication/nullAuthProvider';
+import OGJWTAuthProvider from '../../authentication/OGJWTAuthProvider';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import {
+  addHelpTourSteps,
+  authorised,
+  autoLoginAuthorised,
+  configureAnalytics,
+  configureStrings,
+  customAdminPageDefaultTab,
+  customLogo,
+  customNavigationDrawerLogo,
+  customPrimaryColour,
+  dismissMenuItem,
+  initialiseAnalytics,
+  invalidToken,
+  loadAuthProvider,
+  loadDarkModePreference,
+  loadedAuthentication,
+  loadFeatureSwitches,
+  loadHighContrastModePreference,
+  loadingAuthentication,
+  loadMaintenanceState,
+  loadScheduledMaintenanceState,
+  registerContactUsAccessibilityFormUrl,
+  registerHomepageUrl,
+  resetAuthState,
+  siteLoadingUpdate,
+  toggleDrawer,
+  toggleHelp,
+  unauthorised,
+} from '../actions/scigateway.actions';
+import { SignOutType } from '../scigateway.types';
+import { ScigatewayState } from '../state.types';
+import ScigatewayReducer, {
+  authState,
+  handleAuthProviderUpdate,
+  initialState,
+} from './scigateway.reducer';
 
 describe('scigateway reducer', () => {
   let state: ScigatewayState;
@@ -291,6 +292,12 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       LDAPJWTAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(state, loadAuthProvider('og-jwt'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      OGJWTAuthProvider
     );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider(null));
