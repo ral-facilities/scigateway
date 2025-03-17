@@ -2,10 +2,13 @@ import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import * as log from 'loglevel';
 import * as React from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { thunk, ThunkDispatch } from 'redux-thunk';
+import PageContainer from './pageContainer.component';
+import { Preloader } from './preloader/preloader.component';
 import {
   configureSite,
   loadMaintenanceState,
@@ -16,12 +19,10 @@ import ScigatewayMiddleware, {
 } from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
-import './index.css';
 import { ConnectedThemeProvider } from './theming';
+// This order needed for the App.css to apply to toasts correctly
 import ReduxToastr from 'react-redux-toastr';
-import PageContainer from './pageContainer.component';
-import { Preloader } from './preloader/preloader.component';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import './App.css';
 
 const history = createBrowserHistory();
 
@@ -31,7 +32,7 @@ const middleware = [
   ScigatewayMiddleware,
   autoLoginMiddleware,
 ];
-if (process.env.NODE_ENV === `development`) {
+if (import.meta.env.DEV) {
   const logger = createLogger({ collapsed: true });
   middleware.push(logger);
   log.setDefaultLevel(log.levels.DEBUG);

@@ -1,6 +1,7 @@
 {
   "name": "scigateway",
   "version": "3.0.0",
+  "type": "module",
   "private": true,
   "resolutions": {
     "@types/react": "18.0.33",
@@ -20,11 +21,12 @@
     "@types/react-redux-toastr": "7.6.2",
     "@types/react-router-dom": "5.3.3",
     "@types/redux-logger": "3.0.8",
+    "@vitejs/plugin-react": "^4.3.4",
     "axios": "1.8.3",
+    "browserslist": "4.24.2",
+    "browserslist-to-esbuild": "2.1.1",
     "connected-react-router": "6.9.3",
     "cookie-parser": "1.4.5",
-    "custom-event-polyfill": "1.0.7",
-    "cypress-failed-log": "2.10.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-cypress": "2.15.1",
     "eslint-plugin-prettier": "5.1.3",
@@ -40,36 +42,35 @@
     "prop-types": "15.8.1",
     "query-string": "7.1.1",
     "react": "18.2.0",
-    "react-app-polyfill": "3.0.0",
     "react-dom": "18.2.0",
     "react-i18next": "14.0.1",
     "react-joyride": "2.7.2",
     "react-redux": "8.1.2",
-    "react-redux-toastr": "7.6.8",
+    "react-redux-toastr": "7.6.13",
     "react-router-dom": "5.3.0",
-    "react-scripts": "5.0.0",
     "redux": "4.2.1",
     "redux-logger": "3.0.6",
     "redux-thunk": "3.1.0",
     "single-spa": "5.9.4",
     "typeface-roboto": "1.1.13",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vite": "^5.4.11"
   },
   "scripts": {
-    "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
+    "dev": "cross-env concurrently \"yarn serve:plugins\" \"node server/auth-server.js\" \"vite --open\"",
+    "build": "tsc --project tsconfig.build.json && vite build",
+    "preview": "vite preview",
+    "preview:build": "yarn build && yarn preview",
+    "test": "vitest --coverage",
+    "lint": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
     "lint:cypress": "eslint --ext=tsx --ext=js --ext=jsx --fix ./cypress",
     "serve:plugins": "node micro-frontend-tools/serve-plugins.js",
-    "start": "cross-env concurrently \"yarn serve:plugins\" \"node server/auth-server.js\" \"react-scripts start\"",
-    "build": "react-scripts build",
-    "build:e2e": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test --env=jsdom --coverage --watchAll=false",
-    "test:watch": "react-scripts test --env=jsdom --watch",
+    "build:e2e": "cross-env GENERATE_SOURCEMAP=false yarn build",
     "e2e:serve": "yarn build:e2e && concurrently \"node server/auth-server.js e2e\" \"node ./server/e2e-test-server.js\"",
     "e2e:interactive": "start-server-and-test e2e:serve http://localhost:3000 cy:open",
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "eject": "react-scripts eject",
     "postinstall": "husky install; yarn copy-cdn-fallbacks",
     "copy-cdn-fallbacks": "node -e \"const fs = require('fs'); fs.copyFile('node_modules/react/umd/react.production.min.js', 'public/react.production.min.js', (err) => { if (err) throw err;}); fs.copyFile('node_modules/react-dom/umd/react-dom.production.min.js', 'public/react-dom.production.min.js', (err) => { if (err) throw err;});\""
   },
@@ -83,23 +84,9 @@
       "prettier --config .prettierrc --write"
     ]
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{tsx,js,jsx,ts}",
-      "!src/index.tsx",
-      "!src/serviceWorker.ts",
-      "!src/setupTests.ts",
-      "!src/state/reducers/App.reducer.tsx",
-      "!src/state/actions/loadMicroFrontends.tsx"
-    ]
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 10",
     "not op_mini all"
   ],
   "devDependencies": {
@@ -115,17 +102,22 @@
     "@types/redux-mock-store": "1.0.2",
     "@typescript-eslint/eslint-plugin": "7.0.2",
     "@typescript-eslint/parser": "7.0.2",
+    "@vitest/coverage-v8": "2.1.6",
     "axios-mock-adapter": "1.22.0",
     "concurrently": "8.2.0",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
     "cypress": "13.6.4",
     "eslint": "8.56.0",
-    "eslint-config-react-app": "7.0.0",
+    "eslint-plugin-react": "7.37.2",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-testing-library": "6.2.0",
+    "jsdom": "24.0.0",
     "lint-staged": "15.2.0",
     "redux-mock-store": "1.5.4",
     "serve": "14.2.0",
     "start-server-and-test": "2.0.0",
+    "vitest": "2.1.6",
     "wait-on": "7.2.0"
   },
   "packageManager": "yarn@4.1.0"

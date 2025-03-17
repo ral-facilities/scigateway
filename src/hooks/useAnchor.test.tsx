@@ -1,7 +1,6 @@
 import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
 import type { DeepPartial } from 'redux';
-import * as React from 'react';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router';
 import { createLocation } from 'history';
@@ -25,10 +24,10 @@ const MOCK_REACT_ROUTER_LOCATION: Partial<Location> = {
 };
 
 // mock implementation of useLocation to return the mock URL
-jest.mock('react-router', () => ({
+vi.mock('react-router', async () => ({
   __esModule: true,
-  ...jest.requireActual('react-router'),
-  useLocation: jest.fn(),
+  ...(await vi.importActual('react-router')),
+  useLocation: vi.fn(),
 }));
 
 describe('useAnchor', () => {
@@ -36,14 +35,14 @@ describe('useAnchor', () => {
 
   beforeEach(() => {
     // use fake timers bc useAnchor uses setTimeout under the hood
-    jest.useFakeTimers();
-    (useLocation as jest.Mock).mockReturnValue(MOCK_REACT_ROUTER_LOCATION);
+    vi.useFakeTimers();
+    vi.mocked(useLocation).mockReturnValue(MOCK_REACT_ROUTER_LOCATION);
     createMockStore = configureStore();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('should scroll the element into view if the fragment in URL matches an element', () => {
@@ -54,12 +53,12 @@ describe('useAnchor', () => {
       router: { location: createLocation('/') },
     });
 
-    const mockScrollIntoView = jest.fn();
+    const mockScrollIntoView = vi.fn();
     // pretend an element is found that matches the fragment
     // the weird type cast is to get around TypeScript error saying
     // the object is missing a bunch of other properties
     // we obviously don't care about them so there's no point in stubbing them.
-    jest.spyOn(document, 'getElementById').mockReturnValueOnce({
+    vi.spyOn(document, 'getElementById').mockReturnValueOnce({
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLDivElement);
 
@@ -69,7 +68,7 @@ describe('useAnchor', () => {
       </Provider>
     );
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     // fragment matches an element, should be scrolled into view
     expect(mockScrollIntoView).toBeCalledTimes(1);
@@ -83,10 +82,10 @@ describe('useAnchor', () => {
       router: { location: createLocation('/') },
     });
 
-    const mockScrollIntoView = jest.fn();
+    const mockScrollIntoView = vi.fn();
     // pretend no element with #fragment is found
     // and pretend there is other elements with IDs != fragment
-    jest.spyOn(document, 'getElementById').mockImplementation((id) =>
+    vi.spyOn(document, 'getElementById').mockImplementation((id) =>
       id === 'fragment'
         ? null
         : ({
@@ -94,6 +93,7 @@ describe('useAnchor', () => {
           } as unknown as HTMLDivElement)
     );
     // another element with ID "other", which is obv != fragment
+    // eslint-disable-next-line testing-library/no-node-access
     const otherElem = document.getElementById('other');
 
     render(
@@ -102,7 +102,7 @@ describe('useAnchor', () => {
       </Provider>
     );
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     // fragment doesn't match any element, useAnchor should not randomly
     // jump to other elements
@@ -117,12 +117,12 @@ describe('useAnchor', () => {
       router: { location: createLocation('/') },
     });
 
-    const mockScrollIntoView = jest.fn();
+    const mockScrollIntoView = vi.fn();
     // pretend an element is found that matches the fragment
     // the weird type cast is to get around TypeScript error saying
     // the object is missing a bunch of other properties
     // we obviously don't care about them so there's no point in stubbing them.
-    jest.spyOn(document, 'getElementById').mockReturnValueOnce({
+    vi.spyOn(document, 'getElementById').mockReturnValueOnce({
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLDivElement);
 
@@ -132,7 +132,7 @@ describe('useAnchor', () => {
       </Provider>
     );
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     // fragment matches an element but website still loading
     expect(mockScrollIntoView).not.toBeCalled();

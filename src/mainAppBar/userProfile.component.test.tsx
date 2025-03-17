@@ -66,7 +66,7 @@ describe('User profile component', () => {
   it('renders sign in button if user signed in via autoLogin', () => {
     state.scigateway.authorisation.provider.autoLogin = () => Promise.resolve();
 
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
 

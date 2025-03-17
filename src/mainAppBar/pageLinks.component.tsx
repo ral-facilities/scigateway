@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { push } from 'connected-react-router';
@@ -36,7 +35,7 @@ function PageLinks(): JSX.Element {
 
   function navigateToAdminPage(): void {
     const targetRoute =
-      adminPageDefaultTab && adminRoutes.hasOwnProperty(adminPageDefaultTab)
+      adminPageDefaultTab && Object.hasOwn(adminRoutes, adminPageDefaultTab)
         ? adminRoutes[adminPageDefaultTab]
         : adminRoutes['maintenance'];
 

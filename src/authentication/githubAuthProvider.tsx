@@ -9,7 +9,7 @@ export default class GithubAuthProvider extends BaseAuthProvider {
       'https://github.com/login/oauth/authorize?client_id=9fb0c571fd7b71e383b4';
   }
 
-  public logIn(username: string, password: string): Promise<void> {
+  public logIn(_username: string, password: string): Promise<void> {
     const params = qs.parse(password);
 
     // remove existing credentials so they can be refreshed

@@ -55,7 +55,7 @@ describe('Mobile overflow menu', () => {
   });
 
   it('combines app bar buttons and settings menu', () => {
-    render(<MobileOverflowMenu open onClose={jest.fn()} />, {
+    render(<MobileOverflowMenu open onClose={vi.fn()} />, {
       wrapper: Wrapper,
     });
 
@@ -87,7 +87,7 @@ describe('Mobile overflow menu', () => {
   it('redirects to Admin page when Admin button clicked (maintenance is default)', async () => {
     const user = userEvent.setup();
 
-    render(<MobileOverflowMenu open onClose={jest.fn()} />, {
+    render(<MobileOverflowMenu open onClose={vi.fn()} />, {
       wrapper: Wrapper,
     });
 
@@ -112,7 +112,7 @@ describe('Mobile overflow menu', () => {
     ];
     const user = userEvent.setup();
 
-    render(<MobileOverflowMenu open onClose={jest.fn()} />, {
+    render(<MobileOverflowMenu open onClose={vi.fn()} />, {
       wrapper: Wrapper,
     });
 
@@ -125,7 +125,7 @@ describe('Mobile overflow menu', () => {
   it('toggles tutorial help when tutorial menu item is clicked', async () => {
     const user = userEvent.setup();
 
-    render(<MobileOverflowMenu open onClose={jest.fn()} />, {
+    render(<MobileOverflowMenu open onClose={vi.fn()} />, {
       wrapper: Wrapper,
     });
 
@@ -140,7 +140,7 @@ describe('Mobile overflow menu', () => {
       'token123'
     );
 
-    render(<MobileOverflowMenu open onClose={jest.fn()} />, {
+    render(<MobileOverflowMenu open onClose={vi.fn()} />, {
       wrapper: Wrapper,
     });
 
@@ -152,7 +152,7 @@ describe('Mobile overflow menu', () => {
   it('hides help apge item when help page is disabled', () => {
     state.scigateway.features.showHelpPageButton = false;
 
-    render(<MobileOverflowMenu open onClose={jest.fn()} />, {
+    render(<MobileOverflowMenu open onClose={vi.fn()} />, {
       wrapper: Wrapper,
     });
 
