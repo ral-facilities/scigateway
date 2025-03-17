@@ -1,10 +1,10 @@
-import React from 'react';
-import { Theme, IconButton, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Clear';
 import TickIcon from '@mui/icons-material/CheckCircle';
+import DeleteIcon from '@mui/icons-material/Clear';
 import WarningIcon from '@mui/icons-material/ErrorOutline';
 import ErrorIcon from '@mui/icons-material/HighlightOff';
 import InfoIcon from '@mui/icons-material/Info';
+import { IconButton, Theme, Typography } from '@mui/material';
+import React from 'react';
 import { Action } from 'redux';
 
 const severityIconStyle = {
@@ -44,7 +44,7 @@ const ScigatewayNotification = React.forwardRef(function ScigatewayNotification(
           }}
         />
       ) : null}
-      {props.severity === 'information' ? (
+      {props.severity === 'info' ? (
         <InfoIcon
           sx={{
             ...severityIconStyle,

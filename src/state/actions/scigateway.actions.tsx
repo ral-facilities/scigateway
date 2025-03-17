@@ -455,7 +455,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 const displayMaintenanceBanner = (
   message: string,
-  severity: 'success' | 'warning' | 'error' | 'information',
+  severity: 'success' | 'warning' | 'error' | 'info',
   instant = false
 ): void => {
   document.dispatchEvent(

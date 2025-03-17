@@ -120,6 +120,26 @@ app.post(`/refresh`, function (req, res) {
   }
 });
 
+let scheduledMaintenanceState = {
+  show: false,
+  message: '',
+  severity: 'info',
+};
+let maintenanceState = {
+  show: false,
+  message: 'message',
+};
+
+// Fetch Scheduled Maintenance State
+app.get('/scheduled_maintenance', function (req, res) {
+  res.status(200).json(scheduledMaintenanceState);
+});
+
+// Fetch Maintenance State
+app.get('/maintenance', function (req, res) {
+  res.status(200).json(maintenanceState);
+});
+
 app.post(`/github/login`, function (req, res) {
   const { code } = req.body;
 

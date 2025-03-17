@@ -1,22 +1,22 @@
-import React from 'react';
 import { createLocation } from 'history';
+import React from 'react';
+import configureStore, { MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
-import configureStore, { MockStore } from 'redux-mock-store';
 
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { buildTheme } from '../theming';
-import TestAuthProvider from '../authentication/testAuthProvider';
+import { MemoryRouter } from 'react-router';
 import { thunk } from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
 import {
   loadMaintenanceState,
   loadScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
-import { MemoryRouter } from 'react-router';
+import { buildTheme } from '../theming';
 import MaintenancePage from './maintenancePage.component';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 describe('maintenance page component', () => {
   let mockStore;
@@ -84,7 +84,7 @@ describe('maintenance page component', () => {
         loadScheduledMaintenanceState({
           show: true,
           message: 'test',
-          severity: 'information',
+          severity: 'info',
         })
       );
     });
