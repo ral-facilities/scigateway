@@ -22,7 +22,8 @@ const withAuth = function (req, res, next) {
     req.body.token ||
     req.query.token ||
     req.headers['x-access-token'] ||
-    req.headers.cookie;
+    req.headers.cookie ||
+    req.headers.authorization?.split(' ')?.[1];
   if (!token) {
     res.status(401).send('Unauthorized: No token provided');
   } else {
@@ -39,7 +40,10 @@ const withAuth = function (req, res, next) {
 
 function isValidLogin(username, password) {
   // this would normally be a database lookup
-  return username === 'username' && password === 'password';
+  return (
+    (username === 'username' && password === 'password') ||
+    (username === 'admin' && password === 'password')
+  );
 }
 
 app.post(`/login`, function (req, res) {
@@ -58,6 +62,7 @@ app.post(`/login`, function (req, res) {
   } else if (isValidLogin(username, password)) {
     // Issue token
     const payload = { username };
+    if (username === 'admin') payload.userIsAdmin = true;
     const accessToken = jwt.sign(payload, jwtSecret, {
       expiresIn: '1m',
     });
@@ -138,6 +143,38 @@ app.get('/scheduled_maintenance', function (req, res) {
 // Fetch Maintenance State
 app.get('/maintenance', function (req, res) {
   res.status(200).json(maintenanceState);
+});
+
+app.post(`/scheduled_maintenance`, withAuth, function (req, res) {
+  const token = jwt.verify(
+    req.headers.authorization?.split(' ')?.[1],
+    jwtSecret
+  );
+  if (token && typeof token !== 'string' && token.userIsAdmin) {
+    scheduledMaintenanceState = req.body;
+    res
+      .status(200)
+      .json('Scheduled maintenance mode state successfully updated');
+  } else {
+    res.status(403).json({
+      error: 'Unauthorized',
+    });
+  }
+});
+
+app.post(`/maintenance`, withAuth, function (req, res) {
+  const token = jwt.verify(
+    req.headers.authorization?.split(' ')?.[1],
+    jwtSecret
+  );
+  if (token && typeof token !== 'string' && token.userIsAdmin) {
+    maintenanceState = req.body;
+    res.status(200).json('Maintenance mode state successfully updated');
+  } else {
+    res.status(403).json({
+      error: 'Unauthorized',
+    });
+  }
 });
 
 app.post(`/github/login`, function (req, res) {
