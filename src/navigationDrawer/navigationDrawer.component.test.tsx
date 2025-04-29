@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { NavigationDrawer } from './navigationDrawer.component';
 
-import { PluginConfig } from '../state/scigateway.types';
 import {
   StyledEngineProvider,
   ThemeProvider,
   useMediaQuery,
 } from '@mui/material';
-import { MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory, History } from 'history';
-import { buildTheme } from '../theming';
 import { render, screen } from '@testing-library/react';
+import { createMemoryHistory, History } from 'history';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { combineReducers, createStore, Store } from 'redux';
-import { ScigatewayState, StateType } from '../state/state.types';
 import ScigatewayReducer, {
   initialState as scigatewayInitialState,
 } from '../state/reducers/scigateway.reducer';
+import { PluginConfig } from '../state/scigateway.types';
+import { ScigatewayState, StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
 
 vi.mock('@mui/material', async () => ({
   __esmodule: true,

@@ -1,37 +1,37 @@
-import ScigatewayMiddleware, {
-  listenToPlugins,
-  autoLoginMiddleware,
-} from './scigateway.middleware';
+import { createLocation } from 'history';
+import log from 'loglevel';
+import { toastr } from 'react-redux-toastr';
 import { AnyAction } from 'redux';
 import configureStore, {
   MockStoreCreator,
   MockStoreEnhanced,
 } from 'redux-mock-store';
-import log from 'loglevel';
-import { createLocation } from 'history';
-import {
-  InvalidateTokenType,
-  ToggleDrawerType,
-  LoadDarkModePreferenceType,
-  SendThemeOptionsType,
-  BroadcastSignOutType,
-  LoadHighContrastModePreferenceType,
-  SignOutType,
-  AuthFailureType,
-  NotificationType,
-  TokenRefreshedType,
-} from '../scigateway.types';
-import { toastr } from 'react-redux-toastr';
-import { AddHelpTourStepsType } from '../scigateway.types';
-import { StateType } from '../state.types';
-import TestAuthProvider from '../../authentication/testAuthProvider';
-import { flushPromises } from '../../testUtils';
-import { authState, initialState } from '../reducers/scigateway.reducer';
-import { buildTheme } from '../../theming';
 import { thunk } from 'redux-thunk';
-import { autoLoginAuthorised } from '../actions/scigateway.actions';
 import * as singleSpa from 'single-spa';
 import { Mock } from 'vitest';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import { flushPromises } from '../../testUtils';
+import { buildTheme } from '../../theming';
+import { autoLoginAuthorised } from '../actions/scigateway.actions';
+import { authState, initialState } from '../reducers/scigateway.reducer';
+import {
+  AddHelpTourStepsType,
+  AuthFailureType,
+  BroadcastSignOutType,
+  InvalidateTokenType,
+  LoadDarkModePreferenceType,
+  LoadHighContrastModePreferenceType,
+  NotificationType,
+  SendThemeOptionsType,
+  SignOutType,
+  ToggleDrawerType,
+  TokenRefreshedType,
+} from '../scigateway.types';
+import { StateType } from '../state.types';
+import ScigatewayMiddleware, {
+  autoLoginMiddleware,
+  listenToPlugins,
+} from './scigateway.middleware';
 
 vi.mock('single-spa');
 
@@ -683,7 +683,7 @@ describe('scigateway middleware', () => {
         type: NotificationType,
         payload: {
           message: 'test notification',
-          severity: 'information',
+          severity: 'info',
         },
       };
       handler(new CustomEvent('test', { detail: notificationAction }));

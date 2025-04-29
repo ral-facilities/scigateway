@@ -40,7 +40,6 @@ import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import ICATAuthProvider from '../../authentication/icatAuthProvider';
 import NullAuthProvider from '../../authentication/nullAuthProvider';
-import LDAPJWTAuthProvider from '../../authentication/ldapJWTAuthProvider';
 
 describe('scigateway reducer', () => {
   let state: ScigatewayState;
@@ -285,12 +284,6 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       ICATAuthProvider
-    );
-
-    updatedState = ScigatewayReducer(state, loadAuthProvider('ldap-jwt'));
-
-    expect(updatedState.authorisation.provider).toBeInstanceOf(
-      LDAPJWTAuthProvider
     );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider(null));
