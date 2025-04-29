@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
-import Typography from '@mui/material/Typography';
 import {
-  Paper,
-  TextareaAutosize,
-  FormControlLabel,
-  Checkbox,
   Button,
-  styled,
-  Select,
+  Checkbox,
+  FormControlLabel,
   MenuItem,
+  Paper,
+  Select,
+  styled,
+  TextareaAutosize,
 } from '@mui/material';
-import {
-  MaintenanceState,
-  ScheduledMaintenanceState,
-} from '../state/scigateway.types';
+import Typography from '@mui/material/Typography';
+import React, { ReactElement, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import {
   setMaintenanceState,
   setScheduledMaintenanceState,
 } from '../state/actions/scigateway.actions';
-import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
+import {
+  MaintenanceState,
+  ScheduledMaintenanceState,
+} from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { connect } from 'react-redux';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   display: 'flex',
@@ -146,14 +145,14 @@ export const MaintenancePage = (
                   | 'success'
                   | 'warning'
                   | 'error'
-                  | 'information',
+                  | 'info',
               })
             }
             inputProps={{ 'aria-label': t('admin.severity-select-arialabel') }}
             variant="standard"
           >
             <MenuItem value="warning">Warning</MenuItem>
-            <MenuItem value="information">Information</MenuItem>
+            <MenuItem value="info">Information</MenuItem>
           </Select>
           <Button
             sx={{ float: 'right' }}

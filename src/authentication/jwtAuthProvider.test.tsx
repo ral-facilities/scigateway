@@ -159,4 +159,150 @@ describe('jwt auth provider', () => {
     expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
     expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
   });
+
+  it('should call api to fetch scheduled maintenance state', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          show: false,
+          message: 'test',
+        },
+      })
+    );
+
+    await jwtAuthProvider.fetchScheduledMaintenanceState();
+    expect(mockAxios.get).toHaveBeenCalledWith(
+      'http://localhost:8000/scheduled_maintenance'
+    );
+  });
+
+  it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await jwtAuthProvider.fetchScheduledMaintenanceState().catch(() => {
+      // catch error
+    });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should call api to fetch maintenance state', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          show: false,
+          message: 'test',
+        },
+      })
+    );
+
+    await jwtAuthProvider.fetchMaintenanceState();
+    expect(mockAxios.get).toHaveBeenCalledWith(
+      'http://localhost:8000/maintenance'
+    );
+  });
+
+  it('should log the user out if it fails to fetch maintenance state', async () => {
+    (mockAxios.get as jest.Mock).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await jwtAuthProvider.fetchMaintenanceState().catch(() => {
+      // catch error
+    });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should call api to set scheduled maintenance state', async () => {
+    const scheduledMaintenanceState = { show: true, message: 'test' };
+    mockAxios.post = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        data: 'test',
+      })
+    );
+
+    await jwtAuthProvider.setScheduledMaintenanceState(
+      scheduledMaintenanceState
+    );
+
+    expect(mockAxios.post).toBeCalledWith(
+      'http://localhost:8000/scheduled_maintenance',
+      scheduledMaintenanceState,
+      {
+        headers: {
+          Authorization: `Bearer ${testToken}`,
+        },
+      }
+    );
+  });
+
+  it('should log the user out if it fails to set scheduled maintenance state', async () => {
+    const scheduledMaintenanceState = { show: true, message: 'test' };
+    mockAxios.post = jest.fn().mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await jwtAuthProvider
+      .setScheduledMaintenanceState(scheduledMaintenanceState)
+      .catch(() => {
+        // catch error
+      });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should call api to set maintenance state', async () => {
+    const maintenanceState = { show: true, message: 'test' };
+    mockAxios.post = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ data: 'test' }));
+
+    await jwtAuthProvider.setMaintenanceState(maintenanceState);
+
+    expect(mockAxios.post).toBeCalledWith(
+      'http://localhost:8000/maintenance',
+      maintenanceState,
+      {
+        headers: {
+          Authorization: `Bearer ${testToken}`,
+        },
+      }
+    );
+  });
+
+  it('should log the user out if it fails to set maintenance state', async () => {
+    const maintenanceState = { show: true, message: 'test' };
+    mockAxios.post = jest.fn().mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 401,
+        },
+      })
+    );
+
+    await jwtAuthProvider.setMaintenanceState(maintenanceState).catch(() => {
+      // catch error
+    });
+
+    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
+    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
+  });
 });
