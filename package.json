@@ -80,9 +80,7 @@
     ]
   },
   "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
+    "defaults"
   ],
   "devDependencies": {
     "@babel/eslint-parser": "7.23.3",
