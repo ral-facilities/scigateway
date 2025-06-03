@@ -23,7 +23,7 @@ import { Provider } from 'react-redux';
 import { thunk } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { NotificationType } from '../state/scigateway.types';
-import * as log from 'loglevel';
+import log from 'loglevel';
 import {
   act,
   render,
@@ -34,7 +34,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 
-jest.mock('loglevel');
+vi.mock('loglevel');
 
 describe('Login selector component', () => {
   let props: CombinedLoginProps;
@@ -48,8 +48,8 @@ describe('Login selector component', () => {
         provider: new TestAuthProvider(null),
       },
       res: undefined,
-      verifyUsernameAndPassword: jest.fn(),
-      resetAuthState: jest.fn(),
+      verifyUsernameAndPassword: vi.fn(),
+      resetAuthState: vi.fn(),
     };
   });
 
@@ -65,7 +65,7 @@ describe('Login selector component', () => {
       },
     ];
     const user = userEvent.setup();
-    const testSetMnemonic = jest.fn();
+    const testSetMnemonic = vi.fn();
 
     render(
       <LoginSelector
@@ -116,7 +116,7 @@ describe('Login page component', () => {
       },
       res: undefined,
       verifyUsernameAndPassword: () => Promise.resolve(),
-      resetAuthState: jest.fn(),
+      resetAuthState: vi.fn(),
     };
 
     state.scigateway.authorisation = props.auth;
@@ -240,7 +240,7 @@ describe('Login page component', () => {
 
   it('login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon)', async () => {
     props.auth.provider.mnemonic = '';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -268,7 +268,7 @@ describe('Login page component', () => {
 
   it("login page doesn't render dropdown if anon is the only other authenticator", async () => {
     props.auth.provider.mnemonic = '';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -291,7 +291,7 @@ describe('Login page component', () => {
 
   it('login page renders anonymous login if mnemonic present with no keys', async () => {
     props.auth.provider.mnemonic = 'nokeys';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -309,7 +309,7 @@ describe('Login page component', () => {
 
   it('login page renders credentials login if mnemonic present + user/pass is selected', async () => {
     props.auth.provider.mnemonic = 'user/pass';
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -351,10 +351,11 @@ describe('Login page component', () => {
 
   it('login page displays and logs an error if fetchMnemonics fails', async () => {
     props.auth.provider.mnemonic = '';
-    (axios.get as jest.Mock).mockImplementation(() => Promise.reject());
+    log.error = vi.fn();
+    vi.mocked(axios.get).mockImplementation(() => Promise.reject());
     const events: CustomEvent<AnyAction>[] = [];
 
-    const dispatchEventSpy = jest
+    const dispatchEventSpy = vi
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
         events.push(e as CustomEvent<AnyAction>);
@@ -367,25 +368,25 @@ describe('Login page component', () => {
 
     await waitFor(() => {
       expect(dispatchEventSpy).toHaveBeenCalled();
-      expect(events.length).toEqual(1);
-      expect(events[0].detail).toEqual({
-        type: NotificationType,
-        payload: {
-          message:
-            'It is not possible to authenticate you at the moment. Please, try again later',
-          severity: 'error',
-        },
-      });
-
-      expect(log.error).toHaveBeenCalled();
-      expect((log.error as jest.Mock).mock.calls[0][0]).toEqual(
-        'It is not possible to authenticate you at the moment. Please, try again later'
-      );
     });
+    expect(events.length).toEqual(1);
+    expect(events[0].detail).toEqual({
+      type: NotificationType,
+      payload: {
+        message:
+          'It is not possible to authenticate you at the moment. Please, try again later',
+        severity: 'error',
+      },
+    });
+
+    expect(log.error).toHaveBeenCalled();
+    expect(vi.mocked(log.error).mock.calls[0][0]).toEqual(
+      'It is not possible to authenticate you at the moment. Please, try again later'
+    );
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
-    const mockLoginfn = jest.fn(() => Promise.resolve());
+    const mockLoginfn = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
 
@@ -447,7 +448,7 @@ describe('Login page component', () => {
     history.replace('/login?token=test_token');
 
     const promise = Promise.resolve();
-    const mockLoginfn = jest.fn(() => promise);
+    const mockLoginfn = vi.fn(() => promise);
     props.verifyUsernameAndPassword = mockLoginfn;
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
@@ -465,12 +466,12 @@ describe('Login page component', () => {
   });
 
   it('on submit verification method should be called when logs in via keyless authenticator', async () => {
-    const mockLoginfn = jest.fn(() => Promise.resolve());
+    const mockLoginfn = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
     props.auth.provider.mnemonic = 'nokeys';
 
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {
@@ -496,7 +497,7 @@ describe('Login page component', () => {
     history.replace('/login?token=test_token');
     state.scigateway.authorisation.provider.mnemonic = 'nokeys';
 
-    (axios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
         data: [
           {

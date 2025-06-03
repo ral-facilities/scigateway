@@ -37,7 +37,7 @@ export default abstract class BaseAuthProvider implements AuthProvider {
           user.isAdmin = tokenObject.userIsAdmin;
           return user;
         }
-      } catch (TypeError) {
+      } catch (_err) {
         // not a valid JWT, token has likely been tampered with in some way (or we are running tests)
         console.error('Invalid token: failed to authenticate');
       }

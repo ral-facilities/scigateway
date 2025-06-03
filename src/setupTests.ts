@@ -10,26 +10,27 @@ if (typeof window.URL.createObjectURL === 'undefined') {
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
   })),
 });
 
-export const flushPromises = (): Promise<void> =>
-  new Promise(jest.requireActual('timers').setImmediate);
-
 // globally mock as we never want to actually call single-spa funcs in unit tests
-jest.mock('single-spa', () => ({
-  unloadApplication: jest.fn(),
-  start: jest.fn(),
-  getAppStatus: jest.fn(),
-  triggerAppChange: jest.fn(),
+vi.mock('single-spa', () => ({
+  unloadApplication: vi.fn(),
+  start: vi.fn(),
+  getAppStatus: vi.fn(),
+  triggerAppChange: vi.fn(),
   NOT_LOADED: 'NOT_LOADED',
 }));
+
+// Recreate jest behaviour by mocking with __mocks__ by mocking globally here
+vi.mock('axios');
+vi.mock('react-i18next');

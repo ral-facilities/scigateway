@@ -50,7 +50,7 @@ describe('Admin page component', () => {
   }
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render maintenance page correctly', () => {

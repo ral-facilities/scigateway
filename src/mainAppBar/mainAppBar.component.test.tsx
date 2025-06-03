@@ -21,10 +21,10 @@ import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import MainAppBarComponent from './mainAppBar.component';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Main app bar component', () => {
@@ -63,10 +63,10 @@ describe('Main app bar component', () => {
 
     testStore = configureStore()(state);
 
-    // I don't think MediaQuery works properly in jest
+    // I don't think MediaQuery works properly in vi
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   const theme = buildTheme(false);
@@ -380,7 +380,7 @@ describe('Main app bar component', () => {
     state.scigateway.siteLoading = false;
 
     // Need to attachTo something to ensure document.getElementById works as expected
-    // https://stackoverflow.com/questions/43694975/jest-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
+    // https://stackoverflow.com/questions/43694975/vi-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
     const holder = document.createElement('div');
     document.body.appendChild(holder);
     render(
@@ -452,7 +452,7 @@ describe('Main app bar component', () => {
 
   describe('mobile variant', () => {
     beforeEach(() => {
-      jest.mocked(useMediaQuery).mockReturnValue(false);
+      vi.mocked(useMediaQuery).mockReturnValue(false);
     });
 
     it('shows drawer button, logo, user avatar, notification button, and an overflow menu button', () => {
@@ -485,7 +485,7 @@ describe('Main app bar component', () => {
       expect(
         screen.getByRole('button', { name: 'Open notification menu' })
       ).toBeInTheDocument();
-      expect(screen.queryByTestId('NotificationsIcon')).toBeInTheDocument();
+      expect(screen.getByTestId('NotificationsIcon')).toBeInTheDocument();
       expect(
         screen.getByRole('button', { name: 'Open user menu' })
       ).toBeInTheDocument();

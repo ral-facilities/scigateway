@@ -78,16 +78,14 @@ describe('maintenance page component', () => {
       screen.getAllByRole('button', { name: 'admin.save-button' })[0]
     );
 
-    await waitFor(() => {
-      expect(store.getActions().length).toEqual(1);
-      expect(store.getActions()[0]).toEqual(
-        loadScheduledMaintenanceState({
-          show: true,
-          message: 'test',
-          severity: 'info',
-        })
-      );
-    });
+    await waitFor(() => expect(store.getActions().length).toEqual(1));
+    expect(store.getActions()[0]).toEqual(
+      loadScheduledMaintenanceState({
+        show: true,
+        message: 'test',
+        severity: 'info',
+      })
+    );
   });
 
   it('setMaintenanceState action should be sent when the setMaintenanceState function is called', async () => {

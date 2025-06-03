@@ -42,7 +42,7 @@ jobs:
 
       - name: Create tarball
         run: |
-          mv build scigateway-$TAG_NAME
+          mv dist scigateway-$TAG_NAME
           tar -czf scigateway-$TAG_NAME.tar.gz scigateway-$TAG_NAME
 
       - name: Update snapshot tag

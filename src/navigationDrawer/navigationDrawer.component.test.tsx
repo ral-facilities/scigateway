@@ -1,27 +1,27 @@
 import * as React from 'react';
 import { NavigationDrawer } from './navigationDrawer.component';
 
-import { PluginConfig } from '../state/scigateway.types';
 import {
   StyledEngineProvider,
   ThemeProvider,
   useMediaQuery,
 } from '@mui/material';
-import { MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory, History } from 'history';
-import { buildTheme } from '../theming';
 import { render, screen } from '@testing-library/react';
+import { createMemoryHistory, History } from 'history';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { combineReducers, createStore, Store } from 'redux';
-import { ScigatewayState, StateType } from '../state/state.types';
 import ScigatewayReducer, {
   initialState as scigatewayInitialState,
 } from '../state/reducers/scigateway.reducer';
+import { PluginConfig } from '../state/scigateway.types';
+import { ScigatewayState, StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Navigation drawer component', () => {
@@ -34,7 +34,7 @@ describe('Navigation drawer component', () => {
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
@@ -249,7 +249,7 @@ describe('Navigation drawer component', () => {
 
     expect(screen.getByRole('img')).toHaveAttribute(
       'src',
-      'stfc-logo-white-text.png'
+      '/src/images/stfc-logo-white-text.png'
     );
   });
 

@@ -14,7 +14,7 @@ function createScigatewayNotification(
       message={message}
       severity={severity}
       index={0}
-      dismissNotification={jest.fn()}
+      dismissNotification={vi.fn()}
     />
   );
 }
@@ -65,7 +65,7 @@ describe('Scigateway Notification component', () => {
   });
 
   it('an action is fired when Scigateway Notification button is clicked', async () => {
-    const mockDismissFn = jest.fn();
+    const mockDismissFn = vi.fn();
     const user = userEvent.setup();
 
     render(

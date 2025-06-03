@@ -81,7 +81,7 @@ export const CookieConsent = (
   }, [props]);
 
   const handleAccept = (
-    event: React.SyntheticEvent | React.MouseEvent
+    _event: React.SyntheticEvent | React.MouseEvent
   ): void => {
     Cookies.set('cookie-consent', JSON.stringify({ analytics: true }), {
       expires: 365,

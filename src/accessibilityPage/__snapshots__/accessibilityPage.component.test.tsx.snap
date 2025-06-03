@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Accessibility page component should render correctly and display contact us component 1`] = `
+exports[`Accessibility page component > should render correctly and display contact us component 1`] = `
 <DocumentFragment>
   <div
     class="css-18rbhl5"
