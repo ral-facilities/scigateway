@@ -1,22 +1,28 @@
-import { PluginConfig, RegisterRoutePayload } from './scigateway.types';
 import {
+  buildNavDrawerPluginList,
   buildPluginConfig,
   comparePlugins,
   structureMenuData,
 } from './pluginhelper';
+import { PluginConfig, RegisterRoutePayload } from './scigateway.types';
 
 describe('pluginhelper', () => {
   function buildPlugin(
     order: number,
     displayName: string,
-    section: string
+    section: string,
+    link = 'link',
+    admin?: boolean,
+    hideFromMenu?: boolean
   ): PluginConfig {
     return {
-      order: order,
-      displayName: displayName,
-      section: section,
-      link: 'link',
+      order,
+      displayName,
+      section,
+      link,
       plugin: 'plugin',
+      admin,
+      hideFromMenu,
     };
   }
 
@@ -107,6 +113,32 @@ describe('pluginhelper', () => {
       const structuredData = structureMenuData(testPluginList);
       const sortedData = structuredData['Data'].sort(comparePlugins);
       expect(structuredData['Data']).toEqual(sortedData);
+    });
+  });
+
+  describe('buildNavDrawerPluginList', () => {
+    const testPluginList: PluginConfig[] = [
+      buildPlugin(1, 'one', 'Data'),
+      buildPlugin(2, 'two', 'Analysis', 'link', true),
+      buildPlugin(3, 'three', 'Data', 'link', false, true),
+      buildPlugin(4, 'four', 'Analysis', 'homepage'),
+    ];
+
+    it('filters out plugins which should not appear in the menu', () => {
+      const filteredPlugins = buildNavDrawerPluginList(
+        testPluginList,
+        'homepage'
+      );
+      expect(filteredPlugins).toHaveLength(1);
+      expect(filteredPlugins[0].displayName).toEqual('one');
+    });
+
+    it('works fine if homepage is undefined', () => {
+      const filteredPlugins = buildNavDrawerPluginList(
+        testPluginList,
+        undefined
+      );
+      expect(filteredPlugins).toHaveLength(2);
     });
   });
 });

@@ -7,8 +7,8 @@ import { Box, styled, useMediaQuery } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import { Theme, useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
+import { Theme, useTheme } from '@mui/material/styles';
 import { push } from 'connected-react-router';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -23,6 +23,7 @@ import {
   toggleDrawer,
   toggleHelp,
 } from '../state/actions/scigateway.actions';
+import { buildNavDrawerPluginList } from '../state/pluginhelper';
 import { AppStrings, PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
@@ -42,7 +43,7 @@ interface MainAppProps {
   loggedIn: boolean;
   darkMode: boolean;
   highContrastMode: boolean;
-  plugins?: PluginConfig[];
+  plugins: PluginConfig[];
   loading: boolean;
   logo?: string;
   homepageUrl?: string;
@@ -88,7 +89,7 @@ export const MainAppBar = (
   React.useEffect(() => {
     if (!props.loading) {
       let set = false;
-      if (props.plugins && props.plugins.length >= 1) {
+      if (props.plugins.length >= 1) {
         //Use the first plugin's logo for everything if 'singlePluginLogo' is true, otherwise choose depending on current plugin visible
         if (props.singlePluginLogo) {
           setLogo(props.plugins[0].logoDarkMode ?? ScigatewayLogo);
@@ -104,16 +105,30 @@ export const MainAppBar = (
         }
       }
 
-      if (!set || !props.plugins) {
+      if (!set) {
         setLogo(ScigatewayLogo);
       }
     }
   }, [props.plugins, location, props.loading, props.singlePluginLogo]);
 
+  const { toggleDrawer } = props;
+
+  const pluginList = React.useMemo(
+    () => buildNavDrawerPluginList(props.plugins, props.homepageUrl),
+    [props.plugins, props.homepageUrl]
+  );
+
+  React.useEffect(() => {
+    if (!props.loading && pluginList.length === 0 && props.drawerOpen) {
+      // don't show drawer
+      toggleDrawer();
+    }
+  }, [props.loading, props.drawerOpen, toggleDrawer, pluginList]);
+
   // have menu open by default after page loads
   React.useEffect(() => {
     if (!props.loading && !props.drawerOpen && isViewportMdOrLarger) {
-      props.toggleDrawer();
+      toggleDrawer();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.loading, isViewportMdOrLarger]);
@@ -151,11 +166,11 @@ export const MainAppBar = (
             marginRight: isViewportMdOrLarger ? '16px' : 0,
           }}
         >
-          {!props.drawerOpen ? (
+          {pluginList.length === 0 ? null : !props.drawerOpen ? (
             <IconButton
               sx={appBarMenuItemIconStyle}
               color="inherit"
-              onClick={props.toggleDrawer}
+              onClick={toggleDrawer}
               aria-label={getString(props.res, 'open-navigation-menu')}
               size="large"
             >
@@ -165,7 +180,7 @@ export const MainAppBar = (
             <IconButton
               sx={appBarMenuItemIconStyle}
               color="inherit"
-              onClick={props.toggleDrawer}
+              onClick={toggleDrawer}
               aria-label={getString(props.res, 'close-navigation-menu')}
               size="large"
             >

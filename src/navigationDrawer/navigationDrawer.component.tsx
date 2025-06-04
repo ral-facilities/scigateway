@@ -1,26 +1,29 @@
-import React, { Fragment, useCallback } from 'react';
 import {
   Box,
   ListItemButton,
-  styled,
   Theme,
   Typography,
+  styled,
   useMediaQuery,
 } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { useTheme } from '@mui/material/styles';
+import React, { Fragment, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
+import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
+import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
+import { toggleDrawer } from '../state/actions/scigateway.actions';
+import {
+  buildNavDrawerPluginList,
+  structureMenuData,
+} from '../state/pluginhelper';
 import { PluginConfig } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import { structureMenuData } from '../state/pluginhelper';
-import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
-import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import { getAppStrings, getString } from '../state/strings';
-import { useTheme } from '@mui/material/styles';
-import { toggleDrawer } from '../state/actions/scigateway.actions';
 
 const LogoImage = styled('img')(({ theme }) => ({
   paddingRight: theme.spacing(2),
@@ -130,15 +133,8 @@ export const NavigationDrawer = (): React.ReactElement => {
   );
 
   const renderRoutes = useCallback((): React.ReactElement => {
-    // don't include link to homepage in nav bar
-    const filteredPlugins = homepageUrl
-      ? plugins.filter((plugin) => plugin.link !== homepageUrl)
-      : plugins;
-
-    // Do not include admin plugins or plugins that explicitly ask to hide in the drawer list
-    const sectionPlugins = structureMenuData(
-      filteredPlugins.filter((plugin) => !plugin.admin && !plugin.hideFromMenu)
-    );
+    const pluginList = buildNavDrawerPluginList(plugins, homepageUrl);
+    const sectionPlugins = structureMenuData(pluginList);
 
     return (
       <>
