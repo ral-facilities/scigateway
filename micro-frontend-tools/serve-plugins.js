@@ -1,13 +1,14 @@
+import child_process from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import child_process from 'child_process';
+import { fileURLToPath } from 'url';
 
 var exec = child_process.exec;
 
-const settingsFilePath = path.join(
-  import.meta.dirname,
-  '/dev-plugin-settings.json'
-);
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+const settingsFilePath = path.join(__dirname, '/dev-plugin-settings.json');
 
 function checkForSettingsFile() {
   if (!fs.existsSync(settingsFilePath)) {
