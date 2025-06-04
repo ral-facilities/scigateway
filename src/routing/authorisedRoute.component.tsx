@@ -41,7 +41,7 @@ const withAuth =
       const provider = useSelector(
         (state: StateType) => state.scigateway.authorisation.provider
       );
-      const { pathname: location } = useLocation();
+      const { pathname: location, state: locationState } = useLocation();
 
       const prevLoading = usePrevious(loading);
       const prevLoggedIn = usePrevious(loggedIn);
@@ -49,12 +49,17 @@ const withAuth =
       React.useEffect(() => {
         // run either on initial mount i.e. prevLoading is undefined
         // or when the loading state changes i.e. prevLoading was true and loading is now false
-        if (!loading && (typeof prevLoading === 'undefined' || prevLoading)) {
+        // but don't run if we were redirected from the login page
+        if (
+          !loading &&
+          (typeof prevLoading === 'undefined' || prevLoading) &&
+          (locationState as { referrer?: string })?.referrer !== '/login'
+        ) {
           provider.verifyLogIn().catch(() => {
             dispatch(invalidToken());
           });
         }
-      }, [dispatch, loading, prevLoading, provider]);
+      }, [dispatch, loading, prevLoading, provider, locationState]);
 
       React.useEffect(() => {
         if (
