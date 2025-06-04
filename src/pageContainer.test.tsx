@@ -1,20 +1,18 @@
-import React from 'react';
-
-import { thunk } from 'redux-thunk';
 import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router-dom';
 
-import PageContainer from './pageContainer.component';
-import { StateType } from './state/state.types';
-import { authState, initialState } from './state/reducers/scigateway.reducer';
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
-import { buildTheme } from './theming';
-import { toastr } from 'react-redux-toastr';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
+import PageContainer from './pageContainer.component';
+import { authState, initialState } from './state/reducers/scigateway.reducer';
+import { StateType } from './state/state.types';
+import { buildTheme } from './theming';
 
 vi.mock('@mui/material', async () => ({
   __esmodule: true,
@@ -27,7 +25,19 @@ describe('PageContainer - Tests', () => {
 
   beforeEach(() => {
     state = {
-      scigateway: { ...initialState, authorisation: { ...authState } },
+      scigateway: {
+        ...initialState,
+        authorisation: { ...authState },
+        plugins: [
+          {
+            displayName: 'test',
+            plugin: 'test',
+            order: 1,
+            link: '/test',
+            section: 'Test',
+          },
+        ],
+      },
       router: { location: createLocation('/') },
     };
   });
