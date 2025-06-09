@@ -1,11 +1,11 @@
-import React from 'react';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { getAppStrings, getString } from '../state/strings';
+import React from 'react';
 import { connect } from 'react-redux';
+import useAnchor from '../hooks/useAnchor';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
-import useAnchor from '../hooks/useAnchor';
+import { getAppStrings, getString } from '../state/strings';
 
 const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
@@ -67,8 +67,6 @@ export const TableOfContents = (
   let currLevel = 2;
   let tocHtml = '';
 
-  // ignore the for-of loop rule as NodeList is not iterable
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < helpLinks.length; i++) {
     const h = helpLinks[i];
     // the "h level" is the second character of the header tag i.e. h1 is hLevel 1

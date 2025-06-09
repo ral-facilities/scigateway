@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 
 /* UKRI colours */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const UKRI_COLOURS = {
   blue: '#2E2D62',
   bright: {
