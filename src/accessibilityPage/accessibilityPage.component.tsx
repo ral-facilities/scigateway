@@ -1,6 +1,6 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
 import { Link, styled } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import ContactUs from './contactUs.component';
 
@@ -8,15 +8,9 @@ const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
   '& a': {
-    '&:link': {
-      color: theme.colours.link.default,
-    },
-    '&:visited': {
-      color: theme.colours.link.visited,
-    },
-    '&:active': {
-      color: theme.colours.link.active,
-    },
+    '&:link': { color: theme.colours.link.default },
+    '&:visited': { color: theme.colours.link.visited },
+    '&:active': { color: theme.colours.link.active },
   },
 }));
 
@@ -44,43 +38,33 @@ const DescriptionTypography = styled(Typography)<{
 const AccessibilityPage = (): React.ReactElement => {
   const [t] = useTranslation();
 
-  let domains: string[] = t('accessibility-page.domains-list', {
+  let domains = t('accessibility-page.domains-list', {
     returnObjects: true,
-  });
-  let accessibleParts: string[] = t(
-    'accessibility-page.accessible-parts-of-list',
-    {
-      returnObjects: true,
-    }
-  );
+  }) as string[];
 
-  let nonAccessibleParts: string[] = t(
+  let accessibleParts = t('accessibility-page.accessible-parts-of-list', {
+    returnObjects: true,
+  }) as string[];
+
+  let nonAccessibleParts = t(
     'accessibility-page.non-accessible-parts-of-list',
-    {
-      returnObjects: true,
-    }
-  );
+    { returnObjects: true }
+  ) as string[];
 
-  let nonCompliance: string[] = t(
+  let nonCompliance = t(
     'accessibility-page.non-compliance-with-the-accessibility-regulations-list',
-    {
-      returnObjects: true,
-    }
-  );
+    { returnObjects: true }
+  ) as string[];
 
-  let disproportionateBurdenTable: string[] = t(
+  let disproportionateBurdenTable = t(
     'accessibility-page.disproportionate-burden.table-view-list',
-    {
-      returnObjects: true,
-    }
-  );
+    { returnObjects: true }
+  ) as string[];
 
-  let disproportionateBurdenCard: string[] = t(
+  let disproportionateBurdenCard = t(
     'accessibility-page.disproportionate-burden.card-view-list',
-    {
-      returnObjects: true,
-    }
-  );
+    { returnObjects: true }
+  ) as string[];
 
   const listPlaceholder = ['items1', 'item2', 'item3'];
 
