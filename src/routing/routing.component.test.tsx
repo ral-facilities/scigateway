@@ -1,17 +1,17 @@
-import React from 'react';
-import configureStore, { MockStoreCreator } from 'redux-mock-store';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
-import { Provider } from 'react-redux';
-import * as singleSpa from 'single-spa';
 import { ThemeProvider, useMediaQuery } from '@mui/material';
-import Routing, { PluginPlaceHolder } from './routing.component';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import NullAuthProvider from '../authentication/nullAuthProvider';
-import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { buildTheme } from '../theming';
 import { act, render } from '@testing-library/react';
+import { MemoryHistory, createLocation, createMemoryHistory } from 'history';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+import configureStore, { MockStoreCreator } from 'redux-mock-store';
+import * as singleSpa from 'single-spa';
+import NullAuthProvider from '../authentication/nullAuthProvider';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import Routing, { PluginPlaceHolder } from './routing.component';
 
 vi.mock('../adminPage/adminPage.component', () => ({
   default: () => 'Mocked AdminPage',
@@ -65,8 +65,15 @@ describe('Routing component', () => {
     vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
+  let originalLocalStorage: Storage;
+
+  beforeAll(() => {
+    originalLocalStorage = window.localStorage;
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
+    window.localStorage = originalLocalStorage;
   });
 
   it('renders component with no plugin routes', () => {
@@ -217,9 +224,7 @@ describe('Routing component', () => {
   });
 
   it('redirects to the homepage if navigating to login page while logged in', () => {
-    state.scigateway.authorisation.provider.isLoggedIn = vi
-      .fn()
-      .mockImplementationOnce(() => true);
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
 
     state.scigateway.authorisation.provider.autoLogin = vi
       .fn()
@@ -227,13 +232,70 @@ describe('Routing component', () => {
 
     window.localStorage.__proto__.getItem = vi
       .fn()
-      .mockImplementationOnce((name) =>
-        name === 'autoLogin' ? 'false' : null
-      );
+      .mockImplementation((name) => (name === 'autoLogin' ? 'false' : null));
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
 
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('redirects to referrer on /login route when auto-logged in', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.siteLoading = false;
+
+    history.replace('/login');
+    state.router.location.state = { referrer: '/test' };
+
+    const { rerender } = render(<Routing />, { wrapper: Wrapper });
+
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    window.localStorage.__proto__.getItem = vi
+      .fn()
+      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
+
+    rerender(<Routing />);
+
+    expect(history.location.pathname).toEqual('/test');
+  });
+
+  it('renders /login page when navigating to login page when auto-logged in', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    window.localStorage.__proto__.getItem = vi
+      .fn()
+      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
+
+    history.replace('/login');
+    render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/login');
+  });
+
+  it('renders /login page when navigating to logout page when auto-logged in', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    window.localStorage.__proto__.getItem = vi
+      .fn()
+      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
+
+    history.replace('/logout');
+    render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/login');
   });
 
   it('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {

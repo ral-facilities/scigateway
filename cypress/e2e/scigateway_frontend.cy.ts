@@ -23,6 +23,13 @@ describe('Scigateway', () => {
     cy.get('a[href="/plugin1"]').should('be.visible');
   });
 
+  it('should allow access to unauthorised plugin route without login', () => {
+    cy.visit('/plugin2');
+
+    // the plugin should have loaded
+    cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
+  });
+
   it('should load 404 page correctly', () => {
     cy.login('username', 'password');
 

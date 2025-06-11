@@ -1,15 +1,14 @@
 import React, { ComponentType } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import { StateType, AuthState } from '../state/state.types';
-import { useSelector } from 'react-redux';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
+import PageNotFound from '../pageNotFound/pageNotFound.component';
 import {
   invalidToken,
   requestPluginRerender,
 } from '../state/actions/scigateway.actions';
-import PageNotFound from '../pageNotFound/pageNotFound.component';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router';
+import { AuthState, StateType } from '../state/state.types';
 
 const isStartingUpOrLoading = (auth: AuthState): boolean =>
   auth.provider instanceof LoadingAuthProvider || auth.loading;
@@ -42,10 +41,7 @@ const withAuth =
       const provider = useSelector(
         (state: StateType) => state.scigateway.authorisation.provider
       );
-      const homepageUrl = useSelector(
-        (state: StateType) => state.scigateway.homepageUrl
-      );
-      const { pathname: location } = useLocation();
+      const { pathname: location, state: locationState } = useLocation();
 
       const prevLoading = usePrevious(loading);
       const prevLoggedIn = usePrevious(loggedIn);
@@ -53,12 +49,17 @@ const withAuth =
       React.useEffect(() => {
         // run either on initial mount i.e. prevLoading is undefined
         // or when the loading state changes i.e. prevLoading was true and loading is now false
-        if (!loading && (typeof prevLoading === 'undefined' || prevLoading)) {
+        // but don't run if we were redirected from the login page
+        if (
+          !loading &&
+          (typeof prevLoading === 'undefined' || prevLoading) &&
+          (locationState as { referrer?: string })?.referrer !== '/login'
+        ) {
           provider.verifyLogIn().catch(() => {
             dispatch(invalidToken());
           });
         }
-      }, [dispatch, loading, prevLoading, provider]);
+      }, [dispatch, loading, prevLoading, provider, locationState]);
 
       React.useEffect(() => {
         if (
@@ -75,18 +76,12 @@ const withAuth =
         <div>
           {!loading ? (
             !loggedIn ? (
-              homepageUrl && location === homepageUrl ? (
-                <ComponentToProtect
-                  {...(props as T & { children?: React.ReactNode })}
-                />
-              ) : (
-                <Redirect
-                  to={{
-                    pathname: '/login',
-                    state: { referrer: location },
-                  }}
-                />
-              )
+              <Redirect
+                to={{
+                  pathname: '/login',
+                  state: { referrer: location },
+                }}
+              />
             ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
             !adminSection || (adminSection && userIsAdmin) ? (
               <ComponentToProtect

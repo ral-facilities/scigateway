@@ -37,3 +37,15 @@ export function structureMenuData(plugins: PluginConfig[]): GroupedPlugins {
 export function buildPluginConfig(payload: RegisterRoutePayload): PluginConfig {
   return { ...payload };
 }
+
+export function buildNavDrawerPluginList(
+  plugins: PluginConfig[],
+  homepageUrl?: string
+): PluginConfig[] {
+  // Do not include admin plugins, the homepage or plugins that explicitly ask to hide in the drawer list
+  const filteredPlugins = plugins.filter(
+    (plugin) =>
+      !plugin.admin && !plugin.hideFromMenu && !(plugin.link === homepageUrl)
+  );
+  return filteredPlugins;
+}

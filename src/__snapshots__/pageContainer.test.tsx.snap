@@ -176,6 +176,39 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
         <div
           class="MuiBox-root css-1pvs5pb"
         >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-1kupaxt-MuiTypography-root"
+          >
+            Test
+          </h6>
+          <nav
+            class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
+          >
+            <a
+              class="MuiListItem-root MuiListItem-dense MuiListItem-gutters css-b5rxyv-MuiListItem-root"
+              href="/test"
+              id="plugin-link--test"
+            >
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-dense MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-dense MuiListItemButton-gutters css-x70j6o-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <div
+                  class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle1 MuiListItemText-primary css-15u67gt-MuiTypography-root"
+                  >
+                    test
+                  </h6>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+            </a>
+          </nav>
           <div
             class="MuiBox-root css-8xl60i"
           >

@@ -238,9 +238,9 @@ const e2e = process.argv[2] === 'e2e';
 if (!e2e) {
   try {
     const settings = JSON.parse(fs.readFileSync('./public/settings.json'));
-    if (settings['auth-provider'] !== 'jwt') {
+    if (settings['authUrl'] !== `http://localhost:${port}`) {
       console.log(
-        `Using non-JWT authenticator so not starting example auth server`
+        `authUrl is not set to example auth server URL so not starting example auth server`
       );
       process.exit(0);
     }
