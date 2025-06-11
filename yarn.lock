@@ -2451,14 +2451,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.8.3, axios@npm:^1.6.1":
-  version: 1.8.3
-  resolution: "axios@npm:1.8.3"
+"axios@npm:1.9.0, axios@npm:^1.6.1":
+  version: 1.9.0
+  resolution: "axios@npm:1.9.0"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/050f911cadd6d47a38ddbf91d2f8da2c34661dda8077e7ad6546e8178701125366fddbba07211a648b6815cf6c2c3c91c0a65d8b968e3d1a6054a21141ff9c01
+  checksum: 10/a2f90bba56820883879f32a237e2b9ff25c250365dcafd41cec41b3406a3df334a148f90010182dfdadb4b41dc59f6f0b3e8898ff41b666d1157b5f3f4523497
   languageName: node
   linkType: hard
 
@@ -8307,7 +8307,7 @@ __metadata:
     "@types/redux-mock-store": "npm:1.0.2"
     "@vitejs/plugin-react": "npm:^4.3.4"
     "@vitest/coverage-v8": "npm:2.1.6"
-    axios: "npm:1.8.3"
+    axios: "npm:1.9.0"
     axios-mock-adapter: "npm:1.22.0"
     browserslist: "npm:4.25.0"
     browserslist-to-esbuild: "npm:2.1.1"
