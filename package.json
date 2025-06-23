@@ -4,8 +4,8 @@
   "type": "module",
   "private": true,
   "resolutions": {
-    "@types/react": "18.0.33",
-    "@types/react-dom": "18.0.11"
+    "@types/react": "18.3.23",
+    "@types/react-dom": "18.3.7"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -15,7 +15,7 @@
     "@types/history": "4.7.11",
     "@types/jest": "29.5.2",
     "@types/js-cookie": "3.0.1",
-    "@types/react-dom": "18.0.11",
+    "@types/react-dom": "18.3.7",
     "@types/react-redux-toastr": "7.6.2",
     "@types/react-router-dom": "5.3.3",
     "@types/redux-logger": "3.0.8",
@@ -36,8 +36,8 @@
     "prettier": "3.5.3",
     "prop-types": "15.8.1",
     "query-string": "7.1.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-i18next": "14.1.3",
     "react-joyride": "2.9.3",
     "react-redux": "8.1.2",
@@ -89,7 +89,7 @@
     "@types/eslint-plugin-jsx-a11y": "^6",
     "@types/jsonwebtoken": "9.0.1",
     "@types/node": "20.19.1",
-    "@types/react": "18.0.33",
+    "@types/react": "18.3.23",
     "@types/react-redux": "7.1.20",
     "@types/react-router": "5.1.20",
     "@types/redux-mock-store": "1.5.0",
