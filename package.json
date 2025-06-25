@@ -13,7 +13,7 @@
     "@mui/icons-material": "5.15.10",
     "@mui/material": "5.15.10",
     "@types/history": "4.7.11",
-    "@types/jest": "29.5.2",
+    "@types/jest": "30.0.0",
     "@types/js-cookie": "3.0.1",
     "@types/react-dom": "18.3.7",
     "@types/react-redux-toastr": "7.6.2",
