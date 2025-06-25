@@ -95,7 +95,7 @@
     "@types/redux-mock-store": "1.5.0",
     "@vitest/coverage-v8": "2.1.9",
     "axios-mock-adapter": "1.22.0",
-    "concurrently": "8.2.0",
+    "concurrently": "9.2.0",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
     "cypress": "13.17.0",
