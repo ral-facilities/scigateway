@@ -5080,12 +5080,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-browser-languagedetector@npm:7.2.0":
-  version: 7.2.0
-  resolution: "i18next-browser-languagedetector@npm:7.2.0"
+"i18next-browser-languagedetector@npm:8.2.0":
+  version: 8.2.0
+  resolution: "i18next-browser-languagedetector@npm:8.2.0"
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
-  checksum: 10/5117b4961e0f32818f0d4587e81767d38c3a8e27305f1734fff2b07fe8c256161e2cdbd453b766b3c097055813fe89c43bce68b1d8f765b5b7f694d9852fe703
+  checksum: 10/b2e78feb256e92b219cd378b38af00404b8f667473f886d64c53588df0592bce145ad29ad7d8238c75f78a9c79f02c84d400569dd5c0ab94c751ac62a4e1f8dd
   languageName: node
   linkType: hard
 
@@ -8009,7 +8009,7 @@ __metadata:
     globals: "npm:^16.1.0"
     husky: "npm:9.1.7"
     i18next: "npm:25.2.1"
-    i18next-browser-languagedetector: "npm:7.2.0"
+    i18next-browser-languagedetector: "npm:8.2.0"
     i18next-http-backend: "npm:2.7.3"
     js-cookie: "npm:3.0.1"
     jsdom: "npm:24.1.3"
