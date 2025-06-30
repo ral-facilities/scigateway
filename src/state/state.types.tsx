@@ -71,6 +71,12 @@ export interface ICATAuthenticator {
   admin?: boolean;
 }
 
+export interface OIDCProvider {
+  display_name: string;
+  configuration_url: string;
+  client_id: string;
+}
+
 export interface AuthProvider {
   isLoggedIn: () => boolean;
   isAdmin: () => boolean;

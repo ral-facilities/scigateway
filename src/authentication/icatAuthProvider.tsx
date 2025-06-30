@@ -1,8 +1,10 @@
 import Axios from 'axios';
-import BaseAuthProvider from './baseAuthProvider';
+import {
+  MaintenanceState,
+  ScheduledMaintenanceState,
+} from '../state/scigateway.types';
+import BaseAuthProvider, { fetchOIDCConfig } from './baseAuthProvider';
 import parseJwt from './parseJwt';
-import { ScheduledMaintenanceState } from '../state/scigateway.types';
-import { MaintenanceState } from '../state/scigateway.types';
 export default class ICATAuthProvider extends BaseAuthProvider {
   public mnemonic: string;
 
@@ -29,7 +31,60 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   // this has to be defined in the constructor to know whether it should exist or not
   public autoLogin;
 
+  private async oidcLogIn(
+    token: string,
+    configurationUrl: string
+  ): Promise<void> {
+    const config = await fetchOIDCConfig(configurationUrl);
+    const params = new URLSearchParams();
+    params.append('client_id', sessionStorage.getItem('oidcClientId')!);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', token);
+    params.append('code_verifier', sessionStorage.getItem('codeVerifier')!);
+    params.append('redirect_uri', `${window.location.origin}/login`);
+
+    try {
+      const {
+        data: { id_token },
+      } = await Axios.post(`${config.token_endpoint}`, params);
+
+      const { data: jwt } = await Axios.post(
+        `${this.authUrl}/oidc_login`,
+        undefined,
+        {
+          headers: {
+            Authorization: `Bearer ${id_token}`,
+          },
+        }
+      );
+
+      if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
+        this.logOut();
+      }
+      this.storeToken(jwt);
+      localStorage.setItem('autoLogin', 'false');
+      const payload: {
+        sessionId: string;
+        username: string;
+        userIsAdmin: boolean;
+      } = JSON.parse(parseJwt(jwt));
+      this.storeUser(payload.username, payload.userIsAdmin);
+      return;
+    } catch (err) {
+      this.handleAuthError(err);
+    }
+  }
+
   public logIn(username: string, password: string): Promise<void> {
+    if (this.mnemonic.startsWith('oidc_')) {
+      const params = new URLSearchParams(password);
+      const code = params.get('code');
+      if (code) return this.oidcLogIn(code, this.mnemonic.split('oidc_')[1]);
+      else {
+        // TODO: handle no code?
+      }
+    }
+
     if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {
       return Promise.resolve();
     }

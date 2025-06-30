@@ -1,21 +1,4 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Action, AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import { Theme } from '@mui/material/styles';
-import {
-  resetAuthState,
-  verifyUsernameAndPassword,
-} from '../state/actions/scigateway.actions';
-import { AppStrings, NotificationType } from '../state/scigateway.types';
-import { AuthState, ICATAuthenticator, StateType } from '../state/state.types';
 import {
   Box,
   FormControl,
@@ -25,10 +8,33 @@ import {
   Select,
   styled,
 } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
 import axios from 'axios';
 import log from 'loglevel';
+import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { Action, AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { fetchOIDCConfig } from '../authentication/baseAuthProvider';
+import {
+  resetAuthState,
+  verifyUsernameAndPassword,
+} from '../state/actions/scigateway.actions';
+import { AppStrings, NotificationType } from '../state/scigateway.types';
+import {
+  AuthState,
+  ICATAuthenticator,
+  OIDCProvider,
+  StateType,
+} from '../state/state.types';
 
 const RootDiv = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -63,6 +69,40 @@ const DividerLine = styled('div')(({ theme }) => ({
   color: theme.colours.contrastGrey,
   width: '100%',
 }));
+
+// GENERATING CODE VERIFIER
+function dec2hex(dec: number): string {
+  return ('0' + dec.toString(16)).substr(-2);
+}
+
+function generateCodeVerifier(): string {
+  const array = new Uint32Array(56 / 2);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, dec2hex).join('');
+}
+
+async function sha256(plain: string): Promise<ArrayBuffer> {
+  // returns promise ArrayBuffer
+  const encoder = new TextEncoder();
+  const data = encoder.encode(plain);
+  return window.crypto.subtle.digest('SHA-256', data);
+}
+
+function base64urlencode(a: ArrayBuffer): string {
+  let str = '';
+  const bytes = new Uint8Array(a);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    str += String.fromCharCode(bytes[i]);
+  }
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function generateCodeChallengeFromVerifier(v: string): Promise<string> {
+  const hashed = await sha256(v);
+  const base64encoded = base64urlencode(hashed);
+  return base64encoded;
+}
 
 const DividerWithText = (props: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,7 +143,7 @@ interface LoginPageDispatchProps {
 export type CombinedLoginProps = LoginPageProps & LoginPageDispatchProps;
 
 export const RedirectLoginScreen = (
-  props: CombinedLoginProps
+  props: CombinedLoginProps & { displayName: string }
 ): React.ReactElement => {
   const [t] = useTranslation();
 
@@ -124,7 +164,7 @@ export const RedirectLoginScreen = (
         }}
       >
         <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
-          Login with Github
+          {`Login with ${props.displayName}`}
         </Typography>
       </Button>
     </RootDiv>
@@ -347,11 +387,39 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
     });
 }
 
+// TODO: when to send this request? what to do on error?
+function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
+  return axios
+    .get(`${authUrl}/oidc_providers`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      log.error(
+        'It is not possible to authenticate you at the moment. Please, try again later'
+      );
+      document.dispatchEvent(
+        new CustomEvent('scigateway', {
+          detail: {
+            type: NotificationType,
+            payload: {
+              message:
+                'It is not possible to authenticate you at the moment. Please, try again later',
+              severity: 'error',
+            },
+          },
+        })
+      );
+      return [];
+    });
+}
+
 export const LoginPageComponent = (
   props: CombinedLoginProps
 ): React.ReactElement => {
   const authUrl = props.auth.provider.authUrl;
   const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
+  const [oidcProviders, setOIDCProviders] = useState<OIDCProvider[]>([]);
   const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
   const [t] = useTranslation();
   const [mnemonic, setMnemonic] = useState<string | undefined>(
@@ -361,21 +429,47 @@ export const LoginPageComponent = (
 
   const { verifyUsernameAndPassword } = props;
 
-  const login = React.useCallback(async () => {
-    return await verifyUsernameAndPassword('', location.search, mnemonic);
-  }, [location.search, verifyUsernameAndPassword, mnemonic]);
+  const login = React.useCallback(
+    async (mnemonicOveride?: string) => {
+      return await verifyUsernameAndPassword(
+        '',
+        location.search,
+        mnemonicOveride ?? mnemonic
+      );
+    },
+    [location.search, verifyUsernameAndPassword, mnemonic]
+  );
 
   React.useEffect(() => {
     if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
       fetchMnemonics(authUrl).then((mnemonics) => {
-        const nonAdminAuthenticators = mnemonics.filter(
+        let authenticators = mnemonics.filter(
           (authenticator) =>
             !authenticator.admin && authenticator.mnemonic !== 'anon'
         );
-        setMnemonics(nonAdminAuthenticators);
+        if (
+          mnemonics.some(
+            (authenticator) => authenticator.mnemonic === 'delegating'
+          )
+        ) {
+          fetchOIDCProviders(authUrl).then((oidcs) => {
+            setOIDCProviders(oidcs);
+
+            authenticators = [
+              ...authenticators,
+              ...oidcs.map((oidc) => ({
+                mnemonic: `oidc_${oidc.configuration_url}`,
+                keys: [{ name: 'token', hide: true }],
+                friendly: oidc.display_name,
+              })),
+            ];
+            setMnemonics(authenticators);
+          });
+        }
+        setMnemonics(authenticators);
         setFetchedMnemonics(true);
-        if (nonAdminAuthenticators.length === 1)
-          setMnemonic(nonAdminAuthenticators[0].mnemonic);
+        if (authenticators.length === 1)
+          setMnemonic(authenticators[0].mnemonic);
       });
     }
   }, [mnemonic, fetchedMnemonics, authUrl]);
@@ -387,14 +481,35 @@ export const LoginPageComponent = (
   }, [props.auth.provider.mnemonic]);
 
   React.useEffect(() => {
+    const setupOIDC = async () => {
+      if (mnemonic?.startsWith('oidc_')) {
+        const configurationUrl = mnemonic.split('oidc_')[1];
+        const oidcProvider = oidcProviders.find(
+          (op) => op.configuration_url === configurationUrl
+        )!;
+        const config = await fetchOIDCConfig(configurationUrl);
+        const codeVerifier = generateCodeVerifier();
+        sessionStorage.setItem('codeVerifier', codeVerifier);
+        sessionStorage.setItem('oidcConfigurationUrl', configurationUrl);
+        sessionStorage.setItem('oidcClientId', oidcProvider.client_id);
+
+        const codeChallenge =
+          await generateCodeChallengeFromVerifier(codeVerifier);
+        props.auth.provider.redirectUrl = `${config.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid`;
+      }
+    };
+    setupOIDC();
+  }, [mnemonic, oidcProviders, props.auth.provider]);
+
+  React.useEffect(() => {
+    const oidcConfigurationUrl = sessionStorage.getItem('oidcConfigurationUrl');
     if (
-      props.auth.provider.redirectUrl &&
-      location.search &&
+      (props.auth.provider.redirectUrl || oidcConfigurationUrl) &&
       !props.auth.loading &&
       !props.auth.failedToLogin
     ) {
       if (location.search) {
-        login();
+        login(`oidc_${oidcConfigurationUrl}`);
       }
     }
   });
@@ -408,11 +523,12 @@ export const LoginPageComponent = (
 
   let LoginScreen: React.ReactElement | null = null;
 
+  let icatAuthenticator;
   if (typeof mnemonic === 'undefined') {
     LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
 
     if (props.auth.provider.redirectUrl) {
-      LoginScreen = <RedirectLoginScreen {...props} />;
+      LoginScreen = <RedirectLoginScreen {...props} displayName="unknown" />;
     }
   } else {
     if (
@@ -434,14 +550,19 @@ export const LoginPageComponent = (
       // user/pass
       LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
     } else if (
-      mnemonics.find(
+      (icatAuthenticator = mnemonics.find(
         (authenticator) =>
           authenticator.mnemonic === mnemonic &&
           authenticator.keys.find((x) => x.name === 'token')
-      )
+      ))
     ) {
       // redirect
-      LoginScreen = <RedirectLoginScreen {...props} />;
+      LoginScreen = (
+        <RedirectLoginScreen
+          {...props}
+          displayName={icatAuthenticator.friendly ?? icatAuthenticator.mnemonic}
+        />
+      );
     } else {
       // unrecognised authenticator type
     }

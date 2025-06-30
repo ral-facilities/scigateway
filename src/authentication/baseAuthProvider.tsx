@@ -1,9 +1,24 @@
-import { AuthProvider, User } from '../state/state.types';
-import UserInfo from './user';
+import axios from 'axios';
 import parseJwt from '../authentication/parseJwt';
 import { BroadcastSignOutType } from '../state/scigateway.types';
+import { AuthProvider, User } from '../state/state.types';
+import UserInfo from './user';
 
 const tokenLocalStorageName = 'scigateway:token';
+
+export function fetchOIDCConfig(oidcConfigurationUrl?: string): Promise<{
+  authorization_endpoint: string;
+  token_endpoint: string;
+}> {
+  return axios
+    .get(`${oidcConfigurationUrl}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      // TODO ?
+    });
+}
 
 export default abstract class BaseAuthProvider implements AuthProvider {
   abstract logIn(username: string, password: string): Promise<void>;
