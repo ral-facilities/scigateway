@@ -492,25 +492,14 @@ export const resetAuthState = (): Action => ({
 
 export const verifyUsernameAndPassword = (
   username: string,
-  password: string,
-  newMnemonic?: string
+  password: string
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
-    // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
     const authProvider = getState().scigateway.authorisation.provider;
-    authProvider.mnemonic = newMnemonic;
     await authProvider
       .logIn(username, password)
       .then(() => {
-        if (newMnemonic)
-          dispatch(
-            loadAuthProvider(
-              `icat.${newMnemonic}`,
-              `${authProvider.authUrl}`,
-              authProvider.autoLogin ? true : false
-            )
-          );
         dispatch(authorised());
       })
       .catch(() => {

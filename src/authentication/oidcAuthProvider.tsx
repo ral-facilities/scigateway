@@ -5,19 +5,13 @@ import {
   NotificationType,
   ScheduledMaintenanceState,
 } from '../state/scigateway.types';
-import { Authenticator, ICATAuthenticator } from '../state/state.types';
+import { Authenticator, OIDCProvider } from '../state/state.types';
 import BaseAuthProvider, { fetchOIDCConfig } from './baseAuthProvider';
-import {
-  fetchOIDCProviders,
-  generateCodeChallengeFromVerifier,
-  generateCodeVerifier,
-  InitialisedOIDCProvider,
-} from './oidcAuthProvider';
-import parseJwt from './parseJwt';
 
-function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
+// TODO: when to send this request? what to do on error?
+export function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
   return axios
-    .get(`${authUrl}/authenticators`)
+    .get<OIDCProvider[]>(`${authUrl}/oidc_providers`)
     .then((res) => {
       return res.data;
     })
@@ -41,20 +35,58 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
     });
 }
 
-export default class ICATAuthProvider extends BaseAuthProvider {
-  private mnemonic: string;
-  // TODO: should mnemonics be the full list of mnemonics so we can check things like anon enabled for autoLogin, delegating enabled for OIDC etc?
-  private mnemonics: ICATAuthenticator[];
-  private oidcProviders: InitialisedOIDCProvider[];
-  public authenticators: Authenticator[];
-  private authInitialised: boolean;
+// GENERATING CODE VERIFIER
+function dec2hex(dec: number): string {
+  return ('0' + dec.toString(16)).substr(-2);
+}
 
-  public constructor(mnemonic?: string, authUrl?: string, autoLogin?: boolean) {
+export function generateCodeVerifier(): string {
+  const array = new Uint32Array(56 / 2);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, dec2hex).join('');
+}
+
+async function sha256(plain: string): Promise<ArrayBuffer> {
+  // returns promise ArrayBuffer
+  const encoder = new TextEncoder();
+  const data = encoder.encode(plain);
+  return window.crypto.subtle.digest('SHA-256', data);
+}
+
+function base64urlencode(a: ArrayBuffer): string {
+  let str = '';
+  const bytes = new Uint8Array(a);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    str += String.fromCharCode(bytes[i]);
+  }
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+export async function generateCodeChallengeFromVerifier(
+  v: string
+): Promise<string> {
+  const hashed = await sha256(v);
+  const base64encoded = base64urlencode(hashed);
+  return base64encoded;
+}
+
+export interface InitialisedOIDCProvider extends OIDCProvider {
+  authorization_endpoint: string;
+  token_endpoint: string;
+}
+
+export default class OIDCAuthProvider extends BaseAuthProvider {
+  public oidcProviders: InitialisedOIDCProvider[];
+  private oidcProvider: InitialisedOIDCProvider | null;
+  private authInitialised: boolean;
+  public authenticators: Authenticator[];
+
+  public constructor(authUrl?: string) {
     super(authUrl);
-    this.mnemonic = mnemonic || '';
-    this.mnemonics = [];
     this.oidcProviders = [];
-    this.autoLogin = autoLogin ? this.autoLoginFunc.bind(this) : undefined;
+    this.oidcProvider = null;
+    this.redirectUrl = 'unknown'; // gets filled in later
     this.authInitialised = false;
     this.authenticators = [];
   }
@@ -62,11 +94,6 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   public async initialise(): Promise<void> {
     try {
       if (!this.authInitialised) {
-        this.mnemonics = await fetchMnemonics(this.authUrl);
-        this.mnemonics = this.mnemonics.filter(
-          (authenticator) =>
-            !authenticator.admin && authenticator.mnemonic !== 'anon'
-        );
         const oidcProviders = await fetchOIDCProviders(this.authUrl);
         oidcProviders.forEach(async () => {});
         this.oidcProviders = await Promise.all(
@@ -77,54 +104,35 @@ export default class ICATAuthProvider extends BaseAuthProvider {
             return { ...config, ...oidcProvider };
           })
         );
-        this.mnemonics = [
-          ...this.mnemonics,
-          ...this.oidcProviders.map((oidc) => ({
-            mnemonic: `oidc_${oidc.configuration_url}`,
-            keys: [{ name: 'token', hide: true }],
-            friendly: oidc.display_name,
-          })),
-        ];
-        // can we get rid of mnemonics in favour of authenticators?
-        this.authenticators = this.mnemonics.map((m) => ({
-          key: m.mnemonic,
-          displayName: m.friendly ?? m.mnemonic,
-          type:
-            m.keys.find((x) => x.name === 'username') &&
-            m.keys.find((x) => x.name === 'password')
-              ? 'userpass'
-              : m.keys.find((x) => x.name === 'token')
-                ? 'redirect'
-                : m.keys.length === 0
-                  ? 'anon'
-                  : 'unknown',
-        }));
         this.authInitialised = true;
+        this.authenticators = this.oidcProviders.map((op) => ({
+          key: op.configuration_url,
+          displayName: op.display_name,
+          type: 'redirect',
+        }));
       }
       // re-run this on init to ensure we re-setup any OIDC stuff
-      if (this.mnemonics.length === 1)
-        this.setAuthenticator(this.mnemonics[0].mnemonic);
-      if (this.mnemonic) this.setAuthenticator(this.mnemonic);
+      if (this.oidcProviders.length === 1)
+        this.setAuthenticator(this.oidcProviders[0].configuration_url);
     } catch {
       // TODO
     }
   }
 
   public getAuthenticator(): string {
-    return this.mnemonic;
+    return this.oidcProvider?.configuration_url ?? '';
   }
 
   public async setAuthenticator(
-    mnemonic: string,
+    provider: string,
     disableSideEffects?: boolean
   ): Promise<void> {
-    this.mnemonic = mnemonic;
-    if (mnemonic.startsWith('oidc_') && !disableSideEffects) {
-      const configurationUrl = mnemonic.replace('oidc_', '');
-      const oidcProvider = this.oidcProviders.find(
-        (op) => op.configuration_url === configurationUrl
-      );
-      if (oidcProvider) {
+    const oidcProvider = this.oidcProviders.find(
+      (oidc) => oidc.configuration_url === provider
+    );
+    if (oidcProvider) {
+      this.oidcProvider = oidcProvider;
+      if (!disableSideEffects) {
         const codeVerifier = generateCodeVerifier();
         sessionStorage.setItem('codeVerifier', codeVerifier);
         sessionStorage.setItem(
@@ -136,70 +144,24 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         const codeChallenge =
           await generateCodeChallengeFromVerifier(codeVerifier);
         this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid`;
-      } else {
-        log.error(
-          `Can't find oidc provider matching the specified mnemonic: ${mnemonic}`
-        );
       }
+    } else {
+      log.error(
+        `Can't find oidc provider matching the specified authenticator: ${provider}`
+      );
     }
   }
 
-  private autoLoginFunc = (): Promise<void> => {
-    const prevMnemonic = this.mnemonic;
-    this.mnemonic = 'anon';
-    return this.logIn('', '')
-      .then(() => localStorage.setItem('autoLogin', 'true'))
-      .catch((err) => {
-        localStorage.setItem('autoLogin', 'false');
-        throw err;
-      })
-      .finally(() => {
-        this.mnemonic = prevMnemonic;
-      });
-  };
+  public logIn(_username: string, password: string): Promise<void> {
+    const params = new URLSearchParams(password);
+    const code = params.get('code');
 
-  // this has to be defined in the constructor to know whether it should exist or not
-  public autoLogin;
-
-  public logIn(username: string, password: string): Promise<void> {
-    if (this.mnemonic.startsWith('oidc_')) {
-      const params = new URLSearchParams(password);
-      const code = params.get('code');
-      if (code) return this.oidcLogIn(code, this.mnemonic.replace('oidc_', ''));
-      else {
-        // TODO: handle no code?
-      }
-    }
-
-    if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {
+    if (!code || !this.oidcProvider) {
+      this.logOut();
       return Promise.resolve();
     }
 
-    return axios
-      .post(`${this.authUrl}/login`, {
-        mnemonic: this.mnemonic,
-        credentials: {
-          username,
-          password,
-        },
-      })
-      .then((res) => {
-        if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
-          this.logOut();
-        }
-        this.storeToken(res.data);
-        localStorage.setItem('autoLogin', 'false');
-        const payload: {
-          sessionId: string;
-          username: string;
-          userIsAdmin: boolean;
-        } = JSON.parse(parseJwt(res.data));
-        this.storeUser(payload.username, payload.userIsAdmin);
-        return;
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
+    return this.oidcLogIn(code, this.oidcProvider?.configuration_url);
   }
 
   public verifyLogIn(): Promise<void> {

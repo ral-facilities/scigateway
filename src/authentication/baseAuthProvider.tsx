@@ -116,4 +116,51 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     this.logOut();
     throw err;
   }
+
+  public async oidcLogIn(
+    token: string,
+    configurationUrl: string
+  ): Promise<void> {
+    const config = await fetchOIDCConfig(configurationUrl);
+    const params = new URLSearchParams();
+    params.append('client_id', sessionStorage.getItem('oidcClientId')!);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', token);
+    params.append('code_verifier', sessionStorage.getItem('codeVerifier')!);
+    params.append('redirect_uri', `${window.location.origin}/login`);
+
+    try {
+      const {
+        data: { id_token },
+      } = await axios.post(`${config.token_endpoint}`, params);
+
+      const { data: jwt } = await axios.post(
+        `${this.authUrl}/oidc_login`,
+        undefined,
+        {
+          headers: {
+            Authorization: `Bearer ${id_token}`,
+          },
+        }
+      );
+
+      if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
+        this.logOut();
+      }
+      this.storeToken(jwt);
+      localStorage.setItem('autoLogin', 'false');
+      sessionStorage.removeItem('codeVerifier');
+      sessionStorage.removeItem('oidcConfigurationUrl');
+      sessionStorage.removeItem('oidcClientId');
+      const payload: {
+        sessionId: string;
+        username: string;
+        userIsAdmin: boolean;
+      } = JSON.parse(parseJwt(jwt));
+      this.storeUser(payload.username, payload.userIsAdmin);
+      return;
+    } catch (err) {
+      this.handleAuthError(err);
+    }
+  }
 }

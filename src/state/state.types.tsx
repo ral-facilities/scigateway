@@ -71,6 +71,12 @@ export interface ICATAuthenticator {
   admin?: boolean;
 }
 
+export interface Authenticator {
+  displayName: string;
+  key: string;
+  type: 'userpass' | 'redirect' | 'anon' | 'unknown';
+}
+
 export interface OIDCProvider {
   display_name: string;
   configuration_url: string;
@@ -95,8 +101,18 @@ export interface AuthProvider {
   redirectUrl: string | null;
   authUrl: string | undefined;
   user: User | null;
-  mnemonic?: string;
   autoLogin?: () => Promise<void>;
+  authenticators?: {
+    displayName: string;
+    key: string;
+    type: 'userpass' | 'redirect' | 'anon' | 'unknown';
+  }[];
+  setAuthenticator?: (
+    key: string,
+    disableSideEffects?: boolean
+  ) => Promise<void>;
+  getAuthenticator?: () => string;
+  initialise?: () => Promise<void>;
 }
 
 export interface AuthState {

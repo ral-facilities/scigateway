@@ -66,7 +66,7 @@
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "postinstall": "husky install; yarn copy-cdn-fallbacks",
+    "postinstall": "husky; yarn copy-cdn-fallbacks",
     "copy-cdn-fallbacks": "node -e \"const fs = require('fs'); fs.copyFile('node_modules/react/umd/react.production.min.js', 'public/react.production.min.js', (err) => { if (err) throw err;}); fs.copyFile('node_modules/react-dom/umd/react-dom.production.min.js', 'public/react-dom.production.min.js', (err) => { if (err) throw err;});\""
   },
   "lint-staged": {

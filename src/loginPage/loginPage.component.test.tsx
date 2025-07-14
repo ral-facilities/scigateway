@@ -1,29 +1,4 @@
-import React from 'react';
-import LoginPage, {
-  AnonLoginScreen,
-  CombinedLoginProps,
-  CredentialsLoginScreen,
-  LoginSelector,
-  RedirectLoginScreen,
-  UnconnectedLoginPage,
-} from './loginPage.component';
-import { buildTheme } from '../theming';
 import { ThemeProvider } from '@mui/material/styles';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
-import axios from 'axios';
-import { ICATAuthenticator, StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import {
-  loadingAuthentication,
-  resetAuthState,
-} from '../state/actions/scigateway.actions';
-import { Provider } from 'react-redux';
-import { thunk } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { NotificationType } from '../state/scigateway.types';
-import log from 'loglevel';
 import {
   act,
   render,
@@ -32,7 +7,32 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
+import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
+import log from 'loglevel';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+import { AnyAction } from 'redux';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import {
+  loadingAuthentication,
+  resetAuthState,
+} from '../state/actions/scigateway.actions';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { NotificationType } from '../state/scigateway.types';
+import { Authenticator, StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import LoginPage, {
+  AnonLoginScreen,
+  CombinedLoginProps,
+  CredentialsLoginScreen,
+  LoginSelector,
+  RedirectLoginScreen,
+  UnconnectedLoginPage,
+} from './loginPage.component';
 
 vi.mock('loglevel');
 
@@ -54,14 +54,16 @@ describe('Login selector component', () => {
   });
 
   it('sets a new mnemonic in local state on mnemonic change', async () => {
-    const mnemonics: ICATAuthenticator[] = [
+    const authenticators: Authenticator[] = [
       {
-        mnemonic: 'user/pass',
-        keys: [{ name: 'username' }, { name: 'password' }],
+        displayName: 'Password',
+        key: 'user/pass',
+        type: 'userpass',
       },
       {
-        mnemonic: 'anon',
-        keys: [],
+        displayName: 'Anonymous',
+        key: 'anon',
+        type: 'anon',
       },
     ];
     const user = userEvent.setup();
@@ -70,9 +72,9 @@ describe('Login selector component', () => {
     render(
       <LoginSelector
         {...props}
-        mnemonics={mnemonics}
-        mnemonic="user/pass"
-        setMnemonic={testSetMnemonic}
+        authenticators={authenticators}
+        authenticator="user/pass"
+        changeAuthenticator={testSetMnemonic}
       />
     );
 
@@ -172,7 +174,9 @@ describe('Login page component', () => {
   });
 
   it('redirect component renders correctly', () => {
-    render(<RedirectLoginScreen {...props} />, { wrapper: Wrapper });
+    render(<RedirectLoginScreen {...props} displayName="Github" />, {
+      wrapper: Wrapper,
+    });
     expect(
       screen.getByRole('button', { name: 'Login with Github' })
     ).toBeInTheDocument();
