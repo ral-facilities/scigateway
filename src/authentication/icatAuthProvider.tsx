@@ -1,19 +1,10 @@
 import axios from 'axios';
 import * as log from 'loglevel';
-import {
-  MaintenanceState,
-  NotificationType,
-  ScheduledMaintenanceState,
-} from '../state/scigateway.types';
+import { NotificationType } from '../state/scigateway.types';
 import { Authenticator, ICATAuthenticator } from '../state/state.types';
-import BaseAuthProvider, { fetchOIDCConfig } from './baseAuthProvider';
-import {
-  fetchOIDCProviders,
-  generateCodeChallengeFromVerifier,
-  generateCodeVerifier,
+import BaseAPIAuthProvider, {
   InitialisedOIDCProvider,
-} from './oidcAuthProvider';
-import parseJwt from './parseJwt';
+} from './baseAPIAuthProvider';
 
 function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
   return axios
@@ -22,9 +13,7 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
       return res.data;
     })
     .catch(() => {
-      log.error(
-        'It is not possible to authenticate you at the moment. Please, try again later'
-      );
+      log.error('Unable to fetch ICAT authenticators');
       document.dispatchEvent(
         new CustomEvent('scigateway', {
           detail: {
@@ -41,7 +30,7 @@ function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
     });
 }
 
-export default class ICATAuthProvider extends BaseAuthProvider {
+export default class ICATAuthProvider extends BaseAPIAuthProvider {
   private mnemonic: string;
   // TODO: should mnemonics be the full list of mnemonics so we can check things like anon enabled for autoLogin, delegating enabled for OIDC etc?
   private mnemonics: ICATAuthenticator[];
@@ -60,54 +49,43 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   }
 
   public async initialise(): Promise<void> {
-    try {
-      if (!this.authInitialised) {
-        this.mnemonics = await fetchMnemonics(this.authUrl);
-        this.mnemonics = this.mnemonics.filter(
-          (authenticator) =>
-            !authenticator.admin && authenticator.mnemonic !== 'anon'
-        );
-        const oidcProviders = await fetchOIDCProviders(this.authUrl);
-        oidcProviders.forEach(async () => {});
-        this.oidcProviders = await Promise.all(
-          oidcProviders.map(async (oidcProvider) => {
-            const config = await fetchOIDCConfig(
-              oidcProvider.configuration_url
-            );
-            return { ...config, ...oidcProvider };
-          })
-        );
-        this.mnemonics = [
-          ...this.mnemonics,
-          ...this.oidcProviders.map((oidc) => ({
-            mnemonic: `oidc_${oidc.configuration_url}`,
-            keys: [{ name: 'token', hide: true }],
-            friendly: oidc.display_name,
-          })),
-        ];
-        // can we get rid of mnemonics in favour of authenticators?
-        this.authenticators = this.mnemonics.map((m) => ({
-          key: m.mnemonic,
-          displayName: m.friendly ?? m.mnemonic,
-          type:
-            m.keys.find((x) => x.name === 'username') &&
-            m.keys.find((x) => x.name === 'password')
-              ? 'userpass'
-              : m.keys.find((x) => x.name === 'token')
-                ? 'redirect'
-                : m.keys.length === 0
-                  ? 'anon'
-                  : 'unknown',
-        }));
-        this.authInitialised = true;
-      }
-      // re-run this on init to ensure we re-setup any OIDC stuff
-      if (this.mnemonics.length === 1)
-        this.setAuthenticator(this.mnemonics[0].mnemonic);
-      if (this.mnemonic) this.setAuthenticator(this.mnemonic);
-    } catch {
-      // TODO
+    if (!this.authInitialised) {
+      this.mnemonics = await fetchMnemonics(this.authUrl);
+      this.mnemonics = this.mnemonics.filter(
+        (authenticator) =>
+          !authenticator.admin && authenticator.mnemonic !== 'anon'
+      );
+
+      this.oidcProviders = await this.initialiseOIDCProviders();
+
+      this.mnemonics = [
+        ...this.mnemonics,
+        ...this.oidcProviders.map((oidc) => ({
+          mnemonic: `oidc_${oidc.configuration_url}`,
+          keys: [{ name: 'token', hide: true }],
+          friendly: oidc.display_name,
+        })),
+      ];
+      // can we get rid of mnemonics in favour of authenticators?
+      this.authenticators = this.mnemonics.map((m) => ({
+        key: m.mnemonic,
+        displayName: m.friendly ?? m.mnemonic,
+        type:
+          m.keys.find((x) => x.name === 'username') &&
+          m.keys.find((x) => x.name === 'password')
+            ? 'userpass'
+            : m.keys.find((x) => x.name === 'token')
+              ? 'redirect'
+              : m.keys.length === 0
+                ? 'anon'
+                : 'unknown',
+      }));
+      this.authInitialised = true;
     }
+    // re-run this on init to ensure we re-setup any OIDC stuff
+    if (this.mnemonics.length === 1)
+      this.setAuthenticator(this.mnemonics[0].mnemonic);
+    if (this.mnemonic) this.setAuthenticator(this.mnemonic);
   }
 
   public getAuthenticator(): string {
@@ -125,23 +103,14 @@ export default class ICATAuthProvider extends BaseAuthProvider {
         (op) => op.configuration_url === configurationUrl
       );
       if (oidcProvider) {
-        const codeVerifier = generateCodeVerifier();
-        sessionStorage.setItem('codeVerifier', codeVerifier);
-        sessionStorage.setItem(
-          'oidcConfigurationUrl',
-          oidcProvider.configuration_url
-        );
-        sessionStorage.setItem('oidcClientId', oidcProvider.client_id);
-
-        const codeChallenge =
-          await generateCodeChallengeFromVerifier(codeVerifier);
-        this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid`;
+        await this.setupOIDC(oidcProvider);
       } else {
         log.error(
           `Can't find oidc provider matching the specified mnemonic: ${mnemonic}`
         );
       }
     }
+    return Promise.resolve();
   }
 
   private autoLoginFunc = (): Promise<void> => {
@@ -162,125 +131,43 @@ export default class ICATAuthProvider extends BaseAuthProvider {
   public autoLogin;
 
   public logIn(username: string, password: string): Promise<void> {
+    const promisePreProcessing = () => {
+      // handle ICAT specific autoLogin logic
+      if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
+        this.logOut();
+      }
+    };
     if (this.mnemonic.startsWith('oidc_')) {
       const params = new URLSearchParams(password);
       const code = params.get('code');
-      if (code) return this.oidcLogIn(code, this.mnemonic.replace('oidc_', ''));
-      else {
-        // TODO: handle no code?
+      if (!code) {
+        this.logOut();
+        return Promise.resolve();
       }
+      return this.oidcLogIn(
+        code,
+        this.mnemonic.replace('oidc_', ''),
+        promisePreProcessing
+      ).then(() => {
+        localStorage.setItem('autoLogin', 'false');
+      });
     }
 
     if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {
       return Promise.resolve();
     }
 
-    return axios
-      .post(`${this.authUrl}/login`, {
+    return this.userPassLogIn(
+      {
         mnemonic: this.mnemonic,
         credentials: {
           username,
           password,
         },
-      })
-      .then((res) => {
-        if (this.isLoggedIn() && localStorage.getItem('autoLogin') === 'true') {
-          this.logOut();
-        }
-        this.storeToken(res.data);
-        localStorage.setItem('autoLogin', 'false');
-        const payload: {
-          sessionId: string;
-          username: string;
-          userIsAdmin: boolean;
-        } = JSON.parse(parseJwt(res.data));
-        this.storeUser(payload.username, payload.userIsAdmin);
-        return;
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
-  }
-
-  public verifyLogIn(): Promise<void> {
-    return axios
-      .post(`${this.authUrl}/verify`, {
-        token: this.token,
-      })
-      .then(() => {
-        // do nothing
-      })
-      .catch(() => this.refresh());
-  }
-
-  public refresh(): Promise<void> {
-    return axios
-      .post(`${this.authUrl}/refresh`, {
-        token: this.token,
-      })
-      .then((res) => {
-        this.storeToken(res.data);
-      })
-      .catch((err) => {
-        this.handleRefreshError(err);
-      });
-  }
-
-  public fetchScheduledMaintenanceState(): Promise<ScheduledMaintenanceState> {
-    return axios
-      .get(`${this.authUrl}/scheduled_maintenance`)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
-  }
-
-  public fetchMaintenanceState(): Promise<MaintenanceState> {
-    return axios
-      .get(`${this.authUrl}/maintenance`)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
-  }
-
-  public setScheduledMaintenanceState(
-    scheduledMaintenanceState: ScheduledMaintenanceState
-  ): Promise<string | void> {
-    return axios
-      .put(`${this.authUrl}/scheduled_maintenance`, {
-        token: this.token,
-        scheduledMaintenance: scheduledMaintenanceState,
-      })
-      .then((res) => {
-        if (res?.data) {
-          return res.data;
-        }
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
-  }
-
-  public setMaintenanceState(
-    maintenanceState: MaintenanceState
-  ): Promise<string | void> {
-    return axios
-      .put(`${this.authUrl}/maintenance`, {
-        token: this.token,
-        maintenance: maintenanceState,
-      })
-      .then((res) => {
-        if (res?.data) {
-          return res.data;
-        }
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
+      },
+      promisePreProcessing
+    ).then(() => {
+      localStorage.setItem('autoLogin', 'false');
+    });
   }
 }

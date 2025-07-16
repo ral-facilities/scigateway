@@ -6,6 +6,7 @@ import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import LoadingAuthProvider from '../../authentication/loadingAuthProvider';
 import NullAuthProvider from '../../authentication/nullAuthProvider';
 import OIDCAuthProvider from '../../authentication/oidcAuthProvider';
+import PasswordAndOIDCAuthProvider from '../../authentication/passwordAndOIDCAuthProvider';
 import { singleSpaPluginRoutes } from '../actions/loadMicroFrontends';
 import { buildPluginConfig } from '../pluginhelper';
 import {
@@ -368,6 +369,10 @@ export function handleAuthProviderUpdate(
 
       case 'oidc':
         provider = new OIDCAuthProvider(payload.authUrl);
+        break;
+
+      case 'userpass_and_oidc':
+        provider = new PasswordAndOIDCAuthProvider(payload.authUrl);
         break;
 
       case 'github':
