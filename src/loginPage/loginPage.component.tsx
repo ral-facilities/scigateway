@@ -35,6 +35,7 @@ const RootDiv = styled('div')(({ theme }) => ({
   width: 'auto',
   marginLeft: theme.spacing(3),
   marginRight: theme.spacing(3),
+  marginBottom: theme.spacing(3),
 }));
 
 const ErrorTypography = styled(Typography)(({ theme }) => ({
@@ -217,6 +218,7 @@ export const CredentialsLoginScreen = (
       <Typography
         sx={{
           ...textStyles,
+          paddingBottom: undefined,
           color: (theme: Theme) => theme.colours.contrastGrey,
         }}
       >
