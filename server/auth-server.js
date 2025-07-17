@@ -1,12 +1,13 @@
-import express from 'express';
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
-import qs from 'query-string';
 import cookieParser from 'cookie-parser';
-import https from 'https';
-import fs from 'fs';
-import waitOn from 'wait-on';
 import cors from 'cors';
+import express from 'express';
+import fs from 'fs';
+import https from 'https';
+import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
+import qs from 'query-string';
+import waitOn from 'wait-on';
 
 const app = express();
 const port = 8000;
@@ -81,6 +82,80 @@ app.post(`/login`, function (req, res) {
       error: 'Incorrect email or password',
     });
   }
+});
+
+app.post(`/oidc_login`, async function (req, res) {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+
+  const kid = jwt.decode(token, { complete: true })?.header?.kid;
+
+  if (!token || !kid) {
+    res.status(400).json({
+      error: `Headers missing from request: token: ${token}, kid: ${kid}`,
+    });
+    return;
+  }
+
+  const oidc_config = (
+    await axios.get(
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration'
+    )
+  ).data;
+
+  const jwks_uri = oidc_config['jwks_uri'];
+
+  const client = jwksClient({
+    jwksUri: jwks_uri,
+    requestHeaders: {}, // Optional
+    timeout: 30000, // Defaults to 30s
+  });
+
+  const key = await client.getSigningKey(kid);
+
+  if (!key) {
+    res.status(500).json({
+      error: 'Missing key for specified kid',
+    });
+    return;
+  }
+
+  const decodedToken = jwt.verify(token, key.getPublicKey(), {
+    algorithms: [key.alg],
+  });
+  if (!decodedToken) {
+    res.status(401).json({
+      error: 'Invalid token',
+    });
+    return;
+  }
+
+  // Issue token
+  const payload = { username: decodedToken.sub };
+  const accessToken = jwt.sign(payload, jwtSecret, {
+    expiresIn: '1m',
+  });
+  const refreshToken = jwt.sign({}, jwtSecret, {
+    expiresIn: '5m',
+  });
+  res.cookie('scigateway:refresh_token', refreshToken, {
+    httpOnly: true,
+    secure: process.env.HTTPS,
+    sameSite: 'lax',
+    maxAge: 604800,
+  });
+  res.status(200).json(accessToken);
+});
+
+// Fetch Maintenance State
+app.get('/oidc_providers', function (_req, res) {
+  res.status(200).json([
+    {
+      configuration_url:
+        'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+      display_name: 'Keycloak',
+      client_id: 'test-client-id',
+    },
+  ]);
 });
 
 app.post(`/verify`, withAuth, function (req, res) {

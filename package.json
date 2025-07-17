@@ -32,6 +32,7 @@
     "i18next-http-backend": "2.7.3",
     "js-cookie": "3.0.1",
     "jsonwebtoken": "9.0.0",
+    "jwks-rsa": "3.2.0",
     "loglevel": "1.9.1",
     "prettier": "3.5.3",
     "prop-types": "15.8.1",
