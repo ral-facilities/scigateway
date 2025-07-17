@@ -61,7 +61,7 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
       this.mnemonics = [
         ...this.mnemonics,
         ...this.oidcProviders.map((oidc) => ({
-          mnemonic: `oidc_${oidc.configuration_url}`,
+          mnemonic: oidc.configuration_url,
           keys: [{ name: 'token', hide: true }],
           friendly: oidc.display_name,
         })),
@@ -82,9 +82,6 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
       }));
       this.authInitialised = true;
     }
-    // re-run this on init to ensure we re-setup any OIDC stuff
-    if (this.mnemonics.length === 1)
-      this.setAuthenticator(this.mnemonics[0].mnemonic);
     if (this.mnemonic) this.setAuthenticator(this.mnemonic);
   }
 
@@ -96,19 +93,12 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
     mnemonic: string,
     disableSideEffects?: boolean
   ): Promise<void> {
+    const oidcProvider = this.oidcProviders.find(
+      (op) => op.configuration_url === mnemonic
+    );
     this.mnemonic = mnemonic;
-    if (mnemonic.startsWith('oidc_') && !disableSideEffects) {
-      const configurationUrl = mnemonic.replace('oidc_', '');
-      const oidcProvider = this.oidcProviders.find(
-        (op) => op.configuration_url === configurationUrl
-      );
-      if (oidcProvider) {
-        await this.setupOIDC(oidcProvider);
-      } else {
-        log.error(
-          `Can't find oidc provider matching the specified mnemonic: ${mnemonic}`
-        );
-      }
+    if (oidcProvider && !disableSideEffects) {
+      await this.setupOIDC(oidcProvider);
     }
     return Promise.resolve();
   }
@@ -137,20 +127,21 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
         this.logOut();
       }
     };
-    if (this.mnemonic.startsWith('oidc_')) {
+    const oidcProvider = this.oidcProviders.find(
+      (op) => op.configuration_url === this.mnemonic
+    );
+    if (oidcProvider) {
       const params = new URLSearchParams(password);
       const code = params.get('code');
       if (!code) {
         this.logOut();
         return Promise.resolve();
       }
-      return this.oidcLogIn(
-        code,
-        this.mnemonic.replace('oidc_', ''),
-        promisePreProcessing
-      ).then(() => {
-        localStorage.setItem('autoLogin', 'false');
-      });
+      return this.oidcLogIn(code, oidcProvider, promisePreProcessing).then(
+        () => {
+          localStorage.setItem('autoLogin', 'false');
+        }
+      );
     }
 
     if (this.isLoggedIn() && localStorage.getItem('autoLogin') !== 'true') {

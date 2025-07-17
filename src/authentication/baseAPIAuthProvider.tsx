@@ -129,10 +129,9 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
 
   public async oidcLogIn(
     token: string,
-    configurationUrl: string,
+    oidcProvider: InitialisedOIDCProvider,
     preProcessing?: () => unknown
   ): Promise<void> {
-    const config = await fetchOIDCConfig(configurationUrl);
     const params = new URLSearchParams();
     params.append('client_id', sessionStorage.getItem('oidcClientId')!);
     params.append('grant_type', 'authorization_code');
@@ -143,7 +142,7 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     try {
       const {
         data: { id_token },
-      } = await axios.post(`${config.token_endpoint}`, params);
+      } = await axios.post(`${oidcProvider.token_endpoint}`, params);
 
       const { data: jwt } = await axios.post(
         `${this.authUrl}/oidc_login`,
@@ -167,6 +166,8 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       this.storeUser(payload.username, payload.userIsAdmin);
       return;
     } catch (err) {
+      // reset OIDC config on fail before handling error to set up for a potential retry
+      this.setupOIDC(oidcProvider);
       this.handleAuthError(err);
     }
   }

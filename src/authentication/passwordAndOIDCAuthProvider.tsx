@@ -77,12 +77,16 @@ export default class PasswordAndOIDCAuthProvider extends BaseAPIAuthProvider {
       const params = new URLSearchParams(password);
       const code = params.get('code');
 
-      if (!code) {
+      const oidcProvider = this.oidcProviders.find(
+        (op) => op.configuration_url === this.authenticator?.key
+      );
+
+      if (!code || !oidcProvider) {
         this.logOut();
         return Promise.resolve();
       }
 
-      return this.oidcLogIn(code, this.authenticator.key);
+      return this.oidcLogIn(code, oidcProvider);
     } else if (this.authenticator?.type === 'userpass') {
       return this.userPassLogIn({ username, password });
     }

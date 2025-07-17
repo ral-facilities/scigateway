@@ -324,7 +324,10 @@ export const LoginPageComponent = (
 ): React.ReactElement => {
   const [t] = useTranslation();
   const [authenticator, setAuthenticator] = useState<string | undefined>(
-    props.auth.provider.getAuthenticator?.()
+    props.auth.provider.getAuthenticator?.() ||
+      (props.auth.provider.authenticators?.length === 1
+        ? props.auth.provider.authenticators[0].key
+        : undefined)
   );
   const [initialisedAuth, setInitialisedAuth] = useState<boolean>(false);
   const location = useLocation<{ referrer?: string } | undefined>();
@@ -358,19 +361,31 @@ export const LoginPageComponent = (
     setupAuthenticator();
   }, [props.auth.provider]);
 
+  const initialLoadEffectRan = React.useRef(false);
   React.useEffect(() => {
-    const oidcConfigurationUrl = sessionStorage.getItem('oidcConfigurationUrl');
-    if (
-      (props.auth.provider.redirectUrl || oidcConfigurationUrl) &&
-      !props.auth.loading &&
-      !props.auth.failedToLogin &&
-      initialisedAuth
-    ) {
-      if (location.search) {
-        // disable sideEffects for setting authenticator just before OIDC login
-        // as otherwise this will override needed variables such as the code verifier
-        changeAuthenticator(`oidc_${oidcConfigurationUrl}`, true);
-        login();
+    if (!initialLoadEffectRan.current) {
+      const oidcConfigurationUrl = sessionStorage.getItem(
+        'oidcConfigurationUrl'
+      );
+      if (
+        (props.auth.provider.redirectUrl || oidcConfigurationUrl) &&
+        !props.auth.loading &&
+        !props.auth.failedToLogin &&
+        initialisedAuth
+      ) {
+        if (location.search) {
+          // disable sideEffects for setting authenticator just before OIDC login
+          // as otherwise this will override needed variables such as the code verifier
+          changeAuthenticator(`${oidcConfigurationUrl}`, true);
+          login();
+        } else {
+          // if we're not doing a login redirect, safe to init a single authenticator
+          // otherwise doing this elsewhere overwrites the OIDC variables and breaks the login flow
+          if (props.auth.provider.authenticators?.length === 1)
+            // if only one authenticator, then initialise with that authenticator
+            changeAuthenticator(props.auth.provider.authenticators[0].key);
+        }
+        initialLoadEffectRan.current = true;
       }
     }
   });
@@ -386,7 +401,7 @@ export const LoginPageComponent = (
 
   let auth;
   const authenticators = props.auth.provider.authenticators;
-  if (typeof authenticator === 'undefined') {
+  if (initialisedAuth && typeof authenticator === 'undefined') {
     LoginScreen = (
       <CredentialsLoginScreen {...props} mnemonic={authenticator} />
     );

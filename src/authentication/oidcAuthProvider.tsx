@@ -29,9 +29,6 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
         type: 'redirect',
       }));
     }
-    // re-run this on init to ensure we re-setup any OIDC stuff
-    if (this.oidcProviders.length === 1)
-      this.setAuthenticator(this.oidcProviders[0].configuration_url);
   }
 
   public getAuthenticator(): string {
@@ -67,6 +64,6 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
       return Promise.resolve();
     }
 
-    return this.oidcLogIn(code, this.oidcProvider?.configuration_url);
+    return this.oidcLogIn(code, this.oidcProvider);
   }
 }
