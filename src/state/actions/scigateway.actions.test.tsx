@@ -1,52 +1,51 @@
 import mockAxios from 'axios';
+import { createLocation } from 'history';
+import log from 'loglevel';
 import { Action, AnyAction } from 'redux';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import { flushPromises } from '../../testUtils';
+import { initialState } from '../reducers/scigateway.reducer';
 import {
-  toggleDrawer,
-  verifyUsernameAndPassword,
-  loadingAuthentication,
-  authorised,
-  loadFeatureSwitches,
-  configureSite,
-  dismissMenuItem,
-  siteLoadingUpdate,
-  configureAnalytics,
-  initialiseAnalytics,
-  loadStrings,
-  toggleHelp,
-  addHelpTourSteps,
-  invalidToken,
-  loadedAuthentication,
-  loadDarkModePreference,
-  registerHomepageUrl,
-  loadScheduledMaintenanceState,
-  loadMaintenanceState,
-  loadAuthProvider,
-  loadHighContrastModePreference,
-  customLogo,
-  resetAuthState,
-  customNavigationDrawerLogo,
-  customAdminPageDefaultTab,
-  registerContactUsAccessibilityFormUrl,
-  customPrimaryColour,
-} from './scigateway.actions';
-import {
-  ToggleDrawerType,
+  AddHelpTourStepsType,
+  ConfigureAnalyticsType,
   ConfigureFeatureSwitchesType,
   DismissNotificationType,
-  ConfigureAnalyticsType,
   InitialiseAnalyticsType,
-  ToggleHelpType,
-  AddHelpTourStepsType,
   NotificationType,
   ResetAuthStateType,
+  ToggleDrawerType,
+  ToggleHelpType,
 } from '../scigateway.types';
-import { initialState } from '../reducers/scigateway.reducer';
-import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
-import log from 'loglevel';
-import { createLocation } from 'history';
-import { flushPromises } from '../../testUtils';
+import {
+  addHelpTourSteps,
+  authorised,
+  configureAnalytics,
+  configureSite,
+  customAdminPageDefaultTab,
+  customLogo,
+  customNavigationDrawerLogo,
+  customPrimaryColour,
+  dismissMenuItem,
+  initialiseAnalytics,
+  invalidToken,
+  loadDarkModePreference,
+  loadedAuthentication,
+  loadFeatureSwitches,
+  loadHighContrastModePreference,
+  loadingAuthentication,
+  loadMaintenanceState,
+  loadScheduledMaintenanceState,
+  loadStrings,
+  registerContactUsAccessibilityFormUrl,
+  registerHomepageUrl,
+  resetAuthState,
+  siteLoadingUpdate,
+  toggleDrawer,
+  toggleHelp,
+  verifyUsernameAndPassword,
+} from './scigateway.actions';
 
 function mockAxiosGetResponse(message: string): void {
   vi.mocked(mockAxios.get).mockImplementationOnce(() =>
@@ -87,19 +86,14 @@ describe('scigateway actions', () => {
     expect(action.type).toEqual(ToggleDrawerType);
   });
 
-  it('given valid credentials verifyUsernameAndPassword should change auth provider and return with a valid token and successful authorisation', async () => {
+  it('given valid credentials verifyUsernameAndPassword should return with a valid token and successful authorisation', async () => {
     mockAxiosGetResponse(
       'this will be replaced by an API call to get access token'
     );
 
-    const mnemonic = 'anon';
     const authUrl = 'http://example.com';
 
-    const asyncAction = verifyUsernameAndPassword(
-      'username',
-      'password',
-      mnemonic
-    );
+    const asyncAction = verifyUsernameAndPassword('username', 'password');
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
@@ -123,10 +117,7 @@ describe('scigateway actions', () => {
     await action;
 
     expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, true)
-    );
-    expect(actions[2]).toEqual(authorised());
+    expect(actions[1]).toEqual(authorised());
   });
 
   it('given invalid credentials verifyUsernameAndPassword should return an authorisation failure', async () => {

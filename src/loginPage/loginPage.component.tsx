@@ -93,8 +93,7 @@ interface LoginPageProps {
 interface LoginPageDispatchProps {
   verifyUsernameAndPassword: (
     username: string,
-    password: string,
-    mnemonic?: string
+    password: string
   ) => Promise<void>;
   resetAuthState: () => Action;
 }
@@ -131,9 +130,7 @@ export const RedirectLoginScreen = (
 };
 
 export const CredentialsLoginScreen = (
-  props: CombinedLoginProps & {
-    mnemonic?: string;
-  }
+  props: CombinedLoginProps
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -142,11 +139,11 @@ export const CredentialsLoginScreen = (
 
   const [t] = useTranslation();
 
-  const { verifyUsernameAndPassword, mnemonic } = props;
+  const { verifyUsernameAndPassword } = props;
 
   const login = React.useCallback(async () => {
-    return await verifyUsernameAndPassword(username, password, mnemonic);
-  }, [password, verifyUsernameAndPassword, mnemonic, username]);
+    return await verifyUsernameAndPassword(username, password);
+  }, [password, verifyUsernameAndPassword, username]);
 
   return (
     <RootDiv
@@ -237,17 +234,15 @@ export const CredentialsLoginScreen = (
 };
 
 export const AnonLoginScreen = (
-  props: CombinedLoginProps & {
-    mnemonic?: string;
-  }
+  props: CombinedLoginProps
 ): React.ReactElement => {
   const [t] = useTranslation();
 
-  const { verifyUsernameAndPassword, mnemonic } = props;
+  const { verifyUsernameAndPassword } = props;
 
   const login = React.useCallback(async () => {
-    return await verifyUsernameAndPassword('', '', mnemonic);
-  }, [verifyUsernameAndPassword, mnemonic]);
+    return await verifyUsernameAndPassword('', '');
+  }, [verifyUsernameAndPassword]);
 
   return (
     <RootDiv
@@ -404,9 +399,7 @@ export const LoginPageComponent = (
   let auth;
   const authenticators = props.auth.provider.authenticators;
   if (initialisedAuth && typeof authenticator === 'undefined') {
-    LoginScreen = (
-      <CredentialsLoginScreen {...props} mnemonic={authenticator} />
-    );
+    LoginScreen = <CredentialsLoginScreen {...props} />;
 
     if (props.auth.provider.redirectUrl) {
       LoginScreen = <RedirectLoginScreen {...props} displayName="unknown" />;
@@ -416,16 +409,14 @@ export const LoginPageComponent = (
       authenticators?.find((a) => a.key === authenticator && a.type == 'anon')
     ) {
       // anon
-      LoginScreen = <AnonLoginScreen {...props} mnemonic={authenticator} />;
+      LoginScreen = <AnonLoginScreen {...props} />;
     } else if (
       authenticators?.find(
         (a) => a.key === authenticator && a.type == 'userpass'
       )
     ) {
       // user/pass
-      LoginScreen = (
-        <CredentialsLoginScreen {...props} mnemonic={authenticator} />
-      );
+      LoginScreen = <CredentialsLoginScreen {...props} />;
     } else if (
       (auth = authenticators?.find(
         (a) => a.key === authenticator && a.type == 'redirect'

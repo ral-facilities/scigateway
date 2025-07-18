@@ -8,6 +8,12 @@ if (typeof window.URL.createObjectURL === 'undefined') {
   Object.defineProperty(window.URL, 'createObjectURL', { value: noOp });
 }
 
+// ensure we generate consistent values instead of random values in tests
+window.crypto.getRandomValues = vi.fn((arr) => {
+  (arr as Uint32Array).forEach((_v, i) => (arr[i] = i));
+  return arr;
+});
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({

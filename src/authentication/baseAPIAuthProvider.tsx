@@ -61,7 +61,7 @@ export function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
 
 // GENERATING CODE VERIFIER
 function dec2hex(dec: number): string {
-  return ('0' + dec.toString(16)).substr(-2);
+  return ('0' + dec.toString(16)).slice(-2);
 }
 
 export function generateCodeVerifier(): string {
@@ -244,15 +244,11 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     scheduledMaintenanceState: ScheduledMaintenanceState
   ): Promise<string | void> {
     return axios
-      .post(
-        `${this.authUrl}/scheduled_maintenance`,
-        scheduledMaintenanceState,
-        {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        }
-      )
+      .put(`${this.authUrl}/scheduled_maintenance`, scheduledMaintenanceState, {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
       .then((res) => {
         if (res?.data) {
           return res.data;
@@ -267,7 +263,7 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     maintenanceState: MaintenanceState
   ): Promise<string | void> {
     return axios
-      .post(`${this.authUrl}/maintenance`, maintenanceState, {
+      .put(`${this.authUrl}/maintenance`, maintenanceState, {
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
