@@ -439,6 +439,34 @@ describe('Login', () => {
       cy.get('[aria-label="Open user menu"]').should('be.visible');
     });
 
+    it('should be able to login via SSO after auto login and be displayed as logged in', () => {
+      cy.visit('/login');
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('Keycloak').click();
+
+      cy.url().as('originUrl', { type: 'static' });
+
+      cy.contains('button', 'Login with Keycloak').click();
+
+      cy.url().should('include', 'http://localhost:8081');
+      // login to keycloak
+      cy.origin('http://localhost:8081', () => {
+        cy.get('#username').type('test');
+        cy.get('#password').type('password');
+        cy.get('#kc-login').click();
+      });
+
+      // redirect?
+      // cy.origin()
+      cy.get('@originUrl').then((url) => {
+        cy.url().should('include', url);
+      });
+
+      cy.contains('Sign out').should('exist');
+      cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+
     it('should autoLogin after logout', () => {
       window.localStorage.setItem(
         'scigateway:token',
@@ -486,6 +514,49 @@ describe('Login', () => {
       cy.get('#demo_plugin').should('not.exist');
       cy.contains('h1', 'Sign in').should('be.visible');
       cy.contains('Unable to create anonymous session').should('not.exist');
+    });
+  });
+
+  describe('OIDC', () => {
+    beforeEach(() => {
+      cy.intercept('/settings.json', {
+        plugins: [
+          {
+            name: 'demo_plugin',
+            src: '/plugins/e2e-plugin/main.js',
+            enable: true,
+            location: 'main',
+          },
+        ],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'oidc',
+        authUrl: 'http://localhost:8000',
+        autoLogin: true,
+        'help-tour-steps': [],
+      });
+    });
+
+    it('should be able to login via SSO after auto login and be displayed as logged in', () => {
+      cy.visit('/login');
+
+      cy.url().as('originUrl', { type: 'static' });
+
+      cy.contains('button', 'Login with Keycloak').click();
+
+      cy.url().should('include', 'http://localhost:8081');
+      // login to keycloak
+      cy.origin('http://localhost:8081', () => {
+        cy.get('#username').type('test');
+        cy.get('#password').type('password');
+        cy.get('#kc-login').click();
+      });
+
+      cy.get('@originUrl').then((url) => {
+        cy.url().should('include', url);
+      });
+
+      cy.contains('Sign in').should('not.exist');
+      cy.get('[aria-label="Open user menu"]').should('be.visible');
     });
   });
 });
