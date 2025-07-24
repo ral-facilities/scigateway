@@ -299,7 +299,7 @@ describe('Base API auth provider', () => {
           type: NotificationType,
           payload: {
             message:
-              'It is not possible to authenticate you at the moment. Please, try again later',
+              'It is not possible to authenticate you at the moment. Please, try again later.',
             severity: 'error',
           },
         });
@@ -337,7 +337,7 @@ describe('Base API auth provider', () => {
           type: NotificationType,
           payload: {
             message:
-              'It is not possible to authenticate you at the moment. Please, try again later',
+              'It is not possible to authenticate you at the moment. Please, try again later.',
             severity: 'error',
           },
         });

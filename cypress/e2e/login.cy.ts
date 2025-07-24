@@ -536,7 +536,7 @@ describe('Login', () => {
       });
     });
 
-    it('should be able to login via SSO after auto login and be displayed as logged in', () => {
+    it('should be able to login via SSO and be displayed as logged in', () => {
       cy.visit('/login');
 
       cy.url().as('originUrl', { type: 'static' });

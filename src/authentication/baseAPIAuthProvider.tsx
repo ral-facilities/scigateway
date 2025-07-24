@@ -26,7 +26,7 @@ export function fetchOIDCConfig(oidcConfigurationUrl?: string): Promise<{
             type: NotificationType,
             payload: {
               message:
-                'It is not possible to authenticate you at the moment. Please, try again later',
+                'It is not possible to authenticate you at the moment. Please, try again later.',
               severity: 'error',
             },
           },
@@ -49,7 +49,7 @@ export function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
             type: NotificationType,
             payload: {
               message:
-                'It is not possible to authenticate you at the moment. Please, try again later',
+                'It is not possible to authenticate you at the moment. Please, try again later.',
               severity: 'error',
             },
           },
@@ -59,15 +59,19 @@ export function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
     });
 }
 
-// GENERATING CODE VERIFIER
-function dec2hex(dec: number): string {
-  return ('0' + dec.toString(16)).slice(-2);
-}
-
+/**
+ * Code for generating code verifier and code challenge for use
+ * with OAuth Authorization Code Flow with Proof Key for Code Exchange (PKCE)
+ * see: https://stackoverflow.com/a/63336562/7458681
+ *  */
 export function generateCodeVerifier(): string {
   const array = new Uint32Array(56 / 2);
   window.crypto.getRandomValues(array);
   return Array.from(array, dec2hex).join('');
+}
+
+function dec2hex(dec: number): string {
+  return ('0' + dec.toString(16)).slice(-2);
 }
 
 async function sha256(plain: string): Promise<ArrayBuffer> {

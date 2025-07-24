@@ -130,7 +130,7 @@ app.post(`/oidc_login`, async function (req, res) {
   }
 
   // Issue token
-  const payload = { username: decodedToken.sub };
+  const payload = { username: decodedToken.email ?? decodedToken.sub };
   const accessToken = jwt.sign(payload, jwtSecret, {
     expiresIn: '1m',
   });
