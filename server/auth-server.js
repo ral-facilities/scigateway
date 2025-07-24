@@ -6,7 +6,7 @@ import fs from 'fs';
 import https from 'https';
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
-import qs from 'query-string';
+import { URLSearchParams } from 'url';
 import waitOn from 'wait-on';
 
 const app = express();
@@ -146,7 +146,6 @@ app.post(`/oidc_login`, async function (req, res) {
   res.status(200).json(accessToken);
 });
 
-// Fetch Maintenance State
 app.get('/oidc_providers', function (_req, res) {
   res.status(200).json([
     {
@@ -270,7 +269,7 @@ app.post(`/github/login`, function (req, res) {
       headers
     )
     .then((githubResponse) => {
-      token = qs.parse(githubResponse.data).access_token;
+      token = new URLSearchParams(githubResponse.data).get('access_token');
       return axios.get('https://api.github.com/user', {
         headers: { Authorization: `token ${token}` },
       });
