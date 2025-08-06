@@ -300,7 +300,7 @@ export const LoginSelector = (
         sx={textFieldStyles}
         id="select-mnemonic"
         labelId="mnemonic-select"
-        value={props.authenticator}
+        value={props.authenticator ?? ''}
         onChange={(e) => {
           props.changeAuthenticator(e.target.value as string);
         }}
@@ -376,11 +376,18 @@ export const LoginPageComponent = (
           changeAuthenticator(`${oidcConfigurationUrl}`, true);
           login();
         } else {
-          // if we're not doing a login redirect, safe to init a single authenticator
+          // if we're not doing a login redirect, safe to perform actions with side effects
           // otherwise doing this elsewhere overwrites the OIDC variables and breaks the login flow
-          if (props.auth.provider.authenticators?.length === 1)
-            // if only one authenticator, then initialise with that authenticator
-            changeAuthenticator(props.auth.provider.authenticators[0].key);
+
+          // ensure we re-init any authenticators e.g. after a user logs out and logs back in
+          if (authenticator) {
+            changeAuthenticator(authenticator);
+          } else {
+            if (props.auth.provider.authenticators?.length === 1) {
+              // if only one authenticator, then initialise with that authenticator
+              changeAuthenticator(props.auth.provider.authenticators[0].key);
+            }
+          }
         }
         initialLoadEffectRan.current = true;
       }
@@ -398,7 +405,7 @@ export const LoginPageComponent = (
 
   let auth;
   const authenticators = props.auth.provider.authenticators;
-  if (initialisedAuth && typeof authenticator === 'undefined') {
+  if (initialisedAuth && typeof authenticators === 'undefined') {
     LoginScreen = <CredentialsLoginScreen {...props} />;
 
     if (props.auth.provider.redirectUrl) {

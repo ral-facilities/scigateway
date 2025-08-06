@@ -304,7 +304,7 @@ describe('Login page component', () => {
 
   it('login page renders redirect login if only single redirect login with delayed init', async () => {
     const mockSetAuthenticator = vi.fn();
-    const mockGetAuthenticator = vi.fn().mockResolvedValue(undefined);
+    const mockGetAuthenticator = vi.fn().mockReturnValue(undefined);
 
     props.auth.provider.getAuthenticator = mockGetAuthenticator;
     props.auth.provider.setAuthenticator = mockSetAuthenticator;
@@ -335,6 +335,34 @@ describe('Login page component', () => {
     act(() => {
       promiseResolve();
     });
+
+    expect(
+      await screen.findByRole('button', { name: 'Login with Test 2' })
+    ).toBeInTheDocument();
+    expect(mockSetAuthenticator).toHaveBeenCalledWith('Test2', undefined);
+  });
+
+  it('login page re-initialises an authenticator if it is mounted with an authenticator already selected', async () => {
+    const mockSetAuthenticator = vi.fn();
+    const mockGetAuthenticator = vi.fn().mockReturnValue('Test2');
+
+    props.auth.provider.getAuthenticator = mockGetAuthenticator;
+    props.auth.provider.setAuthenticator = mockSetAuthenticator;
+    props.auth.provider.authenticators = [
+      {
+        key: 'Test2',
+        type: 'redirect',
+        displayName: 'Test 2',
+      },
+      {
+        key: 'Test1',
+        type: 'userpass',
+        displayName: 'Test 1',
+      },
+    ];
+    props.auth.provider.redirectUrl = 'unknown';
+
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     expect(
       await screen.findByRole('button', { name: 'Login with Test 2' })
