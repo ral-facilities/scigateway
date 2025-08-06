@@ -522,9 +522,11 @@ export const setScheduledMaintenanceState = (
           dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
 
           // Displaying the banner to show that the state has been updated.
-          if (message) {
-            displayMaintenanceBanner(message, 'success', true);
-          }
+          displayMaintenanceBanner(
+            message ?? 'Scheduled maintenance state successfully updated',
+            'success',
+            true
+          );
         })
         .catch(() => {
           displayMaintenanceBanner(
@@ -549,9 +551,11 @@ export const setMaintenanceState = (
           dispatch(loadMaintenanceState(maintenanceState));
 
           // Displaying the banner to show that the state has been updated.
-          if (message) {
-            displayMaintenanceBanner(message, 'success', true);
-          }
+          displayMaintenanceBanner(
+            message ?? 'Maintenance state successfully updated',
+            'success',
+            true
+          );
         })
         .catch(() => {
           displayMaintenanceBanner(
