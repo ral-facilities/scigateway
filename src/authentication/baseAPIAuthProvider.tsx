@@ -186,7 +186,7 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     sessionStorage.setItem('oidcClientId', oidcProvider.client_id);
 
     const codeChallenge = await generateCodeChallengeFromVerifier(codeVerifier);
-    this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid`;
+    this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid email profile`;
   }
 
   public async initialiseOIDCProviders(): Promise<InitialisedOIDCProvider[]> {

@@ -238,7 +238,7 @@ describe('Base API auth provider', () => {
       sessionStorage.setItem('oidcClientId', oidcProvider.client_id);
 
       expect(testBaseAPIAuthProvider.redirectUrl).toBe(
-        `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${'U__Mw0AMy75Lin8CfSDsubEMmLrjFNzsxtwyl-HdcBI'}&scope=openid`
+        `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${'U__Mw0AMy75Lin8CfSDsubEMmLrjFNzsxtwyl-HdcBI'}&scope=openid email profile`
       );
     });
 
