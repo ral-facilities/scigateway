@@ -27,7 +27,7 @@
     "cookie-parser": "1.4.5",
     "express": "4.20.0",
     "husky": "9.1.7",
-    "i18next": "25.2.1",
+    "i18next": "25.3.2",
     "i18next-browser-languagedetector": "8.2.0",
     "i18next-http-backend": "3.0.2",
     "js-cookie": "3.0.1",
