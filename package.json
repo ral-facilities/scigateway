@@ -19,7 +19,7 @@
     "@types/react-redux-toastr": "7.6.2",
     "@types/react-router-dom": "5.3.3",
     "@types/redux-logger": "3.0.8",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^5.0.0",
     "axios": "1.11.0",
     "browserslist": "4.25.0",
     "browserslist-to-esbuild": "2.1.1",
