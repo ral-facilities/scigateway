@@ -24,7 +24,7 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
       this.oidcProviders = await this.initialiseOIDCProviders();
       this.authInitialised = true;
       this.authenticators = this.oidcProviders.map((op) => ({
-        key: op.configuration_url,
+        key: op.provider_id,
         displayName: op.display_name,
         type: 'redirect',
       }));
@@ -32,7 +32,7 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
   }
 
   public getAuthenticator(): string {
-    return this.oidcProvider?.configuration_url ?? '';
+    return this.oidcProvider?.provider_id ?? '';
   }
 
   public async setAuthenticator(
@@ -40,7 +40,7 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
     disableSideEffects?: boolean
   ): Promise<void> {
     const oidcProvider = this.oidcProviders.find(
-      (oidc) => oidc.configuration_url === provider
+      (oidc) => oidc.provider_id === provider
     );
     if (oidcProvider) {
       this.oidcProvider = oidcProvider;

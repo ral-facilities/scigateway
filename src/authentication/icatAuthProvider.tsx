@@ -61,7 +61,7 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
       this.mnemonics = [
         ...this.mnemonics,
         ...this.oidcProviders.map((oidc) => ({
-          mnemonic: oidc.configuration_url,
+          mnemonic: oidc.provider_id,
           keys: [{ name: 'token', hide: true }],
           friendly: oidc.display_name,
         })),
@@ -94,7 +94,7 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
     disableSideEffects?: boolean
   ): Promise<void> {
     const oidcProvider = this.oidcProviders.find(
-      (op) => op.configuration_url === mnemonic
+      (op) => op.provider_id === mnemonic
     );
     this.mnemonic = mnemonic;
     if (oidcProvider && !disableSideEffects) {
@@ -128,7 +128,7 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
       }
     };
     const oidcProvider = this.oidcProviders.find(
-      (op) => op.configuration_url === this.mnemonic
+      (op) => op.provider_id === this.mnemonic
     );
     if (oidcProvider) {
       const params = new URLSearchParams(password);

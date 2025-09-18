@@ -361,11 +361,9 @@ export const LoginPageComponent = (
   const initialLoadEffectRan = React.useRef(false);
   React.useEffect(() => {
     if (!initialLoadEffectRan.current) {
-      const oidcConfigurationUrl = sessionStorage.getItem(
-        'oidcConfigurationUrl'
-      );
+      const oidcProviderId = sessionStorage.getItem('oidcProviderId');
       if (
-        (props.auth.provider.redirectUrl || oidcConfigurationUrl) &&
+        (props.auth.provider.redirectUrl || oidcProviderId) &&
         !props.auth.loading &&
         !props.auth.failedToLogin &&
         initialisedAuth
@@ -373,7 +371,7 @@ export const LoginPageComponent = (
         if (location.search) {
           // disable sideEffects for setting authenticator just before OIDC login
           // as otherwise this will override needed variables such as the code verifier
-          changeAuthenticator(`${oidcConfigurationUrl}`, true);
+          changeAuthenticator(`${oidcProviderId}`, true);
           login();
         } else {
           // if we're not doing a login redirect, safe to perform actions with side effects

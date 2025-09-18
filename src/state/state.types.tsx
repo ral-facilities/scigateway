@@ -77,9 +77,12 @@ export interface Authenticator {
 }
 
 export interface OIDCProvider {
+  provider_id: string;
   display_name: string;
   configuration_url: string;
   client_id: string;
+  pkce: boolean;
+  scope: string;
 }
 
 export interface AuthProvider {

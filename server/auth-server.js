@@ -147,6 +147,7 @@ app.post(`/oidc_login`, async function (req, res) {
 });
 
 app.get('/oidc_providers', function (_req, res) {
+  // TODO: change this
   res.status(200).json([
     {
       configuration_url:

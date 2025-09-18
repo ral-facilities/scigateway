@@ -14,11 +14,18 @@ export function fetchOIDCConfig(oidcConfigurationUrl?: string): Promise<{
   token_endpoint: string;
 }> {
   return axios
-    .get(`${oidcConfigurationUrl}`)
+    .get<{
+      authorization_endpoint: string;
+      token_endpoint: string;
+      [key: string]: unknown;
+    }>(`${oidcConfigurationUrl}`)
     .then((res) => {
-      return res.data;
+      return {
+        authorization_endpoint: res.data.authorization_endpoint,
+        token_endpoint: res.data.token_endpoint,
+      };
     })
-    .catch(() => {
+    .catch((e) => {
       log.error('Unable to fetch OIDC config from OIDC configuration URL');
       document.dispatchEvent(
         new CustomEvent('scigateway', {
@@ -32,14 +39,20 @@ export function fetchOIDCConfig(oidcConfigurationUrl?: string): Promise<{
           },
         })
       );
+      throw e;
     });
 }
 
 export function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
   return axios
-    .get<OIDCProvider[]>(`${authUrl}/oidc_providers`)
+    .get<Record<string, Omit<OIDCProvider, 'provider_id'>>>(
+      `${authUrl}/oidc_providers`
+    )
     .then((res) => {
-      return res.data;
+      return Object.entries(res.data).map(([key, op]) => ({
+        provider_id: key,
+        ...op,
+      }));
     })
     .catch(() => {
       log.error('Unable to fetch OIDC providers');
@@ -131,25 +144,57 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       });
   }
 
+  async pkceToken(
+    token: string,
+    oidcProvider: InitialisedOIDCProvider
+  ): Promise<string> {
+    const params = new URLSearchParams();
+
+    params.append('code', token);
+    params.append('code_verifier', sessionStorage.getItem('codeVerifier')!);
+    params.append('client_id', oidcProvider.client_id);
+    params.append('grant_type', 'authorization_code');
+    params.append('redirect_uri', `${window.location.origin}/login`);
+
+    const {
+      data: { id_token },
+    } = await axios.post(oidcProvider.token_endpoint, params);
+
+    return id_token;
+  }
+
+  async nonPKCEToken(
+    token: string,
+    oidcProvider: InitialisedOIDCProvider
+  ): Promise<string> {
+    const {
+      data: { id_token },
+    } = await axios.post(
+      `${this.authUrl}/oidc_token/${oidcProvider.provider_id}`,
+      token,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    return id_token;
+  }
+
   public async oidcLogIn(
     token: string,
     oidcProvider: InitialisedOIDCProvider,
     preProcessing?: () => unknown
   ): Promise<void> {
-    const params = new URLSearchParams();
-    params.append('client_id', sessionStorage.getItem('oidcClientId')!);
-    params.append('grant_type', 'authorization_code');
-    params.append('code', token);
-    params.append('code_verifier', sessionStorage.getItem('codeVerifier')!);
-    params.append('redirect_uri', `${window.location.origin}/login`);
-
     try {
-      const {
-        data: { id_token },
-      } = await axios.post(`${oidcProvider.token_endpoint}`, params);
+      let id_token;
+      if (oidcProvider.pkce) {
+        id_token = await this.pkceToken(token, oidcProvider);
+      } else {
+        id_token = await this.nonPKCEToken(token, oidcProvider);
+      }
+
+      // TODO: sometimes login request fails here - maybe because it was too fast?
 
       const { data: jwt } = await axios.post(
-        `${this.authUrl}/oidc_login`,
+        `${this.authUrl}/oidc_login/${oidcProvider.provider_id}`,
         undefined,
         {
           headers: {
@@ -160,8 +205,7 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       if (preProcessing) preProcessing();
       this.storeToken(jwt);
       sessionStorage.removeItem('codeVerifier');
-      sessionStorage.removeItem('oidcConfigurationUrl');
-      sessionStorage.removeItem('oidcClientId');
+      sessionStorage.removeItem('oidcProviderId');
       const payload: {
         sessionId: string;
         username: string;
@@ -177,21 +221,19 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
   }
 
   public async setupOIDC(oidcProvider: InitialisedOIDCProvider): Promise<void> {
-    const codeVerifier = generateCodeVerifier();
-    sessionStorage.setItem('codeVerifier', codeVerifier);
-    sessionStorage.setItem(
-      'oidcConfigurationUrl',
-      oidcProvider.configuration_url
-    );
-    sessionStorage.setItem('oidcClientId', oidcProvider.client_id);
+    let codeChallenge: string | undefined;
+    if (oidcProvider.pkce) {
+      const codeVerifier = generateCodeVerifier();
+      sessionStorage.setItem('codeVerifier', codeVerifier);
+      codeChallenge = await generateCodeChallengeFromVerifier(codeVerifier);
+    }
+    sessionStorage.setItem('oidcProviderId', oidcProvider.provider_id);
 
-    const codeChallenge = await generateCodeChallengeFromVerifier(codeVerifier);
-    this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid email profile`;
+    this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code${oidcProvider.pkce ? `&code_challenge_method=S256&code_challenge=${codeChallenge}` : ''}&scope=${oidcProvider.scope}`;
   }
 
   public async initialiseOIDCProviders(): Promise<InitialisedOIDCProvider[]> {
     const oidcProviders = await fetchOIDCProviders(this.authUrl);
-    oidcProviders.forEach(async () => {});
     return await Promise.all(
       oidcProviders.map(async (oidcProvider) => {
         const config = await fetchOIDCConfig(oidcProvider.configuration_url);
