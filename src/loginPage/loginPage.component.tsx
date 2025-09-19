@@ -340,10 +340,11 @@ export const LoginPageComponent = (
       setAuthenticator(newAuthenticator);
       props.auth.provider.setAuthenticator?.(
         newAuthenticator,
-        disableSideEffects
+        disableSideEffects,
+        location.state?.referrer
       );
     },
-    [props.auth.provider]
+    [location.state?.referrer, props.auth.provider]
   );
 
   React.useEffect(() => {

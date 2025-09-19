@@ -37,7 +37,8 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
 
   public async setAuthenticator(
     provider: string,
-    disableSideEffects?: boolean
+    disableSideEffects?: boolean,
+    referrer?: string
   ): Promise<void> {
     const oidcProvider = this.oidcProviders.find(
       (oidc) => oidc.provider_id === provider
@@ -45,7 +46,7 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
     if (oidcProvider) {
       this.oidcProvider = oidcProvider;
       if (!disableSideEffects) {
-        await this.setupOIDC(oidcProvider);
+        await this.setupOIDC(oidcProvider, referrer);
       }
     } else {
       log.error(
@@ -59,7 +60,9 @@ export default class OIDCAuthProvider extends BaseAPIAuthProvider {
     const params = new URLSearchParams(password);
     const code = params.get('code');
 
-    if (!code || !this.oidcProvider) {
+    const state = params.get('state');
+
+    if (!code || !this.oidcProvider || !this.verifyOIDCStateParam(state)) {
       this.logOut();
       return Promise.resolve();
     }

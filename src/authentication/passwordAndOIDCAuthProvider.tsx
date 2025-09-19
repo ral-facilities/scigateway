@@ -42,7 +42,8 @@ export default class PasswordAndOIDCAuthProvider extends BaseAPIAuthProvider {
 
   public async setAuthenticator(
     authenticatorKey: string,
-    disableSideEffects?: boolean
+    disableSideEffects?: boolean,
+    referrer?: string
   ): Promise<void> {
     const newAuthenticator = this.authenticators.find(
       (a) => a.key === authenticatorKey
@@ -61,7 +62,7 @@ export default class PasswordAndOIDCAuthProvider extends BaseAPIAuthProvider {
           (oidc) => oidc.provider_id === this.authenticator?.key
         );
         if (oidcProvider) {
-          await this.setupOIDC(oidcProvider);
+          await this.setupOIDC(oidcProvider, referrer);
         } else {
           log.error(
             `Can't find oidc provider matching the specified authenticator: ${authenticatorKey}`
@@ -81,7 +82,9 @@ export default class PasswordAndOIDCAuthProvider extends BaseAPIAuthProvider {
         (op) => op.provider_id === this.authenticator?.key
       );
 
-      if (!code || !oidcProvider) {
+      const state = params.get('state');
+
+      if (!code || !oidcProvider || !this.verifyOIDCStateParam(state)) {
         this.logOut();
         return Promise.resolve();
       }

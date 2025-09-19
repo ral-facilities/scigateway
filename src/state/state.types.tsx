@@ -111,7 +111,8 @@ export interface AuthProvider {
   }[];
   setAuthenticator?: (
     key: string,
-    disableSideEffects?: boolean
+    disableSideEffects?: boolean,
+    referrer?: string
   ) => Promise<void>;
   getAuthenticator?: () => string;
   initialise?: () => Promise<void>;

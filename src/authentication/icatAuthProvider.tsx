@@ -91,14 +91,15 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
 
   public async setAuthenticator(
     mnemonic: string,
-    disableSideEffects?: boolean
+    disableSideEffects?: boolean,
+    referrer?: string
   ): Promise<void> {
     const oidcProvider = this.oidcProviders.find(
       (op) => op.provider_id === mnemonic
     );
     this.mnemonic = mnemonic;
     if (oidcProvider && !disableSideEffects) {
-      await this.setupOIDC(oidcProvider);
+      await this.setupOIDC(oidcProvider, referrer);
     }
     return Promise.resolve();
   }
@@ -133,7 +134,10 @@ export default class ICATAuthProvider extends BaseAPIAuthProvider {
     if (oidcProvider) {
       const params = new URLSearchParams(password);
       const code = params.get('code');
-      if (!code) {
+
+      const state = params.get('state');
+
+      if (!code || !this.verifyOIDCStateParam(state)) {
         this.logOut();
         return Promise.resolve();
       }

@@ -144,6 +144,62 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       });
   }
 
+  public verifyOIDCStateParam(stateToTest: string | null): boolean {
+    const oidcState = sessionStorage.getItem('oidcState');
+
+    // TODO: should we verify if session storage has been cleared?
+    if (oidcState === null) return true;
+
+    if (oidcState === stateToTest) return true;
+
+    document.dispatchEvent(
+      new CustomEvent('scigateway', {
+        detail: {
+          type: NotificationType,
+          payload: {
+            message:
+              'It is not possible to authenticate you at the moment. Please, try again later.',
+            severity: 'error',
+          },
+        },
+      })
+    );
+
+    return false;
+  }
+
+  public async verifyOIDCNonce(accessToken: string): Promise<boolean> {
+    const oidcNonce = sessionStorage.getItem('oidcNonce');
+
+    // TODO: should we verify if session storage has been cleared?
+    if (oidcNonce === null) return true;
+
+    const encryptedOIDCNonce =
+      await generateCodeChallengeFromVerifier(oidcNonce);
+
+    const { nonce: nonceToTest } = JSON.parse(parseJwt(accessToken));
+
+    if (encryptedOIDCNonce === nonceToTest) {
+      return true;
+    }
+
+    log.error('Nonce verification failed');
+    document.dispatchEvent(
+      new CustomEvent('scigateway', {
+        detail: {
+          type: NotificationType,
+          payload: {
+            message:
+              'It is not possible to authenticate you at the moment. Please, try again later.',
+            severity: 'error',
+          },
+        },
+      })
+    );
+
+    return false;
+  }
+
   async pkceToken(
     token: string,
     oidcProvider: InitialisedOIDCProvider
@@ -191,7 +247,15 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
         id_token = await this.nonPKCEToken(token, oidcProvider);
       }
 
-      // TODO: sometimes login request fails here - maybe because it was too fast?
+      if (!(await this.verifyOIDCNonce(id_token)))
+        throw Error('Nonce verification failed');
+
+      // TODO: sometimes login request fails here because it was too fast
+      // aka JWT iat is not yet "in the past"
+      // need to talk to backend people about it
+      await new Promise<void>((resolve, _reject) => {
+        setTimeout(() => resolve(), 1_000);
+      });
 
       const { data: jwt } = await axios.post(
         `${this.authUrl}/oidc_login/${oidcProvider.provider_id}`,
@@ -206,6 +270,8 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       this.storeToken(jwt);
       sessionStorage.removeItem('codeVerifier');
       sessionStorage.removeItem('oidcProviderId');
+      sessionStorage.removeItem('oidcState');
+      sessionStorage.removeItem('oidcNonce');
       const payload: {
         sessionId: string;
         username: string;
@@ -220,7 +286,11 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     }
   }
 
-  public async setupOIDC(oidcProvider: InitialisedOIDCProvider): Promise<void> {
+  public async setupOIDC(
+    oidcProvider: InitialisedOIDCProvider,
+    referrer?: string
+  ): Promise<void> {
+    console.log('setupOIDC called');
     let codeChallenge: string | undefined;
     if (oidcProvider.pkce) {
       const codeVerifier = generateCodeVerifier();
@@ -228,8 +298,16 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       codeChallenge = await generateCodeChallengeFromVerifier(codeVerifier);
     }
     sessionStorage.setItem('oidcProviderId', oidcProvider.provider_id);
+    const state = generateCodeVerifier();
+    sessionStorage.setItem('oidcState', state);
+    const nonce = generateCodeVerifier();
+    const encryptedNonce = await generateCodeChallengeFromVerifier(nonce);
 
-    this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code${oidcProvider.pkce ? `&code_challenge_method=S256&code_challenge=${codeChallenge}` : ''}&scope=${oidcProvider.scope}`;
+    sessionStorage.setItem('oidcNonce', nonce);
+
+    if (referrer) sessionStorage.setItem('referrer', referrer);
+
+    this.redirectUrl = `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code${oidcProvider.pkce ? `&code_challenge_method=S256&code_challenge=${codeChallenge}` : ''}&scope=${oidcProvider.scope}&state=${state}&nonce=${encryptedNonce}`;
   }
 
   public async initialiseOIDCProviders(): Promise<InitialisedOIDCProvider[]> {

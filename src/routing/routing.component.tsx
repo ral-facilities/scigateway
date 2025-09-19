@@ -124,6 +124,14 @@ export const UnauthorisedPlugin = PluginPlaceHolder;
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
 
+const popSessionStorageItem = (
+  key: string
+): ReturnType<typeof sessionStorage.getItem> => {
+  const result = sessionStorage.getItem(key);
+  sessionStorage.removeItem(key);
+  return result;
+};
+
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   const adminRoutes = getAdminRoutes({ plugins: props.plugins });
   // only set to false if we're on a plugin route i.e. not a scigateway route
@@ -248,8 +256,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
               to={{
                 pathname:
                   prevUserIsLoggedIn === false && props.userIsLoggedIn
-                    ? (props.location.state as { referrer?: string })
-                        ?.referrer ?? scigatewayRoutes.home
+                    ? (((props.location.state as { referrer?: string })
+                        ?.referrer ||
+                        popSessionStorageItem('referrer')) ??
+                      scigatewayRoutes.home)
                     : scigatewayRoutes.logout,
                 state: { referrer: props.location.pathname },
               }}
