@@ -3,42 +3,34 @@
   "enabled": true,
   "clients": [
     {
-      "clientId": "test-client-id",
+      "clientId": "test-pkce-client-id",
       "publicClient": true,
       "redirectUris": ["*"],
       "webOrigins": ["*"],
       "protocol": "openid-connect",
       "standardFlowEnabled": true,
       "directAccessGrantsEnabled": true,
-      "defaultClientScopes": ["audience-mapper", "profile", "email"],
+      "defaultClientScopes": ["profile", "email"],
+      "attributes": {
+        "post.logout.redirect.uris": "*"
+      }
+    },
+    {
+      "clientId": "test-non-pkce-client-id",
+      "publicClient": false,
+      "secret": "secret",
+      "redirectUris": ["*"],
+      "webOrigins": ["*"],
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "defaultClientScopes": ["profile", "email"],
       "attributes": {
         "post.logout.redirect.uris": "*"
       }
     }
   ],
   "clientScopes": [
-    {
-      "name": "audience-mapper",
-      "description": "Add aud claim with clientId as audience",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "true",
-        "display.on.consent.screen": "false"
-      },
-      "protocolMappers": [
-        {
-          "name": "aud",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-audience-mapper",
-          "consentRequired": false,
-          "config": {
-            "included.client.audience": "test-client-id",
-            "id.token.claim": "true",
-            "access.token.claim": "true"
-          }
-        }
-      ]
-    },
     {
       "name": "profile",
       "protocol": "openid-connect",

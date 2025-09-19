@@ -104,7 +104,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     cy.window().then(
       (window) =>
@@ -125,7 +125,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     cy.window().then(
       (window) =>
@@ -146,7 +146,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     let storedToken: string | null;
 
@@ -177,12 +177,12 @@ describe('Login', () => {
   it('should redirect to logout page if logged in and navigating to login page', () => {
     cy.login('username', 'password');
     cy.visit('/login');
-    cy.url().should('eq', 'http://127.0.0.1:3000/logout');
+    cy.url().should('eq', 'http://localhost:3000/logout');
   });
 
   it('should redirect to Home page if not logged in and navigating to logout page', () => {
     cy.visit('/logout');
-    cy.url().should('eq', 'http://127.0.0.1:3000/login');
+    cy.url().should('eq', 'http://localhost:3000/login');
   });
 
   it('should redirect to login page when navigating to a plugin then back to the plugin after login', () => {
@@ -199,7 +199,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/plugin1');
+    cy.url().should('eq', 'http://localhost:3000/plugin1');
     cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
   });
 
@@ -536,12 +536,15 @@ describe('Login', () => {
       });
     });
 
-    it('should be able to login via SSO and be displayed as logged in', () => {
+    it('should be able to login via SSO PKCE and be displayed as logged in', () => {
       cy.visit('/login');
 
       cy.url().as('originUrl', { type: 'static' });
 
-      cy.contains('button', 'Login with Keycloak').click();
+      cy.get('#select-mnemonic').click();
+      cy.contains('Keycloak (PKCE)').click();
+
+      cy.contains('button', 'Login with Keycloak (PKCE)').click();
 
       cy.url().should('include', 'http://localhost:8081');
       // login to keycloak
@@ -557,6 +560,32 @@ describe('Login', () => {
 
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+
+    it('should be able to login via SSO non-PKCE and be displayed as logged in', () => {
+      // test that redirect from an authorised route will take you back
+      cy.visit('/plugin1');
+
+      cy.url().as('originUrl', { type: 'static' });
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('Keycloak (Non-PKCE)').click();
+
+      cy.contains('button', 'Login with Keycloak (Non-PKCE)').click();
+
+      cy.url().should('include', 'http://localhost:8081');
+      // login to keycloak
+      cy.origin('http://localhost:8081', () => {
+        cy.get('#username').type('test');
+        cy.get('#password').type('password');
+        cy.get('#kc-login').click();
+      });
+
+      cy.get('@originUrl').then((url) => {
+        cy.url().should('include', url);
+      });
+
+      cy.get('#demo_plugin').contains('h2', '/plugin1').should('be.visible');
     });
   });
 });

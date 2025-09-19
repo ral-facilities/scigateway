@@ -13,10 +13,31 @@ const app = express();
 const port = 8000;
 app.use(cors());
 app.use(express.json());
+app.use(express.text());
 app.use(cookieParser());
 
 // this would normally be an environment variable
 const jwtSecret = 'abc123456789';
+const keycloakSecret = 'secret';
+
+const oidcProviders = {
+  pkce: {
+    configuration_url:
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+    display_name: 'Keycloak (PKCE)',
+    pkce: true,
+    scope: 'openid profile email',
+    client_id: 'test-pkce-client-id',
+  },
+  non_pkce: {
+    configuration_url:
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+    display_name: 'Keycloak (Non-PKCE)',
+    pkce: false,
+    scope: 'openid',
+    client_id: 'test-non-pkce-client-id',
+  },
+};
 
 const withAuth = function (req, res, next) {
   const token =
@@ -84,22 +105,59 @@ app.post(`/login`, function (req, res) {
   }
 });
 
-app.post(`/oidc_login`, async function (req, res) {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+app.post(`/oidc_token/:provider_id`, async function (req, res) {
+  const code = req.body;
+  const { provider_id } = req.params;
 
-  const kid = jwt.decode(token, { complete: true })?.header?.kid;
-
-  if (!token || !kid) {
+  if (!code || !provider_id) {
     res.status(400).json({
-      error: `Headers missing from request: token: ${token}, kid: ${kid}`,
+      error: `Code or provider_id missing from request: code: ${code}, provider_id: ${provider_id}`,
     });
     return;
   }
 
   const oidc_config = (
-    await axios.get(
-      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration'
-    )
+    await axios.get(oidcProviders[provider_id].configuration_url)
+  ).data;
+
+  const token_endpoint = oidc_config['token_endpoint'];
+
+  const params = new URLSearchParams();
+
+  params.append('code', code);
+  params.append('client_id', oidcProviders[provider_id].client_id);
+  params.append('grant_type', 'authorization_code');
+  params.append('redirect_uri', `http://localhost:3000/login`);
+  params.append('client_secret', keycloakSecret);
+
+  try {
+    const { data } = await axios.post(token_endpoint, params);
+    res.status(200).json(data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).send(error.response.data);
+    } else {
+      res.status(500).send(error.message);
+    }
+  }
+});
+
+app.post(`/oidc_login/:provider_id`, async function (req, res) {
+  const { provider_id } = req.params;
+
+  const token = req.headers.authorization?.replace('Bearer ', '');
+
+  const kid = jwt.decode(token, { complete: true })?.header?.kid;
+
+  if (!token || !kid || !provider_id) {
+    res.status(400).json({
+      error: `Something missing from request: token: ${token}, kid: ${kid}, provider_id: ${provider_id}`,
+    });
+    return;
+  }
+
+  const oidc_config = (
+    await axios.get(oidcProviders[provider_id].configuration_url)
   ).data;
 
   const jwks_uri = oidc_config['jwks_uri'];
@@ -147,15 +205,7 @@ app.post(`/oidc_login`, async function (req, res) {
 });
 
 app.get('/oidc_providers', function (_req, res) {
-  // TODO: change this
-  res.status(200).json([
-    {
-      configuration_url:
-        'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
-      display_name: 'Keycloak',
-      client_id: 'test-client-id',
-    },
-  ]);
+  res.status(200).json(oidcProviders);
 });
 
 app.post(`/verify`, withAuth, function (req, res) {

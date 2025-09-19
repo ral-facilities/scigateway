@@ -1,9 +1,9 @@
+import axios from 'axios';
 import express from 'express';
 import path from 'path';
 import serveStatic from 'serve-static';
-import axios from 'axios';
 
-var app = express();
+const app = express();
 
 app.get('/settings.json', function (req, res) {
   res.sendFile(path.resolve('./server/e2e-settings.json'));
@@ -23,10 +23,10 @@ app.use(
 app.post('/api/*', function (req, res) {
   axios
     .post('http://127.0.0.1:8000' + req.url, req.body)
-    .then(apiRes => {
+    .then((apiRes) => {
       res.send(apiRes.data);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(error.response.status).end();
     });
 });
