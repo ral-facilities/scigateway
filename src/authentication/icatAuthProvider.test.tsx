@@ -9,6 +9,7 @@ import {
   ICATAuthenticator,
   OIDCProvider,
 } from '../state/state.types';
+import { InitialisedOIDCProvider } from './baseAPIAuthProvider';
 import ICATAuthProvider from './icatAuthProvider';
 import parseJwt from './parseJwt';
 
@@ -22,31 +23,45 @@ describe('ICAT auth provider', () => {
   const testToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
-  const oidcProviderConfig = {
+  const oidcProviderId = 'provider_id';
+  const oidcProviderConfig: Omit<OIDCProvider, 'provider_id'> = {
     display_name: 'Keycloak',
     configuration_url: 'https://example.com/config',
     client_id: 'client_id',
+    pkce: true,
+    scope: 'openid',
   };
   const oidcProviderEndpoints = {
     authorization_endpoint: 'https://example.com/auth',
     token_endpoint: 'https://example.com/token',
   };
-  const oidcProvider = { ...oidcProviderConfig, ...oidcProviderEndpoints };
+  const oidcProvider: InitialisedOIDCProvider = {
+    provider_id: oidcProviderId,
+    ...oidcProviderConfig,
+    ...oidcProviderEndpoints,
+  };
+
+  let autoLogin: ReturnType<typeof Storage.prototype.getItem>;
+  let token: ReturnType<typeof Storage.prototype.getItem>;
 
   beforeEach(() => {
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => {
-        if (name === 'scigateway:token') {
-          return testToken;
-        } else if (name === 'autoLogin') {
-          return 'false';
-        } else {
-          return null;
-        }
-      });
-    window.localStorage.__proto__.removeItem = vi.fn();
-    window.localStorage.__proto__.setItem = vi.fn();
+    autoLogin = 'false';
+    token = testToken;
+
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation((name) => {
+      if (name === 'scigateway:token') {
+        return token;
+      } else if (name === 'autoLogin') {
+        return autoLogin;
+      } else if (name === 'oidcState') {
+        return 'state';
+      } else {
+        return null;
+      }
+    });
+
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {});
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
 
     icatAuthProvider = new ICATAuthProvider(
       'mnemonic',
@@ -129,7 +144,9 @@ describe('ICAT auth provider', () => {
       )
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -152,7 +169,7 @@ describe('ICAT auth provider', () => {
       { displayName: 'unknown', key: 'unknown', type: 'unknown' },
       {
         displayName: 'Keycloak',
-        key: 'https://example.com/config',
+        key: oidcProviderId,
         type: 'redirect',
       },
     ] satisfies Authenticator[]);
@@ -211,7 +228,9 @@ describe('ICAT auth provider', () => {
       )
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -235,24 +254,14 @@ describe('ICAT auth provider', () => {
       );
 
     // test when autologged in to ensure we log out of autoLogin
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => {
-        if (name === 'scigateway:token') {
-          return testToken;
-        } else if (name === 'autoLogin') {
-          return 'true';
-        } else {
-          return null;
-        }
-      });
+    autoLogin = 'true';
 
-    icatAuthProvider.setAuthenticator(oidcProvider.configuration_url);
+    icatAuthProvider.setAuthenticator(oidcProvider.provider_id);
 
     // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
     const oidcLoginSpy = vi.spyOn(icatAuthProvider, 'oidcLogIn');
 
-    await icatAuthProvider.logIn('', '?code=123456');
+    await icatAuthProvider.logIn('', '?code=123456&state=state');
 
     // should send sign out action for autologin logout
     expect(document.dispatchEvent).toHaveBeenCalled();
@@ -296,7 +305,9 @@ describe('ICAT auth provider', () => {
       )
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -307,12 +318,59 @@ describe('ICAT auth provider', () => {
 
     await icatAuthProvider.initialise();
 
-    icatAuthProvider.setAuthenticator(oidcProvider.configuration_url);
+    icatAuthProvider.setAuthenticator(oidcProvider.provider_id);
 
     // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
     const oidcLoginSpy = vi.spyOn(icatAuthProvider, 'oidcLogIn');
 
     await icatAuthProvider.logIn('', '?not_code=123456');
+
+    expect(oidcLoginSpy).not.toHaveBeenCalled();
+
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should log out if state validation does not pass on OIDC login', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
+
+    vi.mocked(mockAxios.get)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: [
+            {
+              mnemonic: 'delegating',
+              friendly: 'OIDC',
+              admin: true,
+              keys: [{ name: 'token' }],
+            },
+          ] satisfies ICATAuthenticator[],
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: oidcProviderEndpoints,
+        })
+      );
+
+    await icatAuthProvider.initialise();
+
+    icatAuthProvider.setAuthenticator(oidcProvider.provider_id);
+
+    // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
+    const oidcLoginSpy = vi.spyOn(icatAuthProvider, 'oidcLogIn');
+
+    await icatAuthProvider.logIn('', '?code=123456&state=not_state');
 
     expect(oidcLoginSpy).not.toHaveBeenCalled();
 
@@ -325,17 +383,7 @@ describe('ICAT auth provider', () => {
         data: testToken,
       })
     );
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => {
-        if (name === 'scigateway:token') {
-          return testToken;
-        } else if (name === 'autoLogin') {
-          return 'true';
-        } else {
-          return null;
-        }
-      });
+    autoLogin = 'true';
 
     await icatAuthProvider.logIn('user', 'password');
 
@@ -387,7 +435,7 @@ describe('ICAT auth provider', () => {
     );
 
     // ensure token is null
-    window.localStorage.__proto__.getItem = vi.fn().mockReturnValue(null);
+    token = null;
 
     icatAuthProvider = new ICATAuthProvider(
       undefined,
@@ -423,7 +471,7 @@ describe('ICAT auth provider', () => {
     );
 
     // ensure token is null
-    window.localStorage.__proto__.getItem = vi.fn().mockReturnValue(null);
+    token = null;
 
     icatAuthProvider = new ICATAuthProvider(
       undefined,

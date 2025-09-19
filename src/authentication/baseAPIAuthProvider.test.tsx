@@ -4,7 +4,9 @@ import {
   BroadcastSignOutType,
   NotificationType,
 } from '../state/scigateway.types';
-import BaseAPIAuthProvider from './baseAPIAuthProvider';
+import BaseAPIAuthProvider, {
+  generateCodeChallengeFromVerifier,
+} from './baseAPIAuthProvider';
 import parseJwt from './parseJwt';
 
 vi.mock('./parseJwt');
@@ -28,12 +30,18 @@ describe('Base API auth provider', () => {
   const testToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
   const oidcProvider = {
+    provider_id: 'provider_id',
     client_id: 'client_id',
     configuration_url: 'https://example.com/config',
     authorization_endpoint: 'https://example.com/auth',
     token_endpoint: 'https://example.com/token',
     display_name: 'Test',
+    pkce: true,
+    scope: 'openid',
   };
+  const randomValue =
+    '000102030405060708090a0b0c0d0e0f101112131415161718191a1b';
+  const encryptedRandomValue = 'U__Mw0AMy75Lin8CfSDsubEMmLrjFNzsxtwyl-HdcBI';
 
   beforeEach(() => {
     // this mocks both local and session storage
@@ -42,10 +50,14 @@ describe('Base API auth provider', () => {
         return testToken;
       } else if (name === 'autoLogin') {
         return 'false';
-      } else if (name === 'oidcClientId') {
-        return oidcProvider.client_id;
+      } else if (name === 'oidcProviderId') {
+        return oidcProvider.provider_id;
       } else if (name === 'codeVerifier') {
         return 'code_verifier';
+      } else if (name === 'oidcNonce') {
+        return 'nonce';
+      } else if (name === 'oidcState') {
+        return 'state';
       } else {
         return null;
       }
@@ -145,11 +157,13 @@ describe('Base API auth provider', () => {
 
   describe('OIDC functions', () => {
     describe('oidcLogIn', () => {
-      it('should get the token and call the api to authenticate', async () => {
+      it('should get the token and call the api to authenticate (PKCE)', async () => {
         vi.mocked(mockAxios.post)
           .mockImplementationOnce(() =>
             Promise.resolve({
-              data: { id_token: 'id_token' },
+              data: {
+                id_token: 'id_token',
+              },
             })
           )
           .mockImplementationOnce(() =>
@@ -157,6 +171,11 @@ describe('Base API auth provider', () => {
               data: testToken,
             })
           );
+
+        const encryptedNonce = await generateCodeChallengeFromVerifier('nonce');
+        vi.mocked(parseJwt).mockImplementationOnce(
+          () => `{"nonce": "${encryptedNonce}"}`
+        );
 
         const preProccessingMock = vi.fn();
 
@@ -167,10 +186,10 @@ describe('Base API auth provider', () => {
         );
 
         const params = new URLSearchParams();
-        params.append('client_id', oidcProvider.client_id);
-        params.append('grant_type', 'authorization_code');
         params.append('code', 'abc123');
         params.append('code_verifier', 'code_verifier');
+        params.append('client_id', oidcProvider.client_id);
+        params.append('grant_type', 'authorization_code');
         params.append('redirect_uri', `${window.location.origin}/login`);
 
         expect(mockAxios.post).toHaveBeenCalledWith(
@@ -179,7 +198,7 @@ describe('Base API auth provider', () => {
         );
 
         expect(mockAxios.post).toHaveBeenCalledWith(
-          'http://localhost:8000/oidc_login',
+          `http://localhost:8000/oidc_login/${oidcProvider.provider_id}`,
           undefined,
           { headers: { Authorization: 'Bearer id_token' } }
         );
@@ -190,10 +209,66 @@ describe('Base API auth provider', () => {
           testToken
         );
         expect(sessionStorage.removeItem).toBeCalledWith('codeVerifier');
-        expect(sessionStorage.removeItem).toBeCalledWith(
-          'oidcConfigurationUrl'
+        expect(sessionStorage.removeItem).toBeCalledWith('oidcProviderId');
+        expect(sessionStorage.removeItem).toBeCalledWith('oidcState');
+        expect(sessionStorage.removeItem).toBeCalledWith('oidcNonce');
+
+        expect(testBaseAPIAuthProvider.isLoggedIn()).toBeTruthy();
+        expect(testBaseAPIAuthProvider.user).not.toBeNull();
+        expect(testBaseAPIAuthProvider.user?.username).toBe(
+          testToken + ' username'
         );
-        expect(sessionStorage.removeItem).toBeCalledWith('oidcClientId');
+      });
+
+      it('should get the token and call the api to authenticate (non-PKCE)', async () => {
+        vi.mocked(mockAxios.post)
+          .mockImplementationOnce(() =>
+            Promise.resolve({
+              data: {
+                id_token: 'id_token',
+              },
+            })
+          )
+          .mockImplementationOnce(() =>
+            Promise.resolve({
+              data: testToken,
+            })
+          );
+
+        const encryptedNonce = await generateCodeChallengeFromVerifier('nonce');
+        vi.mocked(parseJwt).mockImplementationOnce(
+          () => `{"nonce": "${encryptedNonce}"}`
+        );
+
+        const preProccessingMock = vi.fn();
+
+        await testBaseAPIAuthProvider.oidcLogIn(
+          'abc123',
+          { ...oidcProvider, pkce: false },
+          preProccessingMock
+        );
+
+        expect(mockAxios.post).toHaveBeenCalledWith(
+          `http://localhost:8000/oidc_token/${oidcProvider.provider_id}`,
+          'abc123',
+          { headers: { 'Content-Type': 'text/plain' } }
+        );
+
+        expect(mockAxios.post).toHaveBeenCalledWith(
+          `http://localhost:8000/oidc_login/${oidcProvider.provider_id}`,
+          undefined,
+          { headers: { Authorization: 'Bearer id_token' } }
+        );
+
+        expect(preProccessingMock).toHaveBeenCalled();
+        expect(localStorage.setItem).toBeCalledWith(
+          'scigateway:token',
+          testToken
+        );
+        expect(sessionStorage.removeItem).toBeCalledWith('codeVerifier');
+        expect(sessionStorage.removeItem).toBeCalledWith('oidcProviderId');
+        expect(sessionStorage.removeItem).toBeCalledWith('oidcState');
+        expect(sessionStorage.removeItem).toBeCalledWith('oidcNonce');
 
         expect(testBaseAPIAuthProvider.isLoggedIn()).toBeTruthy();
         expect(testBaseAPIAuthProvider.user).not.toBeNull();
@@ -222,24 +297,68 @@ describe('Base API auth provider', () => {
         expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
         expect(testBaseAPIAuthProvider.isLoggedIn()).toBeFalsy();
       });
+
+      it('should log the user out if the nonce does not match', async () => {
+        vi.mocked(mockAxios.post)
+          .mockImplementationOnce(() =>
+            Promise.resolve({
+              data: {
+                id_token: 'id_token',
+              },
+            })
+          )
+          .mockImplementationOnce(() =>
+            Promise.resolve({
+              data: testToken,
+            })
+          );
+        const setupOIDCSpy = vi.spyOn(testBaseAPIAuthProvider, 'setupOIDC');
+        await expect(
+          testBaseAPIAuthProvider.oidcLogIn('abc123', oidcProvider)
+        ).rejects.toThrowError('Nonce verification failed');
+
+        expect(setupOIDCSpy).toHaveBeenCalledWith(oidcProvider);
+      });
     });
 
-    it('setupOIDC sets up session storage variables & redirect url', async () => {
-      await testBaseAPIAuthProvider.setupOIDC(oidcProvider);
+    describe('setupOIDC', () => {
+      it('sets up session storage variables & redirect url', async () => {
+        await testBaseAPIAuthProvider.setupOIDC(oidcProvider, 'referrer');
 
-      expect(sessionStorage.setItem).toBeCalledWith(
-        'codeVerifier',
-        '000102030405060708090a0b0c0d0e0f101112131415161718191a1b'
-      );
-      sessionStorage.setItem(
-        'oidcConfigurationUrl',
-        oidcProvider.configuration_url
-      );
-      sessionStorage.setItem('oidcClientId', oidcProvider.client_id);
+        expect(sessionStorage.setItem).toBeCalledWith(
+          'codeVerifier',
+          randomValue
+        );
+        expect(sessionStorage.setItem).toBeCalledWith(
+          'oidcProviderId',
+          oidcProvider.provider_id
+        );
+        expect(sessionStorage.setItem).toBeCalledWith('oidcState', randomValue);
+        expect(sessionStorage.setItem).toBeCalledWith('oidcNonce', randomValue);
+        expect(sessionStorage.setItem).toBeCalledWith('referrer', 'referrer');
 
-      expect(testBaseAPIAuthProvider.redirectUrl).toBe(
-        `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${'U__Mw0AMy75Lin8CfSDsubEMmLrjFNzsxtwyl-HdcBI'}&scope=openid email profile`
-      );
+        expect(testBaseAPIAuthProvider.redirectUrl).toBe(
+          `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&code_challenge_method=S256&code_challenge=${encryptedRandomValue}&scope=openid&state=${randomValue}&nonce=${encryptedRandomValue}`
+        );
+      });
+
+      it('omits referrer if not specified and code verifier if not pkce', async () => {
+        await testBaseAPIAuthProvider.setupOIDC({
+          ...oidcProvider,
+          pkce: false,
+        });
+
+        expect(sessionStorage.setItem).toBeCalledWith(
+          'oidcProviderId',
+          oidcProvider.provider_id
+        );
+        expect(sessionStorage.setItem).toBeCalledWith('oidcState', randomValue);
+        expect(sessionStorage.setItem).toBeCalledWith('oidcNonce', randomValue);
+
+        expect(testBaseAPIAuthProvider.redirectUrl).toBe(
+          `${oidcProvider.authorization_endpoint}?client_id=${oidcProvider.client_id}&redirect_uri=${window.location.origin}/login&response_type=code&scope=openid&state=${randomValue}&nonce=${encryptedRandomValue}`
+        );
+      });
     });
 
     describe('initialiseOIDCProviders', () => {
@@ -247,13 +366,15 @@ describe('Base API auth provider', () => {
         vi.mocked(mockAxios.get)
           .mockImplementationOnce(() =>
             Promise.resolve({
-              data: [
-                {
+              data: {
+                [oidcProvider.provider_id]: {
                   client_id: oidcProvider.client_id,
                   display_name: oidcProvider.display_name,
                   configuration_url: oidcProvider.configuration_url,
+                  pkce: oidcProvider.pkce,
+                  scope: oidcProvider.scope,
                 },
-              ],
+              },
             })
           )
           .mockImplementationOnce(() =>
@@ -309,13 +430,15 @@ describe('Base API auth provider', () => {
         vi.mocked(mockAxios.get)
           .mockImplementationOnce(() =>
             Promise.resolve({
-              data: [
-                {
+              data: {
+                [oidcProvider.provider_id]: {
                   client_id: oidcProvider.client_id,
                   display_name: oidcProvider.display_name,
                   configuration_url: oidcProvider.configuration_url,
+                  pkce: oidcProvider.pkce,
+                  scope: oidcProvider.scope,
                 },
-              ],
+              },
             })
           )
           .mockImplementation(() =>
@@ -326,10 +449,90 @@ describe('Base API auth provider', () => {
             })
           );
 
-        await testBaseAPIAuthProvider.initialiseOIDCProviders();
+        await expect(
+          testBaseAPIAuthProvider.initialiseOIDCProviders()
+        ).rejects.toThrowError();
         expect(log.error).toHaveBeenCalledWith(
           'Unable to fetch OIDC config from OIDC configuration URL'
         );
+        expect(document.dispatchEvent).toHaveBeenCalled();
+        expect(
+          vi.mocked(document.dispatchEvent).mock.calls[0][0].detail
+        ).toEqual({
+          type: NotificationType,
+          payload: {
+            message:
+              'It is not possible to authenticate you at the moment. Please, try again later.',
+            severity: 'error',
+          },
+        });
+      });
+    });
+
+    describe('verifyOIDCStateParam', () => {
+      it('returns true if no state param in session storage', () => {
+        vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => null);
+
+        expect(testBaseAPIAuthProvider.verifyOIDCStateParam('state')).toBe(
+          true
+        );
+      });
+
+      it('returns true if state param matches session storage', () => {
+        expect(testBaseAPIAuthProvider.verifyOIDCStateParam('state')).toBe(
+          true
+        );
+      });
+
+      it('returns false and errors if state param does not match session storage', () => {
+        vi.spyOn(Storage.prototype, 'getItem').mockImplementation(
+          () => 'not_matching'
+        );
+
+        expect(testBaseAPIAuthProvider.verifyOIDCStateParam('state')).toBe(
+          false
+        );
+
+        expect(log.error).toHaveBeenCalledWith('State verification failed');
+        expect(document.dispatchEvent).toHaveBeenCalled();
+        expect(
+          vi.mocked(document.dispatchEvent).mock.calls[0][0].detail
+        ).toEqual({
+          type: NotificationType,
+          payload: {
+            message:
+              'It is not possible to authenticate you at the moment. Please, try again later.',
+            severity: 'error',
+          },
+        });
+      });
+    });
+
+    describe('verifyOIDCNonce', () => {
+      it('returns true if no nonce in session storage', async () => {
+        vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => null);
+
+        await expect(
+          await testBaseAPIAuthProvider.verifyOIDCNonce('accessToken')
+        ).toBe(true);
+      });
+
+      it('returns true if nonce matches session storage', async () => {
+        const encryptedNonce = await generateCodeChallengeFromVerifier('nonce');
+        vi.mocked(parseJwt).mockImplementationOnce(
+          () => `{"nonce": "${encryptedNonce}"}`
+        );
+        await expect(
+          await testBaseAPIAuthProvider.verifyOIDCNonce('accessToken')
+        ).toBe(true);
+      });
+
+      it('returns false and errors if nonce does not match nonce', async () => {
+        await expect(
+          await testBaseAPIAuthProvider.verifyOIDCNonce('not_matching')
+        ).toBe(false);
+
+        expect(log.error).toHaveBeenCalledWith('Nonce verification failed');
         expect(document.dispatchEvent).toHaveBeenCalled();
         expect(
           vi.mocked(document.dispatchEvent).mock.calls[0][0].detail

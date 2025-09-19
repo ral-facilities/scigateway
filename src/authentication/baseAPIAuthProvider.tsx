@@ -152,6 +152,7 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
 
     if (oidcState === stateToTest) return true;
 
+    log.error('State verification failed');
     document.dispatchEvent(
       new CustomEvent('scigateway', {
         detail: {
@@ -228,7 +229,7 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     } = await axios.post(
       `${this.authUrl}/oidc_token/${oidcProvider.provider_id}`,
       token,
-      { headers: { 'Content-Type': 'application/json' } }
+      { headers: { 'Content-Type': 'text/plain' } }
     );
 
     return id_token;
@@ -290,7 +291,6 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
     oidcProvider: InitialisedOIDCProvider,
     referrer?: string
   ): Promise<void> {
-    console.log('setupOIDC called');
     let codeChallenge: string | undefined;
     if (oidcProvider.pkce) {
       const codeVerifier = generateCodeVerifier();

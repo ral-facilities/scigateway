@@ -339,7 +339,11 @@ describe('Login page component', () => {
     expect(
       await screen.findByRole('button', { name: 'Login with Test 2' })
     ).toBeInTheDocument();
-    expect(mockSetAuthenticator).toHaveBeenCalledWith('Test2', undefined);
+    expect(mockSetAuthenticator).toHaveBeenCalledWith(
+      'Test2',
+      undefined,
+      undefined
+    );
   });
 
   it('login page re-initialises an authenticator if it is mounted with an authenticator already selected', async () => {
@@ -367,7 +371,11 @@ describe('Login page component', () => {
     expect(
       await screen.findByRole('button', { name: 'Login with Test 2' })
     ).toBeInTheDocument();
-    expect(mockSetAuthenticator).toHaveBeenCalledWith('Test2', undefined);
+    expect(mockSetAuthenticator).toHaveBeenCalledWith(
+      'Test2',
+      undefined,
+      undefined
+    );
   });
 
   it('login page renders spinner if auth is loading', async () => {
@@ -451,7 +459,7 @@ describe('Login page component', () => {
     getItemSpy.mockReturnValue('https://example.com');
     const mockSetAuthenticator = vi.fn();
     props.auth.provider.setAuthenticator = mockSetAuthenticator;
-    history.replace('/login?token=test_token');
+    history.replace('/login?token=test_token', { referrer: '/myplugin' });
 
     const promise = Promise.resolve();
     const mockLoginfn = vi.fn(() => promise);
@@ -467,7 +475,8 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[0]).toEqual(['', '?token=test_token']);
     expect(mockSetAuthenticator).toHaveBeenCalledWith(
       'https://example.com',
-      true
+      true,
+      '/myplugin'
     );
   });
 

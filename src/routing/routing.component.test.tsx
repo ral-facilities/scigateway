@@ -47,6 +47,8 @@ describe('Routing component', () => {
     );
   }
 
+  let storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+
   beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -55,6 +57,7 @@ describe('Routing component', () => {
         location: { ...createLocation('/'), query: {} },
       },
     };
+    storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
 
     history = createMemoryHistory();
     mockStore = configureStore();
@@ -65,15 +68,9 @@ describe('Routing component', () => {
     vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
-  let originalLocalStorage: Storage;
-
-  beforeAll(() => {
-    originalLocalStorage = window.localStorage;
-  });
-
   afterEach(() => {
     vi.clearAllMocks();
-    window.localStorage = originalLocalStorage;
+    storageGetItemSpy.mockRestore();
   });
 
   it('renders component with no plugin routes', () => {
@@ -230,9 +227,9 @@ describe('Routing component', () => {
       .fn()
       .mockImplementationOnce(() => Promise.reject());
 
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => (name === 'autoLogin' ? 'false' : null));
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'false' : null
+    );
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
 
@@ -253,9 +250,9 @@ describe('Routing component', () => {
       .fn()
       .mockImplementation(() => Promise.resolve());
 
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'true' : null
+    );
 
     rerender(<Routing />);
 
@@ -270,9 +267,9 @@ describe('Routing component', () => {
       .fn()
       .mockImplementation(() => Promise.resolve());
 
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'true' : null
+    );
 
     history.replace('/login');
     render(<Routing />, { wrapper: Wrapper });
@@ -288,9 +285,9 @@ describe('Routing component', () => {
       .fn()
       .mockImplementation(() => Promise.resolve());
 
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => (name === 'autoLogin' ? 'true' : null));
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'true' : null
+    );
 
     history.replace('/logout');
     render(<Routing />, { wrapper: Wrapper });
@@ -327,6 +324,27 @@ describe('Routing component', () => {
     rerender(<Routing />);
 
     expect(history.location.pathname).toEqual('/test');
+  });
+
+  it('redirects to referrer on /login route after login when referrer is provided via session storage', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.siteLoading = false;
+
+    history.replace('/login');
+
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'referrer' ? '/test' : null
+    );
+
+    const removeItemSpy = vi.spyOn(Storage.prototype, 'removeItem');
+
+    const { rerender } = render(<Routing />, { wrapper: Wrapper });
+
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    rerender(<Routing />);
+
+    expect(history.location.pathname).toEqual('/test');
+    expect(removeItemSpy).toHaveBeenCalledWith('referrer');
   });
 
   it('redirects to / on /login route after login when referrer is not provided', () => {

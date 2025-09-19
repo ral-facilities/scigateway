@@ -1,6 +1,7 @@
 import mockAxios from 'axios';
 import * as log from 'loglevel';
 import { Authenticator, OIDCProvider } from '../state/state.types';
+import { InitialisedOIDCProvider } from './baseAPIAuthProvider';
 import PasswordAndOIDCAuthProvider from './passwordAndOIDCAuthProvider';
 
 vi.mock('loglevel', () => ({
@@ -12,25 +13,37 @@ describe('Password & OIDC auth provider', () => {
   const testToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VySXNBZG1pbiI6ZmFsc2V9.PEuKaAD98doFTLyqcNFpsuv50AQR8ejrbDQ0pwazM7Q';
 
-  const oidcProviderConfig = {
+  const oidcProviderId = 'provider_id';
+  const oidcProviderConfig: Omit<OIDCProvider, 'provider_id'> = {
     display_name: 'Keycloak',
     configuration_url: 'https://example.com/config',
     client_id: 'client_id',
+    pkce: true,
+    scope: 'openid',
   };
   const oidcProviderEndpoints = {
     authorization_endpoint: 'https://example.com/auth',
     token_endpoint: 'https://example.com/token',
   };
-  const oidcProvider = { ...oidcProviderConfig, ...oidcProviderEndpoints };
+  const oidcProvider: InitialisedOIDCProvider = {
+    provider_id: oidcProviderId,
+    ...oidcProviderConfig,
+    ...oidcProviderEndpoints,
+  };
 
   beforeEach(() => {
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) =>
-        name === 'scigateway:token' ? testToken : null
-      );
-    window.localStorage.__proto__.removeItem = vi.fn();
-    window.localStorage.__proto__.setItem = vi.fn();
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation((name) => {
+      if (name === 'scigateway:token') {
+        return testToken;
+      } else if (name === 'oidcState') {
+        return 'state';
+      } else {
+        return null;
+      }
+    });
+
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {});
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
 
     document.dispatchEvent = vi.fn();
 
@@ -48,7 +61,9 @@ describe('Password & OIDC auth provider', () => {
     vi.mocked(mockAxios.get)
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -67,7 +82,7 @@ describe('Password & OIDC auth provider', () => {
     expect(passwordAndOIDCAuthProvider.authenticators).toEqual([
       {
         displayName: 'Keycloak',
-        key: 'https://example.com/config',
+        key: oidcProviderId,
         type: 'redirect',
       },
       {
@@ -82,7 +97,9 @@ describe('Password & OIDC auth provider', () => {
     vi.mocked(mockAxios.get)
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -93,22 +110,18 @@ describe('Password & OIDC auth provider', () => {
 
     await passwordAndOIDCAuthProvider.initialise();
 
-    passwordAndOIDCAuthProvider.setAuthenticator(
-      oidcProvider.configuration_url
-    );
+    passwordAndOIDCAuthProvider.setAuthenticator(oidcProvider.provider_id);
     expect(passwordAndOIDCAuthProvider.getAuthenticator()).toBe(
-      oidcProvider.configuration_url
+      oidcProvider.provider_id
     );
   });
 
   it('should error when setAuthenticator is called when it cannot find the specified authenticator', async () => {
-    passwordAndOIDCAuthProvider.setAuthenticator(
-      oidcProvider.configuration_url
-    );
+    passwordAndOIDCAuthProvider.setAuthenticator(oidcProvider.provider_id);
 
     expect(log.error).toHaveBeenCalledWith(
       `Can't find authenticator matching the specified authenticator: ${
-        oidcProvider.configuration_url
+        oidcProvider.provider_id
       }`
     );
     expect(passwordAndOIDCAuthProvider.getAuthenticator()).toBe('');
@@ -118,7 +131,9 @@ describe('Password & OIDC auth provider', () => {
     vi.mocked(mockAxios.get)
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -141,14 +156,12 @@ describe('Password & OIDC auth provider', () => {
         })
       );
 
-    passwordAndOIDCAuthProvider.setAuthenticator(
-      oidcProvider.configuration_url
-    );
+    passwordAndOIDCAuthProvider.setAuthenticator(oidcProvider.provider_id);
 
     // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
     const oidcLoginSpy = vi.spyOn(passwordAndOIDCAuthProvider, 'oidcLogIn');
 
-    await passwordAndOIDCAuthProvider.logIn('', '?code=123456');
+    await passwordAndOIDCAuthProvider.logIn('', '?code=123456&state=state');
 
     expect(oidcLoginSpy).toHaveBeenCalledWith('123456', oidcProvider);
 
@@ -163,7 +176,9 @@ describe('Password & OIDC auth provider', () => {
     vi.mocked(mockAxios.get)
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -174,14 +189,41 @@ describe('Password & OIDC auth provider', () => {
 
     await passwordAndOIDCAuthProvider.initialise();
 
-    passwordAndOIDCAuthProvider.setAuthenticator(
-      oidcProvider.configuration_url
-    );
+    passwordAndOIDCAuthProvider.setAuthenticator(oidcProvider.provider_id);
 
     // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
     const oidcLoginSpy = vi.spyOn(passwordAndOIDCAuthProvider, 'oidcLogIn');
 
     await passwordAndOIDCAuthProvider.logIn('', '?not_code=123456');
+
+    expect(oidcLoginSpy).not.toHaveBeenCalled();
+
+    expect(passwordAndOIDCAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should log out if state validation does not pass', async () => {
+    vi.mocked(mockAxios.get)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: oidcProviderEndpoints,
+        })
+      );
+
+    await passwordAndOIDCAuthProvider.initialise();
+
+    passwordAndOIDCAuthProvider.setAuthenticator(oidcProvider.provider_id);
+
+    // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
+    const oidcLoginSpy = vi.spyOn(passwordAndOIDCAuthProvider, 'oidcLogIn');
+
+    await passwordAndOIDCAuthProvider.logIn('', '?code=123456&state=not_state');
 
     expect(oidcLoginSpy).not.toHaveBeenCalled();
 
@@ -198,7 +240,9 @@ describe('Password & OIDC auth provider', () => {
     vi.mocked(mockAxios.get)
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
@@ -235,7 +279,9 @@ describe('Password & OIDC auth provider', () => {
     vi.mocked(mockAxios.get)
       .mockImplementationOnce(() =>
         Promise.resolve({
-          data: [oidcProviderConfig] satisfies OIDCProvider[],
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
         })
       )
       .mockImplementationOnce(() =>
