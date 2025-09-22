@@ -251,13 +251,6 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
       if (!(await this.verifyOIDCNonce(id_token)))
         throw Error('Nonce verification failed');
 
-      // TODO: sometimes login request fails here because it was too fast
-      // aka JWT iat is not yet "in the past"
-      // need to talk to backend people about it
-      await new Promise<void>((resolve, _reject) => {
-        setTimeout(() => resolve(), 1_000);
-      });
-
       const { data: jwt } = await axios.post(
         `${this.authUrl}/oidc_login/${oidcProvider.provider_id}`,
         undefined,
