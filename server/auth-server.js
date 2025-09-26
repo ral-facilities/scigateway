@@ -1,21 +1,43 @@
-import express from 'express';
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
-import qs from 'query-string';
 import cookieParser from 'cookie-parser';
-import https from 'https';
-import fs from 'fs';
-import waitOn from 'wait-on';
 import cors from 'cors';
+import express from 'express';
+import fs from 'fs';
+import https from 'https';
+import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
+import { URLSearchParams } from 'url';
+import waitOn from 'wait-on';
 
 const app = express();
 const port = 8000;
 app.use(cors());
 app.use(express.json());
+app.use(express.text());
 app.use(cookieParser());
 
 // this would normally be an environment variable
 const jwtSecret = 'abc123456789';
+const keycloakSecret = 'secret';
+
+const oidcProviders = {
+  pkce: {
+    configuration_url:
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+    display_name: 'Keycloak (PKCE)',
+    pkce: true,
+    scope: 'openid profile email',
+    client_id: 'test-pkce-client-id',
+  },
+  non_pkce: {
+    configuration_url:
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+    display_name: 'Keycloak (Non-PKCE)',
+    pkce: false,
+    scope: 'openid',
+    client_id: 'test-non-pkce-client-id',
+  },
+};
 
 const withAuth = function (req, res, next) {
   const token =
@@ -81,6 +103,109 @@ app.post(`/login`, function (req, res) {
       error: 'Incorrect email or password',
     });
   }
+});
+
+app.post(`/oidc_token/:provider_id`, async function (req, res) {
+  const code = req.body;
+  const { provider_id } = req.params;
+
+  if (!code || !provider_id) {
+    res.status(400).json({
+      error: `Code or provider_id missing from request: code: ${code}, provider_id: ${provider_id}`,
+    });
+    return;
+  }
+
+  const oidc_config = (
+    await axios.get(oidcProviders[provider_id].configuration_url)
+  ).data;
+
+  const token_endpoint = oidc_config['token_endpoint'];
+
+  const params = new URLSearchParams();
+
+  params.append('code', code);
+  params.append('client_id', oidcProviders[provider_id].client_id);
+  params.append('grant_type', 'authorization_code');
+  params.append('redirect_uri', `http://localhost:3000/login`);
+  params.append('client_secret', keycloakSecret);
+
+  try {
+    const { data } = await axios.post(token_endpoint, params);
+    res.status(200).json(data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).send(error.response.data);
+    } else {
+      res.status(500).send(error.message);
+    }
+  }
+});
+
+app.post(`/oidc_login/:provider_id`, async function (req, res) {
+  const { provider_id } = req.params;
+
+  const token = req.headers.authorization?.replace('Bearer ', '');
+
+  const kid = jwt.decode(token, { complete: true })?.header?.kid;
+
+  if (!token || !kid || !provider_id) {
+    res.status(400).json({
+      error: `Something missing from request: token: ${token}, kid: ${kid}, provider_id: ${provider_id}`,
+    });
+    return;
+  }
+
+  const oidc_config = (
+    await axios.get(oidcProviders[provider_id].configuration_url)
+  ).data;
+
+  const jwks_uri = oidc_config['jwks_uri'];
+
+  const client = jwksClient({
+    jwksUri: jwks_uri,
+    requestHeaders: {}, // Optional
+    timeout: 30000, // Defaults to 30s
+  });
+
+  const key = await client.getSigningKey(kid);
+
+  if (!key) {
+    res.status(500).json({
+      error: 'Missing key for specified kid',
+    });
+    return;
+  }
+
+  const decodedToken = jwt.verify(token, key.getPublicKey(), {
+    algorithms: [key.alg],
+  });
+  if (!decodedToken) {
+    res.status(401).json({
+      error: 'Invalid token',
+    });
+    return;
+  }
+
+  // Issue token
+  const payload = { username: decodedToken.email ?? decodedToken.sub };
+  const accessToken = jwt.sign(payload, jwtSecret, {
+    expiresIn: '1m',
+  });
+  const refreshToken = jwt.sign({}, jwtSecret, {
+    expiresIn: '5m',
+  });
+  res.cookie('scigateway:refresh_token', refreshToken, {
+    httpOnly: true,
+    secure: process.env.HTTPS,
+    sameSite: 'lax',
+    maxAge: 604800,
+  });
+  res.status(200).json(accessToken);
+});
+
+app.get('/oidc_providers', function (_req, res) {
+  res.status(200).json(oidcProviders);
 });
 
 app.post(`/verify`, withAuth, function (req, res) {
@@ -195,7 +320,7 @@ app.post(`/github/login`, function (req, res) {
       headers
     )
     .then((githubResponse) => {
-      token = qs.parse(githubResponse.data).access_token;
+      token = new URLSearchParams(githubResponse.data).get('access_token');
       return axios.get('https://api.github.com/user', {
         headers: { Authorization: `token ${token}` },
       });

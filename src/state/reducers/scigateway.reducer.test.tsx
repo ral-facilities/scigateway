@@ -1,45 +1,47 @@
 import log from 'loglevel';
-import {
-  toggleDrawer,
-  authorised,
-  unauthorised,
-  loadingAuthentication,
-  dismissMenuItem,
-  configureAnalytics,
-  initialiseAnalytics,
-  siteLoadingUpdate,
-  loadAuthProvider,
-  configureStrings,
-  loadFeatureSwitches,
-  toggleHelp,
-  addHelpTourSteps,
-  invalidToken,
-  loadedAuthentication,
-  loadDarkModePreference,
-  registerHomepageUrl,
-  loadScheduledMaintenanceState,
-  loadMaintenanceState,
-  loadHighContrastModePreference,
-  customLogo,
-  customNavigationDrawerLogo,
-  customAdminPageDefaultTab,
-  autoLoginAuthorised,
-  resetAuthState,
-  registerContactUsAccessibilityFormUrl,
-  customPrimaryColour,
-} from '../actions/scigateway.actions';
-import ScigatewayReducer, {
-  initialState,
-  handleAuthProviderUpdate,
-  authState,
-} from './scigateway.reducer';
-import { SignOutType } from '../scigateway.types';
-import { ScigatewayState } from '../state.types';
-import TestAuthProvider from '../../authentication/testAuthProvider';
-import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import ICATAuthProvider from '../../authentication/icatAuthProvider';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import NullAuthProvider from '../../authentication/nullAuthProvider';
+import OIDCAuthProvider from '../../authentication/oidcAuthProvider';
+import PasswordAndOIDCAuthProvider from '../../authentication/passwordAndOIDCAuthProvider';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import {
+  addHelpTourSteps,
+  authorised,
+  autoLoginAuthorised,
+  configureAnalytics,
+  configureStrings,
+  customAdminPageDefaultTab,
+  customLogo,
+  customNavigationDrawerLogo,
+  customPrimaryColour,
+  dismissMenuItem,
+  initialiseAnalytics,
+  invalidToken,
+  loadAuthProvider,
+  loadDarkModePreference,
+  loadedAuthentication,
+  loadFeatureSwitches,
+  loadHighContrastModePreference,
+  loadingAuthentication,
+  loadMaintenanceState,
+  loadScheduledMaintenanceState,
+  registerContactUsAccessibilityFormUrl,
+  registerHomepageUrl,
+  resetAuthState,
+  siteLoadingUpdate,
+  toggleDrawer,
+  toggleHelp,
+  unauthorised,
+} from '../actions/scigateway.actions';
+import { SignOutType } from '../scigateway.types';
+import { ScigatewayState } from '../state.types';
+import ScigatewayReducer, {
+  authState,
+  handleAuthProviderUpdate,
+  initialState,
+} from './scigateway.reducer';
 
 describe('scigateway reducer', () => {
   let state: ScigatewayState;
@@ -284,6 +286,21 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
       ICATAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(state, loadAuthProvider('oidc'));
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      OIDCAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(
+      state,
+      loadAuthProvider('userpass_and_oidc')
+    );
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      PasswordAndOIDCAuthProvider
     );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider(null));

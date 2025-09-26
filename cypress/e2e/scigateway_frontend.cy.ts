@@ -59,7 +59,7 @@ describe('Scigateway', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     cy.get('button[aria-label="Close navigation menu"]').should('exist');
     cy.get('button[aria-label="Help page"]').click();

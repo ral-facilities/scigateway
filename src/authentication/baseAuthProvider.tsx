@@ -1,7 +1,7 @@
-import { AuthProvider, User } from '../state/state.types';
-import UserInfo from './user';
 import parseJwt from '../authentication/parseJwt';
 import { BroadcastSignOutType } from '../state/scigateway.types';
+import { AuthProvider, User } from '../state/state.types';
+import UserInfo from './user';
 
 const tokenLocalStorageName = 'scigateway:token';
 

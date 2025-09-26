@@ -1,29 +1,67 @@
 import mockAxios from 'axios';
+import * as log from 'loglevel';
+import {
+  BroadcastSignOutType,
+  NotificationType,
+} from '../state/scigateway.types';
+import {
+  Authenticator,
+  ICATAuthenticator,
+  OIDCProvider,
+} from '../state/state.types';
+import { InitialisedOIDCProvider } from './baseAPIAuthProvider';
 import ICATAuthProvider from './icatAuthProvider';
 import parseJwt from './parseJwt';
-import { BroadcastSignOutType } from '../state/scigateway.types';
 
 vi.mock('./parseJwt');
+vi.mock('loglevel', () => ({
+  error: vi.fn(),
+}));
 
 describe('ICAT auth provider', () => {
   let icatAuthProvider: ICATAuthProvider;
   const testToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QifQ.hNQI_r8BATy1LyXPr6Zuo9X_V0kSED8ngcqQ6G-WV5w';
 
+  const oidcProviderId = 'provider_id';
+  const oidcProviderConfig: Omit<OIDCProvider, 'provider_id'> = {
+    display_name: 'Keycloak',
+    configuration_url: 'https://example.com/config',
+    client_id: 'client_id',
+    pkce: true,
+    scope: 'openid',
+  };
+  const oidcProviderEndpoints = {
+    authorization_endpoint: 'https://example.com/auth',
+    token_endpoint: 'https://example.com/token',
+  };
+  const oidcProvider: InitialisedOIDCProvider = {
+    provider_id: oidcProviderId,
+    ...oidcProviderConfig,
+    ...oidcProviderEndpoints,
+  };
+
+  let autoLogin: ReturnType<typeof Storage.prototype.getItem>;
+  let token: ReturnType<typeof Storage.prototype.getItem>;
+
   beforeEach(() => {
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => {
-        if (name === 'scigateway:token') {
-          return testToken;
-        } else if (name === 'autoLogin') {
-          return 'false';
-        } else {
-          return null;
-        }
-      });
-    window.localStorage.__proto__.removeItem = vi.fn();
-    window.localStorage.__proto__.setItem = vi.fn();
+    autoLogin = 'false';
+    token = testToken;
+
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation((name) => {
+      if (name === 'scigateway:token') {
+        return token;
+      } else if (name === 'autoLogin') {
+        return autoLogin;
+      } else if (name === 'oidcState') {
+        return 'state';
+      } else {
+        return null;
+      }
+    });
+
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {});
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
 
     icatAuthProvider = new ICATAuthProvider(
       'mnemonic',
@@ -44,8 +82,8 @@ describe('ICAT auth provider', () => {
       'http://localhost:8000',
       true
     );
-    await icatAuthProvider.autoLogin();
-    expect(icatAuthProvider.mnemonic).toBe('');
+    await icatAuthProvider.autoLogin?.();
+    expect(icatAuthProvider.getAuthenticator()).toBe('');
   });
 
   it('should load the token when built', () => {
@@ -53,19 +91,290 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
   });
 
-  it('should clear the token & broadcast signout action when logging out', () => {
-    icatAuthProvider.logOut();
+  it('should successfully log in if user is already logged in', () => {
+    return icatAuthProvider.logIn('user', 'password');
+  });
 
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  it('should update the authenticator when setAuthenticator is called', () => {
+    icatAuthProvider.setAuthenticator('test');
+    expect(icatAuthProvider.getAuthenticator()).toBe('test');
+  });
+
+  it('should call fetchMnemonics and initialiseOIDCProviders when initialising', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
+
+    vi.mocked(mockAxios.get)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: [
+            {
+              mnemonic: 'simple',
+              friendly: 'Userpass',
+              keys: [{ name: 'username' }, { name: 'password' }],
+            },
+            {
+              mnemonic: 'db',
+              admin: true,
+              keys: [{ name: 'username' }, { name: 'password' }],
+            },
+            {
+              mnemonic: 'delegating',
+              friendly: 'OIDC',
+              admin: true,
+              keys: [{ name: 'token' }],
+            },
+            {
+              mnemonic: 'anon',
+              keys: [],
+            },
+            {
+              mnemonic: 'anon2',
+              keys: [],
+            },
+            {
+              mnemonic: 'unknown',
+              keys: [{ name: 'unknown key' }],
+            },
+          ] satisfies ICATAuthenticator[],
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: oidcProviderEndpoints,
+        })
+      );
+    const initialiseOIDCProvidersSpy = vi.spyOn(
+      icatAuthProvider,
+      'initialiseOIDCProviders'
+    );
+
+    await icatAuthProvider.initialise();
+    expect(initialiseOIDCProvidersSpy).toHaveBeenCalled();
+
+    expect(icatAuthProvider.authenticators).toEqual([
+      // note that we filter out both the admin authenticators and the "anon" authenticator
+      { displayName: 'Userpass', key: 'simple', type: 'userpass' },
+      { displayName: 'anon2', key: 'anon2', type: 'anon' },
+      { displayName: 'unknown', key: 'unknown', type: 'unknown' },
+      {
+        displayName: 'Keycloak',
+        key: oidcProviderId,
+        type: 'redirect',
+      },
+    ] satisfies Authenticator[]);
+  });
+
+  it('should handle error properly when calling fetchMnemonics', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
+
+    vi.mocked(mockAxios.get).mockImplementation(() =>
+      Promise.reject({
+        response: {
+          status: 500,
+        },
+      })
+    );
+
+    await icatAuthProvider.initialise();
+
+    expect(log.error).toHaveBeenCalledWith(
+      'Unable to fetch ICAT authenticators'
+    );
+    expect(document.dispatchEvent).toHaveBeenCalled();
+    expect(vi.mocked(document.dispatchEvent).mock.calls[0][0].detail).toEqual({
+      type: NotificationType,
+      payload: {
+        message:
+          'It is not possible to authenticate you at the moment. Please, try again later.',
+        severity: 'error',
+      },
+    });
+  });
+
+  it('should initiate OIDC login to authenticate when OIDC authenticator is selected', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
+
+    vi.mocked(mockAxios.get)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: [
+            {
+              mnemonic: 'delegating',
+              friendly: 'OIDC',
+              admin: true,
+              keys: [{ name: 'token' }],
+            },
+          ] satisfies ICATAuthenticator[],
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: oidcProviderEndpoints,
+        })
+      );
+
+    await icatAuthProvider.initialise();
+
+    vi.mocked(mockAxios.post)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: { id_token: 'id_token' },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: testToken,
+        })
+      );
+
+    // test when autologged in to ensure we log out of autoLogin
+    autoLogin = 'true';
+
+    icatAuthProvider.setAuthenticator(oidcProvider.provider_id);
+
+    // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
+    const oidcLoginSpy = vi.spyOn(icatAuthProvider, 'oidcLogIn');
+
+    await icatAuthProvider.logIn('', '?code=123456&state=state');
+
+    // should send sign out action for autologin logout
     expect(document.dispatchEvent).toHaveBeenCalled();
     expect(vi.mocked(document.dispatchEvent).mock.calls[0][0].detail).toEqual({
       type: BroadcastSignOutType,
     });
+
+    expect(oidcLoginSpy).toHaveBeenCalledWith(
+      '123456',
+      oidcProvider,
+      expect.any(Function)
+    );
+
+    expect(localStorage.setItem).toBeCalledWith('scigateway:token', testToken);
+    expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
+
+    expect(icatAuthProvider.isLoggedIn()).toBeTruthy();
+    expect(icatAuthProvider.user).not.toBeNull();
+    expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
   });
 
-  it('should successfully log in if user is already logged in', () => {
-    return icatAuthProvider.logIn('user', 'password');
+  it('should log out if no code provided on OIDC login', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
+
+    vi.mocked(mockAxios.get)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: [
+            {
+              mnemonic: 'delegating',
+              friendly: 'OIDC',
+              admin: true,
+              keys: [{ name: 'token' }],
+            },
+          ] satisfies ICATAuthenticator[],
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: oidcProviderEndpoints,
+        })
+      );
+
+    await icatAuthProvider.initialise();
+
+    icatAuthProvider.setAuthenticator(oidcProvider.provider_id);
+
+    // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
+    const oidcLoginSpy = vi.spyOn(icatAuthProvider, 'oidcLogIn');
+
+    await icatAuthProvider.logIn('', '?not_code=123456');
+
+    expect(oidcLoginSpy).not.toHaveBeenCalled();
+
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('should log out if state validation does not pass on OIDC login', async () => {
+    icatAuthProvider = new ICATAuthProvider(
+      undefined,
+      'http://localhost:8000',
+      true
+    );
+
+    vi.mocked(mockAxios.get)
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: [
+            {
+              mnemonic: 'delegating',
+              friendly: 'OIDC',
+              admin: true,
+              keys: [{ name: 'token' }],
+            },
+          ] satisfies ICATAuthenticator[],
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            [oidcProviderId]: oidcProviderConfig,
+          },
+        })
+      )
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          data: oidcProviderEndpoints,
+        })
+      );
+
+    await icatAuthProvider.initialise();
+
+    icatAuthProvider.setAuthenticator(oidcProvider.provider_id);
+
+    // we test OIDC login function in baseAPIAuthProvider, so just need to verify it's being called correctly
+    const oidcLoginSpy = vi.spyOn(icatAuthProvider, 'oidcLogIn');
+
+    await icatAuthProvider.logIn('', '?code=123456&state=not_state');
+
+    expect(oidcLoginSpy).not.toHaveBeenCalled();
+
+    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
 
   it('should successfully log in if user is already logged in via autoLogin', async () => {
@@ -74,17 +383,7 @@ describe('ICAT auth provider', () => {
         data: testToken,
       })
     );
-    window.localStorage.__proto__.getItem = vi
-      .fn()
-      .mockImplementation((name) => {
-        if (name === 'scigateway:token') {
-          return testToken;
-        } else if (name === 'autoLogin') {
-          return 'true';
-        } else {
-          return null;
-        }
-      });
+    autoLogin = 'true';
 
     await icatAuthProvider.logIn('user', 'password');
 
@@ -128,26 +427,6 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
   });
 
-  it('should log the user out for an invalid login attempt', async () => {
-    vi.mocked(mockAxios.post).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    // ensure the token is null
-    icatAuthProvider.logOut();
-
-    await icatAuthProvider.logIn('user', 'invalid').catch(() => {
-      // catch error
-    });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-  });
-
   it('should attempt to autologin via anon authenticator when initialised', async () => {
     vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
@@ -156,7 +435,7 @@ describe('ICAT auth provider', () => {
     );
 
     // ensure token is null
-    window.localStorage.__proto__.getItem = vi.fn().mockReturnValue(null);
+    token = null;
 
     icatAuthProvider = new ICATAuthProvider(
       undefined,
@@ -165,7 +444,7 @@ describe('ICAT auth provider', () => {
     );
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
-    await icatAuthProvider.autoLogin();
+    await icatAuthProvider.autoLogin?.();
 
     expect(mockAxios.post).toHaveBeenCalledWith('http://localhost:8000/login', {
       mnemonic: 'anon',
@@ -179,7 +458,7 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.user?.username).toBe(testToken + ' username');
     expect(icatAuthProvider.isAdmin()).toBeTruthy();
 
-    expect(icatAuthProvider.mnemonic).toBe('');
+    expect(icatAuthProvider.getAuthenticator()).toBe('');
   });
 
   it('should set autoLogin to false if autoLogin fails', async () => {
@@ -192,7 +471,7 @@ describe('ICAT auth provider', () => {
     );
 
     // ensure token is null
-    window.localStorage.__proto__.getItem = vi.fn().mockReturnValue(null);
+    token = null;
 
     icatAuthProvider = new ICATAuthProvider(
       undefined,
@@ -201,7 +480,7 @@ describe('ICAT auth provider', () => {
     );
     expect(icatAuthProvider.autoLogin).toBeDefined();
 
-    await icatAuthProvider.autoLogin().catch(() => {
+    await icatAuthProvider.autoLogin?.().catch(() => {
       // catch error
     });
 
@@ -213,7 +492,7 @@ describe('ICAT auth provider', () => {
     expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
     expect(localStorage.setItem).toBeCalledWith('autoLogin', 'false');
 
-    expect(icatAuthProvider.mnemonic).toBe('');
+    expect(icatAuthProvider.getAuthenticator()).toBe('');
   });
 
   it('should set autologin to resolved promise if mnemonic is set', async () => {
@@ -222,8 +501,8 @@ describe('ICAT auth provider', () => {
       'http://localhost:8000',
       true
     );
-    expect(icatAuthProvider.autoLogin()).toBeDefined();
-    return expect(icatAuthProvider.autoLogin()).resolves;
+    expect(icatAuthProvider.autoLogin).toBeDefined();
+    return expect(icatAuthProvider.autoLogin?.()).resolves;
   });
 
   it('should not define autoLogin function if autoLogin arg is false', async () => {
@@ -233,209 +512,5 @@ describe('ICAT auth provider', () => {
       false
     );
     expect(icatAuthProvider.autoLogin).toBeUndefined();
-  });
-
-  it('should call api to verify token', async () => {
-    vi.mocked(mockAxios.post).mockImplementation(() => Promise.resolve());
-
-    await icatAuthProvider.verifyLogIn();
-
-    expect(mockAxios.post).toBeCalledWith('http://localhost:8000/verify', {
-      token: testToken,
-    });
-  });
-
-  it('should call refresh if the access token has expired', async () => {
-    vi.mocked(mockAxios.post).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-    const refreshSpy = vi
-      .spyOn(icatAuthProvider, 'refresh')
-      .mockImplementationOnce(() => Promise.resolve());
-
-    await icatAuthProvider.verifyLogIn();
-
-    expect(refreshSpy).toHaveBeenCalled();
-  });
-
-  it('should update the token if the refresh method is successful', async () => {
-    vi.mocked(mockAxios.post).mockImplementation(() =>
-      Promise.resolve({
-        data: 'new-token',
-      })
-    );
-
-    await icatAuthProvider.refresh();
-
-    expect(mockAxios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/refresh',
-      {
-        token: testToken,
-      }
-    );
-    expect(localStorage.setItem).toBeCalledWith(
-      'scigateway:token',
-      'new-token'
-    );
-  });
-
-  it('should log the user out if the refresh token has expired', async () => {
-    vi.mocked(mockAxios.post).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    await icatAuthProvider.refresh().catch(() => {
-      // catch error
-    });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-  });
-
-  it('should call api to fetch scheduled maintenance state', async () => {
-    vi.mocked(mockAxios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: {
-          show: false,
-          message: 'test',
-        },
-      })
-    );
-
-    await icatAuthProvider.fetchScheduledMaintenanceState();
-    expect(mockAxios.get).toHaveBeenCalledWith(
-      'http://localhost:8000/scheduled_maintenance'
-    );
-  });
-
-  it('should log the user out if it fails to fetch scheduled maintenance state', async () => {
-    vi.mocked(mockAxios.get).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    await icatAuthProvider.fetchScheduledMaintenanceState().catch(() => {
-      // catch error
-    });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-  });
-
-  it('should call api to fetch maintenance state', async () => {
-    vi.mocked(mockAxios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: {
-          show: false,
-          message: 'test',
-        },
-      })
-    );
-
-    await icatAuthProvider.fetchMaintenanceState();
-    expect(mockAxios.get).toHaveBeenCalledWith(
-      'http://localhost:8000/maintenance'
-    );
-  });
-
-  it('should log the user out if it fails to fetch maintenance state', async () => {
-    vi.mocked(mockAxios.get).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    await icatAuthProvider.fetchMaintenanceState().catch(() => {
-      // catch error
-    });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-  });
-
-  it('should call api to set scheduled maintenance state', async () => {
-    const scheduledMaintenanceState = { show: true, message: 'test' };
-    mockAxios.put = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        data: 'test',
-      })
-    );
-
-    await icatAuthProvider.setScheduledMaintenanceState(
-      scheduledMaintenanceState
-    );
-
-    expect(mockAxios.put).toBeCalledWith(
-      'http://localhost:8000/scheduled_maintenance',
-      {
-        token: testToken,
-        scheduledMaintenance: scheduledMaintenanceState,
-      }
-    );
-  });
-
-  it('should log the user out if it fails to set scheduled maintenance state', async () => {
-    const scheduledMaintenanceState = { show: true, message: 'test' };
-    mockAxios.put = vi.fn().mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    await icatAuthProvider
-      .setScheduledMaintenanceState(scheduledMaintenanceState)
-      .catch(() => {
-        // catch error
-      });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
-  });
-
-  it('should call api to set maintenance state', async () => {
-    const maintenanceState = { show: true, message: 'test' };
-    mockAxios.put = vi
-      .fn()
-      .mockImplementation(() => Promise.resolve({ data: 'test' }));
-
-    await icatAuthProvider.setMaintenanceState(maintenanceState);
-
-    expect(mockAxios.put).toBeCalledWith('http://localhost:8000/maintenance', {
-      token: testToken,
-      maintenance: maintenanceState,
-    });
-  });
-
-  it('should log the user out if it fails to set maintenance state', async () => {
-    const maintenanceState = { show: true, message: 'test' };
-    mockAxios.put = vi.fn().mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    await icatAuthProvider.setMaintenanceState(maintenanceState).catch(() => {
-      // catch error
-    });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(icatAuthProvider.isLoggedIn()).toBeFalsy();
   });
 });

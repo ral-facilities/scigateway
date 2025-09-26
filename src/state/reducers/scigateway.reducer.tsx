@@ -1,65 +1,67 @@
-import createReducer from './createReducer';
-import { singleSpaPluginRoutes } from '../actions/loadMicroFrontends';
-import {
-  NotificationType,
-  NotificationPayload,
-  RegisterRouteType,
-  RegisterRoutePayload,
-  ToggleDrawerType,
-  AuthSuccessType,
-  AutoLoginSuccessType,
-  AuthFailureType,
-  ConfigureStringsType,
-  ConfigureStringsPayload,
-  SignOutType,
-  FeatureSwitchesPayload,
-  ConfigureFeatureSwitchesType,
-  LoadingAuthType,
-  InvalidateTokenType,
-  AuthProviderPayload,
-  LoadAuthProviderType,
-  SiteLoadingPayload,
-  SiteLoadingType,
-  DismissNotificationType,
-  PluginConfig,
-  ConfigureAnalyticsType,
-  ConfigureAnalyticsPayload,
-  InitialiseAnalyticsType,
-  ToggleHelpType,
-  AddHelpTourStepsPayload,
-  AddHelpTourStepsType,
-  LoadedAuthType,
-  LoadDarkModePreferenceType,
-  LoadDarkModePreferencePayload,
-  HomepageUrlPayload,
-  CustomLogoPayload,
-  RegisterHomepageUrlType,
-  LoadScheduledMaintenanceStateType,
-  ScheduledMaintenanceStatePayLoad,
-  MaintenanceStatePayLoad,
-  LoadMaintenanceStateType,
-  CustomLogoType,
-  LoadHighContrastModePreferencePayload,
-  LoadHighContrastModePreferenceType,
-  ResetAuthStateType,
-  CustomNavigationDrawerLogoPayload,
-  CustomNavigationDrawerLogoType,
-  CustomAdminPageDefaultTabPayload,
-  CustomAdminPageDefaultTabType,
-  RegisterContactUsAccessibilityFormUrlType,
-  ContactUsAccessibilityFormUrlPayload,
-  CustomPrimaryColourType,
-  CustomPrimaryColourPayload,
-} from '../scigateway.types';
-import { ScigatewayState, AuthState } from '../state.types';
-import { buildPluginConfig } from '../pluginhelper';
 import log from 'loglevel';
+import { Step } from 'react-joyride';
+import GithubAuthProvider from '../../authentication/githubAuthProvider';
+import ICATAuthProvider from '../../authentication/icatAuthProvider';
 import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import LoadingAuthProvider from '../../authentication/loadingAuthProvider';
-import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import NullAuthProvider from '../../authentication/nullAuthProvider';
-import { Step } from 'react-joyride';
-import ICATAuthProvider from '../../authentication/icatAuthProvider';
+import OIDCAuthProvider from '../../authentication/oidcAuthProvider';
+import PasswordAndOIDCAuthProvider from '../../authentication/passwordAndOIDCAuthProvider';
+import { singleSpaPluginRoutes } from '../actions/loadMicroFrontends';
+import { buildPluginConfig } from '../pluginhelper';
+import {
+  AddHelpTourStepsPayload,
+  AddHelpTourStepsType,
+  AuthFailureType,
+  AuthProviderPayload,
+  AuthSuccessType,
+  AutoLoginSuccessType,
+  ConfigureAnalyticsPayload,
+  ConfigureAnalyticsType,
+  ConfigureFeatureSwitchesType,
+  ConfigureStringsPayload,
+  ConfigureStringsType,
+  ContactUsAccessibilityFormUrlPayload,
+  CustomAdminPageDefaultTabPayload,
+  CustomAdminPageDefaultTabType,
+  CustomLogoPayload,
+  CustomLogoType,
+  CustomNavigationDrawerLogoPayload,
+  CustomNavigationDrawerLogoType,
+  CustomPrimaryColourPayload,
+  CustomPrimaryColourType,
+  DismissNotificationType,
+  FeatureSwitchesPayload,
+  HomepageUrlPayload,
+  InitialiseAnalyticsType,
+  InvalidateTokenType,
+  LoadAuthProviderType,
+  LoadDarkModePreferencePayload,
+  LoadDarkModePreferenceType,
+  LoadedAuthType,
+  LoadHighContrastModePreferencePayload,
+  LoadHighContrastModePreferenceType,
+  LoadingAuthType,
+  LoadMaintenanceStateType,
+  LoadScheduledMaintenanceStateType,
+  MaintenanceStatePayLoad,
+  NotificationPayload,
+  NotificationType,
+  PluginConfig,
+  RegisterContactUsAccessibilityFormUrlType,
+  RegisterHomepageUrlType,
+  RegisterRoutePayload,
+  RegisterRouteType,
+  ResetAuthStateType,
+  ScheduledMaintenanceStatePayLoad,
+  SignOutType,
+  SiteLoadingPayload,
+  SiteLoadingType,
+  ToggleDrawerType,
+  ToggleHelpType,
+} from '../scigateway.types';
+import { AuthState, ScigatewayState } from '../state.types';
+import createReducer from './createReducer';
 
 export const authState: AuthState = {
   failedToLogin: false,
@@ -365,13 +367,21 @@ export function handleAuthProviderUpdate(
         provider = new JWTAuthProvider(payload.authUrl);
         break;
 
+      case 'oidc':
+        provider = new OIDCAuthProvider(payload.authUrl);
+        break;
+
+      case 'userpass_and_oidc':
+        provider = new PasswordAndOIDCAuthProvider(payload.authUrl);
+        break;
+
       case 'github':
         provider = new GithubAuthProvider(payload.authUrl);
         break;
 
       case 'icat':
         provider = new ICATAuthProvider(
-          payload.authProvider.split('.')[1],
+          payload.authProvider.replace('icat.', ''),
           payload.authUrl,
           payload.autoLogin
         );

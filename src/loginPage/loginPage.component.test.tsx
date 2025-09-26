@@ -1,4 +1,17 @@
+import { ThemeProvider } from '@mui/material/styles';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { resetAuthState } from '../state/actions/scigateway.actions';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { Authenticator, StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
 import LoginPage, {
   AnonLoginScreen,
   CombinedLoginProps,
@@ -7,34 +20,6 @@ import LoginPage, {
   RedirectLoginScreen,
   UnconnectedLoginPage,
 } from './loginPage.component';
-import { buildTheme } from '../theming';
-import { ThemeProvider } from '@mui/material/styles';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
-import axios from 'axios';
-import { ICATAuthenticator, StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import {
-  loadingAuthentication,
-  resetAuthState,
-} from '../state/actions/scigateway.actions';
-import { Provider } from 'react-redux';
-import { thunk } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { NotificationType } from '../state/scigateway.types';
-import log from 'loglevel';
-import {
-  act,
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
-
-vi.mock('loglevel');
 
 describe('Login selector component', () => {
   let props: CombinedLoginProps;
@@ -53,26 +38,28 @@ describe('Login selector component', () => {
     };
   });
 
-  it('sets a new mnemonic in local state on mnemonic change', async () => {
-    const mnemonics: ICATAuthenticator[] = [
+  it('sets a new authenticator in local state on authenticator change', async () => {
+    const authenticators: Authenticator[] = [
       {
-        mnemonic: 'user/pass',
-        keys: [{ name: 'username' }, { name: 'password' }],
+        displayName: 'Password',
+        key: 'user/pass',
+        type: 'userpass',
       },
       {
-        mnemonic: 'anon',
-        keys: [],
+        displayName: 'anon',
+        key: 'anon',
+        type: 'anon',
       },
     ];
     const user = userEvent.setup();
-    const testSetMnemonic = vi.fn();
+    const testChangeAuthenticator = vi.fn();
 
     render(
       <LoginSelector
         {...props}
-        mnemonics={mnemonics}
-        mnemonic="user/pass"
-        setMnemonic={testSetMnemonic}
+        authenticators={authenticators}
+        authenticator="user/pass"
+        changeAuthenticator={testChangeAuthenticator}
       />
     );
 
@@ -83,7 +70,7 @@ describe('Login selector component', () => {
     );
 
     await waitFor(() => {
-      expect(testSetMnemonic).toBeCalledWith('anon');
+      expect(testChangeAuthenticator).toBeCalledWith('anon');
     });
   });
 });
@@ -93,6 +80,9 @@ describe('Login page component', () => {
   let mockStore;
   let state: StateType;
   let history: MemoryHistory;
+
+  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
   beforeEach(() => {
     mockStore = configureStore([thunk]);
@@ -120,6 +110,11 @@ describe('Login page component', () => {
     };
 
     state.scigateway.authorisation = props.auth;
+  });
+
+  afterEach(() => {
+    getItemSpy.mockReset();
+    setItemSpy.mockReset();
   });
 
   function Wrapper({
@@ -172,7 +167,9 @@ describe('Login page component', () => {
   });
 
   it('redirect component renders correctly', () => {
-    render(<RedirectLoginScreen {...props} />, { wrapper: Wrapper });
+    render(<RedirectLoginScreen {...props} displayName="Github" />, {
+      wrapper: Wrapper,
+    });
     expect(
       screen.getByRole('button', { name: 'Login with Github' })
     ).toBeInTheDocument();
@@ -234,30 +231,23 @@ describe('Login page component', () => {
     props.auth.provider.redirectUrl = 'test redirect';
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
     expect(
-      screen.getByRole('button', { name: 'Login with Github' })
+      screen.getByRole('button', { name: 'Login with unknown' })
     ).toBeInTheDocument();
   });
 
-  it('login page renders dropdown if mnemonic present + there are multiple mnemonics (but it filters out anon)', async () => {
-    props.auth.provider.mnemonic = '';
-    vi.mocked(axios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'user/pass',
-            keys: [{ name: 'username' }, { name: 'password' }],
-          },
-          {
-            mnemonic: 'ldap',
-            keys: [{ name: 'username' }, { name: 'password' }],
-          },
-          {
-            mnemonic: 'anon',
-            keys: [],
-          },
-        ],
-      })
-    );
+  it('login page renders dropdown if multiple authenticators are present', async () => {
+    props.auth.provider.authenticators = [
+      {
+        key: 'Test1',
+        type: 'userpass',
+        displayName: 'Test 1',
+      },
+      {
+        key: 'Test2',
+        type: 'redirect',
+        displayName: 'Test 2',
+      },
+    ];
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
@@ -266,59 +256,28 @@ describe('Login page component', () => {
     ).toBeInTheDocument();
   });
 
-  it("login page doesn't render dropdown if anon is the only other authenticator", async () => {
-    props.auth.provider.mnemonic = '';
-    vi.mocked(axios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'user/pass',
-            keys: [{ name: 'username' }, { name: 'password' }],
-          },
-          {
-            mnemonic: 'anon',
-            keys: [],
-          },
-        ],
-      })
-    );
-
-    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
-
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-    expect(screen.queryByRole('button', { name: /authenticator/i })).toBeNull();
-  });
-
-  it('login page renders anonymous login if mnemonic present with no keys', async () => {
-    props.auth.provider.mnemonic = 'nokeys';
-    vi.mocked(axios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'nokeys',
-            keys: [],
-          },
-        ],
-      })
-    );
+  it('login page renders anonymous login if anon auth present', async () => {
+    props.auth.provider.authenticators = [
+      {
+        key: 'anon',
+        type: 'anon',
+        displayName: 'Anonymous',
+      },
+    ];
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     expect(await screen.findByTestId('anon-login-screen')).toBeInTheDocument();
   });
 
-  it('login page renders credentials login if mnemonic present + user/pass is selected', async () => {
-    props.auth.provider.mnemonic = 'user/pass';
-    vi.mocked(axios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'user/pass',
-            keys: [{ name: 'username' }, { name: 'password' }],
-          },
-        ],
-      })
-    );
+  it('login page renders credentials login if only single user pass login', async () => {
+    props.auth.provider.authenticators = [
+      {
+        key: 'Test1',
+        type: 'userpass',
+        displayName: 'Test 1',
+      },
+    ];
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
@@ -343,46 +302,86 @@ describe('Login page component', () => {
     );
   });
 
+  it('login page renders redirect login if only single redirect login with delayed init', async () => {
+    const mockSetAuthenticator = vi.fn();
+    const mockGetAuthenticator = vi.fn().mockReturnValue(undefined);
+
+    props.auth.provider.getAuthenticator = mockGetAuthenticator;
+    props.auth.provider.setAuthenticator = mockSetAuthenticator;
+    props.auth.provider.authenticators = [];
+    props.auth.provider.redirectUrl = 'unknown';
+
+    let promiseResolve = () => {};
+    props.auth.provider.initialise = vi.fn().mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          promiseResolve = () => {
+            props.auth.provider.authenticators = [
+              {
+                key: 'Test2',
+                type: 'redirect',
+                displayName: 'Test 2',
+              },
+            ];
+            resolve();
+          };
+        })
+    );
+
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
+
+    act(() => {
+      promiseResolve();
+    });
+
+    expect(
+      await screen.findByRole('button', { name: 'Login with Test 2' })
+    ).toBeInTheDocument();
+    expect(mockSetAuthenticator).toHaveBeenCalledWith(
+      'Test2',
+      undefined,
+      undefined
+    );
+  });
+
+  it('login page re-initialises an authenticator if it is mounted with an authenticator already selected', async () => {
+    const mockSetAuthenticator = vi.fn();
+    const mockGetAuthenticator = vi.fn().mockReturnValue('Test2');
+
+    props.auth.provider.getAuthenticator = mockGetAuthenticator;
+    props.auth.provider.setAuthenticator = mockSetAuthenticator;
+    props.auth.provider.authenticators = [
+      {
+        key: 'Test2',
+        type: 'redirect',
+        displayName: 'Test 2',
+      },
+      {
+        key: 'Test1',
+        type: 'userpass',
+        displayName: 'Test 1',
+      },
+    ];
+    props.auth.provider.redirectUrl = 'unknown';
+
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    expect(
+      await screen.findByRole('button', { name: 'Login with Test 2' })
+    ).toBeInTheDocument();
+    expect(mockSetAuthenticator).toHaveBeenCalledWith(
+      'Test2',
+      undefined,
+      undefined
+    );
+  });
+
   it('login page renders spinner if auth is loading', async () => {
     props.auth.loading = true;
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
-  });
-
-  it('login page displays and logs an error if fetchMnemonics fails', async () => {
-    props.auth.provider.mnemonic = '';
-    log.error = vi.fn();
-    vi.mocked(axios.get).mockImplementation(() => Promise.reject());
-    const events: CustomEvent<AnyAction>[] = [];
-
-    const dispatchEventSpy = vi
-      .spyOn(document, 'dispatchEvent')
-      .mockImplementation((e) => {
-        events.push(e as CustomEvent<AnyAction>);
-        return true;
-      });
-
-    render(<UnconnectedLoginPage {...props} />, {
-      wrapper: Wrapper,
-    });
-
-    await waitFor(() => {
-      expect(dispatchEventSpy).toHaveBeenCalled();
-    });
-    expect(events.length).toEqual(1);
-    expect(events[0].detail).toEqual({
-      type: NotificationType,
-      payload: {
-        message:
-          'It is not possible to authenticate you at the moment. Please, try again later',
-        severity: 'error',
-      },
-    });
-
-    expect(log.error).toHaveBeenCalled();
-    expect(vi.mocked(log.error).mock.calls[0][0]).toEqual(
-      'It is not possible to authenticate you at the moment. Please, try again later'
-    );
   });
 
   it('on submit verification method should be called with username and password arguments', async () => {
@@ -405,11 +404,7 @@ describe('Login page component', () => {
     );
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-    expect(mockLoginfn.mock.calls[0]).toEqual([
-      'new username',
-      'new password',
-      undefined,
-    ]);
+    expect(mockLoginfn.mock.calls[0]).toEqual(['new username', 'new password']);
 
     await user.clear(usernameTextBox);
     await user.clear(passwordBox);
@@ -420,7 +415,6 @@ describe('Login page component', () => {
     expect(mockLoginfn.mock.calls[1]).toEqual([
       'new username 2',
       'new password 2',
-      undefined,
     ]);
   });
 
@@ -437,7 +431,7 @@ describe('Login page component', () => {
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
     await user.click(
-      await screen.findByRole('button', { name: 'Login with Github' })
+      await screen.findByRole('button', { name: 'Login with unknown' })
     );
 
     expect(window.location.href).toEqual('test redirect');
@@ -458,29 +452,45 @@ describe('Login page component', () => {
     });
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-    expect(mockLoginfn.mock.calls[0]).toEqual([
-      '',
-      '?token=test_token',
-      undefined,
-    ]);
+    expect(mockLoginfn.mock.calls[0]).toEqual(['', '?token=test_token']);
+  });
+
+  it('on location.search filled in verification method should be called with blank username and query string (OIDC)', async () => {
+    getItemSpy.mockReturnValue('https://example.com');
+    const mockSetAuthenticator = vi.fn();
+    props.auth.provider.setAuthenticator = mockSetAuthenticator;
+    history.replace('/login?token=test_token', { referrer: '/myplugin' });
+
+    const promise = Promise.resolve();
+    const mockLoginfn = vi.fn(() => promise);
+    props.verifyUsernameAndPassword = mockLoginfn;
+
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    await act(async () => {
+      await promise;
+    });
+
+    expect(mockLoginfn.mock.calls.length).toEqual(1);
+    expect(mockLoginfn.mock.calls[0]).toEqual(['', '?token=test_token']);
+    expect(mockSetAuthenticator).toHaveBeenCalledWith(
+      'https://example.com',
+      true,
+      '/myplugin'
+    );
   });
 
   it('on submit verification method should be called when logs in via keyless authenticator', async () => {
     const mockLoginfn = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
     props.verifyUsernameAndPassword = mockLoginfn;
-    props.auth.provider.mnemonic = 'nokeys';
-
-    vi.mocked(axios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'nokeys',
-            keys: [],
-          },
-        ],
-      })
-    );
+    props.auth.provider.authenticators = [
+      {
+        key: 'anon',
+        type: 'anon',
+        displayName: 'Anonymous',
+      },
+    ];
 
     render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
 
@@ -489,37 +499,7 @@ describe('Login page component', () => {
     );
 
     expect(mockLoginfn.mock.calls.length).toEqual(1);
-    expect(mockLoginfn.mock.calls[0]).toEqual(['', '', 'nokeys']);
-  });
-
-  it('verifyUsernameAndPassword action should be sent when the verifyUsernameAndPassword function is called', async () => {
-    state.scigateway.authorisation.provider.redirectUrl = 'test redirect';
-    history.replace('/login?token=test_token');
-    state.scigateway.authorisation.provider.mnemonic = 'nokeys';
-
-    vi.mocked(axios.get).mockImplementation(() =>
-      Promise.resolve({
-        data: [
-          {
-            mnemonic: 'nokeys',
-            keys: [],
-          },
-        ],
-      })
-    );
-
-    const testStore = mockStore(state);
-
-    render(
-      <Provider store={testStore}>
-        <LoginPage />
-      </Provider>,
-      { wrapper: Wrapper }
-    );
-
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-
-    expect(testStore.getActions()[0]).toEqual(loadingAuthentication());
+    expect(mockLoginfn.mock.calls[0]).toEqual(['', '']);
   });
 
   it('visiting the login page after a failed login attempt resets the auth state', () => {

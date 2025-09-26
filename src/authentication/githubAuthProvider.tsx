@@ -1,4 +1,3 @@
-import qs from 'query-string';
 import Axios from 'axios';
 import BaseAuthProvider from './baseAuthProvider';
 
@@ -10,16 +9,17 @@ export default class GithubAuthProvider extends BaseAuthProvider {
   }
 
   public logIn(_username: string, password: string): Promise<void> {
-    const params = qs.parse(password);
+    const params = new URLSearchParams(password);
+    const code = params.get('code');
 
     // remove existing credentials so they can be refreshed
-    if (!params || !params.code) {
+    if (!code) {
       this.logOut();
       return Promise.resolve();
     }
 
     return Axios.post(`${this.authUrl}/github/login`, {
-      code: params.code,
+      code,
     })
       .then((res) => {
         this.storeToken(res.data.token);
