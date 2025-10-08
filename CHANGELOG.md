@@ -1,12 +1,114 @@
 # Changelog
 
+## [v4.0.0](https://github.com/ral-facilities/scigateway/tree/v4.0.0) (2025-10-08)
+
+## What's Changed
+
+### Features
+
+* Merge main to develop after v3.0.1 release by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1435
+* Update the JWTAuthProvider  #1423 by @joshdimanteto in https://github.com/ral-facilities/scigateway/pull/1436
+* Allow for authenticated homepage #1440 & hide nav drawer if it's empty by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1442
+* Add OIDC support #494 by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1490
+
+### Dependencies
+
+* Migrate from CRA to Vite #1379 by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1380
+* Upgrade to Eslint v9 #1438 by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1439
+* Update actions/checkout digest to 11bd719 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1392
+* Update actions/setup-node digest to 49933ea by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1367
+* Update codecov/codecov-action digest to b9fd7d1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1369
+* Update docker/metadata-action action to v5.7.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1373
+* Update dependency browserslist to v4.25.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1446
+* Update dependency axios to v1.9.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1445
+* Update dependency prettier to v3.5.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1394
+* Update dependency @vitejs/plugin-react to v4.5.1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1444
+* Update dependency i18next to v23.16.8 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1370
+* Update dependency @types/redux-mock-store to v1.5.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1443
+* Update dependency cypress to v13.17.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1447
+* Update dependency eslint to v9.28.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1448
+* Update dependency eslint-plugin-testing-library to v7.5.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1449
+* Update dependency globals to v16.2.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1451
+* Update dependency husky to v9.1.7 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1452
+* Update dependency i18next-http-backend to v2.7.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1453
+* Update dependency jsdom to v24.1.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1454
+* Update dependency eslint to v9.29.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1455
+* Update dependency lint-staged to v15.5.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1456
+* Migrate renovate config by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1457
+* Update dependency axios to v1.10.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1458
+* Update dependency react-i18next to v14.1.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1459
+* Update dependency react-joyride to v2.9.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1460
+* Update dependency typescript to v5.8.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1461
+* Update dependency typescript-eslint to v8.34.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1462
+* Update docker/build-push-action action to v6.18.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1463
+* Update docker/login-action action to v3.4.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1464
+* Update emotion monorepo to v11.14.0 (minor) by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1465
+* Update dependency eslint-plugin-prettier to v5.5.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1466
+* Update Node.js to v20.19.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1467
+* Update react monorepo (minor) by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1468
+* Update codecov/codecov-action action to v5 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1472
+* Update Yarn to v4.9.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1471
+* Update testing-library monorepo (minor) by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1470
+* Update softprops/action-gh-release action to v2.3.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1469
+* Update dependency prettier to v3.6.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1480
+* Update dependency concurrently to v9 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1477
+* Update dependency cypress to v14 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1478
+* Update dependency @vitejs/plugin-react to v4.6.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1479
+* Update dependency typescript-eslint to v8.35.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1481
+* Update dependency i18next to v25 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1484
+* Update dependency i18next-browser-languagedetector to v8 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1485
+* Update dependency eslint to v9.30.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1487
+* Bump form-data from 4.0.3 to 4.0.4 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1489
+* Update dependency axios to v1.11.0 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1492
+* Update dependency i18next-http-backend to v3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1486
+* Update richardsimko/update-tag digest to aab2434 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1493
+* Update dependency eslint to v9.32.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1494
+* Update dependency @vitejs/plugin-react to v4.7.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1495
+* Update dependency eslint-plugin-testing-library to v7.6.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1496
+* Bump tmp from 0.2.3 to 0.2.4 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1497
+* Update dependency globals to v16.3.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1498
+* Update dependency typescript to v5.9.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1499
+* Update dependency i18next to v25.3.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1488
+* Update actions/checkout action to v4.3.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1500
+* Update dependency eslint to v9.33.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1501
+* Update actions/checkout digest to 08eba0b by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1502
+* Update dependency typescript-eslint to v8.39.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1503
+* Update docker/login-action action to v3.5.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1504
+* Update docker/metadata-action action to v5.8.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1505
+* Update actions/checkout action to v5 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1506
+* Update dependency @vitejs/plugin-react to v5 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1507
+* Update dependency @testing-library/jest-dom to v6.7.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1508
+* Update dependency cross-env to v10 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1509
+* Update dependency lint-staged to v16 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1511
+* Update codecov/codecov-action digest to fdcc847 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1512
+* Update dependency typescript-eslint to v8.41.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1513
+* Update dependency @testing-library/jest-dom to v6.8.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1514
+* Update dependency eslint to v9.34.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1515
+* Update dependency i18next to v25.4.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1516
+* Update dependency axios to v1.12.0 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1520
+* Bump vite from 5.4.19 to 5.4.20 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1518
+* Update codecov/codecov-action digest to 5a10915 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1517
+* Update dependency browserslist to v4.26.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1521
+* Update dependency eslint to v9.36.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1522
+* Update dependency eslint-plugin-testing-library to v7.10.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1523
+* Update dependency cross-env to v10.1.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1524
+* Update dependency eslint-plugin-testing-library to v7.11.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1525
+* Update dependency globals to v16.4.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1527
+* Update dependency @testing-library/jest-dom to v6.9.1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1526
+* Update dependency eslint to v9.37.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1528
+
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v3.0.1...snapshot-develop
+
 ## [v3.0.1](https://github.com/ral-facilities/scigateway/tree/v3.0.1) (2025-03-14)
 
 ## What's Changed
 
 ### Features
+
 * Remove libgconf install step on CI jobs by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1426
+
 ### Dependencies
+
 * Bump nanoid from 3.3.4 to 3.3.8 by @dependabot in https://github.com/ral-facilities/scigateway/pull/1425
 * Update dependency ubuntu to v24 by @renovate in https://github.com/ral-facilities/scigateway/pull/1427
 * Update dependency axios to v1.8.2 [SECURITY] by @renovate in https://github.com/ral-facilities/scigateway/pull/1429
