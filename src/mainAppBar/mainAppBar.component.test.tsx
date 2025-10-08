@@ -3,7 +3,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { push } from 'connected-react-router';
-import { createLocation, createMemoryHistory, History } from 'history';
+import { History, createLocation, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -21,10 +21,10 @@ import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import MainAppBarComponent from './mainAppBar.component';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Main app bar component', () => {
@@ -56,6 +56,15 @@ describe('Main app bar component', () => {
         ...initialState,
         logo: 'logo_url',
         features: { ...initialState.features, showHelpPageButton: true },
+        plugins: [
+          {
+            displayName: 'test',
+            link: 'test',
+            section: 'test',
+            plugin: 'test',
+            order: 1,
+          },
+        ],
       },
       router: { location: createLocation('/') },
     };
@@ -63,10 +72,10 @@ describe('Main app bar component', () => {
 
     testStore = configureStore()(state);
 
-    // I don't think MediaQuery works properly in jest
+    // I don't think MediaQuery works properly in vi
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   const theme = buildTheme(false);
@@ -145,6 +154,31 @@ describe('Main app bar component', () => {
     render(<MainAppBarComponent />, { wrapper: Wrapper });
 
     expect(screen.getByRole('button', { name: 'close-navigation-menu' }));
+  });
+
+  it('does not render drawer button if plugin list is empty', () => {
+    state.scigateway.plugins = [];
+    state.scigateway.siteLoading = false;
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    expect(
+      screen.queryByRole('button', { name: 'close-navigation-menu' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'open-navigation-menu' })
+    ).not.toBeInTheDocument();
+  });
+
+  it('sends toggleDrawer action when plugin list is empty if drawer is initially open', () => {
+    state.scigateway.drawerOpen = true;
+    state.scigateway.plugins = [];
+    state.scigateway.siteLoading = false;
+
+    render(<MainAppBarComponent />, { wrapper: Wrapper });
+
+    expect(testStore.getActions().length).toEqual(1);
+    expect(testStore.getActions()[0]).toEqual(toggleDrawer());
   });
 
   it('sends toggleDrawer action when site has loaded', () => {
@@ -379,15 +413,11 @@ describe('Main app bar component', () => {
     state.scigateway.plugins = [plugin];
     state.scigateway.siteLoading = false;
 
-    // Need to attachTo something to ensure document.getElementById works as expected
-    // https://stackoverflow.com/questions/43694975/jest-enzyme-using-mount-document-getelementbyid-returns-null-on-componen
-    const holder = document.createElement('div');
-    document.body.appendChild(holder);
     render(
       <div id="plugin">
         <MainAppBarComponent />
       </div>,
-      { wrapper: Wrapper, container: holder }
+      { wrapper: Wrapper }
     );
 
     expect(await screen.findByRole('img')).toHaveAttribute('src', 'pluginLogo');
@@ -403,6 +433,7 @@ describe('Main app bar component', () => {
       logoDarkMode: 'pluginLogo',
     };
     state.scigateway.plugins = [plugin];
+    state.scigateway.siteLoading = false;
 
     render(
       <div id="plugin2">
@@ -423,6 +454,21 @@ describe('Main app bar component', () => {
       order: 1,
     };
     state.scigateway.plugins = [plugin];
+    state.scigateway.siteLoading = false;
+
+    render(
+      <div id="plugin">
+        <MainAppBarComponent />
+      </div>,
+      { wrapper: Wrapper }
+    );
+
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'logo_url');
+  });
+
+  it('sets scigateway logo if there are no plugins', () => {
+    state.scigateway.plugins = [];
+    state.scigateway.siteLoading = false;
 
     render(
       <div id="plugin2">
@@ -452,7 +498,7 @@ describe('Main app bar component', () => {
 
   describe('mobile variant', () => {
     beforeEach(() => {
-      jest.mocked(useMediaQuery).mockReturnValue(false);
+      vi.mocked(useMediaQuery).mockReturnValue(false);
     });
 
     it('shows drawer button, logo, user avatar, notification button, and an overflow menu button', () => {
@@ -485,7 +531,7 @@ describe('Main app bar component', () => {
       expect(
         screen.getByRole('button', { name: 'Open notification menu' })
       ).toBeInTheDocument();
-      expect(screen.queryByTestId('NotificationsIcon')).toBeInTheDocument();
+      expect(screen.getByTestId('NotificationsIcon')).toBeInTheDocument();
       expect(
         screen.getByRole('button', { name: 'Open user menu' })
       ).toBeInTheDocument();

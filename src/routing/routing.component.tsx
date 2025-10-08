@@ -17,9 +17,9 @@ import MaintenancePage from '../maintenancePage/maintenancePage.component';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import { Preloader } from '../preloader/preloader.component';
 import {
-  baseAdminRoutes,
   MaintenanceState,
   PluginConfig,
+  baseAdminRoutes,
   scigatewayRoutes,
 } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
@@ -97,6 +97,7 @@ interface RoutingProps {
   drawerOpen: boolean;
   maintenance: MaintenanceState;
   userIsLoggedIn: boolean;
+  userIsAutoLoggedIn: boolean;
   userIsAdmin: boolean;
   nullAuthProvider: boolean;
   homepageUrl?: string;
@@ -122,6 +123,14 @@ export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
 export const UnauthorisedPlugin = PluginPlaceHolder;
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
+
+const popSessionStorageItem = (
+  key: string
+): ReturnType<typeof sessionStorage.getItem> => {
+  const result = sessionStorage.getItem(key);
+  sessionStorage.removeItem(key);
+  return result;
+};
 
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   const adminRoutes = getAdminRoutes({ plugins: props.plugins });
@@ -232,28 +241,36 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         />
         <Route exact path={scigatewayRoutes.login}>
           {/* Waits until the site is fully loaded before doing the logic.
-             As the intial state of userIsLoggedIn is false we have to wait
+             As the initial state of userIsLoggedIn is false we have to wait
              until the page has fully loaded so it can receive the correct state
              for userIsLoggedIn */}
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : !props.userIsLoggedIn || props.loading ? (
+          ) : !props.userIsLoggedIn ||
+            (props.userIsAutoLoggedIn &&
+              !(props.location.state as { referrer?: string })?.referrer) ||
+            props.loading ? (
             <LoginPage />
           ) : (
             <Redirect
-              to={
-                prevUserIsLoggedIn === false && props.userIsLoggedIn
-                  ? (props.location.state as { referrer?: string })?.referrer ??
-                    scigatewayRoutes.home
-                  : scigatewayRoutes.logout
-              }
+              to={{
+                pathname:
+                  prevUserIsLoggedIn === false && props.userIsLoggedIn
+                    ? (((props.location.state as { referrer?: string })
+                        ?.referrer ||
+                        popSessionStorageItem('referrer')) ??
+                      scigatewayRoutes.home)
+                    : scigatewayRoutes.logout,
+                state: { referrer: props.location.pathname },
+              }}
             />
           )}
         </Route>
         <Route exact path={scigatewayRoutes.logout}>
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
-          ) : props.userIsLoggedIn || props.loading ? (
+          ) : (props.userIsLoggedIn && !props.userIsAutoLoggedIn) ||
+            props.loading ? (
             <LogoutPage />
           ) : (
             <Redirect to={scigatewayRoutes.login} />
@@ -287,12 +304,11 @@ const mapStateToProps = (state: StateType): RoutingProps => ({
   location: state.router.location,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
-  userIsLoggedIn:
+  userIsLoggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
+  userIsAutoLoggedIn:
     state.scigateway.authorisation.provider.isLoggedIn() &&
-    !(
-      state.scigateway.authorisation.provider.autoLogin &&
-      localStorage.getItem('autoLogin') === 'true'
-    ),
+    typeof state.scigateway.authorisation.provider.autoLogin !== 'undefined' &&
+    localStorage.getItem('autoLogin') === 'true',
   nullAuthProvider:
     state.scigateway.authorisation.provider instanceof NullAuthProvider,
   userIsAdmin: state.scigateway.authorisation.provider.isAdmin(),

@@ -1,9 +1,9 @@
-import React from 'react';
-import Notification from './scigatewayNotification.component';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import { buildTheme } from '../theming';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { buildTheme } from '../theming';
+import Notification from './scigatewayNotification.component';
 
 function createScigatewayNotification(
   severity: string,
@@ -14,7 +14,7 @@ function createScigatewayNotification(
       message={message}
       severity={severity}
       index={0}
-      dismissNotification={jest.fn()}
+      dismissNotification={vi.fn()}
     />
   );
 }
@@ -58,14 +58,14 @@ describe('Scigateway Notification component', () => {
 
   it('Scigateway Notification information message renders correctly', () => {
     const { asFragment } = render(
-      createScigatewayNotification('information', 'information message'),
+      createScigatewayNotification('info', 'information message'),
       { wrapper: Wrapper }
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('an action is fired when Scigateway Notification button is clicked', async () => {
-    const mockDismissFn = jest.fn();
+    const mockDismissFn = vi.fn();
     const user = userEvent.setup();
 
     render(

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Divider,
   ListItemText,
@@ -50,7 +49,7 @@ function MobileOverflowMenu({
 
   function navigateToAdminPage(): void {
     const targetRoute =
-      adminPageDefaultTab && adminRoutes.hasOwnProperty(adminPageDefaultTab)
+      adminPageDefaultTab && Object.hasOwn(adminRoutes, adminPageDefaultTab)
         ? adminRoutes[adminPageDefaultTab]
         : adminRoutes['maintenance'];
 

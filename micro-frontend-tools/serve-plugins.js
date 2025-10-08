@@ -1,6 +1,12 @@
-var fs = require('fs');
-const path = require('path');
-var exec = require('child_process').exec;
+import child_process from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+var exec = child_process.exec;
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 const settingsFilePath = path.join(__dirname, '/dev-plugin-settings.json');
 

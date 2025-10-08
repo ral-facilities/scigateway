@@ -66,6 +66,7 @@
         "content": "Click here to open or close the navigation menu"
       }
     ],
+    "homepageUrl": "/datagateway",
     "ui-strings": "res/default.json",
     "auth-provider": "icat",
     "authUrl": "/api",

@@ -1,55 +1,54 @@
 import mockAxios from 'axios';
+import { createLocation } from 'history';
+import log from 'loglevel';
 import { Action, AnyAction } from 'redux';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import { flushPromises } from '../../testUtils';
+import { initialState } from '../reducers/scigateway.reducer';
 import {
-  toggleDrawer,
-  verifyUsernameAndPassword,
-  loadingAuthentication,
-  authorised,
-  loadFeatureSwitches,
-  configureSite,
-  dismissMenuItem,
-  siteLoadingUpdate,
-  configureAnalytics,
-  initialiseAnalytics,
-  loadStrings,
-  toggleHelp,
-  addHelpTourSteps,
-  invalidToken,
-  loadedAuthentication,
-  loadDarkModePreference,
-  registerHomepageUrl,
-  loadScheduledMaintenanceState,
-  loadMaintenanceState,
-  loadAuthProvider,
-  loadHighContrastModePreference,
-  customLogo,
-  resetAuthState,
-  customNavigationDrawerLogo,
-  customAdminPageDefaultTab,
-  registerContactUsAccessibilityFormUrl,
-  customPrimaryColour,
-} from './scigateway.actions';
-import {
-  ToggleDrawerType,
+  AddHelpTourStepsType,
+  ConfigureAnalyticsType,
   ConfigureFeatureSwitchesType,
   DismissNotificationType,
-  ConfigureAnalyticsType,
   InitialiseAnalyticsType,
-  ToggleHelpType,
-  AddHelpTourStepsType,
   NotificationType,
   ResetAuthStateType,
+  ToggleDrawerType,
+  ToggleHelpType,
 } from '../scigateway.types';
-import { initialState } from '../reducers/scigateway.reducer';
-import TestAuthProvider from '../../authentication/testAuthProvider';
 import { StateType } from '../state.types';
 import loadMicroFrontends from './loadMicroFrontends';
-import log from 'loglevel';
-import { createLocation } from 'history';
-import { flushPromises } from '../../setupTests';
+import {
+  addHelpTourSteps,
+  authorised,
+  configureAnalytics,
+  configureSite,
+  customAdminPageDefaultTab,
+  customLogo,
+  customNavigationDrawerLogo,
+  customPrimaryColour,
+  dismissMenuItem,
+  initialiseAnalytics,
+  invalidToken,
+  loadDarkModePreference,
+  loadedAuthentication,
+  loadFeatureSwitches,
+  loadHighContrastModePreference,
+  loadingAuthentication,
+  loadMaintenanceState,
+  loadScheduledMaintenanceState,
+  loadStrings,
+  registerContactUsAccessibilityFormUrl,
+  registerHomepageUrl,
+  resetAuthState,
+  siteLoadingUpdate,
+  toggleDrawer,
+  toggleHelp,
+  verifyUsernameAndPassword,
+} from './scigateway.actions';
 
 function mockAxiosGetResponse(message: string): void {
-  (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+  vi.mocked(mockAxios.get).mockImplementationOnce(() =>
     Promise.resolve({
       data: {
         title: message,
@@ -60,11 +59,11 @@ function mockAxiosGetResponse(message: string): void {
 
 describe('scigateway actions', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
-    (mockAxios.get as jest.Mock).mockReset();
+    vi.mocked(mockAxios.get).mockReset();
 
-    (mockAxios.post as jest.Mock).mockImplementationOnce(() =>
+    vi.mocked(mockAxios.post).mockImplementationOnce(() =>
       Promise.resolve({
         data: {
           token: 'token123',
@@ -72,14 +71,14 @@ describe('scigateway actions', () => {
       })
     );
 
-    loadMicroFrontends.init = jest
+    loadMicroFrontends.init = vi
       .fn()
       .mockImplementation(() => Promise.resolve());
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
   });
 
   it('toggleDrawer only needs a type', () => {
@@ -87,19 +86,14 @@ describe('scigateway actions', () => {
     expect(action.type).toEqual(ToggleDrawerType);
   });
 
-  it('given valid credentials verifyUsernameAndPassword should change auth provider and return with a valid token and successful authorisation', async () => {
+  it('given valid credentials verifyUsernameAndPassword should return with a valid token and successful authorisation', async () => {
     mockAxiosGetResponse(
       'this will be replaced by an API call to get access token'
     );
 
-    const mnemonic = 'anon';
     const authUrl = 'http://example.com';
 
-    const asyncAction = verifyUsernameAndPassword(
-      'username',
-      'password',
-      mnemonic
-    );
+    const asyncAction = verifyUsernameAndPassword('username', 'password');
     const actions: Action[] = [];
     const dispatch = (action: Action): number => actions.push(action);
     const state = JSON.parse(JSON.stringify(initialState));
@@ -119,14 +113,11 @@ describe('scigateway actions', () => {
     });
 
     const action = asyncAction(dispatch, getState);
-    jest.runAllTimers();
+    vi.runAllTimers();
     await action;
 
     expect(actions[0]).toEqual(loadingAuthentication());
-    expect(actions[1]).toEqual(
-      loadAuthProvider(`icat.${mnemonic}`, `${authUrl}`, true)
-    );
-    expect(actions[2]).toEqual(authorised());
+    expect(actions[1]).toEqual(authorised());
   });
 
   it('given invalid credentials verifyUsernameAndPassword should return an authorisation failure', async () => {
@@ -143,7 +134,7 @@ describe('scigateway actions', () => {
     const getState = (): Partial<StateType> => ({ scigateway: state });
 
     const action = asyncAction(dispatch, getState);
-    jest.runAllTimers();
+    vi.runAllTimers();
     await action;
 
     const expectedResponse = { type: 'scigateway:auth_failure' };
@@ -161,7 +152,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a feature switch loadFeatureSwitches is run', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           features: { singlePluginLogo: true },
@@ -189,7 +180,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a homepageUrl registration is run', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           homepageUrl: '/test',
@@ -214,7 +205,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a custom logo is supplied', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           logo: '/test',
@@ -239,7 +230,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a custom navigation drawer logo is supplied', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           navigationDrawerLogo: {
@@ -274,7 +265,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a custom default tab is supplied (maintenance)', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           adminPageDefaultTab: 'maintenance',
@@ -299,7 +290,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a custom default tab is supplied (download)', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           adminPageDefaultTab: 'download',
@@ -324,7 +315,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a ga-tracking-id configureAnalytics is run', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ga-tracking-id': 'test-tracking-id',
@@ -350,7 +341,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a custom primary colour it is loading from the settings', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           primaryColour: '#ABCDEF',
@@ -376,7 +367,7 @@ describe('scigateway actions', () => {
   });
 
   it('dispatches a site loading update after settings are loaded', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           features: { singlePluginLogo: true },
@@ -399,7 +390,7 @@ describe('scigateway actions', () => {
 
     const state = JSON.parse(JSON.stringify(initialState));
     const testAuthProvider = new TestAuthProvider('token');
-    testAuthProvider.verifyLogIn = jest
+    testAuthProvider.verifyLogIn = vi
       .fn()
       .mockImplementationOnce(() => Promise.resolve());
     state.authorisation.provider = testAuthProvider;
@@ -419,9 +410,9 @@ describe('scigateway actions', () => {
   });
 
   it('dispatches a site loading update after settings are loaded with failed auth, no features, no leading slash on ui-strings and timeout on plugin route', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': 'res/default.json',
@@ -451,9 +442,9 @@ describe('scigateway actions', () => {
     });
 
     const configureSiteAction = asyncAction(dispatch, getState);
-    // jest fake timers and promises don't play well together so need to flush all promises before running the timer
+    // vi fake timers and promises don't play well together so need to flush all promises before running the timer
     await flushPromises();
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     await configureSiteAction;
     expect(actions).toContainEqual(invalidToken());
@@ -474,13 +465,13 @@ describe('scigateway actions', () => {
       },
     };
 
-    document.addEventListener = jest.fn(
-      (id: string, inputHandler: (event: Event) => void) => {
+    document.addEventListener = vi.fn(
+      (_id: string, inputHandler: (event: Event) => void) => {
         inputHandler(new CustomEvent('test', { detail: registerRouteAction }));
       }
     );
 
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': 'res/default.json',
@@ -515,7 +506,7 @@ describe('scigateway actions', () => {
   });
 
   it("dispatches a site loading update but doesn't wait for register route event if it's already been recieved", async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': 'res/default.json',
@@ -552,7 +543,7 @@ describe('scigateway actions', () => {
       },
     });
 
-    const eventListenerSpy = jest.spyOn(document, 'addEventListener');
+    const eventListenerSpy = vi.spyOn(document, 'addEventListener');
 
     await asyncAction(dispatch, getState);
 
@@ -561,7 +552,7 @@ describe('scigateway actions', () => {
   });
 
   it("given an authenticator that supports autologin, autologin is attempted when user isn't logged in", async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': '/res/default.json',
@@ -605,7 +596,7 @@ describe('scigateway actions', () => {
   });
 
   it('given an authenticator that supports autologin, autologin is attempted when user was logged in but verification failed', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': '/res/default.json',
@@ -625,7 +616,7 @@ describe('scigateway actions', () => {
     };
     const state = JSON.parse(JSON.stringify(initialState));
     const testAuthProvider = new TestAuthProvider('token');
-    testAuthProvider.verifyLogIn = jest
+    testAuthProvider.verifyLogIn = vi
       .fn()
       .mockImplementation(() => Promise.reject());
     testAuthProvider.autoLogin = () => Promise.resolve();
@@ -689,7 +680,7 @@ describe('scigateway actions', () => {
   });
 
   it('should load dark mode preference into store', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': 'res/default.json',
@@ -697,8 +688,8 @@ describe('scigateway actions', () => {
       })
     );
 
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
-    window.localStorage.__proto__.getItem = jest
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) => (name === 'darkMode' ? 'true' : 'false'));
 
@@ -720,7 +711,7 @@ describe('scigateway actions', () => {
   });
 
   it('should load high contrast mode preference into store', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           'ui-strings': 'res/default.json',
@@ -728,8 +719,8 @@ describe('scigateway actions', () => {
       })
     );
 
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
-    window.localStorage.__proto__.getItem = jest
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) =>
         name === 'highContrastMode' ? 'true' : 'false'
@@ -753,10 +744,8 @@ describe('scigateway actions', () => {
   });
 
   it('logs an error if settings.json fails to be loaded', async () => {
-    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.reject({})
-    );
-    log.error = jest.fn();
+    vi.mocked(mockAxios.get).mockImplementationOnce(() => Promise.reject({}));
+    log.error = vi.fn();
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -765,19 +754,19 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       expect.stringContaining('Error loading settings.json: ')
     );
   });
 
   it('logs an error if settings.json is invalid JSON object', async () => {
-    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
+    vi.mocked(mockAxios.get).mockImplementationOnce(() =>
       Promise.resolve({
         data: 1,
       })
     );
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     const asyncAction = configureSite();
     const actions: Action[] = [];
@@ -786,17 +775,15 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading settings.json: Invalid format'
     );
   });
 
   it('logs an error if loadStrings fails to resolve', async () => {
-    (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.reject({})
-    );
-    log.error = jest.fn();
+    vi.mocked(mockAxios.get).mockImplementationOnce(() => Promise.reject({}));
+    log.error = vi.fn();
 
     const path = 'non/existent/path';
     const asyncAction = loadStrings(path);
@@ -807,14 +794,14 @@ describe('scigateway actions', () => {
     await asyncAction(dispatch, getState);
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       expect.stringContaining(`Failed to read strings from ${path}: `)
     );
   });
 
   it('should load scheduled maintenance state into store', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
@@ -840,14 +827,14 @@ describe('scigateway actions', () => {
   });
 
   it('should not display a warning when maintenance is not scheduled or enabled', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
     );
 
     const events: CustomEvent<AnyAction>[] = [];
-    const dispatchEventSpy = jest
+    const dispatchEventSpy = vi
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
         events.push(e as CustomEvent<AnyAction>);
@@ -868,14 +855,14 @@ describe('scigateway actions', () => {
   });
 
   it('should display a warning when maintenance is scheduled', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
     );
 
     const events: CustomEvent<AnyAction>[] = [];
-    const dispatchEventSpy = jest
+    const dispatchEventSpy = vi
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
         events.push(e as CustomEvent<AnyAction>);
@@ -911,7 +898,7 @@ describe('scigateway actions', () => {
   });
 
   it('should load maintenance state into store', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
@@ -933,14 +920,14 @@ describe('scigateway actions', () => {
   });
 
   it('should display a warning when in maintenance', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {},
       })
     );
 
     const events: CustomEvent<AnyAction>[] = [];
-    const dispatchEventSpy = jest
+    const dispatchEventSpy = vi
       .spyOn(document, 'dispatchEvent')
       .mockImplementation((e) => {
         events.push(e as CustomEvent<AnyAction>);
@@ -975,7 +962,7 @@ describe('scigateway actions', () => {
   });
 
   it('given a contactUsAccessibilityFormUrl, registration is run', async () => {
-    (mockAxios.get as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.get).mockImplementation(() =>
       Promise.resolve({
         data: {
           contactUsAccessibilityFormUrl: '/test',

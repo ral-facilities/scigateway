@@ -14,7 +14,6 @@ export interface Plugin {
   name: string;
   src: string;
   enable: boolean;
-  unauthorised?: boolean;
   location: 'main' | 'left' | 'right';
 }
 
@@ -71,6 +70,21 @@ export interface ICATAuthenticator {
   admin?: boolean;
 }
 
+export interface Authenticator {
+  displayName: string;
+  key: string;
+  type: 'userpass' | 'redirect' | 'anon' | 'unknown';
+}
+
+export interface OIDCProvider {
+  provider_id: string;
+  display_name: string;
+  configuration_url: string;
+  client_id: string;
+  pkce: boolean;
+  scope: string;
+}
+
 export interface AuthProvider {
   isLoggedIn: () => boolean;
   isAdmin: () => boolean;
@@ -89,8 +103,19 @@ export interface AuthProvider {
   redirectUrl: string | null;
   authUrl: string | undefined;
   user: User | null;
-  mnemonic?: string;
   autoLogin?: () => Promise<void>;
+  authenticators?: {
+    displayName: string;
+    key: string;
+    type: 'userpass' | 'redirect' | 'anon' | 'unknown';
+  }[];
+  setAuthenticator?: (
+    key: string,
+    disableSideEffects?: boolean,
+    referrer?: string
+  ) => Promise<void>;
+  getAuthenticator?: () => string;
+  initialise?: () => Promise<void>;
 }
 
 export interface AuthState {

@@ -59,7 +59,7 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
       location.pathname.startsWith(adminRoutes[key])
     ) ??
       (props.adminPageDefaultTab &&
-      adminRoutes.hasOwnProperty(props.adminPageDefaultTab)
+      Object.hasOwn(adminRoutes, props.adminPageDefaultTab)
         ? props.adminPageDefaultTab
         : 'maintenance')
   );
@@ -84,7 +84,7 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
         textColor="secondary"
         indicatorColor="secondary"
         value={tabValue}
-        onChange={(event, newValue) => {
+        onChange={(_event, newValue) => {
           setTabValue(newValue);
         }}
       >

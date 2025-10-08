@@ -7,20 +7,20 @@ describe('jwt auth provider', () => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VySXNBZG1pbiI6ZmFsc2V9.PEuKaAD98doFTLyqcNFpsuv50AQR8ejrbDQ0pwazM7Q';
 
   beforeEach(() => {
-    jest.spyOn(window.localStorage.__proto__, 'getItem');
-    window.localStorage.__proto__.getItem = jest
+    vi.spyOn(window.localStorage.__proto__, 'getItem');
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) =>
         name === 'scigateway:token' ? testToken : null
       );
-    window.localStorage.__proto__.removeItem = jest.fn();
-    window.localStorage.__proto__.setItem = jest.fn();
+    window.localStorage.__proto__.removeItem = vi.fn();
+    window.localStorage.__proto__.setItem = vi.fn();
 
     jwtAuthProvider = new JWTAuthProvider('http://localhost:8000');
   });
 
   afterEach(() => {
-    (mockAxios.post as jest.Mock).mockClear();
+    vi.mocked(mockAxios.post).mockClear();
   });
 
   it('should load the token when built', () => {
@@ -54,7 +54,7 @@ describe('jwt auth provider', () => {
   });
 
   it('should call the api to authenticate', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.resolve({
         data: testToken,
       })
@@ -73,7 +73,7 @@ describe('jwt auth provider', () => {
   });
 
   it('should log the user out for an invalid login attempt', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
+    vi.mocked(mockAxios.post).mockImplementation(() =>
       Promise.reject({
         response: {
           status: 401,
@@ -85,74 +85,6 @@ describe('jwt auth provider', () => {
     jwtAuthProvider.logOut();
 
     await jwtAuthProvider.logIn('user', 'invalid').catch(() => {
-      // catch error
-    });
-
-    expect(localStorage.removeItem).toBeCalledWith('scigateway:token');
-    expect(jwtAuthProvider.isLoggedIn()).toBeFalsy();
-  });
-
-  it('should call api to verify token', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() => Promise.resolve());
-
-    await jwtAuthProvider.verifyLogIn();
-
-    expect(mockAxios.post).toBeCalledWith('http://localhost:8000/verify', {
-      token: testToken,
-    });
-  });
-
-  it('should call refresh if the access token has expired', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    const refreshSpy = jest
-      .spyOn(jwtAuthProvider, 'refresh')
-      .mockImplementationOnce(() => Promise.resolve());
-
-    await jwtAuthProvider.verifyLogIn().catch(() => {
-      // catch error
-    });
-
-    expect(refreshSpy).toHaveBeenCalled();
-  });
-
-  it('should update the token if the refresh method is successful', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: 'new-token',
-      })
-    );
-
-    await jwtAuthProvider.refresh();
-
-    expect(mockAxios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/refresh',
-      {
-        token: testToken,
-      }
-    );
-    expect(localStorage.setItem).toBeCalledWith(
-      'scigateway:token',
-      'new-token'
-    );
-  });
-
-  it('should log the user out if the refresh token has expired', async () => {
-    (mockAxios.post as jest.Mock).mockImplementation(() =>
-      Promise.reject({
-        response: {
-          status: 401,
-        },
-      })
-    );
-
-    await jwtAuthProvider.refresh().catch(() => {
       // catch error
     });
 

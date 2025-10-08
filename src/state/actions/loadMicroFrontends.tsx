@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // single-spa doesn't come with any types - all single-spa code should be limited to this file.
 import * as singleSpa from 'single-spa';
 import { Plugin } from '../state.types';

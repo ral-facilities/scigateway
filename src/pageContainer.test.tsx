@@ -1,25 +1,23 @@
-import React from 'react';
-
-import { thunk } from 'redux-thunk';
 import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
 import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router-dom';
 
-import PageContainer from './pageContainer.component';
-import { StateType } from './state/state.types';
-import { authState, initialState } from './state/reducers/scigateway.reducer';
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
-import { buildTheme } from './theming';
-import { toastr } from 'react-redux-toastr';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
+import PageContainer from './pageContainer.component';
+import { authState, initialState } from './state/reducers/scigateway.reducer';
+import { StateType } from './state/state.types';
+import { buildTheme } from './theming';
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(() => true),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(() => true),
 }));
 
 describe('PageContainer - Tests', () => {
@@ -27,7 +25,19 @@ describe('PageContainer - Tests', () => {
 
   beforeEach(() => {
     state = {
-      scigateway: { ...initialState, authorisation: { ...authState } },
+      scigateway: {
+        ...initialState,
+        authorisation: { ...authState },
+        plugins: [
+          {
+            displayName: 'test',
+            plugin: 'test',
+            order: 1,
+            link: '/test',
+            section: 'Test',
+          },
+        ],
+      },
       router: { location: createLocation('/') },
     };
   });
@@ -47,7 +57,7 @@ describe('PageContainer - Tests', () => {
   });
 
   it('calls toastr.clean() when escape is clicked', async () => {
-    const cleanSpy = jest.spyOn(toastr, 'clean');
+    const cleanSpy = vi.spyOn(toastr, 'clean');
     render(
       <Provider store={configureStore([thunk])(state)}>
         <ThemeProvider theme={buildTheme(false)}>

@@ -9,7 +9,7 @@ describe('null auth provider', () => {
   });
 
   afterEach(() => {
-    (mockAxios.post as jest.Mock).mockClear();
+    vi.mocked(mockAxios.post).mockClear();
   });
 
   it('should be always logged in, logIn() and logOut() should do nothing', () => {

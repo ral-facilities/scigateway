@@ -1,7 +1,7 @@
-import { AuthProvider, User } from '../state/state.types';
-import UserInfo from './user';
 import parseJwt from '../authentication/parseJwt';
 import { BroadcastSignOutType } from '../state/scigateway.types';
+import { AuthProvider, User } from '../state/state.types';
+import UserInfo from './user';
 
 const tokenLocalStorageName = 'scigateway:token';
 
@@ -37,7 +37,7 @@ export default abstract class BaseAuthProvider implements AuthProvider {
           user.isAdmin = tokenObject.userIsAdmin;
           return user;
         }
-      } catch (TypeError) {
+      } catch (_err) {
         // not a valid JWT, token has likely been tampered with in some way (or we are running tests)
         console.error('Invalid token: failed to authenticate');
       }
@@ -84,7 +84,7 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     }
   }
 
-  /* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   protected handleAuthError(err: any): void {
     if (
       err.response &&
@@ -96,7 +96,7 @@ export default abstract class BaseAuthProvider implements AuthProvider {
     throw err;
   }
 
-  /* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   protected handleRefreshError(err: any): void {
     this.logOut();
     throw err;

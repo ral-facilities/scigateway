@@ -1,28 +1,51 @@
-const express = require('express');
-const axios = require('axios');
-const jwt = require('jsonwebtoken');
-const qs = require('query-string');
-const cookieParser = require('cookie-parser');
-const https = require('https');
-const fs = require('fs');
-const waitOn = require('wait-on');
-const cors = require('cors');
+import axios from 'axios';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import fs from 'fs';
+import https from 'https';
+import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
+import { URLSearchParams } from 'url';
+import waitOn from 'wait-on';
 
 const app = express();
 const port = 8000;
 app.use(cors());
 app.use(express.json());
+app.use(express.text());
 app.use(cookieParser());
 
 // this would normally be an environment variable
 const jwtSecret = 'abc123456789';
+const keycloakSecret = 'secret';
+
+const oidcProviders = {
+  pkce: {
+    configuration_url:
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+    display_name: 'Keycloak (PKCE)',
+    pkce: true,
+    scope: 'openid profile email',
+    client_id: 'test-pkce-client-id',
+  },
+  non_pkce: {
+    configuration_url:
+      'http://localhost:8081/realms/testrealm/.well-known/openid-configuration',
+    display_name: 'Keycloak (Non-PKCE)',
+    pkce: false,
+    scope: 'openid',
+    client_id: 'test-non-pkce-client-id',
+  },
+};
 
 const withAuth = function (req, res, next) {
   const token =
     req.body.token ||
     req.query.token ||
     req.headers['x-access-token'] ||
-    req.headers.cookie;
+    req.headers.cookie ||
+    req.headers.authorization?.split(' ')?.[1];
   if (!token) {
     res.status(401).send('Unauthorized: No token provided');
   } else {
@@ -39,7 +62,10 @@ const withAuth = function (req, res, next) {
 
 function isValidLogin(username, password) {
   // this would normally be a database lookup
-  return username === 'username' && password === 'password';
+  return (
+    (username === 'username' && password === 'password') ||
+    (username === 'admin' && password === 'password')
+  );
 }
 
 app.post(`/login`, function (req, res) {
@@ -58,6 +84,7 @@ app.post(`/login`, function (req, res) {
   } else if (isValidLogin(username, password)) {
     // Issue token
     const payload = { username };
+    if (username === 'admin') payload.userIsAdmin = true;
     const accessToken = jwt.sign(payload, jwtSecret, {
       expiresIn: '1m',
     });
@@ -76,6 +103,109 @@ app.post(`/login`, function (req, res) {
       error: 'Incorrect email or password',
     });
   }
+});
+
+app.post(`/oidc_token/:provider_id`, async function (req, res) {
+  const code = req.body;
+  const { provider_id } = req.params;
+
+  if (!code || !provider_id) {
+    res.status(400).json({
+      error: `Code or provider_id missing from request: code: ${code}, provider_id: ${provider_id}`,
+    });
+    return;
+  }
+
+  const oidc_config = (
+    await axios.get(oidcProviders[provider_id].configuration_url)
+  ).data;
+
+  const token_endpoint = oidc_config['token_endpoint'];
+
+  const params = new URLSearchParams();
+
+  params.append('code', code);
+  params.append('client_id', oidcProviders[provider_id].client_id);
+  params.append('grant_type', 'authorization_code');
+  params.append('redirect_uri', `http://localhost:3000/login`);
+  params.append('client_secret', keycloakSecret);
+
+  try {
+    const { data } = await axios.post(token_endpoint, params);
+    res.status(200).json(data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).send(error.response.data);
+    } else {
+      res.status(500).send(error.message);
+    }
+  }
+});
+
+app.post(`/oidc_login/:provider_id`, async function (req, res) {
+  const { provider_id } = req.params;
+
+  const token = req.headers.authorization?.replace('Bearer ', '');
+
+  const kid = jwt.decode(token, { complete: true })?.header?.kid;
+
+  if (!token || !kid || !provider_id) {
+    res.status(400).json({
+      error: `Something missing from request: token: ${token}, kid: ${kid}, provider_id: ${provider_id}`,
+    });
+    return;
+  }
+
+  const oidc_config = (
+    await axios.get(oidcProviders[provider_id].configuration_url)
+  ).data;
+
+  const jwks_uri = oidc_config['jwks_uri'];
+
+  const client = jwksClient({
+    jwksUri: jwks_uri,
+    requestHeaders: {}, // Optional
+    timeout: 30000, // Defaults to 30s
+  });
+
+  const key = await client.getSigningKey(kid);
+
+  if (!key) {
+    res.status(500).json({
+      error: 'Missing key for specified kid',
+    });
+    return;
+  }
+
+  const decodedToken = jwt.verify(token, key.getPublicKey(), {
+    algorithms: [key.alg],
+  });
+  if (!decodedToken) {
+    res.status(401).json({
+      error: 'Invalid token',
+    });
+    return;
+  }
+
+  // Issue token
+  const payload = { username: decodedToken.email ?? decodedToken.sub };
+  const accessToken = jwt.sign(payload, jwtSecret, {
+    expiresIn: '1m',
+  });
+  const refreshToken = jwt.sign({}, jwtSecret, {
+    expiresIn: '5m',
+  });
+  res.cookie('scigateway:refresh_token', refreshToken, {
+    httpOnly: true,
+    secure: process.env.HTTPS,
+    sameSite: 'lax',
+    maxAge: 604800,
+  });
+  res.status(200).json(accessToken);
+});
+
+app.get('/oidc_providers', function (_req, res) {
+  res.status(200).json(oidcProviders);
 });
 
 app.post(`/verify`, withAuth, function (req, res) {
@@ -120,6 +250,58 @@ app.post(`/refresh`, function (req, res) {
   }
 });
 
+let scheduledMaintenanceState = {
+  show: false,
+  message: '',
+  severity: 'info',
+};
+let maintenanceState = {
+  show: false,
+  message: 'message',
+};
+
+// Fetch Scheduled Maintenance State
+app.get('/scheduled_maintenance', function (req, res) {
+  res.status(200).json(scheduledMaintenanceState);
+});
+
+// Fetch Maintenance State
+app.get('/maintenance', function (req, res) {
+  res.status(200).json(maintenanceState);
+});
+
+app.post(`/scheduled_maintenance`, withAuth, function (req, res) {
+  const token = jwt.verify(
+    req.headers.authorization?.split(' ')?.[1],
+    jwtSecret
+  );
+  if (token && typeof token !== 'string' && token.userIsAdmin) {
+    scheduledMaintenanceState = req.body;
+    res
+      .status(200)
+      .json('Scheduled maintenance mode state successfully updated');
+  } else {
+    res.status(403).json({
+      error: 'Unauthorized',
+    });
+  }
+});
+
+app.post(`/maintenance`, withAuth, function (req, res) {
+  const token = jwt.verify(
+    req.headers.authorization?.split(' ')?.[1],
+    jwtSecret
+  );
+  if (token && typeof token !== 'string' && token.userIsAdmin) {
+    maintenanceState = req.body;
+    res.status(200).json('Maintenance mode state successfully updated');
+  } else {
+    res.status(403).json({
+      error: 'Unauthorized',
+    });
+  }
+});
+
 app.post(`/github/login`, function (req, res) {
   const { code } = req.body;
 
@@ -138,7 +320,7 @@ app.post(`/github/login`, function (req, res) {
       headers
     )
     .then((githubResponse) => {
-      token = qs.parse(githubResponse.data).access_token;
+      token = new URLSearchParams(githubResponse.data).get('access_token');
       return axios.get('https://api.github.com/user', {
         headers: { Authorization: `token ${token}` },
       });
@@ -181,9 +363,9 @@ const e2e = process.argv[2] === 'e2e';
 if (!e2e) {
   try {
     const settings = JSON.parse(fs.readFileSync('./public/settings.json'));
-    if (settings['auth-provider'] !== 'jwt') {
+    if (settings['authUrl'] !== `http://localhost:${port}`) {
       console.log(
-        `Using non-JWT authenticator so not starting example auth server`
+        `authUrl is not set to example auth server URL so not starting example auth server`
       );
       process.exit(0);
     }

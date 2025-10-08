@@ -104,7 +104,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     cy.window().then(
       (window) =>
@@ -125,7 +125,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     cy.window().then(
       (window) =>
@@ -146,7 +146,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/');
+    cy.url().should('eq', 'http://localhost:3000/');
 
     let storedToken: string | null;
 
@@ -177,12 +177,12 @@ describe('Login', () => {
   it('should redirect to logout page if logged in and navigating to login page', () => {
     cy.login('username', 'password');
     cy.visit('/login');
-    cy.url().should('eq', 'http://127.0.0.1:3000/logout');
+    cy.url().should('eq', 'http://localhost:3000/logout');
   });
 
   it('should redirect to Home page if not logged in and navigating to logout page', () => {
     cy.visit('/logout');
-    cy.url().should('eq', 'http://127.0.0.1:3000/login');
+    cy.url().should('eq', 'http://localhost:3000/login');
   });
 
   it('should redirect to login page when navigating to a plugin then back to the plugin after login', () => {
@@ -199,7 +199,7 @@ describe('Login', () => {
       .contains('button', 'Sign in')
       .click();
 
-    cy.url().should('eq', 'http://127.0.0.1:3000/plugin1');
+    cy.url().should('eq', 'http://localhost:3000/plugin1');
     cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
   });
 
@@ -301,14 +301,10 @@ describe('Login', () => {
 
   describe('autoLogin on', () => {
     // Define responses for login attempts
-    let verifyResponse: { statusCode: Number; body: string };
-    let loginResponse: { statusCode: Number; body: string };
-    const verifySuccess = { statusCode: 200, body: '' };
     const loginSuccess = {
       statusCode: 200,
       body: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0IiwidXNlcm5hbWUiOiJhbm9uL2Fub24iLCJleHAiOjkyMzQ5MjgzNDB9.KihH1oKHL3fpRG3EidyUWApAS4W-oHg7rsCM4Nuobuk',
     };
-    const failure = { statusCode: 403, body: '' };
 
     beforeEach(() => {
       cy.intercept('/settings.json', {
@@ -336,17 +332,11 @@ describe('Login', () => {
           keys: [],
         },
       ]);
-      cy.intercept('POST', '/login', (req) => {
-        req.reply(loginResponse);
-      }).as('login');
-      cy.intercept('POST', '/verify', (req) => {
-        req.reply(verifyResponse);
-      }).as('verify');
+      cy.intercept('POST', '/login', loginSuccess).as('login');
+      cy.intercept('POST', '/verify', { statusCode: 200 }).as('verify');
     });
 
     it('should allow access to plugins and yet still show the Sign in button', () => {
-      verifyResponse = verifySuccess;
-      loginResponse = loginSuccess;
       cy.visit('/plugin1');
 
       cy.wait('@login');
@@ -360,10 +350,7 @@ describe('Login', () => {
       cy.contains('Sign in').should('be.visible');
 
       // test that autologin works after token validation + refresh fail
-      cy.window().then(() => {
-        // use cy.window command just so that this line is async and executed at the right time
-        verifyResponse = failure;
-      });
+      cy.intercept('POST', '/verify', { statusCode: 403 });
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.reload();
       cy.wait('@login');
@@ -372,18 +359,14 @@ describe('Login', () => {
     });
 
     it('should not be logged in if autologin requests fail', () => {
-      loginResponse = failure;
-      verifyResponse = verifySuccess;
+      cy.intercept('POST', '/login', { statusCode: 403 });
 
       cy.visit('/plugin1');
       cy.get('#demo_plugin').should('not.exist');
       cy.contains('h1', 'Sign in').should('be.visible');
 
       // test that autologin fails after token validation + refresh fail
-      cy.window().then(() => {
-        // use cy.window command just so that this line is async and executed at the right time
-        verifyResponse = failure;
-      });
+      cy.intercept('POST', '/verify', { statusCode: 403 });
       cy.intercept('POST', '/refresh', { statusCode: 403 });
       cy.window().then(($window) =>
         $window.localStorage.setItem('scigateway:token', 'invalidtoken')
@@ -394,8 +377,6 @@ describe('Login', () => {
     });
 
     it('should be able to directly view a plugin route without signing in', () => {
-      verifyResponse = verifySuccess;
-      loginResponse = loginSuccess;
       cy.visit('/plugin1');
 
       cy.get('#demo_plugin').contains('Demo Plugin').should('be.visible');
@@ -417,8 +398,6 @@ describe('Login', () => {
         autoLogin: true,
         'help-tour-steps': [],
       });
-      verifyResponse = verifySuccess;
-      loginResponse = loginSuccess;
       cy.visit('/plugin1');
 
       cy.contains(
@@ -433,8 +412,6 @@ describe('Login', () => {
     });
 
     it('should be able to switch authenticators and still be "auto logged in"', () => {
-      verifyResponse = verifySuccess;
-      loginResponse = loginSuccess;
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
@@ -446,8 +423,6 @@ describe('Login', () => {
     });
 
     it('should be able to login after auto login and be displayed as logged in', () => {
-      verifyResponse = verifySuccess;
-      loginResponse = loginSuccess;
       cy.visit('/login');
 
       cy.get('#select-mnemonic').click();
@@ -464,13 +439,39 @@ describe('Login', () => {
       cy.get('[aria-label="Open user menu"]').should('be.visible');
     });
 
+    it('should be able to login via SSO after auto login and be displayed as logged in', () => {
+      cy.visit('/login');
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('Keycloak').click();
+
+      cy.url().as('originUrl', { type: 'static' });
+
+      cy.contains('button', 'Login with Keycloak').click();
+
+      cy.url().should('include', 'http://localhost:8081');
+      // login to keycloak
+      cy.origin('http://localhost:8081', () => {
+        cy.get('#username').type('test');
+        cy.get('#password').type('password');
+        cy.get('#kc-login').click();
+      });
+
+      // redirect?
+      // cy.origin()
+      cy.get('@originUrl').then((url) => {
+        cy.url().should('include', url);
+      });
+
+      cy.contains('Sign out').should('exist');
+      cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+
     it('should autoLogin after logout', () => {
       window.localStorage.setItem(
         'scigateway:token',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiJ0ZXN0LXVzZXIiLCJ1c2VybmFtZSI6InRlc3QtdXNlciIsImV4cCI6OTIzNDkyODM0MH0.MXtdkSQbam5QRTgzO_FExlKCu6p531k35Dhjhb5PRrQ'
       );
-      verifyResponse = verifySuccess;
-      loginResponse = loginSuccess;
       cy.visit('/');
       cy.title().should('equal', 'SciGateway');
 
@@ -513,6 +514,78 @@ describe('Login', () => {
       cy.get('#demo_plugin').should('not.exist');
       cy.contains('h1', 'Sign in').should('be.visible');
       cy.contains('Unable to create anonymous session').should('not.exist');
+    });
+  });
+
+  describe('OIDC', () => {
+    beforeEach(() => {
+      cy.intercept('/settings.json', {
+        plugins: [
+          {
+            name: 'demo_plugin',
+            src: '/plugins/e2e-plugin/main.js',
+            enable: true,
+            location: 'main',
+          },
+        ],
+        'ui-strings': 'res/default.json',
+        'auth-provider': 'oidc',
+        authUrl: 'http://localhost:8000',
+        autoLogin: true,
+        'help-tour-steps': [],
+      });
+    });
+
+    it('should be able to login via SSO PKCE and be displayed as logged in', () => {
+      cy.visit('/login');
+
+      cy.url().as('originUrl', { type: 'static' });
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('Keycloak (PKCE)').click();
+
+      cy.contains('button', 'Login with Keycloak (PKCE)').click();
+
+      cy.url().should('include', 'http://localhost:8081');
+      // login to keycloak
+      cy.origin('http://localhost:8081', () => {
+        cy.get('#username').type('test');
+        cy.get('#password').type('password');
+        cy.get('#kc-login').click();
+      });
+
+      cy.get('@originUrl').then((url) => {
+        cy.url().should('include', url);
+      });
+
+      cy.contains('Sign in').should('not.exist');
+      cy.get('[aria-label="Open user menu"]').should('be.visible');
+    });
+
+    it('should be able to login via SSO non-PKCE and be displayed as logged in', () => {
+      // test that redirect from an authorised route will take you back
+      cy.visit('/plugin1');
+
+      cy.url().as('originUrl', { type: 'static' });
+
+      cy.get('#select-mnemonic').click();
+      cy.contains('Keycloak (Non-PKCE)').click();
+
+      cy.contains('button', 'Login with Keycloak (Non-PKCE)').click();
+
+      cy.url().should('include', 'http://localhost:8081');
+      // login to keycloak
+      cy.origin('http://localhost:8081', () => {
+        cy.get('#username').type('test');
+        cy.get('#password').type('password');
+        cy.get('#kc-login').click();
+      });
+
+      cy.get('@originUrl').then((url) => {
+        cy.url().should('include', url);
+      });
+
+      cy.get('#demo_plugin').contains('h2', '/plugin1').should('be.visible');
     });
   });
 });

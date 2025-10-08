@@ -1,30 +1,31 @@
-import React from 'react';
-import configureStore, { MockStoreCreator } from 'redux-mock-store';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
-import { Provider } from 'react-redux';
-import * as singleSpa from 'single-spa';
 import { ThemeProvider, useMediaQuery } from '@mui/material';
-import Routing, { PluginPlaceHolder } from './routing.component';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import NullAuthProvider from '../authentication/nullAuthProvider';
-import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { buildTheme } from '../theming';
 import { act, render } from '@testing-library/react';
+import { MemoryHistory, createLocation, createMemoryHistory } from 'history';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+import configureStore, { MockStoreCreator } from 'redux-mock-store';
+import * as singleSpa from 'single-spa';
+import NullAuthProvider from '../authentication/nullAuthProvider';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import Routing, { PluginPlaceHolder } from './routing.component';
 
-jest.mock('../adminPage/adminPage.component', () => () => 'Mocked AdminPage');
-jest.mock(
-  '../maintenancePage/maintenancePage.component',
-  () => () => 'Mocked MaintenancePage'
-);
-jest.mock('../preloader/preloader.component', () => ({
+vi.mock('../adminPage/adminPage.component', () => ({
+  default: () => 'Mocked AdminPage',
+}));
+vi.mock('../maintenancePage/maintenancePage.component', () => ({
+  default: () => 'Mocked MaintenancePage',
+}));
+vi.mock('../preloader/preloader.component', () => ({
   Preloader: () => 'Mocked Preloader',
 }));
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', async () => ({
   __esmodule: true,
-  ...jest.requireActual('@mui/material'),
-  useMediaQuery: jest.fn(),
+  ...(await vi.importActual('@mui/material')),
+  useMediaQuery: vi.fn(),
 }));
 
 describe('Routing component', () => {
@@ -46,6 +47,8 @@ describe('Routing component', () => {
     );
   }
 
+  let storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+
   beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -54,6 +57,7 @@ describe('Routing component', () => {
         location: { ...createLocation('/'), query: {} },
       },
     };
+    storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
 
     history = createMemoryHistory();
     mockStore = configureStore();
@@ -61,12 +65,12 @@ describe('Routing component', () => {
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    storageGetItemSpy.mockRestore();
   });
 
   it('renders component with no plugin routes', () => {
@@ -172,7 +176,7 @@ describe('Routing component', () => {
 
   it('renders a route for maintenance page when site is under maintenance and user is not admin', () => {
     const testAuthProvider = new TestAuthProvider('logged in');
-    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.maintenance = { show: true, message: 'test' };
@@ -217,23 +221,78 @@ describe('Routing component', () => {
   });
 
   it('redirects to the homepage if navigating to login page while logged in', () => {
-    state.scigateway.authorisation.provider.isLoggedIn = jest
-      .fn()
-      .mockImplementationOnce(() => true);
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
 
-    state.scigateway.authorisation.provider.autoLogin = jest
+    state.scigateway.authorisation.provider.autoLogin = vi
       .fn()
       .mockImplementationOnce(() => Promise.reject());
 
-    window.localStorage.__proto__.getItem = jest
-      .fn()
-      .mockImplementationOnce((name) =>
-        name === 'autoLogin' ? 'false' : null
-      );
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'false' : null
+    );
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
 
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('redirects to referrer on /login route when auto-logged in', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.siteLoading = false;
+
+    history.replace('/login');
+    state.router.location.state = { referrer: '/test' };
+
+    const { rerender } = render(<Routing />, { wrapper: Wrapper });
+
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'true' : null
+    );
+
+    rerender(<Routing />);
+
+    expect(history.location.pathname).toEqual('/test');
+  });
+
+  it('renders /login page when navigating to login page when auto-logged in', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'true' : null
+    );
+
+    history.replace('/login');
+    render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/login');
+  });
+
+  it('renders /login page when navigating to logout page when auto-logged in', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? 'true' : null
+    );
+
+    history.replace('/logout');
+    render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/login');
   });
 
   it('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {
@@ -265,6 +324,27 @@ describe('Routing component', () => {
     rerender(<Routing />);
 
     expect(history.location.pathname).toEqual('/test');
+  });
+
+  it('redirects to referrer on /login route after login when referrer is provided via session storage', () => {
+    state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    state.scigateway.siteLoading = false;
+
+    history.replace('/login');
+
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'referrer' ? '/test' : null
+    );
+
+    const removeItemSpy = vi.spyOn(Storage.prototype, 'removeItem');
+
+    const { rerender } = render(<Routing />, { wrapper: Wrapper });
+
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    rerender(<Routing />);
+
+    expect(history.location.pathname).toEqual('/test');
+    expect(removeItemSpy).toHaveBeenCalledWith('referrer');
   });
 
   it('redirects to / on /login route after login when referrer is not provided', () => {
@@ -326,7 +406,7 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    (singleSpa.unloadApplication as jest.Mock).mockClear();
+    vi.mocked(singleSpa.unloadApplication).mockClear();
 
     window.dispatchEvent(
       new CustomEvent('single-spa:before-no-app-change', {
@@ -376,7 +456,7 @@ describe('Routing component', () => {
       'test_plugin_name'
     );
 
-    (singleSpa.unloadApplication as jest.Mock).mockClear();
+    vi.mocked(singleSpa.unloadApplication).mockClear();
 
     window.dispatchEvent(
       new CustomEvent('single-spa:before-no-app-change', {
@@ -392,7 +472,7 @@ describe('Routing component', () => {
   });
 
   it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
     state.scigateway.plugins = [
@@ -406,23 +486,25 @@ describe('Routing component', () => {
     ];
     state.router.location = createLocation('/test_link');
 
-    jest.spyOn(document, 'getElementById').mockImplementation(() => {
+    vi.spyOn(document, 'getElementById').mockImplementation(() => {
       return document.createElement('div');
     });
 
-    const clearIntervalSpy = jest.spyOn(window, 'clearInterval');
+    const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
 
     render(<Routing />, { wrapper: Wrapper });
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
       'test_plugin_name'
     );
 
-    expect(clearIntervalSpy).toHaveBeenCalledWith(expect.any(Number));
+    // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
+    expect(clearIntervalSpy).toHaveBeenCalled();
 
     // restore clearInterval to avoid errors with it not being a function on unmount
     clearIntervalSpy.mockRestore();
+    vi.useRealTimers();
   });
 });

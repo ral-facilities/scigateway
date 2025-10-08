@@ -13,8 +13,8 @@ import TestAuthProvider from '../authentication/testAuthProvider';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('popper.js', () => {
-  const PopperJS = jest.requireActual('popper.js');
+vi.mock('popper.js', async () => {
+  const PopperJS = await vi.importActual('popper.js');
 
   return class {
     public static placements = PopperJS.placements;
@@ -84,7 +84,7 @@ describe('Tour component', () => {
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('can navigate between tutorial steps', async () => {
@@ -145,9 +145,9 @@ describe('Tour component', () => {
         content: 'Plugin link test',
       },
     ];
-    jest.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({
-      advanceTimers: jest.advanceTimersByTime,
+      advanceTimers: vi.advanceTimersByTime,
     });
 
     render(
@@ -162,7 +162,7 @@ describe('Tour component', () => {
     await user.click(screen.getByLabelText('Next'));
 
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
 
     expect(testStore.getActions().length).toEqual(1);

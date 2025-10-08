@@ -1,43 +1,13 @@
-import Axios from 'axios';
-import BaseAuthProvider from './baseAuthProvider';
+import BaseAPIAuthProvider from './baseAPIAuthProvider';
 
-export default class JWTAuthProvider extends BaseAuthProvider {
+export default class JWTAuthProvider extends BaseAPIAuthProvider {
+  public constructor(authUrl: string | undefined) {
+    super(authUrl);
+  }
+
   public logIn(username: string, password: string): Promise<void> {
-    if (this.isLoggedIn()) {
-      return Promise.resolve();
-    }
+    if (this.isLoggedIn()) return Promise.resolve();
 
-    return Axios.post(`${this.authUrl}/login`, {
-      username,
-      password,
-    })
-      .then((res) => {
-        this.storeToken(res.data);
-        this.storeUser(username);
-        return;
-      })
-      .catch((err) => {
-        this.handleAuthError(err);
-      });
-  }
-
-  public verifyLogIn(): Promise<void> {
-    return Axios.post(`${this.authUrl}/verify`, {
-      token: this.token,
-    })
-      .then(() => {
-        // do nothing
-      })
-      .catch(() => this.refresh());
-  }
-
-  public refresh(): Promise<void> {
-    return Axios.post(`${this.authUrl}/refresh`, {
-      token: this.token,
-    })
-      .then((res) => {
-        this.storeToken(res.data);
-      })
-      .catch((err) => this.handleRefreshError(err));
+    return this.userPassLogIn({ username, password });
   }
 }

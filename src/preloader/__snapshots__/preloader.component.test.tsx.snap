@@ -1,12 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Preloader component does not render when loading is false 1`] = `
+exports[`Preloader component > does not render when loading is false 1`] = `
 <DocumentFragment>
   <div />
 </DocumentFragment>
 `;
 
-exports[`Preloader component renders fullscreen correctly 1`] = `
+exports[`Preloader component > renders fullscreen correctly 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -45,7 +45,7 @@ exports[`Preloader component renders fullscreen correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Preloader component renders not fullscreen correctly 1`] = `
+exports[`Preloader component > renders not fullscreen correctly 1`] = `
 <DocumentFragment>
   <div>
     <div

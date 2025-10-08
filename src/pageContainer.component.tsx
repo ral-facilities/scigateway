@@ -1,14 +1,14 @@
-import React from 'react';
+import { useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import Preloader from './preloader/preloader.component';
-import MainAppBar from './mainAppBar/mainAppBar.component';
-import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
-import Routing from './routing/routing.component';
-import Tour from './tour/tour.component';
+import React from 'react';
+import { toastr } from 'react-redux-toastr';
 import CookieConsent from './cookieConsent/cookieConsent.component';
 import Footer from './footer/footer.component';
-import { useMediaQuery } from '@mui/material';
-import { toastr } from 'react-redux-toastr';
+import MainAppBar from './mainAppBar/mainAppBar.component';
+import NavigationDrawer from './navigationDrawer/navigationDrawer.component';
+import Preloader from './preloader/preloader.component';
+import Routing from './routing/routing.component';
+import Tour from './tour/tour.component';
 
 const RootDiv = styled('div')(({ theme }) => ({
   position: 'relative',

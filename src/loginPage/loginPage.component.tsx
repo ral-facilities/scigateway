@@ -1,21 +1,4 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Action, AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import { Theme } from '@mui/material/styles';
-import {
-  resetAuthState,
-  verifyUsernameAndPassword,
-} from '../state/actions/scigateway.actions';
-import { AppStrings, NotificationType } from '../state/scigateway.types';
-import { AuthState, ICATAuthenticator, StateType } from '../state/state.types';
 import {
   Box,
   FormControl,
@@ -25,10 +8,25 @@ import {
   Select,
   styled,
 } from '@mui/material';
-import axios from 'axios';
-import log from 'loglevel';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { Action, AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import {
+  resetAuthState,
+  verifyUsernameAndPassword,
+} from '../state/actions/scigateway.actions';
+import { AppStrings } from '../state/scigateway.types';
+import { Authenticator, AuthState, StateType } from '../state/state.types';
 
 const RootDiv = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -37,6 +35,7 @@ const RootDiv = styled('div')(({ theme }) => ({
   width: 'auto',
   marginLeft: theme.spacing(3),
   marginRight: theme.spacing(3),
+  marginBottom: theme.spacing(3),
 }));
 
 const ErrorTypography = styled(Typography)(({ theme }) => ({
@@ -94,8 +93,7 @@ interface LoginPageProps {
 interface LoginPageDispatchProps {
   verifyUsernameAndPassword: (
     username: string,
-    password: string,
-    mnemonic?: string
+    password: string
   ) => Promise<void>;
   resetAuthState: () => Action;
 }
@@ -103,7 +101,7 @@ interface LoginPageDispatchProps {
 export type CombinedLoginProps = LoginPageProps & LoginPageDispatchProps;
 
 export const RedirectLoginScreen = (
-  props: CombinedLoginProps
+  props: CombinedLoginProps & { displayName: string }
 ): React.ReactElement => {
   const [t] = useTranslation();
 
@@ -124,7 +122,7 @@ export const RedirectLoginScreen = (
         }}
       >
         <Typography color="inherit" noWrap sx={{ marginTop: '3px' }}>
-          Login with Github
+          {`Login with ${props.displayName}`}
         </Typography>
       </Button>
     </RootDiv>
@@ -132,9 +130,7 @@ export const RedirectLoginScreen = (
 };
 
 export const CredentialsLoginScreen = (
-  props: CombinedLoginProps & {
-    mnemonic?: string;
-  }
+  props: CombinedLoginProps
 ): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -143,11 +139,11 @@ export const CredentialsLoginScreen = (
 
   const [t] = useTranslation();
 
-  const { verifyUsernameAndPassword, mnemonic } = props;
+  const { verifyUsernameAndPassword } = props;
 
   const login = React.useCallback(async () => {
-    return await verifyUsernameAndPassword(username, password, mnemonic);
-  }, [password, verifyUsernameAndPassword, mnemonic, username]);
+    return await verifyUsernameAndPassword(username, password);
+  }, [password, verifyUsernameAndPassword, username]);
 
   return (
     <RootDiv
@@ -219,6 +215,7 @@ export const CredentialsLoginScreen = (
       <Typography
         sx={{
           ...textStyles,
+          paddingBottom: undefined,
           color: (theme: Theme) => theme.colours.contrastGrey,
         }}
       >
@@ -237,17 +234,15 @@ export const CredentialsLoginScreen = (
 };
 
 export const AnonLoginScreen = (
-  props: CombinedLoginProps & {
-    mnemonic?: string;
-  }
+  props: CombinedLoginProps
 ): React.ReactElement => {
   const [t] = useTranslation();
 
-  const { verifyUsernameAndPassword, mnemonic } = props;
+  const { verifyUsernameAndPassword } = props;
 
   const login = React.useCallback(async () => {
-    return await verifyUsernameAndPassword('', '', mnemonic);
-  }, [verifyUsernameAndPassword, mnemonic]);
+    return await verifyUsernameAndPassword('', '');
+  }, [verifyUsernameAndPassword]);
 
   return (
     <RootDiv
@@ -280,9 +275,9 @@ export const AnonLoginScreen = (
 
 export const LoginSelector = (
   props: CombinedLoginProps & {
-    mnemonics: ICATAuthenticator[];
-    mnemonic?: string;
-    setMnemonic: (mnemonic: string) => void;
+    authenticators: Authenticator[];
+    authenticator?: string;
+    changeAuthenticator: (mnemonic: string) => void;
   }
 ): React.ReactElement => {
   return (
@@ -305,15 +300,15 @@ export const LoginSelector = (
         sx={textFieldStyles}
         id="select-mnemonic"
         labelId="mnemonic-select"
-        value={props.mnemonic}
+        value={props.authenticator ?? ''}
         onChange={(e) => {
-          props.setMnemonic(e.target.value as string);
+          props.changeAuthenticator(e.target.value as string);
         }}
         color="secondary"
       >
-        {props.mnemonics.map((authenticator) => (
-          <MenuItem key={authenticator.mnemonic} value={authenticator.mnemonic}>
-            {authenticator.friendly || authenticator.mnemonic}
+        {props.authenticators.map((authenticator) => (
+          <MenuItem key={authenticator.key} value={authenticator.key}>
+            {authenticator.displayName}
           </MenuItem>
         ))}
       </Select>
@@ -321,80 +316,79 @@ export const LoginSelector = (
   );
 };
 
-function fetchMnemonics(authUrl?: string): Promise<ICATAuthenticator[]> {
-  return axios
-    .get(`${authUrl}/authenticators`)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      log.error(
-        'It is not possible to authenticate you at the moment. Please, try again later'
-      );
-      document.dispatchEvent(
-        new CustomEvent('scigateway', {
-          detail: {
-            type: NotificationType,
-            payload: {
-              message:
-                'It is not possible to authenticate you at the moment. Please, try again later',
-              severity: 'error',
-            },
-          },
-        })
-      );
-      return [];
-    });
-}
-
 export const LoginPageComponent = (
   props: CombinedLoginProps
 ): React.ReactElement => {
-  const authUrl = props.auth.provider.authUrl;
-  const [mnemonics, setMnemonics] = useState<ICATAuthenticator[]>([]);
-  const [fetchedMnemonics, setFetchedMnemonics] = useState<boolean>(false);
   const [t] = useTranslation();
-  const [mnemonic, setMnemonic] = useState<string | undefined>(
-    props.auth.provider.mnemonic
+  const [authenticator, setAuthenticator] = useState<string | undefined>(
+    props.auth.provider.getAuthenticator?.() ||
+      (props.auth.provider.authenticators?.length === 1
+        ? props.auth.provider.authenticators[0].key
+        : undefined)
   );
+  const [initialisedAuth, setInitialisedAuth] = useState<boolean>(false);
   const location = useLocation<{ referrer?: string } | undefined>();
 
   const { verifyUsernameAndPassword } = props;
 
   const login = React.useCallback(async () => {
-    return await verifyUsernameAndPassword('', location.search, mnemonic);
-  }, [location.search, verifyUsernameAndPassword, mnemonic]);
+    return await verifyUsernameAndPassword('', location.search);
+  }, [verifyUsernameAndPassword, location.search]);
+
+  const changeAuthenticator = React.useCallback(
+    (newAuthenticator: string, disableSideEffects?: boolean) => {
+      setAuthenticator(newAuthenticator);
+      props.auth.provider.setAuthenticator?.(
+        newAuthenticator,
+        disableSideEffects,
+        location.state?.referrer
+      );
+    },
+    [location.state?.referrer, props.auth.provider]
+  );
 
   React.useEffect(() => {
-    if (typeof mnemonic !== 'undefined' && !fetchedMnemonics) {
-      fetchMnemonics(authUrl).then((mnemonics) => {
-        const nonAdminAuthenticators = mnemonics.filter(
-          (authenticator) =>
-            !authenticator.admin && authenticator.mnemonic !== 'anon'
-        );
-        setMnemonics(nonAdminAuthenticators);
-        setFetchedMnemonics(true);
-        if (nonAdminAuthenticators.length === 1)
-          setMnemonic(nonAdminAuthenticators[0].mnemonic);
-      });
-    }
-  }, [mnemonic, fetchedMnemonics, authUrl]);
+    const setupAuthenticator = async () => {
+      if (props.auth.provider.initialise) {
+        await props.auth.provider.initialise();
+        setInitialisedAuth(true);
+      } else {
+        setInitialisedAuth(true);
+      }
+    };
+    setupAuthenticator();
+  }, [props.auth.provider]);
 
+  const initialLoadEffectRan = React.useRef(false);
   React.useEffect(() => {
-    if (typeof props.auth.provider.mnemonic !== 'undefined') {
-      setMnemonic(props.auth.provider.mnemonic);
-    }
-  }, [props.auth.provider.mnemonic]);
+    if (!initialLoadEffectRan.current) {
+      const oidcProviderId = sessionStorage.getItem('oidcProviderId');
+      if (
+        (props.auth.provider.redirectUrl || oidcProviderId) &&
+        !props.auth.loading &&
+        !props.auth.failedToLogin &&
+        initialisedAuth
+      ) {
+        if (location.search) {
+          // disable sideEffects for setting authenticator just before OIDC login
+          // as otherwise this will override needed variables such as the code verifier
+          changeAuthenticator(`${oidcProviderId}`, true);
+          login();
+        } else {
+          // if we're not doing a login redirect, safe to perform actions with side effects
+          // otherwise doing this elsewhere overwrites the OIDC variables and breaks the login flow
 
-  React.useEffect(() => {
-    if (
-      props.auth.provider.redirectUrl &&
-      location.search &&
-      !props.auth.loading &&
-      !props.auth.failedToLogin
-    ) {
-      if (location.search) {
-        login();
+          // ensure we re-init any authenticators e.g. after a user logs out and logs back in
+          if (authenticator) {
+            changeAuthenticator(authenticator);
+          } else {
+            if (props.auth.provider.authenticators?.length === 1) {
+              // if only one authenticator, then initialise with that authenticator
+              changeAuthenticator(props.auth.provider.authenticators[0].key);
+            }
+          }
+        }
+        initialLoadEffectRan.current = true;
       }
     }
   });
@@ -408,40 +402,36 @@ export const LoginPageComponent = (
 
   let LoginScreen: React.ReactElement | null = null;
 
-  if (typeof mnemonic === 'undefined') {
-    LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
+  let auth;
+  const authenticators = props.auth.provider.authenticators;
+  if (initialisedAuth && typeof authenticators === 'undefined') {
+    LoginScreen = <CredentialsLoginScreen {...props} />;
 
     if (props.auth.provider.redirectUrl) {
-      LoginScreen = <RedirectLoginScreen {...props} />;
+      LoginScreen = <RedirectLoginScreen {...props} displayName="unknown" />;
     }
   } else {
     if (
-      mnemonics.find(
-        (authenticator) =>
-          authenticator.mnemonic === mnemonic && authenticator.keys.length === 0
-      )
+      authenticators?.find((a) => a.key === authenticator && a.type == 'anon')
     ) {
       // anon
-      LoginScreen = <AnonLoginScreen {...props} mnemonic={mnemonic} />;
+      LoginScreen = <AnonLoginScreen {...props} />;
     } else if (
-      mnemonics.find(
-        (authenticator) =>
-          authenticator.mnemonic === mnemonic &&
-          authenticator.keys.find((x) => x.name === 'username') &&
-          authenticator.keys.find((x) => x.name === 'password')
+      authenticators?.find(
+        (a) => a.key === authenticator && a.type == 'userpass'
       )
     ) {
       // user/pass
-      LoginScreen = <CredentialsLoginScreen {...props} mnemonic={mnemonic} />;
+      LoginScreen = <CredentialsLoginScreen {...props} />;
     } else if (
-      mnemonics.find(
-        (authenticator) =>
-          authenticator.mnemonic === mnemonic &&
-          authenticator.keys.find((x) => x.name === 'token')
-      )
+      (auth = authenticators?.find(
+        (a) => a.key === authenticator && a.type == 'redirect'
+      ))
     ) {
       // redirect
-      LoginScreen = <RedirectLoginScreen {...props} />;
+      LoginScreen = (
+        <RedirectLoginScreen {...props} displayName={auth.displayName} />
+      );
     } else {
       // unrecognised authenticator type
     }
@@ -480,17 +470,16 @@ export const LoginPageComponent = (
           {t('login.title')}
         </Typography>
 
-        {mnemonics.length > 1 && (
+        {authenticators && authenticators.length > 1 && (
           <LoginSelector
             {...props}
-            mnemonics={mnemonics}
-            mnemonic={mnemonic}
-            setMnemonic={setMnemonic}
+            authenticators={authenticators}
+            authenticator={authenticator}
+            changeAuthenticator={changeAuthenticator}
           />
         )}
         {LoginScreen}
-        {props.auth.loading ||
-        (typeof mnemonic !== 'undefined' && !fetchedMnemonics) ? (
+        {props.auth.loading || !initialisedAuth ? (
           <StyledCircularProgress />
         ) : null}
       </Paper>
@@ -505,11 +494,8 @@ const mapStateToProps = (state: StateType): LoginPageProps => ({
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<StateType, null, AnyAction>
 ): LoginPageDispatchProps => ({
-  verifyUsernameAndPassword: (
-    username: string,
-    password: string,
-    mnemonic: string | undefined
-  ) => dispatch(verifyUsernameAndPassword(username.trim(), password, mnemonic)),
+  verifyUsernameAndPassword: (username: string, password: string) =>
+    dispatch(verifyUsernameAndPassword(username.trim(), password)),
   resetAuthState: () => dispatch(resetAuthState()),
 });
 

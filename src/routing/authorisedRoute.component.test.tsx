@@ -1,41 +1,41 @@
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import {
+  RenderResult,
+  act,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
+import { connectRouter } from 'connected-react-router';
+import { MemoryHistory, createLocation, createMemoryHistory } from 'history';
 import React from 'react';
-import withAuth from './authorisedRoute.component';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import {
+  AnyAction,
+  applyMiddleware,
+  combineReducers,
+  createStore,
+} from 'redux';
 import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { StateType } from '../state/state.types';
-import scigatewayReducer, {
-  authState,
-  initialState,
-} from '../state/reducers/scigateway.reducer';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
-import TestAuthProvider from '../authentication/testAuthProvider';
+import { thunk } from 'redux-thunk';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
+import TestAuthProvider from '../authentication/testAuthProvider';
 import {
   invalidToken,
   requestPluginRerender,
   siteLoadingUpdate,
   verifyUsernameAndPassword,
 } from '../state/actions/scigateway.actions';
-import { flushPromises } from '../setupTests';
-import { Provider } from 'react-redux';
-import {
-  act,
-  render,
-  waitFor,
-  screen,
-  RenderResult,
-} from '@testing-library/react';
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-  AnyAction,
-} from 'redux';
-import { Router } from 'react-router-dom';
+import scigatewayReducer, {
+  authState,
+  initialState,
+} from '../state/reducers/scigateway.reducer';
 import { SignOutType } from '../state/scigateway.types';
-import { thunk } from 'redux-thunk';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { StateType } from '../state/state.types';
+import { flushPromises } from '../testUtils';
 import { buildTheme } from '../theming';
-import { connectRouter } from 'connected-react-router';
+import withAuth from './authorisedRoute.component';
 
 describe('AuthorisedRoute component', () => {
   let state: StateType;
@@ -70,7 +70,7 @@ describe('AuthorisedRoute component', () => {
     const testStore = mockStore(state);
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
-    const result = render(
+    const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router history={history}>
@@ -85,7 +85,7 @@ describe('AuthorisedRoute component', () => {
     return {
       history,
       testStore: testStore,
-      ...result,
+      ...view,
     };
   };
 
@@ -135,7 +135,7 @@ describe('AuthorisedRoute component', () => {
     };
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
-    const result = render(
+    const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router history={history}>
@@ -149,7 +149,7 @@ describe('AuthorisedRoute component', () => {
 
     return {
       history,
-      ...result,
+      ...view,
       ...utils,
     };
   };
@@ -168,7 +168,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders non admin component when non admin user accesses it', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -192,7 +192,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders PageNotFound component when non admin user accesses admin component', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = jest.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -200,26 +200,6 @@ describe('AuthorisedRoute component', () => {
     renderComponent({ admin: true, componentToProtect: ComponentToProtect });
 
     expect(screen.getByText('404')).toBeInTheDocument();
-  });
-
-  it('renders homepage component when homepageUrl is configured', () => {
-    state.scigateway.siteLoading = false;
-    state.scigateway.authorisation.provider = new TestAuthProvider(null);
-    state.scigateway.homepageUrl = '/homepage';
-
-    const HomepageComponent = (): React.ReactElement => (
-      <div>homepage component</div>
-    );
-
-    const history = createMemoryHistory({ initialEntries: ['/homepage'] });
-
-    renderComponent({
-      admin: false,
-      componentToProtect: HomepageComponent,
-      history: history,
-    });
-
-    expect(screen.getByText('homepage component')).toBeInTheDocument();
   });
 
   it('renders redirect when user not logged in and stores referrer in router state', () => {
@@ -269,7 +249,7 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
     );
-    state.scigateway.authorisation.provider.verifyLogIn = jest
+    state.scigateway.authorisation.provider.verifyLogIn = vi
       .fn()
       .mockResolvedValue(undefined);
 

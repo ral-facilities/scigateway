@@ -1,46 +1,47 @@
 import log from 'loglevel';
-import {
-  toggleDrawer,
-  authorised,
-  unauthorised,
-  loadingAuthentication,
-  dismissMenuItem,
-  configureAnalytics,
-  initialiseAnalytics,
-  siteLoadingUpdate,
-  loadAuthProvider,
-  configureStrings,
-  loadFeatureSwitches,
-  toggleHelp,
-  addHelpTourSteps,
-  invalidToken,
-  loadedAuthentication,
-  loadDarkModePreference,
-  registerHomepageUrl,
-  loadScheduledMaintenanceState,
-  loadMaintenanceState,
-  loadHighContrastModePreference,
-  customLogo,
-  customNavigationDrawerLogo,
-  customAdminPageDefaultTab,
-  autoLoginAuthorised,
-  resetAuthState,
-  registerContactUsAccessibilityFormUrl,
-  customPrimaryColour,
-} from '../actions/scigateway.actions';
-import ScigatewayReducer, {
-  initialState,
-  handleAuthProviderUpdate,
-  authState,
-} from './scigateway.reducer';
-import { SignOutType } from '../scigateway.types';
-import { ScigatewayState } from '../state.types';
-import TestAuthProvider from '../../authentication/testAuthProvider';
-import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import GithubAuthProvider from '../../authentication/githubAuthProvider';
 import ICATAuthProvider from '../../authentication/icatAuthProvider';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import NullAuthProvider from '../../authentication/nullAuthProvider';
-import LDAPJWTAuthProvider from '../../authentication/ldapJWTAuthProvider';
+import OIDCAuthProvider from '../../authentication/oidcAuthProvider';
+import PasswordAndOIDCAuthProvider from '../../authentication/passwordAndOIDCAuthProvider';
+import TestAuthProvider from '../../authentication/testAuthProvider';
+import {
+  addHelpTourSteps,
+  authorised,
+  autoLoginAuthorised,
+  configureAnalytics,
+  configureStrings,
+  customAdminPageDefaultTab,
+  customLogo,
+  customNavigationDrawerLogo,
+  customPrimaryColour,
+  dismissMenuItem,
+  initialiseAnalytics,
+  invalidToken,
+  loadAuthProvider,
+  loadDarkModePreference,
+  loadedAuthentication,
+  loadFeatureSwitches,
+  loadHighContrastModePreference,
+  loadingAuthentication,
+  loadMaintenanceState,
+  loadScheduledMaintenanceState,
+  registerContactUsAccessibilityFormUrl,
+  registerHomepageUrl,
+  resetAuthState,
+  siteLoadingUpdate,
+  toggleDrawer,
+  toggleHelp,
+  unauthorised,
+} from '../actions/scigateway.actions';
+import { SignOutType } from '../scigateway.types';
+import { ScigatewayState } from '../state.types';
+import ScigatewayReducer, {
+  authState,
+  handleAuthProviderUpdate,
+  initialState,
+} from './scigateway.reducer';
 
 describe('scigateway reducer', () => {
   let state: ScigatewayState;
@@ -130,7 +131,7 @@ describe('scigateway reducer', () => {
   });
 
   it('should not add steps when a duplicate target property is found', () => {
-    log.error = jest.fn();
+    log.error = vi.fn();
     state.helpSteps = [];
 
     const steps = [
@@ -151,7 +152,7 @@ describe('scigateway reducer', () => {
 
     expect(updatedState.helpSteps.length).toEqual(1);
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     const call = mockLog.calls[0][0];
     expect(call).toEqual('Duplicate help step target identified: .test-1.');
   });
@@ -269,7 +270,7 @@ describe('scigateway reducer', () => {
 
     // mock localstorage so that ICAT authenticator thinks it's already logged in
     // therefore won't trigger autologin, and do some HTTP request shenanigans
-    window.localStorage.__proto__.getItem = jest
+    window.localStorage.__proto__.getItem = vi
       .fn()
       .mockImplementation((name) =>
         name === 'scigateway:token' ? testToken : null
@@ -287,10 +288,19 @@ describe('scigateway reducer', () => {
       ICATAuthProvider
     );
 
-    updatedState = ScigatewayReducer(state, loadAuthProvider('ldap-jwt'));
+    updatedState = ScigatewayReducer(state, loadAuthProvider('oidc'));
 
     expect(updatedState.authorisation.provider).toBeInstanceOf(
-      LDAPJWTAuthProvider
+      OIDCAuthProvider
+    );
+
+    updatedState = ScigatewayReducer(
+      state,
+      loadAuthProvider('userpass_and_oidc')
+    );
+
+    expect(updatedState.authorisation.provider).toBeInstanceOf(
+      PasswordAndOIDCAuthProvider
     );
 
     updatedState = ScigatewayReducer(state, loadAuthProvider(null));
@@ -554,7 +564,7 @@ describe('scigateway reducer', () => {
     });
 
     it('should log error and not register plugin with duplicate route in State', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
       const duplicatePayload = {
         ...basePayload,
         displayName: 'Duplicate Route',
@@ -579,7 +589,7 @@ describe('scigateway reducer', () => {
       });
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       const call = mockLog.calls[0][0];
       expect(call).toContain(duplicatePayload.plugin);
       expect(call).toContain(duplicatePayload.link);
@@ -607,13 +617,13 @@ describe('scigateway reducer', () => {
 
   it('should log an error if an initialiseAnalytics message is sent with no analytics config', () => {
     delete state.analytics;
-    log.error = jest.fn();
+    log.error = vi.fn();
 
     const updatedState = ScigatewayReducer(state, initialiseAnalytics());
     expect(updatedState.analytics).toBeUndefined();
 
     expect(log.error).toHaveBeenCalled();
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     const call = mockLog.calls[0][0];
     expect(call)
       .toEqual(`Attempted to initialise analytics without analytics configuration -

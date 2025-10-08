@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
           cache: 'yarn'
@@ -42,11 +42,11 @@ jobs:
 
       - name: Create tarball
         run: |
-          mv build scigateway-$TAG_NAME
+          mv dist scigateway-$TAG_NAME
           tar -czf scigateway-$TAG_NAME.tar.gz scigateway-$TAG_NAME
 
       - name: Update snapshot tag
-        uses: richardsimko/update-tag@e173a8ef8f54ab526a91dad6139a25efed62424c # v1
+        uses: richardsimko/update-tag@aab2434e9a5040687874aa39d1c6377ec0cb0d94 # v1
         with:
           tag_name: ${{ env.TAG_NAME }}
         env:
@@ -54,7 +54,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
 
       - name: Create/update release
-        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ./scigateway-${{ env.TAG_NAME }}.tar.gz

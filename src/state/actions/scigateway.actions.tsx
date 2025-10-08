@@ -455,7 +455,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
 
 const displayMaintenanceBanner = (
   message: string,
-  severity: 'success' | 'warning' | 'error' | 'information',
+  severity: 'success' | 'warning' | 'error' | 'info',
   instant = false
 ): void => {
   document.dispatchEvent(
@@ -492,28 +492,17 @@ export const resetAuthState = (): Action => ({
 
 export const verifyUsernameAndPassword = (
   username: string,
-  password: string,
-  newMnemonic?: string
+  password: string
 ): ThunkResult<Promise<void>> => {
   return async (dispatch, getState) => {
-    // will be replaced with call to login API for authentification
     dispatch(loadingAuthentication());
     const authProvider = getState().scigateway.authorisation.provider;
-    authProvider.mnemonic = newMnemonic;
     await authProvider
       .logIn(username, password)
       .then(() => {
-        if (newMnemonic)
-          dispatch(
-            loadAuthProvider(
-              `icat.${newMnemonic}`,
-              `${authProvider.authUrl}`,
-              authProvider.autoLogin ? true : false
-            )
-          );
         dispatch(authorised());
       })
-      .catch((e) => {
+      .catch(() => {
         // probably want to do something smarter with
         // err.response.status (e.g. 403 or 500)
         dispatch(unauthorised());
@@ -533,9 +522,11 @@ export const setScheduledMaintenanceState = (
           dispatch(loadScheduledMaintenanceState(scheduledMaintenanceState));
 
           // Displaying the banner to show that the state has been updated.
-          if (message) {
-            displayMaintenanceBanner(message, 'success', true);
-          }
+          displayMaintenanceBanner(
+            message ?? 'Scheduled maintenance state successfully updated',
+            'success',
+            true
+          );
         })
         .catch(() => {
           displayMaintenanceBanner(
@@ -560,9 +551,11 @@ export const setMaintenanceState = (
           dispatch(loadMaintenanceState(maintenanceState));
 
           // Displaying the banner to show that the state has been updated.
-          if (message) {
-            displayMaintenanceBanner(message, 'success', true);
-          }
+          displayMaintenanceBanner(
+            message ?? 'Maintenance state successfully updated',
+            'success',
+            true
+          );
         })
         .catch(() => {
           displayMaintenanceBanner(

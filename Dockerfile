@@ -1,7 +1,7 @@
 # Dockerfile to build and serve scigateway
 
 # Build stage
-FROM node:20.18.3-alpine3.21@sha256:053c1d99e608fe9fa0db6821edd84276277c0a663cd181f4a3e59ee20f5f07ea as builder
+FROM node:20.19.2-alpine3.21@sha256:be56e91681a8ec1bba91e3006039bd228dc797fd984794a3efedab325b36e679 as builder
 
 WORKDIR /scigateway-build
 
@@ -29,7 +29,7 @@ FROM httpd:2.4.63-alpine3.21@sha256:4aec2953509e2d3aa5a8d73c580a381be44803fd2481
 WORKDIR /usr/local/apache2/htdocs
 
 # Put the output of the build into an apache server
-COPY --from=builder /scigateway-build/build/. .
+COPY --from=builder /scigateway-build/dist/. .
 
 RUN set -eux; \
     \
