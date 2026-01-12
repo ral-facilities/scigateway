@@ -1,7 +1,18 @@
 name: Docker Release Build
 on:
   push:
-    tags: '*'
+    branches:
+      - main
+      - develop
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      push-docker-image-to-harbor:
+        description: 'Push Docker Image to Harbor'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   docker:
@@ -38,3 +49,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
+          cache-from: type=gha,scope=prod
+          cache-to: type=gha,scope=prod,mode=max

@@ -19,7 +19,6 @@ RUN --mount=type=cache,target=/root/.cache/.yarn/cache \
     yarn workspaces focus --production;
 
 COPY . .
-COPY docker/settings.json public/settings.json
 
 RUN yarn build
 
@@ -62,8 +61,8 @@ RUN set -eux; \
     # Change ownership of logs directory \
     chown www-data:www-data /usr/local/apache2/logs; \
     \
-    # Change ownership of settings file \
-    chown www-data:www-data /usr/local/apache2/htdocs/settings.json;
+    # Change ownership of settings location \
+    chown www-data:www-data -R /usr/local/apache2/htdocs/;
 
 # Switch to non-root user defined in httpd image
 USER www-data
