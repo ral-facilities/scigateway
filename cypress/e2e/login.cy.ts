@@ -437,6 +437,8 @@ describe('Login', () => {
 
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+      // check we redirect back to homepage
+      cy.url().should('eq', 'http://localhost:3000/');
     });
 
     it('should be able to login via SSO after auto login and be displayed as logged in', () => {
@@ -463,8 +465,10 @@ describe('Login', () => {
         cy.url().should('include', url);
       });
 
-      cy.contains('Sign out').should('exist');
+      cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+      // check we redirect back to homepage
+      cy.url().should('eq', 'http://localhost:3000/');
     });
 
     it('should autoLogin after logout', () => {
@@ -560,6 +564,8 @@ describe('Login', () => {
 
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+      // check we redirect back to homepage
+      cy.url().should('eq', 'http://localhost:3000/');
     });
 
     it('should be able to login via SSO non-PKCE and be displayed as logged in', () => {

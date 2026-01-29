@@ -259,6 +259,33 @@ describe('Routing component', () => {
     expect(history.location.pathname).toEqual('/test');
   });
 
+  it('redirects to / on /login route when logged in after auto-logged in (no referrer)', () => {
+    state.scigateway.siteLoading = false;
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+    let isAutoLoggedIn = 'true';
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? isAutoLoggedIn : null
+    );
+
+    history.replace('/login');
+
+    const { rerender } = render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/login');
+
+    // simulate logging in - probably not needed for this unit test but it changes the token etc.
+    state.scigateway.authorisation.provider.logIn('username', 'password');
+    // no longer auto-logged in so change what localStorage returns
+    isAutoLoggedIn = 'false';
+
+    rerender(<Routing />);
+
+    expect(history.location.pathname).toEqual('/');
+  });
+
   it('renders /login page when navigating to login page when auto-logged in', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
