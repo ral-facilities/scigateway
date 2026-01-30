@@ -203,8 +203,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
           ) : !props.userIsLoggedIn ||
+            // if authorisedRoute redirected here but we're now autoLoggedIn, don't show login page & instead redirect - otherwise we want to show it
             (props.userIsAutoLoggedIn &&
-              !(props.location.state as { referrer?: string })?.referrer) ||
+              (props.location.state as { referredFrom?: string })
+                ?.referredFrom !== 'authorisedRoute') ||
             props.loading ? (
             <LoginPage />
           ) : (
@@ -219,7 +221,10 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
                         popSessionStorageItem('referrer')) ??
                       scigatewayRoutes.home)
                     : scigatewayRoutes.logout,
-                state: { referrer: props.location.pathname },
+                state: {
+                  referrer: props.location.pathname,
+                  referredFrom: 'postLoginRedirect',
+                },
               }}
             />
           )}

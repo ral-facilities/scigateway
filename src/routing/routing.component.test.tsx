@@ -236,12 +236,15 @@ describe('Routing component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('redirects to referrer on /login route when auto-logged in', () => {
+  it('redirects to referrer on /login route when auto-logged when referred by authorisedRoute', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
     history.replace('/login');
-    state.router.location.state = { referrer: '/test' };
+    state.router.location.state = {
+      referrer: '/test',
+      referredFrom: 'authorisedRoute',
+    };
 
     const { rerender } = render(<Routing />, { wrapper: Wrapper });
 

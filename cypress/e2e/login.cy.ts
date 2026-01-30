@@ -442,7 +442,10 @@ describe('Login', () => {
     });
 
     it('should be able to login via SSO after auto login and be displayed as logged in', () => {
-      cy.visit('/login');
+      // test it redirects us to plugin after login
+      cy.visit('/plugin1');
+      cy.get('#demo_plugin').should('exist');
+      cy.contains('Sign in').click();
 
       cy.get('#select-mnemonic').click();
       cy.contains('Keycloak').click();
@@ -467,8 +470,8 @@ describe('Login', () => {
 
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
-      // check we redirect back to homepage
-      cy.url().should('eq', 'http://localhost:3000/');
+      // check we redirect back to referrer
+      cy.url().should('eq', 'http://localhost:3000/plugin1');
     });
 
     it('should autoLogin after logout', () => {
