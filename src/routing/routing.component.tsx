@@ -165,6 +165,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   }, [props.location.pathname, props.plugins]);
 
   const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
+  const prevUserIsAutoLoggedIn = usePrevious(props.userIsAutoLoggedIn);
 
   return (
     // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
@@ -202,21 +203,28 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
           ) : !props.userIsLoggedIn ||
+            // if authorisedRoute redirected here but we're now autoLoggedIn, don't show login page & instead redirect - otherwise we want to show it
             (props.userIsAutoLoggedIn &&
-              !(props.location.state as { referrer?: string })?.referrer) ||
+              (props.location.state as { referredFrom?: string })
+                ?.referredFrom !== 'authorisedRoute') ||
             props.loading ? (
             <LoginPage />
           ) : (
             <Redirect
               to={{
                 pathname:
-                  prevUserIsLoggedIn === false && props.userIsLoggedIn
+                  (prevUserIsLoggedIn === false ||
+                    (prevUserIsAutoLoggedIn && !props.userIsAutoLoggedIn)) &&
+                  props.userIsLoggedIn
                     ? (((props.location.state as { referrer?: string })
                         ?.referrer ||
                         popSessionStorageItem('referrer')) ??
                       scigatewayRoutes.home)
                     : scigatewayRoutes.logout,
-                state: { referrer: props.location.pathname },
+                state: {
+                  referrer: props.location.pathname,
+                  referredFrom: 'postLoginRedirect',
+                },
               }}
             />
           )}
