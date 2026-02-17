@@ -1,6 +1,6 @@
 import eslint from '@eslint/js';
 import prettierPlugin from 'eslint-config-prettier';
-import cypressPlugin from 'eslint-plugin-cypress/flat';
+import cypressPlugin from 'eslint-plugin-cypress';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 import reactPlugin from 'eslint-plugin-react';
