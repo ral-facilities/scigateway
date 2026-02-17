@@ -17,6 +17,7 @@ if [ ! -e /usr/local/apache2/htdocs/settings.json ]; then
 fi
 
 # edit title if it is provided
+set +u # temporarily allow for unset variables - as we test for this condition explicitly
 if [ -n "$SCIGATEWAY_TITLE" ]; then
     # Use a tempfile instead of sed -i so that only the file, not the directory needs to be writable
     TEMPFILE="$(mktemp)"
@@ -27,6 +28,7 @@ if [ -n "$SCIGATEWAY_TITLE" ]; then
     cat "$TEMPFILE" > /usr/local/apache2/htdocs/index.html
     rm "$TEMPFILE"
 fi
+set -u
 
 # Run the CMD instruction
 exec "$@"
