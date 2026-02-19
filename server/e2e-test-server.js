@@ -9,7 +9,7 @@ app.get('/settings.json', function (req, res) {
   res.sendFile(path.resolve('./server/e2e-settings.json'));
 });
 
-app.get('/plugins/*', function (req, res) {
+app.get('/plugins/*splat', function (req, res) {
   res.sendFile(
     path.resolve(`./server/${req.originalUrl.replace('/plugins/', '')}`)
   );
@@ -20,7 +20,7 @@ app.use(
   serveStatic(path.resolve('./dist'), { index: ['index.html', 'index.htm'] })
 );
 
-app.post('/api/*', function (req, res) {
+app.post('/api/*splat', function (req, res) {
   axios
     .post('http://127.0.0.1:8000' + req.url, req.body)
     .then((apiRes) => {
@@ -31,7 +31,7 @@ app.post('/api/*', function (req, res) {
     });
 });
 
-app.get('/*', function (req, res) {
+app.get('/*splat', function (req, res) {
   res.sendFile(path.resolve('./dist/index.html'));
 });
 
