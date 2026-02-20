@@ -42,7 +42,7 @@ exports[`Page Not found component > renders pageNotFound page correctly 1`] = `
         >
           homepage
         </a>
-         or
+        or
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1sg0g1v-MuiTypography-root-MuiLink-root"
           data-test-id="page-not-found-contact-support-link"

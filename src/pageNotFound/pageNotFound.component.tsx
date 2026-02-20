@@ -65,15 +65,15 @@ export const PageNotFoundComponent = (): React.ReactElement => {
           <Trans t={t} i18nKey="page-not-found.message">
             We&#39;re sorry, the page you requested was not found on the server.
             If you entered the URL manually please check your spelling and try
-            again. Otherwise, return to the{' '}
+            again. Otherwise, return to the
             <StyledLink
               component={RouterLink}
               data-test-id="page-not-found-homepage-link"
               to="/"
             >
               homepage
-            </StyledLink>{' '}
-            or{' '}
+            </StyledLink>
+            or
             <StyledLink
               data-test-id="page-not-found-contact-support-link"
               href={t('footer.links.contact') as string}
