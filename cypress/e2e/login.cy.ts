@@ -387,7 +387,7 @@ describe('Login', () => {
         plugins: [
           {
             name: 'demo_plugin',
-            src: '/plugins/main.js',
+            src: '/plugins/invalid.js',
             enable: true,
             location: 'main',
           },
@@ -401,13 +401,13 @@ describe('Login', () => {
       cy.visit('/plugin1');
 
       cy.contains(
-        'Failed to load plugin demo_plugin from /plugins/main.js.'
+        'Failed to load plugin demo_plugin from /plugins/invalid.js.'
       ).should('exist');
 
       cy.get('body').type('{esc}');
 
       cy.contains(
-        'Failed to load plugin demo_plugin from /plugins/main.js.'
+        'Failed to load plugin demo_plugin from /plugins/invalid.js.'
       ).should('not.exist');
     });
 

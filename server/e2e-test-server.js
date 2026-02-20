@@ -9,6 +9,10 @@ app.get('/settings.json', function (req, res) {
   res.sendFile(path.resolve('./server/e2e-settings.json'));
 });
 
+app.get('/plugins/invalid.js', function (req, res) {
+  res.status(404).send();
+});
+
 app.get('/plugins/*splat', function (req, res) {
   res.sendFile(
     path.resolve(`./server/${req.originalUrl.replace('/plugins/', '')}`)
