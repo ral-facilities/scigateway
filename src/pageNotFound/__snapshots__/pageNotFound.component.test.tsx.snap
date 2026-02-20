@@ -36,7 +36,7 @@ exports[`Page Not found component > renders pageNotFound page correctly 1`] = `
       >
         We're sorry, the page you requested was not found on the server. If you entered the URL manually please check your spelling and try again. Otherwise, return to the 
         <a
-          class="css-1jolfkj"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1sg0g1v-MuiTypography-root-MuiLink-root"
           data-test-id="page-not-found-homepage-link"
           href="/"
         >
@@ -44,9 +44,9 @@ exports[`Page Not found component > renders pageNotFound page correctly 1`] = `
         </a>
          or 
         <a
-          class="css-1jolfkj"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1sg0g1v-MuiTypography-root-MuiLink-root"
           data-test-id="page-not-found-contact-support-link"
-          href="/footer.links.contact"
+          href="footer.links.contact"
         >
           contact support
         </a>
