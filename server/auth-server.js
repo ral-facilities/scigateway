@@ -91,7 +91,7 @@ app.post(`/login`, function (req, res) {
     const refreshToken = jwt.sign({}, jwtSecret, {
       expiresIn: '5m',
     });
-    res.cookie('scigateway:refresh_token', refreshToken, {
+    res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
       secure: process.env.HTTPS,
       sameSite: 'lax',
@@ -195,7 +195,7 @@ app.post(`/oidc_login/:provider_id`, async function (req, res) {
   const refreshToken = jwt.sign({}, jwtSecret, {
     expiresIn: '5m',
   });
-  res.cookie('scigateway:refresh_token', refreshToken, {
+  res.cookie('refresh_token', refreshToken, {
     httpOnly: true,
     secure: process.env.HTTPS,
     sameSite: 'lax',
@@ -220,7 +220,7 @@ app.post(`/verify`, withAuth, function (req, res) {
 });
 
 app.post(`/refresh`, function (req, res) {
-  const refreshToken = req.cookies['scigateway:refresh_token'];
+  const refreshToken = req.cookies['refresh_token'];
   const accessToken = req.body.token;
 
   try {
