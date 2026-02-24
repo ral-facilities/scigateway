@@ -173,7 +173,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders non admin component when non admin user accesses it', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementation(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -197,7 +197,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders PageNotFound component when non admin user accesses admin component', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementation(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;

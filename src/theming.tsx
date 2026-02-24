@@ -1,15 +1,4 @@
 import {
-  createTheme,
-  ThemeProvider,
-  StyledEngineProvider,
-  Theme,
-} from '@mui/material/styles';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
-import React from 'react';
-import { StateType } from './state/state.types';
-import { connect, useSelector } from 'react-redux';
-import { checkboxClasses } from '@mui/material/Checkbox';
-import {
   CssBaseline,
   formHelperTextClasses,
   formLabelClasses,
@@ -17,6 +6,18 @@ import {
   outlinedInputClasses,
   tabClasses,
 } from '@mui/material';
+import { checkboxClasses } from '@mui/material/Checkbox';
+import {
+  createTheme,
+  StyledEngineProvider,
+  Theme,
+  ThemeOptions,
+  ThemeProvider,
+} from '@mui/material/styles';
+import React from 'react';
+import { connect, useSelector } from 'react-redux';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import { StateType } from './state/state.types';
 
 /* UKRI colours */
 
@@ -99,7 +100,7 @@ interface ThemeColours {
     active: string;
   };
 
-  chip: string; //Used for chip colours in cards and filters
+  chip: { default: string }; //Used for chip colours in cards and filters
 
   /* Colours used on the homepage */
   homePage: {
@@ -156,7 +157,7 @@ const DARK_MODE_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
-  chip: '#595959',
+  chip: { default: '#595959' },
   homePage: {
     heading: '#FFFFFF',
     blueDescription: '#FFFFFF',
@@ -193,7 +194,7 @@ const DARK_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     default: '#000000',
     active: '#851D0F',
   },
-  chip: '#3A3A3A',
+  chip: { default: '#3A3A3A' },
   homePage: {
     heading: '#FFFFFF',
     blueDescription: '#FFFFFF',
@@ -230,7 +231,7 @@ const LIGHT_MODE_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
-  chip: '#E0E0E0',
+  chip: { default: '#E0E0E0' },
   homePage: {
     heading: '#333333',
     blueDescription: '#FFFFFF',
@@ -267,7 +268,7 @@ const LIGHT_MODE_HIGH_CONTRAST_COLOURS: ThemeColours = {
     default: '#FFFFFF',
     active: '#E58885',
   },
-  chip: '#E0E0E0',
+  chip: { default: '#E0E0E0' },
   homePage: {
     heading: '#000000',
     blueDescription: '#FFFFFF',
@@ -293,7 +294,8 @@ export const buildTheme = (
     colours.primary = primaryColour;
   }
 
-  const componentOverrides = {
+  const componentOverrides: ThemeOptions['components'] &
+    Record<string, unknown> = {
     MuiPaper: {
       styleOverrides: { root: { backgroundImage: 'unset' } },
     },
@@ -402,9 +404,11 @@ export const buildTheme = (
     },
     MuiChip: {
       styleOverrides: {
-        root: {
-          backgroundColor: colours.chip,
-        },
+        root: ({ ownerState }) => ({
+          ...(ownerState.color === 'default' && {
+            backgroundColor: colours.chip.default,
+          }),
+        }),
       },
     },
     MuiPickersToolbar: {
