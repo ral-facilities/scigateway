@@ -1,17 +1,16 @@
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import Tour from './tour.component';
-import configureStore, { MockStore } from 'redux-mock-store';
-import { StateType } from '../state/state.types';
-import { initialState } from '../state/reducers/scigateway.reducer';
-import { createLocation } from 'history';
-import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
-import { Provider } from 'react-redux';
-import { buildTheme } from '../theming';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createLocation } from 'history';
+import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore, { MockStore } from 'redux-mock-store';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { toggleDrawer, toggleHelp } from '../state/actions/scigateway.actions';
+import { initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import Tour from './tour.component';
 
 vi.mock('popper.js', async () => {
   const PopperJS = await vi.importActual('popper.js');
@@ -164,6 +163,8 @@ describe('Tour component', () => {
     act(() => {
       vi.runAllTimers();
     });
+
+    expect(await screen.findByText('Plugin link test')).toBeInTheDocument();
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual(toggleDrawer());

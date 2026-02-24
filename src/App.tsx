@@ -32,7 +32,7 @@ const middleware = [
   ScigatewayMiddleware,
   autoLoginMiddleware,
 ];
-if (import.meta.env.DEV) {
+if (import.meta.env.MODE === 'development') {
   const logger = createLogger({ collapsed: true });
   middleware.push(logger);
   log.setDefaultLevel(log.levels.DEBUG);
