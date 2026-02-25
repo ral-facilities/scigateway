@@ -9,7 +9,10 @@ import { OIDCProvider } from '../state/state.types';
 import BaseAuthProvider from './baseAuthProvider';
 import parseJwt from './parseJwt';
 
-export function fetchOIDCConfig(oidcConfigurationUrl?: string): Promise<{
+export function fetchOIDCConfig(
+  oidcConfigurationUrl: string,
+  oidcProviderName: string
+): Promise<{
   authorization_endpoint: string;
   token_endpoint: string;
 }> {
@@ -26,14 +29,15 @@ export function fetchOIDCConfig(oidcConfigurationUrl?: string): Promise<{
       };
     })
     .catch((e) => {
-      log.error('Unable to fetch OIDC config from OIDC configuration URL');
+      log.error(
+        `Unable to fetch OIDC config from OIDC configuration URL for provider ${oidcProviderName}`
+      );
       document.dispatchEvent(
         new CustomEvent('scigateway', {
           detail: {
             type: NotificationType,
             payload: {
-              message:
-                'It is not possible to authenticate you at the moment. Please, try again later.',
+              message: `It is not possible to load the ${oidcProviderName} authenticator at the moment. Please, try again later.`,
               severity: 'error',
             },
           },
@@ -62,7 +66,7 @@ export function fetchOIDCProviders(authUrl?: string): Promise<OIDCProvider[]> {
             type: NotificationType,
             payload: {
               message:
-                'It is not possible to authenticate you at the moment. Please, try again later.',
+                'Failed to fetch OIDC providers. If you need to login with single sign-on - please, try again later.',
               severity: 'error',
             },
           },
@@ -305,11 +309,28 @@ export default abstract class BaseAPIAuthProvider extends BaseAuthProvider {
 
   public async initialiseOIDCProviders(): Promise<InitialisedOIDCProvider[]> {
     const oidcProviders = await fetchOIDCProviders(this.authUrl);
-    return await Promise.all(
-      oidcProviders.map(async (oidcProvider) => {
-        const config = await fetchOIDCConfig(oidcProvider.configuration_url);
-        return { ...config, ...oidcProvider };
-      })
+
+    return (
+      (
+        await Promise.all(
+          oidcProviders.map(async (oidcProvider) => {
+            // try-catch to ensure single OIDC provider failing doesn't block initialising other providers
+            try {
+              const config = await fetchOIDCConfig(
+                oidcProvider.configuration_url,
+                oidcProvider.display_name
+              );
+              return { ...config, ...oidcProvider };
+            } catch {
+              return 'error';
+            }
+          })
+        )
+      )
+        // filter out any OIDC providers that errored
+        .filter((result): result is InitialisedOIDCProvider => {
+          return typeof result === 'object';
+        })
     );
   }
 
