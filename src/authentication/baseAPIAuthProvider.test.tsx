@@ -409,7 +409,9 @@ describe('Base API auth provider', () => {
           })
         );
 
-        await testBaseAPIAuthProvider.initialiseOIDCProviders();
+        const resultOIDCProviders =
+          await testBaseAPIAuthProvider.initialiseOIDCProviders();
+        expect(resultOIDCProviders).toEqual([]);
         expect(log.error).toHaveBeenCalledWith(
           'Unable to fetch OIDC providers'
         );
@@ -420,17 +422,24 @@ describe('Base API auth provider', () => {
           type: NotificationType,
           payload: {
             message:
-              'It is not possible to authenticate you at the moment. Please, try again later.',
+              'Failed to fetch OIDC providers. If you need to login with single sign-on - please, try again later.',
             severity: 'error',
           },
         });
       });
 
-      it('should error on invalid configuration_url endpoint call', async () => {
+      it('should error on invalid configuration_url endpoint call & return any providers that did not error', async () => {
         vi.mocked(mockAxios.get)
           .mockImplementationOnce(() =>
             Promise.resolve({
               data: {
+                [`${oidcProvider.provider_id}fail`]: {
+                  client_id: `${oidcProvider.client_id}fail`,
+                  display_name: `${oidcProvider.display_name}fail`,
+                  configuration_url: `${oidcProvider.configuration_url}fail`,
+                  pkce: oidcProvider.pkce,
+                  scope: oidcProvider.scope,
+                },
                 [oidcProvider.provider_id]: {
                   client_id: oidcProvider.client_id,
                   display_name: oidcProvider.display_name,
@@ -441,7 +450,7 @@ describe('Base API auth provider', () => {
               },
             })
           )
-          .mockImplementation(() =>
+          .mockImplementationOnce(() =>
             Promise.reject({
               response: {
                 status: 500,
@@ -449,11 +458,11 @@ describe('Base API auth provider', () => {
             })
           );
 
-        await expect(
-          testBaseAPIAuthProvider.initialiseOIDCProviders()
-        ).rejects.toThrowError();
+        const resultOIDCProviders =
+          await testBaseAPIAuthProvider.initialiseOIDCProviders();
+        expect(resultOIDCProviders).toEqual([]);
         expect(log.error).toHaveBeenCalledWith(
-          'Unable to fetch OIDC config from OIDC configuration URL'
+          `Unable to fetch OIDC config from OIDC configuration URL for provider ${oidcProvider.display_name}fail`
         );
         expect(document.dispatchEvent).toHaveBeenCalled();
         expect(
@@ -461,8 +470,7 @@ describe('Base API auth provider', () => {
         ).toEqual({
           type: NotificationType,
           payload: {
-            message:
-              'It is not possible to authenticate you at the moment. Please, try again later.',
+            message: `It is not possible to load the ${oidcProvider.display_name}fail authenticator at the moment. Please, try again later.`,
             severity: 'error',
           },
         });
