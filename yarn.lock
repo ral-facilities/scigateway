@@ -1710,13 +1710,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux-toastr@npm:7.6.2":
-  version: 7.6.2
-  resolution: "@types/react-redux-toastr@npm:7.6.2"
+"@types/react-redux-toastr@npm:8.0.0":
+  version: 8.0.0
+  resolution: "@types/react-redux-toastr@npm:8.0.0"
   dependencies:
     "@types/react": "npm:*"
-    redux: "npm:^3.6.0 || ^4.0.0"
-  checksum: 10/4c9217572d09916c35be8de5f1326ffdbb363997780b7847f34f9248d7efcf4c2223d4d799dcf55ddf70465fb091eff8d9cc50a090834008447fcab888f50e29
+    redux: "npm:^3.6.0 || ^4.0.0 || ^5.0.0"
+  checksum: 10/3f392fed3a7e331c639458a119dea836628bd39a4a51e266cf80fd000b3c7c7ef7decd8439d92cd70bc760022fcd846983fc89a3de05ef2619c2e36136e20f63
   languageName: node
   linkType: hard
 
@@ -7641,18 +7641,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux-toastr@npm:7.6.13":
-  version: 7.6.13
-  resolution: "react-redux-toastr@npm:7.6.13"
+"react-redux-toastr@npm:8.0.0":
+  version: 8.0.0
+  resolution: "react-redux-toastr@npm:8.0.0"
   dependencies:
     classnames: "npm:^2.3.2"
     eventemitter3: "npm:^3.1.2"
   peerDependencies:
     prop-types: ^15.5.7
     react: ^0.14 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    react-redux: ^4.0.1 || ^5.0.1 || ^6.0.0 || ^7.0.0 || ^8.0.0
-    redux: ^3.0.5 || ^4.0.0
-  checksum: 10/335ddbf9a19826dc9c3f908f481f2173f8f0a862509481d4fc34916c6b5c8fa9c0f50bcdcd73b85f597ff7cb04fd093a0d339beed400232104fcb968705ef5c1
+    react-redux: ^4.0.1 || ^5.0.1 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+    redux: ^3.0.5 || ^4.0.0 || ^5.0.0
+  checksum: 10/93a5e48cdc26f2224f8e981a5df0d0ef268c668d2ff695acb5546eec95339b0c3bf2ef151420c5a82236b79294a7ee1eaa9cf0e1185630dd9d15ffdcf6cd0f7d
   languageName: node
   linkType: hard
 
@@ -7804,12 +7804,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:4.2.1, redux@npm:^3.6.0 || ^4.0.0, redux@npm:^4.0.0, redux@npm:^4.0.5":
+"redux@npm:4.2.1, redux@npm:^4.0.0, redux@npm:^4.0.5":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
     "@babel/runtime": "npm:^7.9.2"
   checksum: 10/371e4833b671193303a7dea7803c8fdc8e0d566740c78f580e0a3b77b4161da25037626900a2205a5d616117fa6ad09a4232e5a110bd437186b5c6355a041750
+  languageName: node
+  linkType: hard
+
+"redux@npm:^3.6.0 || ^4.0.0 || ^5.0.0":
+  version: 5.0.1
+  resolution: "redux@npm:5.0.1"
+  checksum: 10/a373f9ed65693ead58bea5ef61c1d6bef39da9f2706db3be6f84815f3a1283230ecd1184efb1b3daa7f807d8211b0181564ca8f336fc6ee0b1e2fa0ba06737c2
   languageName: node
   linkType: hard
 
@@ -8221,7 +8228,7 @@ __metadata:
     "@types/react": "npm:18.3.23"
     "@types/react-dom": "npm:18.3.7"
     "@types/react-redux": "npm:7.1.20"
-    "@types/react-redux-toastr": "npm:7.6.2"
+    "@types/react-redux-toastr": "npm:8.0.0"
     "@types/react-router": "npm:5.1.20"
     "@types/react-router-dom": "npm:5.3.3"
     "@types/redux-logger": "npm:3.0.8"
@@ -8266,7 +8273,7 @@ __metadata:
     react-i18next: "npm:16.5.4"
     react-joyride: "npm:2.9.3"
     react-redux: "npm:8.1.2"
-    react-redux-toastr: "npm:7.6.13"
+    react-redux-toastr: "npm:8.0.0"
     react-router-dom: "npm:5.3.0"
     redux: "npm:4.2.1"
     redux-logger: "npm:3.0.6"
