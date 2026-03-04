@@ -387,7 +387,7 @@ describe('Login', () => {
         plugins: [
           {
             name: 'demo_plugin',
-            src: '/plugins/main.js',
+            src: '/plugins/invalid.js',
             enable: true,
             location: 'main',
           },
@@ -401,13 +401,13 @@ describe('Login', () => {
       cy.visit('/plugin1');
 
       cy.contains(
-        'Failed to load plugin demo_plugin from /plugins/main.js.'
+        'Failed to load plugin demo_plugin from /plugins/invalid.js.'
       ).should('exist');
 
       cy.get('body').type('{esc}');
 
       cy.contains(
-        'Failed to load plugin demo_plugin from /plugins/main.js.'
+        'Failed to load plugin demo_plugin from /plugins/invalid.js.'
       ).should('not.exist');
     });
 
@@ -437,10 +437,15 @@ describe('Login', () => {
 
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+      // check we redirect back to homepage
+      cy.url().should('eq', 'http://localhost:3000/');
     });
 
     it('should be able to login via SSO after auto login and be displayed as logged in', () => {
-      cy.visit('/login');
+      // test it redirects us to plugin after login
+      cy.visit('/plugin1');
+      cy.get('#demo_plugin').should('exist');
+      cy.contains('Sign in').click();
 
       cy.get('#select-mnemonic').click();
       cy.contains('Keycloak').click();
@@ -463,8 +468,10 @@ describe('Login', () => {
         cy.url().should('include', url);
       });
 
-      cy.contains('Sign out').should('exist');
+      cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+      // check we redirect back to referrer
+      cy.url().should('eq', 'http://localhost:3000/plugin1');
     });
 
     it('should autoLogin after logout', () => {
@@ -560,6 +567,8 @@ describe('Login', () => {
 
       cy.contains('Sign in').should('not.exist');
       cy.get('[aria-label="Open user menu"]').should('be.visible');
+      // check we redirect back to homepage
+      cy.url().should('eq', 'http://localhost:3000/');
     });
 
     it('should be able to login via SSO non-PKCE and be displayed as logged in', () => {

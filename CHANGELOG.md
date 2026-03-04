@@ -1,5 +1,65 @@
 # Changelog
 
+## [v4.1.0](https://github.com/ral-facilities/scigateway/tree/v4.1.0) (2026-03-04)
+
+## What's Changed
+
+### Features
+
+* Fix loading bug using more general solution by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1545
+* Improve post-login redirects by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1546
+* Improve docker images & build workflow by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1542
+* Use MUI Link for "contact support" to work by @Dagonite in https://github.com/ral-facilities/scigateway/pull/1551
+* Ensure failing to fetch OIDC config details doesn't block logging in with other authenticators by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1560
+
+### Dependencies
+
+* Update dependency i18next to v25.5.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1530
+* Update dependency lint-staged to v16.2.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1531
+* Update dependency eslint-plugin-testing-library to v7.13.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1533
+* Update dependency i18next to v25.6.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1534
+* Bump jws from 3.2.2 to 3.2.3 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1540
+* Bump js-yaml from 4.1.0 to 4.1.1 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1538
+* Bump vite from 5.4.20 to 5.4.21 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1537
+* Update dependency start-server-and-test to v2.1.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1535
+* Update dependency typescript-eslint to v8.55.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1536
+* Update dependency axios to v1.13.5 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1548
+* Update dependency eslint-plugin-cypress to v5 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1482
+* Update dependency node to v24 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1541
+* Update dependency express to v5 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1483
+* Bump tar from 6.1.12 to 6.2.1 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1543
+* Bump lodash from 4.17.21 to 4.17.23 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1544
+* Update dependency browserslist to v4.28.1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1554
+* Update actions/checkout digest to 93cb6ef by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1549
+* Update codecov/codecov-action digest to 671740a by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1550
+* Update dependency @vitejs/plugin-react to v5.1.4 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1552
+* Update dependency eslint to v9.39.3 - autoclosed by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1555
+* Update dependency eslint-plugin-testing-library to v7.16.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1556
+* Update dependency i18next to v25.8.13 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1557
+* Update dependency @testing-library/react to v16 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1473
+* Update dependency prettier to v3.8.1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1558
+* Update dependency typescript-eslint to v8.56.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1559
+* Update docker/build-push-action action to v6.19.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1561
+* Update docker/login-action action to v3.7.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1562
+* Migrate Renovate config by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1564
+* Bump rollup from 4.27.4 to 4.59.0 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1563
+* Update Node.js to v24.14.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1565
+* Update softprops/action-gh-release action to v2.5.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1567
+* Update docker/metadata-action action to v5.10.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1566
+* Update Yarn to v4.12.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1568
+* Update actions/checkout action to v6 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1569
+* Update actions/setup-node action to v6 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1570
+* Update dependency cypress to v15 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1571
+* Update dependency react-i18next to v16 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1576
+* Update dependency cypress to v15.11.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1577
+* Update dependency react-redux-toastr to v8 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1578
+
+## New Contributors
+
+* @Dagonite made their first contribution in https://github.com/ral-facilities/scigateway/pull/1551
+
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v4.0.0...v4.1.0
+
 ## [v4.0.0](https://github.com/ral-facilities/scigateway/tree/v4.0.0) (2025-10-08)
 
 ## What's Changed
@@ -97,7 +157,7 @@
 * Update dependency @testing-library/jest-dom to v6.9.1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1526
 * Update dependency eslint to v9.37.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1528
 
-**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v3.0.1...snapshot-develop
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v3.0.1...v4.0.0
 
 ## [v3.0.1](https://github.com/ral-facilities/scigateway/tree/v3.0.1) (2025-03-14)
 

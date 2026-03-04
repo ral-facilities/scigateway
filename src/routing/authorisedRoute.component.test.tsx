@@ -10,7 +10,7 @@ import { connectRouter } from 'connected-react-router';
 import { MemoryHistory, createLocation, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import {
   AnyAction,
   applyMiddleware,
@@ -75,7 +75,12 @@ describe('AuthorisedRoute component', () => {
         <ThemeProvider theme={theme}>
           <Router history={history}>
             <Provider store={testStore}>
-              <AuthorisedComponent />
+              {/* Add a router and switch to unmount when we redirect */}
+              <Switch>
+                <Route exact path="/">
+                  <AuthorisedComponent />
+                </Route>
+              </Switch>
             </Provider>
           </Router>
         </ThemeProvider>
@@ -168,7 +173,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders non admin component when non admin user accesses it', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementation(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -192,7 +197,7 @@ describe('AuthorisedRoute component', () => {
 
   it('renders PageNotFound component when non admin user accesses admin component', () => {
     const testAuthProvider = new TestAuthProvider('test-token');
-    testAuthProvider.isAdmin = vi.fn().mockImplementationOnce(() => false);
+    testAuthProvider.isAdmin = vi.fn().mockImplementation(() => false);
     state.scigateway.authorisation.provider = testAuthProvider;
     state.scigateway.siteLoading = false;
     state.scigateway.authorisation.loading = false;
@@ -212,8 +217,11 @@ describe('AuthorisedRoute component', () => {
       componentToProtect: ComponentToProtect,
     });
 
-    expect(history.location.pathname === '/login');
-    expect(history.location.state.referrer === '/');
+    expect(history.location.pathname).toBe('/login');
+    expect(history.location.state).toEqual({
+      referrer: '/',
+      referredFrom: 'authorisedRoute',
+    });
     expect(screen.queryByText('protected component')).not.toBeInTheDocument();
   });
 

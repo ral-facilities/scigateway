@@ -53,6 +53,6 @@ describe('Page Not found component', () => {
     );
     expect(
       screen.getByRole('link', { name: 'contact support' })
-    ).toHaveAttribute('href', '/footer.links.contact');
+    ).toHaveAttribute('href', 'footer.links.contact');
   });
 });

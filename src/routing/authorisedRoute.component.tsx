@@ -79,7 +79,10 @@ const withAuth =
               <Redirect
                 to={{
                   pathname: '/login',
-                  state: { referrer: location },
+                  state: {
+                    referrer: location,
+                    referredFrom: 'authorisedRoute',
+                  },
                 }}
               />
             ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */

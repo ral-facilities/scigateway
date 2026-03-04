@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { Dispatch, Action, AnyAction } from 'redux';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/ExitToApp';
 import {
-  IconButton,
-  Theme,
-  Menu,
-  MenuItem,
+  Avatar,
   Button,
-  Typography,
   Divider,
+  IconButton,
   ListItemIcon,
   ListItemText,
-  Avatar,
+  Menu,
+  MenuItem,
+  Theme,
+  Typography,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import log from 'loglevel';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { AnyAction, Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import UserInfo from '../authentication/user';
+import { signOut } from '../state/actions/scigateway.actions';
+import { AppStrings } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import { signOut } from '../state/actions/scigateway.actions';
-import { connect } from 'react-redux';
-import { AppStrings } from '../state/scigateway.types';
-import { ThunkDispatch } from 'redux-thunk';
-import { push } from 'connected-react-router';
-import log from 'loglevel';
-import UserInfo from '../authentication/user';
 
 interface UserProfileProps {
   loggedIn: boolean;
@@ -32,7 +32,6 @@ interface UserProfileProps {
 }
 
 interface UserProfileDispatchProps {
-  signIn: () => Action;
   signOut: () => void;
 }
 
@@ -43,6 +42,8 @@ export const UserProfileComponent = (
 ): React.ReactElement => {
   const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const closeMenu = (): void => setMenuAnchor(null);
+  const location = useLocation();
+  const { push } = useHistory();
   const logout = (): void => {
     closeMenu();
     props.signOut();
@@ -112,7 +113,10 @@ export const UserProfileComponent = (
             },
           })}
           onClick={() => {
-            props.signIn();
+            push('/login', {
+              referrer: location.pathname,
+              referredFrom: 'clickingSignIn',
+            });
             log.debug('signing in');
           }}
         >
@@ -142,7 +146,6 @@ const mapStateToProps = (state: StateType): UserProfileProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
-  signIn: () => dispatch(push('/login')),
   signOut: () => {
     const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
     thunkDispatch(signOut());

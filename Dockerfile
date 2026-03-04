@@ -1,7 +1,7 @@
 # Dockerfile to build and serve scigateway
 
 # Build stage
-FROM node:20.19.2-alpine3.21@sha256:be56e91681a8ec1bba91e3006039bd228dc797fd984794a3efedab325b36e679 as builder
+FROM node:24.14.0-alpine@sha256:7fddd9ddeae8196abf4a3ef2de34e11f7b1a722119f91f28ddf1e99dcafdf114 AS builder
 
 WORKDIR /scigateway-build
 
@@ -19,12 +19,11 @@ RUN --mount=type=cache,target=/root/.cache/.yarn/cache \
     yarn workspaces focus --production;
 
 COPY . .
-COPY docker/settings.json public/settings.json
 
 RUN yarn build
 
 # Run stage
-FROM httpd:2.4.63-alpine3.21@sha256:4aec2953509e2d3aa5a8d73c580a381be44803fd2481875b15d9ad7d2810d7ca
+FROM httpd:2.4.66-alpine@sha256:8f26f33a7002658050e9ab2cd6b77502619dfc89d0a6ba2e9e4a202e0ef04596
 
 WORKDIR /usr/local/apache2/htdocs
 
@@ -62,8 +61,8 @@ RUN set -eux; \
     # Change ownership of logs directory \
     chown www-data:www-data /usr/local/apache2/logs; \
     \
-    # Change ownership of settings file \
-    chown www-data:www-data /usr/local/apache2/htdocs/settings.json;
+    # Change ownership of settings location \
+    chown www-data:www-data -R /usr/local/apache2/htdocs/;
 
 # Switch to non-root user defined in httpd image
 USER www-data

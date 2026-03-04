@@ -133,83 +133,39 @@ const popSessionStorageItem = (
 };
 
 const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
-  const adminRoutes = getAdminRoutes({ plugins: props.plugins });
-  // only set to false if we're on a plugin route i.e. not a scigateway route
-  const manuallyLoadedPluginRef = React.useRef(
-    Object.values(scigatewayRoutes).includes(props.location.pathname) ||
-      props.location.pathname === adminRoutes.maintenance
-  );
-
   const theme = useTheme();
   const isMobileViewport = useMediaQuery(theme.breakpoints.down('md'));
 
+  // this useEffect should catch any instances of single-spa "thinking" a plugin is loaded
+  // when it actually isn't, and calls unloadApplication to force single-spa to reload
   React.useEffect(() => {
-    let intervalId: number | undefined;
-    // only try and manually load the first plugin on initial page load after site loaded using setInterval
-    if (!props.loading && !manuallyLoadedPluginRef.current) {
-      intervalId = window.setInterval(() => {
-        const pluginConf = props.plugins.find((p) =>
-          props.location.pathname.startsWith(p.link.split('?')[0])
-        );
+    const pluginConf = props.plugins.find((p) =>
+      props.location.pathname.startsWith(p.link.split('?')[0])
+    );
 
-        // finding pluginConf after loading implies that the route has loaded
-        // & that the site has loaded, so the plugin should have been loaded already
-        // and if it hasn't we need to manually load it
-        if (pluginConf && document.getElementById(pluginConf.plugin)) {
+    let intervalId: number | undefined;
+
+    // if we find pluginConf, we're on a plugin route
+    if (pluginConf) {
+      // set interval to give plugin divs a chance to load
+      intervalId = window.setInterval(() => {
+        // if we find the plugin div, it's loaded so can stop the interval
+        if (document.getElementById(pluginConf.plugin)) {
+          // if plugin div has loaded but still has loading spinner, tell single-spa to reload
           if (document.getElementById('plugin-preloader')) {
             singleSpa.unloadApplication(pluginConf.plugin);
           }
-          manuallyLoadedPluginRef.current = true;
           window.clearInterval(intervalId);
         }
       }, 500);
     }
-
     return () => {
-      // you can call clearInterval with an undefined ID fine
       window.clearInterval(intervalId);
     };
-  }, [props.loading, props.plugins, props.location]);
-  React.useEffect(() => {
-    // switching between an admin & non-admin route of the same app causes problems
-    // as the Route and thus the plugin div changes but single-spa doesn't remount
-    // so we need to explicitly tell single-spa to remount that specific plugin
-    const handler = (
-      event: CustomEvent<{
-        oldUrl: string;
-        newUrl: string;
-      }>
-    ): void => {
-      const oldPlugin = props.plugins.find((p) =>
-        new URL(event.detail.oldUrl).pathname.startsWith(p.link.split('?')[0])
-      );
-      const newPlugin = props.plugins.find((p) =>
-        new URL(event.detail.newUrl).pathname.startsWith(p.link.split('?')[0])
-      );
-
-      if (
-        oldPlugin &&
-        newPlugin &&
-        oldPlugin.plugin === newPlugin.plugin &&
-        ((oldPlugin.admin && !newPlugin.admin) ||
-          (newPlugin.admin && !oldPlugin.admin) ||
-          oldPlugin.unauthorised !== newPlugin.unauthorised)
-      ) {
-        singleSpa.unloadApplication(oldPlugin.plugin);
-      }
-    };
-    window.addEventListener(
-      'single-spa:before-no-app-change',
-      handler as EventListener
-    );
-    return () =>
-      window.removeEventListener(
-        'single-spa:before-no-app-change',
-        handler as EventListener
-      );
-  }, [props.plugins]);
+  }, [props.location.pathname, props.plugins]);
 
   const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
+  const prevUserIsAutoLoggedIn = usePrevious(props.userIsAutoLoggedIn);
 
   return (
     // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
@@ -247,21 +203,28 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           {props.nullAuthProvider ? (
             <Redirect to={scigatewayRoutes.home} />
           ) : !props.userIsLoggedIn ||
+            // if authorisedRoute redirected here but we're now autoLoggedIn, don't show login page & instead redirect - otherwise we want to show it
             (props.userIsAutoLoggedIn &&
-              !(props.location.state as { referrer?: string })?.referrer) ||
+              (props.location.state as { referredFrom?: string })
+                ?.referredFrom !== 'authorisedRoute') ||
             props.loading ? (
             <LoginPage />
           ) : (
             <Redirect
               to={{
                 pathname:
-                  prevUserIsLoggedIn === false && props.userIsLoggedIn
+                  (prevUserIsLoggedIn === false ||
+                    (prevUserIsAutoLoggedIn && !props.userIsAutoLoggedIn)) &&
+                  props.userIsLoggedIn
                     ? (((props.location.state as { referrer?: string })
                         ?.referrer ||
                         popSessionStorageItem('referrer')) ??
                       scigatewayRoutes.home)
                     : scigatewayRoutes.logout,
-                state: { referrer: props.location.pathname },
+                state: {
+                  referrer: props.location.pathname,
+                  referredFrom: 'postLoginRedirect',
+                },
               }}
             />
           )}

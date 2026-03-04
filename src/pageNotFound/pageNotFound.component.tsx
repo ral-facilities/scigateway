@@ -1,13 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import { Box, styled, Theme } from '@mui/material';
 import BugReportIcon from '@mui/icons-material/BugReport';
-import { useTranslation, Trans } from 'react-i18next';
+import { Box, styled, Theme } from '@mui/material';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 
-const StyledLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.text.primary,
-}));
+const StyledLink = styled(Link)<{ component?: React.ElementType; to?: string }>(
+  ({ theme }) => ({
+    color: theme.palette.text.primary,
+  })
+);
 
 export const PageNotFoundComponent = (): React.ReactElement => {
   const [t] = useTranslation();
@@ -63,13 +66,17 @@ export const PageNotFoundComponent = (): React.ReactElement => {
             We&#39;re sorry, the page you requested was not found on the server.
             If you entered the URL manually please check your spelling and try
             again. Otherwise, return to the{' '}
-            <StyledLink data-test-id="page-not-found-homepage-link" to="/">
+            <StyledLink
+              component={RouterLink}
+              data-test-id="page-not-found-homepage-link"
+              to="/"
+            >
               homepage
             </StyledLink>{' '}
             or{' '}
             <StyledLink
               data-test-id="page-not-found-contact-support-link"
-              to={t('footer.links.contact') as string}
+              href={t('footer.links.contact') as string}
             >
               contact support
             </StyledLink>

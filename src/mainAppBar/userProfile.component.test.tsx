@@ -1,21 +1,24 @@
-import React from 'react';
-import UserProfileComponent from './userProfile.component';
-import { StateType } from '../state/state.types';
-import configureStore, { type MockStore } from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { Provider } from 'react-redux';
-import { push } from 'connected-react-router';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { thunk } from 'redux-thunk';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import { buildTheme } from '../theming';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { push } from 'connected-react-router';
+import { createMemoryHistory } from 'history';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import configureStore, { type MockStore } from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import UserProfileComponent from './userProfile.component';
 
 describe('User profile component', () => {
   let testStore: MockStore;
   let state: StateType;
   const theme = buildTheme(false);
+  let history: MemoryHistory;
 
   function Wrapper({
     children,
@@ -24,9 +27,11 @@ describe('User profile component', () => {
   }): JSX.Element {
     return (
       <Provider store={testStore}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </StyledEngineProvider>
+        <Router history={history}>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </StyledEngineProvider>
+        </Router>
       </Provider>
     );
   }
@@ -39,6 +44,7 @@ describe('User profile component', () => {
       'test-token'
     );
     testStore = configureStore([thunk])(state);
+    history = createMemoryHistory();
   });
 
   it('renders sign in button if not signed in', () => {
@@ -54,13 +60,17 @@ describe('User profile component', () => {
   it('redirects to login when sign in is pressed', async () => {
     const user = userEvent.setup();
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    history.replace('/test');
 
     render(<UserProfileComponent />, { wrapper: Wrapper });
 
     await user.click(screen.getByRole('button', { name: 'login-button' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/login'));
+    expect(history.location.pathname).toBe('/login');
+    expect(history.location.state).toEqual({
+      referrer: '/test',
+      referredFrom: 'clickingSignIn',
+    });
   });
 
   it('renders sign in button if user signed in via autoLogin', () => {

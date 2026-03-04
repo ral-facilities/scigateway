@@ -236,12 +236,15 @@ describe('Routing component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('redirects to referrer on /login route when auto-logged in', () => {
+  it('redirects to referrer on /login route when auto-logged when referred by authorisedRoute', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
     history.replace('/login');
-    state.router.location.state = { referrer: '/test' };
+    state.router.location.state = {
+      referrer: '/test',
+      referredFrom: 'authorisedRoute',
+    };
 
     const { rerender } = render(<Routing />, { wrapper: Wrapper });
 
@@ -257,6 +260,33 @@ describe('Routing component', () => {
     rerender(<Routing />);
 
     expect(history.location.pathname).toEqual('/test');
+  });
+
+  it('redirects to / on /login route when logged in after auto-logged in (no referrer)', () => {
+    state.scigateway.siteLoading = false;
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.authorisation.provider.autoLogin = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+    let isAutoLoggedIn = 'true';
+    storageGetItemSpy.mockImplementation((name) =>
+      name === 'autoLogin' ? isAutoLoggedIn : null
+    );
+
+    history.replace('/login');
+
+    const { rerender } = render(<Routing />, { wrapper: Wrapper });
+
+    expect(history.location.pathname).toEqual('/login');
+
+    // simulate logging in - probably not needed for this unit test but it changes the token etc.
+    state.scigateway.authorisation.provider.logIn('username', 'password');
+    // no longer auto-logged in so change what localStorage returns
+    isAutoLoggedIn = 'false';
+
+    rerender(<Routing />);
+
+    expect(history.location.pathname).toEqual('/');
   });
 
   it('renders /login page when navigating to login page when auto-logged in', () => {
@@ -371,106 +401,6 @@ describe('Routing component', () => {
     expect(history.location.pathname).toEqual('/logout');
   });
 
-  it('single-spa remounts a plugin when switching between admin and non-admin plugins via single-spa:before-no-app-change event', () => {
-    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
-    state.scigateway.siteLoading = false;
-    state.scigateway.plugins = [
-      {
-        section: 'test section',
-        link: '/test_link',
-        plugin: 'test_plugin_name',
-        displayName: 'Test Plugin',
-        order: 1,
-      },
-      {
-        section: 'test section',
-        link: '/admin_test_link',
-        plugin: 'test_plugin_name',
-        displayName: 'Test Plugin Admin',
-        admin: true,
-        order: 2,
-      },
-    ];
-
-    render(<Routing />, { wrapper: Wrapper });
-
-    window.dispatchEvent(
-      new CustomEvent('single-spa:before-no-app-change', {
-        detail: {
-          oldUrl: 'http://localhost/test_link',
-          newUrl: 'http://localhost/admin_test_link',
-        },
-      })
-    );
-    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
-      'test_plugin_name'
-    );
-
-    vi.mocked(singleSpa.unloadApplication).mockClear();
-
-    window.dispatchEvent(
-      new CustomEvent('single-spa:before-no-app-change', {
-        detail: {
-          oldUrl: 'http://localhost/admin_test_link',
-          newUrl: 'http://localhost/test_link',
-        },
-      })
-    );
-    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
-      'test_plugin_name'
-    );
-  });
-
-  it('single-spa remounts a plugin when switching between authorised and unauthorised plugins via single-spa:before-no-app-change event', () => {
-    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
-    state.scigateway.siteLoading = false;
-    state.scigateway.plugins = [
-      {
-        section: 'test section',
-        link: '/test_link',
-        plugin: 'test_plugin_name',
-        displayName: 'Test Plugin',
-        order: 1,
-      },
-      {
-        section: 'test section',
-        link: '/unauthorised_test_link',
-        plugin: 'test_plugin_name',
-        displayName: 'Test Plugin Admin',
-        unauthorised: true,
-        order: 2,
-      },
-    ];
-
-    render(<Routing />, { wrapper: Wrapper });
-
-    window.dispatchEvent(
-      new CustomEvent('single-spa:before-no-app-change', {
-        detail: {
-          oldUrl: 'http://localhost/test_link',
-          newUrl: 'http://localhost/unauthorised_test_link',
-        },
-      })
-    );
-    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
-      'test_plugin_name'
-    );
-
-    vi.mocked(singleSpa.unloadApplication).mockClear();
-
-    window.dispatchEvent(
-      new CustomEvent('single-spa:before-no-app-change', {
-        detail: {
-          oldUrl: 'http://localhost/unauthorised_test_link',
-          newUrl: 'http://localhost/test_link',
-        },
-      })
-    );
-    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
-      'test_plugin_name'
-    );
-  });
-
   it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
@@ -485,6 +415,7 @@ describe('Routing component', () => {
       },
     ];
     state.router.location = createLocation('/test_link');
+    const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
 
     vi.spyOn(document, 'getElementById').mockImplementation(() => {
       return document.createElement('div');
@@ -496,9 +427,44 @@ describe('Routing component', () => {
 
     vi.runAllTimers();
 
-    expect(singleSpa.unloadApplication).toHaveBeenCalledWith(
-      'test_plugin_name'
-    );
+    expect(unloadApplicationSpy).toHaveBeenCalledWith('test_plugin_name');
+
+    // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
+    expect(clearIntervalSpy).toHaveBeenCalled();
+
+    // restore clearInterval to avoid errors with it not being a function on unmount
+    clearIntervalSpy.mockRestore();
+    vi.useRealTimers();
+  });
+
+  it("single-spa doesn't reload a plugin when it has been loaded", () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: '/test_link',
+        plugin: 'test_plugin_name',
+        displayName: 'Test Plugin',
+        order: 1,
+      },
+    ];
+    state.router.location = createLocation('/test_link');
+    const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
+
+    vi.spyOn(document, 'getElementById').mockImplementation((element) => {
+      if (element === 'plugin-preloader') return null; // simulate loaded plugin
+      return document.createElement('div');
+    });
+
+    const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
+
+    render(<Routing />, { wrapper: Wrapper });
+
+    vi.runAllTimers();
+
+    expect(unloadApplicationSpy).not.toHaveBeenCalled();
 
     // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
     expect(clearIntervalSpy).toHaveBeenCalled();
