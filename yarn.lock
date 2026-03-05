@@ -5027,10 +5027,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^16.1.0, globals@npm:^16.5.0":
+"globals@npm:^16.5.0":
   version: 16.5.0
   resolution: "globals@npm:16.5.0"
   checksum: 10/f9e8a2a13f50222c127030a619e283e7bbfe32966316bdde0715af1d15a7e40cb9c24ff52cad59671f97762ed8b515353c2f8674f560c63d9385f19ee26735a6
+  languageName: node
+  linkType: hard
+
+"globals@npm:^17.0.0":
+  version: 17.4.0
+  resolution: "globals@npm:17.4.0"
+  checksum: 10/ffad244617e94efcb3da72b7beefc941167c21316148ce378f322db7af72db06468f370e23224b3c7b17b5173a7c75b134e5e7b0949f2828519054a76892508d
   languageName: node
   linkType: hard
 
@@ -8255,7 +8262,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:5.2.0"
     eslint-plugin-testing-library: "npm:7.16.0"
     express: "npm:5.2.1"
-    globals: "npm:^16.1.0"
+    globals: "npm:^17.0.0"
     husky: "npm:9.1.7"
     i18next: "npm:25.8.13"
     i18next-browser-languagedetector: "npm:8.2.0"
