@@ -1,5 +1,4 @@
 import mockAxios from 'axios';
-import { createLocation } from 'history';
 import log from 'loglevel';
 import { Action, AnyAction } from 'redux';
 import TestAuthProvider from '../../authentication/testAuthProvider';
@@ -103,13 +102,6 @@ describe('scigateway actions', () => {
 
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: {
-          ...createLocation('/', {}),
-          query: {},
-        },
-        action: 'PUSH',
-      },
     });
 
     const action = asyncAction(dispatch, getState);
@@ -166,10 +158,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -193,10 +181,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -218,10 +202,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -247,10 +227,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -278,10 +254,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -303,10 +275,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -329,10 +297,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -355,10 +319,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -396,10 +356,6 @@ describe('scigateway actions', () => {
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -435,10 +391,6 @@ describe('scigateway actions', () => {
     state.authorisation.provider = new TestAuthProvider('token');
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: { ...createLocation('/test'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     const configureSiteAction = asyncAction(dispatch, getState);
@@ -494,10 +446,6 @@ describe('scigateway actions', () => {
     state.authorisation.provider = new TestAuthProvider('token');
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: { ...createLocation('/test'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -537,10 +485,6 @@ describe('scigateway actions', () => {
     ];
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: { ...createLocation('/test'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     const eventListenerSpy = vi.spyOn(document, 'addEventListener');
@@ -576,10 +520,6 @@ describe('scigateway actions', () => {
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -623,10 +563,6 @@ describe('scigateway actions', () => {
     state.authorisation.provider = testAuthProvider;
     const getState = (): Partial<StateType> => ({
       scigateway: state,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -698,10 +634,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -731,10 +663,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);
@@ -975,10 +903,6 @@ describe('scigateway actions', () => {
     const dispatch = (action: Action): number => actions.push(action);
     const getState = (): Partial<StateType> => ({
       scigateway: initialState,
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'PUSH',
-      },
     });
 
     await asyncAction(dispatch, getState);

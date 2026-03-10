@@ -8,8 +8,8 @@ import {
   MenuItem,
   MenuProps,
 } from '@mui/material';
-import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   loadDarkModePreference,
   loadHighContrastModePreference,
@@ -52,10 +52,11 @@ function SettingsMenuContent({
     getAppStrings(state, 'main-appbar')
   );
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   function manageCookies(): void {
     onRequestCloseParentMenu();
-    dispatch(push('/cookies'));
+    push('/cookies');
   }
 
   function toggleDarkMode(): void {

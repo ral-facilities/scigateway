@@ -1,16 +1,16 @@
-import React from 'react';
-import CookiesPage from './cookiesPage.component';
-import { StateType } from '../state/state.types';
-import configureStore, { MockStore } from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { buildTheme } from '../theming';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import Cookies from 'js-cookie';
-import { createLocation } from 'history';
-import { push } from 'connected-react-router';
-import { TOptionsBase } from 'i18next';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory, History } from 'history';
+import { TOptionsBase } from 'i18next';
+import Cookies from 'js-cookie';
+import React from 'react';
+import { Router } from 'react-router-dom';
+import configureStore, { MockStore } from 'redux-mock-store';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import CookiesPage from './cookiesPage.component';
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -25,12 +25,13 @@ describe('Cookies page component', () => {
   let mockStore;
   let state: StateType;
   let store: MockStore;
+  let history: History;
 
   beforeEach(() => {
+    history = createMemoryHistory();
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/cookies') },
     };
     store = mockStore(state);
 
@@ -40,14 +41,12 @@ describe('Cookies page component', () => {
 
   const theme = buildTheme(false);
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <Router history={history}>{children}</Router>
+        </ThemeProvider>
       </StyledEngineProvider>
     );
   }
@@ -79,8 +78,8 @@ describe('Cookies page component', () => {
     expect(callArguments[0]).toEqual('cookie-consent');
     expect(callArguments[1]).toEqual(JSON.stringify({ analytics: true }));
 
-    expect(store.getActions().length).toEqual(1);
-    expect(store.getActions()[0]).toEqual(push('/'));
+    expect(history.length).toEqual(2);
+    expect(history.location.pathname).toEqual('/');
   });
 
   it('should remove cookies when user revokes consent', async () => {
@@ -116,7 +115,7 @@ describe('Cookies page component', () => {
     expect(mockCookiesRemove.calls[0][0]).toEqual('_ga');
     expect(mockCookiesRemove.calls[1][0]).toEqual('_gid');
 
-    expect(store.getActions().length).toEqual(1);
-    expect(store.getActions()[0]).toEqual(push('/'));
+    expect(history.length).toEqual(2);
+    expect(history.location.pathname).toEqual('/');
   });
 });

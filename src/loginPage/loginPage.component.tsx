@@ -64,8 +64,7 @@ const DividerLine = styled('div')(({ theme }) => ({
 }));
 
 const DividerWithText = (props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: React.ReactElement<any, any>;
+  children: React.ReactNode;
 }): React.ReactElement => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>

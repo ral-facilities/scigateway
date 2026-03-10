@@ -1,9 +1,8 @@
 import { useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import { RouterLocation } from 'connected-react-router';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import * as singleSpa from 'single-spa';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import AdminPage from '../adminPage/adminPage.component';
@@ -93,7 +92,6 @@ export const getAdminRoutes = (props: {
 
 interface RoutingProps {
   plugins: PluginConfig[];
-  location: RouterLocation<unknown>;
   drawerOpen: boolean;
   maintenance: MaintenanceState;
   userIsLoggedIn: boolean;
@@ -136,11 +134,13 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   const theme = useTheme();
   const isMobileViewport = useMediaQuery(theme.breakpoints.down('md'));
 
+  const location = useLocation();
+
   // this useEffect should catch any instances of single-spa "thinking" a plugin is loaded
   // when it actually isn't, and calls unloadApplication to force single-spa to reload
   React.useEffect(() => {
     const pluginConf = props.plugins.find((p) =>
-      props.location.pathname.startsWith(p.link.split('?')[0])
+      location.pathname.startsWith(p.link.split('?')[0])
     );
 
     let intervalId: number | undefined;
@@ -162,7 +162,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [props.location.pathname, props.plugins]);
+  }, [location.pathname, props.plugins]);
 
   const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
   const prevUserIsAutoLoggedIn = usePrevious(props.userIsAutoLoggedIn);
@@ -205,8 +205,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
           ) : !props.userIsLoggedIn ||
             // if authorisedRoute redirected here but we're now autoLoggedIn, don't show login page & instead redirect - otherwise we want to show it
             (props.userIsAutoLoggedIn &&
-              (props.location.state as { referredFrom?: string })
-                ?.referredFrom !== 'authorisedRoute') ||
+              (location.state as { referredFrom?: string })?.referredFrom !==
+                'authorisedRoute') ||
             props.loading ? (
             <LoginPage />
           ) : (
@@ -216,13 +216,12 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
                   (prevUserIsLoggedIn === false ||
                     (prevUserIsAutoLoggedIn && !props.userIsAutoLoggedIn)) &&
                   props.userIsLoggedIn
-                    ? (((props.location.state as { referrer?: string })
-                        ?.referrer ||
+                    ? (((location.state as { referrer?: string })?.referrer ||
                         popSessionStorageItem('referrer')) ??
                       scigatewayRoutes.home)
                     : scigatewayRoutes.logout,
                 state: {
-                  referrer: props.location.pathname,
+                  referrer: location.pathname,
                   referredFrom: 'postLoginRedirect',
                 },
               }}
@@ -264,7 +263,6 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
 
 const mapStateToProps = (state: StateType): RoutingProps => ({
   plugins: state.scigateway.plugins,
-  location: state.router.location,
   drawerOpen: state.scigateway.drawerOpen,
   maintenance: state.scigateway.maintenance,
   userIsLoggedIn: state.scigateway.authorisation.provider.isLoggedIn(),

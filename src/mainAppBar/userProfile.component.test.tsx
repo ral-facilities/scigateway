@@ -1,8 +1,7 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { push } from 'connected-react-router';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -20,11 +19,7 @@ describe('User profile component', () => {
   const theme = buildTheme(false);
   let history: MemoryHistory;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={testStore}>
         <Router history={history}>
@@ -132,8 +127,9 @@ describe('User profile component', () => {
       })
     );
 
-    expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
-    expect(testStore.getActions()[1]).toEqual(push('/'));
+    expect(history.length).toEqual(2);
+    expect(history.location.pathname).toEqual('/');
   });
 });

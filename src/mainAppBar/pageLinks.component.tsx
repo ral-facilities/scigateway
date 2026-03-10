@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { push } from 'connected-react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getAdminRoutes } from '../routing/routing.component';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
@@ -27,10 +27,10 @@ function PageLinks(): JSX.Element {
     getAppStrings(state, 'main-appbar')
   );
 
-  const dispatch = useDispatch();
+  const { push } = useHistory();
 
   function navigateToHelpPage(): void {
-    dispatch(push('/help'));
+    push('/help');
   }
 
   function navigateToAdminPage(): void {
@@ -39,7 +39,7 @@ function PageLinks(): JSX.Element {
         ? adminRoutes[adminPageDefaultTab]
         : adminRoutes['maintenance'];
 
-    dispatch(push(targetRoute));
+    push(targetRoute);
   }
 
   return (

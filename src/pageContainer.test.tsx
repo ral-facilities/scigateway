@@ -1,7 +1,6 @@
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { createLocation } from 'history';
 import { MemoryRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@mui/material';
@@ -38,7 +37,6 @@ describe('PageContainer - Tests', () => {
           },
         ],
       },
-      router: { location: createLocation('/') },
     };
   });
 

@@ -90,7 +90,7 @@ describe('App', () => {
 
     Object.defineProperty(window, 'location', {
       configurable: true,
-      value: { reload: vi.fn() },
+      value: { ...window.location, reload: vi.fn() },
     });
 
     vi.useFakeTimers();

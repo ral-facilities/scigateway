@@ -1,9 +1,9 @@
 import { ThemeProvider, useMediaQuery } from '@mui/material';
 import { act, render } from '@testing-library/react';
-import { MemoryHistory, createLocation, createMemoryHistory } from 'history';
+import { MemoryHistory, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import configureStore, { MockStoreCreator } from 'redux-mock-store';
 import * as singleSpa from 'single-spa';
 import NullAuthProvider from '../authentication/nullAuthProvider';
@@ -33,11 +33,7 @@ describe('Routing component', () => {
   let history: MemoryHistory;
   let state: StateType;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <ThemeProvider theme={buildTheme(false)}>
         <Router history={history}>
@@ -52,10 +48,6 @@ describe('Routing component', () => {
   beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: {
-        action: 'POP',
-        location: { ...createLocation('/'), query: {} },
-      },
     };
     storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
 
@@ -240,11 +232,13 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
-    history.replace('/login');
-    state.router.location.state = {
-      referrer: '/test',
-      referredFrom: 'authorisedRoute',
-    };
+    history.replace({
+      pathname: '/login',
+      state: {
+        referrer: '/test',
+        referredFrom: 'authorisedRoute',
+      },
+    });
 
     const { rerender } = render(<Routing />, { wrapper: Wrapper });
 
@@ -345,8 +339,12 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
-    history.replace('/login');
-    state.router.location.state = { referrer: '/test' };
+    history.replace({
+      pathname: '/login',
+      state: {
+        referrer: '/test',
+      },
+    });
 
     const { rerender } = render(<Routing />, { wrapper: Wrapper });
 
@@ -414,7 +412,7 @@ describe('Routing component', () => {
         order: 1,
       },
     ];
-    state.router.location = createLocation('/test_link');
+    history.replace('/test_link');
     const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
 
     vi.spyOn(document, 'getElementById').mockImplementation(() => {
@@ -450,7 +448,7 @@ describe('Routing component', () => {
         order: 1,
       },
     ];
-    state.router.location = createLocation('/test_link');
+    history.replace('/test_link');
     const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
 
     vi.spyOn(document, 'getElementById').mockImplementation((element) => {

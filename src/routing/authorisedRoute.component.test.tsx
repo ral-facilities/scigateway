@@ -6,8 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { connectRouter } from 'connected-react-router';
-import { MemoryHistory, createLocation, createMemoryHistory } from 'history';
+import { MemoryHistory, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Router, Switch } from 'react-router-dom';
@@ -47,10 +46,6 @@ describe('AuthorisedRoute component', () => {
   beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
-      },
     };
   });
 
@@ -118,7 +113,6 @@ describe('AuthorisedRoute component', () => {
     const store = createStore(
       combineReducers<StateType>({
         scigateway: scigatewayReducer,
-        router: connectRouter(history),
       }),
       state,
       applyMiddleware(thunk, observerMiddleware)

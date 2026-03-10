@@ -1,17 +1,15 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
+import { styled } from '@mui/material/styles';
 import Cookies from 'js-cookie';
-import { initialiseAnalytics } from '../state/actions/scigateway.actions';
-import { Action } from 'redux';
-import { AnalyticsState, StateType } from '../state/state.types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { getAppStrings, getString } from '../state/strings';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Action, Dispatch } from 'redux';
+import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { AppStrings } from '../state/scigateway.types';
-import { push } from 'connected-react-router';
-import { Location } from 'history';
+import { AnalyticsState, StateType } from '../state/state.types';
+import { getAppStrings, getString } from '../state/strings';
 
 const ManageButton = styled(Button)(({ theme }) => ({
   color: '#FFFFFF',
@@ -26,13 +24,11 @@ const AcceptButton = styled(Button)(({ theme }) => ({
 interface CookieConsentStateProps {
   analytics?: AnalyticsState;
   res: AppStrings | undefined;
-  location: Location;
   loading: boolean;
 }
 
 interface CookieConsentDispatchProps {
   initialiseAnalytics: () => Action;
-  navigateToCookies: () => Action;
 }
 
 export type CombinedCookieConsentProps = CookieConsentStateProps &
@@ -42,6 +38,9 @@ export const CookieConsent = (
   props: CombinedCookieConsentProps
 ): React.ReactElement => {
   const [open, setOpen] = React.useState(false);
+
+  const location = useLocation();
+  const { push } = useHistory();
 
   React.useEffect(() => {
     const consentCookie = JSON.parse(Cookies.get('cookie-consent') ?? 'null');
@@ -72,13 +71,13 @@ export const CookieConsent = (
     if (
       props.loading ||
       JSON.parse(Cookies.get('cookie-consent') ?? 'null') ||
-      props.location.pathname === '/cookies'
+      location.pathname === '/cookies'
     ) {
       setOpen(false);
     } else {
       setOpen(true);
     }
-  }, [props]);
+  }, [location.pathname, props]);
 
   const handleAccept = (
     _event: React.SyntheticEvent | React.MouseEvent
@@ -110,7 +109,7 @@ export const CookieConsent = (
           key="decline"
           variant="outlined"
           size="small"
-          onClick={props.navigateToCookies}
+          onClick={() => push('/cookies')}
         >
           {getString(props.res, 'manage-preferences-button')}
         </ManageButton>,
@@ -131,7 +130,6 @@ export const CookieConsent = (
 const mapStateToProps = (state: StateType): CookieConsentStateProps => ({
   analytics: state.scigateway.analytics,
   res: getAppStrings(state, 'cookie-consent'),
-  location: state.router.location,
   loading: state.scigateway.siteLoading,
 });
 
@@ -139,7 +137,6 @@ const mapDispatchToProps = (
   dispatch: Dispatch
 ): CookieConsentDispatchProps => ({
   initialiseAnalytics: () => dispatch(initialiseAnalytics()),
-  navigateToCookies: () => dispatch(push('/cookies')),
 });
 
 export const UnconnectedCookieConsent = CookieConsent;

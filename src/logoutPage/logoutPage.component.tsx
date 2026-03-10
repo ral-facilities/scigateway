@@ -1,36 +1,34 @@
-import React from 'react';
-import { signOut } from '../state/actions/scigateway.actions';
-import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { push } from 'connected-react-router';
-import Typography from '@mui/material/Typography';
-import { ThunkDispatch } from 'redux-thunk';
-import { Dispatch, Action, AnyAction } from 'redux';
+import { Avatar, Paper } from '@mui/material';
+import Button from '@mui/material/Button';
 import { Theme } from '@mui/material/styles';
-import { connect } from 'react-redux';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import UserInfo from '../authentication/user';
+import { signOut } from '../state/actions/scigateway.actions';
 import { AppStrings } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
-import UserInfo from '../authentication/user';
-import { Avatar, Paper } from '@mui/material';
 
 interface LogoutPageProps {
   user: User;
   res: AppStrings | undefined;
 }
 
-interface LogoutPageDispatchProps {
-  signIn: () => Action;
-  signOut: () => void;
-}
+type CombinedLogoutPageProps = LogoutPageProps;
 
-export type CombinedLogoutPageProps = LogoutPageProps & LogoutPageDispatchProps;
-
-export const UnconnectedLogoutPage = (
+const UnconnectedLogoutPage = (
   props: CombinedLogoutPageProps
 ): React.ReactElement => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const logout = (): void => {
-    props.signOut();
+    const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
+    thunkDispatch(signOut(history));
   };
 
   return (
@@ -98,15 +96,4 @@ const mapStateToProps = (state: StateType): LogoutPageProps => ({
   res: getAppStrings(state, 'login'),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): LogoutPageDispatchProps => ({
-  signIn: () => dispatch(push('/login')),
-  signOut: () => {
-    const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
-    thunkDispatch(signOut());
-  },
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UnconnectedLogoutPage);
+export default connect(mapStateToProps)(UnconnectedLogoutPage);

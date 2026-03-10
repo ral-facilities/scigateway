@@ -1,5 +1,3 @@
-import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
 import * as log from 'loglevel';
 import * as React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -22,16 +20,10 @@ import { StateType } from './state/state.types';
 import { ConnectedThemeProvider } from './theming';
 // This order needed for the App.css to apply to toasts correctly
 import ReduxToastr from 'react-redux-toastr';
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 
-const history = createBrowserHistory();
-
-const middleware = [
-  thunk,
-  routerMiddleware(history),
-  ScigatewayMiddleware,
-  autoLoginMiddleware,
-];
+const middleware = [thunk, ScigatewayMiddleware, autoLoginMiddleware];
 if (import.meta.env.MODE === 'development') {
   const logger = createLogger({ collapsed: true });
   middleware.push(logger);
@@ -46,7 +38,7 @@ const composeEnhancers =
 /* eslint-enable */
 
 const store = createStore(
-  AppReducer(history),
+  AppReducer(),
   composeEnhancers(applyMiddleware(...middleware))
 );
 
@@ -99,7 +91,7 @@ class App extends React.Component<WithTranslation> {
     return (
       <div className="App">
         <Provider store={store}>
-          <ConnectedRouter history={history}>
+          <BrowserRouter>
             <ConnectedThemeProvider>
               {this.props.tReady ? (
                 <>
@@ -110,7 +102,7 @@ class App extends React.Component<WithTranslation> {
                 <Preloader fullScreen loading />
               )}
             </ConnectedThemeProvider>
-          </ConnectedRouter>
+          </BrowserRouter>
         </Provider>
       </div>
     );

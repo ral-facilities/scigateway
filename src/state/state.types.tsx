@@ -1,4 +1,3 @@
-import { RouterState } from 'connected-react-router';
 import { Step } from 'react-joyride';
 import { AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
@@ -47,7 +46,6 @@ export interface ScigatewayState {
 
 export interface StateType {
   scigateway: ScigatewayState;
-  router: RouterState;
 }
 
 export interface ActionType<T> {

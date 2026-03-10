@@ -1,7 +1,6 @@
 import React, { ComponentType } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import {

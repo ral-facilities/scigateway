@@ -20,11 +20,7 @@ function createScigatewayNotification(
 }
 
 describe('Scigateway Notification component', () => {
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>

@@ -1,24 +1,19 @@
-import React from 'react';
-import Preloader from './preloader.component';
-import configureStore, { MockStore } from 'redux-mock-store';
-import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { createLocation } from 'history';
-import { Provider } from 'react-redux';
-import { thunk } from 'redux-thunk';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { render } from '@testing-library/react';
 import { createTheme } from '@mui/material/styles';
+import { render } from '@testing-library/react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore, { MockStore } from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import Preloader from './preloader.component';
 
 describe('Preloader component', () => {
   let mockStore: MockStore;
   let state: StateType;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={configureStore([thunk])(state)}>
         <Provider store={mockStore}>
@@ -33,10 +28,6 @@ describe('Preloader component', () => {
   beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
-      },
     };
     mockStore = configureStore()(state);
   });

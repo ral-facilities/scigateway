@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -91,10 +91,6 @@ describe('Login page component', () => {
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'POP',
-      },
     };
 
     props = {
@@ -117,11 +113,7 @@ describe('Login page component', () => {
     setItemSpy.mockReset();
   });
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Router history={history}>
         <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>

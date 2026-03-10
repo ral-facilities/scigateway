@@ -1,10 +1,10 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createLocation, createMemoryHistory, History } from 'history';
+import { createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -25,18 +25,13 @@ describe('Admin page component', () => {
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
   });
 
   const theme = buildTheme(false);
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     const testStore = mockStore(state);
     return (
       <Provider store={testStore}>

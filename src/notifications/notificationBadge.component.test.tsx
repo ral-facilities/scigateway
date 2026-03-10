@@ -1,14 +1,14 @@
-import React from 'react';
-import NotificationBadge from './notificationBadge.component';
 import { ThemeProvider } from '@mui/material/styles';
-import { buildTheme } from '../theming';
-import configureStore, { MockStore } from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { dismissMenuItem } from '../state/actions/scigateway.actions';
-import { Provider } from 'react-redux';
-import { StateType } from '../state/state.types';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore, { MockStore } from 'redux-mock-store';
+import { dismissMenuItem } from '../state/actions/scigateway.actions';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import NotificationBadge from './notificationBadge.component';
 
 describe('Notification Badge component', () => {
   const theme = buildTheme(false);
@@ -16,11 +16,7 @@ describe('Notification Badge component', () => {
   let testStore: MockStore;
   let state: StateType;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={testStore}>
         <ThemeProvider theme={theme}>{children}</ThemeProvider>

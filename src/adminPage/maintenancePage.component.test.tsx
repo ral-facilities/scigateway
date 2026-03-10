@@ -1,4 +1,3 @@
-import { createLocation } from 'history';
 import React from 'react';
 import configureStore, { MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -8,7 +7,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import {
@@ -27,7 +26,6 @@ describe('maintenance page component', () => {
     mockStore = configureStore([thunk]);
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/admin') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
@@ -36,11 +34,7 @@ describe('maintenance page component', () => {
 
   const theme = buildTheme(false);
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={store}>
         <StyledEngineProvider injectFirst>

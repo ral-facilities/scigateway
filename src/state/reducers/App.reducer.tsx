@@ -1,12 +1,9 @@
-import { combineReducers, Reducer } from 'redux';
-import { connectRouter } from 'connected-react-router';
-import scigatewayReducer from './scigateway.reducer';
-import { History } from 'history';
 import { reducer as toastrReducer } from 'react-redux-toastr';
+import { combineReducers, Reducer } from 'redux';
+import scigatewayReducer from './scigateway.reducer';
 
-const AppReducer = (history: History): Reducer =>
+const AppReducer = (): Reducer =>
   combineReducers({
-    router: connectRouter(history),
     scigateway: scigatewayReducer,
     toastr: toastrReducer,
   });
