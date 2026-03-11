@@ -11,7 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Theme, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Action, Dispatch } from 'redux';
 import NullAuthProvider from '../authentication/nullAuthProvider';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
@@ -23,7 +23,11 @@ import {
   toggleHelp,
 } from '../state/actions/scigateway.actions';
 import { buildNavDrawerPluginList } from '../state/pluginhelper';
-import { AppStrings, PluginConfig } from '../state/scigateway.types';
+import {
+  AppStrings,
+  PluginConfig,
+  scigatewayRoutes,
+} from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import MobileOverflowMenu from './mobileOverflowMenu.component';
@@ -80,7 +84,7 @@ export const MainAppBar = (
   const theme = useTheme();
   const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -186,7 +190,7 @@ export const MainAppBar = (
 
           <TitleButton
             className="tour-title"
-            onClick={() => push('/')}
+            onClick={() => navigate(scigatewayRoutes.home)}
             aria-label={getString(props.res, 'home-page')}
           >
             <img

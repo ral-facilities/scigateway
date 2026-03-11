@@ -5,7 +5,7 @@ import { Theme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import UserInfo from '../authentication/user';
@@ -25,10 +25,10 @@ const UnconnectedLogoutPage = (
   props: CombinedLogoutPageProps
 ): React.ReactElement => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const logout = (): void => {
     const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
-    thunkDispatch(signOut(history));
+    thunkDispatch(signOut(navigate));
   };
 
   return (

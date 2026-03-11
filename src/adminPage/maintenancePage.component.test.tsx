@@ -7,7 +7,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import {
@@ -39,9 +39,7 @@ describe('maintenance page component', () => {
       <Provider store={store}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
-              {children}
-            </MemoryRouter>
+            <BrowserRouter>{children}</BrowserRouter>
           </ThemeProvider>
         </StyledEngineProvider>
       </Provider>

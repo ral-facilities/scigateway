@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
 import React, { Fragment, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, LinkProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import { toggleDrawer } from '../state/actions/scigateway.actions';
@@ -32,13 +32,6 @@ const LogoImage = styled('img')(({ theme }) => ({
   paddingBottom: 24,
   color: theme.palette.text.secondary,
 }));
-
-// This has been adapted from the MaterialUI composition guide
-// (https://material-ui.com/guides/composition/)
-const ForwardRefLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  (linkProps, ref) => <Link innerRef={ref} {...linkProps} />
-);
-ForwardRefLink.displayName = 'ForwardRefLink';
 
 export const NavigationDrawer = (): React.ReactElement => {
   const isDrawerOpen = useSelector(
@@ -76,7 +69,7 @@ export const NavigationDrawer = (): React.ReactElement => {
       return (
         <ListItem
           key={index}
-          component={ForwardRefLink}
+          component={Link}
           to={plugin.link}
           id={`plugin-link-${plugin.link.replace(/\//g, '-')}`}
           disablePadding

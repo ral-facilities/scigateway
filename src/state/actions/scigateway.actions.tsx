@@ -1,8 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import axios from 'axios';
-import { History } from 'history';
 import log from 'loglevel';
 import { Step } from 'react-joyride';
+import { NavigateFunction } from 'react-router-dom';
 import { Action, AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
@@ -481,11 +481,11 @@ export const toggleHelp = (): Action => ({
 });
 
 export const signOut =
-  (history: History): ThunkAction<void, StateType, null, AnyAction> =>
+  (navigate: NavigateFunction): ThunkAction<void, StateType, null, AnyAction> =>
   (dispatch) => {
     dispatch({ type: SignOutType });
 
-    history.push('/');
+    navigate(scigatewayRoutes.home);
   };
 
 export const resetAuthState = (): Action => ({

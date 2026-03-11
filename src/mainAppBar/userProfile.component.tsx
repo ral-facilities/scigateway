@@ -16,12 +16,12 @@ import { alpha } from '@mui/material/styles';
 import log from 'loglevel';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import UserInfo from '../authentication/user';
 import { signOut } from '../state/actions/scigateway.actions';
-import { AppStrings } from '../state/scigateway.types';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 
@@ -41,12 +41,12 @@ export const UserProfileComponent = (
 
   const location = useLocation();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const logout = (): void => {
     closeMenu();
     const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
-    thunkDispatch(signOut(history));
+    thunkDispatch(signOut(navigate));
   };
   const open = Boolean(menuAnchor);
 
@@ -113,9 +113,11 @@ export const UserProfileComponent = (
             },
           })}
           onClick={() => {
-            history.push('/login', {
-              referrer: location.pathname,
-              referredFrom: 'clickingSignIn',
+            navigate(scigatewayRoutes.login, {
+              state: {
+                referrer: location.pathname,
+                referredFrom: 'clickingSignIn',
+              },
             });
             log.debug('signing in');
           }}

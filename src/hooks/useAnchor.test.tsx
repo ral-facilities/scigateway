@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react';
-import { createMemoryHistory, History } from 'history';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import type { DeepPartial } from 'redux';
 import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
@@ -18,16 +17,9 @@ function TestComponent(): JSX.Element {
 
 describe('useAnchor', () => {
   let createMockStore: MockStoreCreator<DeepPartial<StateType>>;
-  let history: History;
 
   beforeEach(() => {
-    history = createMemoryHistory({
-      initialEntries: [
-        {
-          hash: '#fragment',
-        },
-      ],
-    });
+    window.history.replaceState(null, '', '#fragment');
 
     // use fake timers bc useAnchor uses setTimeout under the hood
     vi.useFakeTimers();
@@ -57,9 +49,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <Router history={history}>
+        <BrowserRouter>
           <TestComponent />
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -92,9 +84,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <Router history={history}>
+        <BrowserRouter>
           <TestComponent />
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -123,9 +115,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <Router history={history}>
+        <BrowserRouter>
           <TestComponent />
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 

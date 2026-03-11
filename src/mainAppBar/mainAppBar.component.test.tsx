@@ -2,10 +2,9 @@ import { useMediaQuery } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { History, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import configureStore, { MockStore } from 'redux-mock-store';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import {
@@ -29,14 +28,13 @@ vi.mock('@mui/material', async () => ({
 describe('Main app bar component', () => {
   let testStore: MockStore;
   let state: StateType;
-  let history: History;
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={testStore}>
-            <Router history={history}>{children}</Router>
+            <BrowserRouter>{children}</BrowserRouter>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
@@ -44,8 +42,6 @@ describe('Main app bar component', () => {
   }
 
   beforeEach(() => {
-    history = createMemoryHistory();
-
     state = {
       scigateway: {
         ...initialState,
@@ -219,8 +215,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'home-page' }));
 
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual('/');
   });
 
   it('redirects to Help page when Help button clicked', async () => {
@@ -230,8 +225,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'help-page' }));
 
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/help');
+    expect(window.location.pathname).toEqual('/help');
   });
 
   it('redirects to Admin page when Admin button clicked (maintenance is default)', async () => {
@@ -241,8 +235,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'admin-page' }));
 
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/admin/maintenance');
+    expect(window.location.pathname).toEqual('/admin/maintenance');
   });
 
   it('redirects to Admin page when Admin button clicked (download is default)', async () => {
@@ -264,8 +257,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'admin-page' }));
 
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/admin/download');
+    expect(window.location.pathname).toEqual('/admin/download');
   });
 
   it('sends toggleHelp action when help button is clicked', async () => {
@@ -354,8 +346,7 @@ describe('Main app bar component', () => {
       await screen.findByRole('menuitem', { name: 'manage-cookies-button' })
     );
 
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/cookies');
+    expect(window.location.pathname).toEqual('/cookies');
   });
 
   it('sends load dark mode preference action if toggle dark mode is clicked', async () => {

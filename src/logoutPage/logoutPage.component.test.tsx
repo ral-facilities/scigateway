@@ -1,10 +1,9 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import configureStore, { MockStore } from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -17,20 +16,18 @@ describe('logout page component', () => {
   let testStore: MockStore;
 
   let state: StateType;
-  let history: History;
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <ThemeProvider theme={buildTheme(false)}>
         <Provider store={testStore}>
-          <Router history={history}>{children}</Router>
+          <BrowserRouter>{children}</BrowserRouter>
         </Provider>
       </ThemeProvider>
     );
   }
 
   beforeEach(() => {
-    history = createMemoryHistory();
     state = {
       scigateway: { ...initialState },
     };
@@ -81,7 +78,7 @@ describe('logout page component', () => {
 
     expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/');
+
+    expect(window.location.pathname).toEqual('/');
   });
 });

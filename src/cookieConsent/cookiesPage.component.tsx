@@ -7,8 +7,8 @@ import Cookies from 'js-cookie';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { AppStrings } from '../state/scigateway.types';
+import { useNavigate } from 'react-router-dom';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 
@@ -69,7 +69,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
     cookieConsent ? cookieConsent.analytics : false
   );
   const { t } = useTranslation();
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   return (
     <RootDiv>
@@ -182,7 +182,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
         sx={{ color: 'primary.contrastText' }}
         onClick={() => {
           handleSavePreferences({ analytics });
-          push('/');
+          navigate(scigatewayRoutes.home);
         }}
       >
         {getString(props.res, 'save-preferences-button')}

@@ -1,12 +1,13 @@
 import React, { ComponentType } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import LoadingAuthProvider from '../authentication/loadingAuthProvider';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import {
   invalidToken,
   requestPluginRerender,
 } from '../state/actions/scigateway.actions';
+import { scigatewayRoutes } from '../state/scigateway.types';
 import { AuthState, StateType } from '../state/state.types';
 
 const isStartingUpOrLoading = (auth: AuthState): boolean =>
@@ -75,13 +76,12 @@ const withAuth =
         <div>
           {!loading ? (
             !loggedIn ? (
-              <Redirect
-                to={{
-                  pathname: '/login',
-                  state: {
-                    referrer: location,
-                    referredFrom: 'authorisedRoute',
-                  },
+              <Navigate
+                to={scigatewayRoutes.login}
+                replace
+                state={{
+                  referrer: location,
+                  referredFrom: 'authorisedRoute',
                 }}
               />
             ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */

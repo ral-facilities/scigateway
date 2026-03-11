@@ -2,7 +2,7 @@ import { useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import * as singleSpa from 'single-spa';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import AdminPage from '../adminPage/adminPage.component';
@@ -90,6 +90,14 @@ export const getAdminRoutes = (props: {
   return newAdminRoutes;
 };
 
+/**
+ * Appends an asterisk to the provided route to make it so react-router matches the route and any sub-matches
+ * @param route The route to convert
+ * @returns The route with an asterisk appended to use with react-router as a non-exact route
+ */
+export const makeRouteNonExact = (route: string): string =>
+  route.endsWith('/') ? `${route}*` : `${route}/*`;
+
 interface RoutingProps {
   plugins: PluginConfig[];
   drawerOpen: boolean;
@@ -121,6 +129,7 @@ export const AuthorisedPlugin = withAuth(false)(PluginPlaceHolder);
 export const UnauthorisedPlugin = PluginPlaceHolder;
 // Prevents the component from updating when the draw is opened/closed
 export const AuthorisedAdminPage = withAuth(true)(AdminPage);
+const AuthorisedNotFoundPage = withAuth(false)(PageNotFound);
 
 const popSessionStorageItem = (
   key: string
@@ -176,87 +185,99 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       drawerOpen={props.drawerOpen}
       isMobileViewport={isMobileViewport}
     >
-      {/* Redirect to a homepageUrl if set. Otherwise, route to / */}
-      <Switch>
-        <Route exact path={scigatewayRoutes.home}>
-          {props.homepageUrl && props.homepageUrl !== '/' ? (
-            <Redirect to={props.homepageUrl} />
-          ) : (
-            <HomePage />
-          )}
-        </Route>
-        <Route exact path={scigatewayRoutes.help} component={HelpPage} />
+      {/* Navigate to a homepageUrl if set. Otherwise, route to / */}
+      <Routes>
         <Route
-          exact
+          path={scigatewayRoutes.home}
+          element={
+            props.homepageUrl && props.homepageUrl !== scigatewayRoutes.home ? (
+              <Navigate to={props.homepageUrl} replace />
+            ) : (
+              <HomePage />
+            )
+          }
+        />
+        <Route path={scigatewayRoutes.help} element={<HelpPage />} />
+        <Route
           path={scigatewayRoutes.accessibility}
-          component={AccessibilityPage}
+          element={<AccessibilityPage />}
         />
         <Route
-          path={scigatewayRoutes.admin}
-          render={() => <AuthorisedAdminPage />}
+          path={makeRouteNonExact(scigatewayRoutes.admin)}
+          element={<AuthorisedAdminPage />}
         />
-        <Route exact path={scigatewayRoutes.login}>
-          {/* Waits until the site is fully loaded before doing the logic.
-             As the initial state of userIsLoggedIn is false we have to wait
-             until the page has fully loaded so it can receive the correct state
-             for userIsLoggedIn */}
-          {props.nullAuthProvider ? (
-            <Redirect to={scigatewayRoutes.home} />
-          ) : !props.userIsLoggedIn ||
-            // if authorisedRoute redirected here but we're now autoLoggedIn, don't show login page & instead redirect - otherwise we want to show it
-            (props.userIsAutoLoggedIn &&
-              (location.state as { referredFrom?: string })?.referredFrom !==
-                'authorisedRoute') ||
-            props.loading ? (
-            <LoginPage />
-          ) : (
-            <Redirect
-              to={{
-                pathname:
+        <Route
+          path={scigatewayRoutes.login}
+          element={
+            props.nullAuthProvider ? (
+              <Navigate to={scigatewayRoutes.home} />
+            ) : !props.userIsLoggedIn ||
+              // if authorisedRoute redirected here but we're now autoLoggedIn, don't show login page & instead redirect - otherwise we want to show it
+              (props.userIsAutoLoggedIn &&
+                (location.state as { referredFrom?: string })?.referredFrom !==
+                  'authorisedRoute') ||
+              // Waits until the site is fully loaded before doing the redirect logic.
+              // As the initial state of userIsLoggedIn is false we have to wait
+              // until the page has fully loaded so it can receive the correct state
+              // for userIsLoggedIn
+              props.loading ? (
+              <LoginPage />
+            ) : (
+              <Navigate
+                to={
                   (prevUserIsLoggedIn === false ||
                     (prevUserIsAutoLoggedIn && !props.userIsAutoLoggedIn)) &&
                   props.userIsLoggedIn
                     ? (((location.state as { referrer?: string })?.referrer ||
                         popSessionStorageItem('referrer')) ??
                       scigatewayRoutes.home)
-                    : scigatewayRoutes.logout,
-                state: {
+                    : scigatewayRoutes.logout
+                }
+                replace
+                state={{
                   referrer: location.pathname,
                   referredFrom: 'postLoginRedirect',
-                },
-              }}
-            />
-          )}
-        </Route>
-        <Route exact path={scigatewayRoutes.logout}>
-          {props.nullAuthProvider ? (
-            <Redirect to={scigatewayRoutes.home} />
-          ) : (props.userIsLoggedIn && !props.userIsAutoLoggedIn) ||
-            props.loading ? (
-            <LogoutPage />
-          ) : (
-            <Redirect to={scigatewayRoutes.login} />
-          )}
-        </Route>
-        <Route exact path={scigatewayRoutes.cookies} component={CookiesPage} />
+                }}
+              />
+            )
+          }
+        />
+        <Route
+          path={scigatewayRoutes.logout}
+          element={
+            props.nullAuthProvider ? (
+              <Navigate to={scigatewayRoutes.home} />
+            ) : (props.userIsLoggedIn && !props.userIsAutoLoggedIn) ||
+              props.loading ? (
+              <LogoutPage />
+            ) : (
+              <Navigate to={scigatewayRoutes.login} />
+            )
+          }
+        />
+        <Route path={scigatewayRoutes.cookies} element={<CookiesPage />} />
         {/* Only display maintenance page to non-admin users when site under maintenance */}
         {props.maintenance.show && !props.userIsAdmin ? (
-          <Route component={MaintenancePage} />
+          <Route element={<MaintenancePage />} />
         ) : (
           props.plugins.map((plugin) => {
             return (
-              <Route key={plugin.plugin} path={plugin.link.split('?')[0]}>
-                {plugin.unauthorised ? (
-                  <UnauthorisedPlugin id={plugin.plugin} />
-                ) : (
-                  <AuthorisedPlugin id={plugin.plugin} />
-                )}
-              </Route>
+              <Route
+                key={plugin.plugin}
+                path={makeRouteNonExact(plugin.link.split('?')[0])}
+                element={
+                  plugin.unauthorised ? (
+                    <UnauthorisedPlugin id={plugin.plugin} />
+                  ) : (
+                    <AuthorisedPlugin id={plugin.plugin} />
+                  )
+                }
+              />
             );
           })
         )}
-        <Route component={withAuth(false)(PageNotFound)} />
-      </Switch>
+        <Route element={<AuthorisedNotFoundPage />} />
+      </Routes>
     </ContainerDiv>
   );
 };

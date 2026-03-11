@@ -3,10 +3,9 @@ import React from 'react';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createLocation, createMemoryHistory, History } from 'history';
 import Cookies from 'js-cookie';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import configureStore, { MockStore } from 'redux-mock-store';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -18,10 +17,8 @@ describe('Cookie consent component', () => {
   let mockStore;
   let state: StateType;
   let store: MockStore;
-  let history: History;
 
   beforeEach(() => {
-    history = createMemoryHistory();
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
@@ -42,7 +39,7 @@ describe('Cookie consent component', () => {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <Router history={history}>{children}</Router>
+            <BrowserRouter>{children}</BrowserRouter>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
@@ -70,8 +67,8 @@ describe('Cookie consent component', () => {
       screen.getByRole('button', { name: 'manage-preferences-button' })
     );
 
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toEqual('/cookies');
+    expect(window.window.history.length).toEqual(2);
+    expect(window.location.pathname).toEqual('/cookies');
   });
 
   it('should set cookie to true upon user accept', async () => {
@@ -146,7 +143,8 @@ describe('Cookie consent component', () => {
   });
 
   it('should set open to false if on /cookies page', () => {
-    state.router = { location: createLocation('/cookies') };
+    window.history.replaceState(null, '', '/cookies');
+
     store = mockStore(state);
 
     render(<CookieConsent />, { wrapper: Wrapper });

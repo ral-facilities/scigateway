@@ -4,10 +4,10 @@ import { styled } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import React from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Action, Dispatch } from 'redux';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
-import { AppStrings } from '../state/scigateway.types';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
 import { AnalyticsState, StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 
@@ -40,7 +40,7 @@ export const CookieConsent = (
   const [open, setOpen] = React.useState(false);
 
   const location = useLocation();
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const consentCookie = JSON.parse(Cookies.get('cookie-consent') ?? 'null');
@@ -71,7 +71,7 @@ export const CookieConsent = (
     if (
       props.loading ||
       JSON.parse(Cookies.get('cookie-consent') ?? 'null') ||
-      location.pathname === '/cookies'
+      location.pathname === scigatewayRoutes.cookies
     ) {
       setOpen(false);
     } else {
@@ -109,7 +109,7 @@ export const CookieConsent = (
           key="decline"
           variant="outlined"
           size="small"
-          onClick={() => push('/cookies')}
+          onClick={() => navigate(scigatewayRoutes.cookies)}
         >
           {getString(props.res, 'manage-preferences-button')}
         </ManageButton>,

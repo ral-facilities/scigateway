@@ -1,7 +1,7 @@
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
@@ -44,9 +44,9 @@ describe('PageContainer - Tests', () => {
     const { asFragment } = render(
       <Provider store={configureStore([thunk])(state)}>
         <ThemeProvider theme={buildTheme(false)}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <BrowserRouter initialEntries={[{ key: 'testKey' }]}>
             <PageContainer />
-          </MemoryRouter>
+          </BrowserRouter>
         </ThemeProvider>
       </Provider>
     );
@@ -59,9 +59,9 @@ describe('PageContainer - Tests', () => {
     render(
       <Provider store={configureStore([thunk])(state)}>
         <ThemeProvider theme={buildTheme(false)}>
-          <MemoryRouter initialEntries={[{ key: 'testKey' }]}>
+          <BrowserRouter initialEntries={[{ key: 'testKey' }]}>
             <PageContainer />
-          </MemoryRouter>
+          </BrowserRouter>
         </ThemeProvider>
       </Provider>
     );

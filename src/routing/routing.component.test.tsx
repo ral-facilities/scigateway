@@ -1,9 +1,9 @@
 import { ThemeProvider, useMediaQuery } from '@mui/material';
 import { act, render } from '@testing-library/react';
-import { MemoryHistory, createMemoryHistory } from 'history';
+import { MemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import configureStore, { MockStoreCreator } from 'redux-mock-store';
 import * as singleSpa from 'single-spa';
 import NullAuthProvider from '../authentication/nullAuthProvider';
@@ -36,9 +36,9 @@ describe('Routing component', () => {
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <ThemeProvider theme={buildTheme(false)}>
-        <Router history={history}>
+        <BrowserRouter>
           <Provider store={mockStore(state)}>{children}</Provider>
-        </Router>
+        </BrowserRouter>
       </ThemeProvider>
     );
   }
@@ -51,7 +51,6 @@ describe('Routing component', () => {
     };
     storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
 
-    history = createMemoryHistory();
     mockStore = configureStore();
 
     // I don't think MediaQuery works properly in jest
@@ -159,7 +158,7 @@ describe('Routing component', () => {
       },
     ];
 
-    history.replace('/test_link');
+    window.history.replaceState(null, '', '/test_link');
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
 
@@ -181,7 +180,7 @@ describe('Routing component', () => {
         order: 1,
       },
     ];
-    history.replace('/test_link');
+    window.history.replaceState(null, '', '/test_link');
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
 
@@ -197,7 +196,7 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
 
-    history.replace('/admin');
+    window.history.replaceState(null, '', '/admin');
 
     const { asFragment } = render(<Routing />, { wrapper: Wrapper });
 
@@ -209,7 +208,7 @@ describe('Routing component', () => {
 
     render(<Routing />, { wrapper: Wrapper });
 
-    expect(history.location.pathname).toEqual('/homepage');
+    expect(window.location.pathname).toEqual('/homepage');
   });
 
   it('redirects to the homepage if navigating to login page while logged in', () => {
@@ -253,7 +252,7 @@ describe('Routing component', () => {
 
     rerender(<Routing />);
 
-    expect(history.location.pathname).toEqual('/test');
+    expect(window.location.pathname).toEqual('/test');
   });
 
   it('redirects to / on /login route when logged in after auto-logged in (no referrer)', () => {
@@ -267,11 +266,11 @@ describe('Routing component', () => {
       name === 'autoLogin' ? isAutoLoggedIn : null
     );
 
-    history.replace('/login');
+    window.history.replaceState(null, '', '/login');
 
     const { rerender } = render(<Routing />, { wrapper: Wrapper });
 
-    expect(history.location.pathname).toEqual('/login');
+    expect(window.location.pathname).toEqual('/login');
 
     // simulate logging in - probably not needed for this unit test but it changes the token etc.
     state.scigateway.authorisation.provider.logIn('username', 'password');
@@ -280,7 +279,7 @@ describe('Routing component', () => {
 
     rerender(<Routing />);
 
-    expect(history.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual('/');
   });
 
   it('renders /login page when navigating to login page when auto-logged in', () => {
@@ -295,10 +294,10 @@ describe('Routing component', () => {
       name === 'autoLogin' ? 'true' : null
     );
 
-    history.replace('/login');
+    window.history.replaceState(null, '', '/login');
     render(<Routing />, { wrapper: Wrapper });
 
-    expect(history.location.pathname).toEqual('/login');
+    expect(window.location.pathname).toEqual('/login');
   });
 
   it('renders /login page when navigating to logout page when auto-logged in', () => {
@@ -313,26 +312,26 @@ describe('Routing component', () => {
       name === 'autoLogin' ? 'true' : null
     );
 
-    history.replace('/logout');
+    window.history.replaceState(null, '', '/logout');
     render(<Routing />, { wrapper: Wrapper });
 
-    expect(history.location.pathname).toEqual('/login');
+    expect(window.location.pathname).toEqual('/login');
   });
 
   it('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {
     state.scigateway.authorisation.provider = new NullAuthProvider();
     render(<Routing />, { wrapper: Wrapper });
-    expect(history.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual('/');
 
     act(() => {
-      history.replace('/login');
+      window.history.replaceState(null, '', '/login');
     });
-    expect(history.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual('/');
 
     act(() => {
-      history.replace('/logout');
+      window.history.replaceState(null, '', '/logout');
     });
-    expect(history.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual('/');
   });
 
   it('redirects to referrer on /login route after login when referrer is provided', () => {
@@ -351,14 +350,14 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     rerender(<Routing />);
 
-    expect(history.location.pathname).toEqual('/test');
+    expect(window.location.pathname).toEqual('/test');
   });
 
   it('redirects to referrer on /login route after login when referrer is provided via session storage', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
-    history.replace('/login');
+    window.history.replaceState(null, '', '/login');
 
     storageGetItemSpy.mockImplementation((name) =>
       name === 'referrer' ? '/test' : null
@@ -371,7 +370,7 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     rerender(<Routing />);
 
-    expect(history.location.pathname).toEqual('/test');
+    expect(window.location.pathname).toEqual('/test');
     expect(removeItemSpy).toHaveBeenCalledWith('referrer');
   });
 
@@ -379,24 +378,24 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
-    history.replace('/login');
+    window.history.replaceState(null, '', '/login');
     const { rerender } = render(<Routing />, { wrapper: Wrapper });
 
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
 
     rerender(<Routing />);
 
-    expect(history.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual('/');
   });
 
   it('redirects to /logout on /login route when /login is accessed not after login', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
 
-    history.replace('/login');
+    window.history.replaceState(null, '', '/login');
     render(<Routing />, { wrapper: Wrapper });
 
-    expect(history.location.pathname).toEqual('/logout');
+    expect(window.location.pathname).toEqual('/logout');
   });
 
   it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
@@ -412,7 +411,7 @@ describe('Routing component', () => {
         order: 1,
       },
     ];
-    history.replace('/test_link');
+    window.history.replaceState(null, '', '/test_link');
     const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
 
     vi.spyOn(document, 'getElementById').mockImplementation(() => {
@@ -448,7 +447,7 @@ describe('Routing component', () => {
         order: 1,
       },
     ];
-    history.replace('/test_link');
+    window.history.replaceState(null, '', '/test_link');
     const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
 
     vi.spyOn(document, 'getElementById').mockImplementation((element) => {

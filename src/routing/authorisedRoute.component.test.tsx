@@ -6,10 +6,13 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { MemoryHistory, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Route, Router, Switch } from 'react-router-dom';
+import {
+  BrowserRouter,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 import {
   AnyAction,
   applyMiddleware,
@@ -52,38 +55,39 @@ describe('AuthorisedRoute component', () => {
   const renderComponent = ({
     admin,
     componentToProtect,
-    history = createMemoryHistory(),
   }: {
     admin: boolean;
     componentToProtect: React.ComponentType;
-    history?: MemoryHistory;
   }): RenderResult & {
-    history: MemoryHistory;
+    router: ReturnType<typeof createBrowserRouter>;
     testStore: MockStoreEnhanced<StateType>;
   } => {
     const mockStore = configureStore<StateType, AnyAction>();
     const testStore = mockStore(state);
-
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
+    const router = createBrowserRouter([
+      // use / instead of * to ensure we unmount when we redirect
+      { path: '/', element: <AuthorisedComponent /> },
+      { path: '/login', element: <></> },
+    ]);
+
     const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Router history={history}>
-            <Provider store={testStore}>
-              {/* Add a router and switch to unmount when we redirect */}
-              <Switch>
-                <Route exact path="/">
-                  <AuthorisedComponent />
-                </Route>
-              </Switch>
-            </Provider>
-          </Router>
+          <Provider store={testStore}>
+            <RouterProvider
+              router={router}
+              future={{
+                v7_startTransition: true,
+              }}
+            />
+          </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
     );
 
     return {
-      history,
+      router,
       testStore: testStore,
       ...view,
     };
@@ -92,13 +96,10 @@ describe('AuthorisedRoute component', () => {
   const renderComponentWithRealStore = ({
     admin,
     componentToProtect,
-    history = createMemoryHistory(),
   }: {
     admin: boolean;
     componentToProtect: React.ComponentType;
-    history?: MemoryHistory;
   }): RenderResult & {
-    history: MemoryHistory;
     dispatch: (action: unknown) => void;
     getDispatchedActions: () => unknown[];
     getState: () => StateType;
@@ -134,20 +135,20 @@ describe('AuthorisedRoute component', () => {
     };
 
     const AuthorisedComponent = withAuth(admin)(componentToProtect);
+
     const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Router history={history}>
+          <BrowserRouter>
             <Provider store={store}>
               <AuthorisedComponent />
             </Provider>
-          </Router>
+          </BrowserRouter>
         </ThemeProvider>
       </StyledEngineProvider>
     );
 
     return {
-      history,
       ...view,
       ...utils,
     };
@@ -206,13 +207,13 @@ describe('AuthorisedRoute component', () => {
     state.scigateway.authorisation.loading = false;
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
 
-    const { history } = renderComponent({
+    const { router } = renderComponent({
       admin: false,
       componentToProtect: ComponentToProtect,
     });
 
-    expect(history.location.pathname).toBe('/login');
-    expect(history.location.state).toEqual({
+    expect(window.location.pathname).toBe('/login');
+    expect(router.state.location.state).toEqual({
       referrer: '/',
       referredFrom: 'authorisedRoute',
     });

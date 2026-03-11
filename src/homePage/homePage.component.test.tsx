@@ -1,8 +1,8 @@
-import HomePage from './homePage.component';
-import { render } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
+import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import { buildTheme } from '../theming';
-import { MemoryRouter } from 'react-router-dom';
+import HomePage from './homePage.component';
 
 vi.mock('@mui/material', async () => ({
   __esmodule: true,
@@ -14,9 +14,9 @@ describe('Home page component', () => {
   it('homepage renders correctly', () => {
     const { asFragment } = render(
       <ThemeProvider theme={buildTheme(false)}>
-        <MemoryRouter>
+        <BrowserRouter>
           <HomePage />
-        </MemoryRouter>
+        </BrowserRouter>
       </ThemeProvider>
     );
     expect(asFragment()).toMatchSnapshot();

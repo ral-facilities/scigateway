@@ -7,9 +7,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { render, screen } from '@testing-library/react';
-import { createMemoryHistory, History } from 'history';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { combineReducers, createStore, Store } from 'redux';
 import ScigatewayReducer, {
   initialState as scigatewayInitialState,
@@ -25,12 +24,10 @@ vi.mock('@mui/material', async () => ({
 }));
 
 describe('Navigation drawer component', () => {
-  let history: History;
   const theme = buildTheme(false);
 
   beforeEach(() => {
-    history = createMemoryHistory();
-    history.replace('/help');
+    window.history.replaceState(null, '', '/help');
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
@@ -39,11 +36,11 @@ describe('Navigation drawer component', () => {
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
-      <MemoryRouter>
+      <BrowserRouter>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </StyledEngineProvider>
-      </MemoryRouter>
+      </BrowserRouter>
     );
   }
 
