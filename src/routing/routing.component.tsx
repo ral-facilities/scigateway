@@ -260,21 +260,24 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         {props.maintenance.show && !props.userIsAdmin ? (
           <Route path="*" element={<MaintenancePage />} />
         ) : (
-          props.plugins.map((plugin) => {
-            return (
-              <Route
-                key={plugin.plugin}
-                path={makeRouteNonExact(plugin.link.split('?')[0])}
-                element={
-                  plugin.unauthorised ? (
-                    <UnauthorisedPlugin id={plugin.plugin} />
-                  ) : (
-                    <AuthorisedPlugin id={plugin.plugin} />
-                  )
-                }
-              />
-            );
-          })
+          props.plugins
+            // filter out admin plugins as they get routed via the admin page instead
+            .filter((plugin) => !plugin.admin)
+            .map((plugin) => {
+              return (
+                <Route
+                  key={plugin.plugin}
+                  path={makeRouteNonExact(plugin.link.split('?')[0])}
+                  element={
+                    plugin.unauthorised ? (
+                      <UnauthorisedPlugin id={plugin.plugin} />
+                    ) : (
+                      <AuthorisedPlugin id={plugin.plugin} />
+                    )
+                  }
+                />
+              );
+            })
         )}
         <Route path="*" element={<AuthorisedNotFoundPage />} />
       </Routes>

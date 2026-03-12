@@ -208,6 +208,27 @@ describe('Routing component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('renders an admin plugin route correctly', () => {
+    state.scigateway.plugins = [
+      {
+        section: 'test section',
+        link: '/admin/test',
+        plugin: 'test_admin_plugin_name',
+        displayName: 'Test Plugin Admin',
+        admin: true,
+        order: 0,
+      },
+    ];
+    state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
+    state.scigateway.siteLoading = false;
+
+    window.history.replaceState(null, '', '/admin/test');
+
+    const { asFragment } = render(<Routing />, { wrapper: Wrapper });
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
   it('redirects to a homepage URL if specified', () => {
     state.scigateway.homepageUrl = '/homepage';
 

@@ -300,6 +300,18 @@ exports[`Routing component > renders a route for maintenance page when site is u
 </DocumentFragment>
 `;
 
+exports[`Routing component > renders an admin plugin route correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="css-frbs4c"
+  >
+    <div>
+      Mocked AdminPage
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
 <DocumentFragment>
   <div
