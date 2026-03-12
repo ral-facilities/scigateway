@@ -5,7 +5,7 @@ import { Theme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import UserInfo from '../authentication/user';

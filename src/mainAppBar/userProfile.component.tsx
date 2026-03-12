@@ -16,7 +16,7 @@ import { alpha } from '@mui/material/styles';
 import log from 'loglevel';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import UserInfo from '../authentication/user';

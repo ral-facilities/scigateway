@@ -2,7 +2,7 @@ import { useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import * as singleSpa from 'single-spa';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import AdminPage from '../adminPage/adminPage.component';

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { TOptionsBase } from 'i18next';
 import Cookies from 'js-cookie';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import configureStore, { MockStore } from 'redux-mock-store';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
 import { StateType } from '../state/state.types';
@@ -42,11 +42,7 @@ describe('Cookies page component', () => {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <BrowserRouter
-            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-          >
-            {children}
-          </BrowserRouter>
+          <BrowserRouter>{children}</BrowserRouter>
         </ThemeProvider>
       </StyledEngineProvider>
     );

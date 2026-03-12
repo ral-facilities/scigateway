@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -36,9 +36,7 @@ describe('Admin page component', () => {
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <BrowserRouter
-              future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-            >
+            <BrowserRouter>
               {/* Emulate being inside the main router to ensure relative routing works */}
               <Routes>
                 <Route

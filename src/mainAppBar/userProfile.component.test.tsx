@@ -3,7 +3,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import configureStore, { type MockStore } from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -28,12 +28,7 @@ describe('User profile component', () => {
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <RouterProvider
-              router={router}
-              future={{
-                v7_startTransition: true,
-              }}
-            />
+            <RouterProvider router={router} />
           </ThemeProvider>
         </StyledEngineProvider>
       </Provider>

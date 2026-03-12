@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { getAdminRoutes } from '../routing/routing.component';
 import { scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';

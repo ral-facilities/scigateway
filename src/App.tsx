@@ -17,7 +17,7 @@ import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
 // This order needed for the App.css to apply to toasts correctly
 import ReduxToastr from 'react-redux-toastr';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { reload as reloadPage } from './App';
 import './App.css';
 import PageContainer from './pageContainer.component';
@@ -98,9 +98,8 @@ class App extends React.Component<WithTranslation> {
     return (
       <div className="App">
         <Provider store={store}>
-          <BrowserRouter
-            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-          >
+          {/* react-router transitions don't work nicely with external stores i.e. redux */}
+          <BrowserRouter unstable_useTransitions={false}>
             <ConnectedThemeProvider>
               {this.props.tReady ? (
                 <>

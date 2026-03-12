@@ -11,7 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Theme, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Action, Dispatch } from 'redux';
 import NullAuthProvider from '../authentication/nullAuthProvider';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';

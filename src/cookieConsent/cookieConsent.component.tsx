@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import React from 'react';
 import { connect } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Action, Dispatch } from 'redux';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';

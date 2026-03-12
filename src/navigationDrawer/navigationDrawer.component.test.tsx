@@ -9,7 +9,7 @@ import {
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { combineReducers, createStore, Store } from 'redux';
 import ScigatewayReducer, {
   initialState as scigatewayInitialState,
@@ -39,9 +39,7 @@ describe('Navigation drawer component', () => {
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
-      <BrowserRouter
-        future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-      >
+      <BrowserRouter>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </StyledEngineProvider>

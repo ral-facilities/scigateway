@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material';
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { buildTheme } from '../theming';
 import HomePage from './homePage.component';
 
@@ -14,9 +14,7 @@ describe('Home page component', () => {
   it('homepage renders correctly', () => {
     const { asFragment } = render(
       <ThemeProvider theme={buildTheme(false)}>
-        <BrowserRouter
-          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-        >
+        <BrowserRouter>
           <HomePage />
         </BrowserRouter>
       </ThemeProvider>

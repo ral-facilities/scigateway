@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import type { DeepPartial } from 'redux';
 import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
@@ -49,9 +49,7 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <BrowserRouter
-          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-        >
+        <BrowserRouter>
           <TestComponent />
         </BrowserRouter>
       </Provider>
@@ -86,9 +84,7 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <BrowserRouter
-          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-        >
+        <BrowserRouter>
           <TestComponent />
         </BrowserRouter>
       </Provider>
@@ -119,9 +115,7 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <BrowserRouter
-          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-        >
+        <BrowserRouter>
           <TestComponent />
         </BrowserRouter>
       </Provider>

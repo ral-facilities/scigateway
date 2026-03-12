@@ -1,7 +1,7 @@
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 
 import { ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';

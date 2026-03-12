@@ -1,15 +1,13 @@
 import { ThemeProvider } from '@mui/material';
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { buildTheme } from '../theming';
 import Footer from './footer.component';
 
 describe('Footer component', () => {
   it('footer renders correctly', () => {
     const { asFragment } = render(
-      <BrowserRouter
-        future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-      >
+      <BrowserRouter>
         <ThemeProvider theme={buildTheme(false)}>
           <Footer />
         </ThemeProvider>

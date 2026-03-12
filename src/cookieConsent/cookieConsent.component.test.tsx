@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import configureStore, { MockStore } from 'redux-mock-store';
 import { initialiseAnalytics } from '../state/actions/scigateway.actions';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -40,11 +40,7 @@ describe('Cookie consent component', () => {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <BrowserRouter
-              future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-            >
-              {children}
-            </BrowserRouter>
+            <BrowserRouter>{children}</BrowserRouter>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>

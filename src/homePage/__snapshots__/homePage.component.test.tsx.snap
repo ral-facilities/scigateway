@@ -76,6 +76,7 @@ exports[`Home page component > homepage renders correctly 1`] = `
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                  data-discover="true"
                   data-testid="browse-button"
                   href="/home-page.browse.link"
                   tabindex="0"
@@ -143,6 +144,7 @@ exports[`Home page component > homepage renders correctly 1`] = `
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                  data-discover="true"
                   data-testid="search-button"
                   href="/home-page.search.link"
                   tabindex="0"
@@ -195,6 +197,7 @@ exports[`Home page component > homepage renders correctly 1`] = `
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                  data-discover="true"
                   data-testid="download-button"
                   href="/home-page.download.link"
                   tabindex="0"

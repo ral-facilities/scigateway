@@ -12,7 +12,7 @@ import {
   BrowserRouter,
   RouterProvider,
   createBrowserRouter,
-} from 'react-router-dom';
+} from 'react-router';
 import {
   AnyAction,
   applyMiddleware,
@@ -76,12 +76,7 @@ describe('AuthorisedRoute component', () => {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={testStore}>
-            <RouterProvider
-              router={router}
-              future={{
-                v7_startTransition: true,
-              }}
-            />
+            <RouterProvider router={router} />
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
@@ -140,9 +135,7 @@ describe('AuthorisedRoute component', () => {
     const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <BrowserRouter
-            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-          >
+          <BrowserRouter>
             <Provider store={store}>
               <AuthorisedComponent />
             </Provider>

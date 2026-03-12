@@ -2,7 +2,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
@@ -16,9 +16,7 @@ describe('Page Not found component', () => {
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={configureStore([thunk])(state)}>
-        <BrowserRouter
-          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
-        >
+        <BrowserRouter>
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
           </StyledEngineProvider>

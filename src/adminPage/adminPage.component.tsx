@@ -8,7 +8,7 @@ import { StateType } from '../state/state.types';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { useTranslation } from 'react-i18next';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import {
   getAdminRoutes,

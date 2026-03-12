@@ -6,7 +6,7 @@ import {
   MenuProps,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { getAdminRoutes } from '../routing/routing.component';
 import { toggleHelp } from '../state/actions/scigateway.actions';
 import { scigatewayRoutes } from '../state/scigateway.types';

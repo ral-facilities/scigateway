@@ -2,7 +2,7 @@ import { ThemeProvider, useMediaQuery } from '@mui/material';
 import { act, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import configureStore, { MockStoreCreator } from 'redux-mock-store';
 import * as singleSpa from 'single-spa';
 import NullAuthProvider from '../authentication/nullAuthProvider';
@@ -41,12 +41,7 @@ describe('Routing component', () => {
     return (
       <ThemeProvider theme={buildTheme(false)}>
         <Provider store={mockStore(state)}>
-          <RouterProvider
-            router={router}
-            future={{
-              v7_startTransition: true,
-            }}
-          />
+          <RouterProvider router={router} />
         </Provider>
       </ThemeProvider>
     );

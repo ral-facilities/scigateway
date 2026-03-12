@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
 import React, { Fragment, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import STFCLogoBlueText from '../images/stfc-logo-blue-text.png';
 import STFCLogoWhiteText from '../images/stfc-logo-white-text.png';
 import { toggleDrawer } from '../state/actions/scigateway.actions';

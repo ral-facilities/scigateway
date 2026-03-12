@@ -2,7 +2,7 @@ import { Theme } from '@mui/material/styles';
 import axios from 'axios';
 import log from 'loglevel';
 import { Step } from 'react-joyride';
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction } from 'react-router';
 import { Action, AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
