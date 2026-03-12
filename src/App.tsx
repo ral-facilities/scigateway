@@ -5,8 +5,6 @@ import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { thunk, ThunkDispatch } from 'redux-thunk';
-import PageContainer from './pageContainer.component';
-import { Preloader } from './preloader/preloader.component';
 import {
   configureSite,
   loadMaintenanceState,
@@ -17,11 +15,14 @@ import ScigatewayMiddleware, {
 } from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
-import { ConnectedThemeProvider } from './theming';
 // This order needed for the App.css to apply to toasts correctly
 import ReduxToastr from 'react-redux-toastr';
 import { BrowserRouter } from 'react-router-dom';
+import { reload as reloadPage } from './App';
 import './App.css';
+import PageContainer from './pageContainer.component';
+import { Preloader } from './preloader/preloader.component';
+import { ConnectedThemeProvider } from './theming';
 
 const middleware = [thunk, ScigatewayMiddleware, autoLoginMiddleware];
 if (import.meta.env.MODE === 'development') {
@@ -60,6 +61,12 @@ const toastrConfig = (): React.ReactElement => (
   />
 );
 
+// Have to have this as separate function and re-import this function
+// to ensure we can mock this properly in unit tests
+export function reload() {
+  window.location.reload();
+}
+
 class App extends React.Component<WithTranslation> {
   public componentDidMount(): void {
     // Check for changes in maintenance state. Ensures that state changes are
@@ -78,7 +85,7 @@ class App extends React.Component<WithTranslation> {
 
               // Reload the page if maintenance state changes from true to false
               if (storedMaintenanceState.show && !fetchedMaintenanceState.show)
-                window.location.reload();
+                reloadPage();
             }
           });
         }
@@ -91,11 +98,14 @@ class App extends React.Component<WithTranslation> {
     return (
       <div className="App">
         <Provider store={store}>
-          <BrowserRouter>
+          <BrowserRouter
+            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+          >
             <ConnectedThemeProvider>
               {this.props.tReady ? (
                 <>
                   {toastrConfig()}
+
                   <PageContainer />
                 </>
               ) : (

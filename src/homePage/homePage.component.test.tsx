@@ -14,7 +14,9 @@ describe('Home page component', () => {
   it('homepage renders correctly', () => {
     const { asFragment } = render(
       <ThemeProvider theme={buildTheme(false)}>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+        >
           <HomePage />
         </BrowserRouter>
       </ThemeProvider>

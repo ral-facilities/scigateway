@@ -53,7 +53,8 @@ const withAuth =
         if (
           !loading &&
           (typeof prevLoading === 'undefined' || prevLoading) &&
-          (locationState as { referrer?: string })?.referrer !== '/login'
+          (locationState as { referrer?: string })?.referrer !==
+            scigatewayRoutes.login
         ) {
           provider.verifyLogIn().catch(() => {
             dispatch(invalidToken());
@@ -75,7 +76,7 @@ const withAuth =
       return (
         <div>
           {!loading ? (
-            !loggedIn ? (
+            !loggedIn && location !== scigatewayRoutes.login ? (
               <Navigate
                 to={scigatewayRoutes.login}
                 replace

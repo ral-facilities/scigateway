@@ -16,7 +16,9 @@ describe('Page Not found component', () => {
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={configureStore([thunk])(state)}>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+        >
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
           </StyledEngineProvider>

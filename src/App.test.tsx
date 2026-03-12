@@ -2,6 +2,7 @@ import { useMediaQuery } from '@mui/material';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
+import * as AppImport from './App';
 import App, { AppSansHoc } from './App';
 import { RegisterRouteType } from './state/scigateway.types';
 import { flushPromises } from './testUtils';
@@ -88,10 +89,7 @@ describe('App', () => {
     );
     window.matchMedia = vi.fn().mockReturnValue({ matches: true });
 
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: { ...window.location, reload: vi.fn() },
-    });
+    const reloadSpy = vi.spyOn(AppImport, 'reload').mockReturnValue();
 
     vi.useFakeTimers();
 
@@ -145,7 +143,7 @@ describe('App', () => {
     expect(screen.getByText('test message')).toBeInTheDocument();
 
     // should not refresh page when maintenance state changes from false to true
-    expect(window.location.reload).not.toHaveBeenCalled();
+    expect(reloadSpy).not.toHaveBeenCalled();
 
     vi.mocked(axios.get).mockImplementation(() =>
       Promise.resolve({
@@ -163,6 +161,6 @@ describe('App', () => {
     });
 
     // should refresh page when maintenance state changes from true to false
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(reloadSpy).toHaveBeenCalled();
   });
 });

@@ -148,7 +148,7 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
           ))
         )}
 
-        <Route element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Paper>
   );

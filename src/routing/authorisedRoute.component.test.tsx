@@ -50,6 +50,7 @@ describe('AuthorisedRoute component', () => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
+    window.history.replaceState(null, '', '/');
   });
 
   const renderComponent = ({
@@ -139,7 +140,9 @@ describe('AuthorisedRoute component', () => {
     const view = render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <BrowserRouter>
+          <BrowserRouter
+            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+          >
             <Provider store={store}>
               <AuthorisedComponent />
             </Provider>

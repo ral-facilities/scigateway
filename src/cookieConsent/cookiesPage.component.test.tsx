@@ -42,7 +42,11 @@ describe('Cookies page component', () => {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <BrowserRouter>{children}</BrowserRouter>
+          <BrowserRouter
+            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+          >
+            {children}
+          </BrowserRouter>
         </ThemeProvider>
       </StyledEngineProvider>
     );

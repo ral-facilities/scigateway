@@ -7,7 +7,9 @@ import Footer from './footer.component';
 describe('Footer component', () => {
   it('footer renders correctly', () => {
     const { asFragment } = render(
-      <BrowserRouter>
+      <BrowserRouter
+        future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+      >
         <ThemeProvider theme={buildTheme(false)}>
           <Footer />
         </ThemeProvider>

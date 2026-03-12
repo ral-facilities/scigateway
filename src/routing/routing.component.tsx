@@ -258,7 +258,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
         <Route path={scigatewayRoutes.cookies} element={<CookiesPage />} />
         {/* Only display maintenance page to non-admin users when site under maintenance */}
         {props.maintenance.show && !props.userIsAdmin ? (
-          <Route element={<MaintenancePage />} />
+          <Route path="*" element={<MaintenancePage />} />
         ) : (
           props.plugins.map((plugin) => {
             return (
@@ -276,7 +276,7 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
             );
           })
         )}
-        <Route element={<AuthorisedNotFoundPage />} />
+        <Route path="*" element={<AuthorisedNotFoundPage />} />
       </Routes>
     </ContainerDiv>
   );

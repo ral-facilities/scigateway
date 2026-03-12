@@ -48,6 +48,7 @@ describe('User profile component', () => {
       'test-token'
     );
     testStore = configureStore([thunk])(state);
+    window.history.replaceState(null, '', '/');
   });
 
   it('renders sign in button if not signed in', () => {

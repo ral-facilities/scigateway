@@ -3,12 +3,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
+import { makeRouteNonExact } from '../routing/routing.component';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { PluginConfig } from '../state/scigateway.types';
+import { PluginConfig, scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import AdminPage, { getAdminPluginRoutes } from './adminPage.component';
@@ -24,6 +25,7 @@ describe('Admin page component', () => {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    window.history.replaceState(null, '', '/');
   });
 
   const theme = buildTheme(false);
@@ -34,7 +36,17 @@ describe('Admin page component', () => {
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <BrowserRouter>{children}</BrowserRouter>
+            <BrowserRouter
+              future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+            >
+              {/* Emulate being inside the main router to ensure relative routing works */}
+              <Routes>
+                <Route
+                  path={makeRouteNonExact(scigatewayRoutes.admin)}
+                  element={<>{children}</>}
+                />
+              </Routes>
+            </BrowserRouter>
           </ThemeProvider>
         </StyledEngineProvider>
       </Provider>

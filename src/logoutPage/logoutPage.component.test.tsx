@@ -21,7 +21,11 @@ describe('logout page component', () => {
     return (
       <ThemeProvider theme={buildTheme(false)}>
         <Provider store={testStore}>
-          <BrowserRouter>{children}</BrowserRouter>
+          <BrowserRouter
+            future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+          >
+            {children}
+          </BrowserRouter>
         </Provider>
       </ThemeProvider>
     );

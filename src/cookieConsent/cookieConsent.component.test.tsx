@@ -28,6 +28,7 @@ describe('Cookie consent component', () => {
       id: 'test id',
       initialised: false,
     };
+    window.history.replaceState(null, '', '/');
 
     store = mockStore(state);
   });
@@ -39,7 +40,11 @@ describe('Cookie consent component', () => {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <BrowserRouter>{children}</BrowserRouter>
+            <BrowserRouter
+              future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+            >
+              {children}
+            </BrowserRouter>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>

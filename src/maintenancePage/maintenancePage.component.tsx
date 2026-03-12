@@ -9,7 +9,6 @@ interface MaintenancePageProps {
 }
 
 const MaintenancePage = (props: MaintenancePageProps): React.ReactElement => {
-  console.log('admin maintenance page');
   return (
     <Box
       sx={{

@@ -1,14 +1,14 @@
 import { ThemeProvider, useMediaQuery } from '@mui/material';
-import { act, render } from '@testing-library/react';
-import { MemoryHistory } from 'history';
+import { act, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import configureStore, { MockStoreCreator } from 'redux-mock-store';
 import * as singleSpa from 'single-spa';
 import NullAuthProvider from '../authentication/nullAuthProvider';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import Routing, { PluginPlaceHolder } from './routing.component';
@@ -30,15 +30,24 @@ vi.mock('@mui/material', async () => ({
 
 describe('Routing component', () => {
   let mockStore: MockStoreCreator;
-  let history: MemoryHistory;
   let state: StateType;
+  let router: ReturnType<typeof createBrowserRouter>;
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
+    router = createBrowserRouter([
+      // match everything with "*"
+      { path: '*', element: <>{children}</> },
+    ]);
     return (
       <ThemeProvider theme={buildTheme(false)}>
-        <BrowserRouter>
-          <Provider store={mockStore(state)}>{children}</Provider>
-        </BrowserRouter>
+        <Provider store={mockStore(state)}>
+          <RouterProvider
+            router={router}
+            future={{
+              v7_startTransition: true,
+            }}
+          />
+        </Provider>
       </ThemeProvider>
     );
   }
@@ -50,6 +59,7 @@ describe('Routing component', () => {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
     storageGetItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+    window.history.replaceState(null, '', '/');
 
     mockStore = configureStore();
 
@@ -231,8 +241,8 @@ describe('Routing component', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
-    history.replace({
-      pathname: '/login',
+    router.navigate(scigatewayRoutes.login, {
+      replace: true,
       state: {
         referrer: '/test',
         referredFrom: 'authorisedRoute',
@@ -318,28 +328,31 @@ describe('Routing component', () => {
     expect(window.location.pathname).toEqual('/login');
   });
 
-  it('redirects to / if navigating to login or logout page while using nullAuthProvider', () => {
+  it('redirects to / if navigating to login or logout page while using nullAuthProvider', async () => {
     state.scigateway.authorisation.provider = new NullAuthProvider();
     render(<Routing />, { wrapper: Wrapper });
-    expect(window.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual(scigatewayRoutes.home);
 
     act(() => {
-      window.history.replaceState(null, '', '/login');
+      router.navigate(scigatewayRoutes.login);
     });
-    expect(window.location.pathname).toEqual('/');
+
+    await waitFor(() => {
+      expect(window.location.pathname).toEqual(scigatewayRoutes.home);
+    });
 
     act(() => {
-      window.history.replaceState(null, '', '/logout');
+      router.navigate(scigatewayRoutes.logout);
     });
-    expect(window.location.pathname).toEqual('/');
+    expect(window.location.pathname).toEqual(scigatewayRoutes.home);
   });
 
   it('redirects to referrer on /login route after login when referrer is provided', () => {
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
     state.scigateway.siteLoading = false;
 
-    history.replace({
-      pathname: '/login',
+    router.navigate(scigatewayRoutes.login, {
+      replace: true,
       state: {
         referrer: '/test',
       },

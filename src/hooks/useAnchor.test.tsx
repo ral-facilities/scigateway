@@ -49,7 +49,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+        >
           <TestComponent />
         </BrowserRouter>
       </Provider>
@@ -84,7 +86,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+        >
           <TestComponent />
         </BrowserRouter>
       </Provider>
@@ -115,7 +119,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+        >
           <TestComponent />
         </BrowserRouter>
       </Provider>
