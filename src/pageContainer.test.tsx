@@ -44,7 +44,7 @@ describe('PageContainer - Tests', () => {
     const { asFragment } = render(
       <Provider store={configureStore([thunk])(state)}>
         <ThemeProvider theme={buildTheme(false)}>
-          <BrowserRouter initialEntries={[{ key: 'testKey' }]}>
+          <BrowserRouter>
             <PageContainer />
           </BrowserRouter>
         </ThemeProvider>
@@ -59,7 +59,7 @@ describe('PageContainer - Tests', () => {
     render(
       <Provider store={configureStore([thunk])(state)}>
         <ThemeProvider theme={buildTheme(false)}>
-          <BrowserRouter initialEntries={[{ key: 'testKey' }]}>
+          <BrowserRouter>
             <PageContainer />
           </BrowserRouter>
         </ThemeProvider>
