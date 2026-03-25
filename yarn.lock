@@ -197,7 +197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.28.4, @babel/runtime@npm:^7.29.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.29.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.29.2
   resolution: "@babel/runtime@npm:7.29.2"
   checksum: 10/f55ba4052aa0255055b34371a145fbe69c29b37b49eaea14805b095bfb4153701486416e89392fd27ec8abafa53868be86e960b9f8f959fff91f2c8ac2a14b02
@@ -7337,11 +7337,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:16.5.4":
-  version: 16.5.4
-  resolution: "react-i18next@npm:16.5.4"
+"react-i18next@npm:16.6.0":
+  version: 16.6.0
+  resolution: "react-i18next@npm:16.6.0"
   dependencies:
-    "@babel/runtime": "npm:^7.28.4"
+    "@babel/runtime": "npm:^7.29.2"
     html-parse-stringify: "npm:^3.0.1"
     use-sync-external-store: "npm:^1.6.0"
   peerDependencies:
@@ -7355,7 +7355,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10/68319027cf93d33a7b782a9c8e9d27bda4df30790d2e8b17fe6f81181c4f7c729b02001e03b4462f44c7141a5cc6983e038c92bb2e4a531f046a75a853f9c203
+  checksum: 10/cdbef47c2c6b06f10a704f42521392fb7e4b93371cab1a22b333810be8dac8f52a50e125ac78a9b3ac4e9ee3b3785dd52026f647362bcb1fa47cf3d7133a7423
   languageName: node
   linkType: hard
 
@@ -8041,7 +8041,7 @@ __metadata:
     prop-types: "npm:15.8.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
-    react-i18next: "npm:16.5.4"
+    react-i18next: "npm:16.6.0"
     react-joyride: "npm:2.9.3"
     react-redux: "npm:8.1.2"
     react-redux-toastr: "npm:8.0.0"
