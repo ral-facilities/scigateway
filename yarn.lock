@@ -197,7 +197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.28.4, @babel/runtime@npm:^7.28.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.28.4, @babel/runtime@npm:^7.29.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.29.2
   resolution: "@babel/runtime@npm:7.29.2"
   checksum: 10/f55ba4052aa0255055b34371a145fbe69c29b37b49eaea14805b095bfb4153701486416e89392fd27ec8abafa53868be86e960b9f8f959fff91f2c8ac2a14b02
@@ -5106,17 +5106,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:25.9.0":
-  version: 25.9.0
-  resolution: "i18next@npm:25.9.0"
+"i18next@npm:25.10.3":
+  version: 25.10.3
+  resolution: "i18next@npm:25.10.3"
   dependencies:
-    "@babel/runtime": "npm:^7.28.6"
+    "@babel/runtime": "npm:^7.29.2"
   peerDependencies:
     typescript: ^5
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/63f01cec6e8b28c41d37831e236040bccb32fd0f3a4dc41852eadf1d3fd9ea3bd7d5139dc43c7bc1bb5c4ef4cd2bf4ead605ec7a0d42588015dfb4eb166b6a25
+  checksum: 10/230bf2af3ab81dafb0d5209739f665636c6b5b93f8bbf9749d284eb1014708035e32c42e2e6dd401b23a5fef3fe904eea35b9f1c11ffaf42f25741c5b0db883e
   languageName: node
   linkType: hard
 
@@ -8028,7 +8028,7 @@ __metadata:
     express: "npm:5.2.1"
     globals: "npm:^17.0.0"
     husky: "npm:9.1.7"
-    i18next: "npm:25.9.0"
+    i18next: "npm:25.10.3"
     i18next-browser-languagedetector: "npm:8.2.0"
     i18next-http-backend: "npm:3.0.2"
     js-cookie: "npm:3.0.1"
