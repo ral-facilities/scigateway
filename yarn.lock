@@ -8344,7 +8344,7 @@ __metadata:
     redux-mock-store: "npm:1.5.4"
     redux-thunk: "npm:3.1.0"
     serve: "npm:14.2.0"
-    single-spa: "npm:5.9.4"
+    single-spa: "npm:6.0.3"
     start-server-and-test: "npm:~2.1.0"
     typeface-roboto: "npm:1.1.13"
     typescript: "npm:5.9.2"
@@ -8605,10 +8605,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"single-spa@npm:5.9.4":
-  version: 5.9.4
-  resolution: "single-spa@npm:5.9.4"
-  checksum: 10/7b89384063885d3f25bce45996e29928fce9e36ad39bf1189d59b601796bbfe086b40e82d1843a38507c0d9f91f3710a7ddd1f81bf23ec4f24649b2e1ec4f98b
+"single-spa@npm:6.0.3":
+  version: 6.0.3
+  resolution: "single-spa@npm:6.0.3"
+  checksum: 10/bdb00c205cf849e0392d5b734869d7fe57d99a985c05f190e281f038d1cb3c052e0e06f9216893b74ca60cce3bd5ad03b02b2144981143b4008c171b3e5e34ca
   languageName: node
   linkType: hard
 
