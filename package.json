@@ -45,7 +45,7 @@
     "single-spa": "5.9.4",
     "typeface-roboto": "1.1.13",
     "typescript": "5.9.2",
-    "vite": "5.4.21"
+    "vite": "8.0.5"
   },
   "scripts": {
     "dev": "cross-env concurrently \"yarn serve:plugins\" \"node server/auth-server.js\" \"vite --open\"",
