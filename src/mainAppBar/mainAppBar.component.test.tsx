@@ -122,10 +122,12 @@ describe('Main app bar component', () => {
     expect(screen.queryByRole('button', { name: 'help-page' })).toBeNull();
   });
 
-  it('uses single plugin logo when feature is true', async () => {
+  it('uses the dark single plugin logo when dark and high contrast modes are enabled', async () => {
     state.scigateway.logo = undefined;
     state.scigateway.siteLoading = false;
     state.scigateway.features.singlePluginLogo = true;
+    state.scigateway.darkMode = true;
+    state.scigateway.highContrastMode = true;
     state.scigateway.plugins = [
       {
         order: 0,
@@ -133,6 +135,7 @@ describe('Main app bar component', () => {
         plugin: 'plugin',
         link: '/plugin',
         displayName: 'Plugin',
+        logoLightMode: 'plugin_logo_light',
         logoDarkMode: 'plugin_logo_dark',
       },
     ];
@@ -407,7 +410,8 @@ describe('Main app bar component', () => {
       plugin: 'plugin',
       displayName: 'pluginName',
       order: 1,
-      logoDarkMode: 'pluginLogo',
+      logoLightMode: 'pluginLogoLight',
+      logoDarkMode: 'pluginLogoDark',
     };
     delete state.scigateway.logo;
     state.scigateway.plugins = [plugin];
@@ -420,7 +424,39 @@ describe('Main app bar component', () => {
       { wrapper: Wrapper }
     );
 
-    expect(await screen.findByRole('img')).toHaveAttribute('src', 'pluginLogo');
+    expect(await screen.findByRole('img')).toHaveAttribute(
+      'src',
+      'pluginLogoLight'
+    );
+  });
+
+  it('sets the dark plugin logo only when dark and high contrast modes are enabled', async () => {
+    const plugin: PluginConfig = {
+      section: 'section',
+      link: '/link',
+      plugin: 'plugin',
+      displayName: 'pluginName',
+      order: 1,
+      logoLightMode: 'pluginLogoLight',
+      logoDarkMode: 'pluginLogoDark',
+    };
+    delete state.scigateway.logo;
+    state.scigateway.plugins = [plugin];
+    state.scigateway.siteLoading = false;
+    state.scigateway.darkMode = true;
+    state.scigateway.highContrastMode = true;
+
+    render(
+      <div id="plugin">
+        <MainAppBarComponent />
+      </div>,
+      { wrapper: Wrapper }
+    );
+
+    expect(await screen.findByRole('img')).toHaveAttribute(
+      'src',
+      'pluginLogoDark'
+    );
   });
 
   it('sets scigateway logo if no plugin is matched', () => {

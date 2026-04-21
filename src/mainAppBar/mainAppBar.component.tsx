@@ -75,6 +75,14 @@ const TitleButton = styled(Button)(({ theme }) => ({
 
 type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 
+const getPluginLogo = (
+  plugin: PluginConfig,
+  useDarkModeLogo: boolean
+): string | undefined =>
+  useDarkModeLogo
+    ? (plugin.logoDarkMode ?? plugin.logoLightMode)
+    : (plugin.logoLightMode ?? plugin.logoDarkMode);
+
 export const MainAppBar = (
   props: CombinedMainAppBarProps
 ): React.ReactElement => {
@@ -85,6 +93,7 @@ export const MainAppBar = (
   const location = useLocation();
   const theme = useTheme();
   const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+  const useDarkModeLogo = props.darkMode && props.highContrastMode;
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -92,12 +101,14 @@ export const MainAppBar = (
       if (props.plugins.length >= 1) {
         //Use the first plugin's logo for everything if 'singlePluginLogo' is true, otherwise choose depending on current plugin visible
         if (props.singlePluginLogo) {
-          setLogo(props.plugins[0].logoDarkMode ?? ScigatewayLogo);
+          setLogo(
+            getPluginLogo(props.plugins[0], useDarkModeLogo) ?? ScigatewayLogo
+          );
           set = true;
         } else {
           for (const p of props.plugins) {
             if (document.getElementById(p.plugin) !== null) {
-              setLogo(p.logoDarkMode ?? ScigatewayLogo);
+              setLogo(getPluginLogo(p, useDarkModeLogo) ?? ScigatewayLogo);
               set = true;
               break;
             }
@@ -109,7 +120,13 @@ export const MainAppBar = (
         setLogo(ScigatewayLogo);
       }
     }
-  }, [props.plugins, location, props.loading, props.singlePluginLogo]);
+  }, [
+    props.plugins,
+    location,
+    props.loading,
+    props.singlePluginLogo,
+    useDarkModeLogo,
+  ]);
 
   const { toggleDrawer } = props;
 
