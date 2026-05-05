@@ -19,7 +19,7 @@
     "@types/react-redux-toastr": "8.0.0",
     "@types/redux-logger": "3.0.8",
     "@vitejs/plugin-react": "^5.0.0",
-    "axios": "1.13.6",
+    "axios": "1.15.0",
     "browserslist": "4.28.1",
     "browserslist-to-esbuild": "2.1.1",
     "husky": "9.1.7",
