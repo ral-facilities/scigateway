@@ -79,6 +79,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
@@ -98,7 +99,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                 style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-18pmme8"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -146,6 +147,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
@@ -198,6 +200,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
@@ -297,6 +300,18 @@ exports[`Routing component > renders a route for maintenance page when site is u
 </DocumentFragment>
 `;
 
+exports[`Routing component > renders an admin plugin route correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="css-frbs4c"
+  >
+    <div>
+      Mocked AdminPage
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
 <DocumentFragment>
   <div
@@ -376,6 +391,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
@@ -395,7 +411,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                 style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-18pmme8"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -443,6 +459,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
@@ -495,6 +512,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
@@ -635,6 +653,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
@@ -654,7 +673,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                 style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-18pmme8"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -702,6 +721,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
@@ -754,6 +774,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
@@ -894,6 +915,7 @@ exports[`Routing component > renders component with plugins 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
@@ -913,7 +935,7 @@ exports[`Routing component > renders component with plugins 1`] = `
                 style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
-                  class="css-18pmme8"
+                  class="css-1ox020v"
                 />
               </div>
             </div>
@@ -961,6 +983,7 @@ exports[`Routing component > renders component with plugins 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
@@ -1013,6 +1036,7 @@ exports[`Routing component > renders component with plugins 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"

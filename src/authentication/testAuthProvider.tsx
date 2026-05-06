@@ -2,12 +2,12 @@ import {
   MaintenanceState,
   ScheduledMaintenanceState,
 } from '../state/scigateway.types';
-import { AuthProvider } from '../state/state.types';
+import { AuthProvider, User } from '../state/state.types';
 
 export default class TestAuthProvider implements AuthProvider {
   private token: string | null;
   public redirectUrl: string | null;
-  public user = null;
+  public user: User | null = null;
   public mnemonic: string | undefined;
   public authUrl: string | undefined;
   public autoLogin?: () => Promise<void>;
@@ -32,6 +32,14 @@ export default class TestAuthProvider implements AuthProvider {
   public logIn(username: string, password: string): Promise<void> {
     if (username === 'username' && password === 'password') {
       this.token = 'validLoginToken';
+      this.user = { username, isAdmin: true, avatarUrl: '' };
+      return Promise.resolve();
+    } else if (
+      username === 'username_with_avatar_url' &&
+      password === 'password'
+    ) {
+      this.token = 'validLoginToken';
+      this.user = { username, isAdmin: true, avatarUrl: 'test_url' };
       return Promise.resolve();
     }
 

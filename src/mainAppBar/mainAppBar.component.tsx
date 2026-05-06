@@ -9,10 +9,9 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import { Theme, useTheme } from '@mui/material/styles';
-import { push } from 'connected-react-router';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Action, Dispatch } from 'redux';
 import NullAuthProvider from '../authentication/nullAuthProvider';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
@@ -24,7 +23,11 @@ import {
   toggleHelp,
 } from '../state/actions/scigateway.actions';
 import { buildNavDrawerPluginList } from '../state/pluginhelper';
-import { AppStrings, PluginConfig } from '../state/scigateway.types';
+import {
+  AppStrings,
+  PluginConfig,
+  scigatewayRoutes,
+} from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import MobileOverflowMenu from './mobileOverflowMenu.component';
@@ -48,16 +51,11 @@ interface MainAppProps {
   logo?: string;
   homepageUrl?: string;
   adminPageDefaultTab?: string;
-  pathname: string;
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
-  navigateToHome: () => Action;
-  navigateToHelpPage: () => Action;
-  navigateToAdminPage: (defaultTab: string) => Action;
   toggleHelp: () => Action;
-  manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
   toggleHighContrastMode: (preference: boolean) => Action;
 }
@@ -85,6 +83,8 @@ export const MainAppBar = (
   const location = useLocation();
   const theme = useTheme();
   const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -190,7 +190,7 @@ export const MainAppBar = (
 
           <TitleButton
             className="tour-title"
-            onClick={props.navigateToHome}
+            onClick={() => navigate(scigatewayRoutes.home)}
             aria-label={getString(props.res, 'home-page')}
           >
             <img
@@ -286,16 +286,11 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   logo: state.scigateway.logo,
   homepageUrl: state.scigateway.homepageUrl,
   adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
-  pathname: state.router.location.pathname,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  navigateToHome: () => dispatch(push('/')),
-  navigateToHelpPage: () => dispatch(push('/help')),
-  navigateToAdminPage: (defaultTab: string) => dispatch(push(defaultTab)),
   toggleHelp: () => dispatch(toggleHelp()),
-  manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>
     dispatch(loadDarkModePreference(preference)),
   toggleHighContrastMode: (preference: boolean) =>

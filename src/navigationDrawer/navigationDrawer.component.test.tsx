@@ -7,9 +7,9 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { render, screen } from '@testing-library/react';
-import { createMemoryHistory, History } from 'history';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { combineReducers, createStore, Store } from 'redux';
 import ScigatewayReducer, {
   initialState as scigatewayInitialState,
@@ -25,12 +25,12 @@ vi.mock('@mui/material', async () => ({
 }));
 
 describe('Navigation drawer component', () => {
-  let history: History;
   const theme = buildTheme(false);
+  let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
-    history = createMemoryHistory();
-    history.replace('/help');
+    user = userEvent.setup();
+    window.history.replaceState(null, '', '/');
     // I don't think MediaQuery works properly in jest
     // in the implementation useMediaQuery is used to query whether the current viewport is md or larger
     // here we assume it is always the case.
@@ -39,11 +39,11 @@ describe('Navigation drawer component', () => {
 
   function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
-      <MemoryRouter>
+      <BrowserRouter>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </StyledEngineProvider>
-      </MemoryRouter>
+      </BrowserRouter>
     );
   }
 
@@ -103,7 +103,7 @@ describe('Navigation drawer component', () => {
       order: order,
       displayName: displayName,
       section: section,
-      link: 'link',
+      link: '/link',
       plugin: 'plugin',
     };
   }
@@ -146,6 +146,30 @@ describe('Navigation drawer component', () => {
     expect(navBarLinks[3]).toHaveTextContent('data-plugin1');
     expect(navBarLinks[4]).toHaveTextContent('data-plugin2');
     expect(navBarLinks[5]).toHaveTextContent('data-plugin-no-displayname');
+  });
+
+  it("can navigate to a plugin via clicking on it's link", async () => {
+    const dummyPlugins: PluginConfig[] = [
+      buildPlugin(1, 'data-plugin', 'DATA'),
+    ];
+
+    render(
+      <Provider
+        store={createMockStore({
+          drawerOpen: true,
+          plugins: dummyPlugins,
+          darkMode: false,
+          res: undefined,
+        })}
+      >
+        <NavigationDrawer />
+      </Provider>,
+      { wrapper: Wrapper }
+    );
+
+    await user.click(screen.getByRole('link'));
+
+    expect(window.location.pathname).toEqual('/link');
   });
 
   it('does not render admin plugins or plugins that ask to hide in list', () => {

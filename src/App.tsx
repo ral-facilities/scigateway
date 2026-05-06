@@ -1,5 +1,3 @@
-import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
 import * as log from 'loglevel';
 import * as React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -7,8 +5,6 @@ import { Provider } from 'react-redux';
 import { AnyAction, applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { thunk, ThunkDispatch } from 'redux-thunk';
-import PageContainer from './pageContainer.component';
-import { Preloader } from './preloader/preloader.component';
 import {
   configureSite,
   loadMaintenanceState,
@@ -19,19 +15,16 @@ import ScigatewayMiddleware, {
 } from './state/middleware/scigateway.middleware';
 import AppReducer from './state/reducers/App.reducer';
 import { StateType } from './state/state.types';
-import { ConnectedThemeProvider } from './theming';
 // This order needed for the App.css to apply to toasts correctly
 import ReduxToastr from 'react-redux-toastr';
+import { BrowserRouter } from 'react-router';
+import { reload as reloadPage } from './App';
 import './App.css';
+import PageContainer from './pageContainer.component';
+import { Preloader } from './preloader/preloader.component';
+import { ConnectedThemeProvider } from './theming';
 
-const history = createBrowserHistory();
-
-const middleware = [
-  thunk,
-  routerMiddleware(history),
-  ScigatewayMiddleware,
-  autoLoginMiddleware,
-];
+const middleware = [thunk, ScigatewayMiddleware, autoLoginMiddleware];
 if (import.meta.env.MODE === 'development') {
   const logger = createLogger({ collapsed: true });
   middleware.push(logger);
@@ -46,7 +39,7 @@ const composeEnhancers =
 /* eslint-enable */
 
 const store = createStore(
-  AppReducer(history),
+  AppReducer(),
   composeEnhancers(applyMiddleware(...middleware))
 );
 
@@ -68,6 +61,12 @@ const toastrConfig = (): React.ReactElement => (
   />
 );
 
+// Have to have this as separate function and re-import this function
+// to ensure we can mock this properly in unit tests
+export function reload() {
+  window.location.reload();
+}
+
 class App extends React.Component<WithTranslation> {
   public componentDidMount(): void {
     // Check for changes in maintenance state. Ensures that state changes are
@@ -86,7 +85,7 @@ class App extends React.Component<WithTranslation> {
 
               // Reload the page if maintenance state changes from true to false
               if (storedMaintenanceState.show && !fetchedMaintenanceState.show)
-                window.location.reload();
+                reloadPage();
             }
           });
         }
@@ -99,18 +98,20 @@ class App extends React.Component<WithTranslation> {
     return (
       <div className="App">
         <Provider store={store}>
-          <ConnectedRouter history={history}>
+          {/* react-router transitions don't work nicely with external stores i.e. redux */}
+          <BrowserRouter unstable_useTransitions={false}>
             <ConnectedThemeProvider>
               {this.props.tReady ? (
                 <>
                   {toastrConfig()}
+
                   <PageContainer />
                 </>
               ) : (
                 <Preloader fullScreen loading />
               )}
             </ConnectedThemeProvider>
-          </ConnectedRouter>
+          </BrowserRouter>
         </Provider>
       </div>
     );

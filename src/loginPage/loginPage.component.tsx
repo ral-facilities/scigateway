@@ -18,7 +18,7 @@ import { Theme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { Action, AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import {
@@ -64,8 +64,7 @@ const DividerLine = styled('div')(({ theme }) => ({
 }));
 
 const DividerWithText = (props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: React.ReactElement<any, any>;
+  children: React.ReactNode;
 }): React.ReactElement => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -327,7 +326,8 @@ export const LoginPageComponent = (
         : undefined)
   );
   const [initialisedAuth, setInitialisedAuth] = useState<boolean>(false);
-  const location = useLocation<{ referrer?: string } | undefined>();
+  const location = useLocation();
+  const locationState: { referrer?: string } | undefined = location.state;
 
   const { verifyUsernameAndPassword } = props;
 
@@ -341,10 +341,10 @@ export const LoginPageComponent = (
       props.auth.provider.setAuthenticator?.(
         newAuthenticator,
         disableSideEffects,
-        location.state?.referrer
+        locationState?.referrer
       );
     },
-    [location.state?.referrer, props.auth.provider]
+    [locationState?.referrer, props.auth.provider]
   );
 
   React.useEffect(() => {

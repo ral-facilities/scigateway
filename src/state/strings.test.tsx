@@ -1,8 +1,7 @@
-import { getAppStrings, getString } from './strings';
+import { authState, initialState } from './reducers/scigateway.reducer';
 import { AppStrings } from './scigateway.types';
 import { ScigatewayState, StateType } from './state.types';
-import { RouterState } from 'connected-react-router';
-import { authState, initialState } from './reducers/scigateway.reducer';
+import { getAppStrings, getString } from './strings';
 
 describe('strings', () => {
   describe('getString', () => {
@@ -33,17 +32,6 @@ describe('strings', () => {
       unexpected: 'unexpected string',
     };
 
-    const routerState: RouterState = {
-      action: 'POP',
-      location: {
-        hash: '',
-        key: '',
-        pathname: '/',
-        search: '',
-        state: {},
-      },
-    };
-
     const scigatewayState: ScigatewayState = {
       ...initialState,
       authorisation: { ...authState },
@@ -54,7 +42,6 @@ describe('strings', () => {
     };
 
     const state: StateType = {
-      router: { ...routerState },
       scigateway: { ...scigatewayState },
     };
 

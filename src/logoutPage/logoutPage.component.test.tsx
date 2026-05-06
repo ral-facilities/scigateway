@@ -1,40 +1,37 @@
-import React from 'react';
-import LogoutPage, {
-  CombinedLogoutPageProps,
-  UnconnectedLogoutPage,
-} from './logoutPage.component';
-import { StateType } from '../state/state.types';
-import configureStore from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { Provider } from 'react-redux';
-import { push } from 'connected-react-router';
-import { thunk } from 'redux-thunk';
-import TestAuthProvider from '../authentication/testAuthProvider';
-import { buildTheme } from '../theming';
 import { ThemeProvider } from '@mui/material/styles';
-import { createLocation } from 'history';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router';
+import configureStore, { MockStore } from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import TestAuthProvider from '../authentication/testAuthProvider';
+import { initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import LogoutPage from './logoutPage.component';
 
 describe('logout page component', () => {
-  let props: CombinedLogoutPageProps;
-  let mockStore;
+  let testStore: MockStore;
+
   let state: StateType;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
-    return <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>;
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
+    return (
+      <ThemeProvider theme={buildTheme(false)}>
+        <Provider store={testStore}>
+          <BrowserRouter>{children}</BrowserRouter>
+        </Provider>
+      </ThemeProvider>
+    );
   }
 
   beforeEach(() => {
-    mockStore = configureStore([thunk]);
     state = {
-      scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
+      scigateway: { ...initialState },
     };
+    testStore = configureStore([thunk])(state);
 
     state.scigateway.authorisation.provider = new TestAuthProvider(
       'test-token'
@@ -42,20 +39,13 @@ describe('logout page component', () => {
   });
 
   it('renders the logout page correctly with default avatar ', () => {
-    props = {
-      user: {
-        username: 'simple/root',
-        isAdmin: false,
-        avatarUrl: '',
-      },
-      res: undefined,
-    };
+    state.scigateway.authorisation.provider.logIn('username', 'password');
 
-    render(<UnconnectedLogoutPage {...props} />, { wrapper: Wrapper });
+    render(<LogoutPage />, { wrapper: Wrapper });
 
     expect(screen.getByTestId('AccountCircleIcon')).toBeInTheDocument();
     expect(screen.getByText('username-description')).toBeInTheDocument();
-    expect(screen.getByText('simple/root')).toBeInTheDocument();
+    expect(screen.getByText('username')).toBeInTheDocument();
     expect(screen.getByText('logout-message')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: 'logout-button' })
@@ -63,20 +53,16 @@ describe('logout page component', () => {
   });
 
   it('renders the logout page correctly with avatar using avatarurl) ', () => {
-    props = {
-      user: {
-        username: 'simple/root',
-        isAdmin: false,
-        avatarUrl: 'test_url',
-      },
-      res: undefined,
-    };
+    state.scigateway.authorisation.provider.logIn(
+      'username_with_avatar_url',
+      'password'
+    );
 
-    render(<UnconnectedLogoutPage {...props} />, { wrapper: Wrapper });
+    render(<LogoutPage />, { wrapper: Wrapper });
 
     expect(screen.getByRole('img')).toHaveAttribute('src', 'test_url');
     expect(screen.getByText('username-description')).toBeInTheDocument();
-    expect(screen.getByText('simple/root')).toBeInTheDocument();
+    expect(screen.getByText('username_with_avatar_url')).toBeInTheDocument();
     expect(screen.getByText('logout-message')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: 'logout-button' })
@@ -84,20 +70,15 @@ describe('logout page component', () => {
   });
 
   it('signs out if sign out clicked', async () => {
-    const testStore = mockStore(state);
     const user = userEvent.setup();
 
-    render(
-      <Provider store={testStore}>
-        <LogoutPage />
-      </Provider>,
-      { wrapper: Wrapper }
-    );
+    render(<LogoutPage />, { wrapper: Wrapper });
 
     await user.click(screen.getByRole('button', { name: 'logout-button' }));
 
-    expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
-    expect(testStore.getActions()[1]).toEqual(push('/'));
+
+    expect(window.location.pathname).toEqual('/');
   });
 });

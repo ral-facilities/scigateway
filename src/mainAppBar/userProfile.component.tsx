@@ -15,13 +15,13 @@ import {
 import { alpha } from '@mui/material/styles';
 import log from 'loglevel';
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import { AnyAction, Dispatch } from 'redux';
+import { connect, useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router';
+import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import UserInfo from '../authentication/user';
 import { signOut } from '../state/actions/scigateway.actions';
-import { AppStrings } from '../state/scigateway.types';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
 import { StateType, User } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 
@@ -31,22 +31,22 @@ interface UserProfileProps {
   res: AppStrings | undefined;
 }
 
-interface UserProfileDispatchProps {
-  signOut: () => void;
-}
-
-type CombinedUserProfileProps = UserProfileProps & UserProfileDispatchProps;
+type CombinedUserProfileProps = UserProfileProps;
 
 export const UserProfileComponent = (
   props: CombinedUserProfileProps
 ): React.ReactElement => {
   const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
   const closeMenu = (): void => setMenuAnchor(null);
+
   const location = useLocation();
-  const { push } = useHistory();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const logout = (): void => {
     closeMenu();
-    props.signOut();
+    const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
+    thunkDispatch(signOut(navigate));
   };
   const open = Boolean(menuAnchor);
 
@@ -113,9 +113,11 @@ export const UserProfileComponent = (
             },
           })}
           onClick={() => {
-            push('/login', {
-              referrer: location.pathname,
-              referredFrom: 'clickingSignIn',
+            navigate(scigatewayRoutes.login, {
+              state: {
+                referrer: location.pathname,
+                referredFrom: 'clickingSignIn',
+              },
             });
             log.debug('signing in');
           }}
@@ -145,14 +147,4 @@ const mapStateToProps = (state: StateType): UserProfileProps => ({
   res: getAppStrings(state, 'login'),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): UserProfileDispatchProps => ({
-  signOut: () => {
-    const thunkDispatch = dispatch as ThunkDispatch<StateType, null, AnyAction>;
-    thunkDispatch(signOut());
-  },
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserProfileComponent);
+export default connect(mapStateToProps)(UserProfileComponent);

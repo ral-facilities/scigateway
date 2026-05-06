@@ -1,11 +1,9 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { push } from 'connected-react-router';
-import { createLocation, createMemoryHistory, History } from 'history';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import configureStore, { MockStore } from 'redux-mock-store';
 import TestAuthProvider, {
   NonAdminTestAuthProvider,
@@ -19,20 +17,15 @@ import MobileOverflowMenu from './mobileOverflowMenu.component';
 describe('Mobile overflow menu', () => {
   let testStore: MockStore;
   let state: StateType;
-  let history: History;
 
   const theme = buildTheme(false);
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={testStore}>
-            <Router history={history}>{children}</Router>
+            <BrowserRouter>{children}</BrowserRouter>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
@@ -40,14 +33,11 @@ describe('Mobile overflow menu', () => {
   }
 
   beforeEach(() => {
-    history = createMemoryHistory();
-
     state = {
       scigateway: {
         ...initialState,
         logo: 'logo_url',
       },
-      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
 
@@ -99,8 +89,7 @@ describe('Mobile overflow menu', () => {
 
     await user.click(screen.getByRole('menuitem', { name: 'admin-page' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/admin/maintenance'));
+    expect(window.location.pathname).toEqual('/admin/maintenance');
   });
 
   it('redirects to Admin page when Admin button clicked (download is default)', async () => {
@@ -127,8 +116,7 @@ describe('Mobile overflow menu', () => {
 
     await user.click(screen.getByRole('menuitem', { name: 'admin-page' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/admin/download'));
+    expect(window.location.pathname).toEqual('/admin/download');
   });
 
   it('toggles tutorial help when tutorial menu item is clicked', async () => {

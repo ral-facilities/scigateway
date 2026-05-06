@@ -1,15 +1,15 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createLocation, createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
+import { makeRouteNonExact } from '../routing/routing.component';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { PluginConfig } from '../state/scigateway.types';
+import { PluginConfig, scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import AdminPage, { getAdminPluginRoutes } from './adminPage.component';
@@ -17,32 +17,34 @@ import AdminPage, { getAdminPluginRoutes } from './adminPage.component';
 describe('Admin page component', () => {
   let mockStore;
   let state: StateType;
-  let history: History;
 
   beforeEach(() => {
     mockStore = configureStore([thunk]);
-    history = createMemoryHistory();
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
+    window.history.replaceState(null, '', '/');
   });
 
   const theme = buildTheme(false);
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     const testStore = mockStore(state);
     return (
       <Provider store={testStore}>
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <Router history={history}>{children}</Router>
+            <BrowserRouter>
+              {/* Emulate being inside the main router to ensure relative routing works */}
+              <Routes>
+                <Route
+                  path={makeRouteNonExact(scigatewayRoutes.admin)}
+                  element={<>{children}</>}
+                />
+              </Routes>
+            </BrowserRouter>
           </ThemeProvider>
         </StyledEngineProvider>
       </Provider>
@@ -66,7 +68,7 @@ describe('Admin page component', () => {
         admin: true,
       },
     ];
-    history.replace('/admin/maintenance');
+    window.history.replaceState(null, '', '/admin/maintenance');
 
     render(<AdminPage />, { wrapper: Wrapper });
 
@@ -97,7 +99,7 @@ describe('Admin page component', () => {
       },
     ];
     state.scigateway.adminPageDefaultTab = 'maintenance';
-    history.replace('/admin/download');
+    window.history.replaceState(null, '', '/admin/download');
 
     render(<AdminPage />, { wrapper: Wrapper });
 
@@ -127,19 +129,19 @@ describe('Admin page component', () => {
         admin: true,
       },
     ];
-    history.replace('/admin/maintenance');
+    window.history.replaceState(null, '', '/admin/maintenance');
     const user = userEvent.setup();
 
     render(<AdminPage />, { wrapper: Wrapper });
 
     await user.click(screen.getByRole('tab', { name: 'Admin Download' }));
-    expect(history.location.pathname).toEqual('/admin/download');
+    expect(window.location.pathname).toEqual('/admin/download');
     expect(
       screen.getByRole('tabpanel', { name: 'Admin Download' })
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole('tab', { name: 'Maintenance' }));
-    expect(history.location.pathname).toEqual('/admin/maintenance');
+    expect(window.location.pathname).toEqual('/admin/maintenance');
     expect(
       await screen.findByRole('tabpanel', { name: 'Maintenance' })
     ).toBeInTheDocument();
@@ -147,7 +149,7 @@ describe('Admin page component', () => {
 
   it("falls back to 'maintenance' when adminPageDefaultTab is not provided", () => {
     state.scigateway.adminPageDefaultTab = undefined;
-    history.replace('/admin');
+    window.history.replaceState(null, '', '/admin');
 
     render(<AdminPage />, { wrapper: Wrapper });
 
@@ -170,7 +172,7 @@ describe('Admin page component', () => {
       },
     ];
     state.scigateway.adminPageDefaultTab = 'maintenance';
-    history.replace('/admin/test');
+    window.history.replaceState(null, '', '/admin/test');
 
     render(<AdminPage />, { wrapper: Wrapper });
 
@@ -183,7 +185,7 @@ describe('Admin page component', () => {
 
   it("falls back to 'maintenance' when adminPageDefaultTab doesn't match any key in adminRoutes", () => {
     state.scigateway.adminPageDefaultTab = 'nonexistentTab';
-    history.replace('/admin');
+    window.history.replaceState(null, '', '/admin');
 
     render(<AdminPage />, { wrapper: Wrapper });
 

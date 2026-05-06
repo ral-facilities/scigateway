@@ -1,8 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import axios from 'axios';
-import { push } from 'connected-react-router';
 import log from 'loglevel';
 import { Step } from 'react-joyride';
+import { NavigateFunction } from 'react-router';
 import { Action, AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
@@ -364,7 +364,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           // if we're on a non-scigateway url that isn't in plugins yet, attempt to wait for matching register route event
           // to help prevent showing a 404 page before the right route has been registered
           return new Promise<void>((resolve) => {
-            const currUrl = getState().router.location.pathname;
+            const currUrl = window.location.pathname;
             if (
               !Object.values(scigatewayRoutes).includes(currUrl) &&
               currUrl !== baseAdminRoutes.maintenance &&
@@ -481,9 +481,11 @@ export const toggleHelp = (): Action => ({
 });
 
 export const signOut =
-  (): ThunkAction<void, StateType, null, AnyAction> => (dispatch) => {
+  (navigate: NavigateFunction): ThunkAction<void, StateType, null, AnyAction> =>
+  (dispatch) => {
     dispatch({ type: SignOutType });
-    dispatch(push('/'));
+
+    navigate(scigatewayRoutes.home);
   };
 
 export const resetAuthState = (): Action => ({

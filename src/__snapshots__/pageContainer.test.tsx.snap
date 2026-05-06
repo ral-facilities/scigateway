@@ -186,6 +186,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
           >
             <a
               class="MuiListItem-root MuiListItem-dense MuiListItem-gutters css-b5rxyv-MuiListItem-root"
+              data-discover="true"
               href="/test"
               id="plugin-link--test"
             >
@@ -301,6 +302,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                   >
                     <a
                       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      data-discover="true"
                       data-testid="browse-button"
                       href="/home-page.browse.link"
                       tabindex="0"
@@ -320,7 +322,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                   style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
                 >
                   <div
-                    class="css-18pmme8"
+                    class="css-1ox020v"
                   />
                 </div>
               </div>
@@ -368,6 +370,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                   >
                     <a
                       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      data-discover="true"
                       data-testid="search-button"
                       href="/home-page.search.link"
                       tabindex="0"
@@ -420,6 +423,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                   >
                     <a
                       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      data-discover="true"
                       data-testid="download-button"
                       href="/home-page.download.link"
                       tabindex="0"
@@ -507,6 +511,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
          | 
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          data-discover="true"
           href="/accessibility"
         >
           Accessibilty statement

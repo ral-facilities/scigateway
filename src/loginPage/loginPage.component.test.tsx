@@ -1,10 +1,9 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createLocation, createMemoryHistory, MemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -79,7 +78,9 @@ describe('Login page component', () => {
   let props: CombinedLoginProps;
   let mockStore;
   let state: StateType;
-  let history: MemoryHistory;
+  let initialEntries: React.ComponentProps<
+    typeof MemoryRouter
+  >['initialEntries'] = [];
 
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
@@ -87,14 +88,10 @@ describe('Login page component', () => {
   beforeEach(() => {
     mockStore = configureStore([thunk]);
 
-    history = createMemoryHistory({ initialEntries: ['/login'] });
+    initialEntries = ['/login'];
 
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: {
-        location: { ...createLocation('/'), query: {} },
-        action: 'POP',
-      },
     };
 
     props = {
@@ -117,15 +114,11 @@ describe('Login page component', () => {
     setItemSpy.mockReset();
   });
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
-      <Router history={history}>
+      <MemoryRouter initialEntries={initialEntries}>
         <ThemeProvider theme={buildTheme(false)}>{children}</ThemeProvider>
-      </Router>
+      </MemoryRouter>
     );
   }
 
@@ -439,7 +432,7 @@ describe('Login page component', () => {
 
   it('on location.search filled in verification method should be called with blank username and query string', async () => {
     props.auth.provider.redirectUrl = 'test redirect';
-    history.replace('/login?token=test_token');
+    initialEntries = ['/login?token=test_token'];
 
     const promise = Promise.resolve();
     const mockLoginfn = vi.fn(() => promise);
@@ -459,7 +452,16 @@ describe('Login page component', () => {
     getItemSpy.mockReturnValue('https://example.com');
     const mockSetAuthenticator = vi.fn();
     props.auth.provider.setAuthenticator = mockSetAuthenticator;
-    history.replace('/login?token=test_token', { referrer: '/myplugin' });
+
+    initialEntries = [
+      {
+        pathname: '/login',
+        search: '?token=test_token',
+        state: {
+          referrer: '/myplugin',
+        },
+      },
+    ];
 
     const promise = Promise.resolve();
     const mockLoginfn = vi.fn(() => promise);

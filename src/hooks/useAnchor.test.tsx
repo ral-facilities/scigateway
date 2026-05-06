@@ -1,12 +1,11 @@
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router';
+import type { DeepPartial } from 'redux';
 import type { MockStoreCreator } from 'redux-mock-store';
 import configureStore from 'redux-mock-store';
-import type { DeepPartial } from 'redux';
-import { Provider } from 'react-redux';
-import { useLocation } from 'react-router';
-import { createLocation } from 'history';
-import useAnchor from './useAnchor';
 import { StateType } from '../state/state.types';
-import { render } from '@testing-library/react';
+import useAnchor from './useAnchor';
 
 /**
  * A simple React component that uses useAnchor for testing purposes.
@@ -16,27 +15,14 @@ function TestComponent(): JSX.Element {
   return <></>;
 }
 
-/**
- * A mock value for what useLocation from react-router would return
- */
-const MOCK_REACT_ROUTER_LOCATION: Partial<Location> = {
-  hash: '#fragment',
-};
-
-// mock implementation of useLocation to return the mock URL
-vi.mock('react-router', async () => ({
-  __esModule: true,
-  ...(await vi.importActual('react-router')),
-  useLocation: vi.fn(),
-}));
-
 describe('useAnchor', () => {
   let createMockStore: MockStoreCreator<DeepPartial<StateType>>;
 
   beforeEach(() => {
+    window.history.replaceState(null, '', '#fragment');
+
     // use fake timers bc useAnchor uses setTimeout under the hood
     vi.useFakeTimers();
-    vi.mocked(useLocation).mockReturnValue(MOCK_REACT_ROUTER_LOCATION);
     createMockStore = configureStore();
   });
 
@@ -50,7 +36,6 @@ describe('useAnchor', () => {
       scigateway: {
         siteLoading: false,
       },
-      router: { location: createLocation('/') },
     });
 
     const mockScrollIntoView = vi.fn();
@@ -64,7 +49,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <TestComponent />
+        <BrowserRouter>
+          <TestComponent />
+        </BrowserRouter>
       </Provider>
     );
 
@@ -79,7 +66,6 @@ describe('useAnchor', () => {
       scigateway: {
         siteLoading: false,
       },
-      router: { location: createLocation('/') },
     });
 
     const mockScrollIntoView = vi.fn();
@@ -98,7 +84,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <TestComponent />
+        <BrowserRouter>
+          <TestComponent />
+        </BrowserRouter>
       </Provider>
     );
 
@@ -106,7 +94,7 @@ describe('useAnchor', () => {
 
     // fragment doesn't match any element, useAnchor should not randomly
     // jump to other elements
-    expect(otherElem.scrollIntoView).not.toBeCalled();
+    expect(otherElem?.scrollIntoView).not.toBeCalled();
   });
 
   it('should do nothing even when fragment matches an element when website is loading', function () {
@@ -114,7 +102,6 @@ describe('useAnchor', () => {
       scigateway: {
         siteLoading: true,
       },
-      router: { location: createLocation('/') },
     });
 
     const mockScrollIntoView = vi.fn();
@@ -128,7 +115,9 @@ describe('useAnchor', () => {
 
     render(
       <Provider store={mockStore}>
-        <TestComponent />
+        <BrowserRouter>
+          <TestComponent />
+        </BrowserRouter>
       </Provider>
     );
 

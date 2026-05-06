@@ -1,18 +1,17 @@
 import React from 'react';
 
-import CookieConsent from './cookieConsent.component';
-import { StateType } from '../state/state.types';
-import configureStore, { MockStore } from 'redux-mock-store';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { initialiseAnalytics } from '../state/actions/scigateway.actions';
-import { Provider } from 'react-redux';
-import { buildTheme } from '../theming';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import Cookies from 'js-cookie';
-import { createLocation } from 'history';
-import { push } from 'connected-react-router';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Cookies from 'js-cookie';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router';
+import configureStore, { MockStore } from 'redux-mock-store';
+import { initialiseAnalytics } from '../state/actions/scigateway.actions';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import CookieConsent from './cookieConsent.component';
 
 describe('Cookie consent component', () => {
   let mockStore;
@@ -23,28 +22,26 @@ describe('Cookie consent component', () => {
     mockStore = configureStore();
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
     };
     state.scigateway.siteLoading = false;
     state.scigateway.analytics = {
       id: 'test id',
       initialised: false,
     };
+    window.history.replaceState(null, '', '/');
 
     store = mockStore(state);
   });
 
   const theme = buildTheme(false);
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Provider store={store}>{children}</Provider>
+          <Provider store={store}>
+            <BrowserRouter>{children}</BrowserRouter>
+          </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
     );
@@ -71,8 +68,8 @@ describe('Cookie consent component', () => {
       screen.getByRole('button', { name: 'manage-preferences-button' })
     );
 
-    expect(store.getActions().length).toEqual(1);
-    expect(store.getActions()[0]).toEqual(push('/cookies'));
+    expect(window.window.history.length).toEqual(2);
+    expect(window.location.pathname).toEqual('/cookies');
   });
 
   it('should set cookie to true upon user accept', async () => {
@@ -147,7 +144,8 @@ describe('Cookie consent component', () => {
   });
 
   it('should set open to false if on /cookies page', () => {
-    state.router = { location: createLocation('/cookies') };
+    window.history.replaceState(null, '', '/cookies');
+
     store = mockStore(state);
 
     render(<CookieConsent />, { wrapper: Wrapper });
