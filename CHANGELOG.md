@@ -1,5 +1,15 @@
 # Changelog
 
+## [v4.1.1](https://github.com/ral-facilities/scigateway/tree/v4.1.1) (2026-05-07)
+
+## What's Changed
+
+### Features
+
+* Update node and httpd images in Dockerfile by @joelvdavies in https://github.com/ral-facilities/scigateway/pull/1621
+
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v4.1.0...v4.1.1
+
 ## [v4.1.0](https://github.com/ral-facilities/scigateway/tree/v4.1.0) (2026-03-04)
 
 ## What's Changed
