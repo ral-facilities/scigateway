@@ -122,7 +122,7 @@ describe('Main app bar component', () => {
     expect(screen.queryByRole('button', { name: 'help-page' })).toBeNull();
   });
 
-  it('uses the dark single plugin logo when dark and high contrast modes are enabled', async () => {
+  it('uses the light single plugin logo when dark and high contrast modes are enabled', async () => {
     state.scigateway.logo = undefined;
     state.scigateway.siteLoading = false;
     state.scigateway.features.singlePluginLogo = true;
@@ -147,7 +147,7 @@ describe('Main app bar component', () => {
         within(screen.getByRole('button', { name: 'home-page' })).getByRole(
           'img'
         )
-      ).toHaveAttribute('src', 'plugin_logo_dark');
+      ).toHaveAttribute('src', 'plugin_logo_light');
     });
   });
 
@@ -426,11 +426,11 @@ describe('Main app bar component', () => {
 
     expect(await screen.findByRole('img')).toHaveAttribute(
       'src',
-      'pluginLogoLight'
+      'pluginLogoDark'
     );
   });
 
-  it('sets the dark plugin logo only when dark and high contrast modes are enabled', async () => {
+  it('sets the light plugin logo when dark and high contrast modes are enabled', async () => {
     const plugin: PluginConfig = {
       section: 'section',
       link: '/link',
@@ -455,7 +455,7 @@ describe('Main app bar component', () => {
 
     expect(await screen.findByRole('img')).toHaveAttribute(
       'src',
-      'pluginLogoDark'
+      'pluginLogoLight'
     );
   });
 

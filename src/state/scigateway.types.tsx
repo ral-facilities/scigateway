@@ -115,8 +115,8 @@ export interface RegisterRoutePayload {
   admin?: boolean;
   order: number;
   helpText?: string;
-  logoLightMode?: string;
-  logoDarkMode?: string;
+  logoLightMode?: string; /** Logo variant intended for light app bar backgrounds. */
+  logoDarkMode?: string; /** Logo variant intended for dark app bar backgrounds. */
   logoAltText?: string;
   helpSteps?: { target: string; content: string }[];
 }
@@ -131,8 +131,8 @@ export interface PluginConfig {
   admin?: boolean;
   order: number;
   helpText?: string;
-  logoLightMode?: string;
-  logoDarkMode?: string;
+  logoLightMode?: string; /** Logo variant intended for light app bar backgrounds. */
+  logoDarkMode?: string; /** Logo variant intended for dark app bar backgrounds. */
   logoAltText?: string;
   helpSteps?: { target: string; content: string }[];
 }
