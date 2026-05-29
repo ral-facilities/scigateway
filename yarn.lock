@@ -2599,7 +2599,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.15.2, axios@npm:^1.13.2, axios@npm:^1.13.5":
+"axios@npm:1.16.0":
+  version: 1.16.0
+  resolution: "axios@npm:1.16.0"
+  dependencies:
+    follow-redirects: "npm:^1.16.0"
+    form-data: "npm:^4.0.5"
+    proxy-from-env: "npm:^2.1.0"
+  checksum: 10/cf8b521ff732c21550b38c8739aef556ea5e14b268468bb89e4307416ab262b462e582474e810963a3d61c2392ab47ad35c11d05eff027de7c97113bc7411623
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.13.2, axios@npm:^1.13.5":
   version: 1.15.2
   resolution: "axios@npm:1.15.2"
   dependencies:
@@ -4752,7 +4763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.11":
+"follow-redirects@npm:^1.15.11, follow-redirects@npm:^1.16.0":
   version: 1.16.0
   resolution: "follow-redirects@npm:1.16.0"
   peerDependenciesMeta:
@@ -8168,7 +8179,7 @@ __metadata:
     "@types/redux-mock-store": "npm:1.5.0"
     "@vitejs/plugin-react": "npm:^5.0.0"
     "@vitest/coverage-v8": "npm:3.2.4"
-    axios: "npm:1.15.2"
+    axios: "npm:1.16.0"
     browserslist: "npm:4.28.1"
     browserslist-to-esbuild: "npm:2.1.1"
     concurrently: "npm:9.2.0"
