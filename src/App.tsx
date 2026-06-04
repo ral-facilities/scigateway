@@ -99,7 +99,7 @@ class App extends React.Component<WithTranslation> {
       <div className="App">
         <Provider store={store}>
           {/* react-router transitions don't work nicely with external stores i.e. redux */}
-          <BrowserRouter unstable_useTransitions={false}>
+          <BrowserRouter useTransitions={false}>
             <ConnectedThemeProvider>
               {this.props.tReady ? (
                 <>
