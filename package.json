@@ -7,6 +7,14 @@
     "@types/react": "18.3.23",
     "@types/react-dom": "18.3.7"
   },
+  "dependenciesMeta": {
+    "cypress": {
+      "built": true
+    },
+    "esbuild": {
+      "built": true
+    }
+  },
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
