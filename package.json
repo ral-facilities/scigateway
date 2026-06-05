@@ -114,5 +114,5 @@
     "vitest": "patch:vitest@npm%3A3.2.4#~/.yarn/patches/vitest-npm-3.2.4-7a07f931b1.patch",
     "wait-on": "9.0.4"
   },
-  "packageManager": "yarn@4.13.0"
+  "packageManager": "yarn@4.16.0"
 }
