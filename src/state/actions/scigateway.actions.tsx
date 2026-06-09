@@ -1,5 +1,5 @@
 import { Theme } from '@mui/material/styles';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import log from 'loglevel';
 import { Step } from 'react-joyride';
 import { NavigateFunction } from 'react-router';
@@ -10,6 +10,7 @@ import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
   ApplicationStrings,
+  AuthFailurePayload,
   AuthFailureType,
   AuthProviderPayload,
   AuthSuccessType,
@@ -189,8 +190,11 @@ export const loadedAuthentication = (): Action => ({
   type: LoadedAuthType,
 });
 
-export const unauthorised = (): Action => ({
+export const unauthorised = (
+  errorCode?: number
+): ActionType<AuthFailurePayload> => ({
   type: AuthFailureType,
+  payload: { errorCode },
 });
 
 export const authorised = (): Action => ({
@@ -504,10 +508,8 @@ export const verifyUsernameAndPassword = (
       .then(() => {
         dispatch(authorised());
       })
-      .catch(() => {
-        // probably want to do something smarter with
-        // err.response.status (e.g. 403 or 500)
-        dispatch(unauthorised());
+      .catch((error: AxiosError) => {
+        dispatch(unauthorised(error.response?.status));
       });
   };
 };
