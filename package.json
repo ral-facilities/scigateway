@@ -7,6 +7,14 @@
     "@types/react": "18.3.23",
     "@types/react-dom": "18.3.7"
   },
+  "dependenciesMeta": {
+    "cypress": {
+      "built": true
+    },
+    "esbuild": {
+      "built": true
+    }
+  },
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
@@ -114,5 +122,5 @@
     "vitest": "patch:vitest@npm%3A3.2.4#~/.yarn/patches/vitest-npm-3.2.4-7a07f931b1.patch",
     "wait-on": "9.0.4"
   },
-  "packageManager": "yarn@4.13.0"
+  "packageManager": "yarn@4.16.0"
 }
