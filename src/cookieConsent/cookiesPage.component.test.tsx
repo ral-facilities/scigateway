@@ -11,7 +11,8 @@ import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import CookiesPage from './cookiesPage.component';
 
-vi.mock('react-i18next', () => ({
+vi.mock('react-i18next', async (importOriginal) => ({
+  ...(await importOriginal()),
   useTranslation: () => {
     return {
       t: (key: string, options: TOptionsBase) =>
