@@ -31,7 +31,9 @@ export default class PasswordAndOIDCAuthProvider extends BaseAPIAuthProvider {
       }));
       this.authenticators.push({
         key: 'userpass',
-        displayName: i18n.t('login.userpass-login-option'),
+        displayName: i18n.t('login.userpass-login-option', {
+          defaultValue: 'Username & Password',
+        }),
         type: 'userpass',
       });
     }
