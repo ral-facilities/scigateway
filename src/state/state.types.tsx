@@ -118,6 +118,7 @@ export interface AuthProvider {
 
 export interface AuthState {
   failedToLogin: boolean;
+  errorCode?: number;
   signedOutDueToTokenInvalidation: boolean;
   loading: boolean;
   provider: AuthProvider;

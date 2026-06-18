@@ -214,6 +214,18 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+    expect(updatedState.authorisation.errorCode).toBeUndefined();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('unsuccessful log in with error code should update authorisation state with error code', () => {
+    const action = unauthorised(401);
+    state.authorisation.provider = new TestAuthProvider('logged in');
+
+    const updatedState = ScigatewayReducer(state, action);
+
+    expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+    expect(updatedState.authorisation.errorCode).toEqual(401);
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 

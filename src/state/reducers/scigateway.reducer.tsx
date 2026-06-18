@@ -12,6 +12,7 @@ import { buildPluginConfig } from '../pluginhelper';
 import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
+  AuthFailurePayload,
   AuthFailureType,
   AuthProviderPayload,
   AuthSuccessType,
@@ -217,15 +218,16 @@ const resetAuth = (authorisation: AuthState): AuthState => {
 
 export function handleUnsuccessfulLogin(
   state: ScigatewayState,
-  payload: null
+  payload: AuthFailurePayload
 ): ScigatewayState {
-  log.debug(`Failed to log in with ${payload}`);
+  log.debug(`Failed to log in with error ${payload.errorCode}`);
   state.authorisation.provider.logOut();
   return {
     ...state,
     authorisation: {
       ...resetAuth(state.authorisation),
       failedToLogin: true,
+      errorCode: payload.errorCode,
     },
   };
 }

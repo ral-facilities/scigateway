@@ -1,4 +1,5 @@
 import * as log from 'loglevel';
+import i18n from '../i18n';
 import { Authenticator } from '../state/state.types';
 import BaseAPIAuthProvider, {
   InitialisedOIDCProvider,
@@ -30,7 +31,9 @@ export default class PasswordAndOIDCAuthProvider extends BaseAPIAuthProvider {
       }));
       this.authenticators.push({
         key: 'userpass',
-        displayName: 'Username & Password',
+        displayName: i18n.t('login.userpass-login-option', {
+          defaultValue: 'Username & Password',
+        }),
         type: 'userpass',
       });
     }

@@ -107,7 +107,15 @@ export const RedirectLoginScreen = (
   return (
     <RootDiv>
       {props.auth.failedToLogin ? (
-        <ErrorTypography>{t('login.login-redirect-error-msg')}</ErrorTypography>
+        <ErrorTypography>
+          {t('login.login-redirect-error-msg', {
+            ...(typeof props.auth.errorCode !== 'undefined'
+              ? {
+                  context: `${props.auth.errorCode}`,
+                }
+              : undefined),
+          })}
+        </ErrorTypography>
       ) : null}
       <Button
         variant="contained"
@@ -157,7 +165,15 @@ export const CredentialsLoginScreen = (
       }}
     >
       {props.auth.failedToLogin ? (
-        <ErrorTypography>{t('login.login-error-msg')}</ErrorTypography>
+        <ErrorTypography>
+          {t('login.login-error-msg', {
+            ...(typeof props.auth.errorCode !== 'undefined'
+              ? {
+                  context: `${props.auth.errorCode}`,
+                }
+              : undefined),
+          })}
+        </ErrorTypography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
         <InfoTypography>{t('login.token-invalid-msg')}</InfoTypography>
@@ -208,26 +224,37 @@ export const CredentialsLoginScreen = (
           {t('login.need-help-signing-in')}
         </Link>
       </Typography>
-      <DividerWithText>
-        <Typography>or</Typography>
-      </DividerWithText>
-      <Typography
-        sx={{
-          ...textStyles,
-          paddingBottom: undefined,
-          color: (theme: Theme) => theme.colours.contrastGrey,
-        }}
-      >
-        <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
-          Don&#39;t have an account?{' '}
-          <Link
-            href={t('login.dont-have-an-account-sign-up-now-link')}
-            underline="hover"
+      {/* Check if t results in the key which is the backup option aka no translation provided */}
+      {t('login.dont-have-an-account-sign-up-now') !==
+        'login.dont-have-an-account-sign-up-now' && (
+        <>
+          <DividerWithText>
+            <Typography>or</Typography>
+          </DividerWithText>
+          <Typography
+            sx={{
+              ...textStyles,
+              paddingBottom: undefined,
+              color: (theme: Theme) => theme.colours.contrastGrey,
+            }}
           >
-            Sign up now
-          </Link>
-        </Trans>
-      </Typography>
+            <Trans
+              t={t}
+              i18nKey="login.dont-have-an-account-sign-up-now"
+              components={{ Link: <Link /> }}
+            >
+              Don&#39;t have an account?{' '}
+              <Link
+                // keep backwards compatibility with old translations file which define the link and text separately
+                href={t('login.dont-have-an-account-sign-up-now-link')}
+                underline="hover"
+              >
+                Sign up now
+              </Link>
+            </Trans>
+          </Typography>
+        </>
+      )}
     </RootDiv>
   );
 };
@@ -253,7 +280,15 @@ export const AnonLoginScreen = (
       }}
     >
       {props.auth.failedToLogin ? (
-        <ErrorTypography>{t('login.login-error-msg')}</ErrorTypography>
+        <ErrorTypography>
+          {t('login.login-error-msg', {
+            ...(typeof props.auth.errorCode !== 'undefined'
+              ? {
+                  context: `${props.auth.errorCode}`,
+                }
+              : undefined),
+          })}
+        </ErrorTypography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
         <InfoTypography>{t('login.token-invalid-msg')}</InfoTypography>

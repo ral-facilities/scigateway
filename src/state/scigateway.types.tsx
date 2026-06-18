@@ -154,6 +154,10 @@ export interface AuthorisedPayload {
   token: string;
 }
 
+export interface AuthFailurePayload {
+  errorCode?: number;
+}
+
 export interface SendThemeOptionsPayload {
   theme: Theme;
   broadcast: boolean;

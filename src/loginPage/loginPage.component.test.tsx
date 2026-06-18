@@ -2,6 +2,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import * as reactI18next from 'react-i18next';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import configureStore from 'redux-mock-store';
@@ -84,8 +85,21 @@ describe('Login page component', () => {
 
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+  const origMockT = reactI18next.useTranslation().t;
+  const useTranslationSpy = vi.spyOn(reactI18next, 'useTranslation');
+  const newMockT = vi.fn((k, opt) =>
+    // pretend that this translation exists aka converts to not the key as there's some logic that depends on it
+    k === 'login.dont-have-an-account-sign-up-now'
+      ? 'dont-have-an-account-sign-up-now'
+      : origMockT(k, opt)
+  );
 
   beforeEach(() => {
+    const useTranslationReturnMock = [newMockT, {}];
+    useTranslationReturnMock.t = newMockT;
+    useTranslationReturnMock.i18n = {};
+    vi.mocked(useTranslationSpy).mockReturnValue(useTranslationReturnMock);
+
     mockStore = configureStore([thunk]);
 
     initialEntries = ['/login'];
@@ -147,10 +161,45 @@ describe('Login page component', () => {
     );
   });
 
+  it('credential component renders correctly with no sign up link', () => {
+    const useTranslationReturnMock = [origMockT, {}];
+    useTranslationReturnMock.t = origMockT;
+    useTranslationReturnMock.i18n = {};
+    vi.mocked(useTranslationSpy).mockReturnValue(useTranslationReturnMock);
+    render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByRole('textbox', { name: 'login.username-arialabel' })
+    ).toBeInTheDocument();
+    // for some unknown reason password input type does not have a role???
+    // https://github.com/testing-library/dom-testing-library/issues/567
+    expect(
+      screen.getByLabelText('login.password-arialabel')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.forgotten-your-password' })
+    ).toHaveAttribute('href', 'login.forgotten-your-password-link');
+    expect(
+      screen.getByRole('button', { name: 'login.login-button' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.need-help-signing-in' })
+    ).toHaveAttribute('href', 'login.need-help-signing-in-link');
+    expect(
+      screen.queryByRole('link', { name: 'Sign up now' })
+    ).not.toBeInTheDocument();
+  });
+
   it('credential component renders failedToLogin error correctly', () => {
     props.auth.failedToLogin = true;
     render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
     expect(screen.getByText('login.login-error-msg')).toBeInTheDocument();
+  });
+
+  it('credential component renders failedToLogin error with error code correctly', () => {
+    props.auth.failedToLogin = true;
+    props.auth.errorCode = 403;
+    render(<CredentialsLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(screen.getByText('login.login-error-msg_403')).toBeInTheDocument();
   });
 
   it('credential component renders signedOutDueToTokenInvalidation error correctly', () => {
@@ -176,6 +225,15 @@ describe('Login page component', () => {
     ).toBeInTheDocument();
   });
 
+  it('redirect component renders failedToLogin error with error code correctly', () => {
+    props.auth.failedToLogin = true;
+    props.auth.errorCode = 500;
+    render(<RedirectLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(
+      screen.getByText('login.login-redirect-error-msg_500')
+    ).toBeInTheDocument();
+  });
+
   it('anonymous component renders correctly', () => {
     render(<AnonLoginScreen {...props} />, { wrapper: Wrapper });
     expect(
@@ -187,6 +245,13 @@ describe('Login page component', () => {
     props.auth.failedToLogin = true;
     render(<AnonLoginScreen {...props} />, { wrapper: Wrapper });
     expect(screen.getByText('login.login-error-msg')).toBeInTheDocument();
+  });
+
+  it('anonymous component renders failedToLogin error with error code correctly', () => {
+    props.auth.failedToLogin = true;
+    props.auth.errorCode = 504;
+    render(<AnonLoginScreen {...props} />, { wrapper: Wrapper });
+    expect(screen.getByText('login.login-error-msg_504')).toBeInTheDocument();
   });
 
   it('anonymous component renders signedOutDueToTokenInvalidation error correctly', () => {

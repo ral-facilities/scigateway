@@ -1,6 +1,7 @@
 import mockAxios from 'axios';
 import log from 'loglevel';
 import { Action, AnyAction } from 'redux';
+import JWTAuthProvider from '../../authentication/jwtAuthProvider';
 import TestAuthProvider from '../../authentication/testAuthProvider';
 import { flushPromises } from '../../testUtils';
 import { initialState } from '../reducers/scigateway.reducer';
@@ -129,7 +130,41 @@ describe('scigateway actions', () => {
     vi.runAllTimers();
     await action;
 
-    const expectedResponse = { type: 'scigateway:auth_failure' };
+    const expectedResponse = {
+      type: 'scigateway:auth_failure',
+      payload: { errorCode: undefined },
+    };
+
+    expect(actions[0]).toEqual(loadingAuthentication());
+    expect(actions[1]).toEqual(expectedResponse);
+  });
+
+  it('given axios error response verifyUsernameAndPassword should return an authorisation failure with error code', async () => {
+    vi.mocked(mockAxios.post).mockReset();
+    vi.mocked(mockAxios.post).mockImplementation(() => {
+      return Promise.reject({
+        response: {
+          status: 500,
+        },
+      });
+    });
+
+    const asyncAction = verifyUsernameAndPassword('username', 'password');
+    const actions: Action[] = [];
+    const dispatch = (action: Action): number => actions.push(action);
+
+    const state = JSON.parse(JSON.stringify(initialState));
+    state.authorisation.provider = new JWTAuthProvider(undefined);
+    const getState = (): Partial<StateType> => ({ scigateway: state });
+
+    const action = asyncAction(dispatch, getState);
+    vi.runAllTimers();
+    await action;
+
+    const expectedResponse = {
+      type: 'scigateway:auth_failure',
+      payload: { errorCode: 500 },
+    };
 
     expect(actions[0]).toEqual(loadingAuthentication());
     expect(actions[1]).toEqual(expectedResponse);
