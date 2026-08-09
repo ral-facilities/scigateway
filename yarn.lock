@@ -7503,9 +7503,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:7.15.1":
-  version: 7.15.1
-  resolution: "react-router@npm:7.15.1"
+"react-router@npm:7.18.2":
+  version: 7.18.2
+  resolution: "react-router@npm:7.18.2"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -7515,7 +7515,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10/0d9f352839708f13586e41bc21d4e74d1ef94ac747d8ba99a424734d17c7f9512926b16ac28a7659cc44ee4dd60b64f63ed58c704deb1cc68800056b377d3b40
+  checksum: 10/e68aa655e5ec2d4143f66ab3b745c50b8588152d89e4ec66c099625357c6a16dfaee5a7e963a9f4f9fbe0adaa37cf9731d63a108a2c4abfaa00124a06da16c24
   languageName: node
   linkType: hard
 
@@ -8039,7 +8039,7 @@ __metadata:
     react-joyride: "npm:2.9.3"
     react-redux: "npm:8.1.2"
     react-redux-toastr: "npm:8.0.0"
-    react-router: "npm:7.15.1"
+    react-router: "npm:7.18.2"
     redux: "npm:4.2.1"
     redux-logger: "npm:3.0.6"
     redux-mock-store: "npm:1.5.4"
