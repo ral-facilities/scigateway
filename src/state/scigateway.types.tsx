@@ -83,6 +83,7 @@ export interface FeatureSwitchesPayload {
 export interface FeatureSwitches {
   showHelpPageButton: boolean;
   singlePluginLogo: boolean;
+  disableMaintenance: boolean;
 }
 
 export interface HomepageUrlPayload {

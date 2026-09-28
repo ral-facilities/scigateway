@@ -82,6 +82,7 @@ export const initialState: ScigatewayState = {
   features: {
     showHelpPageButton: true,
     singlePluginLogo: false,
+    disableMaintenance: false,
   },
   darkMode: false,
   highContrastMode: false,
