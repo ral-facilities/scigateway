@@ -11,7 +11,7 @@
   "features": {
     "showHelpPageButton": true,
     "singlePluginLogo": true,
-    "disableMaintenance": true
+    "disableMaintenance": false
   },
   "plugins": [
     {

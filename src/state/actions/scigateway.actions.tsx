@@ -260,7 +260,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const provider = getState().scigateway.authorisation.provider;
         if (
           provider.fetchMaintenanceState &&
-          settings.features.disableMaintenance !== true
+          settings.features?.disableMaintenance !== true
         ) {
           provider.fetchMaintenanceState().then((maintenanceState) => {
             dispatch(loadMaintenanceState(maintenanceState));
