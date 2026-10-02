@@ -10,7 +10,8 @@
   "adminPageDefaultTab": "maintenance",
   "features": {
     "showHelpPageButton": true,
-    "singlePluginLogo": true
+    "singlePluginLogo": true,
+    "disableMaintenance": false
   },
   "plugins": [
     {

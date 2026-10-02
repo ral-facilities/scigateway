@@ -74,7 +74,10 @@ class App extends React.Component<WithTranslation> {
     setInterval(
       () => {
         const provider = getState().scigateway.authorisation.provider;
-        if (provider.fetchMaintenanceState) {
+        if (
+          provider.fetchMaintenanceState &&
+          getState().scigateway.features.disableMaintenance !== true
+        ) {
           const storedMaintenanceState = getState().scigateway.maintenance;
           provider.fetchMaintenanceState().then((fetchedMaintenanceState) => {
             if (

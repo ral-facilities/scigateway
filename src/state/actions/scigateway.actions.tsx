@@ -258,7 +258,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPromises = [];
 
         const provider = getState().scigateway.authorisation.provider;
-        if (provider.fetchMaintenanceState) {
+        if (
+          provider.fetchMaintenanceState &&
+          settings.features?.disableMaintenance !== true
+        ) {
           provider.fetchMaintenanceState().then((maintenanceState) => {
             dispatch(loadMaintenanceState(maintenanceState));
 
@@ -435,7 +438,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       );
 
     const provider = getState().scigateway.authorisation.provider;
-    if (provider.fetchScheduledMaintenanceState) {
+    if (
+      provider.fetchScheduledMaintenanceState &&
+      getState().scigateway.features.disableMaintenance !== true
+    ) {
       provider
         .fetchScheduledMaintenanceState()
         .then((scheduledMaintenanceState) => {
