@@ -91,7 +91,7 @@ export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
 };
 
 export const loadFeatureSwitches = (
-  featureSwitches: FeatureSwitches
+  featureSwitches: Partial<FeatureSwitches>
 ): ActionType<FeatureSwitchesPayload> => ({
   type: ConfigureFeatureSwitchesType,
   payload: {

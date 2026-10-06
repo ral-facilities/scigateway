@@ -268,7 +268,7 @@ export function handleConfigureFeatureSwitches(
 ): ScigatewayState {
   return {
     ...state,
-    features: payload.switches,
+    features: { ...state.features, ...payload.switches },
   };
 }
 
