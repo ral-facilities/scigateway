@@ -33,7 +33,7 @@
     "husky": "9.1.7",
     "i18next": "25.10.3",
     "i18next-browser-languagedetector": "8.2.0",
-    "i18next-http-backend": "3.0.5",
+    "i18next-http-backend": "4.0.2",
     "js-cookie": "3.0.7",
     "loglevel": "1.9.1",
     "prettier": "3.8.1",
