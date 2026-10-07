@@ -82,6 +82,7 @@ export const initialState: ScigatewayState = {
   features: {
     showHelpPageButton: true,
     singlePluginLogo: false,
+    disableMaintenance: false,
   },
   darkMode: false,
   highContrastMode: false,
@@ -267,7 +268,7 @@ export function handleConfigureFeatureSwitches(
 ): ScigatewayState {
   return {
     ...state,
-    features: payload.switches,
+    features: { ...state.features, ...payload.switches },
   };
 }
 
