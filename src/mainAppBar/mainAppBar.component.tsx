@@ -40,6 +40,7 @@ interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
   showHelpPageButton: boolean;
+  disableMaintenance: boolean;
   showAdminPageButton: boolean;
   showUserComponent: boolean;
   singlePluginLogo: boolean;
@@ -292,6 +293,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.scigateway.drawerOpen,
   showHelpPageButton: state.scigateway.features.showHelpPageButton,
   singlePluginLogo: state.scigateway.features.singlePluginLogo,
+  disableMaintenance: state.scigateway.features.disableMaintenance,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   showAdminPageButton:
     state.scigateway.authorisation.provider.isLoggedIn() &&

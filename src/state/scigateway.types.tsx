@@ -77,12 +77,13 @@ export interface ConfigureStringsPayload {
 export type ApplicationStrings = Record<string, AppStrings>;
 
 export interface FeatureSwitchesPayload {
-  switches: FeatureSwitches;
+  switches: Partial<FeatureSwitches>;
 }
 
 export interface FeatureSwitches {
   showHelpPageButton: boolean;
   singlePluginLogo: boolean;
+  disableMaintenance: boolean;
 }
 
 export interface HomepageUrlPayload {
