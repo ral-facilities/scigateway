@@ -384,7 +384,7 @@ export function handleAuthProviderUpdate(
 
       case 'icat':
         provider = new ICATAuthProvider(
-          payload.authProvider.replace('icat.', ''),
+          payload.authProvider.replace(/icat\.?/, ''),
           payload.authUrl,
           payload.autoLogin
         );
