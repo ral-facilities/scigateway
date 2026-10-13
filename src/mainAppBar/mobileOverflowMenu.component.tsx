@@ -5,10 +5,11 @@ import {
   MenuItem,
   MenuProps,
 } from '@mui/material';
-import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { getAdminRoutes } from '../routing/routing.component';
 import { toggleHelp } from '../state/actions/scigateway.actions';
+import { scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { SettingsMenuContent } from './settingsMenu.component';
@@ -41,10 +42,11 @@ function MobileOverflowMenu({
   const plugins = useSelector((state: StateType) => state.scigateway.plugins);
   const adminRoutes = getAdminRoutes({ plugins });
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   function navigateToHelpPage(): void {
-    dispatch(push('/help'));
+    navigate(scigatewayRoutes.help);
   }
 
   function navigateToAdminPage(): void {
@@ -53,7 +55,7 @@ function MobileOverflowMenu({
         ? adminRoutes[adminPageDefaultTab]
         : adminRoutes['maintenance'];
 
-    dispatch(push(targetRoute));
+    navigate(targetRoute);
   }
 
   function toggleTutorial(): void {

@@ -9,10 +9,9 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import { Theme, useTheme } from '@mui/material/styles';
-import { push } from 'connected-react-router';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Action, Dispatch } from 'redux';
 import NullAuthProvider from '../authentication/nullAuthProvider';
 import ScigatewayLogo from '../images/scigateway-white-text-blue-mark-logo.svg';
@@ -24,7 +23,11 @@ import {
   toggleHelp,
 } from '../state/actions/scigateway.actions';
 import { buildNavDrawerPluginList } from '../state/pluginhelper';
-import { AppStrings, PluginConfig } from '../state/scigateway.types';
+import {
+  AppStrings,
+  PluginConfig,
+  scigatewayRoutes,
+} from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import MobileOverflowMenu from './mobileOverflowMenu.component';
@@ -37,6 +40,7 @@ interface MainAppProps {
   drawerOpen: boolean;
   res: AppStrings | undefined;
   showHelpPageButton: boolean;
+  disableMaintenance: boolean;
   showAdminPageButton: boolean;
   showUserComponent: boolean;
   singlePluginLogo: boolean;
@@ -48,16 +52,11 @@ interface MainAppProps {
   logo?: string;
   homepageUrl?: string;
   adminPageDefaultTab?: string;
-  pathname: string;
 }
 
 interface MainAppDispatchProps {
   toggleDrawer: () => Action;
-  navigateToHome: () => Action;
-  navigateToHelpPage: () => Action;
-  navigateToAdminPage: (defaultTab: string) => Action;
   toggleHelp: () => Action;
-  manageCookies: () => Action;
   toggleDarkMode: (preference: boolean) => Action;
   toggleHighContrastMode: (preference: boolean) => Action;
 }
@@ -75,6 +74,14 @@ const TitleButton = styled(Button)(({ theme }) => ({
 
 type CombinedMainAppBarProps = MainAppProps & MainAppDispatchProps;
 
+const getPluginLogo = (
+  plugin: PluginConfig,
+  useLightBackgroundLogo: boolean
+): string | undefined =>
+  useLightBackgroundLogo
+    ? (plugin.logoLightMode ?? plugin.logoDarkMode)
+    : (plugin.logoDarkMode ?? plugin.logoLightMode);
+
 export const MainAppBar = (
   props: CombinedMainAppBarProps
 ): React.ReactElement => {
@@ -85,6 +92,10 @@ export const MainAppBar = (
   const location = useLocation();
   const theme = useTheme();
   const isViewportMdOrLarger = useMediaQuery(theme.breakpoints.up('md'));
+  // Dark high-contrast mode uses a light app bar background.
+  const useLightBackgroundLogo = props.darkMode && props.highContrastMode;
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!props.loading) {
@@ -92,12 +103,17 @@ export const MainAppBar = (
       if (props.plugins.length >= 1) {
         //Use the first plugin's logo for everything if 'singlePluginLogo' is true, otherwise choose depending on current plugin visible
         if (props.singlePluginLogo) {
-          setLogo(props.plugins[0].logoDarkMode ?? ScigatewayLogo);
+          setLogo(
+            getPluginLogo(props.plugins[0], useLightBackgroundLogo) ??
+              ScigatewayLogo
+          );
           set = true;
         } else {
           for (const p of props.plugins) {
             if (document.getElementById(p.plugin) !== null) {
-              setLogo(p.logoDarkMode ?? ScigatewayLogo);
+              setLogo(
+                getPluginLogo(p, useLightBackgroundLogo) ?? ScigatewayLogo
+              );
               set = true;
               break;
             }
@@ -109,7 +125,13 @@ export const MainAppBar = (
         setLogo(ScigatewayLogo);
       }
     }
-  }, [props.plugins, location, props.loading, props.singlePluginLogo]);
+  }, [
+    props.plugins,
+    location,
+    props.loading,
+    props.singlePluginLogo,
+    useLightBackgroundLogo,
+  ]);
 
   const { toggleDrawer } = props;
 
@@ -190,7 +212,7 @@ export const MainAppBar = (
 
           <TitleButton
             className="tour-title"
-            onClick={props.navigateToHome}
+            onClick={() => navigate(scigatewayRoutes.home)}
             aria-label={getString(props.res, 'home-page')}
           >
             <img
@@ -271,6 +293,7 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   drawerOpen: state.scigateway.drawerOpen,
   showHelpPageButton: state.scigateway.features.showHelpPageButton,
   singlePluginLogo: state.scigateway.features.singlePluginLogo,
+  disableMaintenance: state.scigateway.features.disableMaintenance,
   loggedIn: state.scigateway.authorisation.provider.isLoggedIn(),
   showAdminPageButton:
     state.scigateway.authorisation.provider.isLoggedIn() &&
@@ -286,16 +309,11 @@ const mapStateToProps = (state: StateType): MainAppProps => ({
   logo: state.scigateway.logo,
   homepageUrl: state.scigateway.homepageUrl,
   adminPageDefaultTab: state.scigateway.adminPageDefaultTab,
-  pathname: state.router.location.pathname,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): MainAppDispatchProps => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  navigateToHome: () => dispatch(push('/')),
-  navigateToHelpPage: () => dispatch(push('/help')),
-  navigateToAdminPage: (defaultTab: string) => dispatch(push(defaultTab)),
   toggleHelp: () => dispatch(toggleHelp()),
-  manageCookies: () => dispatch(push('/cookies')),
   toggleDarkMode: (preference: boolean) =>
     dispatch(loadDarkModePreference(preference)),
   toggleHighContrastMode: (preference: boolean) =>

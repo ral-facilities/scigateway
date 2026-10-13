@@ -1,6 +1,6 @@
-import { useLocation } from 'react-router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import type { StateType } from '../state/state.types';
 
 /**

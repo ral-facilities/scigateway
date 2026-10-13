@@ -8,6 +8,10 @@ vi.mock('loglevel', () => ({
   error: vi.fn(),
 }));
 
+vi.mock('../i18n', () => ({
+  default: { t: vi.fn((k) => k) },
+}));
+
 describe('Password & OIDC auth provider', () => {
   let passwordAndOIDCAuthProvider: PasswordAndOIDCAuthProvider;
   const testToken =
@@ -87,7 +91,7 @@ describe('Password & OIDC auth provider', () => {
       },
       {
         key: 'userpass',
-        displayName: 'Username & Password',
+        displayName: 'login.userpass-login-option',
         type: 'userpass',
       },
     ] satisfies Authenticator[]);

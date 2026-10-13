@@ -214,6 +214,18 @@ describe('scigateway reducer', () => {
     const updatedState = ScigatewayReducer(state, action);
 
     expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+    expect(updatedState.authorisation.errorCode).toBeUndefined();
+    expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
+  });
+
+  it('unsuccessful log in with error code should update authorisation state with error code', () => {
+    const action = unauthorised(401);
+    state.authorisation.provider = new TestAuthProvider('logged in');
+
+    const updatedState = ScigatewayReducer(state, action);
+
+    expect(updatedState.authorisation.failedToLogin).toBeTruthy();
+    expect(updatedState.authorisation.errorCode).toEqual(401);
     expect(updatedState.authorisation.provider.isLoggedIn()).toBeFalsy();
   });
 
@@ -363,14 +375,22 @@ describe('scigateway reducer', () => {
   });
 
   it('should set feature switches property when configure feature switches action is sent', () => {
-    expect(state.features.singlePluginLogo).toBeFalsy();
+    expect(state.features).toEqual({
+      showHelpPageButton: true,
+      singlePluginLogo: false,
+      disableMaintenance: false,
+    });
 
     const updatedState = ScigatewayReducer(
       state,
       loadFeatureSwitches({ singlePluginLogo: true })
     );
 
-    expect(updatedState.features.singlePluginLogo).toBeTruthy();
+    expect(updatedState.features).toEqual({
+      showHelpPageButton: true,
+      singlePluginLogo: true,
+      disableMaintenance: false,
+    });
   });
 
   it('should update scheduled maintenance property when load scheduled maintenance state action is sent', () => {

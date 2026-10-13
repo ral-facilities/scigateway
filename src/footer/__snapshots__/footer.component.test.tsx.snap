@@ -31,6 +31,7 @@ exports[`Footer component > footer renders correctly 1`] = `
        | 
       <a
         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+        data-discover="true"
         href="/accessibility"
       >
         Accessibilty statement

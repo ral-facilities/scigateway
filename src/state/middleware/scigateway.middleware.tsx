@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { Theme } from '@mui/material';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
@@ -27,7 +27,6 @@ import {
 } from '../scigateway.types';
 import { StateType } from '../state.types';
 import { getAppStrings, getString } from '../strings';
-import { Theme } from '@mui/material';
 
 const microFrontendMessageId = 'scigateway';
 
@@ -89,7 +88,7 @@ export const listenToPlugins = (
   dispatch: Dispatch,
   getState: () => StateType
 ): void => {
-  document.addEventListener(microFrontendMessageId, (event) => {
+  const handler: EventListener = (event) => {
     const pluginMessage = event as microFrontendMessageType;
 
     if (
@@ -131,20 +130,24 @@ export const listenToPlugins = (
 
           if (
             // Redirect to homepage if one is set and current path is /
-            getState().router.location.pathname === '/' &&
+            location.pathname === '/' &&
             getState().scigateway.homepageUrl ===
               pluginMessage.detail.payload.link
           ) {
-            dispatch(
-              push(pluginMessage.detail.payload.link, {
-                scigateway: { homepageUrl: pluginMessage.detail.payload.link },
-              })
+            history.pushState(
+              {
+                idx: 0,
+                key: 'default',
+                state: {},
+              },
+              '',
+              pluginMessage.detail.payload.link
             );
           }
 
           // this helps prevent problems if the plugin settings files and thus routes are loaded particularly slowly
           if (
-            getState().router.location.pathname.startsWith(
+            location.pathname.startsWith(
               pluginMessage.detail.payload.link.split('?')[0]
             ) &&
             singleSpa.getAppStatus(pluginMessage.detail.payload.plugin) ===
@@ -225,7 +228,8 @@ export const listenToPlugins = (
         )}`
       );
     }
-  });
+  };
+  document.addEventListener(microFrontendMessageId, handler);
 };
 
 const ScigatewayMiddleware: Middleware = ((

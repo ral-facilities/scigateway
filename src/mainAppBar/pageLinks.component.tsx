@@ -1,8 +1,9 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { push } from 'connected-react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { getAdminRoutes } from '../routing/routing.component';
+import { scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 import { appBarIconButtonStyle } from './styles';
@@ -27,10 +28,10 @@ function PageLinks(): JSX.Element {
     getAppStrings(state, 'main-appbar')
   );
 
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function navigateToHelpPage(): void {
-    dispatch(push('/help'));
+    navigate(scigatewayRoutes.help);
   }
 
   function navigateToAdminPage(): void {
@@ -39,7 +40,7 @@ function PageLinks(): JSX.Element {
         ? adminRoutes[adminPageDefaultTab]
         : adminRoutes['maintenance'];
 
-    dispatch(push(targetRoute));
+    navigate(targetRoute);
   }
 
   return (

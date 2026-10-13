@@ -1,5 +1,102 @@
 # Changelog
 
+## [v4.2.0](https://github.com/ral-facilities/scigateway/tree/v4.2.0) (2026-10-13)
+
+## What's Changed
+
+### Features
+
+* Allow renovate to create patch PRs when they're vulnerabilities by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1623
+* Use plugin blue text logo in dark high-contrast mode by @Dagonite in https://github.com/ral-facilities/scigateway/pull/1617
+* Add some translation related features by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1645
+* Bugfix/maintenance toggle #1631 by @xkyue in https://github.com/ral-facilities/scigateway/pull/1674
+* Fix single icat authenticator not having any login UI by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1684
+
+### Dependencies
+
+* Bump immutable from 4.3.0 to 4.3.8 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1582
+* Update dependency globals to v17 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1574
+* Update actions/setup-node digest to 53b8394 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1583
+* Update dependency @types/node to v24.12.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1584
+* Update dependency lint-staged to v16.3.2 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1585
+* Update dependency wait-on to v9 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1586
+* Update dependency typescript-eslint to v8.57.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1588
+* Update dependency jwks-rsa to v4 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1589
+* Update dependency @vitejs/plugin-react to v5.2.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1590
+* Update softprops/action-gh-release action to v2.6.1 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1592
+* Update dependency cypress to v15.12.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1591
+* Update dependency lint-staged to v16.4.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1593
+* Update codecov/codecov-action digest to 1af5884 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1596
+* Update docker/build-push-action action to v7 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1598
+* Bump flatted from 3.3.3 to 3.4.2 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1599
+* Update docker/login-action action to v4 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1600
+* Update dependency i18next to v25.9.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1601
+* Update dependency i18next to v25.10.3 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1602
+* Update dependency react-i18next to v16.6.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1603
+* Update Yarn to v4.13.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1604
+* Update docker/metadata-action action to v6 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1605
+* Update docker/setup-buildx-action action to v4 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1606
+* Update quay.io/keycloak/keycloak Docker tag to v26 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1607
+* Bump picomatch from 2.3.1 to 2.3.2 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1609
+* Bump yaml from 1.10.2 to 1.10.3 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1608
+* Bump lodash from 4.17.23 to 4.18.1 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1611
+* Update dependency axios to v1.15.0 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1614
+* Upgrade react-router #942 by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1587
+* Update actions/setup-node digest to 48b55a0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1620
+* Bump follow-redirects from 1.15.11 to 1.16.0 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1616
+* Update dependency i18next-http-backend to v3.0.5 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1625
+* Update dependency axios to v1.15.2 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1624
+* Bump postcss from 8.5.8 to 8.5.14 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1626
+* Bump lodash from 4.17.23 to 4.18.1 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1627
+* Bump picomatch from 2.3.1 to 2.3.2 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1628
+* Update codecov/codecov-action digest to 75cd116 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1629
+* Bump systeminformation from 5.31.1 to 5.31.6 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1632
+* Update dependency js-cookie to v3.0.7 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1634
+* Bump @tootallnate/once from 2.0.0 to 2.0.1 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1635
+* Bump tmp from 0.2.5 to 0.2.7 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1636
+* Update dependency axios to v1.16.0 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1638
+* Update dependency react-router to v7.15.0 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1640
+* Update dependency @vitejs/plugin-react to v5.2.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1630
+* Update actions/checkout digest to df4cb1c by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1641
+* Update yarn monorepo to v4.16.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1642
+* Update codecov/codecov-action action to v7 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1646
+* Bump shell-quote from 1.8.1 to 1.8.4 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1644
+* Update dependency react-router to v7.15.1 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1648
+* Update dependency cypress to v15.17.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1643
+* Bump js-yaml from 4.1.1 to 4.2.0 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1650
+* Update dependency axios to v1.18.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1653
+* Bump @babel/core from 7.29.0 to 7.29.7 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1652
+* Bump form-data from 4.0.5 to 4.0.6 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1651
+* Update dependency eslint-plugin-no-only-tests to v3.4.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1654
+* Update dependency globals to v17.7.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1655
+* Bump systeminformation from 5.31.6 to 5.31.16 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1657
+* Bump brace-expansion from 1.1.11 to 1.1.16 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1658
+* Bump shell-quote from 1.8.4 to 1.10.0 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1659
+* Bump js-yaml from 4.2.0 to 4.3.0 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1660
+* Update dependency browserslist to v4.28.7 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1670
+* Bump joi from 18.0.2 to 18.2.8 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1671
+* Bump @humanfs/node from 0.16.6 to 0.16.8 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1666
+* Bump js-yaml from 4.3.0 to 4.3.1 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1665
+* Bump nanoid from 3.3.11 to 3.3.18 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1664
+* Update dependency react-router to v7.18.2 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1662
+* Bump js-yaml from 4.3.1 to 4.3.2 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1672
+* Bump brace-expansion from 1.1.16 to 1.1.21 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1673
+* Update dependency i18next-http-backend to v4 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1682
+* Update dependency axios to v1.20.0 [SECURITY] by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1676
+* Bump shell-quote from 1.10.0 to 1.12.0 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1681
+* Bump proxy-addr from 2.0.7 to 2.0.8 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1677
+* Bump source-map-js from 1.2.1 to 1.2.2 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1680
+* Bump joi from 18.2.8 to 18.2.9 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1679
+* Bump postcss from 8.5.14 to 8.5.29 by @dependabot[bot] in https://github.com/ral-facilities/scigateway/pull/1683
+* Update Node.js to v24.21.0 by @renovate[bot] in https://github.com/ral-facilities/scigateway/pull/1686
+* Update httpd docker image by @louise-davies in https://github.com/ral-facilities/scigateway/pull/1687
+
+## New Contributors
+
+* @xkyue made their first contribution in https://github.com/ral-facilities/scigateway/pull/1674
+
+**Full Changelog**: https://github.com/ral-facilities/scigateway/compare/v4.1.1...v4.2.0
+
 ## [v4.1.1](https://github.com/ral-facilities/scigateway/tree/v4.1.1) (2026-05-07)
 
 ## What's Changed

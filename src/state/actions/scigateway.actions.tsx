@@ -1,8 +1,8 @@
 import { Theme } from '@mui/material/styles';
-import axios from 'axios';
-import { push } from 'connected-react-router';
+import axios, { AxiosError } from 'axios';
 import log from 'loglevel';
 import { Step } from 'react-joyride';
+import { NavigateFunction } from 'react-router';
 import { Action, AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as singleSpa from 'single-spa';
@@ -10,6 +10,7 @@ import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
   ApplicationStrings,
+  AuthFailurePayload,
   AuthFailureType,
   AuthProviderPayload,
   AuthSuccessType,
@@ -90,7 +91,7 @@ export const loadStrings = (path: string): ThunkResult<Promise<void>> => {
 };
 
 export const loadFeatureSwitches = (
-  featureSwitches: FeatureSwitches
+  featureSwitches: Partial<FeatureSwitches>
 ): ActionType<FeatureSwitchesPayload> => ({
   type: ConfigureFeatureSwitchesType,
   payload: {
@@ -189,8 +190,11 @@ export const loadedAuthentication = (): Action => ({
   type: LoadedAuthType,
 });
 
-export const unauthorised = (): Action => ({
+export const unauthorised = (
+  errorCode?: number
+): ActionType<AuthFailurePayload> => ({
   type: AuthFailureType,
+  payload: { errorCode },
 });
 
 export const authorised = (): Action => ({
@@ -254,7 +258,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
         const loadingPromises = [];
 
         const provider = getState().scigateway.authorisation.provider;
-        if (provider.fetchMaintenanceState) {
+        if (
+          provider.fetchMaintenanceState &&
+          settings.features?.disableMaintenance !== true
+        ) {
           provider.fetchMaintenanceState().then((maintenanceState) => {
             dispatch(loadMaintenanceState(maintenanceState));
 
@@ -364,7 +371,7 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
           // if we're on a non-scigateway url that isn't in plugins yet, attempt to wait for matching register route event
           // to help prevent showing a 404 page before the right route has been registered
           return new Promise<void>((resolve) => {
-            const currUrl = getState().router.location.pathname;
+            const currUrl = window.location.pathname;
             if (
               !Object.values(scigatewayRoutes).includes(currUrl) &&
               currUrl !== baseAdminRoutes.maintenance &&
@@ -431,7 +438,10 @@ export const configureSite = (): ThunkResult<Promise<void>> => {
       );
 
     const provider = getState().scigateway.authorisation.provider;
-    if (provider.fetchScheduledMaintenanceState) {
+    if (
+      provider.fetchScheduledMaintenanceState &&
+      getState().scigateway.features.disableMaintenance !== true
+    ) {
       provider
         .fetchScheduledMaintenanceState()
         .then((scheduledMaintenanceState) => {
@@ -481,9 +491,11 @@ export const toggleHelp = (): Action => ({
 });
 
 export const signOut =
-  (): ThunkAction<void, StateType, null, AnyAction> => (dispatch) => {
+  (navigate: NavigateFunction): ThunkAction<void, StateType, null, AnyAction> =>
+  (dispatch) => {
     dispatch({ type: SignOutType });
-    dispatch(push('/'));
+
+    navigate(scigatewayRoutes.home);
   };
 
 export const resetAuthState = (): Action => ({
@@ -502,10 +514,8 @@ export const verifyUsernameAndPassword = (
       .then(() => {
         dispatch(authorised());
       })
-      .catch(() => {
-        // probably want to do something smarter with
-        // err.response.status (e.g. 403 or 500)
-        dispatch(unauthorised());
+      .catch((error: AxiosError) => {
+        dispatch(unauthorised(error.response?.status));
       });
   };
 };

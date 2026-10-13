@@ -1,14 +1,12 @@
-import React from 'react';
-import AccessibilityPage from './accessibilityPage.component';
-import { buildTheme } from '../theming';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { StateType } from '../state/state.types';
-import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { createLocation } from 'history';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { authState, initialState } from '../state/reducers/scigateway.reducer';
+import { StateType } from '../state/state.types';
+import { buildTheme } from '../theming';
+import AccessibilityPage from './accessibilityPage.component';
 
 describe('Accessibility page component', () => {
   const theme = buildTheme(false);
@@ -17,7 +15,6 @@ describe('Accessibility page component', () => {
   beforeEach(() => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
-      router: { location: createLocation('/') },
     };
   });
 

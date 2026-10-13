@@ -1,28 +1,28 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
+import DownloadIcon from '@mui/icons-material/GetApp';
+import SearchIcon from '@mui/icons-material/Search';
 import {
-  Grid,
-  Box,
-  Paper,
-  Button,
   Avatar,
+  Box,
+  Button,
+  Grid,
+  Paper,
   alpha,
   styled,
   useMediaQuery,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import DownloadIcon from '@mui/icons-material/GetApp';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 import BackgroundImage from '../images/background.jpg';
-import GreenSwirl1Image from '../images/green-swirl1.png';
-import GreenSwirl2Image from '../images/green-swirl2.png';
 import Decal1Image from '../images/decal1.svg';
-import Decal2Image from '../images/decal2.svg';
 import Decal2DarkImage from '../images/decal2-dark.svg';
 import Decal2DarkHCImage from '../images/decal2-darkhc.svg';
+import Decal2Image from '../images/decal2.svg';
 import FacilityImage from '../images/facility.jpg';
-import { Link } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import GreenSwirl1Image from '../images/green-swirl1.png';
+import GreenSwirl2Image from '../images/green-swirl2.png';
 
 export interface HomePageProps {
   logo: string;

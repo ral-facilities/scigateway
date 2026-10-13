@@ -1,7 +1,6 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createLocation } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore, { MockStore } from 'redux-mock-store';
@@ -38,11 +37,7 @@ describe('Tour component', () => {
   let state: StateType;
   let holder;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
@@ -70,10 +65,6 @@ describe('Tour component', () => {
             content: 'Plugin link test',
           },
         ],
-      },
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
       },
     };
     testStore = configureStore()(state);

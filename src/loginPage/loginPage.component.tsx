@@ -18,7 +18,7 @@ import { Theme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { Action, AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import {
@@ -64,8 +64,7 @@ const DividerLine = styled('div')(({ theme }) => ({
 }));
 
 const DividerWithText = (props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: React.ReactElement<any, any>;
+  children: React.ReactNode;
 }): React.ReactElement => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -108,7 +107,15 @@ export const RedirectLoginScreen = (
   return (
     <RootDiv>
       {props.auth.failedToLogin ? (
-        <ErrorTypography>{t('login.login-redirect-error-msg')}</ErrorTypography>
+        <ErrorTypography>
+          {t('login.login-redirect-error-msg', {
+            ...(typeof props.auth.errorCode !== 'undefined'
+              ? {
+                  context: `${props.auth.errorCode}`,
+                }
+              : undefined),
+          })}
+        </ErrorTypography>
       ) : null}
       <Button
         variant="contained"
@@ -158,7 +165,15 @@ export const CredentialsLoginScreen = (
       }}
     >
       {props.auth.failedToLogin ? (
-        <ErrorTypography>{t('login.login-error-msg')}</ErrorTypography>
+        <ErrorTypography>
+          {t('login.login-error-msg', {
+            ...(typeof props.auth.errorCode !== 'undefined'
+              ? {
+                  context: `${props.auth.errorCode}`,
+                }
+              : undefined),
+          })}
+        </ErrorTypography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
         <InfoTypography>{t('login.token-invalid-msg')}</InfoTypography>
@@ -209,26 +224,37 @@ export const CredentialsLoginScreen = (
           {t('login.need-help-signing-in')}
         </Link>
       </Typography>
-      <DividerWithText>
-        <Typography>or</Typography>
-      </DividerWithText>
-      <Typography
-        sx={{
-          ...textStyles,
-          paddingBottom: undefined,
-          color: (theme: Theme) => theme.colours.contrastGrey,
-        }}
-      >
-        <Trans t={t} i18nKey="login.dont-have-an-account-sign-up-now">
-          Don&#39;t have an account?{' '}
-          <Link
-            href={t('login.dont-have-an-account-sign-up-now-link')}
-            underline="hover"
+      {/* Check if t results in the key which is the backup option aka no translation provided */}
+      {t('login.dont-have-an-account-sign-up-now') !==
+        'login.dont-have-an-account-sign-up-now' && (
+        <>
+          <DividerWithText>
+            <Typography>or</Typography>
+          </DividerWithText>
+          <Typography
+            sx={{
+              ...textStyles,
+              paddingBottom: undefined,
+              color: (theme: Theme) => theme.colours.contrastGrey,
+            }}
           >
-            Sign up now
-          </Link>
-        </Trans>
-      </Typography>
+            <Trans
+              t={t}
+              i18nKey="login.dont-have-an-account-sign-up-now"
+              components={{ Link: <Link /> }}
+            >
+              Don&#39;t have an account?{' '}
+              <Link
+                // keep backwards compatibility with old translations file which define the link and text separately
+                href={t('login.dont-have-an-account-sign-up-now-link')}
+                underline="hover"
+              >
+                Sign up now
+              </Link>
+            </Trans>
+          </Typography>
+        </>
+      )}
     </RootDiv>
   );
 };
@@ -254,7 +280,15 @@ export const AnonLoginScreen = (
       }}
     >
       {props.auth.failedToLogin ? (
-        <ErrorTypography>{t('login.login-error-msg')}</ErrorTypography>
+        <ErrorTypography>
+          {t('login.login-error-msg', {
+            ...(typeof props.auth.errorCode !== 'undefined'
+              ? {
+                  context: `${props.auth.errorCode}`,
+                }
+              : undefined),
+          })}
+        </ErrorTypography>
       ) : null}
       {props.auth.signedOutDueToTokenInvalidation ? (
         <InfoTypography>{t('login.token-invalid-msg')}</InfoTypography>
@@ -327,7 +361,8 @@ export const LoginPageComponent = (
         : undefined)
   );
   const [initialisedAuth, setInitialisedAuth] = useState<boolean>(false);
-  const location = useLocation<{ referrer?: string } | undefined>();
+  const location = useLocation();
+  const locationState: { referrer?: string } | undefined = location.state;
 
   const { verifyUsernameAndPassword } = props;
 
@@ -341,10 +376,10 @@ export const LoginPageComponent = (
       props.auth.provider.setAuthenticator?.(
         newAuthenticator,
         disableSideEffects,
-        location.state?.referrer
+        locationState?.referrer
       );
     },
-    [location.state?.referrer, props.auth.provider]
+    [locationState?.referrer, props.auth.provider]
   );
 
   React.useEffect(() => {
@@ -363,13 +398,11 @@ export const LoginPageComponent = (
   React.useEffect(() => {
     if (!initialLoadEffectRan.current) {
       const oidcProviderId = sessionStorage.getItem('oidcProviderId');
-      if (
-        (props.auth.provider.redirectUrl || oidcProviderId) &&
-        !props.auth.loading &&
-        !props.auth.failedToLogin &&
-        initialisedAuth
-      ) {
-        if (location.search) {
+      if (!props.auth.loading && !props.auth.failedToLogin && initialisedAuth) {
+        if (
+          (props.auth.provider.redirectUrl || oidcProviderId) &&
+          location.search
+        ) {
           // disable sideEffects for setting authenticator just before OIDC login
           // as otherwise this will override needed variables such as the code verifier
           changeAuthenticator(`${oidcProviderId}`, true);

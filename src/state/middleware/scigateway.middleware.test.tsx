@@ -1,4 +1,3 @@
-import { createLocation } from 'history';
 import log from 'loglevel';
 import { toastr } from 'react-redux-toastr';
 import { AnyAction } from 'redux';
@@ -42,10 +41,6 @@ describe('scigateway middleware', () => {
   const mockStore: MockStoreCreator<StateType> = configureStore([thunk]);
   const getState: () => StateType = () => ({
     scigateway: { ...initialState, authorisation: { ...authState } },
-    router: {
-      action: 'POP',
-      location: createLocation('/'),
-    },
   });
 
   const theme = buildTheme(false);
@@ -253,19 +248,6 @@ describe('scigateway middleware', () => {
     expect(events.length).toEqual(0);
   });
 
-  it("should not send page views if analytics haven't been initialised", () => {
-    store = mockStore({
-      scigateway: {},
-    });
-    ScigatewayMiddleware(store)(store.dispatch)({
-      type: '@@router/LOCATION_CHANGE',
-      payload: {
-        location: createLocation('/'),
-        action: 'POP',
-      },
-    });
-  });
-
   it('should send request plugin rerender action when ToggleDrawer action is sent', () => {
     const toggleDrawerAction = {
       type: ToggleDrawerType,
@@ -370,10 +352,6 @@ describe('scigateway middleware', () => {
         authorisation: { ...authState },
         primaryColour: '#654321',
       },
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
-      },
     });
     Storage.prototype.getItem = vi.fn().mockReturnValueOnce(undefined);
     window.matchMedia = vi.fn().mockReturnValueOnce({ matches: true });
@@ -421,10 +399,6 @@ describe('scigateway middleware', () => {
           ...initialState.authorisation,
           provider: testAuthProvider,
         },
-      },
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
       },
     });
 
@@ -543,13 +517,10 @@ describe('scigateway middleware', () => {
   });
 
   it('should listen for events and fire registerroute action and redirect to homepageUrl', () => {
+    window.location.href = '/';
     const testHomepageUrl = '/plugin1/analysis2';
     const getState: () => StateType = () => ({
       scigateway: { ...initialState, homepageUrl: testHomepageUrl },
-      router: {
-        action: 'POP',
-        location: createLocation('/'),
-      },
     });
 
     listenToPlugins(store.dispatch, getState);
@@ -561,30 +532,17 @@ describe('scigateway middleware', () => {
     );
 
     expect(document.addEventListener).toHaveBeenCalled();
-    expect(store.getActions().length).toEqual(3);
+    expect(store.getActions().length).toEqual(2);
     expect(store.getActions()[0]).toEqual(registerRouteAction);
-    expect(store.getActions()[1]).toEqual({
-      type: '@@router/CALL_HISTORY_METHOD',
-      payload: {
-        method: 'push',
-        args: [
-          testHomepageUrl,
-          { scigateway: { homepageUrl: testHomepageUrl } },
-        ],
-      },
-    });
-    expect(JSON.stringify(store.getActions()[2])).toEqual(
+    expect(JSON.stringify(store.getActions()[1])).toEqual(
       JSON.stringify(sendThemeOptionsAction)
     );
+    expect(window.location.pathname).toEqual(testHomepageUrl);
   });
 
   it("should listen for events and fire registerroute action and call singleSpa.triggerAppChange if url matches plugin route and it's not loaded", () => {
     const getState: () => StateType = () => ({
       scigateway: { ...initialState },
-      router: {
-        action: 'POP',
-        location: createLocation('/plugin1/analysis2'),
-      },
     });
 
     vi.mocked(singleSpa.getAppStatus).mockReturnValue(singleSpa.NOT_LOADED);

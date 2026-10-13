@@ -1,17 +1,16 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
-import { getAppStrings, getString } from '../state/strings';
-import { connect } from 'react-redux';
-import { StateType } from '../state/state.types';
-import { AppStrings } from '../state/scigateway.types';
+import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie';
-import { Dispatch, Action } from 'redux';
-import { push } from 'connected-react-router';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { AppStrings, scigatewayRoutes } from '../state/scigateway.types';
+import { StateType } from '../state/state.types';
+import { getAppStrings, getString } from '../state/strings';
 
 const RootDiv = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
@@ -49,12 +48,7 @@ interface CookiesPageProps {
   res: AppStrings | undefined;
 }
 
-interface CookiesPageDispatchProps {
-  navigateToHome: () => Action;
-}
-
-export type CombinedCookiesPageProps = CookiesPageProps &
-  CookiesPageDispatchProps;
+export type CombinedCookiesPageProps = CookiesPageProps;
 
 const handleSavePreferences = ({ analytics }: { analytics: boolean }): void => {
   if (!analytics) {
@@ -75,6 +69,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
     cookieConsent ? cookieConsent.analytics : false
   );
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <RootDiv>
@@ -187,7 +182,7 @@ const CookiesPage = (props: CombinedCookiesPageProps): React.ReactElement => {
         sx={{ color: 'primary.contrastText' }}
         onClick={() => {
           handleSavePreferences({ analytics });
-          props.navigateToHome();
+          navigate(scigatewayRoutes.home);
         }}
       >
         {getString(props.res, 'save-preferences-button')}
@@ -200,10 +195,6 @@ const mapStateToProps = (state: StateType): CookiesPageProps => ({
   res: getAppStrings(state, 'cookies-page'),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): CookiesPageDispatchProps => ({
-  navigateToHome: () => dispatch(push('/')),
-});
-
 export const UnconnectedCookiesPage = CookiesPage;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CookiesPage);
+export default connect(mapStateToProps)(CookiesPage);

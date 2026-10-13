@@ -12,6 +12,7 @@ import { buildPluginConfig } from '../pluginhelper';
 import {
   AddHelpTourStepsPayload,
   AddHelpTourStepsType,
+  AuthFailurePayload,
   AuthFailureType,
   AuthProviderPayload,
   AuthSuccessType,
@@ -81,6 +82,7 @@ export const initialState: ScigatewayState = {
   features: {
     showHelpPageButton: true,
     singlePluginLogo: false,
+    disableMaintenance: false,
   },
   darkMode: false,
   highContrastMode: false,
@@ -217,15 +219,16 @@ const resetAuth = (authorisation: AuthState): AuthState => {
 
 export function handleUnsuccessfulLogin(
   state: ScigatewayState,
-  payload: null
+  payload: AuthFailurePayload
 ): ScigatewayState {
-  log.debug(`Failed to log in with ${payload}`);
+  log.debug(`Failed to log in with error ${payload.errorCode}`);
   state.authorisation.provider.logOut();
   return {
     ...state,
     authorisation: {
       ...resetAuth(state.authorisation),
       failedToLogin: true,
+      errorCode: payload.errorCode,
     },
   };
 }
@@ -265,7 +268,7 @@ export function handleConfigureFeatureSwitches(
 ): ScigatewayState {
   return {
     ...state,
-    features: payload.switches,
+    features: { ...state.features, ...payload.switches },
   };
 }
 
@@ -381,7 +384,7 @@ export function handleAuthProviderUpdate(
 
       case 'icat':
         provider = new ICATAuthProvider(
-          payload.authProvider.replace('icat.', ''),
+          payload.authProvider.replace(/icat\.?/, ''),
           payload.authUrl,
           payload.autoLogin
         );

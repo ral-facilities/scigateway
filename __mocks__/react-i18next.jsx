@@ -36,7 +36,14 @@ const renderNodes = (reactNodes) => {
   });
 };
 
-const t = (k, opt) => (opt && 'returnObjects' in opt ? [`${k}0`, `${k}1`] : k);
+const t = (k, opt) =>
+  opt
+    ? 'returnObjects' in opt
+      ? [`${k}0`, `${k}1`]
+      : 'context' in opt
+        ? `${k}_${opt.context}`
+        : k
+    : k;
 const useMock = [t, {}];
 useMock.t = t;
 useMock.i18n = {};

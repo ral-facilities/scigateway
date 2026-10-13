@@ -2,16 +2,17 @@ import { Paper } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { PluginConfig } from '../state/scigateway.types';
+import { PluginConfig, scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { useTranslation } from 'react-i18next';
-import { Link, Route, Switch, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router';
 import PageNotFound from '../pageNotFound/pageNotFound.component';
 import {
   getAdminRoutes,
+  makeRouteNonExact,
   PluginPlaceHolder,
 } from '../routing/routing.component';
 import MaintenancePage from './maintenancePage.component';
@@ -109,35 +110,46 @@ const AdminPage = (props: AdminPageProps): ReactElement => {
           );
         })}
       </Tabs>
-      <Switch>
-        <Route exact path={adminRoutes.maintenance}>
-          <div
-            id="maintenance-panel"
-            aria-labelledby="maintenance-tab"
-            role="tabpanel"
-            hidden={tabValue !== 'maintenance'}
-          >
-            <MaintenancePage />
-          </div>
-        </Route>
+      <Routes>
+        <Route
+          // Since these routes are in a new Routes component, they need to be relative paths
+          // so remove the admin prefix
+          path={adminRoutes.maintenance.replace(scigatewayRoutes.admin, '')}
+          element={
+            <div
+              id="maintenance-panel"
+              aria-labelledby="maintenance-tab"
+              role="tabpanel"
+              hidden={tabValue !== 'maintenance'}
+            >
+              <MaintenancePage />
+            </div>
+          }
+        />
 
         {Object.entries(pluginRoutes).map(([pluginName, tabRoutes]) =>
           Object.entries(tabRoutes).map(([tabName, route]) => (
-            <Route key={`${pluginName}-${tabName}}`} path={route}>
-              <div
-                id={`${tabName}-panel`}
-                aria-labelledby={`${tabName}-tab`}
-                role="tabpanel"
-                hidden={tabValue !== tabName}
-              >
-                <PluginPlaceHolder id={pluginName} />
-              </div>
-            </Route>
+            <Route
+              key={`${pluginName}-${tabName}}`}
+              path={makeRouteNonExact(
+                route.replace(scigatewayRoutes.admin, '')
+              )}
+              element={
+                <div
+                  id={`${tabName}-panel`}
+                  aria-labelledby={`${tabName}-tab`}
+                  role="tabpanel"
+                  hidden={tabValue !== tabName}
+                >
+                  <PluginPlaceHolder id={pluginName} />
+                </div>
+              }
+            />
           ))
         )}
 
-        <Route component={PageNotFound} />
-      </Switch>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </Paper>
   );
 };

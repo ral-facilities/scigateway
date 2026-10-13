@@ -1,32 +1,26 @@
+import { StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-import PageNotFoundComponent from './pageNotFound.component';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router';
+import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { createMemoryHistory, History } from 'history';
-import configureStore from 'redux-mock-store';
 import { StateType } from '../state/state.types';
-import { Provider } from 'react-redux';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { buildTheme } from '../theming';
-import { Router } from 'react-router';
-import { render, screen } from '@testing-library/react';
+import PageNotFoundComponent from './pageNotFound.component';
 
 describe('Page Not found component', () => {
   let state: StateType;
-  let history: History;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <Provider store={configureStore([thunk])(state)}>
-        <Router history={history}>
+        <BrowserRouter>
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
           </StyledEngineProvider>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
   }
@@ -35,8 +29,6 @@ describe('Page Not found component', () => {
     state = {
       scigateway: { ...initialState, authorisation: { ...authState } },
     };
-
-    history = createMemoryHistory();
   });
 
   const theme = buildTheme(false);

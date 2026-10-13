@@ -2,7 +2,7 @@ import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 import { scigatewayRoutes } from '../state/scigateway.types';
 
 const RootDiv = styled('div')(({ theme }) => ({

@@ -8,12 +8,13 @@ import {
   MenuItem,
   MenuProps,
 } from '@mui/material';
-import { push } from 'connected-react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import {
   loadDarkModePreference,
   loadHighContrastModePreference,
 } from '../state/actions/scigateway.actions';
+import { scigatewayRoutes } from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { getAppStrings, getString } from '../state/strings';
 
@@ -52,10 +53,11 @@ function SettingsMenuContent({
     getAppStrings(state, 'main-appbar')
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function manageCookies(): void {
     onRequestCloseParentMenu();
-    dispatch(push('/cookies'));
+    navigate(scigatewayRoutes.cookies);
   }
 
   function toggleDarkMode(): void {

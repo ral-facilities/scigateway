@@ -1,11 +1,9 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { push } from 'connected-react-router';
-import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import configureStore, { type MockStore } from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import TestAuthProvider from '../authentication/testAuthProvider';
@@ -18,20 +16,21 @@ describe('User profile component', () => {
   let testStore: MockStore;
   let state: StateType;
   const theme = buildTheme(false);
-  let history: MemoryHistory;
+  let router: ReturnType<typeof createBrowserRouter>;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
+    router = createBrowserRouter([
+      // match everything with "*"
+      { path: '*', element: <>{children}</> },
+    ]);
+
     return (
       <Provider store={testStore}>
-        <Router history={history}>
-          <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          </StyledEngineProvider>
-        </Router>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </Provider>
     );
   }
@@ -44,7 +43,7 @@ describe('User profile component', () => {
       'test-token'
     );
     testStore = configureStore([thunk])(state);
-    history = createMemoryHistory();
+    window.history.replaceState(null, '', '/');
   });
 
   it('renders sign in button if not signed in', () => {
@@ -60,14 +59,14 @@ describe('User profile component', () => {
   it('redirects to login when sign in is pressed', async () => {
     const user = userEvent.setup();
     state.scigateway.authorisation.provider = new TestAuthProvider(null);
-    history.replace('/test');
+    window.history.replaceState(null, '', '/test');
 
     render(<UserProfileComponent />, { wrapper: Wrapper });
 
     await user.click(screen.getByRole('button', { name: 'login-button' }));
 
-    expect(history.location.pathname).toBe('/login');
-    expect(history.location.state).toEqual({
+    expect(window.location.pathname).toBe('/login');
+    expect(router.state.location.state).toEqual({
       referrer: '/test',
       referredFrom: 'clickingSignIn',
     });
@@ -132,8 +131,8 @@ describe('User profile component', () => {
       })
     );
 
-    expect(testStore.getActions().length).toEqual(2);
+    expect(testStore.getActions().length).toEqual(1);
     expect(testStore.getActions()[0]).toEqual({ type: 'scigateway:signout' });
-    expect(testStore.getActions()[1]).toEqual(push('/'));
+    expect(window.location.pathname).toEqual('/');
   });
 });

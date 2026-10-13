@@ -1,8 +1,8 @@
-import React from 'react';
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import React from 'react';
 import { connect } from 'react-redux';
 import { StateType } from '../state/state.types';
-import { Box } from '@mui/material';
 
 interface MaintenancePageProps {
   message: string;

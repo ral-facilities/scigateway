@@ -77,12 +77,13 @@ export interface ConfigureStringsPayload {
 export type ApplicationStrings = Record<string, AppStrings>;
 
 export interface FeatureSwitchesPayload {
-  switches: FeatureSwitches;
+  switches: Partial<FeatureSwitches>;
 }
 
 export interface FeatureSwitches {
   showHelpPageButton: boolean;
   singlePluginLogo: boolean;
+  disableMaintenance: boolean;
 }
 
 export interface HomepageUrlPayload {
@@ -115,8 +116,8 @@ export interface RegisterRoutePayload {
   admin?: boolean;
   order: number;
   helpText?: string;
-  logoLightMode?: string;
-  logoDarkMode?: string;
+  logoLightMode?: string; /** Logo variant intended for light app bar backgrounds. */
+  logoDarkMode?: string; /** Logo variant intended for dark app bar backgrounds. */
   logoAltText?: string;
   helpSteps?: { target: string; content: string }[];
 }
@@ -131,8 +132,8 @@ export interface PluginConfig {
   admin?: boolean;
   order: number;
   helpText?: string;
-  logoLightMode?: string;
-  logoDarkMode?: string;
+  logoLightMode?: string; /** Logo variant intended for light app bar backgrounds. */
+  logoDarkMode?: string; /** Logo variant intended for dark app bar backgrounds. */
   logoAltText?: string;
   helpSteps?: { target: string; content: string }[];
 }
@@ -152,6 +153,10 @@ export interface AccessPayload {
 
 export interface AuthorisedPayload {
   token: string;
+}
+
+export interface AuthFailurePayload {
+  errorCode?: number;
 }
 
 export interface SendThemeOptionsPayload {

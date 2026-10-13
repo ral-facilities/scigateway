@@ -2,11 +2,9 @@ import { useMediaQuery } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { push } from 'connected-react-router';
-import { History, createLocation, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import configureStore, { MockStore } from 'redux-mock-store';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import {
@@ -30,18 +28,13 @@ vi.mock('@mui/material', async () => ({
 describe('Main app bar component', () => {
   let testStore: MockStore;
   let state: StateType;
-  let history: History;
 
-  function Wrapper({
-    children,
-  }: {
-    children: React.ReactElement;
-  }): JSX.Element {
+  function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
     return (
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Provider store={testStore}>
-            <Router history={history}>{children}</Router>
+            <BrowserRouter>{children}</BrowserRouter>
           </Provider>
         </ThemeProvider>
       </StyledEngineProvider>
@@ -49,8 +42,6 @@ describe('Main app bar component', () => {
   }
 
   beforeEach(() => {
-    history = createMemoryHistory();
-
     state = {
       scigateway: {
         ...initialState,
@@ -66,7 +57,6 @@ describe('Main app bar component', () => {
           },
         ],
       },
-      router: { location: createLocation('/') },
     };
     state.scigateway.authorisation.provider = new TestAuthProvider('token123');
 
@@ -122,10 +112,12 @@ describe('Main app bar component', () => {
     expect(screen.queryByRole('button', { name: 'help-page' })).toBeNull();
   });
 
-  it('uses single plugin logo when feature is true', async () => {
+  it('uses the light single plugin logo when dark and high contrast modes are enabled', async () => {
     state.scigateway.logo = undefined;
     state.scigateway.siteLoading = false;
     state.scigateway.features.singlePluginLogo = true;
+    state.scigateway.darkMode = true;
+    state.scigateway.highContrastMode = true;
     state.scigateway.plugins = [
       {
         order: 0,
@@ -133,6 +125,7 @@ describe('Main app bar component', () => {
         plugin: 'plugin',
         link: '/plugin',
         displayName: 'Plugin',
+        logoLightMode: 'plugin_logo_light',
         logoDarkMode: 'plugin_logo_dark',
       },
     ];
@@ -144,7 +137,7 @@ describe('Main app bar component', () => {
         within(screen.getByRole('button', { name: 'home-page' })).getByRole(
           'img'
         )
-      ).toHaveAttribute('src', 'plugin_logo_dark');
+      ).toHaveAttribute('src', 'plugin_logo_light');
     });
   });
 
@@ -225,8 +218,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'home-page' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/'));
+    expect(window.location.pathname).toEqual('/');
   });
 
   it('redirects to Help page when Help button clicked', async () => {
@@ -236,8 +228,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'help-page' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/help'));
+    expect(window.location.pathname).toEqual('/help');
   });
 
   it('redirects to Admin page when Admin button clicked (maintenance is default)', async () => {
@@ -247,8 +238,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'admin-page' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/admin/maintenance'));
+    expect(window.location.pathname).toEqual('/admin/maintenance');
   });
 
   it('redirects to Admin page when Admin button clicked (download is default)', async () => {
@@ -270,8 +260,7 @@ describe('Main app bar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'admin-page' }));
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/admin/download'));
+    expect(window.location.pathname).toEqual('/admin/download');
   });
 
   it('sends toggleHelp action when help button is clicked', async () => {
@@ -360,8 +349,7 @@ describe('Main app bar component', () => {
       await screen.findByRole('menuitem', { name: 'manage-cookies-button' })
     );
 
-    expect(testStore.getActions().length).toEqual(1);
-    expect(testStore.getActions()[0]).toEqual(push('/cookies'));
+    expect(window.location.pathname).toEqual('/cookies');
   });
 
   it('sends load dark mode preference action if toggle dark mode is clicked', async () => {
@@ -407,7 +395,8 @@ describe('Main app bar component', () => {
       plugin: 'plugin',
       displayName: 'pluginName',
       order: 1,
-      logoDarkMode: 'pluginLogo',
+      logoLightMode: 'pluginLogoLight',
+      logoDarkMode: 'pluginLogoDark',
     };
     delete state.scigateway.logo;
     state.scigateway.plugins = [plugin];
@@ -420,7 +409,39 @@ describe('Main app bar component', () => {
       { wrapper: Wrapper }
     );
 
-    expect(await screen.findByRole('img')).toHaveAttribute('src', 'pluginLogo');
+    expect(await screen.findByRole('img')).toHaveAttribute(
+      'src',
+      'pluginLogoDark'
+    );
+  });
+
+  it('sets the light plugin logo when dark and high contrast modes are enabled', async () => {
+    const plugin: PluginConfig = {
+      section: 'section',
+      link: '/link',
+      plugin: 'plugin',
+      displayName: 'pluginName',
+      order: 1,
+      logoLightMode: 'pluginLogoLight',
+      logoDarkMode: 'pluginLogoDark',
+    };
+    delete state.scigateway.logo;
+    state.scigateway.plugins = [plugin];
+    state.scigateway.siteLoading = false;
+    state.scigateway.darkMode = true;
+    state.scigateway.highContrastMode = true;
+
+    render(
+      <div id="plugin">
+        <MainAppBarComponent />
+      </div>,
+      { wrapper: Wrapper }
+    );
+
+    expect(await screen.findByRole('img')).toHaveAttribute(
+      'src',
+      'pluginLogoLight'
+    );
   });
 
   it('sets scigateway logo if no plugin is matched', () => {
