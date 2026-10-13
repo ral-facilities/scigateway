@@ -23,7 +23,7 @@ COPY . .
 RUN yarn build
 
 # Run stage
-FROM httpd:2.4.67-alpine@sha256:0136c2d4462f3b8ecc92bea70efdfef4d06523999ae8d7aa533969dea6db4576
+FROM httpd:2.4.69-alpine@sha256:3440c39d8d6f54fa9ad2549e5a60c19ddd435faadc29c1ad28aa795f71888889
 
 WORKDIR /usr/local/apache2/htdocs
 
