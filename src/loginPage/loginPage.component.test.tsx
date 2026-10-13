@@ -360,6 +360,60 @@ describe('Login page component', () => {
     );
   });
 
+  it('login page renders credentials login if only single user pass login with delayed init', async () => {
+    const mockSetAuthenticator = vi.fn();
+    const mockGetAuthenticator = vi.fn().mockReturnValue(undefined);
+
+    props.auth.provider.getAuthenticator = mockGetAuthenticator;
+    props.auth.provider.setAuthenticator = mockSetAuthenticator;
+    props.auth.provider.authenticators = [];
+
+    let promiseResolve = () => {};
+    props.auth.provider.initialise = vi.fn().mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          promiseResolve = () => {
+            props.auth.provider.authenticators = [
+              {
+                key: 'Test1',
+                type: 'userpass',
+                displayName: 'Test 1',
+              },
+            ];
+            resolve();
+          };
+        })
+    );
+
+    render(<UnconnectedLoginPage {...props} />, { wrapper: Wrapper });
+
+    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
+
+    act(() => {
+      promiseResolve();
+    });
+
+    expect(
+      await screen.findByRole('textbox', { name: 'login.username-arialabel' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('login.password-arialabel')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.forgotten-your-password' })
+    ).toHaveAttribute('href', 'login.forgotten-your-password-link');
+    expect(
+      screen.getByRole('button', { name: 'login.login-button' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'login.need-help-signing-in' })
+    ).toHaveAttribute('href', 'login.need-help-signing-in-link');
+    expect(screen.getByRole('link', { name: 'Sign up now' })).toHaveAttribute(
+      'href',
+      'login.dont-have-an-account-sign-up-now-link'
+    );
+  });
+
   it('login page renders redirect login if only single redirect login with delayed init', async () => {
     const mockSetAuthenticator = vi.fn();
     const mockGetAuthenticator = vi.fn().mockReturnValue(undefined);
