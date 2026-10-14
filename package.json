@@ -28,8 +28,6 @@
     "@types/redux-logger": "3.0.8",
     "@vitejs/plugin-react": "6.1.2",
     "axios": "1.20.0",
-    "browserslist": "4.28.7",
-    "browserslist-to-esbuild": "2.1.1",
     "husky": "9.1.7",
     "i18next": "25.10.3",
     "i18next-browser-languagedetector": "8.2.0",
@@ -80,9 +78,6 @@
       "prettier --config .prettierrc --write"
     ]
   },
-  "browserslist": [
-    "defaults"
-  ],
   "devDependencies": {
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "6.9.1",
