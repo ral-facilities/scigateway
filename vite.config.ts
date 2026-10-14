@@ -56,7 +56,7 @@ export default defineConfig(({ mode }) => {
           // Extra for VSCode extension
           ['lcov', { outputFile: 'lcov.info', silent: true }],
         ],
-        exclude: ['src/vite-env.d.ts', 'src/main.tsx'],
+        exclude: ['src/vite-env.d.ts', 'src/main.tsx', '__mocks__/*'],
       },
     },
   };
