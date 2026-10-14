@@ -7,7 +7,7 @@ exports[`Accessibility page component > should render correctly and display cont
     id="accessibility-page"
   >
     <h3
-      class="MuiTypography-root MuiTypography-h3 css-1b5h65s-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h3 css-1vs0ba0-MuiTypography-root"
     >
       accessibility-page.title
     </h3>
@@ -15,16 +15,16 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         accessibility-page.domains-list-text
       </p>
       <ul
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <li>
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
             href="accessibility-page.domains-list0"
           >
             accessibility-page.domains-list0
@@ -32,7 +32,7 @@ exports[`Accessibility page component > should render correctly and display cont
         </li>
         <li>
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
             href="accessibility-page.domains-list1"
           >
             accessibility-page.domains-list1
@@ -40,13 +40,13 @@ exports[`Accessibility page component > should render correctly and display cont
         </li>
       </ul>
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         accessibility-page.website-developed-by
       </p>
     </div>
     <h4
-      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h4 css-nzer6y-MuiTypography-root"
     >
       accessibility-page.how-accessible-this-website-is
     </h4>
@@ -54,12 +54,12 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         accessibility-page.how-accessible-this-website-is-text
       </p>
       <ul
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <li>
           accessibility-page.accessible-parts-of-list0
@@ -70,10 +70,10 @@ exports[`Accessibility page component > should render correctly and display cont
       </ul>
     </div>
     <p
-      class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
     >
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
         href="accessibility-page.advice-on-how-to-make-device-more-accessible-link"
       >
         AbilityNet
@@ -84,12 +84,12 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         accessibility-page.non-accessible-parts-of-text
       </p>
       <ul
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <li>
           accessibility-page.accessible-parts-of-list0
@@ -100,7 +100,7 @@ exports[`Accessibility page component > should render correctly and display cont
       </ul>
     </div>
     <h4
-      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h4 css-nzer6y-MuiTypography-root"
     >
       accessibility-page.contact-us-about-accessibility
     </h4>
@@ -108,7 +108,7 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         accessibility-page.contact-us-about-accessibility-text
       </p>
@@ -120,10 +120,10 @@ exports[`Accessibility page component > should render correctly and display cont
           id="contact-info"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
               href="mailto:accessibility-page.contact-info"
             >
               accessibility-page.contact-info
@@ -133,7 +133,7 @@ exports[`Accessibility page component > should render correctly and display cont
       </div>
     </div>
     <h4
-      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h4 css-nzer6y-MuiTypography-root"
     >
       accessibility-page.enforcement-procedure
     </h4>
@@ -141,11 +141,11 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint,
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
           href="accessibility-page.enforcement-procedure-link"
         >
           contact the Equality Advisory and Support Service (EASS)
@@ -153,17 +153,17 @@ exports[`Accessibility page component > should render correctly and display cont
       </p>
     </div>
     <h4
-      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h4 css-nzer6y-MuiTypography-root"
     >
       accessibility-page.technical-information-about-this-website-accessibility
     </h4>
     <p
-      class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
     >
       accessibility-page.technical-information-about-this-website-accessibility-text
     </p>
     <h4
-      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h4 css-nzer6y-MuiTypography-root"
     >
       accessibility-page.compliance-status
     </h4>
@@ -171,11 +171,11 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         This website is partially compliant with the 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
           href="accessibility-page.compliance-status-link"
         >
           Web Content Accessibility Guidelines version 2.1
@@ -184,7 +184,7 @@ exports[`Accessibility page component > should render correctly and display cont
       </p>
     </div>
     <h4
-      class="MuiTypography-root MuiTypography-h4 css-n24v2c-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h4 css-nzer6y-MuiTypography-root"
     >
       accessibility-page.non-accessible-content
     </h4>
@@ -192,7 +192,7 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <em>
            accessibility-page.non-accessible-content-text
@@ -200,7 +200,7 @@ exports[`Accessibility page component > should render correctly and display cont
       </p>
     </div>
     <h5
-      class="MuiTypography-root MuiTypography-h5 css-ch59xs-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h5 css-1v635om-MuiTypography-root"
     >
       accessibility-page.non-compliance-with-the-accessibility-regulations
     </h5>
@@ -208,7 +208,7 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <ul
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <li>
           accessibility-page.non-compliance-with-the-accessibility-regulations-list0
@@ -218,18 +218,18 @@ exports[`Accessibility page component > should render correctly and display cont
         </li>
       </ul>
       <p
-        class="MuiTypography-root MuiTypography-body1 css-1hd3sn1-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-198ug3g-MuiTypography-root"
       >
         accessibility-page.non-compliance-with-the-accessibility-regulations-text
       </p>
     </div>
     <h5
-      class="MuiTypography-root MuiTypography-h5 css-ch59xs-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h5 css-1v635om-MuiTypography-root"
     >
       accessibility-page.disproportionate-burden.title
     </h5>
     <h6
-      class="MuiTypography-root MuiTypography-h6 css-1apcfzz-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h6 css-2fdn7w-MuiTypography-root"
     >
       accessibility-page.disproportionate-burden.table-view
     </h6>
@@ -237,7 +237,7 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <ul
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <li>
           accessibility-page.disproportionate-burden.table-view-list0
@@ -248,7 +248,7 @@ exports[`Accessibility page component > should render correctly and display cont
       </ul>
     </div>
     <h6
-      class="MuiTypography-root MuiTypography-h6 css-ldi3b6-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h6 css-lb1myp-MuiTypography-root"
     >
       accessibility-page.disproportionate-burden.card-view
     </h6>
@@ -256,7 +256,7 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <ul
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         <li>
           accessibility-page.disproportionate-burden.card-view-list0
@@ -266,11 +266,11 @@ exports[`Accessibility page component > should render correctly and display cont
         </li>
       </ul>
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         We have assessed the time it would take to resolve these issues with table view, and card view. We believe that doing so now would be a 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-qwtsl2-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-171lx25-MuiTypography-root-MuiLink-root"
           href="accessibility-page.disproportionate-burden.link"
         >
           disproportionate burden 
@@ -279,7 +279,7 @@ exports[`Accessibility page component > should render correctly and display cont
       </p>
     </div>
     <h5
-      class="MuiTypography-root MuiTypography-h5 css-ch59xs-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h5 css-1v635om-MuiTypography-root"
     >
       accessibility-page.preparation-of-this-accessibility-statement
     </h5>
@@ -287,7 +287,7 @@ exports[`Accessibility page component > should render correctly and display cont
       class="css-9c2a3a"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-158lj4w-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1nwlbmz-MuiTypography-root"
       >
         This statement was prepared on the 
         <strong>
