@@ -52,6 +52,8 @@ RUN set -eux; \
     echo '<FilesMatch ".(json|html)$">' >> /usr/local/apache2/conf/httpd.conf; \
     echo '    Header set Cache-Control "no-cache"' >> /usr/local/apache2/conf/httpd.conf; \
     echo '</FilesMatch>' >> /usr/local/apache2/conf/httpd.conf; \
+    # Allow encoded slashes - this enables datafile location redirects to work
+    echo 'AllowEncodedSlashes NoDecode' >> /usr/local/apache2/conf/httpd.conf; \
     \
     # Privileged ports are permitted to root only by default. \
     # setcap to bind to privileged ports (80) as non-root. \
