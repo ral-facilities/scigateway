@@ -6,7 +6,7 @@ exports[`Cookies page component > should render correctly 1`] = `
     class="css-18rbhl5"
   >
     <h3
-      class="MuiTypography-root MuiTypography-h3 css-nxx1w0-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h3 css-a3oxnq-MuiTypography-root"
     >
       title
     </h3>
@@ -14,12 +14,12 @@ exports[`Cookies page component > should render correctly 1`] = `
       class="css-9c2a3a"
     >
       <h4
-        class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h4 css-f84ov1-MuiTypography-root"
       >
         cookie-policy-title
       </h4>
       <p
-        class="MuiTypography-root MuiTypography-body1 css-izaxaw-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-1jgn0sx-MuiTypography-root"
       >
         cookie-policy
       </p>
@@ -28,12 +28,12 @@ exports[`Cookies page component > should render correctly 1`] = `
       class="css-9c2a3a"
     >
       <h4
-        class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h4 css-f84ov1-MuiTypography-root"
       >
         cookie-management-title
       </h4>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-direction-xs-column css-dy4j06-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-direction-xs-column css-1vevoqz-MuiGrid-root"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-item css-i6prtc-MuiGrid-root"
@@ -42,27 +42,27 @@ exports[`Cookies page component > should render correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-1 css-1ux21pi-MuiGrid-root"
           >
             <span
-              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
             >
               <span
                 aria-disabled="true"
-                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-1op2d48-MuiButtonBase-root-MuiSwitch-switchBase"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-1ttfp5w-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
                 tabindex="-1"
               >
                 <input
                   aria-describedby="essential-cookies-description"
                   aria-labelledby="essential-cookies-title"
                   checked=""
-                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                   disabled=""
                   type="checkbox"
                 />
                 <span
-                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                  class="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
                 />
               </span>
               <span
-                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                class="MuiSwitch-track css-tj8d99-MuiSwitch-track"
               />
             </span>
           </div>
@@ -70,7 +70,7 @@ exports[`Cookies page component > should render correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 MuiGrid-grid-sm-2 css-1kb962v-MuiGrid-root"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
               id="essential-cookies-title"
             >
               essential-cookies-title
@@ -81,7 +81,7 @@ exports[`Cookies page component > should render correctly 1`] = `
             id="essential-cookies-description"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
               essential-cookies-description
             </p>
@@ -89,17 +89,17 @@ exports[`Cookies page component > should render correctly 1`] = `
               class="css-n085mf"
             >
               <li
-                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1tash34-MuiTypography-root"
               >
                 cookies-page.essential-cookies-list 1
               </li>
               <li
-                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1tash34-MuiTypography-root"
               >
                 cookies-page.essential-cookies-list 2
               </li>
               <li
-                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1tash34-MuiTypography-root"
               >
                 cookies-page.essential-cookies-list 3
               </li>
@@ -113,26 +113,23 @@ exports[`Cookies page component > should render correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-1 css-1ux21pi-MuiGrid-root"
           >
             <span
-              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
             >
               <span
-                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-1op2d48-MuiButtonBase-root-MuiSwitch-switchBase"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-1ttfp5w-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
               >
                 <input
                   aria-describedby="analytics-cookies-description"
                   aria-labelledby="analytics-cookies-title"
-                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                   type="checkbox"
                 />
                 <span
-                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-                />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  class="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
                 />
               </span>
               <span
-                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                class="MuiSwitch-track css-tj8d99-MuiSwitch-track"
               />
             </span>
           </div>
@@ -140,7 +137,7 @@ exports[`Cookies page component > should render correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 MuiGrid-grid-sm-2 css-1kb962v-MuiGrid-root"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
               id="analytics-cookies-title"
             >
               analytics-cookies-title
@@ -151,7 +148,7 @@ exports[`Cookies page component > should render correctly 1`] = `
             id="analytics-cookies-description"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
               analytics-cookies-description
             </p>
@@ -159,7 +156,7 @@ exports[`Cookies page component > should render correctly 1`] = `
               class="css-n085mf"
             >
               <li
-                class="MuiTypography-root MuiTypography-body1 css-1l9301p-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1tash34-MuiTypography-root"
               >
                 google-analytics-description
               </li>
@@ -169,14 +166,11 @@ exports[`Cookies page component > should render correctly 1`] = `
       </div>
     </div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-ekw1he-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-3jnf0e-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
       save-preferences-button
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </DocumentFragment>

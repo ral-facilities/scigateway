@@ -16,19 +16,19 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
             style="position: relative; display: block; margin: auto; width: 230px; height: 230px; animation: rotate 10s infinite linear;"
           >
             <i
-              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 140px; border-top-right-radius: 140px; border-color: #8c4799; height: 70px; width: 140px; margin-top: -70px; margin-left: -70px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0, 0, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border-width: 8px 8px medium; border-style: solid solid none; border-color: rgb(140, 71, 153); border-image: none; border-top-left-radius: 140px; border-top-right-radius: 140px; height: 70px; width: 140px; margin-top: -70px; margin-left: -70px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0, 0, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
             />
             <i
-              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 148px; border-top-right-radius: 148px; border-color: #1d4f91; height: 79px; width: 158px; margin-top: -79px; margin-left: -79px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.3, 0.12, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border-width: 8px 8px medium; border-style: solid solid none; border-color: rgb(29, 79, 145); border-image: none; border-top-left-radius: 148px; border-top-right-radius: 148px; height: 79px; width: 158px; margin-top: -79px; margin-left: -79px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.3, 0.12, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
             />
             <i
-              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 156px; border-top-right-radius: 156px; border-color: #c34613; height: 88px; width: 176px; margin-top: -88px; margin-left: -88px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.6, 0.24, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border-width: 8px 8px medium; border-style: solid solid none; border-color: rgb(195, 70, 19); border-image: none; border-top-left-radius: 156px; border-top-right-radius: 156px; height: 88px; width: 176px; margin-top: -88px; margin-left: -88px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.6, 0.24, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
             />
             <i
-              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 164px; border-top-right-radius: 164px; border-color: #008275; height: 97px; width: 194px; margin-top: -97px; margin-left: -97px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.8999999999999999, 0.36, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border-width: 8px 8px medium; border-style: solid solid none; border-color: rgb(0, 130, 117); border-image: none; border-top-left-radius: 164px; border-top-right-radius: 164px; height: 97px; width: 194px; margin-top: -97px; margin-left: -97px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 0.8999999999999999, 0.36, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
             />
             <i
-              style="position: absolute; display: inline-block; top: 50%; left: 50%; border: 8px solid transparent; border-top-left-radius: 172px; border-top-right-radius: 172px; border-color: #63666a; height: 106px; width: 212px; margin-top: -106px; margin-left: -106px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 1.2, 0.48, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
+              style="position: absolute; display: inline-block; top: 50%; left: 50%; border-width: 8px 8px medium; border-style: solid solid none; border-color: rgb(99, 102, 106); border-image: none; border-top-left-radius: 172px; border-top-right-radius: 172px; height: 106px; width: 212px; margin-top: -106px; margin-left: -106px; animation-name: rotate; animation-iteration-count: infinite; animation-duration: 3s; animation-timing-function: cubic-bezier(.09, 1.2, 0.48, .03); transform-origin: 50% 100% 0; box-sizing: border-box;"
             />
           </div>
         </div>
@@ -43,20 +43,21 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
       class="MuiBox-root css-1g9g0uu"
     >
       <header
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-1p9tt43-MuiPaper-root-MuiAppBar-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-1wpmvzu-MuiPaper-root-MuiAppBar-root"
+        style="--Paper-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-regular css-qcjnfz-MuiToolbar-root"
+          class="MuiToolbar-root MuiToolbar-regular css-n7cqit-MuiToolbar-root"
         >
           <button
             aria-label="open-navigation-menu"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeLarge css-1nin6cb-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeLarge css-ecnuhj-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="MenuIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -65,13 +66,10 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                 d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <button
             aria-label="home-page"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium tour-title css-bj8lf8-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary tour-title css-18a8fqj-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -80,37 +78,31 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
               src="/src/images/scigateway-white-text-blue-mark-logo.svg"
               style="height: 24px;"
             />
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <button
             aria-label="help-page"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium tour-help css-19myg6g-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary tour-help css-183jojo-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1vvwrqo-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1o9zk6v-MuiTypography-root"
             >
               help
             </p>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <div
             style="flex-grow: 1;"
           />
           <button
             aria-label="help"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-19c6lcd-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1buttjc-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="HelpOutlineIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -119,20 +111,17 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                 d="M11 18h2v-2h-2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <button
             aria-haspopup="true"
             aria-label="open-browser-settings"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge tour-settings css-19c6lcd-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge tour-settings css-1buttjc-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="SettingsIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -141,72 +130,63 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                 d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <div
             class="tour-user-profile"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1yxmrfv-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-4pz3zs-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1vvwrqo-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1o9zk6v-MuiTypography-root"
               >
                 login-button
               </p>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </button>
           </div>
         </div>
       </header>
     </div>
     <div
-      class="MuiDrawer-root MuiDrawer-docked css-ak80xd-MuiDrawer-docked"
+      class="MuiDrawer-root MuiDrawer-anchorLeft MuiDrawer-docked css-1d054ui-MuiDrawer-docked"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1b4jzf5-MuiPaper-root-MuiDrawer-paper"
-        style="visibility: hidden; webkit-transform: translateX(-0px); transform: translateX(-0px);"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1o6cxei-MuiPaper-root-MuiDrawer-paper"
+        style="--Paper-shadow: none; visibility: hidden; -webkit-transform: translateX(-0px); transform: translateX(-0px);"
       >
         <div
           class="MuiBox-root css-1pvs5pb"
         >
           <h6
-            class="MuiTypography-root MuiTypography-h6 css-1kupaxt-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h6 css-vcm982-MuiTypography-root"
           >
             Test
           </h6>
           <nav
-            class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
+            class="MuiList-root MuiList-padding css-b7dj7n-MuiList-root"
           >
             <a
-              class="MuiListItem-root MuiListItem-dense MuiListItem-gutters css-b5rxyv-MuiListItem-root"
+              class="MuiListItem-root MuiListItem-dense MuiListItem-gutters css-19f6boz-MuiListItem-root"
               data-discover="true"
               href="/test"
               id="plugin-link--test"
             >
               <div
-                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-dense MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-dense MuiListItemButton-gutters css-x70j6o-MuiButtonBase-root-MuiListItemButton-root"
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-dense MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-dense MuiListItemButton-gutters css-156tulg-MuiButtonBase-root-MuiListItemButton-root"
                 role="button"
                 tabindex="0"
               >
                 <div
-                  class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+                  class="MuiListItemText-root MuiListItemText-dense css-cfq8qh-MuiListItemText-root"
                 >
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 MuiListItemText-primary css-15u67gt-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-subtitle1 MuiListItemText-primary css-151hj4p-MuiTypography-root"
                   >
                     test
                   </h6>
                 </div>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </div>
             </a>
           </nav>
@@ -232,16 +212,16 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
         id="dg-homepage"
       >
         <div
-          style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
+          style="background-image: url("/src/images/background.jpg"); background-position: center 40%; width: 100%; height: 250px;"
         >
           <div
-            style="background-repeat: no-repeat; width: 100%; height: 250px;"
+            style="background-repeat: no-repeat; background-position: left top, right top; width: 100%; height: 250px;"
           >
             <div
               class="MuiBox-root css-h95k7f"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
               >
                 <strong>
                   Data discovery
@@ -252,7 +232,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                 </strong>
               </h2>
               <h2
-                class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
               >
                 for 
                 <strong>
@@ -267,7 +247,8 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
           class="MuiBox-root css-12vlygr"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+            style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
           >
             <div
               class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -280,17 +261,17 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                   class="MuiBox-root css-1onku40"
                 >
                   <h3
-                    class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h3 css-1x5rolh-MuiTypography-root"
                   >
                     home-page.browse.title
                   </h3>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                   >
                     home-page.browse.description1
                   </p>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                   >
                     <strong>
                       DataGateway
@@ -301,16 +282,13 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                     class="MuiBox-root css-1yuhvjn"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                       data-discover="true"
                       data-testid="browse-button"
                       href="/home-page.browse.link"
                       tabindex="0"
                     >
                       home-page.browse.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>
@@ -319,7 +297,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
               >
                 <div
-                  style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                  style="background-image: url("/src/images/facility.jpg"); background-repeat: no-repeat; background-position: right bottom; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
                 >
                   <div
                     class="css-1ox020v"
@@ -329,23 +307,24 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-11nsb57-MuiGrid-root"
           >
             <div
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+                style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
               >
                 <div
                   class="MuiBox-root css-1onku40"
                 >
                   <div
-                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                       data-testid="SearchIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -356,12 +335,12 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                     </svg>
                   </div>
                   <h4
-                    class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                   >
                     home-page.search.title
                   </h4>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                   >
                     home-page.search.description
                   </p>
@@ -369,16 +348,13 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                     class="MuiBox-root css-8xl60i"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                       data-discover="true"
                       data-testid="search-button"
                       href="/home-page.search.link"
                       tabindex="0"
                     >
                       home-page.search.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>
@@ -388,17 +364,18 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+                style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
               >
                 <div
                   class="MuiBox-root css-1onku40"
                 >
                   <div
-                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                       data-testid="GetAppIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -409,12 +386,12 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                     </svg>
                   </div>
                   <h4
-                    class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                   >
                     home-page.download.title
                   </h4>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                   >
                     home-page.download.description
                   </p>
@@ -422,16 +399,13 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                     class="MuiBox-root css-8xl60i"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                       data-discover="true"
                       data-testid="download-button"
                       href="/home-page.download.link"
                       tabindex="0"
                     >
                       home-page.download.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>
@@ -441,21 +415,22 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-4vcftw-MuiPaper-root"
+                style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
               >
                 <div
-                  style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                  style="background-image: url("/src/images/green-swirl2.png"); background-repeat: no-repeat; background-position: right top; background-size: auto 100%; height: 100%;"
                 >
                   <div
                     class="MuiBox-root css-1onku40"
                   >
                     <h4
-                      class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-h4 css-1998a9a-MuiTypography-root"
                     >
                       home-page.facility.title
                     </h4>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-s5mjpx-MuiTypography-root"
                     >
                       home-page.facility.description
                     </p>
@@ -463,15 +438,12 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
                       class="MuiBox-root css-8xl60i"
                     >
                       <a
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-aoo24c-MuiButtonBase-root-MuiButton-root"
                         data-testid="facility-button"
                         href="home-page.facility.link"
                         tabindex="0"
                       >
                         home-page.facility.button
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
                       </a>
                     </div>
                   </div>
@@ -489,28 +461,28 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
         style="text-align: left; font-weight: bold; font-size: 14px; text-indent: 16px; display: inline-block;"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           href="footer.links.facility"
         >
           Facility Home
         </a>
          | 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           href="footer.links.privacy-statement"
         >
           Privacy statement
         </a>
          | 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           href="footer.links.data-policy"
         >
           Data policy
         </a>
          | 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           data-discover="true"
           href="/accessibility"
         >
@@ -518,7 +490,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
         </a>
          | 
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           href="footer.links.contact"
         >
           Contact
@@ -529,13 +501,13 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
       >
         Built by the
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           href="https://www.scd.stfc.ac.uk/Pages/home.aspx"
         >
           Scientific Computing
         </a>
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-bb0cn9-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1v8yl3r-MuiTypography-root-MuiLink-root"
           href="https://www.scd.stfc.ac.uk/Pages/Software-Engineering-Group.aspx"
         >
           Data and Software Engineering Group
