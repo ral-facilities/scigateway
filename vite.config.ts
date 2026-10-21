@@ -1,5 +1,4 @@
 import react from '@vitejs/plugin-react';
-import browserslistToEsbuild from 'browserslist-to-esbuild';
 import { PluginOption, defineConfig, loadEnv } from 'vite';
 
 /* See https://stackoverflow.com/questions/69626090/how-to-watch-public-directory-in-vite-project-for-hot-reload allows
@@ -21,16 +20,6 @@ function jsonHMR(): PluginOption {
   };
 }
 
-// Obtain default coverage config from vitest when not building for production
-// (to avoid importing vitest during build as its a dev dependency)
-let vitestCoverageConfigDefaultsExclude: string[] = [];
-if (process.env.NODE_ENV !== 'production') {
-  await import('vitest/config').then((vitestConfig) => {
-    vitestCoverageConfigDefaultsExclude =
-      vitestConfig.coverageConfigDefaults.exclude;
-  });
-}
-
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -50,12 +39,13 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       // Use browserslist config
-      target: browserslistToEsbuild(),
+      target: 'baseline-widely-available',
     },
     test: {
       globals: true,
       environment: 'jsdom',
       setupFiles: ['src/setupTests.ts'],
+      dir: 'src',
       coverage: {
         reporter: [
           // Default
@@ -66,16 +56,7 @@ export default defineConfig(({ mode }) => {
           // Extra for VSCode extension
           ['lcov', { outputFile: 'lcov.info', silent: true }],
         ],
-        exclude: [
-          ...vitestCoverageConfigDefaultsExclude,
-          'public/*',
-          'server/*',
-          '__mocks__/axios.ts',
-          'micro-frontend-tools/serve-plugins.js',
-          '.eslintrc.cjs',
-          'src/vite-env.d.ts',
-          'src/main.tsx',
-        ],
+        exclude: ['src/vite-env.d.ts', 'src/main.tsx', '__mocks__/*'],
       },
     },
   };

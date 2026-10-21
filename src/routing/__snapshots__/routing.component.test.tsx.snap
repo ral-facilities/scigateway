@@ -9,16 +9,16 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
       id="dg-homepage"
     >
       <div
-        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
+        style="background-image: url("/src/images/background.jpg"); background-position: center 40%; width: 100%; height: 250px;"
       >
         <div
-          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+          style="background-repeat: no-repeat; background-position: left top, right top; width: 100%; height: 250px;"
         >
           <div
             class="MuiBox-root css-h95k7f"
           >
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               <strong>
                 Data discovery
@@ -29,7 +29,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
               </strong>
             </h2>
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               for 
               <strong>
@@ -44,7 +44,8 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
         class="MuiBox-root css-12vlygr"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <div
             class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -57,17 +58,17 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                 class="MuiBox-root css-1onku40"
               >
                 <h3
-                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h3 css-1x5rolh-MuiTypography-root"
                 >
                   home-page.browse.title
                 </h3>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.browse.description1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   <strong>
                     DataGateway
@@ -78,16 +79,13 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                   class="MuiBox-root css-1yuhvjn"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
                   >
                     home-page.browse.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -96,7 +94,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url("/src/images/facility.jpg"); background-repeat: no-repeat; background-position: right bottom; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
                   class="css-1ox020v"
@@ -106,23 +104,24 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-11nsb57-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="SearchIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -133,12 +132,12 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.search.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.search.description
                 </p>
@@ -146,16 +145,13 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
                   >
                     home-page.search.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -165,17 +161,18 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="GetAppIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -186,12 +183,12 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.download.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.download.description
                 </p>
@@ -199,16 +196,13 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
                   >
                     home-page.download.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -218,21 +212,22 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-4vcftw-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
-                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url("/src/images/green-swirl2.png"); background-repeat: no-repeat; background-position: right top; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
                 >
                   <h4
-                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h4 css-1998a9a-MuiTypography-root"
                   >
                     home-page.facility.title
                   </h4>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-s5mjpx-MuiTypography-root"
                   >
                     home-page.facility.description
                   </p>
@@ -240,15 +235,12 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
                     class="MuiBox-root css-8xl60i"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-aoo24c-MuiButtonBase-root-MuiButton-root"
                       data-testid="facility-button"
                       href="home-page.facility.link"
                       tabindex="0"
                     >
                       home-page.facility.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>
@@ -321,16 +313,16 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
       id="dg-homepage"
     >
       <div
-        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
+        style="background-image: url("/src/images/background.jpg"); background-position: center 40%; width: 100%; height: 250px;"
       >
         <div
-          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+          style="background-repeat: no-repeat; background-position: left top, right top; width: 100%; height: 250px;"
         >
           <div
             class="MuiBox-root css-h95k7f"
           >
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               <strong>
                 Data discovery
@@ -341,7 +333,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
               </strong>
             </h2>
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               for 
               <strong>
@@ -356,7 +348,8 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
         class="MuiBox-root css-12vlygr"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <div
             class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -369,17 +362,17 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                 class="MuiBox-root css-1onku40"
               >
                 <h3
-                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h3 css-1x5rolh-MuiTypography-root"
                 >
                   home-page.browse.title
                 </h3>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.browse.description1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   <strong>
                     DataGateway
@@ -390,16 +383,13 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                   class="MuiBox-root css-1yuhvjn"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
                   >
                     home-page.browse.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -408,7 +398,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url("/src/images/facility.jpg"); background-repeat: no-repeat; background-position: right bottom; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
                   class="css-1ox020v"
@@ -418,23 +408,24 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-11nsb57-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="SearchIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -445,12 +436,12 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.search.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.search.description
                 </p>
@@ -458,16 +449,13 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
                   >
                     home-page.search.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -477,17 +465,18 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="GetAppIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -498,12 +487,12 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.download.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.download.description
                 </p>
@@ -511,16 +500,13 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
                   >
                     home-page.download.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -530,21 +516,22 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-4vcftw-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
-                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url("/src/images/green-swirl2.png"); background-repeat: no-repeat; background-position: right top; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
                 >
                   <h4
-                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h4 css-1998a9a-MuiTypography-root"
                   >
                     home-page.facility.title
                   </h4>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-s5mjpx-MuiTypography-root"
                   >
                     home-page.facility.description
                   </p>
@@ -552,15 +539,12 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
                     class="MuiBox-root css-8xl60i"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-aoo24c-MuiButtonBase-root-MuiButton-root"
                       data-testid="facility-button"
                       href="home-page.facility.link"
                       tabindex="0"
                     >
                       home-page.facility.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>
@@ -583,16 +567,16 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
       id="dg-homepage"
     >
       <div
-        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
+        style="background-image: url("/src/images/background.jpg"); background-position: center 40%; width: 100%; height: 250px;"
       >
         <div
-          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+          style="background-repeat: no-repeat; background-position: left top, right top; width: 100%; height: 250px;"
         >
           <div
             class="MuiBox-root css-h95k7f"
           >
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               <strong>
                 Data discovery
@@ -603,7 +587,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
               </strong>
             </h2>
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               for 
               <strong>
@@ -618,7 +602,8 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
         class="MuiBox-root css-12vlygr"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <div
             class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -631,17 +616,17 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                 class="MuiBox-root css-1onku40"
               >
                 <h3
-                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h3 css-1x5rolh-MuiTypography-root"
                 >
                   home-page.browse.title
                 </h3>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.browse.description1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   <strong>
                     DataGateway
@@ -652,16 +637,13 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                   class="MuiBox-root css-1yuhvjn"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
                   >
                     home-page.browse.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -670,7 +652,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url("/src/images/facility.jpg"); background-repeat: no-repeat; background-position: right bottom; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
                   class="css-1ox020v"
@@ -680,23 +662,24 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-11nsb57-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="SearchIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -707,12 +690,12 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.search.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.search.description
                 </p>
@@ -720,16 +703,13 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
                   >
                     home-page.search.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -739,17 +719,18 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="GetAppIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -760,12 +741,12 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.download.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.download.description
                 </p>
@@ -773,16 +754,13 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
                   >
                     home-page.download.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -792,21 +770,22 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-4vcftw-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
-                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url("/src/images/green-swirl2.png"); background-repeat: no-repeat; background-position: right top; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
                 >
                   <h4
-                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h4 css-1998a9a-MuiTypography-root"
                   >
                     home-page.facility.title
                   </h4>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-s5mjpx-MuiTypography-root"
                   >
                     home-page.facility.description
                   </p>
@@ -814,15 +793,12 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
                     class="MuiBox-root css-8xl60i"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-aoo24c-MuiButtonBase-root-MuiButton-root"
                       data-testid="facility-button"
                       href="home-page.facility.link"
                       tabindex="0"
                     >
                       home-page.facility.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>
@@ -845,16 +821,16 @@ exports[`Routing component > renders component with plugins 1`] = `
       id="dg-homepage"
     >
       <div
-        style="background-image: url(/src/images/background.jpg); width: 100%; height: 250px;"
+        style="background-image: url("/src/images/background.jpg"); background-position: center 40%; width: 100%; height: 250px;"
       >
         <div
-          style="background-repeat: no-repeat; width: 100%; height: 250px;"
+          style="background-repeat: no-repeat; background-position: left top, right top; width: 100%; height: 250px;"
         >
           <div
             class="MuiBox-root css-h95k7f"
           >
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               <strong>
                 Data discovery
@@ -865,7 +841,7 @@ exports[`Routing component > renders component with plugins 1`] = `
               </strong>
             </h2>
             <h2
-              class="MuiTypography-root MuiTypography-h2 css-1c7qyh0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h2 css-1n0cdig-MuiTypography-root"
             >
               for 
               <strong>
@@ -880,7 +856,8 @@ exports[`Routing component > renders component with plugins 1`] = `
         class="MuiBox-root css-12vlygr"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <div
             class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -893,17 +870,17 @@ exports[`Routing component > renders component with plugins 1`] = `
                 class="MuiBox-root css-1onku40"
               >
                 <h3
-                  class="MuiTypography-root MuiTypography-h3 css-vduuh3-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h3 css-1x5rolh-MuiTypography-root"
                 >
                   home-page.browse.title
                 </h3>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.browse.description1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   <strong>
                     DataGateway
@@ -914,16 +891,13 @@ exports[`Routing component > renders component with plugins 1`] = `
                   class="MuiBox-root css-1yuhvjn"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="browse-button"
                     href="/home-page.browse.link"
                     tabindex="0"
                   >
                     home-page.browse.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -932,7 +906,7 @@ exports[`Routing component > renders component with plugins 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-md-6 css-1k7sk4d-MuiGrid-root"
             >
               <div
-                style="background-image: url(/src/images/facility.jpg); background-repeat: no-repeat; background-position: bottom right; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
+                style="background-image: url("/src/images/facility.jpg"); background-repeat: no-repeat; background-position: right bottom; background-size: cover; width: 100%; height: 100%; border-radius: 4px;"
               >
                 <div
                   class="css-1ox020v"
@@ -942,23 +916,24 @@ exports[`Routing component > renders component with plugins 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-11nsb57-MuiGrid-root"
         >
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="SearchIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -969,12 +944,12 @@ exports[`Routing component > renders component with plugins 1`] = `
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.search.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.search.description
                 </p>
@@ -982,16 +957,13 @@ exports[`Routing component > renders component with plugins 1`] = `
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="search-button"
                     href="/home-page.search.link"
                     tabindex="0"
                   >
                     home-page.search.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -1001,17 +973,18 @@ exports[`Routing component > renders component with plugins 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-12uikys-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-gv4pvp-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
                 class="MuiBox-root css-1onku40"
               >
                 <div
-                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-jftqyy-MuiAvatar-root"
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-11xar2t-MuiAvatar-root"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vyilrt-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1opq4zh-MuiSvgIcon-root"
                     data-testid="GetAppIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1022,12 +995,12 @@ exports[`Routing component > renders component with plugins 1`] = `
                   </svg>
                 </div>
                 <h4
-                  class="MuiTypography-root MuiTypography-h4 css-f630zx-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h4 css-y72wqy-MuiTypography-root"
                 >
                   home-page.download.title
                 </h4>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-4y3rru-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-mmx43p-MuiTypography-root"
                 >
                   home-page.download.description
                 </p>
@@ -1035,16 +1008,13 @@ exports[`Routing component > renders component with plugins 1`] = `
                   class="MuiBox-root css-8xl60i"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-2ttl85-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-18fj25f-MuiButtonBase-root-MuiButton-root"
                     data-discover="true"
                     data-testid="download-button"
                     href="/home-page.download.link"
                     tabindex="0"
                   >
                     home-page.download.button
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </a>
                 </div>
               </div>
@@ -1054,21 +1024,22 @@ exports[`Routing component > renders component with plugins 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-1lj5egr-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ju2rzk-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-4vcftw-MuiPaper-root"
+              style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
             >
               <div
-                style="background-image: url(/src/images/green-swirl2.png); background-repeat: no-repeat; background-position: top right; background-size: auto 100%; height: 100%;"
+                style="background-image: url("/src/images/green-swirl2.png"); background-repeat: no-repeat; background-position: right top; background-size: auto 100%; height: 100%;"
               >
                 <div
                   class="MuiBox-root css-1onku40"
                 >
                   <h4
-                    class="MuiTypography-root MuiTypography-h4 css-94tke6-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h4 css-1998a9a-MuiTypography-root"
                   >
                     home-page.facility.title
                   </h4>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-1f5ny8y-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-s5mjpx-MuiTypography-root"
                   >
                     home-page.facility.description
                   </p>
@@ -1076,15 +1047,12 @@ exports[`Routing component > renders component with plugins 1`] = `
                     class="MuiBox-root css-8xl60i"
                   >
                     <a
-                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1h8ppsl-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-aoo24c-MuiButtonBase-root-MuiButton-root"
                       data-testid="facility-button"
                       href="home-page.facility.link"
                       tabindex="0"
                     >
                       home-page.facility.button
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </a>
                   </div>
                 </div>

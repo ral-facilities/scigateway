@@ -6,7 +6,7 @@ exports[`Maintenance page component > should render correctly 1`] = `
     class="MuiBox-root css-hh6rrp"
   >
     <h3
-      class="MuiTypography-root MuiTypography-h3 css-11q8ert-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h3 css-5y1cit-MuiTypography-root"
     >
       Maintenance
     </h3>
@@ -14,7 +14,7 @@ exports[`Maintenance page component > should render correctly 1`] = `
       class="MuiBox-root css-9c2a3a"
     >
       <h4
-        class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h4 css-f84ov1-MuiTypography-root"
       >
         test
       </h4>

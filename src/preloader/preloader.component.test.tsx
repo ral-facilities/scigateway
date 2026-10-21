@@ -18,7 +18,7 @@ describe('Preloader component', () => {
       <Provider store={configureStore([thunk])(state)}>
         <Provider store={mockStore}>
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={createTheme(false)}>{children}</ThemeProvider>
+            <ThemeProvider theme={createTheme()}>{children}</ThemeProvider>
           </StyledEngineProvider>
         </Provider>
       </Provider>

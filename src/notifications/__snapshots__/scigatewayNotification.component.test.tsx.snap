@@ -7,7 +7,7 @@ exports[`Scigateway Notification component > Scigateway Notification error messa
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1867c3f-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1n72t08-MuiSvgIcon-root"
       data-testid="HighlightOffIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -17,19 +17,19 @@ exports[`Scigateway Notification component > Scigateway Notification error messa
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body2 css-yqgrvf-MuiTypography-root"
     >
       error message
     </p>
     <button
       aria-label="Dismiss notification"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-ewyv9l-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1a1pj6r-MuiSvgIcon-root"
         data-testid="ClearIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -38,9 +38,6 @@ exports[`Scigateway Notification component > Scigateway Notification error messa
           d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </DocumentFragment>
@@ -53,7 +50,7 @@ exports[`Scigateway Notification component > Scigateway Notification information
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-kjenk6-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-gu5ywb-MuiSvgIcon-root"
       data-testid="InfoIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -63,19 +60,19 @@ exports[`Scigateway Notification component > Scigateway Notification information
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body2 css-yqgrvf-MuiTypography-root"
     >
       information message
     </p>
     <button
       aria-label="Dismiss notification"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-ewyv9l-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1a1pj6r-MuiSvgIcon-root"
         data-testid="ClearIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -84,9 +81,6 @@ exports[`Scigateway Notification component > Scigateway Notification information
           d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </DocumentFragment>
@@ -99,7 +93,7 @@ exports[`Scigateway Notification component > Scigateway Notification success mes
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-18vlyb1-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-13zgpuw-MuiSvgIcon-root"
       data-testid="CheckCircleIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -109,19 +103,19 @@ exports[`Scigateway Notification component > Scigateway Notification success mes
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body2 css-yqgrvf-MuiTypography-root"
     >
       success message
     </p>
     <button
       aria-label="Dismiss notification"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-ewyv9l-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1a1pj6r-MuiSvgIcon-root"
         data-testid="ClearIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -130,9 +124,6 @@ exports[`Scigateway Notification component > Scigateway Notification success mes
           d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </DocumentFragment>
@@ -145,7 +136,7 @@ exports[`Scigateway Notification component > Scigateway Notification warning mes
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1o88wul-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-iuicot-MuiSvgIcon-root"
       data-testid="ErrorOutlineIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -155,19 +146,19 @@ exports[`Scigateway Notification component > Scigateway Notification warning mes
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body2 css-rsneeo-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body2 css-yqgrvf-MuiTypography-root"
     >
       warning message
     </p>
     <button
       aria-label="Dismiss notification"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1qpmkg3-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-ewyv9l-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1nrt62k-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1a1pj6r-MuiSvgIcon-root"
         data-testid="ClearIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -176,9 +167,6 @@ exports[`Scigateway Notification component > Scigateway Notification warning mes
           d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </DocumentFragment>
