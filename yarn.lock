@@ -4911,16 +4911,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwks-rsa@npm:4.0.1":
-  version: 4.0.1
-  resolution: "jwks-rsa@npm:4.0.1"
+"jwks-rsa@npm:4.1.0":
+  version: 4.1.0
+  resolution: "jwks-rsa@npm:4.1.0"
   dependencies:
     "@types/jsonwebtoken": "npm:^9.0.4"
     debug: "npm:^4.3.4"
     jose: "npm:^6.1.3"
     limiter: "npm:^1.1.5"
+    lru-cache: "npm:^11.0.0"
     lru-memoizer: "npm:^3.0.0"
-  checksum: 10/3f56b95fb4008c28a755bc378b52689a0eded47c13566b51593f454c8ac8cf2d09d3aae0a199a26acea58a33b314951781f16f512dbb5c4816eb7d98da0e68b5
+  checksum: 10/cb7eb6153ed8b880c2180869a1c3cd20d6f78c5ce512a494a33f2b91e0df834415363b410afbbbe9e645a8fc3e0f05cb8d777d2495a27692a1c28905826e58e2
   languageName: node
   linkType: hard
 
@@ -5225,7 +5226,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^11.0.1, lru-cache@npm:^11.5.3":
+"lru-cache@npm:^11.0.0, lru-cache@npm:^11.0.1, lru-cache@npm:^11.5.3":
   version: 11.5.3
   resolution: "lru-cache@npm:11.5.3"
   checksum: 10/824394f43827de37e961e9e344d4f0d2afb0347106ddafae620d0035c36337bc64e64cddbc17f6c630a73c9db34cf3f81211e3d43699a32e9f3641f391415b82
@@ -6627,7 +6628,7 @@ __metadata:
     js-cookie: "npm:3.0.7"
     jsdom: "npm:30.1.2"
     jsonwebtoken: "npm:9.0.0"
-    jwks-rsa: "npm:4.0.1"
+    jwks-rsa: "npm:4.1.0"
     lint-staged: "npm:16.4.0"
     loglevel: "npm:1.9.1"
     prettier: "npm:3.8.1"
