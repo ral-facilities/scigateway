@@ -103,7 +103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.29.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.29.2, @babel/runtime@npm:^7.29.7, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.29.10
   resolution: "@babel/runtime@npm:7.29.10"
   checksum: 10/883bb39a09f4773cf46cdd7ba0080ef6b30ff996a4ed21f8d34511ec0836122e697716533da5efc9b5016f763110b19aa07e81cec6e2036fe72cb26aad556af2
@@ -3922,12 +3922,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-parse-stringify@npm:^3.0.1":
-  version: 3.1.0
-  resolution: "html-parse-stringify@npm:3.1.0"
-  dependencies:
-    void-elements: "npm:3.1.0"
-  checksum: 10/6c2557987ce678901092dbaaee296233b8ec9bb430ce4061c08c89191bce9a58418bda4f40983f7c18101e1e45779bb10062e4f0dc181d99acea096bd96bd222
+"html-parse-stringify@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "html-parse-stringify@npm:4.0.1"
+  checksum: 10/c30ce1fbc81c32c87808d8a527519a7524c73499b223cf2002e9fddd49ecf98626ee8c13bb011a3cc283803831d67fdb75ae9f566666d05c915e460d5b5016cc
   languageName: node
   linkType: hard
 
@@ -5822,17 +5820,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:16.6.0":
-  version: 16.6.0
-  resolution: "react-i18next@npm:16.6.0"
+"react-i18next@npm:17.1.0":
+  version: 17.1.0
+  resolution: "react-i18next@npm:17.1.0"
   dependencies:
-    "@babel/runtime": "npm:^7.29.2"
-    html-parse-stringify: "npm:^3.0.1"
+    "@babel/runtime": "npm:^7.29.7"
+    html-parse-stringify: "npm:^4.0.1"
     use-sync-external-store: "npm:^1.6.0"
   peerDependencies:
-    i18next: ">= 25.6.2"
+    i18next: ">= 26.2.0"
     react: ">= 16.8.0"
-    typescript: ^5
+    typescript: ^5 || ^6 || ^7
   peerDependenciesMeta:
     react-dom:
       optional: true
@@ -5840,7 +5838,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10/cdbef47c2c6b06f10a704f42521392fb7e4b93371cab1a22b333810be8dac8f52a50e125ac78a9b3ac4e9ee3b3785dd52026f647362bcb1fa47cf3d7133a7423
+  checksum: 10/e52c28e13757a03118599e56057077a7b5d1873ac8f6f4ebb01bc0a295ecdcca91fe4fd1be462fe6100edf815c538e134df3819f87c3baab2e2c39dbbe400768
   languageName: node
   linkType: hard
 
@@ -6386,7 +6384,7 @@ __metadata:
     prettier: "npm:3.9.10"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
-    react-i18next: "npm:16.6.0"
+    react-i18next: "npm:17.1.0"
     react-joyride: "npm:2.9.3"
     react-redux: "npm:8.1.2"
     react-redux-toastr: "npm:8.0.0"
@@ -7528,13 +7526,6 @@ __metadata:
   bin:
     vitest: ./vitest.mjs
   checksum: 10/1c580bb518134eb5118799cb65f4809055154b12c3109e86a8459582fed8bbc297362333e2e7bc592917f58024f270ce8de0da94d67527f5a896cada103058d4
-  languageName: node
-  linkType: hard
-
-"void-elements@npm:3.1.0":
-  version: 3.1.0
-  resolution: "void-elements@npm:3.1.0"
-  checksum: 10/0390f818107fa8fce55bb0a5c3f661056001c1d5a2a48c28d582d4d847347c2ab5b7f8272314cac58acf62345126b6b09bea623a185935f6b1c3bbce0dfd7f7f
   languageName: node
   linkType: hard
 
