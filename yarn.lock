@@ -1948,7 +1948,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.20.0, axios@npm:^1.13.5":
+"axios@npm:1.20.0, axios@npm:^1.13.5, axios@npm:^1.20.0":
   version: 1.20.0
   resolution: "axios@npm:1.20.0"
   dependencies:
@@ -4699,9 +4699,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^18.0.2":
-  version: 18.2.9
-  resolution: "joi@npm:18.2.9"
+"joi@npm:^18.0.2, joi@npm:^18.2.9":
+  version: 18.3.0
+  resolution: "joi@npm:18.3.0"
   dependencies:
     "@hapi/address": "npm:^5.1.1"
     "@hapi/formula": "npm:^3.0.2"
@@ -4710,7 +4710,7 @@ __metadata:
     "@hapi/tlds": "npm:^1.1.1"
     "@hapi/topo": "npm:^6.0.2"
     "@standard-schema/spec": "npm:^1.1.0"
-  checksum: 10/321836e1bded18c23f5bd10c85715cda778849cddf9285704c39b8df290ad50f9d977f4ebf522cc741feba31aa65fe760dc84e9f218decc777ed15412a33bf77
+  checksum: 10/b6cb61b45513415131ffa9617405713d54cc50392f2c3872c9841c6509b575bbb53145edd1fd7464075aa1f8a3eb0092171f36eb65dbb9aff06afaebc88ea46b
   languageName: node
   linkType: hard
 
@@ -5177,7 +5177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21, lodash@npm:^4.17.23":
+"lodash@npm:^4.17.21, lodash@npm:^4.17.23, lodash@npm:^4.18.1":
   version: 4.18.1
   resolution: "lodash@npm:4.18.1"
   checksum: 10/306fea53dfd39dad1f03d45ba654a2405aebd35797b673077f401edb7df2543623dc44b9effbb98f69b32152295fff725a4cec99c684098947430600c6af0c3f
@@ -6650,7 +6650,7 @@ __metadata:
     typescript-eslint: "npm:8.57.0"
     vite: "npm:8.3.4"
     vitest: "npm:4.1.11"
-    wait-on: "npm:9.0.4"
+    wait-on: "npm:9.5.1"
   dependenciesMeta:
     cypress:
       built: true
@@ -7846,6 +7846,20 @@ __metadata:
   bin:
     wait-on: bin/wait-on
   checksum: 10/def7285ab9d071d0aa44f9cd6757a646db97bca8011633b58b69835cba86b99c7cc757493988c96b8ab9ad0b5ab8521d288973f960daf8841972a5ac929738d3
+  languageName: node
+  linkType: hard
+
+"wait-on@npm:9.5.1":
+  version: 9.5.1
+  resolution: "wait-on@npm:9.5.1"
+  dependencies:
+    axios: "npm:^1.20.0"
+    joi: "npm:^18.2.9"
+    lodash: "npm:^4.18.1"
+    rxjs: "npm:^7.8.2"
+  bin:
+    wait-on: bin/wait-on
+  checksum: 10/af29e9829b0bd36b986bc12dc8b31fe2f05d247f2b1558edddaaf7b5f2744e3787c58c7df1abe49ce8bd549f8db2dcdc828248c5edc5499acc57108f7262f500
   languageName: node
   linkType: hard
 
