@@ -4004,17 +4004,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:25.10.3":
-  version: 25.10.3
-  resolution: "i18next@npm:25.10.3"
-  dependencies:
-    "@babel/runtime": "npm:^7.29.2"
+"i18next@npm:26.5.2":
+  version: 26.5.2
+  resolution: "i18next@npm:26.5.2"
   peerDependencies:
-    typescript: ^5
+    typescript: ^5 || ^6 || ^7
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/230bf2af3ab81dafb0d5209739f665636c6b5b93f8bbf9749d284eb1014708035e32c42e2e6dd401b23a5fef3fe904eea35b9f1c11ffaf42f25741c5b0db883e
+  checksum: 10/2722636541d69695207de072acdb20ad35727865b4398ba5816d840f3fcc8b30fe9f8be05d58f08b23b9208858619e5a8315f8acc20e760ef72c1c9265c225aa
   languageName: node
   linkType: hard
 
@@ -6376,7 +6374,7 @@ __metadata:
     express: "npm:5.3.0"
     globals: "npm:^17.0.0"
     husky: "npm:9.1.7"
-    i18next: "npm:25.10.3"
+    i18next: "npm:26.5.2"
     i18next-browser-languagedetector: "npm:8.2.0"
     i18next-http-backend: "npm:4.0.2"
     js-cookie: "npm:3.0.7"
