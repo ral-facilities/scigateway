@@ -103,7 +103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.29.2, @babel/runtime@npm:^7.29.7, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.29.7, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.29.10
   resolution: "@babel/runtime@npm:7.29.10"
   checksum: 10/883bb39a09f4773cf46cdd7ba0080ef6b30ff996a4ed21f8d34511ec0836122e697716533da5efc9b5016f763110b19aa07e81cec6e2036fe72cb26aad556af2
@@ -838,6 +838,13 @@ __metadata:
   version: 2.11.8
   resolution: "@popperjs/core@npm:2.11.8"
   checksum: 10/ddd16090cde777aaf102940f05d0274602079a95ad9805bd20bc55dcc7c3a2ba1b99dd5c73e5cc2753c3d31250ca52a67d58059459d7d27debb983a9f552936c
+  languageName: node
+  linkType: hard
+
+"@remix-run/route-pattern@npm:^0.22.1":
+  version: 0.22.1
+  resolution: "@remix-run/route-pattern@npm:0.22.1"
+  checksum: 10/fed750fab46bf5cc541c333bb248f9c56a59dd1e06a64f5496b2122d89a7eefd7f59d6cdc7939f132fc65f0b8027020777f29c9e54dbe28b0234994e582073bb
   languageName: node
   linkType: hard
 
@@ -2340,6 +2347,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie-es@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "cookie-es@npm:3.1.1"
+  checksum: 10/e40083c42d0e3a4b3caa271775858f8e6cdd31f24b9c445ff08d7a8f4dc01069fc82012bdf1602d5a03fa1d75aba51a3dd33cd8a5db639db2ed17bcfd650f4bc
+  languageName: node
+  linkType: hard
+
 "cookie-parser@npm:~1.4.7":
   version: 1.4.7
   resolution: "cookie-parser@npm:1.4.7"
@@ -2368,13 +2382,6 @@ __metadata:
   version: 0.7.2
   resolution: "cookie@npm:0.7.2"
   checksum: 10/24b286c556420d4ba4e9bc09120c9d3db7d28ace2bd0f8ccee82422ce42322f73c8312441271e5eefafbead725980e5996cc02766dbb89a90ac7f5636ede608f
-  languageName: node
-  linkType: hard
-
-"cookie@npm:^1.0.1":
-  version: 1.1.1
-  resolution: "cookie@npm:1.1.1"
-  checksum: 10/85538153054791155cf4d38d2e807e3b9382d71bf71d92fc46fca348515ea574049d0d9ef8eb84d2d54a681ad1d7a7316b1989b901dace50a6c0f4c3858dbdb2
   languageName: node
   linkType: hard
 
@@ -5942,19 +5949,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:7.18.2":
-  version: 7.18.2
-  resolution: "react-router@npm:7.18.2"
+"react-router@npm:8.5.0":
+  version: 8.5.0
+  resolution: "react-router@npm:8.5.0"
   dependencies:
-    cookie: "npm:^1.0.1"
-    set-cookie-parser: "npm:^2.6.0"
+    "@remix-run/route-pattern": "npm:^0.22.1"
+    cookie-es: "npm:^3.1.1"
   peerDependencies:
-    react: ">=18"
-    react-dom: ">=18"
+    "@types/react": ">=19.2.0"
+    "@types/react-dom": ">=19.2.0"
+    react: ">=19.2.7"
+    react-dom: ">=19.2.7"
   peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
     react-dom:
       optional: true
-  checksum: 10/e68aa655e5ec2d4143f66ab3b745c50b8588152d89e4ec66c099625357c6a16dfaee5a7e963a9f4f9fbe0adaa37cf9731d63a108a2c4abfaa00124a06da16c24
+  checksum: 10/69e1ad42e7931423b0ce99d3908ce497ad63f9e7352f21fa2d54f6202b45df62a7a67346ea7f655c1150b6fc1cc5db992b926554ab799aeade3cedd347930a37
   languageName: node
   linkType: hard
 
@@ -6388,7 +6401,7 @@ __metadata:
     react-joyride: "npm:2.9.3"
     react-redux: "npm:8.1.2"
     react-redux-toastr: "npm:8.0.0"
-    react-router: "npm:7.18.2"
+    react-router: "npm:8.5.0"
     redux: "npm:4.2.1"
     redux-logger: "npm:3.0.6"
     redux-mock-store: "npm:1.5.4"
@@ -6506,13 +6519,6 @@ __metadata:
   bin:
     serve: build/main.js
   checksum: 10/5ed677e260b21eb6c3f04d5d109f258a06272881d91cbb71a6e2dae6045653d59ae535c94644c017b03db5b472e35523cda287328feaa1d629d4674960ceaa86
-  languageName: node
-  linkType: hard
-
-"set-cookie-parser@npm:^2.6.0":
-  version: 2.7.2
-  resolution: "set-cookie-parser@npm:2.7.2"
-  checksum: 10/4b6f5ec4e3fa1aef471d9207117704d217ba6bb6443400b41f5ea945c4a7f6fc08e405a122c1a32b4ebde41f06dea75e02c2af87cee9abb27f3e3fe911e5839b
   languageName: node
   linkType: hard
 
