@@ -27,7 +27,7 @@
     "@types/react-redux-toastr": "8.0.0",
     "@types/redux-logger": "3.0.8",
     "@vitejs/plugin-react": "6.1.2",
-    "axios": "1.20.0",
+    "axios": "1.21.0",
     "husky": "9.1.7",
     "i18next": "26.5.2",
     "i18next-browser-languagedetector": "8.2.0",
