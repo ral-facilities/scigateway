@@ -13,6 +13,8 @@ COPY package.json tsconfig.json yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 COPY public public
 
+RUN npm install -g corepack && corepack enable
+
 RUN --mount=type=cache,target=/root/.cache/.yarn/cache \
     set -eux; \
     \
