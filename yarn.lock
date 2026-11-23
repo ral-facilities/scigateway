@@ -4088,10 +4088,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-backend@npm:4.0.4":
-  version: 4.0.4
-  resolution: "i18next-http-backend@npm:4.0.4"
-  checksum: 10/cf4a80238fec8f88940312f36486f299148f01401c5bb6d55a76c912d6475458c1b9deb48c48d8599ad741e058988652a338c5f792647a9edaf42927e4c6a9fc
+"i18next-http-backend@npm:4.1.0":
+  version: 4.1.0
+  resolution: "i18next-http-backend@npm:4.1.0"
+  checksum: 10/032da17c44b4662b8534b1d2d9445283e3a8e687a0080d48d6de99102184a5cea981c5e1dc71b00aaad843ba3d1a53c83c1e1994fe33d17b02a056b1edea7623
   languageName: node
   linkType: hard
 
@@ -6467,7 +6467,7 @@ __metadata:
     husky: "npm:9.1.7"
     i18next: "npm:26.7.2"
     i18next-browser-languagedetector: "npm:8.3.0"
-    i18next-http-backend: "npm:4.0.4"
+    i18next-http-backend: "npm:4.1.0"
     js-cookie: "npm:3.0.7"
     jsdom: "npm:30.1.2"
     jsonwebtoken: "npm:9.0.0"
