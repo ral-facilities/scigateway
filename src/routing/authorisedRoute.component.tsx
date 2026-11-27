@@ -73,30 +73,26 @@ const withAuth =
         }
       }, [dispatch, loading, loggedIn, prevLoading, prevLoggedIn]);
 
-      return (
-        <div>
-          {!loading ? (
-            !loggedIn && location !== scigatewayRoutes.login ? (
-              <Navigate
-                to={scigatewayRoutes.login}
-                replace
-                state={{
-                  referrer: location,
-                  referredFrom: 'authorisedRoute',
-                }}
-              />
-            ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
-            !adminSection || (adminSection && userIsAdmin) ? (
-              <ComponentToProtect
-                {...(props as T & { children?: React.ReactNode })}
-              />
-            ) : (
-              <PageNotFound />
-            )
-          ) : (
-            <PageNotFound />
-          )}
-        </div>
+      return !loading ? (
+        !loggedIn && location !== scigatewayRoutes.login ? (
+          <Navigate
+            to={scigatewayRoutes.login}
+            replace
+            state={{
+              referrer: location,
+              referredFrom: 'authorisedRoute',
+            }}
+          />
+        ) : /* If using a plugin as the start page, redirect here so the plugin renders with the redirected url */
+        !adminSection || (adminSection && userIsAdmin) ? (
+          <ComponentToProtect
+            {...(props as T & { children?: React.ReactNode })}
+          />
+        ) : (
+          <PageNotFound />
+        )
+      ) : (
+        <PageNotFound />
       );
     };
 

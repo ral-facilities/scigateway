@@ -28,6 +28,8 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+Element.prototype.scrollTo ??= noOp;
+
 // globally mock as we never want to actually call single-spa funcs in unit tests
 vi.mock('single-spa', () => ({
   unloadApplication: vi.fn(),

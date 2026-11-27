@@ -18,6 +18,7 @@ export const NotificationType = 'scigateway:api:notification';
 export const RegisterRouteType = 'scigateway:api:register_route';
 export const RequestPluginRerenderType = 'scigateway:api:plugin_rerender';
 export const SendThemeOptionsType = 'scigateway:api:send_themeoptions';
+export const ResetPluginScrollType = 'scigateway:api:reset_plugin_scroll';
 export const LoadDarkModePreferenceType =
   'scigateway:load_dark_mode_preference';
 export const LoadHighContrastModePreferenceType =
