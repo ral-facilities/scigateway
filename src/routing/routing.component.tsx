@@ -3,6 +3,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
+import { AnyAction } from 'redux';
 import * as singleSpa from 'single-spa';
 import AccessibilityPage from '../accessibilityPage/accessibilityPage.component';
 import AdminPage from '../adminPage/adminPage.component';
@@ -18,6 +19,7 @@ import { Preloader } from '../preloader/preloader.component';
 import {
   MaintenanceState,
   PluginConfig,
+  ResetPluginScrollType,
   baseAdminRoutes,
   scigatewayRoutes,
 } from '../state/scigateway.types';
@@ -176,6 +178,22 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
   const prevUserIsLoggedIn = usePrevious(props.userIsLoggedIn);
   const prevUserIsAutoLoggedIn = usePrevious(props.userIsAutoLoggedIn);
 
+  const mainPanelRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const handler: EventListener = (event) => {
+      const pluginMessage = event as CustomEvent<AnyAction>;
+
+      if (pluginMessage.detail?.type === ResetPluginScrollType) {
+        mainPanelRef.current?.scrollTo(0, 0);
+      }
+    };
+    document.addEventListener('scigateway', handler);
+    return () => {
+      document.removeEventListener('scigateway', handler);
+    };
+  }, []);
+
   return (
     // If a user is authorised, redirect to the URL they attempted to navigate to e.g. "/plugin"
     // Otherwise render the login component. Successful logins will continue to the requested
@@ -184,6 +202,8 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
     <ContainerDiv
       drawerOpen={props.drawerOpen}
       isMobileViewport={isMobileViewport}
+      id="sg-main-panel"
+      ref={mainPanelRef}
     >
       {/* Navigate to a homepageUrl if set. Otherwise, route to / */}
       <Routes>

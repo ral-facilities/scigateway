@@ -20,6 +20,7 @@ import {
   NotificationType,
   RegisterRouteType,
   RequestPluginRerenderType,
+  ResetPluginScrollType,
   SendThemeOptionsType,
   SignOutType,
   ToggleDrawerType,
@@ -109,6 +110,9 @@ export const listenToPlugins = (
           break;
 
         case BroadcastSignOutType:
+          break;
+
+        case ResetPluginScrollType:
           break;
 
         case RegisterRouteType:
