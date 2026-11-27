@@ -21,6 +21,7 @@ import {
   LoadDarkModePreferenceType,
   LoadHighContrastModePreferenceType,
   NotificationType,
+  ResetPluginScrollType,
   SendThemeOptionsType,
   SignOutType,
   ToggleDrawerType,
@@ -95,6 +96,10 @@ describe('scigateway middleware', () => {
     payload: {
       highContrastMode: false,
     },
+  };
+
+  const resetPluginScrollAction = {
+    type: ResetPluginScrollType,
   };
 
   beforeEach(() => {
@@ -698,6 +703,17 @@ describe('scigateway middleware', () => {
     expect(document.addEventListener).toHaveBeenCalled();
 
     handler(new CustomEvent('test', { detail: broadcastSignOutAction }));
+    expect(mockLog.calls.length).toBe(0);
+  });
+
+  it('should ignore ResetPluginScroll', () => {
+    log.warn = vi.fn();
+    const mockLog = vi.mocked(log.warn).mock;
+
+    listenToPlugins(store.dispatch, getState);
+    expect(document.addEventListener).toHaveBeenCalled();
+
+    handler(new CustomEvent('test', { detail: resetPluginScrollAction }));
     expect(mockLog.calls.length).toBe(0);
   });
 

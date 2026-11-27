@@ -185,7 +185,11 @@ const Routing: React.FC<RoutingProps> = (props: RoutingProps) => {
       const pluginMessage = event as CustomEvent<AnyAction>;
 
       if (pluginMessage.detail?.type === ResetPluginScrollType) {
-        mainPanelRef.current?.scrollTo(0, 0);
+        mainPanelRef.current?.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'instant',
+        });
       }
     };
     document.addEventListener('scigateway', handler);

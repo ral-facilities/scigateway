@@ -207,6 +207,7 @@ exports[`PageContainer - Tests > renders correctly 1`] = `
     />
     <div
       class="css-frbs4c"
+      id="sg-main-panel"
     >
       <div
         id="dg-homepage"

@@ -8,7 +8,10 @@ import * as singleSpa from 'single-spa';
 import NullAuthProvider from '../authentication/nullAuthProvider';
 import TestAuthProvider from '../authentication/testAuthProvider';
 import { authState, initialState } from '../state/reducers/scigateway.reducer';
-import { scigatewayRoutes } from '../state/scigateway.types';
+import {
+  ResetPluginScrollType,
+  scigatewayRoutes,
+} from '../state/scigateway.types';
 import { StateType } from '../state/state.types';
 import { buildTheme } from '../theming';
 import Routing, { PluginPlaceHolder } from './routing.component';
@@ -427,7 +430,9 @@ describe('Routing component', () => {
     expect(window.location.pathname).toEqual('/logout');
   });
 
-  it("single-spa reloads a plugin when it hasn't loaded for some reason", () => {
+  it("single-spa reloads a plugin when it hasn't loaded for some reason", ({
+    onTestFinished,
+  }) => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
@@ -442,12 +447,22 @@ describe('Routing component', () => {
     ];
     window.history.replaceState(null, '', '/test_link');
     const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
-
-    vi.spyOn(document, 'getElementById').mockImplementation(() => {
-      return document.createElement('div');
-    });
+    const getElementByIdSpy = vi
+      .spyOn(document, 'getElementById')
+      .mockImplementation(() => {
+        return document.createElement('div');
+      });
 
     const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
+
+    onTestFinished(() => {
+      // restore clearInterval to avoid errors with it not being a function on unmount
+      clearIntervalSpy.mockRestore();
+      // restore other spys & timers to not mess up other tests
+      unloadApplicationSpy.mockRestore();
+      getElementByIdSpy.mockRestore();
+      vi.useRealTimers();
+    });
 
     render(<Routing />, { wrapper: Wrapper });
 
@@ -457,13 +472,11 @@ describe('Routing component', () => {
 
     // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
     expect(clearIntervalSpy).toHaveBeenCalled();
-
-    // restore clearInterval to avoid errors with it not being a function on unmount
-    clearIntervalSpy.mockRestore();
-    vi.useRealTimers();
   });
 
-  it("single-spa doesn't reload a plugin when it has been loaded", () => {
+  it("single-spa doesn't reload a plugin when it has been loaded", ({
+    onTestFinished,
+  }) => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     state.scigateway.authorisation.provider = new TestAuthProvider('logged in');
     state.scigateway.siteLoading = false;
@@ -479,12 +492,22 @@ describe('Routing component', () => {
     window.history.replaceState(null, '', '/test_link');
     const unloadApplicationSpy = vi.spyOn(singleSpa, 'unloadApplication');
 
-    vi.spyOn(document, 'getElementById').mockImplementation((element) => {
-      if (element === 'plugin-preloader') return null; // simulate loaded plugin
-      return document.createElement('div');
-    });
+    const getElementByIdSpy = vi
+      .spyOn(document, 'getElementById')
+      .mockImplementation((element) => {
+        if (element === 'plugin-preloader') return null; // simulate loaded plugin
+        return document.createElement('div');
+      });
 
     const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
+
+    onTestFinished(() => {
+      // restore clearInterval to avoid errors with it not being a function on unmount
+      clearIntervalSpy.mockRestore();
+      unloadApplicationSpy.mockRestore();
+      getElementByIdSpy.mockRestore();
+      vi.useRealTimers();
+    });
 
     render(<Routing />, { wrapper: Wrapper });
 
@@ -494,9 +517,29 @@ describe('Routing component', () => {
 
     // Could not use toHaveBeenCalledWith(expect.any(Number)) as it is a mocked object in this test
     expect(clearIntervalSpy).toHaveBeenCalled();
+  });
 
-    // restore clearInterval to avoid errors with it not being a function on unmount
-    clearIntervalSpy.mockRestore();
-    vi.useRealTimers();
+  it('it handles ResetPluginScrollType events properly', () => {
+    render(<Routing />, { wrapper: Wrapper });
+
+    // eslint-disable-next-line testing-library/no-node-access
+    const mainPanel = document.getElementById('sg-main-panel');
+    const scrollToSpy = vi.spyOn(mainPanel!, 'scrollTo');
+
+    act(() => {
+      document.dispatchEvent(
+        new CustomEvent('scigateway', {
+          detail: {
+            type: ResetPluginScrollType,
+          },
+        })
+      );
+    });
+
+    expect(scrollToSpy).toHaveBeenCalledWith({
+      top: 0,
+      left: 0,
+      behavior: 'instant',
+    });
   });
 });

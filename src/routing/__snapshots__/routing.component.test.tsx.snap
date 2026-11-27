@@ -4,6 +4,7 @@ exports[`Routing component > redirects to the homepage if navigating to login pa
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
     <div
       id="dg-homepage"
@@ -258,13 +259,12 @@ exports[`Routing component > renders a route for a plugin when site is under mai
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
-    <div>
-      <div
-        id="test_plugin_name"
-      >
-        Mocked Preloader
-      </div>
+    <div
+      id="test_plugin_name"
+    >
+      Mocked Preloader
     </div>
   </div>
 </DocumentFragment>
@@ -274,10 +274,9 @@ exports[`Routing component > renders a route for admin page 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
-    <div>
-      Mocked AdminPage
-    </div>
+    Mocked AdminPage
   </div>
 </DocumentFragment>
 `;
@@ -286,6 +285,7 @@ exports[`Routing component > renders a route for maintenance page when site is u
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
     Mocked MaintenancePage
   </div>
@@ -296,10 +296,9 @@ exports[`Routing component > renders an admin plugin route correctly 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
-    <div>
-      Mocked AdminPage
-    </div>
+    Mocked AdminPage
   </div>
 </DocumentFragment>
 `;
@@ -308,6 +307,7 @@ exports[`Routing component > renders an unauthorised route for a plugin 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
     <div
       id="dg-homepage"
@@ -562,6 +562,7 @@ exports[`Routing component > renders component with no plugin routes 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
     <div
       id="dg-homepage"
@@ -816,6 +817,7 @@ exports[`Routing component > renders component with plugins 1`] = `
 <DocumentFragment>
   <div
     class="css-frbs4c"
+    id="sg-main-panel"
   >
     <div
       id="dg-homepage"
