@@ -29,7 +29,7 @@
     "@vitejs/plugin-react": "6.3.0",
     "axios": "1.20.0",
     "husky": "9.1.7",
-    "i18next": "26.7.2",
+    "i18next": "27.2.9",
     "i18next-browser-languagedetector": "8.3.0",
     "i18next-http-backend": "4.1.0",
     "js-cookie": "3.0.7",
